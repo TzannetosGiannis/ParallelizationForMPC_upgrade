@@ -1,0 +1,1053 @@
+# CHECK ENTIRE CODE TO MAKE SURE LOCKED SETS ARE UPDATED WHENEVER PROTOCOLS ARE ADDED TO ONE OF THE ELEMENTS
+# CHECK: CANNOT DEEP COPY STATEMENTS OR THEY ARE NO LONGER EQUAL
+# CHECK: CAN I REMOVE PROTOCOLBYVAR
+# CHECK: MAKE SURE EVERY VECTORIZED COMPUTATION RECEIVES LOOP BOUNDS
+
+# copy of vectorize.py imports
+from collections import defaultdict
+import functools
+
+from .ast_shared import TypeEnv, Var, VectorizedAccess, Subscript, DataType
+from .tac_cfg import DropDim, LiftExpr, Assign, BinOp, BinOpKind
+from . import loop_linear_code as llc
+from .dep_graph import DepGraph, DepNode, EdgeKind, DepParameter
+from . import util
+from .util import assert_never
+from .type_analysis import collect_idx_vars
+
+import dataclasses as dc
+from dataclasses import dataclass
+from typing import Iterable, Union, Optional, cast
+
+import z3  # type: ignore
+
+# copy of loop_linear_code.py imports
+from dataclasses import dataclass
+from typing import Union, Optional, cast, TypeVar
+from textwrap import indent
+
+from .ssa import (
+    Atom,
+    Operand,
+    Var,
+    Phi,
+    Assign,
+    LoopBound,
+    AssignLHS,
+    AssignRHS,
+    Constant,
+    Subscript,
+    SubscriptIndex,
+    SubscriptIndexBinOp,
+    SubscriptIndexUnaryOp,
+    BinOp,
+    UnaryOp,
+    List,
+    Tuple,
+    Mux,
+    Update,
+    VectorizedUpdate,
+    assign_rhs_accessed_vars,
+)
+from .tac_cfg import LiftExpr, DropDim, assign_rhs_accessed_vars
+from .ast_shared import (
+    VarType,
+    BinOpKind,
+    Parameter,
+    UnaryOpKind,
+    TypeEnv,
+    VectorizedAccess,
+)
+from .util import assert_never
+
+from copy import deepcopy
+
+import json
+from os.path import dirname, exists
+
+
+Statement = Union[Phi, Assign, "For", "Return"]
+Protocol = Union['A', 'B', 'Y']
+protocols = {'A', 'B', 'Y'}
+transparent_ops = [LiftExpr, DropDim, VectorizedAccess, Constant] # CHECK IF THIS IS THE FULL LIST
+
+conversionSymbols = {'A': {'B': 'zic_a2b', 'Y': 'zic_a2y'}, 'B': {'A': 'zic_b2a', 'Y': 'zic_b2y'}, 'Y': {'A': 'zic_y2a', 'B': 'zic_y2b'}}
+# TODO CHECK IF THESE ARE ALL ZERO COST. ESPECIALLY CONSTANT and VectorizedAccess
+zeroCostOps = {'LiftExpr', 'DropDim', 'Return', 'Phi', 'Constant', 'VectorizedAccess', 'Tuple', 'VectorizedUpdate', 'notUNARY'}
+opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt',
+  '*': 'zi_mul', 'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor',
+  '>>': 'zi_shr', '-UNARY': 'UNAVAILABLE', '&': 'UNAVAILABLE', '|': 'UNAVAILABLE', 'Var': 'UNAVAILABLE', '/': 'zi_mul'}
+costTable = None
+loopBounds = None
+bounds = dict()
+
+
+class Config:
+    # The Config class contains the protocol assignment and variable interface for its sequence
+    #  assignments is a list[Statement, Protocol, set[Protocol], cost, loop_depth, loopNestCount]
+    #                                   ^------^  ^-----------^  ^--^  ^--------^  ^-----------^
+    #                                    |         |              |     |           loop nest count (used for print formatting)
+    #                                    |         |              |     loop depth (iteration count) of this statement
+    #                                    |         |              cost to execute this statement (including conversions)
+    #                                    |         conversions after assignment
+    #                                    protocol used to execute operation
+    assignments: list[Statement, Protocol, set[Protocol], float, float, int]
+    
+    inputs: dict[Var, set[Protocol]]        # the input interface required to execute this sequence
+    outputs: dict[Var, set[Protocol]]       # the output interface of this program (return value assignments)
+    total_cost: float                       # the total cost (including conversions) required to execute this sequence
+    protocolByVar: dict[Var, set[Protocol]] # a quick way to access the protocols of each variable
+    finalStmts: list[Statement]             # used to print the return statement and the tuple if it exists
+
+    # sets of variables can be locked to the same set of protocols by transparent (zero-cost) operations
+    lockedVarsIdx: dict[Var, int]
+    lockedVarsSets: list[set[Var]]
+
+    def __init__(self) -> None:#, parameters: list[Var]) -> None:
+        self.inputs = dict()
+        self.outputs = dict()
+        self.assignments = []
+        self.total_cost = 0.0
+        self.lockedVarsIdx = dict()
+        self.lockedVarsSets = []
+        self.protocolByVar = dict()
+        self.finalStmts = []
+
+    def __str__(self) -> str:
+        inputs = "Input vars: {" + ", ".join(str(var) + ": " + (str(conv) if len(conv) else '{}') for var, conv in self.inputs.items()) + "}"
+        stmts = "\n".join("\t"*count + str(stmt) + ": " + str(assign) + " -> " + (str(conv) if len(conv) else '{}') + " for " + "{:.2f}".format(cost) + " * " + str(depth) + " = " + "{:.2f}".format(cost*depth) for stmt, assign, conv, cost, depth, count in self.assignments)
+        finalLines = "\n".join(str(l) for l in reversed(self.finalStmts))
+        outputs = "Output vars: {" + ", ".join(str(var) + ": " + (str(conv) if len(conv) else '{}') for var, conv in self.outputs.items()) + "}"
+        return "Total cost: {:.2f}".format(self.total_cost) + "\n" + inputs + "\n" + stmts + "\n" + finalLines + "\n" + outputs + "\n"
+
+
+# helper function to find the natural bounds of each tracked variable
+def getNaturalBounds(nonZeroVars: set[Var], stmts: list[Statement], loop_depth: int) -> None:
+    global bounds
+    for stmt in stmts:
+        if isinstance(stmt, llc.Return):
+            continue
+        if isinstance(stmt, llc.For):
+            low = stmt.bound_low
+            if isinstance(low, Constant):
+                low = low.value
+            else:
+                low = str(low)
+                assert low in loopBounds.keys()
+                low = loopBounds[low]
+            high = stmt.bound_high
+            if isinstance(high, Constant):
+                high = high.value
+            else:
+                high = str(high)
+                assert high in loopBounds.keys()
+                high = loopBounds[high]
+            getNaturalBounds(nonZeroVars, stmt.body, loop_depth*(high-low))
+        else:
+            var = getLHSVar(stmt)
+            if var in nonZeroVars:
+                bounds[var] = dict()
+                bounds[var]['this'] = (findVectorBound(stmt.lhs), loop_depth)
+
+
+# create a map[Var -> subMap] where subMap = map[String -> (vector bound, loop bound)]
+#   The subMap keys are: 'this'   (this variable's bounds)
+#                        'input'  (the subsumption bounds if this variable appears as an input)
+#                        'output' (the subsumption bounds if this variable appears as an output)
+# ASSUMPTION: A GIVEN VARIABLE IS NOT DIRECTLY DROPPED MULTIPLE TIMES (TRUE ONCE COPY PROPAGATION IS IMPLEMENTED)-----------CURRENTLY DISABLED and picks first child instead
+def getBounds(nonZeroVars: set[Var], dep_graph: DepGraph, stmts: list[Statement]) -> None:
+    global bounds
+    getNaturalBounds(nonZeroVars, stmts, 1)
+    for var in nonZeroVars:
+        # print("Tracking bounds for:", var)
+        stmt = dep_graph.var_to_assignment[var]
+        count = 0
+        if not 'input' in bounds[var].keys():
+            curStmt = stmt
+            sameKeys = set()
+            inputVal = None
+            while True:
+                sameKeys.add(getLHSVar(curStmt))
+                if 'input' in bounds[getLHSVar(curStmt)].keys():
+                    inputVal = bounds[getLHSVar(curStmt)]['input']
+                    break
+                if isinstance(curStmt, Assign) and isinstance(curStmt.rhs, LiftExpr):
+                    rhsVar = getRHSSimpleVars(curStmt.rhs)
+                    assert len(rhsVar) == 1
+                    rhsVar = rhsVar[0]
+                    if rhsVar in dep_graph.var_to_assignment.keys():
+                        curStmt = dep_graph.var_to_assignment[rhsVar]
+                    else:
+                        inputVal = (-1, -1)
+                        break
+                else:
+                    inputVal = bounds[getLHSVar(curStmt)]['this']
+                    break
+            for inVar in sameKeys:
+                if inputVal == (-1, -1):
+                    bounds[inVar]['this'] = inputVal
+                    bounds[inVar]['input'] = inputVal
+                    bounds[inVar]['output'] = inputVal
+                else:
+                    bounds[inVar]['input'] = inputVal
+        if not 'output' in bounds[var].keys():
+            curStmt = stmt
+            sameKeys = set()
+            outputVal = None
+            while True:
+                sameKeys.add(getLHSVar(curStmt))
+                if 'output' in bounds[getLHSVar(curStmt)].keys():
+                    outputVal = bounds[getLHSVar(curStmt)]['output']
+                    break
+                count = 0
+                for child in dep_graph.def_use_graph[curStmt]:
+                    if isinstance(child, Assign) and isinstance(child.rhs, DropDim):
+                        count += 1
+                        curStmt = child
+                        break # REMOVE THIS AFTER COPY PROP IS ADDED-----------------------------------------------------------------
+                    assert count <= 1
+                if count == 0:
+                    outputVal = bounds[getLHSVar(curStmt)]['this']
+                    break
+            for outVar in sameKeys:
+                bounds[outVar]['output'] = outputVal
+    return bounds
+
+
+def getLoopBounds(filename: str) -> None:
+    global loopBounds
+    filename = '.'.join(filename.split('.')[:-1]) + "_bounds.json"
+    assert exists(filename)
+    loopBounds = json.load(open(filename))
+
+
+def getOpCosts() -> None:
+    global costTable
+    assert exists(dirname(__file__) + '/costs-LAN.json')
+    # ASSUMPTION: EVERYTHING IS 32 BIT
+    costTable = json.load(open(dirname(__file__) + '/costs-LAN.json'))['32']
+    # for op in costTable.keys():
+    #     for k1 in costTable[op]:
+    #         if isinstance(costTable[op][k1], dict):
+    #             for k2 in costTable[op][k1].keys():
+    #                 costTable[op][k1][k2] *= int(k2)
+    #         else:
+    #             costTable[op][k1] *= int(k1)
+
+
+def getTrackedVars(type_env: TypeEnv, stmts: list[Statement], dep_graph: DepGraph) -> set[Var]:
+    # add inputs, outputs, and constants
+    directIO = {var for var, stmt in dep_graph.var_to_assignment.items() if isinstance(stmt, DepParameter)}
+    directIO.add(getLHSVar(stmts[-1]))
+    for stmt in stmts:
+        if isinstance(stmt, Assign) and isinstance(stmt.rhs, Constant):
+            directIO.add(getLHSVar(stmt))
+    prevLen = -1
+    while prevLen < len(directIO):
+        prevLen = len(directIO)
+        toAdd = set()
+        for var in directIO:
+            stmt = dep_graph.var_to_assignment[var]
+            # check backwards propagating outputs
+            if isinstance(stmt, Assign) and (isinstance(stmt.rhs, Tuple) or isinstance(stmt.rhs, LiftExpr) or isinstance(stmt.rhs, DropDim)):
+                toAdd |= set(getRHSSimpleVars(stmt.rhs))
+            # check forward propagating inputs
+            if not isinstance(stmt, Tuple):
+                for stmt2 in dep_graph.def_use_graph.neighbors(stmt):
+                    if isinstance(stmt2, Assign) and (isinstance(stmt2.rhs, LiftExpr) or isinstance(stmt2.rhs, DropDim)):
+                        toAdd.add(getLHSVar(stmt2))
+        if len(toAdd):
+            directIO |= toAdd
+    return {var for var, t in type_env.items() if t.visibility.value != 'plaintext'}, directIO
+
+
+# copied from dep_graph.py
+def collect_rhs(stmt: DepNode) -> list[llc.AssignRHS]:
+    if isinstance(stmt, llc.Phi):
+        return cast(list[llc.AssignRHS], stmt.rhs_vars())
+    elif isinstance(stmt, llc.Assign):
+        return [stmt.rhs]
+    elif isinstance(stmt, DepParameter):
+        return [stmt.var]
+    elif isinstance(stmt, llc.For):
+        if stmt.is_monolithic:
+            return [
+                used_var
+                for substmt in stmt.body
+                for used_var in collect_rhs(substmt)
+            ]
+        else:
+            return []
+    elif isinstance(stmt, llc.Return):
+        return [stmt.value]
+    else:
+        assert_never(stmt)
+
+
+# separate the code into a list of sequences based on for loops
+#  these blocks will be individually optimized, then combined with merge
+#  nested loops will be recursively handled
+def separate_seqs(function: list[Statement]) -> list[list[Statement]]:
+    seqs: list[list[Statement]] = []
+    temp: list[Statement] = []
+    for stmt in function:
+        if isinstance(stmt, llc.For):
+            if len(temp) > 0:
+                seqs.append(temp)
+                temp = []
+            seqs.append([stmt])
+        else:
+            temp.append(stmt)
+    if len(temp) > 0:
+        seqs.append(temp)
+    return seqs
+
+
+# TODO MAKE THIS COMPLETE
+def getLHSVar(stmt: Statement) -> Var:
+    if isinstance(stmt, llc.Return):
+        return stmt.value
+    stmt = stmt.lhs
+    if isinstance(stmt, Subscript) or isinstance(stmt, VectorizedAccess) or isinstance(stmt, Update) or isinstance(stmt, VectorizedUpdate) or isinstance(stmt, DropDim):
+        return stmt.array
+    return stmt
+
+
+# modified from tac_cfg.py - removed array bounds as variables
+def getRHSSimpleVars(rhs: AssignRHS) -> list[Var]:
+    if isinstance(rhs, Var):
+        return [rhs]
+    elif isinstance(rhs, Constant):
+        return []
+    elif isinstance(rhs, Subscript): # TODO CHECK IF CORRECT
+        return [rhs.array]# + subscript_index_accessed_vars(rhs.index)
+    elif isinstance(rhs, VectorizedAccess):
+        return [rhs.array]
+    elif isinstance(rhs, BinOp):
+        return getRHSSimpleVars(rhs.left) + getRHSSimpleVars(rhs.right)
+    elif isinstance(rhs, UnaryOp):
+        return getRHSSimpleVars(rhs.operand)
+    elif isinstance(rhs, (List, Tuple)):
+        return [var for item in rhs.items for var in getRHSSimpleVars(item)]
+    elif isinstance(rhs, Mux): # TODO CHECK IF CORRECT
+        return (
+            getRHSSimpleVars(rhs.condition)
+            + getRHSSimpleVars(rhs.false_value)
+            + getRHSSimpleVars(rhs.true_value)
+        )
+    elif isinstance(rhs, Update): # TODO CHECK IF CORRECT
+        return (
+            getRHSSimpleVars(rhs.array)
+            + getRHSSimpleVars(rhs.value)
+            #+ subscript_index_accessed_vars(rhs.index)
+            #+ getRHSSimpleVars(rhs.value)
+        )
+    elif isinstance(rhs, VectorizedUpdate): # TODO CHECK IF CORRECT
+        return (
+            getRHSSimpleVars(rhs.array)
+            + getRHSSimpleVars(rhs.value)
+        )
+    elif isinstance(rhs, LiftExpr):
+        return getRHSSimpleVars(rhs.expr)
+    elif isinstance(rhs, DropDim):
+        return getRHSSimpleVars(rhs.array)
+    else:
+        assert_never(rhs)
+
+
+# if vectorLen <= tableMaxIndex, choose unit cost from linear interpolation
+#   otherwise (vectorLen > tableMaxIndex), choose unit cost = value at tableMaxIndex
+def getCost(op: str, p: str, vectorLen: int) -> float:
+    # print(op)
+    prelim = costTable[op]
+    if p:
+        if p not in prelim.keys():
+            return float('inf')
+        prelim = prelim[p]
+
+    options = [int(i) for i in prelim.keys()]
+    if vectorLen >= options[-1]:
+        return prelim[str(options[-1])]*vectorLen
+
+    for i in range(len(options)):
+        if options[i] <= vectorLen < options[i+1]:
+            break
+
+    x = vectorLen
+    x1 = options[i]
+    if x1 == x:
+        return prelim[str(x1)]*vectorLen
+    x2 = options[i+1]
+    y1 = prelim[str(x1)]
+    y2 = prelim[str(x2)]
+
+    return (y1 + (x-x1)*(y2-y1)/(x2-x1)) * vectorLen
+
+
+def findVectorBound(stmt: Statement) -> int:
+    # print("HERE")
+    # print(stmt)
+    if isinstance(stmt, VectorizedUpdate):
+        assert_never(stmt)
+    if isinstance(stmt, VectorizedAccess):
+        toRet = 1
+        for size, vectorized in zip(stmt.dim_sizes, stmt.vectorized_dims):
+            if vectorized:
+                if isinstance(size, Constant):
+                    size = size.value
+                else:
+                    size = str(size)
+                    assert size in loopBounds.keys()
+                    size = loopBounds[size]
+                toRet *= size
+        # print(stmt.dim_sizes)
+        # print(stmt.vectorized_dims)
+        # print(stmt.idx_vars)
+        return toRet
+    return 1
+
+
+# TODO currently throws an error if a conversion is not available
+def createNewConfig(conversions: set[Protocol], p: Protocol, prevConfig: Config, trackedVars: set[Var], addOutput: bool, head: Statement, requiredInputVars: set[Var], loop_depth: int, loopNestCount: int, dep_graph: DepGraph) -> Config:
+    conv = deepcopy(conversions)
+    if p in conv:
+        conv.remove(p)
+
+    newConfig = deepcopy(prevConfig)
+    newConfig.assignments = [[a[0], a[1], a[2].copy(), a[3], a[4], a[5]] for a in prevConfig.assignments]
+    lhsVar = getLHSVar(head)
+    if p != '_' or len(conv) > 0:
+        newConfig.protocolByVar[lhsVar] = (set() if p == '_' else {p}) | conv
+
+    if isinstance(head, llc.Return) or (not isinstance(head, Phi) and isinstance(head.rhs, llc.Tuple)):
+        newConfig.finalStmts.append(head)
+        return newConfig
+
+    # update output dictionary
+    if addOutput:
+        newConfig.outputs[lhsVar] = {p} | conv
+
+    # update input dictionary
+    if not isinstance(head, llc.Return) and lhsVar in prevConfig.inputs:
+        # for pr in {p} | conv | {'_'}:
+        #     if pr in prevConfig.inputs[lhsVar]:
+        #         newConfig.inputs[lhsVar].remove(pr)
+        conv |= (newConfig.inputs[lhsVar] - {'_', p})
+        del newConfig.inputs[lhsVar]
+        # if len(newConfig.inputs[lhsVar]) == 0:
+        #     del newConfig.inputs[lhsVar]
+    # if True: #True: p != '_':
+    for var in requiredInputVars:
+        if p != '_' or var in trackedVars:#var in trackedVars:
+            toAdd = {p}
+            # if not isinstance(head, Phi) and (isinstance(head.rhs, LiftExpr) or isinstance(head.rhs, DropDim)):
+            # if not isinstance(head, Phi) and isinstance(head.rhs, LiftExpr):
+            if not isinstance(head, Phi) and (isinstance(head.rhs, LiftExpr) or isinstance(head.rhs, DropDim)):
+                toAdd |= conv
+            if var not in newConfig.inputs:
+                newConfig.inputs[var] = {p}
+            newConfig.inputs[var] |= toAdd
+            if len(newConfig.inputs[var]) > 1 and '_' in newConfig.inputs[var]:
+                newConfig.inputs[var].remove('_')
+
+    # compute cost of this operation (including output conversion(s) if applicable)
+    # TODO does not currently work for vectorized statements
+    c = 0.0
+    op = type(head).__name__ if isinstance(head, llc.Return) or isinstance(head, Phi) else str(head.rhs.operator) if isinstance(head.rhs, BinOp) else str(head.rhs.operator) + 'UNARY' if isinstance(head.rhs, UnaryOp) else type(head.rhs).__name__
+    # print(head)
+    # print(op)
+    assert op in zeroCostOps or op in opToCostSymbol.keys()
+    vecBound = findVectorBound(head.lhs)
+    # print("BOUNDBOUNDBOUNDBOUNDBOUNDBOUND", vecBound)
+    # print(head)
+    if op not in zeroCostOps:
+        c += getCost(opToCostSymbol[op], p.lower(), vecBound)
+    for pr in conv:
+        if p != '_':
+            c += getCost(conversionSymbols[p][pr], None, vecBound)
+
+    # special handling for phi nodes: add new required conversions to back edges
+    # ASSUMPTION the rhs_true node is only used for the back edge - it will never appear as a final input or output
+    if isinstance(head, Phi):
+        assert len(getRHSSimpleVars(head.rhs_true)) == 1
+        targetStmt = dep_graph.var_to_assignment[getRHSSimpleVars(head.rhs_true)[0]]
+        found = False
+        for assignment in reversed(newConfig.assignments):
+            if assignment[0] == targetStmt:
+                found = True
+                if p not in ({assignment[1]} | assignment[2]):
+                    vecBound = findVectorBound(targetStmt.lhs)
+                    assignment[2].add(p)
+                    minC = float('inf')
+                    for pr in ({assignment[1]} | assignment[2]) - {p}:
+                        minC = min(getCost(conversionSymbols[pr][p], None, vecBound), minC)
+                    assignment[3] += minC
+                    c += minC
+                break
+        if not found:
+            assert getLHSVar(targetStmt) not in newConfig.inputs.keys()
+            newConfig.inputs[getLHSVar(targetStmt)] = {p}
+
+    newConfig.total_cost += c * loop_depth
+    newConfig.assignments = [[head, p, conv, c, loop_depth, loopNestCount]] + newConfig.assignments
+    return newConfig
+
+
+# TODO MAKE SURE THIS WORKS CORRECTLY
+def lockSet(vars: list[Var], config: Config) -> None:
+    idxs = []
+    for v in vars:
+        if v in config.lockedVarsIdx.keys():
+            idxs.append(config.lockedVarsIdx[v])
+    if len(idxs) > 1:
+        # print(config.lockedVarsIdx)
+        # print()
+        # print(config.lockedVarsSets)
+        # print()
+        # print(idxs)
+        idx = idxs[0]
+        for merge in idxs[1:]:
+            for oldVar in config.lockedVarsSets[merge]:
+                config.lockedVarsIdx[oldVar] = idx
+                # print("-----------------------------------------------------------", idxs)
+            config.lockedVarsSets[idx] |= config.lockedVarsSets[merge]
+        #config.lockedVarsSets = [s for i,s in enumerate(config.lockedVarsSets) if i not in idxs[1:]]
+    if len(idxs) == 0:
+        idxs.append(len(config.lockedVarsSets))
+        config.lockedVarsSets.append(set())
+    for v in vars:
+        if not v in config.lockedVarsIdx.keys():
+            config.lockedVarsIdx[v] = idxs[0]
+            config.lockedVarsSets[idxs[0]].add(v)
+
+        
+# for lift, the requested protocol(s) are converted BEFORE executing the lift operation because the lift operation has no cost and pre-converting is guaranteed to be less expensive
+#  for drop, the requested protocol(s) are converted AFTER executing the drop operation because the drop operation has no cost and post-converting is guaranteed to be less expensive
+# TODO ADD PHI TO LOCKED & NO COST PROTOCOLS
+# TODO VERIFY ASSUMPTION THAT PHI NODES ARE NEVER THE LAST STATEMENT IN A SEQUENCE
+def assign_seq(seq: list[Statement], dep_graph: DepGraph, trackedVars: set[Var], loop_depth: int, loopNestCount: int) -> list[Config]:#, parameters: list[Var]) -> list[Config]:
+    # THIS DOES NOT WORK FOR LOOPS/NESTED LOOPS CURRENTLY
+
+    if len(seq) == 0: # base case
+        return [Config()]#parameters)]
+
+    tail = assign_seq(seq[1:], dep_graph, trackedVars, loop_depth, loopNestCount)#, parameters) # tail recursion
+    head = seq[0]
+    uses = [*dep_graph.def_use_graph.neighbors(head)]
+    uses = [use for use in uses if not isinstance(use, llc.For)]
+
+    # find the variables that head requires as input
+    #   ASSUMPTION: the rhs_true branch of phi nodes are ALWAYS declared in the future code, so remove them from this set
+    requiredInputVars = {var for expr in collect_rhs(head)
+                             for var in getRHSSimpleVars(expr)}
+    if isinstance(head, Phi):
+        assert len(getRHSSimpleVars(head.rhs_true)) == 1
+        requiredInputVars.remove(getRHSSimpleVars(head.rhs_true)[0])
+
+    assert not isinstance(head, llc.For)
+
+    # do we need to handle back edges or are they always found in locked phi nodes?
+    #  right now it assigns a protocol to everything. Need to filter out statements that don't require a protocol
+    #  currently does not handle back edges
+    newConfigs = []
+    for config in tail:
+        conversions = set()
+        useCount = 0
+
+        # find necessary conversions in this block
+        for stmt, protocol, _, _, _, _ in config.assignments:
+            if stmt in uses and not isinstance(stmt, llc.Return) and not isinstance(stmt, llc.Tuple):
+                useCount += 1
+                if protocol != '_' and protocol not in conversions:
+                    conversions.add(protocol)
+        assert useCount <= len(uses)
+
+        # add possible protocols to the new configurations. This grows exponentially with the number of statements
+        # TODO CHECK FOR OPERATIONS THAT ARE UNAVAILABLE IN 1+ PROTOCOLS (ie most operations in 'A')
+        # TODO LOCKING DOES NOT WORK FOR PROTOCOLS THAT TAKE MULTIPLE INPUTS
+        ps = []
+        if isinstance(head, llc.Return):
+            ps.append('_')
+        # if isinstance(head, Phi): # TODO CHECK IF THIS IS CORRECT. -----------------This does not work correctly for nested loops
+        #     assert len(getRHSSimpleVars(head.rhs_true)) == 1
+        #     if getRHSSimpleVars(head.rhs_true)[0] in config.outputs.keys():
+        #         assert len(config.outputs[getRHSSimpleVars(head.rhs_true)[0]]) == 1
+        #         ps.append(list(config.outputs[getRHSSimpleVars(head.rhs_true)[0]])[0])
+        #     else:
+        #         ps.append('_')
+        if len(ps) == 0:
+            for op in transparent_ops:
+                if not isinstance(head, Phi) and isinstance(head.rhs, op):
+                    # ps.append('_')
+                    lockSet(getRHSSimpleVars(head.rhs) + [getLHSVar(head)], config)
+                    # print("LOCKED", getRHSSimpleVars(head.rhs), getLHSVar(head))
+                    locks = config.lockedVarsSets[config.lockedVarsIdx[getLHSVar(head)]]
+                    # TODO CHECK IF THIS IS A CORRECT WAY TO USE LOCKING
+                    # for var in locks:
+                    #     if var in config.protocolByVar.keys() and len(config.protocolByVar[var] - {'_'}) > 0:
+                    #         ps = list(set(ps) | config.protocolByVar[var])
+                    # if len(ps) == 0:
+                    #     ps.append('_')
+                    #     break
+                    for var in locks:
+                        if var in config.protocolByVar.keys() and len(config.protocolByVar[var] - {'_'}) > 0:
+                            conversions |= config.protocolByVar[var]
+                    ps.append('_')
+                    break
+        if len(ps) == 0:
+            # op = str(head.rhs.operator) if isinstance(head.rhs, BinOp) else type(head.rhs).__name__
+            # assert op in availableProtocolByOp
+            # ps = availableProtocolByOp[op]
+            # print("ALL OPS")
+            ps = protocols.copy()
+        for p in ps:
+            newC = createNewConfig(conversions, p, config, trackedVars, useCount < len(uses) or isinstance(head, llc.Return), head, requiredInputVars, loop_depth, loopNestCount, dep_graph)
+            if newC.total_cost < float("inf"):
+                # print(newC)
+                newConfigs.append(newC)
+    return newConfigs
+
+
+# returns true if config a subsumes config b -> if config a (with full i/o conversion) can replace b at lower cost
+# TODO add cost for converting vectors. Currently assumes everything is a single value
+# TODO currently throws an error if a conversion is not available
+# TODO check if it is correct to multiply conversion costs by loop depth
+# TODO this method of checking min conversion cost is not quite correct - it could be less expensive to chain through one of the new protocols...this is not tritival (I think it's exponential) to fix
+# OLD INVALID ASSUMPTION: IF A INPUT OR OUTPUT PROTOCOL IS '_' (NOT YET DETERMINED), THEN THIS CONFIG CANNOT BE SUBSUMED. I BELIEVE THIS IS CORRECT, BUT MAY BE OVERLY RESTRICTIVE
+# ASSUMPTION: IF AN INPUT PROTOCOL IS '_' (NOT YET DETERMINED), THEN IGNORE THIS CONVERSION (COST = 0) BECAUSE IT WILL NOT EFFECT SUBSUMPTION
+#               EXCEPT WHEN THIS STATEMENT IS A DROP DIM ASSIGNED IN THIS BLOCK, THEN DON'T SUBSUME
+# ASSUMPTION: SUBSUMPTION IGNORES ANYTHYING THAT IS DIRECTLY DERIVED FROM AN INPUT VARIABLE OR DERIVES DIRECTLY TO AN OUTPUT VARIABLE
+#              BECAUSE (BY ASSUMPTION) INPUTS ARE AVAILABLE IN ALL PROTOCOLS AND THE OUTPUT PROTOCOL DOES NOT MATTER
+def subsumes(a: Config, b: Config, loop_depth: int, dep_graph: DepGraph, freeConversions: set[Var], trackedVars: set[Var]) -> bool:
+    costComparison = b.total_cost - a.total_cost
+    if costComparison < 0:
+        return False
+
+    # input conversion cost (b -> a)
+    for var, requiredPs in a.inputs.items():
+        if var not in freeConversions:# and var in trackedVars:
+            assert var in trackedVars
+            v = dep_graph.var_to_assignment[var]
+            if isinstance(v, DepParameter): # I DON'T THINK THIS IS POSSIBLE OR THAT IT IS CORRECT. DISABLED FOR NOW
+                # print(var)
+                assert False
+                v = str(v.var)
+                loopBound = loopBounds[v] if v in loopBounds.keys() else 1
+            else:
+                # loopBound = findVectorBound(v.lhs)
+                # print(var)
+                loopBound, loop_depth = bounds[var]['input']
+                if loopBound == -1:
+                    continue
+            # print("BOUNDBOUNDBOUNDBOUND", loopBound)
+            for requiredP in requiredPs:
+                if requiredP == '_':
+                    # verify assumption that the lines in Config (a) do not use the lhs of the associated statement
+                    found = False
+                    cannotAppearRHS = set()
+                    for stmt, p, conv, _, _, _ in a.assignments:
+                        rhsVars = getRHSSimpleVars(stmt.rhs)
+                        for rhsVar in rhsVars:
+                            assert rhsVar not in cannotAppearRHS
+                        # print(stmt, rhsVars, p, conv, isinstance(stmt.rhs, DropDim))
+                        if var in rhsVars and p == '_' and conv == set():
+                            # print("HERE")
+                            found = True
+                            lhsVar = getLHSVar(stmt)
+                            cannotAppearRHS.add(lhsVar)
+                            assert lhsVar in a.outputs.keys()
+                            assert '_' in a.outputs[lhsVar]
+                        # special case for DropDim. Do not subsume if a protocol was assigned in this block
+                        if var in rhsVars and p == '_' and isinstance(stmt.rhs, DropDim):
+                            return False
+                    # print(var, requiredP)
+                    assert found
+                    continue
+                if requiredP not in b.inputs[var]:
+                    minC = float("inf")
+                    for availP in b.inputs[var]:
+                        minC = min(getCost(conversionSymbols[availP][requiredP], None, loopBound), minC)
+                        # minC = min(conversionCosts[availP][requiredP], minC)
+                    costComparison -= minC*loop_depth
+                    if costComparison < 0:
+                        return False
+
+    # output conversion cost (a -> b)
+    for var, requiredPs in b.outputs.items():
+        if var not in freeConversions:
+            v = dep_graph.var_to_assignment[var]
+            if isinstance(v, DepParameter): # I DON'T THINK THIS IS POSSIBLE OR THAT IT IS CORRECT. DISABLED FOR NOW
+                # print(var)
+                assert False
+                v = str(v.var)
+                loopBound = loopBounds[v] if v in loopBounds.keys() else 1
+            else:
+                # loopBound = findVectorBound(v.lhs)
+                loopBound, loop_depth = bounds[var]['output']
+                if loopBound == -1:
+                    continue
+            # print("BOUNDBOUNDBOUNDBOUND", loopBound)
+            for requiredP in requiredPs:
+                if requiredP == '_':
+                    # verify assumption that the lines in Config (b) do not assign protocols to the rhs of the associated statement
+                    processed = set()
+                    curSet = [var]
+                    while len(curSet):
+                        lhsVar = curSet.pop(0)
+                        if lhsVar in processed:
+                            continue
+                        processed.add(lhsVar)
+
+                        if lhsVar in dep_graph.var_to_assignment.keys():
+                            toFind = dep_graph.var_to_assignment[lhsVar]
+                            for stmt, p, conv, _, _, _ in b.assignments:
+                                if stmt == toFind:
+                                    assert p == '_' and conv == set()
+                                    curSet += getRHSSimpleVars(toFind.rhs)
+                                    break
+                    
+                    continue
+                if requiredP not in a.outputs[var]:
+                    minC = float("inf")
+                    for availP in a.outputs[var]:
+                        minC = min(getCost(conversionSymbols[availP][requiredP], None, loopBound), minC)
+                        # minC = min(conversionCosts[availP][requiredP], minC)
+                    costComparison -= minC*loop_depth
+                    if costComparison < 0:
+                        return False
+
+    if costComparison < 0:
+        return False
+    return True
+
+
+def clean_up_with_subsumption(configs: list[Config], loop_depth: int, dep_graph: DepGraph, freeConversions: set[Var], trackedVars: set[Var]) -> list[Config]:
+    toRemove = []
+    for i in range(len(configs)-1):
+        if i in toRemove:
+            continue
+        for j in range(i+1, len(configs)):
+            if i in toRemove or j in toRemove:
+                continue
+            if subsumes(configs[i], configs[j], loop_depth, dep_graph, freeConversions, trackedVars):
+                toRemove.append(j)
+            elif subsumes(configs[j], configs[i], loop_depth, dep_graph, freeConversions, trackedVars):
+                toRemove.append(i)
+    return [configs[i] for i in range(len(configs)) if i not in toRemove]
+
+
+# POTENTIAL ISSUE: WHAT IF A LIFT STATEMENT IS NOT "FIXED" WITHIN THIS BLOCK OF CODE (ie it depends on a variable outside of this block)?
+#   THIS CASE MIGHT BREAK THE CODE...I HAVE TO THINK ABOUT IT
+# will only fix forward edges
+def clean_locked_stmts(config: Config) -> None:
+    for item in config.assignments: # Statement, Protocol, set[Protocol], float
+        if item[1] == '_':
+            lhsVar = getLHSVar(item[0])
+            if isinstance(item[0], Phi):
+                if len(item[2]) and '_' not in item[2]:
+                    assert len(item[2]) == 1
+                    item[1] = list(item[2])[0]
+                    item[2] = {'_'}
+                    assert len(getRHSSimpleVars(item[0].rhs_false)) == 1
+                    assert len(getRHSSimpleVars(item[0].rhs_true)) == 1
+                    rhsVar = getRHSSimpleVars(item[0].rhs_false)[0]
+                    rhsVar2 = getRHSSimpleVars(item[0].rhs_true)[0]
+                    if rhsVar in config.inputs.keys():
+                        assert config.inputs[rhsVar] == {'_'}
+                        config.inputs[rhsVar] = set(item[1])
+                    if rhsVar2 in config.inputs.keys():
+                        assert config.inputs[rhsVar2] == {'_'}
+                    config.inputs[rhsVar2] = set(item[1])
+            if isinstance(item[0], llc.Return):
+                if lhsVar in config.protocolByVar.keys():
+                    item[2] = config.protocolByVar[lhsVar]
+                    if lhsVar in config.outputs.keys():
+                        config.outputs[lhsVar] = item[2]
+            elif lhsVar in config.lockedVarsIdx.keys():
+                for var in config.lockedVarsSets[config.lockedVarsIdx[lhsVar]]:
+                    if var in config.protocolByVar.keys() or var in config.inputs.keys():
+                        config.protocolByVar[lhsVar] = config.protocolByVar[var] if var in config.protocolByVar.keys() else config.inputs[var]
+                        item[2] |= config.protocolByVar[lhsVar]
+                        break
+                if lhsVar in config.outputs.keys() and len(item[2]) > 0:
+                    config.outputs[lhsVar] = item[2]
+            if '_' in item[2]:
+                # print(item[2])
+                item[2] = item[2] - {'_'}
+
+
+# for new conversions, if the variable is declared by a raise_dim, chain through declarations adding the conversion until a non-raise_dim is found
+#   otherwise, place the conversion at the variable's declaration
+def merge(c1: Config, c2: Config, dep_graph: DepGraph, trackedVars: set[Var]) -> Config:
+    # print("MERGE")
+    # print(c1)
+    # print(c2)
+    newConfig = deepcopy(c1)
+    newConfig.outputs = deepcopy(c2.outputs)
+    newConfig.assignments = []
+    assert len(newConfig.finalStmts) == 0
+    newConfig.finalStmts = c2.finalStmts
+    c1Stmts, c2Stmts = set(), set()
+    c1OutputsCopy = deepcopy(c1.outputs)
+
+    for assignment in c1.assignments:
+        newConfig.assignments.append([assignment[0]] + deepcopy(assignment[1:]))
+        c1Stmts.add(assignment[0])
+    # SPECIAL HANDLING FOR PHI NODES. CHECK IF ANY c1 INPUTS ARE DEFINED IN c2. Will add these conversions later
+    backPs = dict()
+    for assignment in c2.assignments:
+        v = getLHSVar(assignment[0])
+        if v in newConfig.inputs.keys():
+            # availPs = ({assignment[1]} | assignment[2]) - {'_'}
+            # newPs = newConfig.inputs[v]
+            # toAdd = newPs - availPs
+            # backPs[assignment[0]] = toAdd
+            assert '_' not in newConfig.inputs[v]
+            backPs[assignment[0]] = newConfig.inputs[v]
+        newConfig.assignments.append([assignment[0]] + deepcopy(assignment[1:]))
+        c2Stmts.add(assignment[0])
+    newConfig.total_cost += c2.total_cost
+    # print("BACK:", backPs)
+
+    # connect c2 inputs to c1 outputs
+    for var, protocols in c2.inputs.items():
+        # if this variable is in the outputs of c1, then it was declared in c1 and we can resolve it
+        if var in c1OutputsCopy.keys():
+            newProtocols = set()
+            for p in protocols:
+                if p not in c1OutputsCopy[var]:
+                    newProtocols.add(p)
+            # print(var)
+            # print(newProtocols)
+
+            # if the variable from c2 never received an assignment, propagate assignment to that variable and any associated locks
+            if newProtocols == {'_'}:
+                protSet = c1OutputsCopy[var]
+                lockedVars = {var}
+                targetStmts = set()
+                if var in c2.lockedVarsIdx.keys():
+                    lockedVars |= c2.lockedVarsSets[c2.lockedVarsIdx[var]]
+
+                # lookup the declarations associated with each variable. Also resolve output protocols at the same time
+                for lockedVar in lockedVars:
+                    targetStmts.add(dep_graph.var_to_assignment[lockedVar])
+                    if lockedVar in newConfig.outputs.keys():
+                        newConfig.outputs[lockedVar] = protSet
+
+                # TODO CHECK IF IT IS CORRECT TO ONLY CHECK THE FIRST SET OF USES
+                # update the target lines with any uses of the target variables
+                toAdd = set()
+                for line in targetStmts:
+                    toAdd |= {use for use in dep_graph.def_use_graph.neighbors(line) if not isinstance(use, llc.For)}
+                targetStmts |= toAdd
+                # for stmt in targetStmts:
+                    # print(stmt)
+
+                # for each line in c2, update it's conversions to protSet if is one of the target statements
+                for line in newConfig.assignments:
+                    if line[0] in targetStmts and line[0] in c2Stmts:
+                        #assert line[2] == {'_'} and line[1] == '_'
+                        line[2] = protSet
+                # TODO IS THERE EVER A SCENARIO WHERE THIS EFFECTS COST?
+            
+            # assign new required conversions associated with this input-output pair
+            #   if rhs is a raise_dim, chain through declarations until the "base" variable is found. Assign conversion to the base to reduce cost
+            #   otherwise, place conversion at variable declaration
+            #   the associated statement is guaranteed to have a rhs
+            else:
+                assert '_' not in newProtocols
+                stmt = dep_graph.var_to_assignment[var]
+                # print("ORIG:", stmt)
+                while not isinstance(stmt, DepParameter) and not isinstance(stmt, Phi) and (isinstance(stmt.rhs, LiftExpr) or isinstance(stmt.rhs, VectorizedAccess)):
+                    assert len(getRHSSimpleVars(stmt.rhs)) == 1
+                    # print(stmt)
+                    if getRHSSimpleVars(stmt.rhs)[0] not in dep_graph.var_to_assignment.keys():
+                        break
+                    for assignment in newConfig.assignments:
+                        if stmt == assignment[0]:
+                            assignment[2] |= newProtocols
+                            break
+                    stmt = dep_graph.var_to_assignment[getRHSSimpleVars(stmt.rhs)[0]]
+                    lhsVar = getLHSVar(stmt)
+                    # print(stmt)
+                    # print(lhsVar)
+                    if lhsVar in c1OutputsCopy:
+                        c1OutputsCopy[lhsVar] |= newProtocols
+                        # print(c1OutputsCopy[lhsVar])
+                if isinstance(stmt, DepParameter):# and str(stmt.var) in trackedVars:
+                    if stmt.var not in newConfig.inputs.keys() or newConfig.inputs[stmt.var] == {'_'}:
+                        newConfig.inputs[stmt.var] = set()
+                    newConfig.inputs[stmt.var] |= newProtocols
+                else:
+                    # print("HEREHERE", stmt)
+                    # print(var)
+                    for assignment in newConfig.assignments:
+                        if stmt == assignment[0]:
+                            vecBound = findVectorBound(stmt.lhs)
+                            # print("BOUNDBOUNDBOUNDBOUNDBOUNDBOUND", vecBound)
+                            # print(newProtocols, assignment[1], assignment[2])
+                            assert len(newProtocols.intersection({assignment[1]} | assignment[2])) == 0
+                            for p in newProtocols:
+                                if not isinstance(assignment[0], Phi) and (isinstance(assignment[0].rhs, llc.Constant) or isinstance(assignment[0].rhs, LiftExpr)):# or isinstance(assignment[0].rhs, VectorizedAccess)):
+                                    break
+                                minC = float("inf")
+                                if not isinstance(assignment[0], Phi) and isinstance(assignment[0].rhs, VectorizedAccess) and len(({assignment[1]} | assignment[2]) - {'_'}) == 0:
+                                    minC = 0.0
+                                    print("WARNING THIS TRIGGERED A SPECIAL CASE THAT IS NOT FULLY CHECKED")
+                                # TODO THIS WAY OF PROTOCOL CHAINING IS NOT QUITE CORRECT...BUT IT'S NOT TRIVIAL TO FIX EITHER
+                                for availP in ({assignment[1]} | assignment[2]) - {'_'}:
+                                    minC = min(getCost(conversionSymbols[availP][p], None, vecBound), minC)
+                                    # minC = min(conversionCosts[availP][p], minC)
+                                assignment[3] += minC
+                                # TODO MAKE SURE IT IS CORRECT TO MULTIPLY BY LOOP DEPTH HERE
+                                newConfig.total_cost += assignment[4] * minC
+                            assignment[2] |= newProtocols
+        # otherwise, this variable was not declared in c1, so it becomes an input to newConfig
+        else:
+            if var in newConfig.inputs.keys():
+                newConfig.inputs[var] |= protocols
+            else:
+                newConfig.inputs[var] = protocols
+
+    # connect outputs of c1 to newOutputs
+    for var in c1.outputs.keys():
+        uses = [*dep_graph.def_use_graph.neighbors(dep_graph.var_to_assignment[var])]
+        uses = [use for use in uses if not isinstance(use, llc.For)]
+        useCount = 0
+        for stmt, _, _, _, _, _ in newConfig.assignments:
+            if stmt in uses:
+                useCount += 1
+        assert useCount <= len(uses)
+        if useCount < len(uses):
+            newPs = set()
+            stmt = dep_graph.var_to_assignment[var]
+            for assignment in newConfig.assignments:
+                if stmt == assignment[0]:
+                    newPs = {assignment[1]} | assignment[2]
+                    break
+            if var in newConfig.outputs.keys():
+                newConfig.outputs[var] |= newPs# c1.outputs[var]
+            else:
+                newConfig.outputs[var] = newPs# c1.outputs[var]
+            if len(newConfig.outputs[var]) > 1 and '_' in newConfig.outputs[var]:
+                newConfig.outputs[var].remove('_')
+    assert set(newConfig.outputs.keys()).issubset(set(c1.outputs.keys()) | set(c2.outputs.keys()))
+
+    # SPECIAL HANDLING FOR PHI NODES. Add protocols for any c1 inputs defined in c2
+    for stmt, ps in backPs.items():
+        # print("SEARCHING FOR:", stmt)
+        for assignment in newConfig.assignments:
+            if assignment[0] == stmt:
+                # print("TARGET FOUND:", stmt)
+                vecBound = findVectorBound(stmt.lhs)
+                # print("BOUNDBOUNDBOUNDBOUNDBOUNDBOUND", vecBound)
+                newProtocols = ps - {assignment[1]} - assignment[2]
+                for p in newProtocols:
+                    minC = float("inf")
+                    # TODO THIS WAY OF PROTOCOL CHAINING IS NOT QUITE CORRECT...BUT IT'S NOT TRIVIAL TO FIX EITHER
+                    for availP in ({assignment[1]} | assignment[2]) - {'_'}:
+                        minC = min(getCost(conversionSymbols[availP][p], None, vecBound), minC)
+                    assignment[3] += minC
+                    # TODO MAKE SURE IT IS CORRECT TO MULTIPLY BY LOOP DEPTH HERE
+                    newConfig.total_cost += assignment[4] * minC
+                assignment[2] |= newProtocols
+                v = getLHSVar(assignment[0])
+                # print("TO REMOVE:", v)
+                # print(ps)
+                if v in newConfig.inputs.keys():
+                    newConfig.inputs[v] -= ps
+                    if len(newConfig.inputs[v]) == 0:
+                        del newConfig.inputs[v]
+                break
+
+
+    # print(newConfig)
+    return newConfig
+
+
+def mergeDriver(configs1: list[Config], configs2: list[Config], dep_graph: DepGraph, trackedVars: set[Var]) -> list[Config]:
+    configsOut = []
+    for c1 in configs1:
+        for c2 in configs2:
+            configsOut.append(merge(c1, c2, dep_graph, trackedVars))
+    return configsOut
+
+
+# ASSUMPTION: ALL INPUT PARAMETERS AND ALL CONSTANTS ARE AVAILABLE IN ALL PROTOCOLS
+# ASSUMPTION: PROTOCOL DOES NOT MATTER FOR OUTPUT
+# ASSUMPTION: ALL VECTOR CONVERSIONS ARE APPLIED TO ALL ELEMENTS
+# ASSUMPTION: TUPLES ARE ONLY USED TO PACK RETURN VALUES
+#   THIS IS SAFE BECAUSE OPERATIONS WILL BE APPLIED AT EVERY ELEMENT OF A VECTOR AND VECTOR CONVERSIONS ARE AMORTIZED (IT IS LESS EXPENSIVE TO CONVERT ALL ELEMENTS THAN TO INDIVIDUALLY CONVERT EACH ELEMENT)
+def mix(body: list[Statement], dep_graph: DepGraph, trackedVars: set[Var], freeConversions: set[Var], loop_depth: int = 1, loopNestCount: int = 0, debug=False) -> list[Config]:
+    if debug:
+        print("CALL TO MIX")
+
+    # break into sequences based on for loops
+    seqs = separate_seqs(body)
+    if debug:
+        print("SEQS:\n" + "\n".join(str(stmt) for seq in seqs for stmt in seq + ['']))
+
+    # create configs for each sequence (recursive for nested for loops)
+    rawConfigs = []
+    for seq in seqs:
+        if isinstance(seq[0], llc.For) and len(seq) == 1:
+            low = seq[0].bound_low
+            if isinstance(low, Constant):
+                low = low.value
+            else:
+                low = str(low)
+                assert low in loopBounds.keys()
+                low = loopBounds[low]
+            high = seq[0].bound_high
+            if isinstance(high, Constant):
+                high = high.value
+            else:
+                high = str(high)
+                assert high in loopBounds.keys()
+                high = loopBounds[high]
+            cleanedConfigs = mix(seq[0].body, dep_graph, trackedVars, freeConversions, loop_depth*(high-low), loopNestCount+1)
+        else:
+            initialConfigs = assign_seq(seq, dep_graph, trackedVars, loop_depth, loopNestCount)
+            if debug:
+                print("RAW CONFIGS:\n" + "\n".join(str(config) for config in initialConfigs))
+            for config in initialConfigs:
+                clean_locked_stmts(config)
+            if debug:
+                print("CLEANED CONFIGS:\n" + "\n".join(str(config) for config in initialConfigs))
+            cleanedConfigs = clean_up_with_subsumption(initialConfigs, loop_depth, dep_graph, freeConversions, trackedVars)
+            if debug:
+                print("CONFIGS AFTER SUBSUMPTION:\n" + "\n".join(str(config) for config in cleanedConfigs))
+        rawConfigs.append(cleanedConfigs)
+        if debug:
+            print()
+
+    finalConfigs = rawConfigs[0]
+    rawConfigs.pop(0)
+    for nextConfigs in rawConfigs:
+        finalConfigs = mergeDriver(finalConfigs, nextConfigs, dep_graph, trackedVars)
+        if debug:
+            print("SOME SUBSUMPTION HAPPENED HERE")
+        finalConfigs = clean_up_with_subsumption(finalConfigs, loop_depth, dep_graph, freeConversions, trackedVars)
+
+    if debug:
+        print("MERGED CONFIGS:\n" + "\n".join(str(config) for config in finalConfigs))
+
+    finalConfigs = clean_up_with_subsumption(finalConfigs, loop_depth, dep_graph, freeConversions, trackedVars)
+    if debug:
+        print("MERGED CONFIGS AFTER SUBSUMPTION:\n" + "\n".join(str(config) for config in finalConfigs))
+
+    return finalConfigs
+
+def mix_protocols(filename: str, type_env: TypeEnv, body: list[Statement], dep_graph: DepGraph) -> Config:
+    getLoopBounds(filename)
+    getOpCosts()
+    trackedVars, directIOVars = getTrackedVars(type_env, body, dep_graph)
+    getBounds(trackedVars - directIOVars, dep_graph, body)
+    mixed = mix(body, dep_graph, trackedVars, directIOVars, debug=False)
+    minCost = float("inf")
+    best = None
+    for c in mixed:
+        if c.total_cost < minCost:
+            best = c
+            minCost = c.total_cost
+    return best

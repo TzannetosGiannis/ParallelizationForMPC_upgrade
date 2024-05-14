@@ -16,6 +16,7 @@ from .common_subexpression_elimination import common_subexpression_elimination
 from . import loop_linear_code
 from .backends import Backend
 from . import vectorize
+from .protocol_mixing import mix_protocols
 
 
 def compile(
@@ -27,6 +28,7 @@ def compile(
     out_dir: Optional[str] = None,
     overwrite_out_dir: bool = False,
     protocol="",
+    mixing: bool = False,
 ):
     try:
         ast_module = ast.parse(text, filename=filename)
@@ -118,6 +120,13 @@ def compile(
         print("Common subexpression elimination:")
         print(linear)
         print()
+
+    if mixing:
+        mixedConfig = mix_protocols(filename, type_env, linear.body, dep_graph)
+        if not quiet:
+            print("Protocol Mixing Assignments:")
+            print(mixedConfig)
+            print()
 
     if backend:
         backend_code = backend.render_function(linear, type_env, run_vectorization)
