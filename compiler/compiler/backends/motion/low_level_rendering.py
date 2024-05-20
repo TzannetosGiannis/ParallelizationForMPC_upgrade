@@ -436,6 +436,336 @@ def render_stmt(
     return assert_never(stmt)
 
 
+def render_mixed_stmt(
+    stmt: Union[Assign, For, Return],
+    type_env: TypeEnv,
+    ran_vectorization: bool,
+    convertionsDict = {},
+    enclosing_loops=[],
+) -> str:
+    if isinstance(stmt, Assign):
+        # Convert any plaintext assignments
+        print("identified Assign Operation",stmt.lhs)
+        
+        vars_needing_conversions = collect_counter_uses(stmt.rhs, enclosing_loops)
+        plaintext_conversions = "\n".join(
+            render_expr(
+                var,
+                RenderContext(
+                    type_env, plaintext=False, enclosing_loops=enclosing_loops
+                ),
+            )
+            + " = party->In<Protocol>("
+            + render_expr(
+                var,
+                RenderContext(
+                    type_env,
+                    as_motion_input=True,
+                    enclosing_loops=enclosing_loops,
+                ),
+            )
+            + ", 0);"
+            for var in vars_needing_conversions
+        )
+
+        if plaintext_conversions:
+            plaintext_conversions += "\n"
+
+        # If we're assigning to a vectorized value, use a specialized function for this.
+        if isinstance(stmt.lhs, VectorizedAccess):
+            ctx = RenderContext(
+                type_env, plaintext=False, enclosing_loops=enclosing_loops
+            )
+            val_expr = render_expr(stmt.rhs, ctx)
+
+            # If this isn't a true vectorized access, just subscript normally
+            if all(not vectorized for vectorized in stmt.lhs.vectorized_dims):
+                lhs = render_expr(stmt.lhs, ctx)
+                return plaintext_conversions + f"{lhs} = {val_expr};"
+
+            dim_sizes = (
+                "{"
+                + ", ".join(
+                    render_expr(loop_bound, dc.replace(ctx, plaintext=True))
+                    for loop_bound in stmt.lhs.dim_sizes
+                )
+                + "}"
+            )
+            vectorized_dims = (
+                "{"
+                + ", ".join(
+                    str(vectorized).lower() for vectorized in stmt.lhs.vectorized_dims
+                )
+                + "}"
+            )
+            idxs = (
+                "{"
+                + ", ".join(
+                    render_expr(var, dc.replace(ctx, plaintext=True))
+                    for var, vectorized in zip(
+                        stmt.lhs.idx_vars, stmt.lhs.vectorized_dims
+                    )
+                    if not vectorized
+                )
+                + "}"
+            )
+
+
+            print("finished assign operation")
+            print("current motion --> ",plaintext_conversions
+                + f"vectorized_assign({render_expr(stmt.lhs.array, ctx)}, {dim_sizes}, {vectorized_dims}, {idxs}, {val_expr});")
+            
+            print("initial stmt --> ",stmt)
+            print("mixer says --> ",str(stmt.lhs) ,convertionsDict[str(stmt.lhs)])
+            print("finished assign operation")
+            print()
+            return (
+                plaintext_conversions
+                + f"vectorized_assign({render_expr(stmt.lhs.array, ctx)}, {dim_sizes}, {vectorized_dims}, {idxs}, {val_expr});"
+            )
+
+        if isinstance(stmt.rhs, Update):
+            shared_assignment = (
+                (
+                    render_expr(
+                        stmt.rhs,
+                        RenderContext(
+                            type_env, plaintext=False, enclosing_loops=enclosing_loops
+                        ),
+                    )
+                    + ";\n"
+                )
+                + render_expr(
+                    stmt.lhs,
+                    RenderContext(
+                        type_env, plaintext=False, enclosing_loops=enclosing_loops
+                    ),
+                )
+                + " = "
+                + render_expr(
+                    stmt.rhs.array,
+                    RenderContext(
+                        type_env, plaintext=False, enclosing_loops=enclosing_loops
+                    ),
+                )
+                + ";"
+            )
+            plaintext_assignment = (
+                (
+                    render_expr(
+                        stmt.rhs,
+                        RenderContext(
+                            type_env, plaintext=True, enclosing_loops=enclosing_loops
+                        ),
+                    )
+                    + ";\n"
+                )
+                + render_expr(
+                    stmt.lhs,
+                    RenderContext(
+                        type_env, plaintext=True, enclosing_loops=enclosing_loops
+                    ),
+                )
+                + " = "
+                + render_expr(
+                    stmt.rhs.array,
+                    RenderContext(
+                        type_env, plaintext=True, enclosing_loops=enclosing_loops
+                    ),
+                )
+                + ";"
+            )
+
+        else:
+            shared_assignment = (
+                render_expr(
+                    stmt.lhs,
+                    RenderContext(
+                        type_env, plaintext=False, enclosing_loops=enclosing_loops
+                    ),
+                )
+                + " = "
+                + render_expr(
+                    stmt.rhs,
+                    RenderContext(
+                        type_env, plaintext=False, enclosing_loops=enclosing_loops
+                    ),
+                )
+                + ";"
+            )
+            plaintext_assignment = (
+                render_expr(
+                    stmt.lhs,
+                    RenderContext(
+                        type_env, plaintext=True, enclosing_loops=enclosing_loops
+                    ),
+                )
+                + " = "
+                + render_expr(
+                    stmt.rhs,
+                    RenderContext(
+                        type_env, plaintext=True, enclosing_loops=enclosing_loops
+                    ),
+                )
+                + ";"
+            )
+        
+
+        if (
+            type_env[stmt.lhs].is_shared()
+            or type_env[stmt.lhs].datatype == DataType.TUPLE
+        ):
+            print("current motion --> ",plaintext_conversions + shared_assignment)
+            print("initial stmt --> ",stmt)
+            if type_env[stmt.lhs].is_shared():
+                print("mixer says --> ",str(stmt.lhs) ,convertionsDict[str(stmt.lhs)])
+            elif type_env[stmt.lhs].datatype == DataType.TUPLE:
+                for item in stmt.rhs.items:
+                    print("mixer says --> ",str(item) ,convertionsDict[str(item)])
+
+            print("finished assign operation")
+            print()
+            return plaintext_conversions + shared_assignment
+        else:
+            print("current motion --> ",(
+                plaintext_conversions + shared_assignment + "\n" + plaintext_assignment
+            ))
+            print("initial stmt --> ",stmt)
+            print("mixer says --> ",str(stmt.lhs) ,convertionsDict[str(stmt.lhs)])
+            print("finished assign operation")
+            print()
+            
+            return (
+                plaintext_conversions + shared_assignment + "\n" + plaintext_assignment
+            )
+
+    elif isinstance(stmt, For):
+        ctr_initializer = (
+            "// Initialize loop counter\n"
+            + render_expr(
+                stmt.counter,
+                RenderContext(
+                    type_env, plaintext=True, enclosing_loops=enclosing_loops
+                ),
+            )
+            + " = "
+            + render_expr(
+                stmt.bound_low,
+                RenderContext(
+                    type_env, plaintext=True, enclosing_loops=enclosing_loops
+                ),
+            )
+            + ";"
+        )
+
+        phi_initializations = "// Initialize phi values\n" + "\n".join(
+            render_stmt(Assign(phi.lhs, phi.rhs_false), type_env, ran_vectorization)
+            for phi in stmt.body
+            if isinstance(phi, Phi)
+        )
+
+        header = (
+            "for (; "
+            + render_expr(
+                stmt.counter,
+                RenderContext(
+                    type_env, plaintext=True, enclosing_loops=enclosing_loops
+                ),
+            )
+            + " < "
+            + render_expr(
+                stmt.bound_high,
+                RenderContext(
+                    type_env, plaintext=True, enclosing_loops=enclosing_loops
+                ),
+            )
+            + "; "
+            + render_expr(
+                stmt.counter,
+                RenderContext(
+                    type_env, plaintext=True, enclosing_loops=enclosing_loops
+                ),
+            )
+            + "++) {"
+        )
+
+        phi_assignments = "\n".join(
+            render_stmt(Assign(phi.lhs, phi.rhs_true), type_env, ran_vectorization)
+            for phi in stmt.body
+            if isinstance(phi, Phi)
+        )
+
+        phi_updates = (
+            "// Update phi values\n"
+            + "if ("
+            + render_expr(
+                stmt.counter,
+                RenderContext(
+                    type_env, plaintext=True, enclosing_loops=enclosing_loops
+                ),
+            )
+            + " != "
+            + render_expr(
+                stmt.bound_low,
+                RenderContext(
+                    type_env, plaintext=True, enclosing_loops=enclosing_loops
+                ),
+            )
+            + ") {\n"
+            + indent(
+                phi_assignments,
+                "    ",
+            )
+            + "\n}\n"
+        )
+
+        body = (
+            "\n".join(
+                render_stmt(
+                    substmt, type_env, ran_vectorization, enclosing_loops + [stmt]
+                )
+                for substmt in stmt.body
+                if not isinstance(substmt, Phi)
+            )
+            + "\n"
+        )
+
+        if not ran_vectorization:
+            phi_finalizations = "// Assign final phi values\n" + phi_assignments + "\n"
+        else:
+            phi_finalizations = ""
+
+        return (
+            "\n"
+            + ctr_initializer
+            + "\n"
+            + phi_initializations
+            + "\n"
+            + header
+            + "\n"
+            + indent(phi_updates, "    ")
+            + "\n"
+            + indent(body, "    ")
+            + "\n}\n"
+            + phi_finalizations
+        )
+
+    elif isinstance(stmt, Return):
+        return (
+            "return "
+            + render_expr(
+                stmt.value,
+                RenderContext(
+                    type_env, plaintext=False, enclosing_loops=enclosing_loops
+                ),
+            )
+            + ";"
+        )
+
+    return assert_never(stmt)
+
+
+
 def _render_operator(op: Union[BinOpKind, UnaryOpKind]) -> str:
     if op == BinOpKind.AND:
         return "&"

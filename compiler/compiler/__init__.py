@@ -129,12 +129,16 @@ def compile(
             print()
 
     if backend:
-        backend_code = backend.render_function(linear, type_env, run_vectorization)
+        if mixing:
+            backend_code = backend.render_mixed_function(linear, type_env, run_vectorization,mixedConfig)
+        else:
+            backend_code = backend.render_function(linear, type_env, run_vectorization)
+        
         if not quiet:
             print("Backend code:")
             print(backend_code)
             print()
-
+        exit()
         if out_dir:
             render_params = {
                 "out_dir": out_dir,

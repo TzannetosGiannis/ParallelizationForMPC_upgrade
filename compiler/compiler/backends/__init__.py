@@ -6,6 +6,7 @@ from . import motion, mp_spdz
 from ..loop_linear_code import Function
 from ..type_analysis import TypeEnv
 from ..util import assert_never
+from ..protocol_mixing import Config
 
 
 class Backend(Enum):
@@ -22,6 +23,16 @@ class Backend(Enum):
             return motion.render_function(func, type_env, ran_vectorization)
         elif self is Backend.MP_SPDZ:
             return mp_spdz.render_function(func, type_env, ran_vectorization)
+        else:
+            assert_never(self)
+
+    def render_mixed_function(
+        self, func: Function, type_env: TypeEnv, ran_vectorization: bool,mixed_config:Config
+    ) -> str:
+        if self is Backend.MOTION:
+            return motion.render_mixed_function(func, type_env, ran_vectorization,mixed_config)
+        # elif self is Backend.MP_SPDZ:
+        #     return mp_spdz.render_function(func, type_env, ran_vectorization)
         else:
             assert_never(self)
 
