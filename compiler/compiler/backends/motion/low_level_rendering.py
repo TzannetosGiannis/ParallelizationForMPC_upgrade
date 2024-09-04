@@ -579,15 +579,13 @@ def render_mixed_stmt(
                     #  declare the new share variable
                     new_declaration = "\n" + stmt_details_dict[stmt_key]['declaration'].replace(stmt_key,new_key)
                     mixed_convertion += new_declaration
-
-                    #  perform the convertion and add it
-                    mixed_convertion = mixed_convertion + "\n" + f"{new_key} = {stmt_key}.Convert<{
-                        identify_protocols(
+                    identified_pr = identify_protocols(
                             {
                                 "to": set(to_be_coexist[i][1])
                             }
-                        )[0]
-                    }>()"
+                    )[0]
+                    #  perform the convertion and add it
+                    mixed_convertion = mixed_convertion + "\n" + f"{new_key} = {stmt_key}.Convert<{identified_pr}>()"
                     
                     # store for future reference
                     stmt_details_dict[stmt_key][to_be_coexist[i][1]] = new_key
@@ -687,6 +685,12 @@ def render_mixed_stmt(
         else:
             if  not (type_env[stmt.lhs].is_shared() or type_env[stmt.lhs].datatype == DataType.TUPLE):
                 to_be_converted = identify_protocols(convertions_dict[str(stmt.lhs)])
+                rendered_expr = render_expr(
+                        stmt.rhs,
+                        RenderContext(
+                            type_env, plaintext=False, enclosing_loops=enclosing_loops
+                        ),
+                )
                 shared_assignment = (
                     render_expr(
                         stmt.lhs,
@@ -695,12 +699,7 @@ def render_mixed_stmt(
                         ),
                     )
                     + " = "
-                    + f"{render_expr(
-                        stmt.rhs,
-                        RenderContext(
-                            type_env, plaintext=False, enclosing_loops=enclosing_loops
-                        ),
-                    )}.Convert<{to_be_converted[0]}>()"
+                    + f"{rendered_expr}.Convert<{to_be_converted[0]}>()"
                     + ";"
                 )
             else:
