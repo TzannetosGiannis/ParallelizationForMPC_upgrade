@@ -1,7 +1,7 @@
 from copy import copy
 import dataclasses as dc
 from textwrap import indent
-from typing import Optional, Union
+from typing import Optional, Union,Dict
 
 from ...ast_shared import (
     BinOpKind,
@@ -436,11 +436,54 @@ def render_stmt(
     return assert_never(stmt)
 
 
+def identify_protocols(
+    convertions_dict: set
+) -> List:
+    
+    convertions_set = convertions_dict['to']
+    if (len(convertions_set)) == 0:
+        convertions_set = set()
+        convertions_set.add(convertions_dict['from'])
+    result = []
+    if 'A' in convertions_set:
+        result.append('encrypto::motion::MpcProtocol::kArithmeticGmw')
+    if 'B' in convertions_set:
+        result.append('encrypto::motion::MpcProtocol::kBooleanGmw')
+    if 'Y' in convertions_set:
+        result.append('encrypto::motion::MpcProtocol::kBmr')
+    
+    if len(result) > 1:
+        print('[TODO] find out what happens with two protocols')
+
+    return result
+    
+
+def retrieve_ABY_tag(
+     Mpc_protocol   
+) -> str:
+    
+    if Mpc_protocol == 'encrypto::motion::MpcProtocol::kArithmeticGmw':
+        return 'A'
+    if Mpc_protocol == 'encrypto::motion::MpcProtocol::kBooleanGmw':
+        return 'B'
+    if Mpc_protocol == 'encrypto::motion::MpcProtocol::kBmr':
+        return 'C'
+
+    print('PANIC [UNSOPPORTED CONVETION]')
+    print(Mpc_protocol)
+    exit()
+    
+    
+    
+
+
 def render_mixed_stmt(
     stmt: Union[Assign, For, Return],
     type_env: TypeEnv,
+    render_ctx,
     ran_vectorization: bool,
-    convertionsDict = {},
+    convertions_dict = {},
+    stmt_details_dict = {},
     enclosing_loops=[],
 ) -> str:
     if isinstance(stmt, Assign):
@@ -473,6 +516,10 @@ def render_mixed_stmt(
 
         # If we're assigning to a vectorized value, use a specialized function for this.
         if isinstance(stmt.lhs, VectorizedAccess):
+
+            to_be_converted = identify_protocols(convertions_dict[str(stmt.lhs)])
+            to_be_coexist = convertions_dict[str(stmt.lhs)]['convertion_tuple']
+            
             ctx = RenderContext(
                 type_env, plaintext=False, enclosing_loops=enclosing_loops
             )
@@ -510,18 +557,60 @@ def render_mixed_stmt(
                 + "}"
             )
 
+            mixed_convertion = f"vectorized_assign({render_expr(stmt.lhs.array, ctx)}, {dim_sizes}, {vectorized_dims}, {idxs}, {val_expr});"
 
-            print("finished assign operation")
+            if "party->In<Protocol>" in mixed_convertion:
+                mixed_convertion =  mixed_convertion.replace("party->In<Protocol>",f"party->In<{to_be_converted[0]}>")
+
+            print(to_be_coexist,convertions_dict[str(stmt.lhs)]['to'])
+            if len(to_be_coexist) == 0:
+                stmt_key = render_expr(stmt.lhs.array, dc.replace(render_ctx, plaintext=False))
+                stmt_details_dict[stmt_key][retrieve_ABY_tag(to_be_converted[0])] = stmt_key
+            else:
+
+                for i in range( len(to_be_coexist) ):
+                    # the from should be writen in the dictionary and shall remain
+                    stmt_key = render_expr(stmt.lhs.array, dc.replace(render_ctx, plaintext=False))
+                    
+                    stmt_details_dict[stmt_key][to_be_coexist[i][0]] = stmt_key
+
+                    new_key = stmt_key + f"_{to_be_coexist[i][1]}"
+                    
+                    #  declare the new share variable
+                    new_declaration = "\n" + stmt_details_dict[stmt_key]['declaration'].replace(stmt_key,new_key)
+                    mixed_convertion += new_declaration
+
+                    #  perform the convertion and add it
+                    mixed_convertion = mixed_convertion + "\n" + f"{new_key} = {stmt_key}.Convert<{
+                        identify_protocols(
+                            {
+                                "to": set(to_be_coexist[i][1])
+                            }
+                        )[0]
+                    }>()"
+                    
+                    # store for future reference
+                    stmt_details_dict[stmt_key][to_be_coexist[i][1]] = new_key
+
+                    
+
+                  
+            print('-------------')
+            print(mixed_convertion)
+            print('-------------')
+            print(stmt.rhs)
+            
             print("current motion --> ",plaintext_conversions
-                + f"vectorized_assign({render_expr(stmt.lhs.array, ctx)}, {dim_sizes}, {vectorized_dims}, {idxs}, {val_expr});")
+                + mixed_convertion)
             
             print("initial stmt --> ",stmt)
-            print("mixer says --> ",str(stmt.lhs) ,convertionsDict[str(stmt.lhs)])
-            print("finished assign operation")
+            print("mixer says --> ",str(stmt.lhs) ,convertions_dict[str(stmt.lhs)])
+            print("finished assign operation 1")
             print()
+
             return (
                 plaintext_conversions
-                + f"vectorized_assign({render_expr(stmt.lhs.array, ctx)}, {dim_sizes}, {vectorized_dims}, {idxs}, {val_expr});"
+                + mixed_convertion
             )
 
         if isinstance(stmt.rhs, Update):
@@ -577,7 +666,26 @@ def render_mixed_stmt(
             )
 
         else:
-            shared_assignment = (
+            if  not (type_env[stmt.lhs].is_shared() or type_env[stmt.lhs].datatype == DataType.TUPLE):
+                to_be_converted = identify_protocols(convertions_dict[str(stmt.lhs)])
+                shared_assignment = (
+                    render_expr(
+                        stmt.lhs,
+                        RenderContext(
+                            type_env, plaintext=False, enclosing_loops=enclosing_loops
+                        ),
+                    )
+                    + " = "
+                    + f"{render_expr(
+                        stmt.rhs,
+                        RenderContext(
+                            type_env, plaintext=False, enclosing_loops=enclosing_loops
+                        ),
+                    )}.Convert<{to_be_converted[0]}>()"
+                    + ";"
+                )
+            else:
+                shared_assignment = (
                 render_expr(
                     stmt.lhs,
                     RenderContext(
@@ -593,6 +701,8 @@ def render_mixed_stmt(
                 )
                 + ";"
             )
+
+
             plaintext_assignment = (
                 render_expr(
                     stmt.lhs,
@@ -611,19 +721,22 @@ def render_mixed_stmt(
             )
         
 
+
+
         if (
             type_env[stmt.lhs].is_shared()
             or type_env[stmt.lhs].datatype == DataType.TUPLE
         ):
+            print("hello")
             print("current motion --> ",plaintext_conversions + shared_assignment)
             print("initial stmt --> ",stmt)
             if type_env[stmt.lhs].is_shared():
-                print("mixer says --> ",str(stmt.lhs) ,convertionsDict[str(stmt.lhs)])
+                print("mixer says --> ",str(stmt.lhs) ,convertions_dict[str(stmt.lhs)])
             elif type_env[stmt.lhs].datatype == DataType.TUPLE:
                 for item in stmt.rhs.items:
-                    print("mixer says --> ",str(item) ,convertionsDict[str(item)])
+                    print("mixer says --> ",str(item) ,convertions_dict[str(item)])
 
-            print("finished assign operation")
+            print("finished assign operation 2")
             print()
             return plaintext_conversions + shared_assignment
         else:
@@ -631,8 +744,11 @@ def render_mixed_stmt(
                 plaintext_conversions + shared_assignment + "\n" + plaintext_assignment
             ))
             print("initial stmt --> ",stmt)
-            print("mixer says --> ",str(stmt.lhs) ,convertionsDict[str(stmt.lhs)])
-            print("finished assign operation")
+            print("mixer says --> ",str(stmt.lhs) ,convertions_dict[str(stmt.lhs)],len(convertions_dict[str(stmt.lhs)]['from']))
+            print("finished assign operation 3")
+            # print({
+            #     plaintext_conversions,plaintext_assignment,shared_assignment
+            # })
             print()
             
             return (

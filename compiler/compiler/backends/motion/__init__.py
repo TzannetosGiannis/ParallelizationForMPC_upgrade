@@ -120,48 +120,60 @@ def _collect_constants(stmts: list[Statement]) -> list[Constant]:
 
 
 def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: bool, mixed_config: Config) -> str:
+    
     render_ctx = RenderContext(type_env)
-
-    protocolDict = {}
-    convertionsDict = {}
+    convertion_dict = {}
+    stmt_details_dict = {}
     
     for i in range(len(mixed_config.assignments)) :
-        print(mixed_config.assignments[i][0].lhs,mixed_config.assignments[i][1],mixed_config.assignments[i][2])
-        convertionsDict[str(mixed_config.assignments[i][0].lhs)] = {"from":mixed_config.assignments[i][1],"to":mixed_config.assignments[i][2]}
-    
+        print(mixed_config.assignments[i][0].lhs,mixed_config.assignments[i][1],mixed_config.assignments[i][2],mixed_config.assignments[i][-1])
+        convertion_dict[str(mixed_config.assignments[i][0].lhs)] = {
+            "from":mixed_config.assignments[i][1],
+            "to":mixed_config.assignments[i][2],
+            "convertion_tuple":mixed_config.assignments[i][-1]
+        }
+            
     func_header = f"{_render_prototype(func, type_env)} {{"
 
-    var_definitions = (
-        "// Shared variable declarations\n"
-        + "\n".join(
-            render_type(var_type, plaintext=False)
-            + " "
-            + render_expr(var, dt.replace(render_ctx, plaintext=False))
-            # Initialize vectorized arrays with a size
-            + (
-                "(("
-                + ") * (".join(
-                    # Vectorized arrays are often assigned to via phi nodes, which means that
-                    # they end up getting an extra final value per dimension.  We account for
-                    # this by allocating an extra slot per dimension here and working around
-                    # that dimension inside the C++ helper functions
+    # Initialize an empty string to store the shared variable declarations
+    var_definitions = "// Shared variable declarations\n"
+
+    # Iterate over sorted type environment items
+    for var, var_type in sorted(type_env.items(), key=lambda x: str(x[0])):
+        # Check if the variable is not a shared parameter
+        if not any(param.var == var and param.var_type.is_shared() for param in func.parameters):
+            
+            # Render the type of the variable for shared context (plaintext=False)
+            rendered_var_type = render_type(var_type, plaintext=False)
+            
+            # Render the expression for the variable
+            rendered_expr = render_expr(var, dt.replace(render_ctx, plaintext=False))
+                
+            # Initialize a string for the variable declaration
+            var_declaration = rendered_var_type + " " + rendered_expr
+            
+            # If the variable has dimension sizes, render them and append to the declaration
+            if var_type.dim_sizes:
+                dims = "((" + ") * (".join(
+                    # Allocate an extra slot per dimension for vectorized arrays
                     render_expr(bound, dt.replace(render_ctx, plaintext=True))
                     for bound in var_type.dim_sizes
-                )
-                + "))"
-                if var_type.dim_sizes
-                else ""
-            )
-            + ";"
-            for var, var_type in sorted(type_env.items(), key=lambda x: str(x[0]))
-            if not any(
-                param.var == var and param.var_type.is_shared()
-                for param in func.parameters
-            )
-        )
-        + "\n"
-    )
-    
+                ) + "))"
+                var_declaration += dims
+            
+            # Append a semicolon to complete the declaration
+            var_declaration += ";"
+            
+            # Add the variable declaration to the shared variable definitions
+            var_definitions += var_declaration + "\n"
+            stmt_details_dict[rendered_expr] = {
+                "declaration":var_declaration,
+                "A":None,
+                "B":None,
+                "Y":None,
+            }
+            
+
     plaintext_var_definitions = (
         "// Plaintext variable declarations\n"
         + "\n".join(
@@ -192,28 +204,23 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
 
  
     plaintext_constants = set(_collect_constants(func.body))
-    
+
     constant_initialization = "// Constant initializations\n"
+    dummy_protocol = 'encrypto::motion::MpcProtocol::kArithmeticGmw'
 
     for i, const in enumerate(sorted(plaintext_constants, key=lambda c: str(c.value))):
-        protocol = f"Protocol_{i + 1}"
-        protocolDict[const] = (protocol)
         constant_initialization += (
             f"{render_datatype(const.datatype, plaintext=False)} {render_expr(const, render_ctx)} = "
-            f"party->In<{protocol}>({render_expr(const, dt.replace(render_ctx, as_motion_input=True))}, 0);\n"
+            f"party->In<Protocol>({render_expr(const, dt.replace(render_ctx, as_motion_input=True))}, 0);\n"
         )
 
     
     plaintext_param_assignments = "// Plaintext parameter assignments\n"
-    protocolDict_size = len(protocolDict)
     for i, param in enumerate(sorted(func.parameters, key=str)):
         if param.var_type.is_plaintext():
-            protocol = f"Protocol_{protocolDict_size + 1}"
-            protocolDict[param.var] = (protocol)
-            protocolDict_size = len(protocolDict)
             if param.var_type.dims == 0:
                 assignment = (
-                    f"{render_expr(param.var, render_ctx)} = party->In<{protocol}>("
+                    f"{render_expr(param.var, render_ctx)} = party->In<Protocol>("
                     f"encrypto::motion::ToInput({render_expr(param.var, dt.replace(render_ctx, plaintext=True))}), 0);\n"
                 )
             else:
@@ -223,7 +230,7 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
                     f"{render_expr(param.var, dt.replace(render_ctx, plaintext=True))}.begin(), "
                     f"{render_expr(param.var, dt.replace(render_ctx, plaintext=True))}.end(), "
                     f"std::back_inserter({render_expr(param.var, render_ctx)}), "
-                    f"[&](const auto &val) {{ return party->In<{protocol}>("
+                    f"[&](const auto &val) {{ return party->In<Protocol>("
                     f"encrypto::motion::ToInput(val), 0); }});\n"
                 )
             
@@ -231,40 +238,33 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
 
     
     print()
+    
     func_body = "// Function body\n"
-    protocolDict_size = len(protocolDict)
     for i, stmt in enumerate(func.body):
         if not isinstance(stmt, Phi):
-            protocol = f"Protocol_{protocolDict_size + 1}"
-            protocolDict_size = len(protocolDict)
-            # rendered_stmt = render_mixed_stmt(stmt, type_env, ran_vectorization,convertionsDict)
-            rendered_stmt = render_mixed_stmt(stmt, type_env, ran_vectorization,convertionsDict)
-            # Update the rendered statement to include the protocol
-            rendered_stmt_with_protocol = rendered_stmt.replace("<Protocol>", f"<{protocol}>")
-            # exit()
-            func_body += rendered_stmt_with_protocol + "\n"
+            # rendered_stmt = render_mixed_stmt(stmt, type_env, ran_vectorization,convertion_dict)
+            rendered_stmt = render_mixed_stmt(stmt, type_env,render_ctx, ran_vectorization,convertion_dict,stmt_details_dict)
+            func_body += rendered_stmt + "\n"
             
             
 
-    # print(func_body)
-    exit()
-
-    # return (
-    #     func_header
-    #     + "\n"
-    #     + indent(var_definitions, "    ")
-    #     + "\n"
-    #     + indent(plaintext_var_definitions, "    ")
-    #     + "\n"
-    #     + indent(constant_initialization, "    ")
-    #     + "\n"
-    #     + indent(plaintext_param_assignments, "    ")
-    #     + "\n"
-    #     + indent(func_body, "    ")
-    #     + "\n}"
-    # )
+    print()
+   
+    return (
+        func_header
+        + "\n"
+        + indent(var_definitions, "    ")
+        + "\n"
+        + indent(plaintext_var_definitions, "    ")
+        + "\n"
+        + indent(constant_initialization, "    ")
+        + "\n"
+        + indent(plaintext_param_assignments, "    ")
+        + "\n"
+        + indent(func_body, "    ")
+        + "\n}"
+    )
     
-    return "tzannetos was here"
 
 def render_function(func: Function, type_env: TypeEnv, ran_vectorization: bool) -> str:
     render_ctx = RenderContext(type_env)
@@ -329,7 +329,7 @@ def render_function(func: Function, type_env: TypeEnv, ran_vectorization: bool) 
         )
         + "\n"
     )
-
+    
     plaintext_constants = set(_collect_constants(func.body))
     constant_initialization = (
         "// Constant initializations\n"
