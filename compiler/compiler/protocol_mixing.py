@@ -2,6 +2,7 @@
 # CHECK: CANNOT DEEP COPY STATEMENTS OR THEY ARE NO LONGER EQUAL
 # CHECK: CAN I REMOVE PROTOCOLBYVAR
 # CHECK: MAKE SURE EVERY VECTORIZED COMPUTATION RECEIVES LOOP BOUNDS
+# TODO: FOR MULTI-PROTOCOL CONVERSION CHAINS, RECOMPUTE CHEAPEST COST (CURRENT MODEL IS GREEDY)
 
 # copy of vectorize.py imports
 from collections import defaultdict
@@ -85,14 +86,15 @@ bounds = dict()
 
 class Config:
     # The Config class contains the protocol assignment and variable interface for its sequence
-    #  assignments is a list[Statement, Protocol, set[Protocol], cost, loop_depth, loopNestCount]
-    #                                   ^------^  ^-----------^  ^--^  ^--------^  ^-----------^
+    #  assignments is a list[Statement, Protocol, set[Protocol], cost, loop_depth, loopNestCount, list[tuple(Protocol, Protocol)]]
+    #                                   ^------^  ^-----------^  ^--^  ^--------^  ^-----------^  ^-----------------------------^
+    #                                    |         |              |     |           |              conversions after assignment as (from, to) pairs
     #                                    |         |              |     |           loop nest count (used for print formatting)
     #                                    |         |              |     loop depth (iteration count) of this statement
     #                                    |         |              cost to execute this statement (including conversions)
     #                                    |         conversions after assignment
     #                                    protocol used to execute operation
-    assignments: list[Statement, Protocol, set[Protocol], float, float, int]
+    assignments: list[Statement, Protocol, set[Protocol], float, float, int, list[tuple[Protocol, Protocol]]]
     
     inputs: dict[Var, set[Protocol]]        # the input interface required to execute this sequence
     outputs: dict[Var, set[Protocol]]       # the output interface of this program (return value assignments)
@@ -116,7 +118,7 @@ class Config:
 
     def __str__(self) -> str:
         inputs = "Input vars: {" + ", ".join(str(var) + ": " + (str(conv) if len(conv) else '{}') for var, conv in self.inputs.items()) + "}"
-        stmts = "\n".join("\t"*count + str(stmt) + ": " + str(assign) + " -> " + (str(conv) if len(conv) else '{}') + " for " + "{:.2f}".format(cost) + " * " + str(depth) + " = " + "{:.2f}".format(cost*depth) for stmt, assign, conv, cost, depth, count in self.assignments)
+        stmts = "\n".join("\t"*count + str(stmt) + ": " + str(assign) + " -> " + (str(conv) if len(conv) else '{}') + " for " + "{:.2f}".format(cost) + " * " + str(depth) + " = " + "{:.2f}".format(cost*depth) + (" (" + (", ".join(cd[0] + "->" + cd[1] for cd in convDict) if len(conv) else "") + ")" if len(convDict) else "") for stmt, assign, conv, cost, depth, count, convDict in self.assignments)
         finalLines = "\n".join(str(l) for l in reversed(self.finalStmts))
         outputs = "Output vars: {" + ", ".join(str(var) + ": " + (str(conv) if len(conv) else '{}') for var, conv in self.outputs.items()) + "}"
         return "Total cost: {:.2f}".format(self.total_cost) + "\n" + inputs + "\n" + stmts + "\n" + finalLines + "\n" + outputs + "\n"
@@ -411,11 +413,12 @@ def findVectorBound(stmt: Statement) -> int:
 # TODO currently throws an error if a conversion is not available
 def createNewConfig(conversions: set[Protocol], p: Protocol, prevConfig: Config, trackedVars: set[Var], addOutput: bool, head: Statement, requiredInputVars: set[Var], loop_depth: int, loopNestCount: int, dep_graph: DepGraph) -> Config:
     conv = deepcopy(conversions)
+    convPairs = []
     if p in conv:
         conv.remove(p)
 
     newConfig = deepcopy(prevConfig)
-    newConfig.assignments = [[a[0], a[1], a[2].copy(), a[3], a[4], a[5]] for a in prevConfig.assignments]
+    newConfig.assignments = [[a[0], a[1], a[2].copy(), a[3], a[4], a[5], a[6].copy()] for a in prevConfig.assignments]
     lhsVar = getLHSVar(head)
     if p != '_' or len(conv) > 0:
         newConfig.protocolByVar[lhsVar] = (set() if p == '_' else {p}) | conv
@@ -466,6 +469,8 @@ def createNewConfig(conversions: set[Protocol], p: Protocol, prevConfig: Config,
     for pr in conv:
         if p != '_':
             c += getCost(conversionSymbols[p][pr], None, vecBound)
+            assert (p, pr) not in convPairs
+            convPairs.append((p, pr))
 
     # special handling for phi nodes: add new required conversions to back edges
     # ASSUMPTION the rhs_true node is only used for the back edge - it will never appear as a final input or output
@@ -478,19 +483,28 @@ def createNewConfig(conversions: set[Protocol], p: Protocol, prevConfig: Config,
                 found = True
                 if p not in ({assignment[1]} | assignment[2]):
                     vecBound = findVectorBound(targetStmt.lhs)
+                    targetLhs = getLHSVar(targetStmt)
                     assignment[2].add(p)
+                    if targetLhs in newConfig.outputs.keys():
+                        newConfig.outputs[targetLhs].add(p)
                     minC = float('inf')
+                    minPr = '_'
                     for pr in ({assignment[1]} | assignment[2]) - {p}:
-                        minC = min(getCost(conversionSymbols[pr][p], None, vecBound), minC)
+                        curCost = getCost(conversionSymbols[pr][p], None, vecBound)
+                        if curCost < minC:
+                            minC = curCost
+                            minPr = pr
                     assignment[3] += minC
-                    c += minC
+                    assert (minPr, p) not in assignment[6]
+                    assignment[6].append((minPr, p))
+                    # c += minC
                 break
         if not found:
             assert getLHSVar(targetStmt) not in newConfig.inputs.keys()
             newConfig.inputs[getLHSVar(targetStmt)] = {p}
 
     newConfig.total_cost += c * loop_depth
-    newConfig.assignments = [[head, p, conv, c, loop_depth, loopNestCount]] + newConfig.assignments
+    newConfig.assignments = [[head, p, conv, c, loop_depth, loopNestCount, convPairs]] + newConfig.assignments#HEREHERE
     return newConfig
 
 
@@ -556,7 +570,7 @@ def assign_seq(seq: list[Statement], dep_graph: DepGraph, trackedVars: set[Var],
         useCount = 0
 
         # find necessary conversions in this block
-        for stmt, protocol, _, _, _, _ in config.assignments:
+        for stmt, protocol, _, _, _, _, _ in config.assignments:
             if stmt in uses and not isinstance(stmt, llc.Return) and not isinstance(stmt, llc.Tuple):
                 useCount += 1
                 if protocol != '_' and protocol not in conversions:
@@ -646,7 +660,7 @@ def subsumes(a: Config, b: Config, loop_depth: int, dep_graph: DepGraph, freeCon
                     # verify assumption that the lines in Config (a) do not use the lhs of the associated statement
                     found = False
                     cannotAppearRHS = set()
-                    for stmt, p, conv, _, _, _ in a.assignments:
+                    for stmt, p, conv, _, _, _, _ in a.assignments:
                         rhsVars = getRHSSimpleVars(stmt.rhs)
                         for rhsVar in rhsVars:
                             assert rhsVar not in cannotAppearRHS
@@ -664,7 +678,7 @@ def subsumes(a: Config, b: Config, loop_depth: int, dep_graph: DepGraph, freeCon
                     # print(var, requiredP)
                     assert found
                     continue
-                if requiredP not in b.inputs[var]:
+                if requiredP not in b.inputs[var]:#HEREHERE
                     minC = float("inf")
                     for availP in b.inputs[var]:
                         minC = min(getCost(conversionSymbols[availP][requiredP], None, loopBound), minC)
@@ -701,7 +715,7 @@ def subsumes(a: Config, b: Config, loop_depth: int, dep_graph: DepGraph, freeCon
 
                         if lhsVar in dep_graph.var_to_assignment.keys():
                             toFind = dep_graph.var_to_assignment[lhsVar]
-                            for stmt, p, conv, _, _, _ in b.assignments:
+                            for stmt, p, conv, _, _, _, _ in b.assignments:
                                 if stmt == toFind:
                                     assert p == '_' and conv == set()
                                     curSet += getRHSSimpleVars(toFind.rhs)
@@ -848,7 +862,7 @@ def merge(c1: Config, c2: Config, dep_graph: DepGraph, trackedVars: set[Var]) ->
                 for line in newConfig.assignments:
                     if line[0] in targetStmts and line[0] in c2Stmts:
                         #assert line[2] == {'_'} and line[1] == '_'
-                        line[2] = protSet
+                        line[2] = protSet#HEREHERE
                 # TODO IS THERE EVER A SCENARIO WHERE THIS EFFECTS COST?
             
             # assign new required conversions associated with this input-output pair
@@ -866,7 +880,7 @@ def merge(c1: Config, c2: Config, dep_graph: DepGraph, trackedVars: set[Var]) ->
                         break
                     for assignment in newConfig.assignments:
                         if stmt == assignment[0]:
-                            assignment[2] |= newProtocols
+                            assignment[2] |= newProtocols#HEREHERE
                             break
                     stmt = dep_graph.var_to_assignment[getRHSSimpleVars(stmt.rhs)[0]]
                     lhsVar = getLHSVar(stmt)
@@ -892,17 +906,23 @@ def merge(c1: Config, c2: Config, dep_graph: DepGraph, trackedVars: set[Var]) ->
                                 if not isinstance(assignment[0], Phi) and (isinstance(assignment[0].rhs, llc.Constant) or isinstance(assignment[0].rhs, LiftExpr)):# or isinstance(assignment[0].rhs, VectorizedAccess)):
                                     break
                                 minC = float("inf")
+                                minPr = '_'
                                 if not isinstance(assignment[0], Phi) and isinstance(assignment[0].rhs, VectorizedAccess) and len(({assignment[1]} | assignment[2]) - {'_'}) == 0:
                                     minC = 0.0
                                     print("WARNING THIS TRIGGERED A SPECIAL CASE THAT IS NOT FULLY CHECKED")
                                 # TODO THIS WAY OF PROTOCOL CHAINING IS NOT QUITE CORRECT...BUT IT'S NOT TRIVIAL TO FIX EITHER
                                 for availP in ({assignment[1]} | assignment[2]) - {'_'}:
-                                    minC = min(getCost(conversionSymbols[availP][p], None, vecBound), minC)
+                                    curCost = getCost(conversionSymbols[availP][p], None, vecBound)
+                                    if curCost < minC:
+                                        minC = curCost
+                                        minPr = availP
                                     # minC = min(conversionCosts[availP][p], minC)
                                 assignment[3] += minC
+                                assert (minPr, p) not in assignment[6]
+                                assignment[6].append((minPr, p))
                                 # TODO MAKE SURE IT IS CORRECT TO MULTIPLY BY LOOP DEPTH HERE
                                 newConfig.total_cost += assignment[4] * minC
-                            assignment[2] |= newProtocols
+                            assignment[2] |= newProtocols#HEREHERE
         # otherwise, this variable was not declared in c1, so it becomes an input to newConfig
         else:
             if var in newConfig.inputs.keys():
@@ -915,7 +935,7 @@ def merge(c1: Config, c2: Config, dep_graph: DepGraph, trackedVars: set[Var]) ->
         uses = [*dep_graph.def_use_graph.neighbors(dep_graph.var_to_assignment[var])]
         uses = [use for use in uses if not isinstance(use, llc.For)]
         useCount = 0
-        for stmt, _, _, _, _, _ in newConfig.assignments:
+        for stmt, _, _, _, _, _, _ in newConfig.assignments:
             if stmt in uses:
                 useCount += 1
         assert useCount <= len(uses)
@@ -945,13 +965,19 @@ def merge(c1: Config, c2: Config, dep_graph: DepGraph, trackedVars: set[Var]) ->
                 newProtocols = ps - {assignment[1]} - assignment[2]
                 for p in newProtocols:
                     minC = float("inf")
+                    minPr = '_'
                     # TODO THIS WAY OF PROTOCOL CHAINING IS NOT QUITE CORRECT...BUT IT'S NOT TRIVIAL TO FIX EITHER
                     for availP in ({assignment[1]} | assignment[2]) - {'_'}:
-                        minC = min(getCost(conversionSymbols[availP][p], None, vecBound), minC)
+                        curCost = getCost(conversionSymbols[availP][p], None, vecBound)
+                        if curCost < minC:
+                            minC = curCost
+                            minPr = availP
                     assignment[3] += minC
+                    assert (availP, p) not in assignment[6]
+                    assignment[6].append((availP, p))
                     # TODO MAKE SURE IT IS CORRECT TO MULTIPLY BY LOOP DEPTH HERE
                     newConfig.total_cost += assignment[4] * minC
-                assignment[2] |= newProtocols
+                assignment[2] |= newProtocols#HEREHERE
                 v = getLHSVar(assignment[0])
                 # print("TO REMOVE:", v)
                 # print(ps)
