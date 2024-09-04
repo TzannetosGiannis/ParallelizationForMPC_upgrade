@@ -563,8 +563,8 @@ def render_mixed_stmt(
                 mixed_convertion =  mixed_convertion.replace("party->In<Protocol>",f"party->In<{to_be_converted[0]}>")
 
             print(to_be_coexist,convertions_dict[str(stmt.lhs)]['to'])
+            stmt_key = render_expr(stmt.lhs.array, dc.replace(render_ctx, plaintext=False))
             if len(to_be_coexist) == 0:
-                stmt_key = render_expr(stmt.lhs.array, dc.replace(render_ctx, plaintext=False))
                 stmt_details_dict[stmt_key][retrieve_ABY_tag(to_be_converted[0])] = stmt_key
             else:
 
@@ -592,8 +592,27 @@ def render_mixed_stmt(
                     # store for future reference
                     stmt_details_dict[stmt_key][to_be_coexist[i][1]] = new_key
 
-                    
+            # validate that the used variables are correspoding to the mixed ones
+            # example that the mixed has generated also _8_0_Y while a statement that uses _8_0
+            # expectes this to be the Y version and thus needs to be replaced
 
+            convertion_from = convertions_dict[str(stmt.lhs)]['from']
+            convertion_to = convertions_dict[str(stmt.lhs)]['to']
+            print("-------")            
+            for key in stmt_details_dict.keys():
+
+                if key in mixed_convertion:
+                    
+                    # if you havent identified it yet it is already declared on the default protocol
+                    if convertion_from == '_' and stmt_details_dict[key][list(convertion_to)[0]] == None:
+                        stmt_details_dict[key][list(convertion_to)[0]] = key
+                    
+                    if convertion_from == '_' and stmt_details_dict[key][list(convertion_to)[0]] != None:
+                        pass
+                    else:
+                        # if it is default it will stay the same
+                        # if it was registered by creating the new variable , this will be used 
+                        mixed_convertion = mixed_convertion.replace(key,stmt_details_dict[key][convertion_from])
                   
             print('-------------')
             print(mixed_convertion)
@@ -851,7 +870,8 @@ def render_mixed_stmt(
         else:
             phi_finalizations = ""
 
-        return (
+        
+        result_stmt =  (
             "\n"
             + ctr_initializer
             + "\n"
@@ -865,6 +885,37 @@ def render_mixed_stmt(
             + "\n}\n"
             + phi_finalizations
         )
+
+        replaceDict = {}
+        for body_stmt in stmt.body:
+            convertion_from = convertions_dict[str(body_stmt.lhs)]['from']
+            convertion_to = convertions_dict[str(body_stmt.lhs)]['to']
+            
+            for key in stmt_details_dict.keys():
+
+                if key in result_stmt:
+                    
+                    # if you havent identified it yet it is already declared on the default protocol
+                    if convertion_from == '_' and stmt_details_dict[key][list(convertion_to)[0]] == None:
+                        stmt_details_dict[key][list(convertion_to)[0]] = key
+                    
+                    if convertion_from == '_' and stmt_details_dict[key][list(convertion_to)[0]] != None:
+                        pass
+                    else:
+                        # if it is default it will stay the same
+                        # if it was registered by creating the new variable , this will be used 
+                        # print(key,stmt_details_dict[key],stmt_details_dict[key])
+                        if stmt_details_dict[key][convertion_from] is None:
+                            stmt_details_dict[key][convertion_from] = key
+                            
+                        else:
+                            replaceDict[key] = stmt_details_dict[key][convertion_from]
+                            
+        # make the replacements all in one
+        for key in replaceDict:
+            result_stmt = result_stmt.replace(key,replaceDict[key])
+        
+        return result_stmt
 
     elif isinstance(stmt, Return):
         return (
