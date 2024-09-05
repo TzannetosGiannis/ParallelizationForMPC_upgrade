@@ -219,9 +219,11 @@ def getBounds(nonZeroVars: set[Var], dep_graph: DepGraph, stmts: list[Statement]
 
 def getLoopBounds(filename: str) -> None:
     global loopBounds
-    filename = '.'.join(filename.split('.')[:-1]) + "_bounds.json"
+    filename = dirname(__file__)+"/../../benchmarks/" + '.'.join(filename.split('.')[:-1]) + "_bounds.json"
+    
     assert exists(filename)
     loopBounds = json.load(open(filename))
+
 
 
 def getOpCosts() -> None:
