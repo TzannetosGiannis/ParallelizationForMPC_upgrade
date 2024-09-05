@@ -138,7 +138,7 @@ def compile(
             print("Backend code:")
             print(backend_code)
             print()
-        exit()
+        
         if out_dir:
             render_params = {
                 "out_dir": out_dir,

@@ -31,8 +31,10 @@ class Backend(Enum):
     ) -> str:
         if self is Backend.MOTION:
             return motion.render_mixed_function(func, type_env, ran_vectorization,mixed_config)
-        # elif self is Backend.MP_SPDZ:
-        #     return mp_spdz.render_function(func, type_env, ran_vectorization)
+        elif self is Backend.MP_SPDZ:
+            # assert_never(self)
+            # [TODO] change this to the mixed version when available
+            return mp_spdz.render_function(func, type_env, ran_vectorization)
         else:
             assert_never(self)
 

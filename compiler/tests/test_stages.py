@@ -143,7 +143,7 @@ def get_test_case_expected_output(test_case_dir: str) -> str:
     return proc.stdout
 
 
-def regenerate_stages():
+def regenerate_stages(mixing = False):
     for test_case_dir in os.scandir(test_context.STAGES_DIR):
         if test_case_dir.name in test_context.SKIPPED_TESTS[None]:
             continue
@@ -230,7 +230,11 @@ def regenerate_stages():
             f.write(f"{loop_linear}\n")
 
         for backend in Backend:
-            backend_code = backend.render_function(loop_linear, type_env, True)
+            if mixing:
+                mixedConfig = compiler.mix_protocols(f"{test_case_dir.name}.py", type_env, loop_linear.body, dep_graph)
+                backend_code = backend.render_mixed_function(loop_linear, type_env, True,mixedConfig)
+            else:
+                backend_code = backend.render_function(loop_linear, type_env, True)
             with open(
                 os.path.join(test_case_dir, f"{backend}_code.txt".lower()), "w"
             ) as f:
