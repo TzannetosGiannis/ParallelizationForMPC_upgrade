@@ -488,7 +488,6 @@ def render_mixed_stmt(
 ) -> str:
     if isinstance(stmt, Assign):
         # Convert any plaintext assignments
-        print("identified Assign Operation",stmt.lhs)
         
         vars_needing_conversions = collect_counter_uses(stmt.rhs, enclosing_loops)
         plaintext_conversions = "\n".join(
@@ -562,7 +561,6 @@ def render_mixed_stmt(
             if "party->In<Protocol>" in mixed_convertion:
                 mixed_convertion =  mixed_convertion.replace("party->In<Protocol>",f"party->In<{to_be_converted[0]}>")
 
-            print(to_be_coexist,convertions_dict[str(stmt.lhs)]['to'])
             stmt_key = render_expr(stmt.lhs.array, dc.replace(render_ctx, plaintext=False))
             if len(to_be_coexist) == 0:
                 stmt_details_dict[stmt_key][retrieve_ABY_tag(to_be_converted[0])] = stmt_key
@@ -596,7 +594,7 @@ def render_mixed_stmt(
 
             convertion_from = convertions_dict[str(stmt.lhs)]['from']
             convertion_to = convertions_dict[str(stmt.lhs)]['to']
-            print("-------")            
+                      
             for key in stmt_details_dict.keys():
 
                 if key in mixed_convertion:
@@ -612,18 +610,6 @@ def render_mixed_stmt(
                         # if it was registered by creating the new variable , this will be used 
                         mixed_convertion = mixed_convertion.replace(key,stmt_details_dict[key][convertion_from])
                   
-            print('-------------')
-            print(mixed_convertion)
-            print('-------------')
-            print(stmt.rhs)
-            
-            print("current motion --> ",plaintext_conversions
-                + mixed_convertion)
-            
-            print("initial stmt --> ",stmt)
-            print("mixer says --> ",str(stmt.lhs) ,convertions_dict[str(stmt.lhs)])
-            print("finished assign operation 1")
-            print()
 
             return (
                 plaintext_conversions
@@ -631,6 +617,7 @@ def render_mixed_stmt(
             )
 
         if isinstance(stmt.rhs, Update):
+            
             shared_assignment = (
                 (
                     render_expr(
@@ -738,37 +725,13 @@ def render_mixed_stmt(
                 + ";"
             )
         
-
-
-
         if (
             type_env[stmt.lhs].is_shared()
             or type_env[stmt.lhs].datatype == DataType.TUPLE
         ):
-            print("hello")
-            print("current motion --> ",plaintext_conversions + shared_assignment)
-            print("initial stmt --> ",stmt)
-            if type_env[stmt.lhs].is_shared():
-                print("mixer says --> ",str(stmt.lhs) ,convertions_dict[str(stmt.lhs)])
-            elif type_env[stmt.lhs].datatype == DataType.TUPLE:
-                for item in stmt.rhs.items:
-                    print("mixer says --> ",str(item) ,convertions_dict[str(item)])
-
-            print("finished assign operation 2")
-            print()
-            return plaintext_conversions + shared_assignment
-        else:
-            print("current motion --> ",(
-                plaintext_conversions + shared_assignment + "\n" + plaintext_assignment
-            ))
-            print("initial stmt --> ",stmt)
-            print("mixer says --> ",str(stmt.lhs) ,convertions_dict[str(stmt.lhs)],len(convertions_dict[str(stmt.lhs)]['from']))
-            print("finished assign operation 3")
-            # print({
-            #     plaintext_conversions,plaintext_assignment,shared_assignment
-            # })
-            print()
             
+            return plaintext_conversions + shared_assignment
+        else:    
             return (
                 plaintext_conversions + shared_assignment + "\n" + plaintext_assignment
             )
