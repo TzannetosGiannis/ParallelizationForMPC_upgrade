@@ -61,9 +61,9 @@ def run_benchmark(
     cmd_args=[],
     compile=True,
     continue_on_error=False,
+    mixed=False,
 ) -> Optional[tuple[BenchmarkOutput, BenchmarkOutput]]:
     input_fname = os.path.join(benchmark_path, "input.py")
-
     with open(input_fname, "r") as f:
         input_py = f.read().strip()
 

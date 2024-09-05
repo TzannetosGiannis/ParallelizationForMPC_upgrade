@@ -98,6 +98,7 @@ class StagesTestCase(unittest.TestCase):
                 )
 
     def test_example_apps(self):
+
         if test_context.BACKEND is None:
             self.skipTest("Skipping example application compilation")
 
@@ -110,21 +111,42 @@ class StagesTestCase(unittest.TestCase):
                 continue
             print(f"Testing {name}...")
             expected_output = get_test_case_expected_output(test_case_dir.path)
-            for protocol in test_context.BACKEND.valid_protocols():
-                print(f"    Protocol {protocol}...")
-                for vectorized in (False, True):
-                    output = run_benchmark(
-                        test_context.BACKEND,
-                        name,
-                        test_case_dir.path,
-                        protocol,
-                        vectorized,
-                    )
-                    assert output
-                    party0, party1 = output
-                    self.assertEqual(party0.strip(), party1.strip())
-                    self.assertEqual(party0.strip(), expected_output.strip())
-                    self.assertEqual(party1.strip(), expected_output.strip())
+            if test_context.MIXING:
+                # [TODO] discuss with team the starting protocol
+                protocol = test_context.BACKEND.valid_protocols()[0]
+                print("hereee")
+                output = run_benchmark(
+                    test_context.BACKEND,
+                    name,
+                    test_case_dir.path,
+                    protocol,
+                    True, # for vectorization
+                    mixed=True
+                   
+                )
+                assert output
+                party0, party1 = output
+                self.assertEqual(party0.strip(), party1.strip())
+                self.assertEqual(party0.strip(), expected_output.strip())
+                self.assertEqual(party1.strip(), expected_output.strip())
+                
+                
+            else:
+                for protocol in test_context.BACKEND.valid_protocols():
+                    print(f"    Protocol {protocol}...")
+                    for vectorized in (False, True):
+                        output = run_benchmark(
+                            test_context.BACKEND,
+                            name,
+                            test_case_dir.path,
+                            protocol,
+                            vectorized,
+                        )
+                        assert output
+                        party0, party1 = output
+                        self.assertEqual(party0.strip(), party1.strip())
+                        self.assertEqual(party0.strip(), expected_output.strip())
+                        self.assertEqual(party1.strip(), expected_output.strip())
 
 
 def get_test_case_expected_output(test_case_dir: str) -> str:
