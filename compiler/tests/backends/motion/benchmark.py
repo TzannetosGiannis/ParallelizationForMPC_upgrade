@@ -82,8 +82,9 @@ def run_benchmark(
             app_path,
             True,
             protocol,
+            mixing=mixed
         )
-
+        
         subprocess.run(
             ["cmake", "-S", app_path, "-B", os.path.join(app_path, "build")],
             check=True,
