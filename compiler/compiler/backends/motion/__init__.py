@@ -218,10 +218,11 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
     for i, const in enumerate(sorted(plaintext_constants, key=lambda c: str(c.value))):
         
         render_key = render_expr(const, render_ctx)
-        const_declaration = f"{render_datatype(const.datatype, plaintext=False)} {render_key} = party->In<Protocol>({render_expr(const, dt.replace(render_ctx, as_motion_input=True))}, 0);\n"
         
         for elem in mixed_config.constants[const.value]:
             retrieved_protocol = PROTOCOL_CONVERTIONS[elem]
+            const_declaration = f"{render_datatype(const.datatype, plaintext=False)} {render_key} = party->In<Protocol>({render_expr(const, dt.replace(render_ctx, as_motion_input=True))}, 0);\n"
+
             # first time we see this variable
             if render_key not in stmt_details_dict:
                 stmt_details_dict[render_key] = {
@@ -231,15 +232,13 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
                     "Y":None,
                 }
                 stmt_details_dict[render_key][elem] = render_key
-                final_declaration = const_declaration.replace('Protocol',retrieved_protocol)
             else:
                 new_render_key = render_key+f"_{elem}"
                 stmt_details_dict[render_key][elem] = new_render_key
-                final_declaration = const_declaration.replace(render_key,new_render_key)
+                const_declaration = const_declaration.replace(render_key,new_render_key)
             
-            constant_initialization += final_declaration.replace('Protocol',retrieved_protocol)
+            constant_initialization += const_declaration.replace('Protocol',retrieved_protocol)
        
-        
     plaintext_param_assignments = "// Plaintext parameter assignments\n"
     for i, param in enumerate(sorted(func.parameters, key=str)):
         if param.var_type.is_plaintext():
