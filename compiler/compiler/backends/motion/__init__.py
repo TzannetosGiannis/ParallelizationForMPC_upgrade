@@ -1,3 +1,5 @@
+# [TODO] replace the protocol with the correct one in plaintext
+
 import dataclasses as dt
 import io
 from jinja2 import Environment, FileSystemLoader  # type: ignore
@@ -243,7 +245,7 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
         if param.var_type.is_plaintext():
             if param.var_type.dims == 0:
                 assignment = (
-                    f"{render_expr(param.var, render_ctx)} = party->In<Protocol>("
+                    f"{render_expr(param.var, render_ctx)} = party->In<{dummy_protocol}>("
                     f"encrypto::motion::ToInput({render_expr(param.var, dt.replace(render_ctx, plaintext=True))}), 0);\n"
                 )
             else:
@@ -253,7 +255,7 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
                     f"{render_expr(param.var, dt.replace(render_ctx, plaintext=True))}.begin(), "
                     f"{render_expr(param.var, dt.replace(render_ctx, plaintext=True))}.end(), "
                     f"std::back_inserter({render_expr(param.var, render_ctx)}), "
-                    f"[&](const auto &val) {{ return party->In<Protocol>("
+                    f"[&](const auto &val) {{ return party->In<{dummy_protocol}>("
                     f"encrypto::motion::ToInput(val), 0); }});\n"
                 )
             
@@ -418,8 +420,10 @@ def render_function(func: Function, type_env: TypeEnv, ran_vectorization: bool) 
 
 
 def render_application(
-    func: Function, type_env: TypeEnv, params: dict[str, Any], ran_vectorization: bool
+    func: Function, type_env: TypeEnv, params: dict[str, Any], ran_vectorization: bool,mixing=False,mixed_config:Config =None
 ) -> None:
+
+    
     template_dir = os.path.abspath(os.path.dirname(__file__))
     project_root = os.path.abspath(os.path.join(template_dir, "..", "..", "..", ".."))
 
@@ -460,8 +464,15 @@ def render_application(
         function_name=func.name,
     )
 
+    rendered_context = None
+    if mixing:
+        rendered_context = render_mixed_function(func,type_env,ran_vectorization,mixed_config)
+    else:
+        rendered_context = render_function(func, type_env, ran_vectorization)
+
+
     rendered_header = header_template.render(
-        circuit_generator=render_function(func, type_env, ran_vectorization)
+        circuit_generator=rendered_context
     )
 
     rendered_cmakelists = cmakelists_template.render(
@@ -476,7 +487,7 @@ def render_application(
 
     with open(os.path.join(output_dir, "main.cpp"), "w") as main_file:
         main_file.write(rendered_main)
-
+    
     with open(os.path.join(output_dir, f"{func.name}.h"), "w") as header_file:
         header_file.write(rendered_header)
 

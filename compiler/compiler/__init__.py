@@ -122,15 +122,15 @@ def compile(
         print()
 
     if mixing:
-        mixedConfig = mix_protocols(filename, type_env, linear.body, dep_graph)
+        mixed_config = mix_protocols(filename, type_env, linear.body, dep_graph)
         if not quiet:
             print("Protocol Mixing Assignments:")
-            print(mixedConfig)
+            print(mixed_config)
             print()
 
     if backend:
         if mixing:
-            backend_code = backend.render_mixed_function(linear, type_env, run_vectorization,mixedConfig)
+            backend_code = backend.render_mixed_function(linear, type_env, run_vectorization,mixed_config)
         else:
             backend_code = backend.render_function(linear, type_env, run_vectorization)
         
@@ -151,6 +151,12 @@ def compile(
                     )
                 render_params["protocol"] = protocol
 
-            backend.render_application(
-                linear, type_env, render_params, run_vectorization
-            )
+            
+            if mixing:
+                backend.render_application(
+                    linear, type_env, render_params, run_vectorization, True, mixed_config
+                )
+            else:
+                backend.render_application(
+                    linear, type_env, render_params, run_vectorization
+                )

@@ -44,9 +44,11 @@ class Backend(Enum):
         type_env: TypeEnv,
         params: dict[str, Any],
         ran_vectorization: bool,
+        mixing=False,
+        mixed_config:Config =None
     ) -> None:
         if self is Backend.MOTION:
-            return motion.render_application(func, type_env, params, ran_vectorization)
+            return motion.render_application(func, type_env, params, ran_vectorization,mixing,mixed_config)
         elif self is Backend.MP_SPDZ:
             return mp_spdz.render_application(func, type_env, params, ran_vectorization)
         else:
