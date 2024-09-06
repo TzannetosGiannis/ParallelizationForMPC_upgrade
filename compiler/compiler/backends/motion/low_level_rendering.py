@@ -467,7 +467,7 @@ def retrieve_ABY_tag(
     if Mpc_protocol == 'encrypto::motion::MpcProtocol::kBooleanGmw':
         return 'B'
     if Mpc_protocol == 'encrypto::motion::MpcProtocol::kBmr':
-        return 'C'
+        return 'Y'
 
     print('PANIC [UNSOPPORTED CONVETION]')
     print(Mpc_protocol)
@@ -678,6 +678,7 @@ def render_mixed_stmt(
                             type_env, plaintext=False, enclosing_loops=enclosing_loops
                         ),
                 )
+
                 shared_assignment = (
                     render_expr(
                         stmt.lhs,
@@ -686,9 +687,10 @@ def render_mixed_stmt(
                         ),
                     )
                     + " = "
-                    + f"{rendered_expr}.Convert<{to_be_converted[0]}>()"
+                    + f"{stmt_details_dict[rendered_expr][retrieve_ABY_tag(to_be_converted[0])]}"
                     + ";"
                 )
+                
             else:
                 shared_assignment = (
                 render_expr(
