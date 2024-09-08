@@ -136,7 +136,7 @@ count_10s.py
 }
 Total cost: 24102048.84
 Input vars: {Syms!0: {'B'}, Seq!0: {'B'}}
-Constants: {False: {'B', 'Y'}}
+Constants: {False: {'B'}, 0: {'Y'}}
 s0!1 = False: _ -> {'B'} for 0.00 * 1 = 0.00
 s1!1 = False: _ -> {'B'} for 0.00 * 1 = 0.00
 scount!1 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
@@ -168,7 +168,7 @@ count_102.py
 }
 Total cost: 24098759.83
 Input vars: {Syms!0: {'B'}, Seq!0: {'B'}}
-Constants: {False: {'B', 'Y'}}
+Constants: {False: {'B'}, 0: {'Y'}}
 s0!1 = False: _ -> {'B'} for 0.00 * 1 = 0.00
 c!1 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
 !9!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
@@ -198,7 +198,7 @@ count_123.py
 }
 Total cost: 24251888.84
 Input vars: {Syms!0: {'B'}, Seq!0: {'B'}}
-Constants: {False: {'B', 'Y'}}
+Constants: {False: {'B'}, 0: {'Y'}}
 s1!1 = False: _ -> {'B'} for 0.00 * 1 = 0.00
 s2!1 = False: _ -> {'B'} for 0.00 * 1 = 0.00
 c!1 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
@@ -358,7 +358,7 @@ longest_102.py
 }
 Total cost: 10646216.47
 Input vars: {Syms!0: {'B'}, Seq!0: {'B'}}
-Constants: {False: {'B', 'Y'}}
+Constants: {False: {'B'}, 0: {'Y'}}
 s0!1 = False: _ -> {'B'} for 0.00 * 1 = 0.00
 max_len!1 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
 length!1 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
@@ -396,7 +396,7 @@ longest_odd_10.py
 }
 Total cost: 9284692.36
 Input vars: {Syms!0: {'Y'}, Seq!0: {'Y'}}
-Constants: {0: {'Y'}}
+Constants: {0: {'Y'}, False: {'Y'}}
 current_length!1 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
 max_length!1 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
 s2!1 = False: _ -> {'Y'} for 0.00 * 1 = 0.00

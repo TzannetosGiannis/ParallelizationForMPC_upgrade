@@ -131,7 +131,7 @@ class Config:
 def populateConstants(config: Config) -> None:
     for stmt, p, conv, _, _, _, _ in config.assignments:
         if isinstance(stmt, Assign) and isinstance(stmt.rhs, Constant):
-            val = stmt.rhs.value
+            val = str(stmt.rhs.value)
             ps = ({p} | conv) - {'_'}
             if val not in config.constants.keys():
                 config.constants[val] = ps
