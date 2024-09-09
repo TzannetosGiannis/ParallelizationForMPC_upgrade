@@ -127,16 +127,63 @@ class Config:
         return "Total cost: {:.2f}".format(self.total_cost) + "\n" + inputs + "\n" + constants + "\n" + stmts + "\n" + finalLines + "\n" + outputs + "\n"
 
 
+# get any constants from the RHS of a statement
+def getRHSConstants(rhs: AssignRHS) -> list[Var]:
+    if isinstance(rhs, Var):
+        return []
+    elif isinstance(rhs, Constant):
+        return [str(rhs.value)]
+    elif isinstance(rhs, Subscript):
+        return []
+    elif isinstance(rhs, VectorizedAccess):
+        return []
+    elif isinstance(rhs, BinOp):
+        return getRHSConstants(rhs.left) + getRHSConstants(rhs.right)
+    elif isinstance(rhs, UnaryOp):
+        return getRHSConstants(rhs.operand)
+    elif isinstance(rhs, (List, Tuple)):
+        return [var for item in rhs.items for var in getRHSConstants(item)]
+    elif isinstance(rhs, Mux):
+        return (
+            getRHSConstants(rhs.condition)
+            + getRHSConstants(rhs.false_value)
+            + getRHSConstants(rhs.true_value)
+        )
+    elif isinstance(rhs, Update):
+        return (
+            getRHSConstants(rhs.array)
+            + getRHSConstants(rhs.value)
+        )
+    elif isinstance(rhs, VectorizedUpdate):
+        return (
+            getRHSConstants(rhs.array)
+            + getRHSConstants(rhs.value)
+        )
+    elif isinstance(rhs, LiftExpr):
+        return getRHSConstants(rhs.expr)
+    elif isinstance(rhs, DropDim):
+        return getRHSConstants(rhs.array)
+    else:
+        assert_never(rhs)
+
+
 # function to get the required protocols for every constant
 def populateConstants(config: Config) -> None:
     for stmt, p, conv, _, _, _, _ in config.assignments:
-        if isinstance(stmt, Assign) and isinstance(stmt.rhs, Constant):
-            val = str(stmt.rhs.value)
+        if isinstance(stmt, Assign):
             ps = ({p} | conv) - {'_'}
-            if val not in config.constants.keys():
-                config.constants[val] = ps
-            else:
-                config.constants[val] |= ps
+            for val in getRHSConstants(stmt.rhs):
+                if val not in config.constants.keys():
+                    config.constants[val] = ps
+                else:
+                    config.constants[val] |= ps
+        # if isinstance(stmt, Assign) and isinstance(stmt.rhs, Constant):
+        #     val = str(stmt.rhs.value)
+        #     ps = ({p} | conv) - {'_'}
+        #     if val not in config.constants.keys():
+        #         config.constants[val] = ps
+        #     else:
+        #         config.constants[val] |= ps
 
 
 # helper function to find the natural bounds of each tracked variable

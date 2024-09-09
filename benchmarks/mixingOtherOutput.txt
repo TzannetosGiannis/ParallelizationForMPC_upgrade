@@ -70,7 +70,7 @@ kmeans_iteration.py
 }
 Total cost: 23051433.38
 Input vars: {data_y!0: {'Y', 'A'}, data_x!0: {'Y', 'A'}, OUTPUT_cluster_y!0: {'Y'}, OUTPUT_cluster_x!0: {'Y'}, cluster_y!0: {'A'}, cluster_x!0: {'A'}, bestMap!0: {'B'}}
-Constants: {10000: {'B'}, 0: {'Y'}}
+Constants: {10000: {'B'}, 0: {'Y'}, 1: {'Y'}}
 !5!0{LEN!0}[] = lift(bestMap!0, (i!1:len!0)): _ -> {'B'} for 0.00 * 1 = 0.00
 best_dist!2 = 10000: _ -> {'B'} for 0.00 * 1 = 0.00
 !9!0{LEN!0, NUM_CLUSTER!0}[] = lift(cluster_x!0[c!1], (i!1:len!0, c!1:num_cluster!0)): _ -> {'A'} for 0.00 * 1 = 0.00
@@ -135,7 +135,7 @@ longest_1s.py
 }
 Total cost: 6073599.72
 Input vars: {Sym!0: {'Y'}, Seq!0: {'Y'}}
-Constants: {0: {'Y'}}
+Constants: {0: {'Y'}, 1: {'Y'}}
 max_length!1 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
 length!1 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
 !5!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
@@ -161,7 +161,7 @@ longest_even_0.py
 }
 Total cost: 10568807.50
 Input vars: {Sym!0: {'Y'}, Seq!0: {'Y'}}
-Constants: {0: {'Y'}}
+Constants: {0: {'Y'}, 1: {'Y'}}
 current_length!1 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
 max_length!1 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
 !7!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00

@@ -98,7 +98,7 @@ convex_hull.py
 }
 Total cost: 3551351608.60
 Input vars: {Y_coords!0: {'B'}, X_coords!0: {'B'}, result_Y!0: {'B'}, result_X!0: {'B'}}
-Constants: {True: {'B'}, False: {'B'}}
+Constants: {True: {'B'}, False: {'B'}, 0: {'B'}}
 !11!0{N!0}[] = lift(result_X!0, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
 !12!0{N!0}[] = lift(result_Y!0, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
 !13!0{N!0}[] = lift(X_coords!0[i!1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
@@ -136,7 +136,7 @@ count_10s.py
 }
 Total cost: 24102048.84
 Input vars: {Syms!0: {'B'}, Seq!0: {'B'}}
-Constants: {False: {'B'}, 0: {'Y'}}
+Constants: {False: {'B'}, 0: {'Y'}, 1: {'Y'}}
 s0!1 = False: _ -> {'B'} for 0.00 * 1 = 0.00
 s1!1 = False: _ -> {'B'} for 0.00 * 1 = 0.00
 scount!1 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
@@ -168,7 +168,7 @@ count_102.py
 }
 Total cost: 24098759.83
 Input vars: {Syms!0: {'B'}, Seq!0: {'B'}}
-Constants: {False: {'B'}, 0: {'Y'}}
+Constants: {False: {'B'}, 0: {'Y'}, 1: {'Y'}}
 s0!1 = False: _ -> {'B'} for 0.00 * 1 = 0.00
 c!1 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
 !9!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
@@ -198,7 +198,7 @@ count_123.py
 }
 Total cost: 24251888.84
 Input vars: {Syms!0: {'B'}, Seq!0: {'B'}}
-Constants: {False: {'B'}, 0: {'Y'}}
+Constants: {False: {'B'}, 0: {'Y'}, 1: {'Y'}}
 s1!1 = False: _ -> {'B'} for 0.00 * 1 = 0.00
 s2!1 = False: _ -> {'B'} for 0.00 * 1 = 0.00
 c!1 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
@@ -258,7 +258,7 @@ db_cross_join_trivial.py
 }
 Total cost: 743033851.08
 Input vars: {B!0: {'B'}, A!0: {'B'}, res!0: {'B'}}
-Constants: {0: {'B'}}
+Constants: {0: {'B'}, 1: {'B'}, 2: {'B'}}
 !5!0{LEN_A!0, LEN_B!0, 3}[] = lift(res!0, (_:Len_A!0, _:Len_B!0, _:3)): _ -> {'B'} for 0.00 * 1 = 0.00
 !8!0{LEN_A!0, LEN_B!0, 3}[] = lift(A!0[(i!1 * 2)], (i!1:Len_A!0, j!1:Len_B!0, k!1:3)): _ -> {'B'} for 0.00 * 1 = 0.00
 !9!0{LEN_A!0, LEN_B!0, 3}[] = lift(B!0[(j!1 * 2)], (i!1:Len_A!0, j!1:Len_B!0, k!1:3)): _ -> {'B'} for 0.00 * 1 = 0.00
@@ -358,7 +358,7 @@ longest_102.py
 }
 Total cost: 10646216.47
 Input vars: {Syms!0: {'B'}, Seq!0: {'B'}}
-Constants: {False: {'B'}, 0: {'Y'}}
+Constants: {False: {'B'}, 0: {'Y'}, 1: {'Y'}}
 s0!1 = False: _ -> {'B'} for 0.00 * 1 = 0.00
 max_len!1 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
 length!1 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
@@ -396,7 +396,7 @@ longest_odd_10.py
 }
 Total cost: 9284692.36
 Input vars: {Syms!0: {'Y'}, Seq!0: {'Y'}}
-Constants: {0: {'Y'}, False: {'Y'}}
+Constants: {0: {'Y'}, False: {'Y'}, 1: {'Y'}}
 current_length!1 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
 max_length!1 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
 s2!1 = False: _ -> {'Y'} for 0.00 * 1 = 0.00
@@ -433,7 +433,7 @@ max_dist_between_syms.py
 }
 Total cost: 6079488.57
 Input vars: {Sym!0: {'Y'}, Seq!0: {'Y'}}
-Constants: {0: {'Y'}}
+Constants: {0: {'Y'}, 1: {'Y'}}
 max_dist!1 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
 current_dist!1 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
 !6!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
