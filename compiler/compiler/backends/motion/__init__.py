@@ -219,7 +219,7 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
         
         render_key = render_expr(const, render_ctx)
         
-        for elem in mixed_config.constants[const.value]:
+        for elem in mixed_config.constants[str(const.value)]:
             retrieved_protocol = PROTOCOL_CONVERTIONS[elem]
             const_declaration = f"{render_datatype(const.datatype, plaintext=False)} {render_key} = party->In<Protocol>({render_expr(const, dt.replace(render_ctx, as_motion_input=True))}, 0);\n"
 
