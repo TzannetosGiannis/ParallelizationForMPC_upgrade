@@ -1,4 +1,5 @@
 import ast
+import json
 import os
 import sys
 import subprocess
@@ -114,7 +115,6 @@ class StagesTestCase(unittest.TestCase):
             if test_context.MIXING:
                 # [TODO] discuss with team the starting protocol
                 protocol = test_context.BACKEND.valid_protocols()[0]
-                print("hereee")
                 output = run_benchmark(
                     test_context.BACKEND,
                     name,
@@ -129,7 +129,6 @@ class StagesTestCase(unittest.TestCase):
                 self.assertEqual(party0.strip(), party1.strip())
                 self.assertEqual(party0.strip(), expected_output.strip())
                 self.assertEqual(party1.strip(), expected_output.strip())
-                
                 
             else:
                 for protocol in test_context.BACKEND.valid_protocols():
@@ -253,8 +252,21 @@ def regenerate_stages(mixing = False):
 
         for backend in Backend:
             if mixing:
-                mixedConfig = compiler.mix_protocols(f"{test_case_dir.name}.py", type_env, loop_linear.body, dep_graph)
-                backend_code = backend.render_mixed_function(loop_linear, type_env, True,mixedConfig)
+                mixed_config = compiler.mix_protocols(f"{test_case_dir.name}.py", type_env, loop_linear.body, dep_graph)
+                
+                # Convert the dictionary to the desired format
+                result = {}
+                for var, values in mixed_config.inputs.items():
+                    # Construct the new key as name_rename_subscript
+                    key = f"{var.name}_{var.rename_subscript}"
+                    # Convert the set of values to a list
+                    result[key] = list(values)
+
+                
+                with open(os.path.join(test_case_dir, "mixed_input.txt"), "w") as f:
+                    f.write(json.dumps(result))
+                
+                backend_code = backend.render_mixed_function(loop_linear, type_env, True,mixed_config)
             else:
                 backend_code = backend.render_function(loop_linear, type_env, True)
             with open(
