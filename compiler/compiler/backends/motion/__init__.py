@@ -7,7 +7,7 @@ import os
 import shutil
 from textwrap import indent
 from typing import Any, Union
-
+import re
 
 from ...ast_shared import VectorizedAccess
 
@@ -27,7 +27,7 @@ from .low_level_rendering import (
     render_type,
 )
 
-VALID_PROTOCOLS = ["BooleanGmw", "Bmr"]
+VALID_PROTOCOLS = ["ArithmeticGmw","BooleanGmw", "Bmr"]
 PROTOCOL_CONVERTIONS = {
     "A":'encrypto::motion::MpcProtocol::kArithmeticGmw',
     "B":'encrypto::motion::MpcProtocol::kBooleanGmw',
@@ -213,6 +213,7 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
     plaintext_constants = set(_collect_constants(func.body))
 
     constant_initialization = "// Constant initializations\n"
+    #[TODO] discuss how will we find the plaintext parameters
     dummy_protocol = 'encrypto::motion::MpcProtocol::kArithmeticGmw'
 
     for i, const in enumerate(sorted(plaintext_constants, key=lambda c: str(c.value))):
@@ -222,7 +223,6 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
         for elem in mixed_config.constants[str(const.value)]:
             retrieved_protocol = PROTOCOL_CONVERTIONS[elem]
             const_declaration = f"{render_datatype(const.datatype, plaintext=False)} {render_key} = party->In<Protocol>({render_expr(const, dt.replace(render_ctx, as_motion_input=True))}, 0);\n"
-
             # first time we see this variable
             if render_key not in stmt_details_dict:
                 stmt_details_dict[render_key] = {
@@ -244,8 +244,8 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
         if param.var_type.is_plaintext():
             if param.var_type.dims == 0:
                 assignment = (
-                    f"{render_expr(param.var, render_ctx)} = party->In<{dummy_protocol}>("
-                    f"encrypto::motion::ToInput({render_expr(param.var, dt.replace(render_ctx, plaintext=True))}), 0);\n"
+                        f"{render_expr(param.var, render_ctx)} = party->In<{dummy_protocol}>("
+                        f"encrypto::motion::ToInput({render_expr(param.var, dt.replace(render_ctx, plaintext=True))}), 0);\n"
                 )
             else:
                 assignment = (
@@ -270,11 +270,8 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
             rendered_stmt = render_mixed_stmt(stmt, type_env,render_ctx, ran_vectorization,convertion_dict,stmt_details_dict)
             func_body += rendered_stmt + "\n"
             
-            
-
     print()
-   
-    return (
+    cpp_script = (
         func_header
         + "\n"
         + indent(var_definitions, "    ")
@@ -288,6 +285,20 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
         + indent(func_body, "    ")
         + "\n}"
     )
+
+    # Define the pattern and the replacement
+    pattern = r"party->In<encrypto::motion::MpcProtocol::kArithmeticGmw>\(encrypto::motion::ToInput\((.*?)\), (.*?)\)\)"
+    replacement = r"party->In<encrypto::motion::MpcProtocol::kArithmeticGmw>(\1, \2))"
+
+    # Replace using re.sub
+    # Apply iterative replacement until no changes occur
+    while True:
+        new_script = re.sub(pattern, replacement, cpp_script, flags=re.DOTALL)
+        if new_script == cpp_script:
+            break  # Stop when no further replacements are made
+        cpp_script = new_script  # Update the string for the next iteration
+
+    return cpp_script
     
 
 def render_function(func: Function, type_env: TypeEnv, ran_vectorization: bool) -> str:
@@ -483,6 +494,13 @@ def render_application(
     output_dir = os.path.abspath(params["out_dir"])
 
     os.makedirs(output_dir, exist_ok=params["overwrite"])
+
+    # Define the pattern and the replacement
+    pattern = r"party->In<encrypto::motion::MpcProtocol::kArithmeticGmw>\(encrypto::motion::ToInput\((.*?)\), (.*?)\)\)"
+    replacement = r"party->In<encrypto::motion::MpcProtocol::kArithmeticGmw>(\1, \2))"
+
+    # Replace using re.sub
+    rendered_main = re.sub(pattern, replacement, rendered_main)
 
     with open(os.path.join(output_dir, "main.cpp"), "w") as main_file:
         main_file.write(rendered_main)

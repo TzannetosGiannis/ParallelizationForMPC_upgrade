@@ -584,7 +584,14 @@ def render_mixed_stmt(
                     )[0]
                     #  perform the convertion and add it
                     mixed_convertion = mixed_convertion + "\n"  #+ f"{new_key} = {stmt_key}.Convert<{identified_pr}>()"
-                    mixed_convertion += f"for ( int i = 0; i < {stmt_key}.size(); i++ ) \n \t {new_key}[i] = ({stmt_key}[i].Get()).Convert<{identified_pr}>();"
+                    mixed_convertion += (
+                        f"for ( int i = 0; i < {stmt_key}.size(); i++ ) " +"{"
+
+                        f"\n \t // Create a copy of the ShareWrapper object returned by Get()"
+                        f"\n \tencrypto::motion::ShareWrapper copy = {stmt_key}[i].Get();"
+                        f"\n \t {new_key}[i] = copy.Convert<{identified_pr}>();"
+                        "\n}"
+                    )
                     # store for future reference
                     stmt_details_dict[stmt_key][to_be_coexist[i][1]] = new_key
 
