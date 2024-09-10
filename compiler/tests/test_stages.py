@@ -113,8 +113,32 @@ class StagesTestCase(unittest.TestCase):
             print(f"Testing {name}...")
             expected_output = get_test_case_expected_output(test_case_dir.path)
             if test_context.MIXING:
-                # [TODO] discuss with team the starting protocol
-                protocol = test_context.BACKEND.valid_protocols()[0]
+                # read the stages testcase for the input protocol
+                # at this step assume that the input variables have the same protocol
+                mixed_input_path = test_case_dir.path+"/mixed_input.txt" 
+                protocols = {
+                    "A":"ArithmeticGmw",
+                    "B":"BooleanGmw",
+                    "Y":"Bmr"
+                }
+                if os.path.exists(mixed_input_path):
+                    
+                    with open(mixed_input_path, 'r') as file:
+                        content = json.loads(file.read())
+                        initial_value = None
+                        implemented = True
+                        for key, value in content.items():
+                            if len(value) > 1:
+                                implemented = False
+                            if initial_value == None:
+                                initial_value = value[0]
+                            elif initial_value != value[0]:
+                                implemented = False
+                
+                if implemented == False:
+                    raise NotImplementedError("Unsupported mixed input")
+                
+                protocol = protocols[initial_value]
                 output = run_benchmark(
                     test_context.BACKEND,
                     name,
