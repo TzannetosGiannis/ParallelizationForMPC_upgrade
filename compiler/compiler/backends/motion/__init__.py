@@ -214,12 +214,13 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
 
     constant_initialization = "// Constant initializations\n"
     #[TODO] discuss how will we find the plaintext parameters
-    dummy_protocol = 'encrypto::motion::MpcProtocol::kArithmeticGmw'
+    dummy_protocol = 'encrypto::motion::MpcProtocol::kBooleanGmw'
 
     for i, const in enumerate(sorted(plaintext_constants, key=lambda c: str(c.value))):
         
         render_key = render_expr(const, render_ctx)
-        
+        if str(const.value) not in mixed_config.constants:
+            continue
         for elem in mixed_config.constants[str(const.value)]:
             retrieved_protocol = PROTOCOL_CONVERTIONS[elem]
             const_declaration = f"{render_datatype(const.datatype, plaintext=False)} {render_key} = party->In<Protocol>({render_expr(const, dt.replace(render_ctx, as_motion_input=True))}, 0);\n"
@@ -238,7 +239,7 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
                 const_declaration = const_declaration.replace(render_key,new_render_key)
             
             constant_initialization += const_declaration.replace('Protocol',retrieved_protocol)
-       
+
     plaintext_param_assignments = "// Plaintext parameter assignments\n"
     for i, param in enumerate(sorted(func.parameters, key=str)):
         if param.var_type.is_plaintext():
