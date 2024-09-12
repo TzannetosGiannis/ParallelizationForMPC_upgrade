@@ -101,7 +101,8 @@ class Config:
     total_cost: float                       # the total cost (including conversions) required to execute this sequence
     protocolByVar: dict[Var, set[Protocol]] # a quick way to access the protocols of each variable
     finalStmts: list[Statement]             # used to print the return statement and the tuple if it exists
-    constants: dict[int, set[Protocol]]          # dictionary that converts constants to the required protocols
+    constants: dict[int, set[Protocol]]     # dictionary that converts constants to the required protocols
+    plaintexts: dict[Var, set[Protocol]]    # dictionary that converts plaintext variables into their required protocols (these conversions should be free, but some backends don't support free plaintext->protocol conversions)
 
     # sets of variables can be locked to the same set of protocols by transparent (zero-cost) operations
     lockedVarsIdx: dict[Var, int]
@@ -117,14 +118,16 @@ class Config:
         self.protocolByVar = dict()
         self.finalStmts = []
         self.constants = dict()
+        self.plaintexts = dict()
 
     def __str__(self) -> str:
-        inputs = "Input vars: {" + ", ".join(str(var) + ": " + (str(conv) if len(conv) else '{}') for var, conv in self.inputs.items()) + "}"
-        constants = "Constants: {" + ", ".join(str(val) + ": " + (str(conv) if len(conv) else '{}') for val, conv in self.constants.items()) + "}"
+        inputs = "Input vars:\t{" + ", ".join(str(var) + ": " + (str(conv) if len(conv) else '{}') for var, conv in self.inputs.items()) + "}"
+        constants = "Constants:\t{" + ", ".join(str(val) + ": " + (str(conv) if len(conv) else '{}') for val, conv in self.constants.items()) + "}"
+        plaintexts = "Plaintext vars:\t{" + ", ".join(str(var) + ": " + (str(conv) if len(conv) else '{}') for var, conv in self.plaintexts.items()) + "}"
         stmts = "\n".join("\t"*count + str(stmt) + ": " + str(assign) + " -> " + (str(conv) if len(conv) else '{}') + " for " + "{:.2f}".format(cost) + " * " + str(depth) + " = " + "{:.2f}".format(cost*depth) + (" (" + (", ".join(cd[0] + "->" + cd[1] for cd in convDict) if len(conv) else "") + ")" if len(convDict) else "") for stmt, assign, conv, cost, depth, count, convDict in self.assignments)
         finalLines = "\n".join(str(l) for l in reversed(self.finalStmts))
-        outputs = "Output vars: {" + ", ".join(str(var) + ": " + (str(conv) if len(conv) else '{}') for var, conv in self.outputs.items()) + "}"
-        return "Total cost: {:.2f}".format(self.total_cost) + "\n" + inputs + "\n" + constants + "\n" + stmts + "\n" + finalLines + "\n" + outputs + "\n"
+        outputs = "Output vars:\t{" + ", ".join(str(var) + ": " + (str(conv) if len(conv) else '{}') for var, conv in self.outputs.items()) + "}"
+        return "Total cost:\t{:.2f}".format(self.total_cost) + "\n" + inputs + "\n" + constants + "\n" + plaintexts + "\n" + stmts + "\n" + finalLines + "\n" + outputs + "\n"
 
 
 # get any constants from the RHS of a statement
@@ -168,8 +171,10 @@ def getRHSConstants(rhs: AssignRHS) -> list[Var]:
 
 
 # function to get the required protocols for every constant
-def populateConstants(config: Config) -> None:
+def populateConstantsAndPlaintexts(config: Config, plainVars: set[Var]) -> None:
+    declared = set()
     for stmt, p, conv, _, _, _, _ in config.assignments:
+        declared.add(getLHSVar(stmt))
         if isinstance(stmt, Assign):
             ps = ({p} | conv) - {'_'}
             for val in getRHSConstants(stmt.rhs):
@@ -177,13 +182,12 @@ def populateConstants(config: Config) -> None:
                     config.constants[val] = ps
                 else:
                     config.constants[val] |= ps
-        # if isinstance(stmt, Assign) and isinstance(stmt.rhs, Constant):
-        #     val = str(stmt.rhs.value)
-        #     ps = ({p} | conv) - {'_'}
-        #     if val not in config.constants.keys():
-        #         config.constants[val] = ps
-        #     else:
-        #         config.constants[val] |= ps
+            for var in getRHSSimpleVars(stmt.rhs):
+                if var in plainVars and var not in declared:
+                    if var not in config.plaintexts.keys():
+                        config.plaintexts[var] = ps
+                    else:
+                        config.plaintexts[var] |= ps
 
 
 # helper function to find the natural bounds of each tracked variable
@@ -287,7 +291,6 @@ def getLoopBounds(filename: str) -> None:
     loopBounds = json.load(open(filename))
 
 
-
 def getOpCosts() -> None:
     global costTable
     assert exists(dirname(__file__) + '/costs-LAN.json')
@@ -302,7 +305,7 @@ def getOpCosts() -> None:
     #             costTable[op][k1] *= int(k1)
 
 
-def getTrackedVars(type_env: TypeEnv, stmts: list[Statement], dep_graph: DepGraph) -> set[Var]:
+def getTrackedVars(type_env: TypeEnv, stmts: list[Statement], dep_graph: DepGraph) -> (set[Var], set[Var]):
     # add inputs, outputs, and constants
     directIO = {var for var, stmt in dep_graph.var_to_assignment.items() if isinstance(stmt, DepParameter)}
     directIO.add(getLHSVar(stmts[-1]))
@@ -858,9 +861,6 @@ def clean_locked_stmts(config: Config) -> None:
 # for new conversions, if the variable is declared by a raise_dim, chain through declarations adding the conversion until a non-raise_dim is found
 #   otherwise, place the conversion at the variable's declaration
 def merge(c1: Config, c2: Config, dep_graph: DepGraph, trackedVars: set[Var]) -> Config:
-    # for var in trackedVars:
-    #     print(var)
-    # exit()
     # print("MERGE")
     # print(c1)
     # print(c2)
@@ -1145,5 +1145,5 @@ def mix_protocols(filename: str, type_env: TypeEnv, body: list[Statement], dep_g
         if c.total_cost < minCost:
             best = c
             minCost = c.total_cost
-    populateConstants(best)
+    populateConstantsAndPlaintexts(best, {var for var, t in type_env.items() if t.visibility.value == 'plaintext'})
     return best
