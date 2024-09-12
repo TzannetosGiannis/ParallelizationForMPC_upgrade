@@ -97,7 +97,7 @@ convex_hull.py
   "N!0": 4096
 }
 Total cost: 3551351608.60
-Input vars: {Y_coords!0: {'B'}, X_coords!0: {'B'}, result_Y!0: {'B'}, result_X!0: {'B'}}
+Input vars: {Y_coords!0: {'B'}, X_coords!0: {'B'}}
 Constants: {True: {'B'}, False: {'B'}, 0: {'B'}}
 !11!0{N!0}[] = lift(result_X!0, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
 !12!0{N!0}[] = lift(result_Y!0, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
@@ -316,7 +316,7 @@ histogram.py
   "N!0": 1024
 }
 Total cost: 47399795.05
-Input vars: {B!0: {'Y'}, A!0: {'Y'}, result!0: {'Y'}}
+Input vars: {B!0: {'Y'}, A!0: {'Y'}}
 Constants: {}
 !2!0{NUM_BINS!0}[] = lift(result!0, (i!1:num_bins!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
 !5!0{NUM_BINS!0, N!0}[] = lift(A!0[j!1], (i!1:num_bins!0, j!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00

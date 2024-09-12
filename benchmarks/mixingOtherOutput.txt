@@ -69,7 +69,7 @@ kmeans_iteration.py
   "num_cluster!0": 16
 }
 Total cost: 23051433.38
-Input vars: {data_y!0: {'Y', 'A'}, data_x!0: {'Y', 'A'}, OUTPUT_cluster_y!0: {'Y'}, OUTPUT_cluster_x!0: {'Y'}, cluster_y!0: {'A'}, cluster_x!0: {'A'}, bestMap!0: {'B'}}
+Input vars: {data_y!0: {'A', 'Y'}, data_x!0: {'A', 'Y'}, OUTPUT_cluster_y!0: {'Y'}, OUTPUT_cluster_x!0: {'Y'}, cluster_y!0: {'A'}, cluster_x!0: {'A'}}
 Constants: {10000: {'B'}, 0: {'Y'}, 1: {'Y'}}
 !5!0{LEN!0}[] = lift(bestMap!0, (i!1:len!0)): _ -> {'B'} for 0.00 * 1 = 0.00
 best_dist!2 = 10000: _ -> {'B'} for 0.00 * 1 = 0.00
@@ -84,8 +84,8 @@ val_x!2 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
 val_y!2 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
 count!2 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
 !18!0{NUM_CLUSTER!0, LEN!0}[] = lift(c!2, (c!2:num_cluster!0, i!2:len!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!20!0{NUM_CLUSTER!0, LEN!0}[] = lift(data_x!0[i!2], (c!2:num_cluster!0, i!2:len!0)): _ -> {'Y', 'A'} for 0.00 * 1 = 0.00
-!21!0{NUM_CLUSTER!0, LEN!0}[] = lift(data_y!0[i!2], (c!2:num_cluster!0, i!2:len!0)): _ -> {'Y', 'A'} for 0.00 * 1 = 0.00
+!20!0{NUM_CLUSTER!0, LEN!0}[] = lift(data_x!0[i!2], (c!2:num_cluster!0, i!2:len!0)): _ -> {'A', 'Y'} for 0.00 * 1 = 0.00
+!21!0{NUM_CLUSTER!0, LEN!0}[] = lift(data_y!0[i!2], (c!2:num_cluster!0, i!2:len!0)): _ -> {'A', 'Y'} for 0.00 * 1 = 0.00
 !8!0{LEN!0, NUM_CLUSTER!0}[] = lift(!5!0{LEN!0}[], (i!1:len!0, c!1:num_cluster!0)): _ -> {'B'} for 0.00 * 1 = 0.00
 !7!0{LEN!0, NUM_CLUSTER!0}[] = lift(best_dist!2, (i!1:len!0, c!1:num_cluster!0)): _ -> {'B'} for 0.00 * 1 = 0.00
 x_dist!3{LEN!0, NUM_CLUSTER!0}[] = (!9!0{LEN!0, NUM_CLUSTER!0}[] - !10!0{LEN!0, NUM_CLUSTER!0}[]): A -> {} for 40288.46 * 1 = 40288.46

@@ -858,6 +858,9 @@ def clean_locked_stmts(config: Config) -> None:
 # for new conversions, if the variable is declared by a raise_dim, chain through declarations adding the conversion until a non-raise_dim is found
 #   otherwise, place the conversion at the variable's declaration
 def merge(c1: Config, c2: Config, dep_graph: DepGraph, trackedVars: set[Var]) -> Config:
+    # for var in trackedVars:
+    #     print(var)
+    # exit()
     # print("MERGE")
     # print(c1)
     # print(c2)
@@ -953,9 +956,10 @@ def merge(c1: Config, c2: Config, dep_graph: DepGraph, trackedVars: set[Var]) ->
                     if lhsVar in c1OutputsCopy:
                         c1OutputsCopy[lhsVar] |= newProtocols
                         # print(c1OutputsCopy[lhsVar])
-                if isinstance(stmt, DepParameter):# and str(stmt.var) in trackedVars:
+                if isinstance(stmt, DepParameter) and stmt.var in trackedVars:
                     if stmt.var not in newConfig.inputs.keys() or newConfig.inputs[stmt.var] == {'_'}:
                         newConfig.inputs[stmt.var] = set()
+                    # print("---------------", stmt.var, stmt.var in trackedVars)
                     newConfig.inputs[stmt.var] |= newProtocols
                 else:
                     # print("HEREHERE", stmt)
