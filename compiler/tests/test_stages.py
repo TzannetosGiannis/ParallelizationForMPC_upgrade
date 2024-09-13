@@ -281,6 +281,9 @@ def regenerate_stages(mixing = False):
             f.write(f"{loop_linear}\n")
 
         for backend in Backend:
+            # [TODO] fix when mp-spdz mixing exists
+            if mixing and str(backend).lower() == "mp-spdz":
+                continue
             if mixing:
                 mixed_config = compiler.mix_protocols(f"{test_case_dir.name}.py", type_env, loop_linear.body, dep_graph)
                 
@@ -299,7 +302,11 @@ def regenerate_stages(mixing = False):
                 backend_code = backend.render_mixed_function(loop_linear, type_env, True,mixed_config)
             else:
                 backend_code = backend.render_function(loop_linear, type_env, True)
+            
+            code_name = str(backend)
+            if mixing:
+                code_name += "_mixed"
             with open(
-                os.path.join(test_case_dir, f"{backend}_code.txt".lower()), "w"
+                os.path.join(test_case_dir, f"{code_name}_code.txt".lower()), "w"
             ) as f:
                 f.write(f"{backend_code}\n")
