@@ -716,7 +716,25 @@ def render_mixed_stmt(
                 + ";"
             )
 
+            finders_key = render_expr(
+                    stmt.lhs,
+                    RenderContext(
+                        type_env, plaintext=False, enclosing_loops=enclosing_loops
+                    ),
+            )
 
+            search_key = render_expr(
+                    stmt.rhs,
+                    RenderContext(
+                        type_env, plaintext=False, enclosing_loops=enclosing_loops
+                    ),
+            )
+            
+            if search_key in stmt_details_dict:
+                for elem in stmt_details_dict[search_key]:
+                    if stmt_details_dict[search_key][elem] == search_key:
+                        stmt_details_dict[finders_key][elem] = finders_key
+            
             plaintext_assignment = (
                 render_expr(
                     stmt.lhs,

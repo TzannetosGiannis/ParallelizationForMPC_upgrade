@@ -133,7 +133,6 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
     stmt_details_dict = {}
     
     for i in range(len(mixed_config.assignments)) :
-        print(mixed_config.assignments[i][0].lhs,mixed_config.assignments[i][1],mixed_config.assignments[i][2],mixed_config.assignments[i][-1])
         convertion_dict[str(mixed_config.assignments[i][0].lhs)] = {
             "from":mixed_config.assignments[i][1],
             "to":mixed_config.assignments[i][2],
@@ -248,7 +247,7 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
         plaintext_dict[render_expr(key, dt.replace(render_ctx, plaintext=False))] = list(value)[0]
     
     for key , value in mixed_config.inputs.items():
-        plaintext_dict[render_expr(key, dt.replace(render_ctx, plaintext=False))] = value
+        plaintext_dict[render_expr(key, dt.replace(render_ctx, plaintext=False))] = list(value)[0]
         if len(value) > 1:
             raise NotImplementedError("input supported only in one protocol")
     
@@ -257,7 +256,6 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
         
         if param.var_type.is_plaintext() and render_expr(param.var, dt.replace(render_ctx, plaintext=False)) in plaintext_dict:
             dict_key = render_expr(param.var, dt.replace(render_ctx, plaintext=False))
-            
             retrieved_protocol = PROTOCOL_CONVERTIONS[plaintext_dict[dict_key]]
             if param.var_type.dims == 0:
                 
