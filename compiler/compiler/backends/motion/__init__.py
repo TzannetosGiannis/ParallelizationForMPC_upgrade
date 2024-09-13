@@ -285,7 +285,17 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
                         stmt_details_dict[dict_key][pr] = new_key
 
 
+                
+                
+                assignment = (
+                        f"{render_expr(param.var, render_ctx)} = party->In<{retrieved_protocol}>("
+                        f"encrypto::motion::ToInput({render_expr(param.var, dt.replace(render_ctx, plaintext=True))}), 0);\n"
+                )
                     
+                assignment = (
+                        f"{render_expr(param.var, render_ctx)} = party->In<{retrieved_protocol}>("
+                        f"encrypto::motion::ToInput({render_expr(param.var, dt.replace(render_ctx, plaintext=True))}), 0);\n"
+                )
             else:
                 retrieved_protocol = PROTOCOL_CONVERTIONS[retrieved_protocol_list[0]]
                 assignment = (
@@ -337,6 +347,7 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
         if new_script == cpp_script:
             break  # Stop when no further replacements are made
         cpp_script = new_script  # Update the string for the next iteration
+
     return cpp_script
     
 
