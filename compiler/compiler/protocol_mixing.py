@@ -78,7 +78,7 @@ conversionSymbols = {'A': {'B': 'zic_a2b', 'Y': 'zic_a2y'}, 'B': {'A': 'zic_b2a'
 zeroCostOps = {'LiftExpr', 'DropDim', 'Return', 'Phi', 'Constant', 'VectorizedAccess', 'Tuple', 'VectorizedUpdate', 'notUNARY'}
 opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt',
   '*': 'zi_mul', 'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor',
-  '>>': 'zi_shr', '-UNARY': 'UNAVAILABLE', '&': 'zi_&', '|': 'zi_|', 'Var': 'UNAVAILABLE', '/': 'zi_mul'}
+  '>>': 'zi_shr', '-UNARY': 'UNAVAILABLE', '&': 'zi_&', '|': 'zi_|', 'Var': 'UNAVAILABLE', '/': 'zi_div'}
 costTable = None
 loopBounds = None
 bounds = dict()
@@ -293,9 +293,9 @@ def getLoopBounds(filename: str) -> None:
 
 def getOpCosts() -> None:
     global costTable
-    assert exists(dirname(__file__) + '/costs-LAN.json')
+    assert exists(dirname(__file__) + '/DIVcosts-LAN.json')
     # ASSUMPTION: EVERYTHING IS 32 BIT
-    costTable = json.load(open(dirname(__file__) + '/costs-LAN.json'))['32']
+    costTable = json.load(open(dirname(__file__) + '/DIVcosts-LAN.json'))['32']
     # for op in costTable.keys():
     #     for k1 in costTable[op]:
     #         if isinstance(costTable[op][k1], dict):
