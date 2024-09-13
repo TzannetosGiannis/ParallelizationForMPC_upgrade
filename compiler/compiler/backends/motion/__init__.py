@@ -213,9 +213,7 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
     plaintext_constants = set(_collect_constants(func.body))
 
     constant_initialization = "// Constant initializations\n"
-    #[TODO] discuss how will we find the plaintext parameters
-    dummy_protocol = 'encrypto::motion::MpcProtocol::kBooleanGmw'
-
+    
     for i, const in enumerate(sorted(plaintext_constants, key=lambda c: str(c.value))):
         
         render_key = render_expr(const, render_ctx)
@@ -241,11 +239,30 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
             constant_initialization += const_declaration.replace('Protocol',retrieved_protocol)
 
     plaintext_param_assignments = "// Plaintext parameter assignments\n"
+
+    plaintext_dict = {}
+    
+    for key , value in mixed_config.plaintexts.items():
+        if len(value) > 1:
+            raise NotImplementedError("plaintext supported only in one protocol")
+        plaintext_dict[render_expr(key, dt.replace(render_ctx, plaintext=False))] = list(value)[0]
+    
+    for key , value in mixed_config.inputs.items():
+        plaintext_dict[render_expr(key, dt.replace(render_ctx, plaintext=False))] = value
+        if len(value) > 1:
+            raise NotImplementedError("input supported only in one protocol")
+    
+    
     for i, param in enumerate(sorted(func.parameters, key=str)):
-        if param.var_type.is_plaintext():
+        
+        if param.var_type.is_plaintext() and render_expr(param.var, dt.replace(render_ctx, plaintext=False)) in plaintext_dict:
+            dict_key = render_expr(param.var, dt.replace(render_ctx, plaintext=False))
+            
+            retrieved_protocol = PROTOCOL_CONVERTIONS[plaintext_dict[dict_key]]
             if param.var_type.dims == 0:
+                
                 assignment = (
-                        f"{render_expr(param.var, render_ctx)} = party->In<{dummy_protocol}>("
+                        f"{render_expr(param.var, render_ctx)} = party->In<{retrieved_protocol}>("
                         f"encrypto::motion::ToInput({render_expr(param.var, dt.replace(render_ctx, plaintext=True))}), 0);\n"
                 )
             else:
@@ -255,7 +272,7 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
                     f"{render_expr(param.var, dt.replace(render_ctx, plaintext=True))}.begin(), "
                     f"{render_expr(param.var, dt.replace(render_ctx, plaintext=True))}.end(), "
                     f"std::back_inserter({render_expr(param.var, render_ctx)}), "
-                    f"[&](const auto &val) {{ return party->In<{dummy_protocol}>("
+                    f"[&](const auto &val) {{ return party->In<{retrieved_protocol}>("
                     f"encrypto::motion::ToInput(val), 0); }});\n"
                 )
             
