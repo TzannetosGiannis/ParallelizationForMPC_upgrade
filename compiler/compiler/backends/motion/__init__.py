@@ -1,5 +1,3 @@
-# [TODO] replace the protocol with the correct one in plaintext
-
 import dataclasses as dt
 import io
 from jinja2 import Environment, FileSystemLoader  # type: ignore
@@ -242,12 +240,12 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
     plaintext_dict = {}
     
     for key , value in mixed_config.plaintexts.items():
-        if len(value) > 1:
-            raise NotImplementedError("plaintext supported only in one protocol")
-        plaintext_dict[render_expr(key, dt.replace(render_ctx, plaintext=False))] = list(value)[0]
-    
+        plaintext_dict[render_expr(key, dt.replace(render_ctx, plaintext=False))] = list(value)
+        
     for key , value in mixed_config.inputs.items():
-        plaintext_dict[render_expr(key, dt.replace(render_ctx, plaintext=False))] = list(value)[0]
+        dict_key = render_expr(key, dt.replace(render_ctx, plaintext=False))
+        if dict_key not in plaintext_dict:
+            plaintext_dict[dict_key] = list(value)
         if len(value) > 1:
             raise NotImplementedError("input supported only in one protocol")
     
@@ -256,14 +254,40 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
         
         if param.var_type.is_plaintext() and render_expr(param.var, dt.replace(render_ctx, plaintext=False)) in plaintext_dict:
             dict_key = render_expr(param.var, dt.replace(render_ctx, plaintext=False))
-            retrieved_protocol = PROTOCOL_CONVERTIONS[plaintext_dict[dict_key]]
+            retrieved_protocol_list = plaintext_dict[dict_key]
+    
             if param.var_type.dims == 0:
-                
-                assignment = (
-                        f"{render_expr(param.var, render_ctx)} = party->In<{retrieved_protocol}>("
-                        f"encrypto::motion::ToInput({render_expr(param.var, dt.replace(render_ctx, plaintext=True))}), 0);\n"
+                assigment_declaration = (
+                        f"input_variable_1 = party->In<Protocol>("
+                        f"encrypto::motion::ToInput(input_value_1), 0);\n"
                 )
+                assignment = ""
+                for pr in retrieved_protocol_list:
+                    if stmt_details_dict[dict_key]['A'] == None and stmt_details_dict[dict_key]['B'] == None and stmt_details_dict[dict_key]['Y'] == None:
+                        assignment += (assigment_declaration 
+                                        .replace("input_variable_1",render_expr(param.var, render_ctx))
+                                        .replace("input_value_1",render_expr(param.var, dt.replace(render_ctx, plaintext=True)))
+                                        .replace("Protocol",PROTOCOL_CONVERTIONS[pr])
+                        )
+                        stmt_details_dict[dict_key][pr] = dict_key
+                    else:
+                        new_key = f"{dict_key}_{pr}"
+                        initialization = (assigment_declaration
+                                        .replace("input_variable_1",new_key)
+                                        .replace("input_value_1",render_expr(param.var, dt.replace(render_ctx, plaintext=True)))
+                                        .replace("Protocol",PROTOCOL_CONVERTIONS[pr])
+                        )
+                        assigment_declaration = stmt_details_dict[dict_key]["declaration"].replace(dict_key,new_key)
+                        assignment += (
+                            f"{assigment_declaration}\n"
+                            f"{initialization}"
+                        )
+                        stmt_details_dict[dict_key][pr] = new_key
+
+
+                    
             else:
+                retrieved_protocol = PROTOCOL_CONVERTIONS[retrieved_protocol_list[0]]
                 assignment = (
                     f"{render_expr(param.var, render_ctx)}.clear();\n"
                     f"std::transform("
@@ -313,7 +337,6 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
         if new_script == cpp_script:
             break  # Stop when no further replacements are made
         cpp_script = new_script  # Update the string for the next iteration
-
     return cpp_script
     
 

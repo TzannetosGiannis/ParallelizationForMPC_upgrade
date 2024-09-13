@@ -126,19 +126,22 @@ class StagesTestCase(unittest.TestCase):
                     with open(mixed_input_path, 'r') as file:
                         content = json.loads(file.read())
                         initial_value = None
-                        implemented = True
                         for key, value in content.items():
+                            implemented = True
                             if len(value) > 1:
                                 implemented = False
+                                break
                             if initial_value == None:
                                 initial_value = value[0]
                             elif initial_value != value[0]:
+                                
                                 implemented = False
+                                break
                 else:
                     raise FileNotFoundError("mixed_input doesnt exist , please generate with --mixing")
                 if implemented == False:
                     raise NotImplementedError("Unsupported mixed input")
-                
+    
                 protocol = protocols[initial_value]
                 output = run_benchmark(
                     test_context.BACKEND,
