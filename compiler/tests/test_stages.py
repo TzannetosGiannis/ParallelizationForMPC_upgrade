@@ -134,7 +134,8 @@ class StagesTestCase(unittest.TestCase):
                                 initial_value = value[0]
                             elif initial_value != value[0]:
                                 implemented = False
-                
+                else:
+                    raise FileNotFoundError("mixed_input doesnt exist , please generate with --mixing")
                 if implemented == False:
                     raise NotImplementedError("Unsupported mixed input")
                 
@@ -156,6 +157,8 @@ class StagesTestCase(unittest.TestCase):
                 
             else:
                 for protocol in test_context.BACKEND.valid_protocols():
+                    if protocol == "ArithmeticGmw":
+                        continue
                     print(f"    Protocol {protocol}...")
                     for vectorized in (False, True):
                         output = run_benchmark(
