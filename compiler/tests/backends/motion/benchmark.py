@@ -69,7 +69,7 @@ def run_benchmark(
 
     app_path = os.path.join(
         benchmark_path,
-        "motion_app" + "-" + protocol + ("-vectorized" if vectorized else ""),
+        "motion_app" + "-" + (protocol if mixed == False else "mixed") + ("-vectorized" if vectorized else ""),
     )
 
     if compile:

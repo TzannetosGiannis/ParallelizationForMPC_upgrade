@@ -14,7 +14,8 @@ from .backends import run_benchmark
 
 class StagesTestCase(unittest.TestCase):
     maxDiff = None
-
+    # [TODO] fix the tests for the pytest function to incorporate the 
+    # changes of files named mixed_code
     def test_stages(self):
         if test_context.BACKEND:
             self.skipTest("Only verifying output of example applications")
