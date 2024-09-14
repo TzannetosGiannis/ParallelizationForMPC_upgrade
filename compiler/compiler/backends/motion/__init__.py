@@ -240,7 +240,8 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
     plaintext_param_assignments = "// Plaintext parameter assignments\n"
 
     plaintext_dict = {}
-    
+    plaintext_replace_dict = {}
+
     for key , value in mixed_config.plaintexts.items():
         plaintext_dict[render_expr(key, dt.replace(render_ctx, plaintext=False))] = list(value)
         
@@ -274,6 +275,7 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
                         stmt_details_dict[dict_key][pr] = dict_key
                     else:
                         new_key = f"{dict_key}_{pr}"
+                        plaintext_replace_dict[f"MPC_PLAINTEXT_{new_key}"] = f"MPC_PLAINTEXT_{dict_key}"
                         initialization = (assigment_declaration
                                         .replace("input_variable_1",new_key)
                                         .replace("input_value_1",render_expr(param.var, dt.replace(render_ctx, plaintext=True)))
@@ -286,18 +288,6 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
                         )
                         stmt_details_dict[dict_key][pr] = new_key
 
-
-                
-                
-                assignment = (
-                        f"{render_expr(param.var, render_ctx)} = party->In<{retrieved_protocol}>("
-                        f"encrypto::motion::ToInput({render_expr(param.var, dt.replace(render_ctx, plaintext=True))}), 0);\n"
-                )
-                    
-                assignment = (
-                        f"{render_expr(param.var, render_ctx)} = party->In<{retrieved_protocol}>("
-                        f"encrypto::motion::ToInput({render_expr(param.var, dt.replace(render_ctx, plaintext=True))}), 0);\n"
-                )
             else:
                 retrieved_protocol = PROTOCOL_CONVERTIONS[retrieved_protocol_list[0]]
                 assignment = (
@@ -349,6 +339,9 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
         if new_script == cpp_script:
             break  # Stop when no further replacements are made
         cpp_script = new_script  # Update the string for the next iteration
+
+    for key,value in plaintext_replace_dict.items():
+        cpp_script = cpp_script.replace(key,value)
 
     return cpp_script
     

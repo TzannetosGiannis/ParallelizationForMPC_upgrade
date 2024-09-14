@@ -38,7 +38,9 @@ encrypto::motion::SecureUnsignedInteger db_variance(
     encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_0 = party->In<encrypto::motion::MpcProtocol::kArithmeticGmw>(std::uint32_t(0), 0);
 
     // Plaintext parameter assignments
-    len_0 = party->In<encrypto::motion::MpcProtocol::kArithmeticGmw>(_MPC_PLAINTEXT_len_0, 0);
+    len_0 = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(_MPC_PLAINTEXT_len_0), 0);
+    encrypto::motion::SecureUnsignedInteger len_0_A;
+    len_0_A = party->In<encrypto::motion::MpcProtocol::kArithmeticGmw>(_MPC_PLAINTEXT_len_0, 0);
 
     // Function body
     sum_1 = _MPC_CONSTANT_0;
