@@ -1,4 +1,3 @@
-template <encrypto::motion::MpcProtocol Protocol>
 std::vector<encrypto::motion::SecureUnsignedInteger> mnist_relu(
     encrypto::motion::PartyPointer &party,
     std::vector<encrypto::motion::SecureUnsignedInteger> input_0,

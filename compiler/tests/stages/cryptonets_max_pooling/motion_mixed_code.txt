@@ -1,4 +1,3 @@
-template <encrypto::motion::MpcProtocol Protocol>
 std::vector<encrypto::motion::SecureUnsignedInteger> cryptonets_max_pooling(
     encrypto::motion::PartyPointer &party,
     std::vector<encrypto::motion::SecureUnsignedInteger> vals_0,

@@ -138,7 +138,9 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
         }
             
     func_header = f"{_render_prototype(func, type_env)} {{"
-
+    # remove template line 
+    func_header = "\n".join(func_header.split("\n")[1:])
+    
     # Initialize an empty string to store the shared variable declarations
     var_definitions = "// Shared variable declarations\n"
 
@@ -551,6 +553,9 @@ def render_application(
 
     # Replace using re.sub
     rendered_main = re.sub(pattern, replacement, rendered_main)
+    if mixing:
+        # Regex to match the full string and replace
+        rendered_main = re.sub(rf"auto output = {func.name}<encrypto::motion::MpcProtocol::[a-zA-Z_]+>", f"auto output = {func.name}", rendered_main)
 
     with open(os.path.join(output_dir, "main.cpp"), "w") as main_file:
         main_file.write(rendered_main)

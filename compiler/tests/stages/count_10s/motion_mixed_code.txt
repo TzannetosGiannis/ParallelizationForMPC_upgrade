@@ -1,4 +1,3 @@
-template <encrypto::motion::MpcProtocol Protocol>
 encrypto::motion::SecureUnsignedInteger count_10s(
     encrypto::motion::PartyPointer &party,
     std::vector<encrypto::motion::SecureUnsignedInteger> Seq_0,

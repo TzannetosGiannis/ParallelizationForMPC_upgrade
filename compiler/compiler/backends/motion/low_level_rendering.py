@@ -452,9 +452,6 @@ def identify_protocols(
     if 'Y' in convertions_set:
         result.append('encrypto::motion::MpcProtocol::kBmr')
     
-    if len(result) > 1:
-        print('[TODO] find out what happens with two protocols')
-
     return result
     
 
