@@ -551,8 +551,14 @@ def render_application(
     pattern = r"party->In<encrypto::motion::MpcProtocol::kArithmeticGmw>\(encrypto::motion::ToInput\((.*?)\), (.*?)\)\)"
     replacement = r"party->In<encrypto::motion::MpcProtocol::kArithmeticGmw>(\1, \2))"
 
-    # Replace using re.sub
-    rendered_main = re.sub(pattern, replacement, rendered_main)
+     # Replace using re.sub
+    # Apply iterative replacement until no changes occur
+    while True:
+        new_script = re.sub(pattern, replacement, rendered_main, flags=re.DOTALL)
+        if new_script == rendered_main:
+            break  # Stop when no further replacements are made
+        rendered_main = new_script  # Update the string for the next iteration
+
     if mixing:
         # Regex to match the full string and replace
         rendered_main = re.sub(rf"auto output = {func.name}<encrypto::motion::MpcProtocol::[a-zA-Z_]+>", f"auto output = {func.name}", rendered_main)
