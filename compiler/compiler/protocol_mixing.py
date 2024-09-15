@@ -185,9 +185,12 @@ def populateConstantsAndPlaintexts(config: Config, plainVars: set[Var]) -> None:
             for var in getRHSSimpleVars(stmt.rhs):
                 if var in plainVars and var not in declared:
                     if var not in config.plaintexts.keys():
-                        config.plaintexts[var] = ps
+                        config.plaintexts[var] = ps if p == '_' else {p}
                     else:
-                        config.plaintexts[var] |= ps
+                        config.plaintexts[var] |= ps if p == '_' else {p}
+                    if var in config.inputs.keys():
+                        assert config.inputs[var] == config.plaintexts[var]
+                        del config.inputs[var]
 
 
 # helper function to find the natural bounds of each tracked variable
@@ -509,7 +512,7 @@ def createNewConfig(conversions: set[Protocol], p: Protocol, prevConfig: Config,
         #     del newConfig.inputs[lhsVar]
     # if True: #True: p != '_':
     for var in requiredInputVars:
-        if p != '_' or var in trackedVars:#var in trackedVars:
+        if var in trackedVars or p != '_':
             toAdd = {p}
             # if not isinstance(head, Phi) and (isinstance(head.rhs, LiftExpr) or isinstance(head.rhs, DropDim)):
             # if not isinstance(head, Phi) and isinstance(head.rhs, LiftExpr):
@@ -861,9 +864,9 @@ def clean_locked_stmts(config: Config) -> None:
 # for new conversions, if the variable is declared by a raise_dim, chain through declarations adding the conversion until a non-raise_dim is found
 #   otherwise, place the conversion at the variable's declaration
 def merge(c1: Config, c2: Config, dep_graph: DepGraph, trackedVars: set[Var]) -> Config:
-    # print("MERGE")
-    # print(c1)
-    # print(c2)
+    print("MERGE")
+    print(c1)
+    print(c2)
     newConfig = deepcopy(c1)
     newConfig.outputs = deepcopy(c2.outputs)
     newConfig.assignments = []
@@ -1056,7 +1059,7 @@ def merge(c1: Config, c2: Config, dep_graph: DepGraph, trackedVars: set[Var]) ->
                 break
 
 
-    # print(newConfig)
+    print(newConfig)
     return newConfig
 
 
