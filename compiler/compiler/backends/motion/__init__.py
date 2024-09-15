@@ -302,9 +302,6 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
             
             plaintext_param_assignments += assignment
 
-    
-    print()
-    
     func_body = "// Function body\n"
     for i, stmt in enumerate(func.body):
         if not isinstance(stmt, Phi):
@@ -312,7 +309,6 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
             rendered_stmt = render_mixed_stmt(stmt, type_env,render_ctx, ran_vectorization,convertion_dict,stmt_details_dict)
             func_body += rendered_stmt + "\n"
             
-    print()
     cpp_script = (
         func_header
         + "\n"
