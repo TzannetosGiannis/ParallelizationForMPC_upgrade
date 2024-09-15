@@ -753,8 +753,28 @@ def render_mixed_stmt(
             type_env[stmt.lhs].is_shared()
             or type_env[stmt.lhs].datatype == DataType.TUPLE
         ):
+            mixed_convertion = plaintext_conversions + shared_assignment
             
-            return plaintext_conversions + shared_assignment
+            if type_env[stmt.lhs].datatype != DataType.TUPLE:
+                convertion_from = convertions_dict[str(stmt.lhs)]['from']
+                convertion_to = convertions_dict[str(stmt.lhs)]['to']
+    
+                for key in stmt_details_dict.keys():
+                    
+                    if key in mixed_convertion:
+                        if len(convertion_to) > 0 and stmt_details_dict[key][list(convertion_to)[0]]:
+                            mixed_convertion = mixed_convertion.replace(key,stmt_details_dict[key][list(convertion_to)[0]])
+                    
+                # find out if it is only an explicit convertion
+                if convertion_from != '_' and len(convertion_to) == 1:
+                    identified_pr = identify_protocols(
+                            {
+                                "to": convertion_to
+                            }
+                    )[0]
+                    mixed_convertion = f"{mixed_convertion[:-1]}.Get().Convert<{identified_pr}>();"
+            
+            return mixed_convertion
         else:    
             return (
                 plaintext_conversions + shared_assignment + "\n" + plaintext_assignment
@@ -873,12 +893,11 @@ def render_mixed_stmt(
         )
 
         replaceDict = {}
+        identified_in_loop = {}
         for body_stmt in stmt.body:
             convertion_from = convertions_dict[str(body_stmt.lhs)]['from']
             convertion_to = convertions_dict[str(body_stmt.lhs)]['to']
-            
             for key in stmt_details_dict.keys():
-
                 if key in result_stmt:
                     
                     # if you havent identified it yet it is already declared on the default protocol
@@ -893,13 +912,39 @@ def render_mixed_stmt(
                         # print(key,stmt_details_dict[key],stmt_details_dict[key])
                         if stmt_details_dict[key][convertion_from] is None:
                             stmt_details_dict[key][convertion_from] = key
-                            
+                        if len(convertion_to) == 0:
+                            replaceDict[key] = stmt_details_dict[key][convertion_from]
                         else:
                             replaceDict[key] = stmt_details_dict[key][convertion_from]
-                            
+                            identified_in_loop[body_stmt.lhs.array] = list(convertion_to)[0]
+
         # make the replacements all in one
         for key in replaceDict:
             result_stmt = result_stmt.replace(key,replaceDict[key])
+
+        for variable_in_loop in identified_in_loop:
+            
+            loop_key = render_expr(
+                    variable_in_loop,
+                    RenderContext(
+                        type_env, plaintext=False
+                    ),
+            )
+            new_key = f"{loop_key}_{identified_in_loop[variable_in_loop]}"
+            stmt_details_dict[key][identified_in_loop[variable_in_loop]] = new_key
+            identified_pr = identify_protocols(
+                            {
+                                "to": set(identified_in_loop[variable_in_loop])
+                            }
+            )[0]
+            result_stmt += (
+                f"{stmt_details_dict[loop_key]['declaration'].replace(loop_key,new_key)}\n"
+                f"for ( int i = 0; i < {new_key}.size(); i++ ) " +"{"
+                f"\n \t // Create a copy of the ShareWrapper object returned by Get()"
+                f"\n \tencrypto::motion::ShareWrapper copy = {loop_key}[i].Get();"
+                f"\n \t {new_key}[i] = copy.Convert<{identified_pr}>();"
+                "\n}"
+            )              
         
         return result_stmt
 
