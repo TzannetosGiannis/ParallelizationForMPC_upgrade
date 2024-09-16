@@ -864,9 +864,9 @@ def clean_locked_stmts(config: Config) -> None:
 # for new conversions, if the variable is declared by a raise_dim, chain through declarations adding the conversion until a non-raise_dim is found
 #   otherwise, place the conversion at the variable's declaration
 def merge(c1: Config, c2: Config, dep_graph: DepGraph, trackedVars: set[Var]) -> Config:
-    print("MERGE")
-    print(c1)
-    print(c2)
+    # print("MERGE")
+    # print(c1)
+    # print(c2)
     newConfig = deepcopy(c1)
     newConfig.outputs = deepcopy(c2.outputs)
     newConfig.assignments = []
@@ -1059,7 +1059,7 @@ def merge(c1: Config, c2: Config, dep_graph: DepGraph, trackedVars: set[Var]) ->
                 break
 
 
-    print(newConfig)
+    # print(newConfig)
     return newConfig
 
 
