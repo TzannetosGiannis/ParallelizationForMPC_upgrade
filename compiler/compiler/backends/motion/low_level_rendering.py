@@ -554,7 +554,6 @@ def render_mixed_stmt(
             )
 
             mixed_convertion = f"vectorized_assign({render_expr(stmt.lhs.array, ctx)}, {dim_sizes}, {vectorized_dims}, {idxs}, {val_expr});"
-
             if "party->In<Protocol>" in mixed_convertion:
                 mixed_convertion =  mixed_convertion.replace("party->In<Protocol>",f"party->In<{to_be_converted[0]}>")
 
@@ -579,16 +578,15 @@ def render_mixed_stmt(
                                 "to": set(to_be_coexist[i][1])
                             }
                     )[0]
-                    #  perform the convertion and add it
+                    # try to identify if need to extract the share with .Get() or already in that format 
+                    extraction = ".Get()"
+                    if "to_share_wrapper(" in mixed_convertion:
+                        extraction = ""
+                    convertion_vectorized_access = f"(vectorized_access({stmt_key}, {dim_sizes}, {{true}}, {{}}){extraction}.Convert<{identified_pr}>()))"
+                    convertion_stmt = f"vectorized_assign({new_key}, {dim_sizes}, {{true}}, {{}}, {convertion_vectorized_access};\n"            
                     mixed_convertion = mixed_convertion + "\n"  #+ f"{new_key} = {stmt_key}.Convert<{identified_pr}>()"
-                    mixed_convertion += (
-                        f"for ( int i = 0; i < {stmt_key}.size(); i++ ) " +"{"
-
-                        f"\n \t // Create a copy of the ShareWrapper object returned by Get()"
-                        f"\n \tencrypto::motion::ShareWrapper copy = {stmt_key}[i].Get();"
-                        f"\n \t {new_key}[i] = copy.Convert<{identified_pr}>();"
-                        "\n}"
-                    )
+                    mixed_convertion += convertion_stmt
+                
                     # store for future reference
                     stmt_details_dict[stmt_key][to_be_coexist[i][1]] = new_key
 
@@ -918,6 +916,7 @@ def render_mixed_stmt(
                             replaceDict[key] = stmt_details_dict[key][convertion_from]
                             identified_in_loop[body_stmt.lhs.array] = list(convertion_to)[0]
 
+        
         # make the replacements all in one
         for key in replaceDict:
             result_stmt = result_stmt.replace(key,replaceDict[key])
@@ -937,14 +936,18 @@ def render_mixed_stmt(
                                 "to": set(identified_in_loop[variable_in_loop])
                             }
             )[0]
+
+    
+            # [TODO] consider if more that one dimentions do exists
+            dimention_bound = "{" + stmt_details_dict[loop_key]['declaration'].split(loop_key+"(")[1][1:-3] +"}"
+            convertion_vectorized_access = f"(vectorized_access({loop_key}, {dimention_bound}, {{true}}, {{}}).Get().Convert<{identified_pr}>()))"
+            convertion_stmt = f"vectorized_assign({new_key}, {dimention_bound}, {{true}}, {{}}, {convertion_vectorized_access};\n"
+            
             result_stmt += (
                 f"{stmt_details_dict[loop_key]['declaration'].replace(loop_key,new_key)}\n"
-                f"for ( int i = 0; i < {new_key}.size(); i++ ) " +"{"
-                f"\n \t // Create a copy of the ShareWrapper object returned by Get()"
-                f"\n \tencrypto::motion::ShareWrapper copy = {loop_key}[i].Get();"
-                f"\n \t {new_key}[i] = copy.Convert<{identified_pr}>();"
-                "\n}"
-            )              
+                f"{convertion_stmt}"
+            )   
+                       
         
         return result_stmt
 
