@@ -99,11 +99,8 @@ encrypto::motion::SecureUnsignedInteger count_123(
     vectorized_assign(_2_2, {_MPC_PLAINTEXT_N_0}, {true}, {}, (to_share_wrapper(vectorized_access(s2_2, {_MPC_PLAINTEXT_N_0}, {true}, {})) | to_share_wrapper(vectorized_access(s1_2, {_MPC_PLAINTEXT_N_0}, {true}, {}))));
     vectorized_assign(_3_2, {_MPC_PLAINTEXT_N_0}, {true}, {}, (to_share_wrapper(vectorized_access(_1_2, {_MPC_PLAINTEXT_N_0}, {true}, {})) & to_share_wrapper(vectorized_access(_2_2, {_MPC_PLAINTEXT_N_0}, {true}, {}))));
     std::vector<encrypto::motion::ShareWrapper> _3_2_Y((_MPC_PLAINTEXT_N_0));
-    for ( int i = 0; i < _3_2.size(); i++ ) {
-     	 // Create a copy of the ShareWrapper object returned by Get()
-     	encrypto::motion::ShareWrapper copy = _3_2[i].Get();
-     	 _3_2_Y[i] = copy.Convert<encrypto::motion::MpcProtocol::kBmr>();
-    }
+    vectorized_assign(_3_2_Y, {_MPC_PLAINTEXT_N_0}, {true}, {}, (vectorized_access(_3_2, {_MPC_PLAINTEXT_N_0}, {true}, {}).Convert<encrypto::motion::MpcProtocol::kBmr>()));
+
 
     // Initialize loop counter
     _MPC_PLAINTEXT__18_0 = std::uint32_t(0);

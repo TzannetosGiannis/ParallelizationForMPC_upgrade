@@ -90,18 +90,12 @@ encrypto::motion::SecureUnsignedInteger longest_102(
 
     vectorized_assign(s1_2, {_MPC_PLAINTEXT_N_0}, {true}, {}, (to_share_wrapper(vectorized_access(s0_2, {_MPC_PLAINTEXT_N_0}, {true}, {})) & to_share_wrapper(vectorized_access(_1_2, {_MPC_PLAINTEXT_N_0}, {true}, {}))));
     std::vector<encrypto::motion::ShareWrapper> s1_2_Y((_MPC_PLAINTEXT_N_0));
-    for ( int i = 0; i < s1_2.size(); i++ ) {
-     	 // Create a copy of the ShareWrapper object returned by Get()
-     	encrypto::motion::ShareWrapper copy = s1_2[i].Get();
-     	 s1_2_Y[i] = copy.Convert<encrypto::motion::MpcProtocol::kBmr>();
-    }
+    vectorized_assign(s1_2_Y, {_MPC_PLAINTEXT_N_0}, {true}, {}, (vectorized_access(s1_2, {_MPC_PLAINTEXT_N_0}, {true}, {}).Convert<encrypto::motion::MpcProtocol::kBmr>()));
+
     vectorized_assign(_6_2, {_MPC_PLAINTEXT_N_0}, {true}, {}, (to_share_wrapper(vectorized_access(s1_2, {_MPC_PLAINTEXT_N_0}, {true}, {})) | to_share_wrapper(vectorized_access(s0_3, {_MPC_PLAINTEXT_N_0}, {true}, {}))));
     std::vector<encrypto::motion::ShareWrapper> _6_2_Y((_MPC_PLAINTEXT_N_0));
-    for ( int i = 0; i < _6_2.size(); i++ ) {
-     	 // Create a copy of the ShareWrapper object returned by Get()
-     	encrypto::motion::ShareWrapper copy = _6_2[i].Get();
-     	 _6_2_Y[i] = copy.Convert<encrypto::motion::MpcProtocol::kBmr>();
-    }
+    vectorized_assign(_6_2_Y, {_MPC_PLAINTEXT_N_0}, {true}, {}, (vectorized_access(_6_2, {_MPC_PLAINTEXT_N_0}, {true}, {}).Convert<encrypto::motion::MpcProtocol::kBmr>()));
+
 
     // Initialize loop counter
     _MPC_PLAINTEXT__20_0 = std::uint32_t(0);

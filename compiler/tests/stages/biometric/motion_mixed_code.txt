@@ -82,11 +82,8 @@ std::tuple<encrypto::motion::SecureUnsignedInteger, encrypto::motion::SecureUnsi
 
     vectorized_assign(_8_0, {_MPC_PLAINTEXT_N_0}, {true}, {}, drop_dim(vectorized_access(sum_4, {_MPC_PLAINTEXT_N_0, _MPC_PLAINTEXT_D_0}, {true, true}, {}).Unsimdify(), {_MPC_PLAINTEXT_N_0, _MPC_PLAINTEXT_D_0}));
     std::vector<encrypto::motion::SecureUnsignedInteger> _8_0_Y((_MPC_PLAINTEXT_N_0));
-    for ( int i = 0; i < _8_0.size(); i++ ) {
-     	 // Create a copy of the ShareWrapper object returned by Get()
-     	encrypto::motion::ShareWrapper copy = _8_0[i].Get();
-     	 _8_0_Y[i] = copy.Convert<encrypto::motion::MpcProtocol::kBmr>();
-    }
+    vectorized_assign(_8_0_Y, {_MPC_PLAINTEXT_N_0}, {true}, {}, (vectorized_access(_8_0, {_MPC_PLAINTEXT_N_0}, {true}, {}).Get().Convert<encrypto::motion::MpcProtocol::kBmr>()));
+
 
     // Initialize loop counter
     _MPC_PLAINTEXT__14_0 = std::uint32_t(0);
