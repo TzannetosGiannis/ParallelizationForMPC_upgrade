@@ -753,10 +753,11 @@ def render_mixed_stmt(
         ):
             mixed_convertion = plaintext_conversions + shared_assignment
             
+            
             if type_env[stmt.lhs].datatype != DataType.TUPLE:
                 convertion_from = convertions_dict[str(stmt.lhs)]['from']
                 convertion_to = convertions_dict[str(stmt.lhs)]['to']
-    
+                convertion_tuple = convertions_dict[str(stmt.lhs)]['convertion_tuple']
                 for key in stmt_details_dict.keys():
                     
                     if key in mixed_convertion:
@@ -765,12 +766,83 @@ def render_mixed_stmt(
                     
                 # find out if it is only an explicit convertion
                 if convertion_from != '_' and len(convertion_to) == 1:
+                    
+                    # find if you have the stmt keys in the input protocol
+                    for key in stmt_details_dict:
+                       rhs_stmt = render_expr(
+                            stmt.rhs,
+                            RenderContext(
+                                type_env, plaintext=True, enclosing_loops=enclosing_loops
+                            ),
+                        )
+                       if key in rhs_stmt:
+                            mixed_convertion = mixed_convertion.replace(key,stmt_details_dict[key][convertion_from])
+                    
                     identified_pr = identify_protocols(
                             {
                                 "to": convertion_to
                             }
                     )[0]
                     mixed_convertion = f"{mixed_convertion[:-1]}.Get().Convert<{identified_pr}>();"
+                    lhs_key = render_expr(
+                                stmt.lhs,
+                                RenderContext(
+                                    type_env, plaintext=False, enclosing_loops=enclosing_loops
+                                ),
+                            )
+                    stmt_details_dict[lhs_key][convertion_from] = lhs_key
+
+                elif convertion_from == '_' and len(convertion_to) > 1:
+                    
+                    # the first is in the protocol as declared and then we follow
+                    # the convertions based on the hint by mixer
+                    current_key = render_expr(stmt.lhs, dc.replace(render_ctx, plaintext=False))
+                    stmt_details_dict[current_key][convertion_tuple[0][0]] = current_key
+                    mixed_convertion += "\n"
+                    for explicit_convertion in convertion_tuple:
+                        explicit_from = explicit_convertion[0]
+                        explicit_to = explicit_convertion[1]
+                        identified_pr = identify_protocols(
+                            {
+                                "to": set([explicit_to])
+                            }
+                        )[0]
+                        new_key = f"{current_key}_{explicit_to}"
+                        mixed_convertion += f"{stmt_details_dict[current_key]['declaration'].replace(current_key,new_key)}\n"
+                        mixed_convertion += f"{new_key} = {stmt_details_dict[current_key][explicit_from]}.Get().Convert<{identified_pr}>();\n"
+                        stmt_details_dict[current_key][explicit_to] = new_key    
+                elif len(convertion_to) == 0:
+                    # find if you have the stmt keys in the input protocol
+                    for key in stmt_details_dict:
+                       rhs_stmt = render_expr(
+                            stmt.rhs,
+                            RenderContext(
+                                type_env, plaintext=True, enclosing_loops=enclosing_loops
+                            ),
+                        )
+                       if key in rhs_stmt:
+                            mixed_convertion = mixed_convertion.replace(key,stmt_details_dict[key][convertion_from])
+                    lhs_key = render_expr(
+                                stmt.lhs,
+                                RenderContext(
+                                    type_env, plaintext=False, enclosing_loops=enclosing_loops
+                                ),
+                            )
+                    stmt_details_dict[lhs_key][convertion_from] = lhs_key
+                    
+                    pass
+                elif convertion_from == '_' and len(convertion_to) == 1:
+                    
+                    lhs_key = render_expr(
+                                stmt.lhs,
+                                RenderContext(
+                                    type_env, plaintext=False, enclosing_loops=enclosing_loops
+                                ),
+                            )
+                    stmt_details_dict[lhs_key][list(convertion_to)[0]] = lhs_key
+                else:
+                    # print(stmt,convertion_from,convertion_to)
+                    raise NotImplementedError("Not implemented convertion")
             
             return mixed_convertion
         else:    
@@ -890,7 +962,7 @@ def render_mixed_stmt(
             + phi_finalizations
         )
 
-        replaceDict = {}
+        replace_dict = {}
         identified_in_loop = {}
         for body_stmt in stmt.body:
             convertion_from = convertions_dict[str(body_stmt.lhs)]['from']
@@ -911,15 +983,15 @@ def render_mixed_stmt(
                         if stmt_details_dict[key][convertion_from] is None:
                             stmt_details_dict[key][convertion_from] = key
                         if len(convertion_to) == 0:
-                            replaceDict[key] = stmt_details_dict[key][convertion_from]
+                            replace_dict[key] = stmt_details_dict[key][convertion_from]
                         else:
-                            replaceDict[key] = stmt_details_dict[key][convertion_from]
+                            replace_dict[key] = stmt_details_dict[key][convertion_from]
                             identified_in_loop[body_stmt.lhs.array] = list(convertion_to)[0]
 
         
         # make the replacements all in one
-        for key in replaceDict:
-            result_stmt = result_stmt.replace(key,replaceDict[key])
+        for key in replace_dict:
+            result_stmt = result_stmt.replace(key,replace_dict[key])
 
         for variable_in_loop in identified_in_loop:
             
