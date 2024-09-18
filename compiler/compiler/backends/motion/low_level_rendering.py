@@ -752,8 +752,21 @@ def render_mixed_stmt(
             or type_env[stmt.lhs].datatype == DataType.TUPLE
         ):
             mixed_convertion = plaintext_conversions + shared_assignment
-            
-            
+
+            lhs_key = render_expr(
+                                stmt.lhs,
+                                RenderContext(
+                                    type_env, plaintext=False, enclosing_loops=enclosing_loops
+                                ),
+                            )
+
+            rhs_key = render_expr(
+                                stmt.rhs,
+                                RenderContext(
+                                    type_env, plaintext=True, enclosing_loops=enclosing_loops
+                                ),
+                            )
+
             if type_env[stmt.lhs].datatype != DataType.TUPLE:
                 convertion_from = convertions_dict[str(stmt.lhs)]['from']
                 convertion_to = convertions_dict[str(stmt.lhs)]['to']
@@ -766,16 +779,10 @@ def render_mixed_stmt(
                     
                 # find out if it is only an explicit convertion
                 if convertion_from != '_' and len(convertion_to) == 1:
-                    
+                        
                     # find if you have the stmt keys in the input protocol
-                    for key in stmt_details_dict:
-                       rhs_stmt = render_expr(
-                            stmt.rhs,
-                            RenderContext(
-                                type_env, plaintext=True, enclosing_loops=enclosing_loops
-                            ),
-                        )
-                       if key in rhs_stmt:
+                    for key in stmt_details_dict:   
+                        if key in rhs_key:
                             mixed_convertion = mixed_convertion.replace(key,stmt_details_dict[key][convertion_from])
                     
                     identified_pr = identify_protocols(
@@ -783,13 +790,7 @@ def render_mixed_stmt(
                                 "to": convertion_to
                             }
                     )[0]
-                    mixed_convertion = f"{mixed_convertion[:-1]}.Get().Convert<{identified_pr}>();"
-                    lhs_key = render_expr(
-                                stmt.lhs,
-                                RenderContext(
-                                    type_env, plaintext=False, enclosing_loops=enclosing_loops
-                                ),
-                            )
+                    mixed_convertion = f"{mixed_convertion[:-1]}.Get().Convert<{identified_pr}>();"        
                     stmt_details_dict[lhs_key][convertion_from] = lhs_key
 
                 elif convertion_from == '_' and len(convertion_to) > 1:
@@ -814,31 +815,13 @@ def render_mixed_stmt(
                 elif len(convertion_to) == 0:
                     # find if you have the stmt keys in the input protocol
                     for key in stmt_details_dict:
-                       rhs_stmt = render_expr(
-                            stmt.rhs,
-                            RenderContext(
-                                type_env, plaintext=True, enclosing_loops=enclosing_loops
-                            ),
-                        )
-                       if key in rhs_stmt:
+                       if key in rhs_key:
                             mixed_convertion = mixed_convertion.replace(key,stmt_details_dict[key][convertion_from])
-                    lhs_key = render_expr(
-                                stmt.lhs,
-                                RenderContext(
-                                    type_env, plaintext=False, enclosing_loops=enclosing_loops
-                                ),
-                            )
-                    stmt_details_dict[lhs_key][convertion_from] = lhs_key
                     
-                    pass
+                    stmt_details_dict[lhs_key][convertion_from] = lhs_key
+
                 elif convertion_from == '_' and len(convertion_to) == 1:
                     
-                    lhs_key = render_expr(
-                                stmt.lhs,
-                                RenderContext(
-                                    type_env, plaintext=False, enclosing_loops=enclosing_loops
-                                ),
-                            )
                     stmt_details_dict[lhs_key][list(convertion_to)[0]] = lhs_key
                 else:
                     # print(stmt,convertion_from,convertion_to)
