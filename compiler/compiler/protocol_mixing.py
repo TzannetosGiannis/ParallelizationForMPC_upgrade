@@ -794,7 +794,6 @@ def clean_locked_stmts(config: Config) -> None:
                 if lhsVar in config.outputs.keys() and len(item[2]) > 0:
                     config.outputs[lhsVar] = item[2]
             if '_' in item[2]:
-                # print(item[2])
                 item[2] = item[2] - {'_'}
 
 
@@ -865,12 +864,36 @@ def merge(c1: Config, c2: Config, dep_graph: DepGraph, trackedVars: set[Var]) ->
                 # TODO IS THERE EVER A SCENARIO WHERE THIS EFFECTS COST?
             
             # assign new required conversions associated with this input-output pair
+            #   if the lhs var is only used as a drop_dim, place conversion after the drop_dim
             #   if rhs is a raise_dim, chain through declarations until the "base" variable is found. Assign conversion to the base to reduce cost
             #   otherwise, place conversion at variable declaration
+            #   ASSUMPTION: THE TWO CONDITIONS ABOVE DO NOT SIMULTANEOUSLY OCCUR
             #   the associated statement is guaranteed to have a rhs
             else:
                 assert '_' not in newProtocols
                 stmt = dep_graph.var_to_assignment[var]
+                changed = False
+                continueLooping = True
+                first = True
+                while continueLooping:
+                    continueLooping = False
+                    stmts = {use for use in dep_graph.def_use_graph.neighbors(stmt) if not isinstance(use, llc.For)}
+                    count = 0
+                    for s in stmts:
+                        if not isinstance(s, Phi):
+                            if isinstance(s.rhs, DropDim):
+                                if not first:
+                                    assert False # currently unhandled for multiple chained drop_dims
+                                stmt = s
+                                changed = True
+                                continueLooping = True
+                                first = False
+                            count += 1
+                    if count == 0:
+                        break
+                    assert not continueLooping or count == 1 # currently unhandled for multiple branches at this location
+
+                # chain to "base" variable through raise_dims
                 while not isinstance(stmt, DepParameter) and not isinstance(stmt, Phi) and (isinstance(stmt.rhs, LiftExpr) or isinstance(stmt.rhs, VectorizedAccess)):
                     assert len(getRHSSimpleVars(stmt.rhs)) == 1
                     if getRHSSimpleVars(stmt.rhs)[0] not in dep_graph.var_to_assignment.keys():
@@ -883,17 +906,30 @@ def merge(c1: Config, c2: Config, dep_graph: DepGraph, trackedVars: set[Var]) ->
                     lhsVar = getLHSVar(stmt)
                     if lhsVar in c1OutputsCopy:
                         c1OutputsCopy[lhsVar] |= newProtocols
+
+                # if base is an input parameter, add to input Config
                 if isinstance(stmt, DepParameter) and stmt.var in trackedVars:
                     if stmt.var not in newConfig.inputs.keys() or newConfig.inputs[stmt.var] == {'_'}:
                         newConfig.inputs[stmt.var] = set()
                     newConfig.inputs[stmt.var] |= newProtocols
+
+                # otherwise, add required conversion
                 else:
                     for assignment in newConfig.assignments:
                         if stmt == assignment[0]:
+                            # special condition for chained drop_dim
+                            if changed:
+                                assert assignment[1] == '_'
+                                var = getRHSSimpleVars(stmt.rhs)
+                                assert len(var) == 1
+                                var = var[0]
+                                assert assignment[2] == c2.inputs[var]
+                                assignment[2] = c1OutputsCopy[var]
+                                newProtocols = c2.inputs[var] - assignment[2]
                             vecBound = findVectorBound(stmt.lhs)
                             assert len(newProtocols.intersection({assignment[1]} | assignment[2])) == 0
                             for p in newProtocols:
-                                if not isinstance(assignment[0], Phi) and (isinstance(assignment[0].rhs, llc.Constant) or isinstance(assignment[0].rhs, LiftExpr)):# or isinstance(assignment[0].rhs, VectorizedAccess)):
+                                if not isinstance(assignment[0], Phi) and (isinstance(assignment[0].rhs, llc.Constant) or isinstance(assignment[0].rhs, LiftExpr)):
                                     break
                                 minC = float("inf")
                                 minPr = '_'
