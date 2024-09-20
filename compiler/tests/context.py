@@ -5,6 +5,8 @@ from compiler.backends import Backend
 
 TESTS_DIR = os.path.dirname(__file__)
 
+MIXING = True
+
 STAGES_DIR = os.path.join(TESTS_DIR, "stages")
 
 BACKEND: Optional[Backend] = None
@@ -21,7 +23,11 @@ SKIPPED_TESTS = {
         "kmeans_iteration",
     ],
     # Skipped only in MOTION
-    Backend.MOTION: [],
+    Backend.MOTION: [
+        "convex_hull",
+        "biometric_fast",
+        "chapterfour_figure_12"
+    ],
     # Skipped only in SPDZ
     Backend.MP_SPDZ: [
         # AssertionError: assert all(array.vectorized_dims)

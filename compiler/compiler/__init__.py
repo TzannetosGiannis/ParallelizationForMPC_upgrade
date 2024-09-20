@@ -16,6 +16,7 @@ from .common_subexpression_elimination import common_subexpression_elimination
 from . import loop_linear_code
 from .backends import Backend
 from . import vectorize
+from .protocol_mixing import mix_protocols
 
 
 def compile(
@@ -27,6 +28,7 @@ def compile(
     out_dir: Optional[str] = None,
     overwrite_out_dir: bool = False,
     protocol="",
+    mixing: bool = False,
 ):
     try:
         ast_module = ast.parse(text, filename=filename)
@@ -119,13 +121,24 @@ def compile(
         print(linear)
         print()
 
+    if mixing:
+        mixed_config = mix_protocols(filename, type_env, linear.body, dep_graph)
+        if not quiet:
+            print("Protocol Mixing Assignments:")
+            print(mixed_config)
+            print()
+
     if backend:
-        backend_code = backend.render_function(linear, type_env, run_vectorization)
+        if mixing:
+            backend_code = backend.render_mixed_function(linear, type_env, run_vectorization,mixed_config)
+        else:
+            backend_code = backend.render_function(linear, type_env, run_vectorization)
+        
         if not quiet:
             print("Backend code:")
             print(backend_code)
             print()
-
+        
         if out_dir:
             render_params = {
                 "out_dir": out_dir,
@@ -138,6 +151,12 @@ def compile(
                     )
                 render_params["protocol"] = protocol
 
-            backend.render_application(
-                linear, type_env, render_params, run_vectorization
-            )
+            
+            if mixing:
+                backend.render_application(
+                    linear, type_env, render_params, run_vectorization, True, mixed_config
+                )
+            else:
+                backend.render_application(
+                    linear, type_env, render_params, run_vectorization
+                )

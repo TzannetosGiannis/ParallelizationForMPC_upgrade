@@ -32,6 +32,11 @@ def parse_args():
         choices=list(Backend),
         help="The MPC backend to target",
     )
+    parser.add_argument(
+        "--mixing",
+        action="store_true",
+        help="Run protocol mixing algorithm to find optimal assignments",
+    )
     return parser.parse_args()
 
 
@@ -46,4 +51,5 @@ if __name__ == "__main__":
         args.out_dir,
         args.overwrite,
         args.protocol,
+        args.mixing,
     )

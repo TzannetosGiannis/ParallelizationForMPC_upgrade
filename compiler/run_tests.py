@@ -14,6 +14,11 @@ if __name__ == "__main__":
         help="Regenerate test output to match the current compiler output",
     )
     parser.add_argument(
+        "--mixing",
+        action="store_true",
+        help="Notifies the compiler to generate the mixed compiler output",
+    )
+    parser.add_argument(
         "--test-backend",
         type=Backend,
         choices=list(Backend),
@@ -24,6 +29,6 @@ if __name__ == "__main__":
     test_context.BACKEND = args.test_backend
 
     if args.regenerate:
-        regenerate_stages()
+        regenerate_stages(args.mixing)
     else:
         run_tests()

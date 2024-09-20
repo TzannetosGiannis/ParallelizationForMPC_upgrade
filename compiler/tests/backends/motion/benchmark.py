@@ -61,15 +61,15 @@ def run_benchmark(
     cmd_args=[],
     compile=True,
     continue_on_error=False,
+    mixed=False,
 ) -> Optional[tuple[BenchmarkOutput, BenchmarkOutput]]:
     input_fname = os.path.join(benchmark_path, "input.py")
-
     with open(input_fname, "r") as f:
         input_py = f.read().strip()
 
     app_path = os.path.join(
         benchmark_path,
-        "motion_app" + "-" + protocol + ("-vectorized" if vectorized else ""),
+        "motion_app" + "-" + (protocol if mixed == False else "mixed") + ("-vectorized" if vectorized else ""),
     )
 
     if compile:
@@ -82,8 +82,9 @@ def run_benchmark(
             app_path,
             True,
             protocol,
+            mixing=mixed
         )
-
+        
         subprocess.run(
             ["cmake", "-S", app_path, "-B", os.path.join(app_path, "build")],
             check=True,

@@ -12,10 +12,11 @@ def run_benchmark(
     benchmark_path: str,
     protocol: str,
     vectorized=True,
+    mixed=False
 ) -> Optional[tuple[str, str]]:
     if backend is Backend.MOTION:
         result = motion_run_benchmark(
-            benchmark_name, benchmark_path, protocol, vectorized
+            benchmark_name, benchmark_path, protocol, vectorized,mixed=mixed
         )
         if result is None:
             return None

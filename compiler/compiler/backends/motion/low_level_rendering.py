@@ -1,7 +1,7 @@
 from copy import copy
 import dataclasses as dc
 from textwrap import indent
-from typing import Optional, Union
+from typing import Optional, Union,Dict
 
 from ...ast_shared import (
     BinOpKind,
@@ -434,6 +434,592 @@ def render_stmt(
         )
 
     return assert_never(stmt)
+
+
+def identify_protocols(
+    convertions_dict: set
+) -> List:
+    
+    convertions_set = convertions_dict['to']
+    if (len(convertions_set)) == 0:
+        convertions_set = set()
+        convertions_set.add(convertions_dict['from'])
+    result = []
+    if 'A' in convertions_set:
+        result.append('encrypto::motion::MpcProtocol::kArithmeticGmw')
+    if 'B' in convertions_set:
+        result.append('encrypto::motion::MpcProtocol::kBooleanGmw')
+    if 'Y' in convertions_set:
+        result.append('encrypto::motion::MpcProtocol::kBmr')
+    
+    return result
+    
+
+def retrieve_ABY_tag(
+     Mpc_protocol   
+) -> str:
+    
+    if Mpc_protocol == 'encrypto::motion::MpcProtocol::kArithmeticGmw':
+        return 'A'
+    if Mpc_protocol == 'encrypto::motion::MpcProtocol::kBooleanGmw':
+        return 'B'
+    if Mpc_protocol == 'encrypto::motion::MpcProtocol::kBmr':
+        return 'Y'
+
+    print('PANIC [UNSOPPORTED CONVETION]')
+    print(Mpc_protocol)
+    exit()
+    
+    
+    
+
+
+def render_mixed_stmt(
+    stmt: Union[Assign, For, Return],
+    type_env: TypeEnv,
+    render_ctx,
+    ran_vectorization: bool,
+    convertions_dict = {},
+    stmt_details_dict = {},
+    enclosing_loops=[],
+) -> str:
+    if isinstance(stmt, Assign):
+        # Convert any plaintext assignments
+        
+        vars_needing_conversions = collect_counter_uses(stmt.rhs, enclosing_loops)
+        plaintext_conversions = "\n".join(
+            render_expr(
+                var,
+                RenderContext(
+                    type_env, plaintext=False, enclosing_loops=enclosing_loops
+                ),
+            )
+            + " = party->In<Protocol>("
+            + render_expr(
+                var,
+                RenderContext(
+                    type_env,
+                    as_motion_input=True,
+                    enclosing_loops=enclosing_loops,
+                ),
+            )
+            + ", 0);"
+            for var in vars_needing_conversions
+        )
+
+        if plaintext_conversions:
+            plaintext_conversions += "\n"
+
+        # If we're assigning to a vectorized value, use a specialized function for this.
+        if isinstance(stmt.lhs, VectorizedAccess):
+
+            to_be_converted = identify_protocols(convertions_dict[str(stmt.lhs)])
+            to_be_coexist = convertions_dict[str(stmt.lhs)]['convertion_tuple']
+            
+            ctx = RenderContext(
+                type_env, plaintext=False, enclosing_loops=enclosing_loops
+            )
+            val_expr = render_expr(stmt.rhs, ctx)
+
+            # If this isn't a true vectorized access, just subscript normally
+            if all(not vectorized for vectorized in stmt.lhs.vectorized_dims):
+                lhs = render_expr(stmt.lhs, ctx)
+                return plaintext_conversions + f"{lhs} = {val_expr};"
+
+            dim_sizes = (
+                "{"
+                + ", ".join(
+                    render_expr(loop_bound, dc.replace(ctx, plaintext=True))
+                    for loop_bound in stmt.lhs.dim_sizes
+                )
+                + "}"
+            )
+            vectorized_dims = (
+                "{"
+                + ", ".join(
+                    str(vectorized).lower() for vectorized in stmt.lhs.vectorized_dims
+                )
+                + "}"
+            )
+            idxs = (
+                "{"
+                + ", ".join(
+                    render_expr(var, dc.replace(ctx, plaintext=True))
+                    for var, vectorized in zip(
+                        stmt.lhs.idx_vars, stmt.lhs.vectorized_dims
+                    )
+                    if not vectorized
+                )
+                + "}"
+            )
+
+            mixed_convertion = f"vectorized_assign({render_expr(stmt.lhs.array, ctx)}, {dim_sizes}, {vectorized_dims}, {idxs}, {val_expr});"
+            if "party->In<Protocol>" in mixed_convertion:
+                mixed_convertion =  mixed_convertion.replace("party->In<Protocol>",f"party->In<{to_be_converted[0]}>")
+
+            stmt_key = render_expr(stmt.lhs.array, dc.replace(render_ctx, plaintext=False))
+            if len(to_be_coexist) == 0:
+                stmt_details_dict[stmt_key][retrieve_ABY_tag(to_be_converted[0])] = stmt_key
+            else:
+
+                for i in range( len(to_be_coexist) ):
+                    # the from should be writen in the dictionary and shall remain
+                    stmt_key = render_expr(stmt.lhs.array, dc.replace(render_ctx, plaintext=False))
+                    
+                    stmt_details_dict[stmt_key][to_be_coexist[i][0]] = stmt_key
+
+                    new_key = stmt_key + f"_{to_be_coexist[i][1]}"
+                    
+                    #  declare the new share variable
+                    new_declaration = "\n" + stmt_details_dict[stmt_key]['declaration'].replace(stmt_key,new_key)
+                    mixed_convertion += new_declaration
+                    identified_pr = identify_protocols(
+                            {
+                                "to": set(to_be_coexist[i][1])
+                            }
+                    )[0]
+                    # try to identify if need to extract the share with .Get() or already in that format 
+                    extraction = ".Get()"
+                    if "to_share_wrapper(" in mixed_convertion:
+                        extraction = ""
+                    convertion_vectorized_access = f"(vectorized_access({stmt_key}, {dim_sizes}, {{true}}, {{}}){extraction}.Convert<{identified_pr}>()))"
+                    convertion_stmt = f"vectorized_assign({new_key}, {dim_sizes}, {{true}}, {{}}, {convertion_vectorized_access};\n"            
+                    mixed_convertion = mixed_convertion + "\n"  #+ f"{new_key} = {stmt_key}.Convert<{identified_pr}>()"
+                    mixed_convertion += convertion_stmt
+                
+                    # store for future reference
+                    stmt_details_dict[stmt_key][to_be_coexist[i][1]] = new_key
+
+            # validate that the used variables are correspoding to the mixed ones
+            # example that the mixed has generated also _8_0_Y while a statement that uses _8_0
+            # expectes this to be the Y version and thus needs to be replaced
+
+            convertion_from = convertions_dict[str(stmt.lhs)]['from']
+            convertion_to = convertions_dict[str(stmt.lhs)]['to']
+                      
+            for key in stmt_details_dict.keys():
+
+                if key in mixed_convertion:
+                    
+                    # if you havent identified it yet it is already declared on the default protocol
+                    if convertion_from == '_' and stmt_details_dict[key][list(convertion_to)[0]] == None:
+                        stmt_details_dict[key][list(convertion_to)[0]] = key
+                    
+                    if convertion_from == '_' and stmt_details_dict[key][list(convertion_to)[0]] != None:
+                        pass
+                    else:
+                        # if it is default it will stay the same
+                        # if it was registered by creating the new variable , this will be used 
+                        mixed_convertion = mixed_convertion.replace(key,stmt_details_dict[key][convertion_from])
+                  
+
+            return (
+                plaintext_conversions
+                + mixed_convertion
+            )
+
+        if isinstance(stmt.rhs, Update):
+            
+            shared_assignment = (
+                (
+                    render_expr(
+                        stmt.rhs,
+                        RenderContext(
+                            type_env, plaintext=False, enclosing_loops=enclosing_loops
+                        ),
+                    )
+                    + ";\n"
+                )
+                + render_expr(
+                    stmt.lhs,
+                    RenderContext(
+                        type_env, plaintext=False, enclosing_loops=enclosing_loops
+                    ),
+                )
+                + " = "
+                + render_expr(
+                    stmt.rhs.array,
+                    RenderContext(
+                        type_env, plaintext=False, enclosing_loops=enclosing_loops
+                    ),
+                )
+                + ";"
+            )
+            plaintext_assignment = (
+                (
+                    render_expr(
+                        stmt.rhs,
+                        RenderContext(
+                            type_env, plaintext=True, enclosing_loops=enclosing_loops
+                        ),
+                    )
+                    + ";\n"
+                )
+                + render_expr(
+                    stmt.lhs,
+                    RenderContext(
+                        type_env, plaintext=True, enclosing_loops=enclosing_loops
+                    ),
+                )
+                + " = "
+                + render_expr(
+                    stmt.rhs.array,
+                    RenderContext(
+                        type_env, plaintext=True, enclosing_loops=enclosing_loops
+                    ),
+                )
+                + ";"
+            )
+
+        else:
+            if  not (type_env[stmt.lhs].is_shared() or type_env[stmt.lhs].datatype == DataType.TUPLE):
+                to_be_converted = identify_protocols(convertions_dict[str(stmt.lhs)])
+                rendered_expr = render_expr(
+                        stmt.rhs,
+                        RenderContext(
+                            type_env, plaintext=False, enclosing_loops=enclosing_loops
+                        ),
+                )
+
+                shared_assignment = (
+                    render_expr(
+                        stmt.lhs,
+                        RenderContext(
+                            type_env, plaintext=False, enclosing_loops=enclosing_loops
+                        ),
+                    )
+                    + " = "
+                    + f"{stmt_details_dict[rendered_expr][retrieve_ABY_tag(to_be_converted[0])]}"
+                    + ";"
+                )
+                
+            else:
+                shared_assignment = (
+                render_expr(
+                    stmt.lhs,
+                    RenderContext(
+                        type_env, plaintext=False, enclosing_loops=enclosing_loops
+                    ),
+                )
+                + " = "
+                + render_expr(
+                    stmt.rhs,
+                    RenderContext(
+                        type_env, plaintext=False, enclosing_loops=enclosing_loops
+                    ),
+                )
+                + ";"
+            )
+
+            finders_key = render_expr(
+                    stmt.lhs,
+                    RenderContext(
+                        type_env, plaintext=False, enclosing_loops=enclosing_loops
+                    ),
+            )
+
+            search_key = render_expr(
+                    stmt.rhs,
+                    RenderContext(
+                        type_env, plaintext=False, enclosing_loops=enclosing_loops
+                    ),
+            )
+            
+            if search_key in stmt_details_dict:
+                for elem in stmt_details_dict[search_key]:
+                    if stmt_details_dict[search_key][elem] == search_key:
+                        stmt_details_dict[finders_key][elem] = finders_key
+            
+            plaintext_assignment = (
+                render_expr(
+                    stmt.lhs,
+                    RenderContext(
+                        type_env, plaintext=True, enclosing_loops=enclosing_loops
+                    ),
+                )
+                + " = "
+                + render_expr(
+                    stmt.rhs,
+                    RenderContext(
+                        type_env, plaintext=True, enclosing_loops=enclosing_loops
+                    ),
+                )
+                + ";"
+            )
+        
+        if (
+            type_env[stmt.lhs].is_shared()
+            or type_env[stmt.lhs].datatype == DataType.TUPLE
+        ):
+            mixed_convertion = plaintext_conversions + shared_assignment
+
+            lhs_key = render_expr(
+                                stmt.lhs,
+                                RenderContext(
+                                    type_env, plaintext=False, enclosing_loops=enclosing_loops
+                                ),
+                            )
+
+            rhs_key = render_expr(
+                                stmt.rhs,
+                                RenderContext(
+                                    type_env, plaintext=True, enclosing_loops=enclosing_loops
+                                ),
+                            )
+
+            if type_env[stmt.lhs].datatype != DataType.TUPLE:
+                convertion_from = convertions_dict[str(stmt.lhs)]['from']
+                convertion_to = convertions_dict[str(stmt.lhs)]['to']
+                convertion_tuple = convertions_dict[str(stmt.lhs)]['convertion_tuple']
+                for key in stmt_details_dict.keys():
+                    
+                    if key in mixed_convertion:
+                        if len(convertion_to) > 0 and stmt_details_dict[key][list(convertion_to)[0]]:
+                            mixed_convertion = mixed_convertion.replace(key,stmt_details_dict[key][list(convertion_to)[0]])
+                    
+                # find out if it is only an explicit convertion
+                if convertion_from != '_' and len(convertion_to) == 1:
+                        
+                    # find if you have the stmt keys in the input protocol
+                    for key in stmt_details_dict:   
+                        if key in rhs_key:
+                            mixed_convertion = mixed_convertion.replace(key,stmt_details_dict[key][convertion_from])
+                    
+                    identified_pr = identify_protocols(
+                            {
+                                "to": convertion_to
+                            }
+                    )[0]
+                    mixed_convertion = f"{mixed_convertion[:-1]}.Get().Convert<{identified_pr}>();"        
+                    stmt_details_dict[lhs_key][convertion_from] = lhs_key
+
+                elif convertion_from == '_' and len(convertion_to) > 1:
+                    
+                    # the first is in the protocol as declared and then we follow
+                    # the convertions based on the hint by mixer
+                    current_key = render_expr(stmt.lhs, dc.replace(render_ctx, plaintext=False))
+                    stmt_details_dict[current_key][convertion_tuple[0][0]] = current_key
+                    mixed_convertion += "\n"
+                    for explicit_convertion in convertion_tuple:
+                        explicit_from = explicit_convertion[0]
+                        explicit_to = explicit_convertion[1]
+                        identified_pr = identify_protocols(
+                            {
+                                "to": set([explicit_to])
+                            }
+                        )[0]
+                        new_key = f"{current_key}_{explicit_to}"
+                        mixed_convertion += f"{stmt_details_dict[current_key]['declaration'].replace(current_key,new_key)}\n"
+                        mixed_convertion += f"{new_key} = {stmt_details_dict[current_key][explicit_from]}.Get().Convert<{identified_pr}>();\n"
+                        stmt_details_dict[current_key][explicit_to] = new_key    
+                elif len(convertion_to) == 0:
+                    # find if you have the stmt keys in the input protocol
+                    for key in stmt_details_dict:
+                       if key in rhs_key:
+                            mixed_convertion = mixed_convertion.replace(key,stmt_details_dict[key][convertion_from])
+                    
+                    stmt_details_dict[lhs_key][convertion_from] = lhs_key
+
+                elif convertion_from == '_' and len(convertion_to) == 1:
+                    
+                    stmt_details_dict[lhs_key][list(convertion_to)[0]] = lhs_key
+                else:
+                    # print(stmt,convertion_from,convertion_to)
+                    raise NotImplementedError("Not implemented convertion")
+            
+            return mixed_convertion
+        else:    
+            return (
+                plaintext_conversions + shared_assignment + "\n" + plaintext_assignment
+            )
+
+    elif isinstance(stmt, For):
+        ctr_initializer = (
+            "// Initialize loop counter\n"
+            + render_expr(
+                stmt.counter,
+                RenderContext(
+                    type_env, plaintext=True, enclosing_loops=enclosing_loops
+                ),
+            )
+            + " = "
+            + render_expr(
+                stmt.bound_low,
+                RenderContext(
+                    type_env, plaintext=True, enclosing_loops=enclosing_loops
+                ),
+            )
+            + ";"
+        )
+
+        phi_initializations = "// Initialize phi values\n" + "\n".join(
+            render_stmt(Assign(phi.lhs, phi.rhs_false), type_env, ran_vectorization)
+            for phi in stmt.body
+            if isinstance(phi, Phi)
+        )
+
+        header = (
+            "for (; "
+            + render_expr(
+                stmt.counter,
+                RenderContext(
+                    type_env, plaintext=True, enclosing_loops=enclosing_loops
+                ),
+            )
+            + " < "
+            + render_expr(
+                stmt.bound_high,
+                RenderContext(
+                    type_env, plaintext=True, enclosing_loops=enclosing_loops
+                ),
+            )
+            + "; "
+            + render_expr(
+                stmt.counter,
+                RenderContext(
+                    type_env, plaintext=True, enclosing_loops=enclosing_loops
+                ),
+            )
+            + "++) {"
+        )
+
+        phi_assignments = "\n".join(
+            render_stmt(Assign(phi.lhs, phi.rhs_true), type_env, ran_vectorization)
+            for phi in stmt.body
+            if isinstance(phi, Phi)
+        )
+
+        phi_updates = (
+            "// Update phi values\n"
+            + "if ("
+            + render_expr(
+                stmt.counter,
+                RenderContext(
+                    type_env, plaintext=True, enclosing_loops=enclosing_loops
+                ),
+            )
+            + " != "
+            + render_expr(
+                stmt.bound_low,
+                RenderContext(
+                    type_env, plaintext=True, enclosing_loops=enclosing_loops
+                ),
+            )
+            + ") {\n"
+            + indent(
+                phi_assignments,
+                "    ",
+            )
+            + "\n}\n"
+        )
+
+        body = (
+            "\n".join(
+                render_stmt(
+                    substmt, type_env, ran_vectorization, enclosing_loops + [stmt]
+                )
+                for substmt in stmt.body
+                if not isinstance(substmt, Phi)
+            )
+            + "\n"
+        )
+
+        if not ran_vectorization:
+            phi_finalizations = "// Assign final phi values\n" + phi_assignments + "\n"
+        else:
+            phi_finalizations = ""
+
+        
+        result_stmt =  (
+            "\n"
+            + ctr_initializer
+            + "\n"
+            + phi_initializations
+            + "\n"
+            + header
+            + "\n"
+            + indent(phi_updates, "    ")
+            + "\n"
+            + indent(body, "    ")
+            + "\n}\n"
+            + phi_finalizations
+        )
+
+        replace_dict = {}
+        identified_in_loop = {}
+        for body_stmt in stmt.body:
+            convertion_from = convertions_dict[str(body_stmt.lhs)]['from']
+            convertion_to = convertions_dict[str(body_stmt.lhs)]['to']
+            for key in stmt_details_dict.keys():
+                if key in result_stmt:
+                    
+                    # if you havent identified it yet it is already declared on the default protocol
+                    if convertion_from == '_' and stmt_details_dict[key][list(convertion_to)[0]] == None:
+                        stmt_details_dict[key][list(convertion_to)[0]] = key
+                    
+                    if convertion_from == '_' and stmt_details_dict[key][list(convertion_to)[0]] != None:
+                        pass
+                    else:
+                        # if it is default it will stay the same
+                        # if it was registered by creating the new variable , this will be used 
+                        # print(key,stmt_details_dict[key],stmt_details_dict[key])
+                        if stmt_details_dict[key][convertion_from] is None:
+                            stmt_details_dict[key][convertion_from] = key
+                        if len(convertion_to) == 0:
+                            replace_dict[key] = stmt_details_dict[key][convertion_from]
+                        else:
+                            replace_dict[key] = stmt_details_dict[key][convertion_from]
+                            identified_in_loop[body_stmt.lhs.array] = list(convertion_to)[0]
+
+        
+        # make the replacements all in one
+        for key in replace_dict:
+            result_stmt = result_stmt.replace(key,replace_dict[key])
+
+        for variable_in_loop in identified_in_loop:
+            
+            loop_key = render_expr(
+                    variable_in_loop,
+                    RenderContext(
+                        type_env, plaintext=False
+                    ),
+            )
+            new_key = f"{loop_key}_{identified_in_loop[variable_in_loop]}"
+            stmt_details_dict[key][identified_in_loop[variable_in_loop]] = new_key
+            identified_pr = identify_protocols(
+                            {
+                                "to": set(identified_in_loop[variable_in_loop])
+                            }
+            )[0]
+
+    
+            # [TODO] consider if more that one dimentions do exists
+            dimention_bound = "{" + stmt_details_dict[loop_key]['declaration'].split(loop_key+"(")[1][1:-3] +"}"
+            convertion_vectorized_access = f"(vectorized_access({loop_key}, {dimention_bound}, {{true}}, {{}}).Get().Convert<{identified_pr}>()))"
+            convertion_stmt = f"vectorized_assign({new_key}, {dimention_bound}, {{true}}, {{}}, {convertion_vectorized_access};\n"
+            
+            result_stmt += (
+                f"{stmt_details_dict[loop_key]['declaration'].replace(loop_key,new_key)}\n"
+                f"{convertion_stmt}"
+            )   
+                       
+        
+        return result_stmt
+
+    elif isinstance(stmt, Return):
+        return (
+            "return "
+            + render_expr(
+                stmt.value,
+                RenderContext(
+                    type_env, plaintext=False, enclosing_loops=enclosing_loops
+                ),
+            )
+            + ";"
+        )
+
+    return assert_never(stmt)
+
 
 
 def _render_operator(op: Union[BinOpKind, UnaryOpKind]) -> str:
