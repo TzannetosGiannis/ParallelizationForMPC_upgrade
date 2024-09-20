@@ -2,6 +2,7 @@
 
 from argparse import ArgumentParser
 import os
+import json
 import ast as python_ast
 
 import networkx
@@ -117,7 +118,7 @@ def type_env_to_table(type_env: TypeEnv) -> str:
 
 def build_motion_benchmark_tables(circuits_path: str) -> str:
     table = "## MOTION Benchmark Data\n"
-    for protocol in compiler.backends.motion.VALID_PROTOCOLS:
+    for protocol in compiler.backends.motion.VALID_PROTOCOLS[1:]:
         table += f"\n### {protocol}\n"
 
         table += "| Benchmark | Total # Gates | # SIMD gates | # Non-SIMD gates | # messages sent (party 0) | Sent size (party 0) | # messages received (party 0) | Received Size (party 0) | Runtime | Circuit Generation Time |\n"
@@ -159,6 +160,78 @@ def build_motion_benchmark_tables(circuits_path: str) -> str:
                 table += str(data.timing_stats.communication.recv_size) + " MiB |"
                 table += str(data.timing_stats.gates_online.mean) + " ms |"
                 table += str(data.circuit_stats.circuit_gen_time) + " ms |\n"
+            
+    table += f"\n### mixed\n"
+    table += "| Benchmark | Total # Gates | # SIMD gates | # Non-SIMD gates | # messages sent (party 0) | Sent size (party 0) | # messages received (party 0) | Received Size (party 0) | Runtime | Circuit Generation Time |\n"
+    table += "| - | - | - | - | - | - | - | - | - | - |\n"
+
+    for test_case_dir in sorted(
+            os.scandir(STAGES_DIR), key=lambda entry: entry.name
+        ):
+            if test_case_dir.name in (
+                SKIPPED_TESTS[None] + SKIPPED_TESTS[Backend.MOTION]
+            ):
+                continue
+
+            
+            try:
+                vectorized =True
+                # identify input protocol
+
+                mixed_input_path = test_case_dir.path+"/mixed_input.txt" 
+                protocols = {
+                    "A":"ArithmeticGmw",
+                    "B":"BooleanGmw",
+                    "Y":"Bmr"
+                }
+                if os.path.exists(mixed_input_path):
+                    
+                    with open(mixed_input_path, 'r') as file:
+                        content = json.loads(file.read())
+                        initial_value = None
+                        for key, value in content.items():
+                            implemented = True
+                            if len(value) > 1:
+                                implemented = False
+                                break
+                            if initial_value == None:
+                                initial_value = value[0]
+                            elif initial_value != value[0]:
+                                
+                                implemented = False
+                                break
+                else:
+                    raise FileNotFoundError("mixed_input doesnt exist , please generate with --mixing")
+                if implemented == False:
+                    raise NotImplementedError("Unsupported mixed input")
+    
+                protocol = protocols[initial_value]
+                maybe_data = motion_run_benchmark(
+                    test_case_dir.name, test_case_dir.path, protocol, True,mixed=True
+                )
+                assert maybe_data is not None
+                data, _ = maybe_data
+            except Exception as e:
+                print(
+                    f"Skipping mixed {test_case_dir.name} (vectorized={vectorized}) due to error: {e}"
+                )
+                continue
+
+            table += "|"
+            table += (
+                test_case_dir.name
+                + (" (Non-Vectorized)" if not vectorized else "")
+                + "|"
+            )
+            table += str(data.circuit_stats.num_gates) + "|"
+            table += str(data.circuit_stats.num_simd_gates) + "|"
+            table += str(data.circuit_stats.num_nonsimd_gates) + "|"
+            table += str(data.timing_stats.communication.send_num_msgs) + "|"
+            table += str(data.timing_stats.communication.send_size) + " MiB |"
+            table += str(data.timing_stats.communication.recv_num_msgs) + "|"
+            table += str(data.timing_stats.communication.recv_size) + " MiB |"
+            table += str(data.timing_stats.gates_online.mean) + " ms |"
+            table += str(data.circuit_stats.circuit_gen_time) + " ms |\n"
 
     return table
 
@@ -365,6 +438,10 @@ def main():
         md += "#### Common subexpression elimination\n"
         md += f"```python\n{loop_linear_code}\n```\n"
 
+        mixed_config = compiler.mix_protocols(f"{test_case_dir.name}.py", type_env, loop_linear_code.body, dep_graph)
+        md += "#### Mixed configuration\n"
+        md += f"```{ mixed_config }\n```\n"
+        
         for backend in Backend:
             if backend is Backend.MOTION:
                 lang = "cpp"
@@ -375,6 +452,12 @@ def main():
             backend_code = backend.render_function(loop_linear_code, type_env, True)
             md += f"#### {backend} code\n"
             md += f"```{lang}\n{backend_code}\n```\n"
+
+            if backend is Backend.MOTION:
+                backend_code = backend.render_mixed_function(loop_linear_code, type_env, True, mixed_config)
+                md += f"#### {backend} mixed code\n"
+                md += f"```{lang}\n{backend_code}\n```\n"
+        break
 
     md_path = os.path.join(args.path, "README.md")
     with open(md_path, "w") as f:
