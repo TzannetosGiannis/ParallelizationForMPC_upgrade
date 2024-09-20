@@ -5,7 +5,7 @@ from compiler.backends import Backend
 
 TESTS_DIR = os.path.dirname(__file__)
 
-MIXING = True
+MIXING = False
 
 STAGES_DIR = os.path.join(TESTS_DIR, "stages")
 
@@ -24,9 +24,25 @@ SKIPPED_TESTS = {
     ],
     # Skipped only in MOTION
     Backend.MOTION: [
-        "convex_hull",
-        "biometric_fast",
-        "chapterfour_figure_12"
+        # "convex_hull",
+        # "biometric",
+        # "biometric_fast",
+        # "chapterfour_figure_12",
+        # "count_123",
+        # "minimal_points",
+        # "inner_product",
+        # "db_cross_join_trivial",
+        # "psi",
+        # "count_10s",
+        # "longest_102",
+        # "db_variance",
+        # "histogram",
+        # "count_102",
+        # "mnist_relu",
+        # "max_sum_between_syms",
+        # "cryptonets_max_pooling",
+        # "max_dist_between_syms",
+        # "longest_odd_10"
     ],
     # Skipped only in SPDZ
     Backend.MP_SPDZ: [
