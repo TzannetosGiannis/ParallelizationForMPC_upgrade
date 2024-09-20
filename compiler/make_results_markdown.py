@@ -441,7 +441,7 @@ def main():
         mixed_config = compiler.mix_protocols(f"{test_case_dir.name}.py", type_env, loop_linear_code.body, dep_graph)
         md += "#### Mixed configuration\n"
         md += f"```{ mixed_config }\n```\n"
-        
+
         for backend in Backend:
             if backend is Backend.MOTION:
                 lang = "cpp"
@@ -457,8 +457,7 @@ def main():
                 backend_code = backend.render_mixed_function(loop_linear_code, type_env, True, mixed_config)
                 md += f"#### {backend} mixed code\n"
                 md += f"```{lang}\n{backend_code}\n```\n"
-        break
-
+        
     md_path = os.path.join(args.path, "README.md")
     with open(md_path, "w") as f:
         f.write(md)
