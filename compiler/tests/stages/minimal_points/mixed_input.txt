@@ -1,1 +1,1 @@
-{"Y_coords_0": ["B"], "X_coords_0": ["B"], "result_Y_0": ["B"], "result_X_0": ["B"]}
+{"Y_coords_0": ["Y"], "X_coords_0": ["Y"], "result_Y_0": ["Y"], "result_X_0": ["Y"]}
