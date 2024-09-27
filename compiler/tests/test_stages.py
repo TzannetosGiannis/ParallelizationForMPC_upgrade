@@ -113,70 +113,71 @@ class StagesTestCase(unittest.TestCase):
                 continue
             print(f"Testing {name}...")
             expected_output = get_test_case_expected_output(test_case_dir.path)
-            if test_context.MIXING:
-                # read the stages testcase for the input protocol
-                # at this step assume that the input variables have the same protocol
-                mixed_input_path = test_case_dir.path+"/mixed_input.txt" 
-                protocols = {
-                    "A":"ArithmeticGmw",
-                    "B":"BooleanGmw",
-                    "Y":"Bmr"
-                }
-                if os.path.exists(mixed_input_path):
-                    
-                    with open(mixed_input_path, 'r') as file:
-                        content = json.loads(file.read())
-                        initial_value = None
-                        for key, value in content.items():
-                            implemented = True
-                            if len(value) > 1:
-                                implemented = False
-                                break
-                            if initial_value == None:
-                                initial_value = value[0]
-                            elif initial_value != value[0]:
-                                
-                                implemented = False
-                                break
-                else:
-                    raise FileNotFoundError("mixed_input doesnt exist , please generate with --mixing")
-                if implemented == False:
-                    raise NotImplementedError("Unsupported mixed input")
-    
-                protocol = protocols[initial_value]
-                output = run_benchmark(
-                    test_context.BACKEND,
-                    name,
-                    test_case_dir.path,
-                    protocol,
-                    True, # for vectorization
-                    mixed=True
-                   
-                )
-                assert output
-                party0, party1 = output
-                self.assertEqual(party0.strip(), party1.strip())
-                self.assertEqual(party0.strip(), expected_output.strip())
-                self.assertEqual(party1.strip(), expected_output.strip())
+            
+            
+            for protocol in test_context.BACKEND.valid_protocols():
                 
+                if protocol == "ArithmeticGmw":
+                    continue
+                print(f"    Protocol {protocol}...")
+                for vectorized in (False, True):
+                    output = run_benchmark(
+                        test_context.BACKEND,
+                        name,
+                        test_case_dir.path,
+                        protocol,
+                        vectorized,
+                    )
+                    assert output
+                    party0, party1 = output
+                    self.assertEqual(party0.strip(), party1.strip())
+                    self.assertEqual(party0.strip(), expected_output.strip())
+                    self.assertEqual(party1.strip(), expected_output.strip())
+
+            # read the stages testcase for the input protocol
+            # at this step assume that the input variables have the same protocol
+            mixed_input_path = test_case_dir.path+"/mixed_input.txt" 
+            protocols = {
+                "A":"ArithmeticGmw",
+                "B":"BooleanGmw",
+                "Y":"Bmr"
+            }
+            if os.path.exists(mixed_input_path):
+                
+                with open(mixed_input_path, 'r') as file:
+                    content = json.loads(file.read())
+                    initial_value = None
+                    for key, value in content.items():
+                        implemented = True
+                        if len(value) > 1:
+                            implemented = False
+                            break
+                        if initial_value == None:
+                            initial_value = value[0]
+                        elif initial_value != value[0]:
+                            
+                            implemented = False
+                            break
             else:
-                for protocol in test_context.BACKEND.valid_protocols():
-                    if protocol == "ArithmeticGmw":
-                        continue
-                    print(f"    Protocol {protocol}...")
-                    for vectorized in (False, True):
-                        output = run_benchmark(
-                            test_context.BACKEND,
-                            name,
-                            test_case_dir.path,
-                            protocol,
-                            vectorized,
-                        )
-                        assert output
-                        party0, party1 = output
-                        self.assertEqual(party0.strip(), party1.strip())
-                        self.assertEqual(party0.strip(), expected_output.strip())
-                        self.assertEqual(party1.strip(), expected_output.strip())
+                raise FileNotFoundError("mixed_input doesnt exist , please generate with --mixing")
+            if implemented == False:
+                raise NotImplementedError("Unsupported mixed input")
+
+            protocol = protocols[initial_value]
+            output = run_benchmark(
+                test_context.BACKEND,
+                name,
+                test_case_dir.path,
+                protocol,
+                True, # for vectorization
+                mixed=True
+                
+            )
+            assert output
+            party0, party1 = output
+            self.assertEqual(party0.strip(), party1.strip())
+            self.assertEqual(party0.strip(), expected_output.strip())
+            self.assertEqual(party1.strip(), expected_output.strip())
 
 
 def get_test_case_expected_output(test_case_dir: str) -> str:

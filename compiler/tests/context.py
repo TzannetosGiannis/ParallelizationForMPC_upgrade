@@ -5,8 +5,6 @@ from compiler.backends import Backend
 
 TESTS_DIR = os.path.dirname(__file__)
 
-MIXING = False
-
 STAGES_DIR = os.path.join(TESTS_DIR, "stages")
 
 BACKEND: Optional[Backend] = None
