@@ -4,469 +4,469 @@
 ### BooleanGmw
 | Benchmark | Total # Gates | # SIMD gates | # Non-SIMD gates | # messages sent (party 0) | Sent size (party 0) | # messages received (party 0) | Received Size (party 0) | Runtime | Circuit Generation Time |
 | - | - | - | - | - | - | - | - | - | - |
-|biometric|9999|8352|1647|4947|0.615 MiB |4946|0.615 MiB |3214.956 ms |582.0 ms |
-|biometric (Non-Vectorized)|105250|0|105250|47073|2.704 MiB |47072|2.704 MiB |13253.526 ms |6112.0 ms |
-|biometric_fast|10636|8974|1662|5265|0.611 MiB |5264|0.611 MiB |3432.912 ms |622.0 ms |
-|biometric_fast (Non-Vectorized)|99903|0|99903|44529|2.558 MiB |44528|2.558 MiB |13008.629 ms |5770.0 ms |
-|chapterfour_figure_12|805|0|805|752|0.048 MiB |751|0.048 MiB |332.515 ms |46.0 ms |
-|chapterfour_figure_12 (Non-Vectorized)|805|0|805|752|0.048 MiB |751|0.048 MiB |376.49 ms |47.0 ms |
-|convex_hull|2106|2063|43|1381|0.122 MiB |1380|0.122 MiB |756.318 ms |124.0 ms |
-|convex_hull (Non-Vectorized)|12112|0|12112|6265|0.364 MiB |6264|0.364 MiB |1888.184 ms |711.0 ms |
-|count_102|6610|297|6313|3820|0.237 MiB |3819|0.237 MiB |3440.648 ms |387.0 ms |
-|count_102 (Non-Vectorized)|9188|0|9188|5512|0.321 MiB |5511|0.321 MiB |2943.882 ms |530.0 ms |
-|count_10s|4720|298|4422|2848|0.177 MiB |2847|0.177 MiB |2335.082 ms |275.0 ms |
-|count_10s (Non-Vectorized)|6440|0|6440|3976|0.233 MiB |3975|0.233 MiB |1828.515 ms |374.0 ms |
-|count_123|4729|305|4424|2850|0.177 MiB |2849|0.177 MiB |2309.978 ms |272.0 ms |
-|count_123 (Non-Vectorized)|6476|0|6476|3990|0.234 MiB |3989|0.233 MiB |1739.855 ms |372.0 ms |
-|cryptonets_max_pooling|1349|1217|132|951|0.139 MiB |950|0.138 MiB |925.18 ms |81.0 ms |
-|cryptonets_max_pooling (Non-Vectorized)|24124|0|24124|11211|0.647 MiB |11210|0.647 MiB |3188.732 ms |1402.0 ms |
-|db_cross_join_trivial|21900|116|21784|14486|0.877 MiB |14485|0.876 MiB |3511.243 ms |1316.0 ms |
-|db_cross_join_trivial (Non-Vectorized)|29201|0|29201|19666|1.132 MiB |19665|1.132 MiB |5341.465 ms |2103.0 ms |
-|db_variance|29520|5864|23656|13646|0.926 MiB |13645|0.926 MiB |50911.944 ms |1699.0 ms |
-|db_variance (Non-Vectorized)|70507|0|70507|31524|1.812 MiB |31523|1.812 MiB |53986.035 ms |4365.0 ms |
-|histogram|5234|5123|111|3018|0.276 MiB |3017|0.276 MiB |2199.213 ms |320.0 ms |
-|histogram (Non-Vectorized)|28668|0|28668|15676|0.903 MiB |15675|0.903 MiB |4681.662 ms |1668.0 ms |
-|inner_product|7075|5207|1868|3582|0.245 MiB |3581|0.245 MiB |1471.97 ms |405.0 ms |
-|inner_product (Non-Vectorized)|17478|0|17478|8054|0.467 MiB |8053|0.467 MiB |2358.989 ms |1010.0 ms |
-|longest_102|10649|305|10344|5642|0.341 MiB |5641|0.341 MiB |4532.005 ms |623.0 ms |
-|longest_102 (Non-Vectorized)|13278|0|13278|7352|0.426 MiB |7351|0.426 MiB |4131.5 ms |775.0 ms |
-|longest_odd_10|8518|304|8214|4614|0.283 MiB |4613|0.283 MiB |4803.875 ms |503.0 ms |
-|longest_odd_10 (Non-Vectorized)|10543|0|10543|5944|0.349 MiB |5943|0.349 MiB |3146.649 ms |608.0 ms |
-|max_dist_between_syms|8276|100|8176|4454|0.263 MiB |4453|0.263 MiB |2624.901 ms |489.0 ms |
-|max_dist_between_syms (Non-Vectorized)|8941|0|8941|4888|0.285 MiB |4887|0.285 MiB |2672.121 ms |519.0 ms |
-|max_sum_between_syms|8275|100|8175|4454|0.263 MiB |4453|0.263 MiB |2671.069 ms |482.0 ms |
-|max_sum_between_syms (Non-Vectorized)|8940|0|8940|4888|0.285 MiB |4887|0.285 MiB |2622.857 ms |521.0 ms |
-|minimal_points|882|847|35|765|0.071 MiB |764|0.071 MiB |498.313 ms |50.0 ms |
-|minimal_points (Non-Vectorized)|7292|0|7292|3649|0.214 MiB |3648|0.214 MiB |1214.828 ms |425.0 ms |
-|mnist_relu|1014|407|607|771|0.33 MiB |770|0.33 MiB |421.892 ms |85.0 ms |
-|mnist_relu (Non-Vectorized)|80603|0|80603|36591|2.101 MiB |36590|2.101 MiB |9440.94 ms |4742.0 ms |
-|psi|182|138|44|474|0.05 MiB |473|0.05 MiB |579.293 ms |10.0 ms |
-|psi (Non-Vectorized)|3391|0|3391|2646|0.157 MiB |2645|0.157 MiB |928.852 ms |197.0 ms |
+|biometric|9999|8352|1647|4947|0.615 MiB |4946|0.615 MiB |3230.488 ms |591.0 ms |
+|biometric (Non-Vectorized)|105250|0|105250|47073|2.704 MiB |47072|2.704 MiB |13382.669 ms |6147.0 ms |
+|biometric_fast|10636|8974|1662|5265|0.611 MiB |5264|0.611 MiB |3310.808 ms |627.0 ms |
+|biometric_fast (Non-Vectorized)|99903|0|99903|44529|2.558 MiB |44528|2.558 MiB |13014.197 ms |5748.0 ms |
+|chapterfour_figure_12|805|0|805|752|0.048 MiB |751|0.048 MiB |377.975 ms |47.0 ms |
+|chapterfour_figure_12 (Non-Vectorized)|805|0|805|752|0.048 MiB |751|0.048 MiB |332.353 ms |48.0 ms |
+|convex_hull|2106|2063|43|1381|0.122 MiB |1380|0.122 MiB |757.753 ms |123.0 ms |
+|convex_hull (Non-Vectorized)|12112|0|12112|6265|0.364 MiB |6264|0.364 MiB |1997.799 ms |713.0 ms |
+|count_102|6610|297|6313|3820|0.237 MiB |3819|0.237 MiB |3446.497 ms |390.0 ms |
+|count_102 (Non-Vectorized)|9188|0|9188|5512|0.321 MiB |5511|0.321 MiB |2786.618 ms |535.0 ms |
+|count_10s|4720|298|4422|2848|0.177 MiB |2847|0.177 MiB |2308.93 ms |276.0 ms |
+|count_10s (Non-Vectorized)|6440|0|6440|3976|0.233 MiB |3975|0.233 MiB |1946.139 ms |377.0 ms |
+|count_123|4729|305|4424|2850|0.177 MiB |2849|0.177 MiB |2409.117 ms |280.0 ms |
+|count_123 (Non-Vectorized)|6476|0|6476|3990|0.234 MiB |3989|0.233 MiB |1956.97 ms |375.0 ms |
+|cryptonets_max_pooling|1349|1217|132|951|0.139 MiB |950|0.138 MiB |925.696 ms |81.0 ms |
+|cryptonets_max_pooling (Non-Vectorized)|24124|0|24124|11211|0.647 MiB |11210|0.647 MiB |3478.616 ms |1408.0 ms |
+|db_cross_join_trivial|21900|116|21784|14486|0.877 MiB |14485|0.876 MiB |3463.989 ms |1365.0 ms |
+|db_cross_join_trivial (Non-Vectorized)|29201|0|29201|19666|1.132 MiB |19665|1.132 MiB |4658.701 ms |1747.0 ms |
+|db_variance|29520|5864|23656|13646|0.926 MiB |13645|0.926 MiB |51022.015 ms |1754.0 ms |
+|db_variance (Non-Vectorized)|70507|0|70507|31524|1.812 MiB |31523|1.812 MiB |54498.716 ms |4422.0 ms |
+|histogram|5234|5123|111|3018|0.276 MiB |3017|0.276 MiB |2069.871 ms |325.0 ms |
+|histogram (Non-Vectorized)|28668|0|28668|15676|0.903 MiB |15675|0.903 MiB |4597.926 ms |1680.0 ms |
+|inner_product|7075|5207|1868|3582|0.245 MiB |3581|0.245 MiB |1511.961 ms |411.0 ms |
+|inner_product (Non-Vectorized)|17478|0|17478|8054|0.467 MiB |8053|0.467 MiB |2313.475 ms |1005.0 ms |
+|longest_102|10649|305|10344|5642|0.341 MiB |5641|0.341 MiB |4443.058 ms |622.0 ms |
+|longest_102 (Non-Vectorized)|13278|0|13278|7352|0.426 MiB |7351|0.426 MiB |3770.619 ms |781.0 ms |
+|longest_odd_10|8518|304|8214|4614|0.283 MiB |4613|0.283 MiB |4797.389 ms |502.0 ms |
+|longest_odd_10 (Non-Vectorized)|10543|0|10543|5944|0.349 MiB |5943|0.349 MiB |3023.458 ms |623.0 ms |
+|max_dist_between_syms|8276|100|8176|4454|0.263 MiB |4453|0.263 MiB |2734.423 ms |489.0 ms |
+|max_dist_between_syms (Non-Vectorized)|8941|0|8941|4888|0.285 MiB |4887|0.285 MiB |2669.996 ms |526.0 ms |
+|max_sum_between_syms|8275|100|8175|4454|0.263 MiB |4453|0.263 MiB |2686.484 ms |487.0 ms |
+|max_sum_between_syms (Non-Vectorized)|8940|0|8940|4888|0.285 MiB |4887|0.285 MiB |2512.895 ms |521.0 ms |
+|minimal_points|882|847|35|765|0.071 MiB |764|0.071 MiB |500.625 ms |52.0 ms |
+|minimal_points (Non-Vectorized)|7292|0|7292|3649|0.214 MiB |3648|0.214 MiB |1194.061 ms |428.0 ms |
+|mnist_relu|1014|407|607|771|0.33 MiB |770|0.33 MiB |419.257 ms |86.0 ms |
+|mnist_relu (Non-Vectorized)|80603|0|80603|36591|2.101 MiB |36590|2.101 MiB |9829.306 ms |4764.0 ms |
+|psi|182|138|44|474|0.05 MiB |473|0.05 MiB |579.129 ms |10.0 ms |
+|psi (Non-Vectorized)|3391|0|3391|2646|0.157 MiB |2645|0.157 MiB |867.147 ms |194.0 ms |
 
 ### Bmr
 | Benchmark | Total # Gates | # SIMD gates | # Non-SIMD gates | # messages sent (party 0) | Sent size (party 0) | # messages received (party 0) | Received Size (party 0) | Runtime | Circuit Generation Time |
 | - | - | - | - | - | - | - | - | - | - |
-|biometric|4486|3645|841|7843|4.37 MiB |7846|4.37 MiB |609.856 ms |672.0 ms |
-|biometric (Non-Vectorized)|51452|0|51452|86503|8.263 MiB |86506|8.263 MiB |6144.19 ms |7041.0 ms |
-|biometric_fast|4658|3802|856|8019|4.327 MiB |8019|4.327 MiB |662.248 ms |686.0 ms |
-|biometric_fast (Non-Vectorized)|49849|0|49849|85284|8.151 MiB |85284|8.151 MiB |6086.29 ms |6850.0 ms |
-|chapterfour_figure_12|398|0|398|975|0.087 MiB |972|0.087 MiB |56.074 ms |50.0 ms |
-|chapterfour_figure_12 (Non-Vectorized)|398|0|398|975|0.087 MiB |972|0.087 MiB |83.236 ms |51.0 ms |
-|convex_hull|1040|991|49|1992|0.514 MiB |1981|0.513 MiB |126.122 ms |142.0 ms |
-|convex_hull (Non-Vectorized)|5650|0|5650|8998|0.861 MiB |8987|0.861 MiB |741.695 ms |739.0 ms |
-|count_102|1753|109|1644|3831|0.569 MiB |3819|0.569 MiB |250.901 ms |270.0 ms |
-|count_102 (Non-Vectorized)|2639|0|2639|8061|0.779 MiB |8049|0.778 MiB |349.138 ms |496.0 ms |
-|count_10s|1264|110|1154|2942|0.415 MiB |2932|0.414 MiB |200.406 ms |194.0 ms |
-|count_10s (Non-Vectorized)|1856|0|1856|5762|0.555 MiB |5752|0.554 MiB |240.407 ms |343.0 ms |
-|count_123|1271|115|1156|2948|0.417 MiB |2939|0.416 MiB |157.733 ms |200.0 ms |
-|count_123 (Non-Vectorized)|1878|0|1878|5798|0.558 MiB |5789|0.558 MiB |230.339 ms |352.0 ms |
-|cryptonets_max_pooling|757|605|152|1484|1.013 MiB |1379|1.007 MiB |156.686 ms |107.0 ms |
-|cryptonets_max_pooling (Non-Vectorized)|11904|0|11904|17957|1.828 MiB |17852|1.823 MiB |1866.488 ms |1546.0 ms |
-|db_cross_join_trivial|7971|62|7909|36652|6.318 MiB |36345|6.302 MiB |1354.582 ms |2126.0 ms |
-|db_cross_join_trivial (Non-Vectorized)|11276|0|11276|86306|8.773 MiB |85999|8.757 MiB |1194.278 ms |4465.0 ms |
-|db_variance|13352|3017|10335|20698|3.612 MiB |20695|3.611 MiB |2217.141 ms |1746.0 ms |
-|db_variance (Non-Vectorized)|34410|0|34410|56538|5.389 MiB |56535|5.389 MiB |4562.161 ms |4510.0 ms |
-|histogram|1473|1357|116|2939|1.046 MiB |2891|1.043 MiB |280.448 ms |243.0 ms |
-|histogram (Non-Vectorized)|7673|0|7673|18072|1.795 MiB |18024|1.793 MiB |1061.575 ms |1267.0 ms |
-|inner_product|3301|2827|474|5833|1.004 MiB |5830|1.004 MiB |409.83 ms |441.0 ms |
-|inner_product (Non-Vectorized)|8944|0|8944|15763|1.497 MiB |15760|1.496 MiB |1276.497 ms |1227.0 ms |
-|longest_102|3730|115|3615|6776|0.867 MiB |6764|0.866 MiB |533.726 ms |529.0 ms |
-|longest_102 (Non-Vectorized)|4649|0|4649|11051|1.079 MiB |11039|1.078 MiB |695.725 ms |759.0 ms |
-|longest_odd_10|2993|114|2879|6671|0.869 MiB |6660|0.868 MiB |438.314 ms |480.0 ms |
-|longest_odd_10 (Non-Vectorized)|3688|0|3688|10864|1.077 MiB |10853|1.076 MiB |497.369 ms |701.0 ms |
-|max_dist_between_syms|2879|38|2841|5152|0.559 MiB |5141|0.558 MiB |409.51 ms |397.0 ms |
-|max_dist_between_syms (Non-Vectorized)|3110|0|3110|6237|0.612 MiB |6226|0.612 MiB |423.52 ms |463.0 ms |
-|max_sum_between_syms|2878|38|2840|5150|0.558 MiB |5140|0.557 MiB |419.619 ms |400.0 ms |
-|max_sum_between_syms (Non-Vectorized)|3109|0|3109|6235|0.612 MiB |6225|0.611 MiB |466.349 ms |467.0 ms |
-|minimal_points|472|431|41|1015|0.244 MiB |1012|0.244 MiB |91.105 ms |58.0 ms |
-|minimal_points (Non-Vectorized)|3566|0|3566|4161|0.4 MiB |4158|0.4 MiB |500.931 ms |390.0 ms |
-|mnist_relu|1010|203|807|1684|3.225 MiB |1280|3.205 MiB |388.629 ms |157.0 ms |
-|mnist_relu (Non-Vectorized)|40003|0|40003|59195|6.07 MiB |58791|6.05 MiB |5293.047 ms |5910.0 ms |
-|psi|141|92|49|748|0.348 MiB |740|0.348 MiB |60.639 ms |26.0 ms |
-|psi (Non-Vectorized)|1306|0|1306|6674|0.641 MiB |6666|0.641 MiB |191.363 ms |345.0 ms |
+|biometric|4486|3645|841|7843|4.37 MiB |7846|4.37 MiB |626.378 ms |691.0 ms |
+|biometric (Non-Vectorized)|51452|0|51452|86503|8.263 MiB |86506|8.263 MiB |6332.703 ms |7091.0 ms |
+|biometric_fast|4658|3802|856|8019|4.327 MiB |8019|4.327 MiB |657.892 ms |700.0 ms |
+|biometric_fast (Non-Vectorized)|49849|0|49849|85284|8.151 MiB |85284|8.151 MiB |6040.362 ms |6823.0 ms |
+|chapterfour_figure_12|398|0|398|975|0.087 MiB |972|0.087 MiB |78.118 ms |50.0 ms |
+|chapterfour_figure_12 (Non-Vectorized)|398|0|398|975|0.087 MiB |972|0.087 MiB |83.322 ms |51.0 ms |
+|convex_hull|1040|991|49|1992|0.514 MiB |1981|0.513 MiB |135.393 ms |145.0 ms |
+|convex_hull (Non-Vectorized)|5650|0|5650|8998|0.861 MiB |8987|0.861 MiB |813.053 ms |737.0 ms |
+|count_102|1753|109|1644|3831|0.569 MiB |3819|0.569 MiB |262.899 ms |268.0 ms |
+|count_102 (Non-Vectorized)|2639|0|2639|8061|0.779 MiB |8049|0.778 MiB |322.702 ms |502.0 ms |
+|count_10s|1264|110|1154|2942|0.415 MiB |2932|0.414 MiB |171.965 ms |193.0 ms |
+|count_10s (Non-Vectorized)|1856|0|1856|5762|0.555 MiB |5752|0.554 MiB |228.947 ms |346.0 ms |
+|count_123|1271|115|1156|2948|0.417 MiB |2939|0.416 MiB |216.053 ms |194.0 ms |
+|count_123 (Non-Vectorized)|1878|0|1878|5798|0.558 MiB |5789|0.558 MiB |251.989 ms |348.0 ms |
+|cryptonets_max_pooling|757|605|152|1484|1.013 MiB |1379|1.007 MiB |123.207 ms |107.0 ms |
+|cryptonets_max_pooling (Non-Vectorized)|11904|0|11904|17957|1.828 MiB |17852|1.823 MiB |1820.657 ms |1554.0 ms |
+|db_cross_join_trivial|7971|62|7909|36652|6.318 MiB |36345|6.302 MiB |1275.402 ms |2119.0 ms |
+|db_cross_join_trivial (Non-Vectorized)|11276|0|11276|86306|8.773 MiB |85999|8.757 MiB |1234.523 ms |4440.0 ms |
+|db_variance|13352|3017|10335|20698|3.612 MiB |20695|3.611 MiB |2081.98 ms |1746.0 ms |
+|db_variance (Non-Vectorized)|34410|0|34410|56538|5.389 MiB |56535|5.389 MiB |4489.869 ms |4574.0 ms |
+|histogram|1473|1357|116|2939|1.046 MiB |2891|1.043 MiB |227.772 ms |240.0 ms |
+|histogram (Non-Vectorized)|7673|0|7673|18072|1.795 MiB |18024|1.793 MiB |1070.225 ms |1277.0 ms |
+|inner_product|3301|2827|474|5833|1.004 MiB |5830|1.004 MiB |414.251 ms |456.0 ms |
+|inner_product (Non-Vectorized)|8944|0|8944|15763|1.497 MiB |15760|1.496 MiB |1243.138 ms |1226.0 ms |
+|longest_102|3730|115|3615|6776|0.867 MiB |6764|0.866 MiB |565.173 ms |531.0 ms |
+|longest_102 (Non-Vectorized)|4649|0|4649|11051|1.079 MiB |11039|1.078 MiB |736.658 ms |766.0 ms |
+|longest_odd_10|2993|114|2879|6671|0.869 MiB |6660|0.868 MiB |442.033 ms |476.0 ms |
+|longest_odd_10 (Non-Vectorized)|3688|0|3688|10864|1.077 MiB |10853|1.076 MiB |582.41 ms |699.0 ms |
+|max_dist_between_syms|2879|38|2841|5152|0.559 MiB |5141|0.558 MiB |427.522 ms |393.0 ms |
+|max_dist_between_syms (Non-Vectorized)|3110|0|3110|6237|0.612 MiB |6226|0.612 MiB |470.641 ms |460.0 ms |
+|max_sum_between_syms|2878|38|2840|5150|0.558 MiB |5140|0.557 MiB |427.41 ms |402.0 ms |
+|max_sum_between_syms (Non-Vectorized)|3109|0|3109|6235|0.612 MiB |6225|0.611 MiB |443.903 ms |463.0 ms |
+|minimal_points|472|431|41|1015|0.244 MiB |1012|0.244 MiB |117.617 ms |59.0 ms |
+|minimal_points (Non-Vectorized)|3566|0|3566|4161|0.4 MiB |4158|0.4 MiB |502.876 ms |396.0 ms |
+|mnist_relu|1010|203|807|1684|3.225 MiB |1280|3.205 MiB |352.453 ms |159.0 ms |
+|mnist_relu (Non-Vectorized)|40003|0|40003|59195|6.07 MiB |58791|6.05 MiB |5260.769 ms |5591.0 ms |
+|psi|141|92|49|748|0.348 MiB |740|0.348 MiB |67.409 ms |27.0 ms |
+|psi (Non-Vectorized)|1306|0|1306|6674|0.641 MiB |6666|0.641 MiB |156.536 ms |350.0 ms |
 
 ### mixed
 | Benchmark | Total # Gates | # SIMD gates | # Non-SIMD gates | # messages sent (party 0) | Sent size (party 0) | # messages received (party 0) | Received Size (party 0) | Runtime | Circuit Generation Time |
 | - | - | - | - | - | - | - | - | - | - |
-|biometric|1026|185|841|2237|0.252 MiB |2230|0.252 MiB |129.717 ms |148.0 ms |
-|biometric_fast|1045|189|856|2237|0.252 MiB |2230|0.252 MiB |127.9 ms |146.0 ms |
-|chapterfour_figure_12|398|0|398|975|0.087 MiB |972|0.087 MiB |91.095 ms |51.0 ms |
-|convex_hull|2105|2063|42|1381|0.122 MiB |1380|0.122 MiB |720.707 ms |121.0 ms |
-|count_102|1983|299|1684|3466|0.34 MiB |3463|0.339 MiB |1150.738 ms |257.0 ms |
-|count_10s|1482|300|1182|2602|0.249 MiB |2599|0.249 MiB |810.701 ms |182.0 ms |
-|count_123|1491|307|1184|2604|0.249 MiB |2601|0.249 MiB |775.162 ms |178.0 ms |
-|cryptonets_max_pooling|1345|1217|128|951|0.139 MiB |950|0.138 MiB |927.165 ms |80.0 ms |
-|db_cross_join_trivial|21897|116|21781|14486|0.877 MiB |14485|0.876 MiB |3859.786 ms |1299.0 ms |
-|db_variance|8215|11|8204|13396|1.306 MiB |13394|1.29 MiB |1121.705 ms |1080.0 ms |
-|histogram|1471|1357|114|2935|1.045 MiB |2889|1.042 MiB |225.627 ms |245.0 ms |
-|inner_product|19|6|13|394|0.029 MiB |393|0.029 MiB |41.915 ms |0.0 ms |
-|longest_102|3965|309|3656|6410|0.635 MiB |6407|0.635 MiB |1399.253 ms |530.0 ms |
-|longest_odd_10|2992|114|2878|6669|0.868 MiB |6659|0.868 MiB |418.294 ms |478.0 ms |
-|max_dist_between_syms|2878|38|2840|5150|0.558 MiB |5140|0.557 MiB |448.444 ms |401.0 ms |
-|max_sum_between_syms|2877|38|2839|5148|0.557 MiB |5139|0.557 MiB |428.57 ms |403.0 ms |
-|minimal_points|881|847|34|765|0.071 MiB |764|0.071 MiB |500.644 ms |50.0 ms |
-|mnist_relu|1012|407|605|771|0.33 MiB |770|0.33 MiB |429.915 ms |86.0 ms |
-|psi|180|138|42|474|0.05 MiB |473|0.05 MiB |579.379 ms |9.0 ms |
+|biometric|1026|185|841|2237|0.252 MiB |2230|0.252 MiB |209.559 ms |148.0 ms |
+|biometric_fast|1045|189|856|2237|0.252 MiB |2230|0.252 MiB |186.284 ms |149.0 ms |
+|chapterfour_figure_12|398|0|398|975|0.087 MiB |972|0.087 MiB |83.305 ms |52.0 ms |
+|convex_hull|1039|991|48|1990|0.513 MiB |1980|0.513 MiB |151.324 ms |146.0 ms |
+|count_102|1752|109|1643|3829|0.569 MiB |3818|0.568 MiB |240.044 ms |269.0 ms |
+|count_10s|1263|110|1153|2940|0.414 MiB |2931|0.414 MiB |204.235 ms |198.0 ms |
+|count_123|1270|115|1155|2946|0.416 MiB |2938|0.416 MiB |201.867 ms |195.0 ms |
+|cryptonets_max_pooling|753|605|148|1476|1.01 MiB |1375|1.005 MiB |155.028 ms |105.0 ms |
+|db_cross_join_trivial|21897|116|21781|14486|0.877 MiB |14485|0.876 MiB |3877.95 ms |1311.0 ms |
+|db_variance|8215|11|8204|13396|1.306 MiB |13394|1.29 MiB |1182.745 ms |1091.0 ms |
+|histogram|1471|1357|114|2935|1.045 MiB |2889|1.042 MiB |232.519 ms |246.0 ms |
+|inner_product|19|6|13|394|0.029 MiB |393|0.029 MiB |41.809 ms |0.0 ms |
+|longest_102|3729|115|3614|6774|0.866 MiB |6763|0.866 MiB |542.407 ms |528.0 ms |
+|longest_odd_10|2992|114|2878|6669|0.868 MiB |6659|0.868 MiB |457.688 ms |479.0 ms |
+|max_dist_between_syms|2878|38|2840|5150|0.558 MiB |5140|0.557 MiB |418.374 ms |404.0 ms |
+|max_sum_between_syms|2877|38|2839|5148|0.557 MiB |5139|0.557 MiB |408.901 ms |402.0 ms |
+|minimal_points|471|431|40|1013|0.244 MiB |1011|0.244 MiB |96.941 ms |57.0 ms |
+|mnist_relu|1012|407|605|771|0.33 MiB |770|0.33 MiB |416.436 ms |85.0 ms |
+|psi|180|138|42|474|0.05 MiB |473|0.05 MiB |578.175 ms |9.0 ms |
 
 ## MP-SPDZ Benchmark Data
 ### Arithmetic protocol compilation
 | Benchmark | Compile time (seconds) | # int triples | # int opens | # VM rounds |
 | - | - | - | - | - |
-|biometric|0.406|504|6|34|
-|biometric (Non-Vectorized)|0.227|504|6|34|
-|biometric_fast|0.238|504|6|34|
-|biometric_fast (Non-Vectorized)|0.23|504|6|34|
+|biometric|0.423|504|6|34|
+|biometric (Non-Vectorized)|0.228|504|6|34|
+|biometric_fast|0.237|504|6|34|
+|biometric_fast (Non-Vectorized)|0.227|504|6|34|
 |chapterfour_figure_12|0.148|242|3|10|
-|chapterfour_figure_12 (Non-Vectorized)|0.144|242|3|10|
-|convex_hull|0.16|2910|30|14|
-|convex_hull (Non-Vectorized)|0.159|2910|30|14|
-|count_102|0.156|1930|31|39|
+|chapterfour_figure_12 (Non-Vectorized)|0.147|242|3|10|
+|convex_hull|0.159|2910|30|14|
+|convex_hull (Non-Vectorized)|0.162|2910|30|14|
+|count_102|0.157|1930|31|39|
 |count_102 (Non-Vectorized)|0.151|1930|31|28|
-|count_10s|0.149|1351|22|30|
-|count_10s (Non-Vectorized)|0.147|1351|22|22|
-|count_123|0.151|1358|22|31|
-|count_123 (Non-Vectorized)|0.15|1358|22|23|
+|count_10s|0.151|1351|22|30|
+|count_10s (Non-Vectorized)|0.149|1351|22|22|
+|count_123|0.152|1358|22|31|
+|count_123 (Non-Vectorized)|0.151|1358|22|23|
 |cryptonets_max_pooling|0.234|7260|80|25|
-|cryptonets_max_pooling (Non-Vectorized)|0.224|7260|80|25|
-|db_cross_join_trivial|0.323|19389|378|12|
-|db_cross_join_trivial (Non-Vectorized)|0.307|19200|375|12|
-|db_variance|2.017|4000|29|184|
-|db_variance (Non-Vectorized)|1.998|4000|29|184|
-|inner_product|0.078|3|1|2|
+|cryptonets_max_pooling (Non-Vectorized)|0.228|7260|80|25|
+|db_cross_join_trivial|0.326|19389|378|12|
+|db_cross_join_trivial (Non-Vectorized)|0.306|19200|375|12|
+|db_variance|1.988|4000|29|184|
+|db_variance (Non-Vectorized)|1.987|4000|29|184|
+|inner_product|0.08|3|1|2|
 |inner_product (Non-Vectorized)|0.075|3|1|2|
-|longest_102|0.468|3160|41|130|
-|longest_102 (Non-Vectorized)|0.469|3160|41|102|
-|longest_odd_10|0.437|2520|33|105|
-|longest_odd_10 (Non-Vectorized)|0.623|2520|33|139|
-|max_dist_between_syms|0.411|1480|17|80|
-|max_dist_between_syms (Non-Vectorized)|0.404|1480|17|73|
+|longest_102|0.466|3160|41|130|
+|longest_102 (Non-Vectorized)|0.467|3160|41|102|
+|longest_odd_10|0.44|2520|33|105|
+|longest_odd_10 (Non-Vectorized)|0.615|2520|33|139|
+|max_dist_between_syms|0.404|1480|17|80|
+|max_dist_between_syms (Non-Vectorized)|0.403|1480|17|73|
 |max_sum_between_syms|0.404|1480|17|80|
-|max_sum_between_syms (Non-Vectorized)|0.398|1480|17|73|
-|minimal_points|0.158|2184|24|13|
-|minimal_points (Non-Vectorized)|0.151|2184|24|13|
-|mnist_relu|0.258|24200|400|9|
-|mnist_relu (Non-Vectorized)|0.283|24200|400|9|
+|max_sum_between_syms (Non-Vectorized)|0.405|1480|17|73|
+|minimal_points|0.16|2184|24|13|
+|minimal_points (Non-Vectorized)|0.153|2184|24|13|
+|mnist_relu|0.263|24200|400|9|
+|mnist_relu (Non-Vectorized)|0.284|24200|400|9|
 |psi|0.162|2245|40|16|
 |psi (Non-Vectorized)|0.158|2245|40|16|
 ### Binary protocol compilation (32 bit default)
 | Benchmark | Compile time (seconds) | # bit triples | # VM rounds |
 | - | - | - | - |
-|biometric|0.809|25788|95|
-|biometric (Non-Vectorized)|7.009|25788|72|
-|biometric_fast|0.888|22920|104|
-|biometric_fast (Non-Vectorized)|6.584|22920|74|
-|chapterfour_figure_12|0.131|190|9|
-|chapterfour_figure_12 (Non-Vectorized)|0.134|190|9|
-|convex_hull|0.396|5439|30|
-|convex_hull (Non-Vectorized)|0.523|1755|13|
-|count_102|0.674|2300|79|
-|count_102 (Non-Vectorized)|0.747|2300|61|
-|count_10s|0.48|1610|66|
-|count_10s (Non-Vectorized)|0.524|1610|55|
-|count_123|0.513|1638|67|
-|count_123 (Non-Vectorized)|0.522|1638|55|
-|cryptonets_max_pooling|0.889|5700|22|
-|cryptonets_max_pooling (Non-Vectorized)|1.673|5700|22|
-|db_cross_join_trivial|4.757|18993|10|
-|db_cross_join_trivial (Non-Vectorized)|4.679|18900|10|
-|db_variance|123.31|396834|642|
-|db_variance (Non-Vectorized)|126.48|396834|611|
-|inner_product|0.425|3924|46|
-|inner_product (Non-Vectorized)|0.914|3924|39|
-|longest_102|0.985|3300|112|
-|longest_102 (Non-Vectorized)|1.023|3300|94|
-|longest_odd_10|0.847|3080|121|
-|longest_odd_10 (Non-Vectorized)|0.942|3080|77|
-|max_dist_between_syms|0.733|2056|72|
-|max_dist_between_syms (Non-Vectorized)|0.713|2056|72|
-|max_sum_between_syms|0.718|2056|72|
-|max_sum_between_syms (Non-Vectorized)|0.683|2056|72|
-|minimal_points|0.295|1650|12|
-|minimal_points (Non-Vectorized)|0.417|1371|12|
-|mnist_relu|2.931|19000|8|
-|mnist_relu (Non-Vectorized)|6.615|19000|8|
-|psi|0.309|1280|14|
-|psi (Non-Vectorized)|0.351|1280|14|
+|biometric|0.808|25788|95|
+|biometric (Non-Vectorized)|6.782|25788|72|
+|biometric_fast|0.876|22920|104|
+|biometric_fast (Non-Vectorized)|6.313|22920|74|
+|chapterfour_figure_12|0.132|190|9|
+|chapterfour_figure_12 (Non-Vectorized)|0.13|190|9|
+|convex_hull|0.386|5439|30|
+|convex_hull (Non-Vectorized)|0.526|1755|13|
+|count_102|0.684|2300|79|
+|count_102 (Non-Vectorized)|0.704|2300|61|
+|count_10s|0.479|1610|66|
+|count_10s (Non-Vectorized)|0.505|1610|55|
+|count_123|0.516|1638|67|
+|count_123 (Non-Vectorized)|0.518|1638|55|
+|cryptonets_max_pooling|0.884|5700|22|
+|cryptonets_max_pooling (Non-Vectorized)|1.648|5700|22|
+|db_cross_join_trivial|4.739|18993|10|
+|db_cross_join_trivial (Non-Vectorized)|4.707|18900|10|
+|db_variance|124.074|396834|642|
+|db_variance (Non-Vectorized)|123.933|396834|611|
+|inner_product|0.422|3924|46|
+|inner_product (Non-Vectorized)|0.911|3924|39|
+|longest_102|0.995|3300|112|
+|longest_102 (Non-Vectorized)|1.045|3300|94|
+|longest_odd_10|0.852|3080|121|
+|longest_odd_10 (Non-Vectorized)|0.935|3080|77|
+|max_dist_between_syms|0.726|2056|72|
+|max_dist_between_syms (Non-Vectorized)|0.71|2056|72|
+|max_sum_between_syms|0.716|2056|72|
+|max_sum_between_syms (Non-Vectorized)|0.685|2056|72|
+|minimal_points|0.299|1650|12|
+|minimal_points (Non-Vectorized)|0.416|1371|12|
+|mnist_relu|2.858|19000|8|
+|mnist_relu (Non-Vectorized)|6.579|19000|8|
+|psi|0.31|1280|14|
+|psi (Non-Vectorized)|0.347|1280|14|
 
 ### Mascot protocol
 | Benchmark | Time (seconds) | Data sent (MB) |
 | - | - | - |
-|biometric|0.227484|19.7196|
-|biometric (Non-Vectorized)|0.227398|19.7196|
-|biometric_fast|0.22315|19.7196|
-|biometric_fast (Non-Vectorized)|0.225173|19.7196|
-|chapterfour_figure_12|0.12123|8.87755|
-|chapterfour_figure_12 (Non-Vectorized)|0.12081|8.87755|
-|convex_hull|1.10427|106.009|
-|convex_hull (Non-Vectorized)|1.10442|106.009|
-|count_102|1.03745|98.5974|
-|count_102 (Non-Vectorized)|1.03779|98.5974|
-|count_10s|0.720047|69.0582|
-|count_10s (Non-Vectorized)|0.718316|69.0582|
-|count_123|0.713715|69.1752|
-|count_123 (Non-Vectorized)|0.74232|69.1752|
-|cryptonets_max_pooling|2.94017|264.745|
-|cryptonets_max_pooling (Non-Vectorized)|2.89429|264.745|
-|db_cross_join_trivial|10.1776|1014.76|
-|db_cross_join_trivial (Non-Vectorized)|10.1792|1014.75|
-|db_variance|2.668|349.936|
-|db_variance (Non-Vectorized)|2.68309|349.936|
-|inner_product|0.00699442|0.110123|
-|inner_product (Non-Vectorized)|0.00714334|0.110123|
-|longest_102|1.4637|143.098|
-|longest_102 (Non-Vectorized)|1.47075|143.098|
-|longest_odd_10|1.20362|114.329|
-|longest_odd_10 (Non-Vectorized)|1.20301|114.33|
-|max_dist_between_syms|0.669376|61.5599|
-|max_dist_between_syms (Non-Vectorized)|0.649482|61.5599|
-|max_sum_between_syms|0.650794|61.5599|
-|max_sum_between_syms (Non-Vectorized)|0.653603|61.5599|
-|minimal_points|0.826668|79.5515|
-|minimal_points (Non-Vectorized)|0.834242|79.5515|
-|mnist_relu|8.93606|897.666|
-|mnist_relu (Non-Vectorized)|8.91326|897.666|
-|psi|1.18549|114.932|
-|psi (Non-Vectorized)|1.18114|114.932|
+|biometric|0.224502|19.7196|
+|biometric (Non-Vectorized)|0.225241|19.7196|
+|biometric_fast|0.223467|19.7196|
+|biometric_fast (Non-Vectorized)|0.224682|19.7196|
+|chapterfour_figure_12|0.121002|8.87755|
+|chapterfour_figure_12 (Non-Vectorized)|0.122377|8.87755|
+|convex_hull|1.09562|106.009|
+|convex_hull (Non-Vectorized)|1.09805|106.009|
+|count_102|1.03985|98.5974|
+|count_102 (Non-Vectorized)|1.07952|98.5974|
+|count_10s|0.70849|69.0582|
+|count_10s (Non-Vectorized)|0.706425|69.0582|
+|count_123|0.715876|69.1752|
+|count_123 (Non-Vectorized)|0.747366|69.1752|
+|cryptonets_max_pooling|2.66|264.745|
+|cryptonets_max_pooling (Non-Vectorized)|2.6631|264.745|
+|db_cross_join_trivial|10.9872|1014.76|
+|db_cross_join_trivial (Non-Vectorized)|10.1404|1014.75|
+|db_variance|2.68005|349.936|
+|db_variance (Non-Vectorized)|2.66402|349.936|
+|inner_product|0.00690194|0.110123|
+|inner_product (Non-Vectorized)|0.00733901|0.110123|
+|longest_102|1.47537|143.098|
+|longest_102 (Non-Vectorized)|1.47484|143.098|
+|longest_odd_10|1.1872|114.329|
+|longest_odd_10 (Non-Vectorized)|1.20742|114.33|
+|max_dist_between_syms|0.647013|61.5599|
+|max_dist_between_syms (Non-Vectorized)|0.666414|61.5599|
+|max_sum_between_syms|0.653861|61.5599|
+|max_sum_between_syms (Non-Vectorized)|0.656268|61.5599|
+|minimal_points|0.820008|79.5515|
+|minimal_points (Non-Vectorized)|0.828232|79.5515|
+|mnist_relu|8.90203|897.666|
+|mnist_relu (Non-Vectorized)|8.85266|897.666|
+|psi|1.18364|114.932|
+|psi (Non-Vectorized)|1.17765|114.932|
 
 ### Semi-Bmr protocol
 | Benchmark | Time (seconds) | Data sent (MB) |
 | - | - | - |
-|biometric|4.12309|728.81|
-|biometric (Non-Vectorized)|3.71802|728.81|
-|biometric_fast|3.23496|647.489|
-|biometric_fast (Non-Vectorized)|3.24989|647.489|
-|chapterfour_figure_12|0.060037|6.25733|
-|chapterfour_figure_12 (Non-Vectorized)|0.0537639|6.25733|
-|convex_hull|0.804813|153.29|
-|convex_hull (Non-Vectorized)|0.282693|50.0566|
-|count_102|0.358723|65.6899|
-|count_102 (Non-Vectorized)|0.352199|65.6899|
-|count_10s|0.271349|46.9119|
-|count_10s (Non-Vectorized)|0.255743|46.9119|
-|count_123|0.258368|46.9235|
-|count_123 (Non-Vectorized)|0.253345|46.9235|
-|cryptonets_max_pooling|0.912754|162.651|
-|cryptonets_max_pooling (Non-Vectorized)|0.874128|162.651|
-|db_cross_join_trivial|2.90124|534.947|
-|db_cross_join_trivial (Non-Vectorized)|2.82281|534.908|
-|db_variance|54.4564|11173.4|
-|db_variance (Non-Vectorized)|54.3429|11173.4|
-|inner_product|0.590516|112.593|
-|inner_product (Non-Vectorized)|0.581839|112.593|
-|longest_102|0.493602|93.8424|
-|longest_102 (Non-Vectorized)|0.491726|93.8424|
-|longest_odd_10|0.463615|87.5872|
-|longest_odd_10 (Non-Vectorized)|0.462607|87.5872|
-|max_dist_between_syms|0.33097|59.4247|
-|max_dist_between_syms (Non-Vectorized)|0.317644|59.4247|
-|max_sum_between_syms|0.318096|59.4247|
-|max_sum_between_syms (Non-Vectorized)|0.324352|59.4247|
-|minimal_points|0.269935|46.9311|
-|minimal_points (Non-Vectorized)|0.236055|40.6513|
-|mnist_relu|3.04896|535.014|
-|mnist_relu (Non-Vectorized)|3.0706|535.014|
-|psi|0.222741|37.5311|
-|psi (Non-Vectorized)|0.222077|37.5311|
+|biometric|3.65858|728.81|
+|biometric (Non-Vectorized)|3.70661|728.81|
+|biometric_fast|3.23556|647.489|
+|biometric_fast (Non-Vectorized)|3.21556|647.489|
+|chapterfour_figure_12|0.055141|6.25733|
+|chapterfour_figure_12 (Non-Vectorized)|0.0548015|6.25733|
+|convex_hull|0.803701|153.29|
+|convex_hull (Non-Vectorized)|0.286499|50.0566|
+|count_102|0.358987|65.6899|
+|count_102 (Non-Vectorized)|0.346323|65.6899|
+|count_10s|0.262021|46.9119|
+|count_10s (Non-Vectorized)|0.268446|46.9119|
+|count_123|0.25828|46.9235|
+|count_123 (Non-Vectorized)|0.257953|46.9235|
+|cryptonets_max_pooling|0.866625|162.651|
+|cryptonets_max_pooling (Non-Vectorized)|0.868361|162.651|
+|db_cross_join_trivial|2.76705|534.947|
+|db_cross_join_trivial (Non-Vectorized)|3.14778|534.908|
+|db_variance|54.2225|11173.4|
+|db_variance (Non-Vectorized)|54.1279|11173.4|
+|inner_product|0.592934|112.593|
+|inner_product (Non-Vectorized)|0.595468|112.593|
+|longest_102|0.493834|93.8424|
+|longest_102 (Non-Vectorized)|0.488146|93.8424|
+|longest_odd_10|0.459733|87.5872|
+|longest_odd_10 (Non-Vectorized)|0.486928|87.5872|
+|max_dist_between_syms|0.327591|59.4247|
+|max_dist_between_syms (Non-Vectorized)|0.317769|59.4247|
+|max_sum_between_syms|0.33037|59.4247|
+|max_sum_between_syms (Non-Vectorized)|0.322195|59.4247|
+|minimal_points|0.269998|46.9311|
+|minimal_points (Non-Vectorized)|0.23872|40.6513|
+|mnist_relu|3.06044|535.014|
+|mnist_relu (Non-Vectorized)|3.07259|535.014|
+|psi|0.226396|37.5311|
+|psi (Non-Vectorized)|0.220974|37.5311|
 
 ### Semi protocol
 | Benchmark | Time (seconds) | Data sent (MB) |
 | - | - | - |
-|biometric|0.0327624|1.61202|
-|biometric (Non-Vectorized)|0.0325234|1.61202|
-|biometric_fast|0.0319464|1.61202|
-|biometric_fast (Non-Vectorized)|0.0318744|1.61202|
-|chapterfour_figure_12|0.0173937|0.794624|
-|chapterfour_figure_12 (Non-Vectorized)|0.0177458|0.794624|
-|convex_hull|0.119859|9.1351|
-|convex_hull (Non-Vectorized)|0.12197|9.1351|
-|count_102|0.0881908|6.0977|
-|count_102 (Non-Vectorized)|0.0880141|6.0977|
-|count_10s|0.0624997|4.28294|
-|count_10s (Non-Vectorized)|0.0621675|4.28294|
-|count_123|0.0635876|4.30159|
-|count_123 (Non-Vectorized)|0.0636099|4.30159|
-|cryptonets_max_pooling|0.273878|22.7714|
-|cryptonets_max_pooling (Non-Vectorized)|0.268175|22.7714|
-|db_cross_join_trivial|0.686271|62.8005|
-|db_cross_join_trivial (Non-Vectorized)|0.690811|62.7944|
-|db_variance|0.228047|24.9527|
-|db_variance (Non-Vectorized)|0.223844|24.9527|
-|inner_product|0.00490473|0.04864|
-|inner_product (Non-Vectorized)|0.00519531|0.04864|
-|longest_102|0.134148|9.94978|
-|longest_102 (Non-Vectorized)|0.127501|9.94978|
-|longest_odd_10|0.111764|7.93893|
-|longest_odd_10 (Non-Vectorized)|0.111181|7.93893|
-|max_dist_between_syms|0.0708842|4.67201|
-|max_dist_between_syms (Non-Vectorized)|0.0705344|4.67201|
-|max_sum_between_syms|0.0709975|4.67201|
-|max_sum_between_syms (Non-Vectorized)|0.0706045|4.67201|
-|minimal_points|0.0924971|6.87126|
-|minimal_points (Non-Vectorized)|0.0907547|6.87126|
-|mnist_relu|0.852763|78.2001|
-|mnist_relu (Non-Vectorized)|0.838298|78.2001|
-|psi|0.0949917|7.09977|
-|psi (Non-Vectorized)|0.0930535|7.09977|
+|biometric|0.0374196|1.61202|
+|biometric (Non-Vectorized)|0.0323652|1.61202|
+|biometric_fast|0.0326205|1.61202|
+|biometric_fast (Non-Vectorized)|0.0326692|1.61202|
+|chapterfour_figure_12|0.0183171|0.794624|
+|chapterfour_figure_12 (Non-Vectorized)|0.018066|0.794624|
+|convex_hull|0.119349|9.1351|
+|convex_hull (Non-Vectorized)|0.118448|9.1351|
+|count_102|0.0885196|6.0977|
+|count_102 (Non-Vectorized)|0.087645|6.0977|
+|count_10s|0.0632584|4.28294|
+|count_10s (Non-Vectorized)|0.0616729|4.28294|
+|count_123|0.0635538|4.30159|
+|count_123 (Non-Vectorized)|0.0638551|4.30159|
+|cryptonets_max_pooling|0.266746|22.7714|
+|cryptonets_max_pooling (Non-Vectorized)|0.265687|22.7714|
+|db_cross_join_trivial|0.698055|62.8005|
+|db_cross_join_trivial (Non-Vectorized)|0.688759|62.7944|
+|db_variance|0.226005|24.9527|
+|db_variance (Non-Vectorized)|0.224395|24.9527|
+|inner_product|0.00863254|0.04864|
+|inner_product (Non-Vectorized)|0.00556301|0.04864|
+|longest_102|0.135484|9.94978|
+|longest_102 (Non-Vectorized)|0.132299|9.94978|
+|longest_odd_10|0.113703|7.93893|
+|longest_odd_10 (Non-Vectorized)|0.113261|7.93893|
+|max_dist_between_syms|0.0716562|4.67201|
+|max_dist_between_syms (Non-Vectorized)|0.0735901|4.67201|
+|max_sum_between_syms|0.0717481|4.67201|
+|max_sum_between_syms (Non-Vectorized)|0.0713038|4.67201|
+|minimal_points|0.0926289|6.87126|
+|minimal_points (Non-Vectorized)|0.089981|6.87126|
+|mnist_relu|0.8407|78.2001|
+|mnist_relu (Non-Vectorized)|0.848041|78.2001|
+|psi|0.10152|7.09977|
+|psi (Non-Vectorized)|0.0947464|7.09977|
 
 ### Hemi protocol
 | Benchmark | Time (seconds) | Data sent (MB) |
 | - | - | - |
-|biometric|0.17263|1.61721|
-|biometric (Non-Vectorized)|0.172805|1.61721|
-|biometric_fast|0.173515|1.61721|
-|biometric_fast (Non-Vectorized)|0.180126|1.61721|
-|chapterfour_figure_12|0.17228|1.60469|
-|chapterfour_figure_12 (Non-Vectorized)|0.174925|1.60469|
-|convex_hull|0.174093|1.72941|
-|convex_hull (Non-Vectorized)|0.172824|1.72941|
-|count_102|0.175138|1.7124|
-|count_102 (Non-Vectorized)|0.175526|1.7124|
-|count_10s|0.174972|1.67325|
-|count_10s (Non-Vectorized)|0.174047|1.67325|
-|count_123|0.178322|1.67347|
-|count_123 (Non-Vectorized)|0.17268|1.67347|
-|cryptonets_max_pooling|0.17812|1.94109|
-|cryptonets_max_pooling (Non-Vectorized)|0.180667|1.94109|
-|db_cross_join_trivial|0.465145|5.87349|
-|db_cross_join_trivial (Non-Vectorized)|0.462414|5.86739|
-|db_variance|0.253277|2.42505|
-|db_variance (Non-Vectorized)|0.255284|2.42505|
-|inner_product|0.166369|1.58308|
-|inner_product (Non-Vectorized)|0.169666|1.58308|
-|longest_102|0.182383|1.76625|
-|longest_102 (Non-Vectorized)|0.190858|1.76625|
-|longest_odd_10|0.180972|1.73131|
-|longest_odd_10 (Non-Vectorized)|0.182416|1.73131|
-|max_dist_between_syms|0.177384|1.6691|
-|max_dist_between_syms (Non-Vectorized)|0.17964|1.6691|
-|max_sum_between_syms|0.176991|1.6691|
-|max_sum_between_syms (Non-Vectorized)|0.177445|1.6691|
-|minimal_points|0.172866|1.69584|
-|minimal_points (Non-Vectorized)|0.178411|1.69584|
-|mnist_relu|0.456581|5.86395|
-|mnist_relu (Non-Vectorized)|0.456673|5.86395|
-|psi|0.175187|1.73081|
-|psi (Non-Vectorized)|0.175422|1.73081|
+|biometric|0.17264|1.61721|
+|biometric (Non-Vectorized)|0.172731|1.61721|
+|biometric_fast|0.175286|1.61721|
+|biometric_fast (Non-Vectorized)|0.173438|1.61721|
+|chapterfour_figure_12|0.171015|1.60469|
+|chapterfour_figure_12 (Non-Vectorized)|0.171479|1.60469|
+|convex_hull|0.173098|1.72941|
+|convex_hull (Non-Vectorized)|0.173639|1.72941|
+|count_102|0.175234|1.7124|
+|count_102 (Non-Vectorized)|0.177413|1.7124|
+|count_10s|0.174804|1.67325|
+|count_10s (Non-Vectorized)|0.178719|1.67325|
+|count_123|0.174253|1.67347|
+|count_123 (Non-Vectorized)|0.173571|1.67347|
+|cryptonets_max_pooling|0.177422|1.94109|
+|cryptonets_max_pooling (Non-Vectorized)|0.178445|1.94109|
+|db_cross_join_trivial|0.475212|5.87349|
+|db_cross_join_trivial (Non-Vectorized)|0.457143|5.86739|
+|db_variance|0.254973|2.42505|
+|db_variance (Non-Vectorized)|0.254615|2.42505|
+|inner_product|0.166261|1.58308|
+|inner_product (Non-Vectorized)|0.165615|1.58308|
+|longest_102|0.182584|1.76625|
+|longest_102 (Non-Vectorized)|0.180027|1.76625|
+|longest_odd_10|0.17978|1.73131|
+|longest_odd_10 (Non-Vectorized)|0.182222|1.73131|
+|max_dist_between_syms|0.176511|1.6691|
+|max_dist_between_syms (Non-Vectorized)|0.18726|1.6691|
+|max_sum_between_syms|0.177597|1.6691|
+|max_sum_between_syms (Non-Vectorized)|0.178269|1.6691|
+|minimal_points|0.174923|1.69584|
+|minimal_points (Non-Vectorized)|0.172751|1.69584|
+|mnist_relu|0.451858|5.86395|
+|mnist_relu (Non-Vectorized)|0.449697|5.86395|
+|psi|0.175324|1.73081|
+|psi (Non-Vectorized)|0.178513|1.73081|
 
 ### Temi protocol
 | Benchmark | Time (seconds) | Data sent (MB) |
 | - | - | - |
-|biometric|0.127293|2.00169|
-|biometric (Non-Vectorized)|0.127021|2.00166|
-|biometric_fast|0.126653|2.0017|
-|biometric_fast (Non-Vectorized)|0.126991|2.00168|
-|chapterfour_figure_12|0.123585|1.98657|
-|chapterfour_figure_12 (Non-Vectorized)|0.123373|1.9865|
-|convex_hull|0.142076|2.14623|
-|convex_hull (Non-Vectorized)|0.146798|2.14626|
-|count_102|0.14873|2.1341|
-|count_102 (Non-Vectorized)|0.148149|2.13405|
-|count_10s|0.140075|2.08546|
-|count_10s (Non-Vectorized)|0.140304|2.08543|
-|count_123|0.140182|2.08576|
-|count_123 (Non-Vectorized)|0.139845|2.08573|
-|cryptonets_max_pooling|0.286208|4.3694|
-|cryptonets_max_pooling (Non-Vectorized)|0.288511|4.36939|
-|db_cross_join_trivial|1.05229|15.3956|
-|db_cross_join_trivial (Non-Vectorized)|1.05183|15.3894|
-|db_variance|0.407758|5.64996|
-|db_variance (Non-Vectorized)|0.404432|5.64983|
-|inner_product|0.121077|1.97211|
-|inner_product (Non-Vectorized)|0.121242|1.97216|
-|longest_102|0.161741|2.20727|
-|longest_102 (Non-Vectorized)|0.159981|2.2072|
-|longest_odd_10|0.153982|2.16001|
-|longest_odd_10 (Non-Vectorized)|0.155564|2.15995|
-|max_dist_between_syms|0.138853|2.07309|
-|max_dist_between_syms (Non-Vectorized)|0.138762|2.07326|
-|max_sum_between_syms|0.13935|2.07319|
-|max_sum_between_syms (Non-Vectorized)|0.139203|2.07321|
-|minimal_points|0.13738|2.10273|
-|minimal_points (Non-Vectorized)|0.137042|2.10273|
-|mnist_relu|0.851058|13.2356|
-|mnist_relu (Non-Vectorized)|0.858588|13.2357|
-|psi|0.15448|2.16098|
-|psi (Non-Vectorized)|0.151363|2.16101|
+|biometric|0.126456|2.00168|
+|biometric (Non-Vectorized)|0.126569|2.0017|
+|biometric_fast|0.126488|2.00157|
+|biometric_fast (Non-Vectorized)|0.127778|2.00163|
+|chapterfour_figure_12|0.123361|1.98659|
+|chapterfour_figure_12 (Non-Vectorized)|0.124944|1.98655|
+|convex_hull|0.142375|2.14627|
+|convex_hull (Non-Vectorized)|0.142615|2.14626|
+|count_102|0.148088|2.13413|
+|count_102 (Non-Vectorized)|0.147631|2.13412|
+|count_10s|0.14158|2.0854|
+|count_10s (Non-Vectorized)|0.140461|2.08541|
+|count_123|0.143757|2.08565|
+|count_123 (Non-Vectorized)|0.141646|2.0857|
+|cryptonets_max_pooling|0.287256|4.36944|
+|cryptonets_max_pooling (Non-Vectorized)|0.290686|4.36947|
+|db_cross_join_trivial|1.05042|15.3955|
+|db_cross_join_trivial (Non-Vectorized)|1.04944|15.3892|
+|db_variance|0.404226|5.65003|
+|db_variance (Non-Vectorized)|0.404066|5.65|
+|inner_product|0.120892|1.97217|
+|inner_product (Non-Vectorized)|0.121421|1.97211|
+|longest_102|0.162009|2.20727|
+|longest_102 (Non-Vectorized)|0.163484|2.20722|
+|longest_odd_10|0.15515|2.15995|
+|longest_odd_10 (Non-Vectorized)|0.156844|2.15996|
+|max_dist_between_syms|0.139603|2.07324|
+|max_dist_between_syms (Non-Vectorized)|0.139864|2.07319|
+|max_sum_between_syms|0.142933|2.07322|
+|max_sum_between_syms (Non-Vectorized)|0.142569|2.07322|
+|minimal_points|0.138177|2.10275|
+|minimal_points (Non-Vectorized)|0.138954|2.10275|
+|mnist_relu|0.867255|13.2358|
+|mnist_relu (Non-Vectorized)|0.855874|13.2357|
+|psi|0.151628|2.16098|
+|psi (Non-Vectorized)|0.151613|2.16097|
 
 ### Soho protocol
 | Benchmark | Time (seconds) | Data sent (MB) |
 | - | - | - |
-|biometric|1.13075|8.63489|
-|biometric (Non-Vectorized)|1.13138|8.63496|
-|biometric_fast|1.13519|8.63492|
-|biometric_fast (Non-Vectorized)|1.38644|8.63499|
-|chapterfour_figure_12|1.13657|8.62319|
-|chapterfour_figure_12 (Non-Vectorized)|1.13171|8.62301|
-|convex_hull|1.14475|8.74578|
-|convex_hull (Non-Vectorized)|1.1563|8.74589|
-|count_102|1.15983|8.72404|
-|count_102 (Non-Vectorized)|1.2007|8.72413|
-|count_10s|1.14958|8.69069|
-|count_10s (Non-Vectorized)|1.13752|8.6905|
-|count_123|1.13942|8.69066|
-|count_123 (Non-Vectorized)|1.1448|8.69072|
-|cryptonets_max_pooling|1.16936|8.94652|
-|cryptonets_max_pooling (Non-Vectorized)|1.17317|8.94644|
-|db_cross_join_trivial|2.47515|18.3524|
-|db_cross_join_trivial (Non-Vectorized)|2.45814|18.3465|
-|db_variance|1.64076|11.7943|
-|db_variance (Non-Vectorized)|1.63612|11.7945|
-|inner_product|0.639723|5.49081|
-|inner_product (Non-Vectorized)|0.645806|5.49072|
-|longest_102|1.16045|8.78048|
-|longest_102 (Non-Vectorized)|1.16003|8.7805|
-|longest_odd_10|1.14972|8.7464|
-|longest_odd_10 (Non-Vectorized)|1.16228|8.74648|
-|max_dist_between_syms|1.13978|8.68629|
-|max_dist_between_syms (Non-Vectorized)|1.14154|8.68646|
-|max_sum_between_syms|1.14675|8.68633|
-|max_sum_between_syms (Non-Vectorized)|1.14355|8.68638|
-|minimal_points|1.12917|8.71229|
-|minimal_points (Non-Vectorized)|1.13114|8.71242|
-|mnist_relu|2.38676|18.331|
-|mnist_relu (Non-Vectorized)|2.38561|18.3309|
-|psi|1.15235|8.74262|
-|psi (Non-Vectorized)|1.14163|8.74265|
+|biometric|1.12623|8.63475|
+|biometric (Non-Vectorized)|1.12295|8.6348|
+|biometric_fast|1.13561|8.63486|
+|biometric_fast (Non-Vectorized)|1.13456|8.63505|
+|chapterfour_figure_12|1.12334|8.62301|
+|chapterfour_figure_12 (Non-Vectorized)|1.12393|8.62305|
+|convex_hull|1.13924|8.7459|
+|convex_hull (Non-Vectorized)|1.13725|8.74573|
+|count_102|1.17298|8.72421|
+|count_102 (Non-Vectorized)|1.1538|8.72408|
+|count_10s|1.15979|8.69056|
+|count_10s (Non-Vectorized)|1.13703|8.69054|
+|count_123|1.13628|8.69071|
+|count_123 (Non-Vectorized)|1.13756|8.69082|
+|cryptonets_max_pooling|1.1654|8.94637|
+|cryptonets_max_pooling (Non-Vectorized)|1.16507|8.9463|
+|db_cross_join_trivial|2.44452|18.3528|
+|db_cross_join_trivial (Non-Vectorized)|2.46474|18.3464|
+|db_variance|1.62548|11.7944|
+|db_variance (Non-Vectorized)|1.63055|11.7945|
+|inner_product|0.643873|5.49072|
+|inner_product (Non-Vectorized)|0.635896|5.49084|
+|longest_102|1.15138|8.78037|
+|longest_102 (Non-Vectorized)|1.15553|8.78041|
+|longest_odd_10|1.1537|8.74644|
+|longest_odd_10 (Non-Vectorized)|1.15771|8.74634|
+|max_dist_between_syms|1.14102|8.6862|
+|max_dist_between_syms (Non-Vectorized)|1.13574|8.68636|
+|max_sum_between_syms|1.13655|8.6863|
+|max_sum_between_syms (Non-Vectorized)|1.14492|8.68626|
+|minimal_points|1.13031|8.71236|
+|minimal_points (Non-Vectorized)|1.12695|8.71236|
+|mnist_relu|2.37325|18.331|
+|mnist_relu (Non-Vectorized)|2.37071|18.3307|
+|psi|1.1484|8.7425|
+|psi (Non-Vectorized)|1.14536|8.74263|
 
 ### Semi-Bin protocol
 | Benchmark | Time (seconds) | Data sent (MB) |
 | - | - | - |
-|biometric|0.0367371|0.476873|
-|biometric (Non-Vectorized)|0.0406185|0.319821|
-|biometric_fast|0.0389396|0.476527|
-|biometric_fast (Non-Vectorized)|0.0416462|0.319105|
-|chapterfour_figure_12|0.0262336|0.113894|
-|chapterfour_figure_12 (Non-Vectorized)|0.0271979|0.113894|
-|convex_hull|0.025262|0.11637|
-|convex_hull (Non-Vectorized)|0.0264421|0.114326|
-|count_102|0.0312428|0.114587|
-|count_102 (Non-Vectorized)|0.0302066|0.114445|
-|count_10s|0.0300608|0.114296|
-|count_10s (Non-Vectorized)|0.0291416|0.114268|
-|count_123|0.0292268|0.114304|
-|count_123 (Non-Vectorized)|0.0279384|0.114274|
-|cryptonets_max_pooling|0.0259052|0.115612|
-|cryptonets_max_pooling (Non-Vectorized)|0.028936|0.115423|
-|db_cross_join_trivial|0.0348741|0.218976|
-|db_cross_join_trivial (Non-Vectorized)|0.0334009|0.218914|
-|db_variance|0.285383|4.35979|
-|db_variance (Non-Vectorized)|0.273927|4.10358|
-|inner_product|0.177295|16.1209|
-|inner_product (Non-Vectorized)|0.0277696|0.114841|
-|longest_102|0.0325818|0.114854|
-|longest_102 (Non-Vectorized)|0.0300219|0.114702|
-|longest_odd_10|0.0328392|0.114651|
-|longest_odd_10 (Non-Vectorized)|0.0305712|0.114644|
-|max_dist_between_syms|0.0280459|0.114383|
-|max_dist_between_syms (Non-Vectorized)|0.0306696|0.114383|
-|max_sum_between_syms|0.0327365|0.114383|
-|max_sum_between_syms (Non-Vectorized)|0.0301274|0.114383|
-|minimal_points|0.0269495|0.11459|
-|minimal_points (Non-Vectorized)|0.0283247|0.114231|
-|mnist_relu|0.0300393|0.219939|
-|mnist_relu (Non-Vectorized)|0.0337511|0.219939|
-|psi|0.0268696|0.114242|
-|psi (Non-Vectorized)|0.0261084|0.114204|
+|biometric|0.039415|0.476873|
+|biometric (Non-Vectorized)|0.0432371|0.319821|
+|biometric_fast|0.0393789|0.476527|
+|biometric_fast (Non-Vectorized)|0.0427685|0.319105|
+|chapterfour_figure_12|0.0246044|0.113894|
+|chapterfour_figure_12 (Non-Vectorized)|0.0274763|0.113894|
+|convex_hull|0.0271314|0.11637|
+|convex_hull (Non-Vectorized)|0.0248159|0.114326|
+|count_102|0.0305677|0.114587|
+|count_102 (Non-Vectorized)|0.0294599|0.114445|
+|count_10s|0.0290721|0.114296|
+|count_10s (Non-Vectorized)|0.0289512|0.114268|
+|count_123|0.0303124|0.114304|
+|count_123 (Non-Vectorized)|0.0288918|0.114274|
+|cryptonets_max_pooling|0.027878|0.115612|
+|cryptonets_max_pooling (Non-Vectorized)|0.0279877|0.115423|
+|db_cross_join_trivial|0.0336495|0.218976|
+|db_cross_join_trivial (Non-Vectorized)|0.0316648|0.218914|
+|db_variance|0.279822|4.35979|
+|db_variance (Non-Vectorized)|0.282579|4.10358|
+|inner_product|0.181291|16.1209|
+|inner_product (Non-Vectorized)|0.0297441|0.114841|
+|longest_102|0.0307551|0.114854|
+|longest_102 (Non-Vectorized)|0.0325044|0.114702|
+|longest_odd_10|0.0332193|0.114651|
+|longest_odd_10 (Non-Vectorized)|0.0312728|0.114644|
+|max_dist_between_syms|0.0311901|0.114383|
+|max_dist_between_syms (Non-Vectorized)|0.0303232|0.114383|
+|max_sum_between_syms|0.0277861|0.114383|
+|max_sum_between_syms (Non-Vectorized)|0.0294584|0.114383|
+|minimal_points|0.0267247|0.11459|
+|minimal_points (Non-Vectorized)|0.0264037|0.114231|
+|mnist_relu|0.0322028|0.219939|
+|mnist_relu (Non-Vectorized)|0.0352892|0.219939|
+|psi|0.0263889|0.114242|
+|psi (Non-Vectorized)|0.0267818|0.114204|
 
 ## Compiler stages with different benchmarks
 ### `biometric`
@@ -739,7 +739,7 @@ def biometric(C!0: shared[list[int; ?]], D!0: plaintext[int], S!0: shared[list[i
     return !2!1
 ```
 #### Mixed configuration
-```Total cost:	18987115.80
+```Total cost:	29277.51
 Input vars:	{C!0: {'A'}, S!0: {'A'}}
 Constants:	{10000: {'Y'}, 0: {'Y', 'A'}}
 Plaintext vars:	{}
@@ -752,16 +752,16 @@ sum!2 = 0: _ -> {'A'} for 0.00 * 1 = 0.00
 !3!0{N!0}[] = lift(min_sum!1, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
 !4!0{N!0}[] = lift(min_index!1, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
 !5!0{N!0, D!0}[] = lift(sum!2, (i!1:N!0, j!1:D!0)): _ -> {'A'} for 0.00 * 1 = 0.00
-d!3{N!0, D!0}[] = (!6!0{N!0, D!0}[] - !7!0{N!0, D!0}[]): A -> {} for 40288.46 * 1 = 40288.46
-p!3{N!0, D!0}[] = (d!3{N!0, D!0}[] * d!3{N!0, D!0}[]): A -> {} for 246099.87 * 1 = 246099.87
+d!3{N!0, D!0}[] = (!6!0{N!0, D!0}[] - !7!0{N!0, D!0}[]): A -> {} for 1163.85 * 1 = 1163.85
+p!3{N!0, D!0}[] = (d!3{N!0, D!0}[] * d!3{N!0, D!0}[]): A -> {} for 3515.59 * 1 = 3515.59
 	sum!3{N!0}[!12!0] = Φ(!5!0{N!0}[!12!0], sum!4{N!0}[(!12!0 - 1)]): A -> {} for 0.00 * 4 = 0.00
-	sum!4{N!0}[!12!0] = (sum!3{N!0}[!12!0] + p!3{N!0}[!12!0]): A -> {} for 9948.21 * 4 = 39792.84
-!8!0{N!0}[] = drop_dim(sum!4{N!0, D!0}[]): _ -> {'Y', 'A'} for 520047.59 * 1 = 520047.59 (A->Y)
-	min_sum!2{}[!14!0] = Φ(!3!0{}[!14!0], min_sum!4{}[(!14!0 - 1)]): Y -> {} for 0.00 * 4096 = 0.00
-	!1!2{}[!14!0] = (!8!0{}[!14!0] < min_sum!2{}[!14!0]): Y -> {} for 1479.81 * 4096 = 6061303.81
-	min_sum!4{}[!14!0] = MUX(!1!2{}[!14!0], !8!0{}[!14!0], min_sum!2{}[!14!0]): Y -> {} for 1474.56 * 4096 = 6039791.62
-	min_index!2{}[!15!0] = Φ(!4!0{}[!15!0], min_index!4{}[(!15!0 - 1)]): Y -> {} for 0.00 * 4096 = 0.00
-	min_index!4{}[!15!0] = MUX(!1!2{}[!15!0], !13!0{}[!15!0], min_index!2{}[!15!0]): Y -> {} for 1474.56 * 4096 = 6039791.62
+	sum!4{N!0}[!12!0] = (sum!3{N!0}[!12!0] + p!3{N!0}[!12!0]): A -> {} for 1088.57 * 4 = 4354.26
+!8!0{N!0}[] = drop_dim(sum!4{N!0, D!0}[]): _ -> {'Y', 'A'} for 2528.10 * 1 = 2528.10 (A->Y)
+	min_sum!2{}[!14!0] = Φ(!3!0{}[!14!0], min_sum!4{}[(!14!0 - 1)]): Y -> {} for 0.00 * 4 = 0.00
+	!1!2{}[!14!0] = (!8!0{}[!14!0] < min_sum!2{}[!14!0]): Y -> {} for 1479.81 * 4 = 5919.24
+	min_sum!4{}[!14!0] = MUX(!1!2{}[!14!0], !8!0{}[!14!0], min_sum!2{}[!14!0]): Y -> {} for 1474.56 * 4 = 5898.23
+	min_index!2{}[!15!0] = Φ(!4!0{}[!15!0], min_index!4{}[(!15!0 - 1)]): Y -> {} for 0.00 * 4 = 0.00
+	min_index!4{}[!15!0] = MUX(!1!2{}[!15!0], !13!0{}[!15!0], min_index!2{}[!15!0]): Y -> {} for 1474.56 * 4 = 5898.23
 !10!0 = drop_dim(min_sum!4{N!0}[]): _ -> {'Y'} for 0.00 * 1 = 0.00
 !11!0 = drop_dim(min_index!4{N!0}[]): _ -> {'Y'} for 0.00 * 1 = 0.00
 !2!1 = (!10!0, !11!0)
@@ -1456,7 +1456,7 @@ def biometric_fast(D!0: plaintext[int], N!0: plaintext[int], C!0: shared[list[in
     return !2!1
 ```
 #### Mixed configuration
-```Total cost:	18966847.67
+```Total cost:	30295.91
 Input vars:	{two_C!0: {'A'}, S!0: {'A'}, C_sqr_sum!0: {'A'}, S_sqr_sum!0: {'A'}, differences!0: {'A'}}
 Constants:	{0: {'Y', 'A'}, 99999: {'Y'}}
 Plaintext vars:	{}
@@ -1471,21 +1471,21 @@ min_index!3 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
 min_diff!1 = 99999: _ -> {'Y'} for 0.00 * 1 = 0.00
 !16!0{N!0}[] = lift(i!2, (i!2:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
 !3!0{N!0}[] = lift(min_index!1, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-a_sqr_plus_b_sqr!2{N!0}[] = (!5!0{N!0}[] + !6!0{N!0}[]): A -> {} for 9948.21 * 1 = 9948.21
+a_sqr_plus_b_sqr!2{N!0}[] = (!5!0{N!0}[] + !6!0{N!0}[]): A -> {} for 1088.57 * 1 = 1088.57
 !7!0{N!0, D!0}[] = lift(two_a_b!2, (i!1:N!0, j!1:D!0)): _ -> {'A'} for 0.00 * 1 = 0.00
-tmp!3{N!0, D!0}[] = (!8!0{N!0, D!0}[] * !9!0{N!0, D!0}[]): A -> {} for 246099.87 * 1 = 246099.87
+tmp!3{N!0, D!0}[] = (!8!0{N!0, D!0}[] * !9!0{N!0, D!0}[]): A -> {} for 3515.59 * 1 = 3515.59
 !11!0{N!0}[] = lift(min_diff!1, (i!2:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-	min_index!2{}[!15!0] = Φ(!3!0{}[!15!0], min_index!3): Y -> {} for 0.00 * 4096 = 0.00
+	min_index!2{}[!15!0] = Φ(!3!0{}[!15!0], min_index!3): Y -> {} for 0.00 * 4 = 0.00
 	two_a_b!3{N!0}[!14!0] = Φ(!7!0{N!0}[!14!0], two_a_b!4{N!0}[(!14!0 - 1)]): A -> {} for 0.00 * 4 = 0.00
-	two_a_b!4{N!0}[!14!0] = (two_a_b!3{N!0}[!14!0] + tmp!3{N!0}[!14!0]): A -> {} for 9948.21 * 4 = 39792.84
+	two_a_b!4{N!0}[!14!0] = (two_a_b!3{N!0}[!14!0] + tmp!3{N!0}[!14!0]): A -> {} for 1088.57 * 4 = 4354.26
 !10!0{N!0}[] = drop_dim(two_a_b!4{N!0, D!0}[]): _ -> {'A'} for 0.00 * 1 = 0.00
-this_diff!2{N!0}[] = (a_sqr_plus_b_sqr!2{N!0}[] - !10!0{N!0}[]): A -> {} for 10072.12 * 1 = 10072.12
-differences!2{N!0}[] = VectorizedUpdate(!4!0{N!0}[], [I!1], this_diff!2{N!0}[]): A -> {'Y'} for 520047.59 * 1 = 520047.59 (A->Y)
-	min_diff!2{}[!17!0] = Φ(!11!0{}[!17!0], min_diff!4{}[(!17!0 - 1)]): Y -> {} for 0.00 * 4096 = 0.00
-	!1!2{}[!17!0] = (differences!2{}[!17!0] < min_diff!2{}[!17!0]): Y -> {} for 1479.81 * 4096 = 6061303.81
-	min_diff!4{}[!17!0] = MUX(!1!2{}[!17!0], differences!2{}[!17!0], min_diff!2{}[!17!0]): Y -> {} for 1474.56 * 4096 = 6039791.62
-	min_index!4{}[!18!0] = Φ(min_index!2{}[!18!0], min_index!6{}[(!18!0 - 1)]): Y -> {} for 0.00 * 4096 = 0.00
-	min_index!6{}[!18!0] = MUX(!1!2{}[!18!0], !16!0{}[!18!0], min_index!4{}[!18!0]): Y -> {} for 1474.56 * 4096 = 6039791.62
+this_diff!2{N!0}[] = (a_sqr_plus_b_sqr!2{N!0}[] - !10!0{N!0}[]): A -> {} for 1093.69 * 1 = 1093.69
+differences!2{N!0}[] = VectorizedUpdate(!4!0{N!0}[], [I!1], this_diff!2{N!0}[]): A -> {'Y'} for 2528.10 * 1 = 2528.10 (A->Y)
+	min_diff!2{}[!17!0] = Φ(!11!0{}[!17!0], min_diff!4{}[(!17!0 - 1)]): Y -> {} for 0.00 * 4 = 0.00
+	!1!2{}[!17!0] = (differences!2{}[!17!0] < min_diff!2{}[!17!0]): Y -> {} for 1479.81 * 4 = 5919.24
+	min_diff!4{}[!17!0] = MUX(!1!2{}[!17!0], differences!2{}[!17!0], min_diff!2{}[!17!0]): Y -> {} for 1474.56 * 4 = 5898.23
+	min_index!4{}[!18!0] = Φ(min_index!2{}[!18!0], min_index!6{}[(!18!0 - 1)]): Y -> {} for 0.00 * 4 = 0.00
+	min_index!6{}[!18!0] = MUX(!1!2{}[!18!0], !16!0{}[!18!0], min_index!4{}[!18!0]): Y -> {} for 1474.56 * 4 = 5898.23
 !12!0 = drop_dim(min_diff!4{N!0}[]): _ -> {'Y'} for 0.00 * 1 = 0.00
 !13!0 = drop_dim(min_index!6{N!0}[]): _ -> {'Y'} for 0.00 * 1 = 0.00
 !2!1 = (!12!0, !13!0)
@@ -2498,39 +2498,39 @@ def convex_hull(X_coords!0: shared[list[int; ?]], Y_coords!0: shared[list[int; ?
     return !10!1
 ```
 #### Mixed configuration
-```Total cost:	3551351608.60
-Input vars:	{Y_coords!0: {'B'}, X_coords!0: {'B'}}
-Constants:	{True: {'B'}, False: {'B'}, 0: {'B'}}
-Plaintext vars:	{result_X!0: {'B'}, result_Y!0: {'B'}}
-!11!0{N!0}[] = lift(result_X!0, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!12!0{N!0}[] = lift(result_Y!0, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!13!0{N!0}[] = lift(X_coords!0[i!1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!14!0{N!0}[] = lift(Y_coords!0[i!1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-is_hull!2 = True: _ -> {'B'} for 0.00 * 1 = 0.00
-!16!0{N!0, N!0}[] = lift(X_coords!0[j!1], (i!1:N!0, j!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!17!0{N!0, N!0}[] = lift(Y_coords!0[j!1], (i!1:N!0, j!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-is_hull!4 = False: _ -> {'B'} for 0.00 * 1 = 0.00
-!15!0{N!0, N!0}[] = lift(is_hull!2, (i!1:N!0, j!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!1!2{N!0}[] = (!13!0{N!0}[] <= 0): B -> {} for 272038.76 * 1 = 272038.76
-!18!0{N!0, N!0}[] = lift(!13!0{N!0}[], (i!1:N!0, j!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!2!2{N!0}[] = (!14!0{N!0}[] >= 0): B -> {} for 351675.11 * 1 = 351675.11
-!19!0{N!0, N!0}[] = lift(!14!0{N!0}[], (i!1:N!0, j!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!6!3{N!0, N!0}[] = (!18!0{N!0, N!0}[] <= !16!0{N!0, N!0}[]): B -> {} for 1114270754.41 * 1 = 1114270754.41
-!3!2{N!0}[] = (!1!2{N!0}[] and !2!2{N!0}[]): B -> {} for 116473.83 * 1 = 116473.83
-!7!3{N!0, N!0}[] = (!19!0{N!0, N!0}[] >= !17!0{N!0, N!0}[]): B -> {} for 1440461252.20 * 1 = 1440461252.20
-!8!3{N!0, N!0}[] = (!6!3{N!0, N!0}[] or !7!3{N!0, N!0}[]): B -> {} for 627216429.88 * 1 = 627216429.88
-!9!3{N!0, N!0}[] = not !8!3{N!0, N!0}[]: B -> {} for 0.00 * 1 = 0.00
-	is_hull!3{N!0}[!21!0] = Φ(!15!0{N!0}[!21!0], is_hull!5{N!0}[(!21!0 - 1)]): B -> {} for 0.00 * 4096 = 0.00
-	is_hull!5{N!0}[!21!0] = MUX(!9!3{N!0}[!21!0], is_hull!4, is_hull!3{N!0}[!21!0]): B -> {} for 89939.74 * 4096 = 368393165.21
-!20!0{N!0}[] = drop_dim(is_hull!5{N!0, N!0}[]): _ -> {'B'} for 0.00 * 1 = 0.00
-is_hull!6{N!0}[] = MUX(!3!2{N!0}[], !20!0{N!0}[], is_hull!2): B -> {} for 89939.74 * 1 = 89939.74
-val_X!4{N!0}[] = MUX(is_hull!6{N!0}[], !13!0{N!0}[], !11!0{N!0}[]): B -> {} for 89939.74 * 1 = 89939.74
-val_Y!4{N!0}[] = MUX(is_hull!6{N!0}[], !14!0{N!0}[], !12!0{N!0}[]): B -> {} for 89939.74 * 1 = 89939.74
-result_X!2{N!0}[] = VectorizedUpdate(!11!0{N!0}[], [I!1], val_X!4{N!0}[]): B -> {} for 0.00 * 1 = 0.00
-result_Y!2{N!0}[] = VectorizedUpdate(!12!0{N!0}[], [I!1], val_Y!4{N!0}[]): B -> {} for 0.00 * 1 = 0.00
+```Total cost:	23070.87
+Input vars:	{Y_coords!0: {'Y'}, X_coords!0: {'Y'}}
+Constants:	{True: {'Y'}, False: {'Y'}, 0: {'Y'}}
+Plaintext vars:	{result_X!0: {'Y'}, result_Y!0: {'Y'}}
+!11!0{N!0}[] = lift(result_X!0, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
+!12!0{N!0}[] = lift(result_Y!0, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
+!13!0{N!0}[] = lift(X_coords!0[i!1], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
+!14!0{N!0}[] = lift(Y_coords!0[i!1], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
+is_hull!2 = True: _ -> {'Y'} for 0.00 * 1 = 0.00
+!16!0{N!0, N!0}[] = lift(X_coords!0[j!1], (i!1:N!0, j!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
+!17!0{N!0, N!0}[] = lift(Y_coords!0[j!1], (i!1:N!0, j!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
+is_hull!4 = False: _ -> {'Y'} for 0.00 * 1 = 0.00
+!15!0{N!0, N!0}[] = lift(is_hull!2, (i!1:N!0, j!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
+!1!2{N!0}[] = (!13!0{N!0}[] <= 0): Y -> {} for 1837.85 * 1 = 1837.85
+!18!0{N!0, N!0}[] = lift(!13!0{N!0}[], (i!1:N!0, j!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
+!2!2{N!0}[] = (!14!0{N!0}[] >= 0): Y -> {} for 1907.19 * 1 = 1907.19
+!19!0{N!0, N!0}[] = lift(!14!0{N!0}[], (i!1:N!0, j!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
+!6!3{N!0, N!0}[] = (!18!0{N!0, N!0}[] <= !16!0{N!0, N!0}[]): Y -> {} for 1992.54 * 1 = 1992.54
+!3!2{N!0}[] = (!1!2{N!0}[] and !2!2{N!0}[]): Y -> {} for 1840.17 * 1 = 1840.17
+!7!3{N!0, N!0}[] = (!19!0{N!0, N!0}[] >= !17!0{N!0, N!0}[]): Y -> {} for 2200.26 * 1 = 2200.26
+!8!3{N!0, N!0}[] = (!6!3{N!0, N!0}[] or !7!3{N!0, N!0}[]): Y -> {} for 2080.21 * 1 = 2080.21
+!9!3{N!0, N!0}[] = not !8!3{N!0, N!0}[]: Y -> {} for 0.00 * 1 = 0.00
+	is_hull!3{N!0}[!21!0] = Φ(!15!0{N!0}[!21!0], is_hull!5{N!0}[(!21!0 - 1)]): Y -> {} for 0.00 * 3 = 0.00
+	is_hull!5{N!0}[!21!0] = MUX(!9!3{N!0}[!21!0], is_hull!4, is_hull!3{N!0}[!21!0]): Y -> {} for 1868.77 * 3 = 5606.32
+!20!0{N!0}[] = drop_dim(is_hull!5{N!0, N!0}[]): _ -> {'Y'} for 0.00 * 1 = 0.00
+is_hull!6{N!0}[] = MUX(!3!2{N!0}[], !20!0{N!0}[], is_hull!2): Y -> {} for 1868.77 * 1 = 1868.77
+val_X!4{N!0}[] = MUX(is_hull!6{N!0}[], !13!0{N!0}[], !11!0{N!0}[]): Y -> {} for 1868.77 * 1 = 1868.77
+val_Y!4{N!0}[] = MUX(is_hull!6{N!0}[], !14!0{N!0}[], !12!0{N!0}[]): Y -> {} for 1868.77 * 1 = 1868.77
+result_X!2{N!0}[] = VectorizedUpdate(!11!0{N!0}[], [I!1], val_X!4{N!0}[]): Y -> {} for 0.00 * 1 = 0.00
+result_Y!2{N!0}[] = VectorizedUpdate(!12!0{N!0}[], [I!1], val_Y!4{N!0}[]): Y -> {} for 0.00 * 1 = 0.00
 !10!1 = (result_X!2, result_Y!2)
 return !10!1
-Output vars:	{result_Y!2: {'B'}, result_X!2: {'B'}}
+Output vars:	{result_Y!2: {'Y'}, result_X!2: {'Y'}}
 
 ```
 #### MOTION code
@@ -2692,15 +2692,15 @@ std::tuple<std::vector<encrypto::motion::SecureUnsignedInteger>, std::vector<enc
     bool _MPC_PLAINTEXT_is_hull_4;
 
     // Constant initializations
-    encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_0 = party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::ToInput(std::uint32_t(0)), 0);
-    encrypto::motion::ShareWrapper _MPC_CONSTANT_false = party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::BitVector(1, false), 0);
-    encrypto::motion::ShareWrapper _MPC_CONSTANT_true = party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::BitVector(1, true), 0);
+    encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_0 = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(std::uint32_t(0)), 0);
+    encrypto::motion::ShareWrapper _MPC_CONSTANT_false = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::BitVector(1, false), 0);
+    encrypto::motion::ShareWrapper _MPC_CONSTANT_true = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::BitVector(1, true), 0);
 
     // Plaintext parameter assignments
     result_X_0.clear();
-    std::transform(_MPC_PLAINTEXT_result_X_0.begin(), _MPC_PLAINTEXT_result_X_0.end(), std::back_inserter(result_X_0), [&](const auto &val) { return party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::ToInput(val), 0); });
+    std::transform(_MPC_PLAINTEXT_result_X_0.begin(), _MPC_PLAINTEXT_result_X_0.end(), std::back_inserter(result_X_0), [&](const auto &val) { return party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(val), 0); });
     result_Y_0.clear();
-    std::transform(_MPC_PLAINTEXT_result_Y_0.begin(), _MPC_PLAINTEXT_result_Y_0.end(), std::back_inserter(result_Y_0), [&](const auto &val) { return party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::ToInput(val), 0); });
+    std::transform(_MPC_PLAINTEXT_result_Y_0.begin(), _MPC_PLAINTEXT_result_Y_0.end(), std::back_inserter(result_Y_0), [&](const auto &val) { return party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(val), 0); });
 
     // Function body
     vectorized_assign(_11_0, {_MPC_PLAINTEXT_N_0}, {true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return result_X_0;}), {_MPC_PLAINTEXT_N_0}));
@@ -3044,28 +3044,28 @@ def count_102(Seq!0: shared[list[int; ?]], N!0: plaintext[int], Syms!0: shared[l
     return !15!0
 ```
 #### Mixed configuration
-```Total cost:	24098759.83
-Input vars:	{Syms!0: {'B'}, Seq!0: {'B'}}
-Constants:	{False: {'B'}, 0: {'Y'}, 1: {'Y'}}
+```Total cost:	66276.73
+Input vars:	{Syms!0: {'Y'}, Seq!0: {'Y'}}
+Constants:	{False: {'Y'}, 0: {'Y'}, 1: {'Y'}}
 Plaintext vars:	{}
-s0!1 = False: _ -> {'B'} for 0.00 * 1 = 0.00
+s0!1 = False: _ -> {'Y'} for 0.00 * 1 = 0.00
 c!1 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
-!9!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!10!0{N!0}[] = lift(Syms!0[2], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!12!0{N!0}[] = lift(Syms!0[1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!14!0{N!0}[] = lift(Syms!0[0], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!7!0{N!0}[] = lift(s0!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!9!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
+!10!0{N!0}[] = lift(Syms!0[2], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
+!12!0{N!0}[] = lift(Syms!0[1], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
+!14!0{N!0}[] = lift(Syms!0[0], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
+!7!0{N!0}[] = lift(s0!1, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
 !8!0{N!0}[] = lift(c!1, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!1!2{N!0}[] = (!9!0{N!0}[] == !10!0{N!0}[]): B -> {} for 123987.05 * 1 = 123987.05
-!3!2{N!0}[] = (!9!0{N!0}[] == !12!0{N!0}[]): B -> {} for 123987.05 * 1 = 123987.05
-!5!2{N!0}[] = (!9!0{N!0}[] == !14!0{N!0}[]): B -> {} for 123987.05 * 1 = 123987.05
-	s0!2{}[!16!0] = Φ(!7!0{}[!16!0], s0!3{}[(!16!0 - 1)]): B -> {} for 0.00 * 4096 = 0.00
-	!6!2{}[!16!0] = (s0!2{}[!16!0] and !5!2{}[!16!0]): B -> {} for 1372.38 * 4096 = 5621282.82
-	s0!3{}[!16!0] = (!3!2{}[!16!0] or !6!2{}[!16!0]): B -> {} for 1381.97 * 4096 = 5660545.02
-!2!2{N!0}[] = (s0!2{N!0}[] and !1!2{N!0}[]): B -> {'Y'} for 358051.69 * 1 = 358051.69 (B->Y)
-	c!2{}[!17!0] = Φ(!8!0{}[!17!0], c!4{}[(!17!0 - 1)]): Y -> {} for 0.00 * 4096 = 0.00
-	c!3{}[!17!0] = (c!2{}[!17!0] + 1): Y -> {} for 1476.35 * 4096 = 6047127.55
-	c!4{}[!17!0] = MUX(!2!2{}[!17!0], c!3{}[!17!0], c!2{}[!17!0]): Y -> {} for 1474.56 * 4096 = 6039791.62
+!1!2{N!0}[] = (!9!0{N!0}[] == !10!0{N!0}[]): Y -> {} for 1877.86 * 1 = 1877.86
+!3!2{N!0}[] = (!9!0{N!0}[] == !12!0{N!0}[]): Y -> {} for 1877.86 * 1 = 1877.86
+!5!2{N!0}[] = (!9!0{N!0}[] == !14!0{N!0}[]): Y -> {} for 1877.86 * 1 = 1877.86
+	s0!2{}[!16!0] = Φ(!7!0{}[!16!0], s0!3{}[(!16!0 - 1)]): Y -> {} for 0.00 * 10 = 0.00
+	!6!2{}[!16!0] = (s0!2{}[!16!0] and !5!2{}[!16!0]): Y -> {} for 1462.48 * 10 = 14624.76
+	s0!3{}[!16!0] = (!3!2{}[!16!0] or !6!2{}[!16!0]): Y -> {} for 1463.25 * 10 = 14632.47
+!2!2{N!0}[] = (s0!2{N!0}[] and !1!2{N!0}[]): Y -> {} for 1876.83 * 1 = 1876.83
+	c!2{}[!17!0] = Φ(!8!0{}[!17!0], c!4{}[(!17!0 - 1)]): Y -> {} for 0.00 * 10 = 0.00
+	c!3{}[!17!0] = (c!2{}[!17!0] + 1): Y -> {} for 1476.35 * 10 = 14763.50
+	c!4{}[!17!0] = MUX(!2!2{}[!17!0], c!3{}[!17!0], c!2{}[!17!0]): Y -> {} for 1474.56 * 10 = 14745.59
 !15!0 = drop_dim(c!4{N!0}[]): _ -> {'Y'} for 0.00 * 1 = 0.00
 return !15!0
 Output vars:	{!15!0: {'Y'}}
@@ -3211,7 +3211,7 @@ encrypto::motion::SecureUnsignedInteger count_102(
     // Constant initializations
     encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_0 = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(std::uint32_t(0)), 0);
     encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_1 = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(std::uint32_t(1)), 0);
-    encrypto::motion::ShareWrapper _MPC_CONSTANT_false = party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::BitVector(1, false), 0);
+    encrypto::motion::ShareWrapper _MPC_CONSTANT_false = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::BitVector(1, false), 0);
 
     // Plaintext parameter assignments
 
@@ -3246,9 +3246,6 @@ encrypto::motion::SecureUnsignedInteger count_102(
     }
 
     vectorized_assign(_2_2, {_MPC_PLAINTEXT_N_0}, {true}, {}, (to_share_wrapper(vectorized_access(s0_2, {_MPC_PLAINTEXT_N_0}, {true}, {})) & to_share_wrapper(vectorized_access(_1_2, {_MPC_PLAINTEXT_N_0}, {true}, {}))));
-    std::vector<encrypto::motion::ShareWrapper> _2_2_Y((_MPC_PLAINTEXT_N_0));
-    vectorized_assign(_2_2_Y, {_MPC_PLAINTEXT_N_0}, {true}, {}, (vectorized_access(_2_2, {_MPC_PLAINTEXT_N_0}, {true}, {}).Convert<encrypto::motion::MpcProtocol::kBmr>()));
-
 
     // Initialize loop counter
     _MPC_PLAINTEXT__17_0 = std::uint32_t(0);
@@ -3261,7 +3258,7 @@ encrypto::motion::SecureUnsignedInteger count_102(
         }
 
         c_3[_MPC_PLAINTEXT__17_0] = (c_2[_MPC_PLAINTEXT__17_0] + _MPC_CONSTANT_1);
-        c_4[_MPC_PLAINTEXT__17_0] = _2_2_Y[_MPC_PLAINTEXT__17_0].Mux(c_3[_MPC_PLAINTEXT__17_0].Get(), c_2[_MPC_PLAINTEXT__17_0].Get());
+        c_4[_MPC_PLAINTEXT__17_0] = _2_2[_MPC_PLAINTEXT__17_0].Mux(c_3[_MPC_PLAINTEXT__17_0].Get(), c_2[_MPC_PLAINTEXT__17_0].Get());
 
     }
 
@@ -3582,30 +3579,30 @@ def count_10s(Seq!0: shared[list[int; ?]], N!0: plaintext[int], Syms!0: shared[l
     return !14!0
 ```
 #### Mixed configuration
-```Total cost:	24102048.84
-Input vars:	{Syms!0: {'B'}, Seq!0: {'B'}}
-Constants:	{False: {'B'}, 0: {'Y'}, 1: {'Y'}}
+```Total cost:	48799.61
+Input vars:	{Syms!0: {'Y'}, Seq!0: {'Y'}}
+Constants:	{False: {'Y'}, 0: {'Y'}, 1: {'Y'}}
 Plaintext vars:	{}
-s0!1 = False: _ -> {'B'} for 0.00 * 1 = 0.00
-s1!1 = False: _ -> {'B'} for 0.00 * 1 = 0.00
+s0!1 = False: _ -> {'Y'} for 0.00 * 1 = 0.00
+s1!1 = False: _ -> {'Y'} for 0.00 * 1 = 0.00
 scount!1 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
-!8!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!9!0{N!0}[] = lift(Syms!0[0], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!13!0{N!0}[] = lift(Syms!0[1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!5!0{N!0}[] = lift(s0!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!6!0{N!0}[] = lift(s1!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!8!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
+!9!0{N!0}[] = lift(Syms!0[0], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
+!13!0{N!0}[] = lift(Syms!0[1], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
+!5!0{N!0}[] = lift(s0!1, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
+!6!0{N!0}[] = lift(s1!1, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
 !7!0{N!0}[] = lift(scount!1, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!1!2{N!0}[] = (!8!0{N!0}[] != !9!0{N!0}[]): B -> {} for 127276.06 * 1 = 127276.06
-!3!2{N!0}[] = (!8!0{N!0}[] == !9!0{N!0}[]): B -> {} for 123987.05 * 1 = 123987.05
-s0!3{N!0}[] = (!8!0{N!0}[] == !13!0{N!0}[]): B -> {} for 123987.05 * 1 = 123987.05
-	s0!2{}[!15!0] = Φ(!5!0{}[!15!0], s0!3{}[(!15!0 - 1)]): B -> {} for 0.00 * 4096 = 0.00
-	s1!2{}[!16!0] = Φ(!6!0{}[!16!0], s1!3{}[(!16!0 - 1)]): B -> {} for 0.00 * 4096 = 0.00
-	!4!2{}[!16!0] = (s0!2{}[!16!0] or s1!2{}[!16!0]): B -> {} for 1381.97 * 4096 = 5660545.02
-	s1!3{}[!16!0] = (!3!2{}[!16!0] and !4!2{}[!16!0]): B -> {} for 1372.38 * 4096 = 5621282.82
-!2!2{N!0}[] = (s1!2{N!0}[] and !1!2{N!0}[]): B -> {'Y'} for 358051.69 * 1 = 358051.69 (B->Y)
-	scount!2{}[!17!0] = Φ(!7!0{}[!17!0], scount!4{}[(!17!0 - 1)]): Y -> {} for 0.00 * 4096 = 0.00
-	scount!3{}[!17!0] = (scount!2{}[!17!0] + 1): Y -> {} for 1476.35 * 4096 = 6047127.55
-	scount!4{}[!17!0] = MUX(!2!2{}[!17!0], scount!3{}[!17!0], scount!2{}[!17!0]): Y -> {} for 1474.56 * 4096 = 6039791.62
+!1!2{N!0}[] = (!8!0{N!0}[] != !9!0{N!0}[]): Y -> {} for 1892.27 * 1 = 1892.27
+!3!2{N!0}[] = (!8!0{N!0}[] == !9!0{N!0}[]): Y -> {} for 1936.09 * 1 = 1936.09
+s0!3{N!0}[] = (!8!0{N!0}[] == !13!0{N!0}[]): Y -> {} for 1936.09 * 1 = 1936.09
+	s0!2{}[!15!0] = Φ(!5!0{}[!15!0], s0!3{}[(!15!0 - 1)]): Y -> {} for 0.00 * 7 = 0.00
+	s1!2{}[!16!0] = Φ(!6!0{}[!16!0], s1!3{}[(!16!0 - 1)]): Y -> {} for 0.00 * 7 = 0.00
+	!4!2{}[!16!0] = (s0!2{}[!16!0] or s1!2{}[!16!0]): Y -> {} for 1463.25 * 7 = 10242.73
+	s1!3{}[!16!0] = (!3!2{}[!16!0] and !4!2{}[!16!0]): Y -> {} for 1462.48 * 7 = 10237.34
+!2!2{N!0}[] = (s1!2{N!0}[] and !1!2{N!0}[]): Y -> {} for 1898.75 * 1 = 1898.75
+	scount!2{}[!17!0] = Φ(!7!0{}[!17!0], scount!4{}[(!17!0 - 1)]): Y -> {} for 0.00 * 7 = 0.00
+	scount!3{}[!17!0] = (scount!2{}[!17!0] + 1): Y -> {} for 1476.35 * 7 = 10334.45
+	scount!4{}[!17!0] = MUX(!2!2{}[!17!0], scount!3{}[!17!0], scount!2{}[!17!0]): Y -> {} for 1474.56 * 7 = 10321.91
 !14!0 = drop_dim(scount!4{N!0}[]): _ -> {'Y'} for 0.00 * 1 = 0.00
 return !14!0
 Output vars:	{!14!0: {'Y'}}
@@ -3778,7 +3775,7 @@ encrypto::motion::SecureUnsignedInteger count_10s(
     // Constant initializations
     encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_0 = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(std::uint32_t(0)), 0);
     encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_1 = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(std::uint32_t(1)), 0);
-    encrypto::motion::ShareWrapper _MPC_CONSTANT_false = party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::BitVector(1, false), 0);
+    encrypto::motion::ShareWrapper _MPC_CONSTANT_false = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::BitVector(1, false), 0);
 
     // Plaintext parameter assignments
 
@@ -3830,9 +3827,6 @@ encrypto::motion::SecureUnsignedInteger count_10s(
     }
 
     vectorized_assign(_2_2, {_MPC_PLAINTEXT_N_0}, {true}, {}, (to_share_wrapper(vectorized_access(s1_2, {_MPC_PLAINTEXT_N_0}, {true}, {})) & to_share_wrapper(vectorized_access(_1_2, {_MPC_PLAINTEXT_N_0}, {true}, {}))));
-    std::vector<encrypto::motion::ShareWrapper> _2_2_Y((_MPC_PLAINTEXT_N_0));
-    vectorized_assign(_2_2_Y, {_MPC_PLAINTEXT_N_0}, {true}, {}, (vectorized_access(_2_2, {_MPC_PLAINTEXT_N_0}, {true}, {}).Convert<encrypto::motion::MpcProtocol::kBmr>()));
-
 
     // Initialize loop counter
     _MPC_PLAINTEXT__17_0 = std::uint32_t(0);
@@ -3845,7 +3839,7 @@ encrypto::motion::SecureUnsignedInteger count_10s(
         }
 
         scount_3[_MPC_PLAINTEXT__17_0] = (scount_2[_MPC_PLAINTEXT__17_0] + _MPC_CONSTANT_1);
-        scount_4[_MPC_PLAINTEXT__17_0] = _2_2_Y[_MPC_PLAINTEXT__17_0].Mux(scount_3[_MPC_PLAINTEXT__17_0].Get(), scount_2[_MPC_PLAINTEXT__17_0].Get());
+        scount_4[_MPC_PLAINTEXT__17_0] = _2_2[_MPC_PLAINTEXT__17_0].Mux(scount_3[_MPC_PLAINTEXT__17_0].Get(), scount_2[_MPC_PLAINTEXT__17_0].Get());
 
     }
 
@@ -4186,32 +4180,32 @@ def count_123(Seq!0: shared[list[int; ?]], N!0: plaintext[int], Syms!0: shared[l
     return !15!0
 ```
 #### Mixed configuration
-```Total cost:	24251888.84
-Input vars:	{Syms!0: {'B'}, Seq!0: {'B'}}
-Constants:	{False: {'B'}, 0: {'Y'}, 1: {'Y'}}
+```Total cost:	50853.23
+Input vars:	{Syms!0: {'Y'}, Seq!0: {'Y'}}
+Constants:	{False: {'Y'}, 0: {'Y'}, 1: {'Y'}}
 Plaintext vars:	{}
-s1!1 = False: _ -> {'B'} for 0.00 * 1 = 0.00
-s2!1 = False: _ -> {'B'} for 0.00 * 1 = 0.00
+s1!1 = False: _ -> {'Y'} for 0.00 * 1 = 0.00
+s2!1 = False: _ -> {'Y'} for 0.00 * 1 = 0.00
 c!1 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
-!9!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!10!0{N!0}[] = lift(Syms!0[2], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!12!0{N!0}[] = lift(Syms!0[1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!14!0{N!0}[] = lift(Syms!0[0], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!6!0{N!0}[] = lift(s1!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!7!0{N!0}[] = lift(s2!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!9!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
+!10!0{N!0}[] = lift(Syms!0[2], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
+!12!0{N!0}[] = lift(Syms!0[1], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
+!14!0{N!0}[] = lift(Syms!0[0], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
+!6!0{N!0}[] = lift(s1!1, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
+!7!0{N!0}[] = lift(s2!1, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
 !8!0{N!0}[] = lift(c!1, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!1!2{N!0}[] = (!9!0{N!0}[] == !10!0{N!0}[]): B -> {} for 123987.05 * 1 = 123987.05
-!4!2{N!0}[] = (!9!0{N!0}[] == !12!0{N!0}[]): B -> {} for 123987.05 * 1 = 123987.05
-s1!3{N!0}[] = (!9!0{N!0}[] == !14!0{N!0}[]): B -> {} for 123987.05 * 1 = 123987.05
-	s1!2{}[!16!0] = Φ(!6!0{}[!16!0], s1!3{}[(!16!0 - 1)]): B -> {} for 0.00 * 4096 = 0.00
-	s2!2{}[!17!0] = Φ(!7!0{}[!17!0], s2!3{}[(!17!0 - 1)]): B -> {} for 0.00 * 4096 = 0.00
-	!5!2{}[!17!0] = (s1!2{}[!17!0] or s2!2{}[!17!0]): B -> {} for 1381.97 * 4096 = 5660545.02
-	s2!3{}[!17!0] = (!4!2{}[!17!0] and !5!2{}[!17!0]): B -> {} for 1372.38 * 4096 = 5621282.82
-!2!2{N!0}[] = (s2!2{N!0}[] or s1!2{N!0}[]): B -> {} for 153129.01 * 1 = 153129.01
-!3!2{N!0}[] = (!1!2{N!0}[] and !2!2{N!0}[]): B -> {'Y'} for 358051.69 * 1 = 358051.69 (B->Y)
-	c!2{}[!18!0] = Φ(!8!0{}[!18!0], c!4{}[(!18!0 - 1)]): Y -> {} for 0.00 * 4096 = 0.00
-	c!3{}[!18!0] = (c!2{}[!18!0] + 1): Y -> {} for 1476.35 * 4096 = 6047127.55
-	c!4{}[!18!0] = MUX(!3!2{}[!18!0], c!3{}[!18!0], c!2{}[!18!0]): Y -> {} for 1474.56 * 4096 = 6039791.62
+!1!2{N!0}[] = (!9!0{N!0}[] == !10!0{N!0}[]): Y -> {} for 1936.09 * 1 = 1936.09
+!4!2{N!0}[] = (!9!0{N!0}[] == !12!0{N!0}[]): Y -> {} for 1936.09 * 1 = 1936.09
+s1!3{N!0}[] = (!9!0{N!0}[] == !14!0{N!0}[]): Y -> {} for 1936.09 * 1 = 1936.09
+	s1!2{}[!16!0] = Φ(!6!0{}[!16!0], s1!3{}[(!16!0 - 1)]): Y -> {} for 0.00 * 7 = 0.00
+	s2!2{}[!17!0] = Φ(!7!0{}[!17!0], s2!3{}[(!17!0 - 1)]): Y -> {} for 0.00 * 7 = 0.00
+	!5!2{}[!17!0] = (s1!2{}[!17!0] or s2!2{}[!17!0]): Y -> {} for 1463.25 * 7 = 10242.73
+	s2!3{}[!17!0] = (!4!2{}[!17!0] and !5!2{}[!17!0]): Y -> {} for 1462.48 * 7 = 10237.34
+!2!2{N!0}[] = (s2!2{N!0}[] or s1!2{N!0}[]): Y -> {} for 2009.81 * 1 = 2009.81
+!3!2{N!0}[] = (!1!2{N!0}[] and !2!2{N!0}[]): Y -> {} for 1898.75 * 1 = 1898.75
+	c!2{}[!18!0] = Φ(!8!0{}[!18!0], c!4{}[(!18!0 - 1)]): Y -> {} for 0.00 * 7 = 0.00
+	c!3{}[!18!0] = (c!2{}[!18!0] + 1): Y -> {} for 1476.35 * 7 = 10334.45
+	c!4{}[!18!0] = MUX(!3!2{}[!18!0], c!3{}[!18!0], c!2{}[!18!0]): Y -> {} for 1474.56 * 7 = 10321.91
 !15!0 = drop_dim(c!4{N!0}[]): _ -> {'Y'} for 0.00 * 1 = 0.00
 return !15!0
 Output vars:	{!15!0: {'Y'}}
@@ -4390,7 +4384,7 @@ encrypto::motion::SecureUnsignedInteger count_123(
     // Constant initializations
     encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_0 = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(std::uint32_t(0)), 0);
     encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_1 = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(std::uint32_t(1)), 0);
-    encrypto::motion::ShareWrapper _MPC_CONSTANT_false = party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::BitVector(1, false), 0);
+    encrypto::motion::ShareWrapper _MPC_CONSTANT_false = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::BitVector(1, false), 0);
 
     // Plaintext parameter assignments
 
@@ -4444,9 +4438,6 @@ encrypto::motion::SecureUnsignedInteger count_123(
 
     vectorized_assign(_2_2, {_MPC_PLAINTEXT_N_0}, {true}, {}, (to_share_wrapper(vectorized_access(s2_2, {_MPC_PLAINTEXT_N_0}, {true}, {})) | to_share_wrapper(vectorized_access(s1_2, {_MPC_PLAINTEXT_N_0}, {true}, {}))));
     vectorized_assign(_3_2, {_MPC_PLAINTEXT_N_0}, {true}, {}, (to_share_wrapper(vectorized_access(_1_2, {_MPC_PLAINTEXT_N_0}, {true}, {})) & to_share_wrapper(vectorized_access(_2_2, {_MPC_PLAINTEXT_N_0}, {true}, {}))));
-    std::vector<encrypto::motion::ShareWrapper> _3_2_Y((_MPC_PLAINTEXT_N_0));
-    vectorized_assign(_3_2_Y, {_MPC_PLAINTEXT_N_0}, {true}, {}, (vectorized_access(_3_2, {_MPC_PLAINTEXT_N_0}, {true}, {}).Convert<encrypto::motion::MpcProtocol::kBmr>()));
-
 
     // Initialize loop counter
     _MPC_PLAINTEXT__18_0 = std::uint32_t(0);
@@ -4459,7 +4450,7 @@ encrypto::motion::SecureUnsignedInteger count_123(
         }
 
         c_3[_MPC_PLAINTEXT__18_0] = (c_2[_MPC_PLAINTEXT__18_0] + _MPC_CONSTANT_1);
-        c_4[_MPC_PLAINTEXT__18_0] = _3_2_Y[_MPC_PLAINTEXT__18_0].Mux(c_3[_MPC_PLAINTEXT__18_0].Get(), c_2[_MPC_PLAINTEXT__18_0].Get());
+        c_4[_MPC_PLAINTEXT__18_0] = _3_2[_MPC_PLAINTEXT__18_0].Mux(c_3[_MPC_PLAINTEXT__18_0].Get(), c_2[_MPC_PLAINTEXT__18_0].Get());
 
     }
 
@@ -4799,25 +4790,25 @@ def cryptonets_max_pooling(vals!0: shared[list[int; ?]], cols!0: plaintext[int],
     return OUTPUT_res!3
 ```
 #### Mixed configuration
-```Total cost:	546359200.97
-Input vars:	{vals!0: {'B'}}
+```Total cost:	16667.21
+Input vars:	{vals!0: {'Y'}}
 Constants:	{}
-Plaintext vars:	{OUTPUT_res!0: {'B'}}
-!4!0{ROWS_RES!0, COLS_RES!0}[] = lift(OUTPUT_res!0, (_:rows_res!0, _:cols_res!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!6!0{ROWS_RES!0, COLS_RES!0}[] = lift(vals!0[(((i!1 * 2) * cols!0) + (j!1 * 2))], (i!1:rows_res!0, j!1:cols_res!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!7!0{ROWS_RES!0, COLS_RES!0}[] = lift(vals!0[((((i!1 * 2) * cols!0) + (j!1 * 2)) + 1)], (i!1:rows_res!0, j!1:cols_res!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!9!0{ROWS_RES!0, COLS_RES!0}[] = lift(vals!0[((((i!1 * 2) + 1) * cols!0) + (j!1 * 2))], (i!1:rows_res!0, j!1:cols_res!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!11!0{ROWS_RES!0, COLS_RES!0}[] = lift(vals!0[(((((i!1 * 2) + 1) * cols!0) + (j!1 * 2)) + 1)], (i!1:rows_res!0, j!1:cols_res!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!5!0{ROWS_RES!0, COLS_RES!0}[] = lift(!4!0{ROWS_RES!0, COLS_RES!0}[], (i!1:rows_res!0, j!1:cols_res!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!1!3{ROWS_RES!0, COLS_RES!0}[] = (!7!0{ROWS_RES!0, COLS_RES!0}[] > !6!0{ROWS_RES!0, COLS_RES!0}[]): B -> {} for 136070588.01 * 1 = 136070588.01
-max!5{ROWS_RES!0, COLS_RES!0}[] = MUX(!1!3{ROWS_RES!0, COLS_RES!0}[], !7!0{ROWS_RES!0, COLS_RES!0}[], !6!0{ROWS_RES!0, COLS_RES!0}[]): B -> {} for 46049145.65 * 1 = 46049145.65
-!2!3{ROWS_RES!0, COLS_RES!0}[] = (!9!0{ROWS_RES!0, COLS_RES!0}[] > max!5{ROWS_RES!0, COLS_RES!0}[]): B -> {} for 136070588.01 * 1 = 136070588.01
-max!7{ROWS_RES!0, COLS_RES!0}[] = MUX(!2!3{ROWS_RES!0, COLS_RES!0}[], !9!0{ROWS_RES!0, COLS_RES!0}[], max!5{ROWS_RES!0, COLS_RES!0}[]): B -> {} for 46049145.65 * 1 = 46049145.65
-!3!3{ROWS_RES!0, COLS_RES!0}[] = (!11!0{ROWS_RES!0, COLS_RES!0}[] > max!7{ROWS_RES!0, COLS_RES!0}[]): B -> {} for 136070588.01 * 1 = 136070588.01
-max!9{ROWS_RES!0, COLS_RES!0}[] = MUX(!3!3{ROWS_RES!0, COLS_RES!0}[], !11!0{ROWS_RES!0, COLS_RES!0}[], max!7{ROWS_RES!0, COLS_RES!0}[]): B -> {} for 46049145.65 * 1 = 46049145.65
-OUTPUT_res!3{ROWS_RES!0, COLS_RES!0}[] = VectorizedUpdate(!5!0{ROWS_RES!0, COLS_RES!0}[], [I!1, J!1], max!9{ROWS_RES!0, COLS_RES!0}[]): B -> {} for 0.00 * 1 = 0.00
+Plaintext vars:	{OUTPUT_res!0: {'Y'}}
+!4!0{ROWS_RES!0, COLS_RES!0}[] = lift(OUTPUT_res!0, (_:rows_res!0, _:cols_res!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
+!6!0{ROWS_RES!0, COLS_RES!0}[] = lift(vals!0[(((i!1 * 2) * cols!0) + (j!1 * 2))], (i!1:rows_res!0, j!1:cols_res!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
+!7!0{ROWS_RES!0, COLS_RES!0}[] = lift(vals!0[((((i!1 * 2) * cols!0) + (j!1 * 2)) + 1)], (i!1:rows_res!0, j!1:cols_res!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
+!9!0{ROWS_RES!0, COLS_RES!0}[] = lift(vals!0[((((i!1 * 2) + 1) * cols!0) + (j!1 * 2))], (i!1:rows_res!0, j!1:cols_res!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
+!11!0{ROWS_RES!0, COLS_RES!0}[] = lift(vals!0[(((((i!1 * 2) + 1) * cols!0) + (j!1 * 2)) + 1)], (i!1:rows_res!0, j!1:cols_res!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
+!5!0{ROWS_RES!0, COLS_RES!0}[] = lift(!4!0{ROWS_RES!0, COLS_RES!0}[], (i!1:rows_res!0, j!1:cols_res!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
+!1!3{ROWS_RES!0, COLS_RES!0}[] = (!7!0{ROWS_RES!0, COLS_RES!0}[] > !6!0{ROWS_RES!0, COLS_RES!0}[]): Y -> {} for 2733.55 * 1 = 2733.55
+max!5{ROWS_RES!0, COLS_RES!0}[] = MUX(!1!3{ROWS_RES!0, COLS_RES!0}[], !7!0{ROWS_RES!0, COLS_RES!0}[], !6!0{ROWS_RES!0, COLS_RES!0}[]): Y -> {} for 2822.19 * 1 = 2822.19
+!2!3{ROWS_RES!0, COLS_RES!0}[] = (!9!0{ROWS_RES!0, COLS_RES!0}[] > max!5{ROWS_RES!0, COLS_RES!0}[]): Y -> {} for 2733.55 * 1 = 2733.55
+max!7{ROWS_RES!0, COLS_RES!0}[] = MUX(!2!3{ROWS_RES!0, COLS_RES!0}[], !9!0{ROWS_RES!0, COLS_RES!0}[], max!5{ROWS_RES!0, COLS_RES!0}[]): Y -> {} for 2822.19 * 1 = 2822.19
+!3!3{ROWS_RES!0, COLS_RES!0}[] = (!11!0{ROWS_RES!0, COLS_RES!0}[] > max!7{ROWS_RES!0, COLS_RES!0}[]): Y -> {} for 2733.55 * 1 = 2733.55
+max!9{ROWS_RES!0, COLS_RES!0}[] = MUX(!3!3{ROWS_RES!0, COLS_RES!0}[], !11!0{ROWS_RES!0, COLS_RES!0}[], max!7{ROWS_RES!0, COLS_RES!0}[]): Y -> {} for 2822.19 * 1 = 2822.19
+OUTPUT_res!3{ROWS_RES!0, COLS_RES!0}[] = VectorizedUpdate(!5!0{ROWS_RES!0, COLS_RES!0}[], [I!1, J!1], max!9{ROWS_RES!0, COLS_RES!0}[]): Y -> {} for 0.00 * 1 = 0.00
 return OUTPUT_res!3
-Output vars:	{OUTPUT_res!3: {'B'}}
+Output vars:	{OUTPUT_res!3: {'Y'}}
 
 ```
 #### MOTION code
@@ -4922,7 +4913,7 @@ std::vector<encrypto::motion::SecureUnsignedInteger> cryptonets_max_pooling(
 
     // Plaintext parameter assignments
     OUTPUT_res_0.clear();
-    std::transform(_MPC_PLAINTEXT_OUTPUT_res_0.begin(), _MPC_PLAINTEXT_OUTPUT_res_0.end(), std::back_inserter(OUTPUT_res_0), [&](const auto &val) { return party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::ToInput(val), 0); });
+    std::transform(_MPC_PLAINTEXT_OUTPUT_res_0.begin(), _MPC_PLAINTEXT_OUTPUT_res_0.end(), std::back_inserter(OUTPUT_res_0), [&](const auto &val) { return party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(val), 0); });
 
     // Function body
     vectorized_assign(_4_0, {_MPC_PLAINTEXT_rows_res_0, _MPC_PLAINTEXT_cols_res_0}, {true, true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return OUTPUT_res_0;}), {_MPC_PLAINTEXT_rows_res_0, _MPC_PLAINTEXT_cols_res_0}));
@@ -5258,7 +5249,7 @@ def db_cross_join_trivial(A!0: shared[list[int; ?]], Len_A!0: plaintext[int], B!
     return res!4
 ```
 #### Mixed configuration
-```Total cost:	743033851.08
+```Total cost:	17564.45
 Input vars:	{B!0: {'B'}, A!0: {'B'}, res!0: {'B'}}
 Constants:	{0: {'B'}, 1: {'B'}, 2: {'B'}}
 Plaintext vars:	{}
@@ -5272,12 +5263,12 @@ v!4 = 0: _ -> {'B'} for 0.00 * 1 = 0.00
 !14!0{LEN_A!0, LEN_B!0, 3}[] = lift((k!1 == 1), (i!1:Len_A!0, j!1:Len_B!0, k!1:3)): _ -> {'B'} for 0.00 * 1 = 0.00
 !15!0{LEN_A!0, LEN_B!0, 3}[] = lift((k!1 == 2), (i!1:Len_A!0, j!1:Len_B!0, k!1:3)): _ -> {'B'} for 0.00 * 1 = 0.00
 !6!0{LEN_A!0, LEN_B!0, 3}[] = lift(!5!0{LEN_A!0, LEN_B!0, 3}[], (i!1:Len_A!0, _:Len_A!0, _:Len_B!0, _:3)): _ -> {'B'} for 0.00 * 1 = 0.00
-!1!4{LEN_A!0, LEN_B!0, 3}[] = (!8!0{LEN_A!0, LEN_B!0, 3}[] == !9!0{LEN_A!0, LEN_B!0, 3}[]): B -> {} for 190444103.27 * 1 = 190444103.27
+!1!4{LEN_A!0, LEN_B!0, 3}[] = (!8!0{LEN_A!0, LEN_B!0, 3}[] == !9!0{LEN_A!0, LEN_B!0, 3}[]): B -> {} for 4627.10 * 1 = 4627.10
 !7!0{LEN_A!0, LEN_B!0, 3}[] = lift(!6!0{LEN_A!0, LEN_B!0, 3}[], (i!1:Len_A!0, j!1:Len_B!0, k!1:3)): _ -> {'B'} for 0.00 * 1 = 0.00
-v!6{LEN_A!0, LEN_B!0, 3}[] = MUX(!13!0{LEN_A!0, LEN_B!0, 3}[], !8!0{LEN_A!0, LEN_B!0, 3}[], v!4): B -> {} for 138147436.95 * 1 = 138147436.95
-v!8{LEN_A!0, LEN_B!0, 3}[] = MUX(!14!0{LEN_A!0, LEN_B!0, 3}[], !11!0{LEN_A!0, LEN_B!0, 3}[], v!6{LEN_A!0, LEN_B!0, 3}[]): B -> {} for 138147436.95 * 1 = 138147436.95
-v!10{LEN_A!0, LEN_B!0, 3}[] = MUX(!15!0{LEN_A!0, LEN_B!0, 3}[], !12!0{LEN_A!0, LEN_B!0, 3}[], v!8{LEN_A!0, LEN_B!0, 3}[]): B -> {} for 138147436.95 * 1 = 138147436.95
-v!11{LEN_A!0, LEN_B!0, 3}[] = MUX(!1!4{LEN_A!0, LEN_B!0, 3}[], v!10{LEN_A!0, LEN_B!0, 3}[], v!4): B -> {} for 138147436.95 * 1 = 138147436.95
+v!6{LEN_A!0, LEN_B!0, 3}[] = MUX(!13!0{LEN_A!0, LEN_B!0, 3}[], !8!0{LEN_A!0, LEN_B!0, 3}[], v!4): B -> {} for 3234.34 * 1 = 3234.34
+v!8{LEN_A!0, LEN_B!0, 3}[] = MUX(!14!0{LEN_A!0, LEN_B!0, 3}[], !11!0{LEN_A!0, LEN_B!0, 3}[], v!6{LEN_A!0, LEN_B!0, 3}[]): B -> {} for 3234.34 * 1 = 3234.34
+v!10{LEN_A!0, LEN_B!0, 3}[] = MUX(!15!0{LEN_A!0, LEN_B!0, 3}[], !12!0{LEN_A!0, LEN_B!0, 3}[], v!8{LEN_A!0, LEN_B!0, 3}[]): B -> {} for 3234.34 * 1 = 3234.34
+v!11{LEN_A!0, LEN_B!0, 3}[] = MUX(!1!4{LEN_A!0, LEN_B!0, 3}[], v!10{LEN_A!0, LEN_B!0, 3}[], v!4): B -> {} for 3234.34 * 1 = 3234.34
 res!4{LEN_A!0, LEN_B!0, 3}[] = VectorizedUpdate(!7!0{LEN_A!0, LEN_B!0, 3}[], [I!1, J!1, K!1], v!11{LEN_A!0, LEN_B!0, 3}[]): B -> {} for 0.00 * 1 = 0.00
 return res!4
 Output vars:	{res!4: {'B'}}
@@ -5699,7 +5690,7 @@ def db_variance(A!0: shared[list[int; ?]], V!0: shared[list[int; ?]], len!0: pla
     return variance!1
 ```
 #### Mixed configuration
-```Total cost:	1890412.29
+```Total cost:	29790.97
 Input vars:	{A!0: {'A'}, V!0: {'A'}}
 Constants:	{0: {'A'}}
 Plaintext vars:	{len!0: {'Y'}}
@@ -5710,16 +5701,16 @@ sum!1 = 0: _ -> {'A'} for 0.00 * 1 = 0.00
 res!1 = 0: _ -> {'A'} for 0.00 * 1 = 0.00
 !2!0{LEN!0}[] = lift(sum!1, (i!1:len!0)): _ -> {'A'} for 0.00 * 1 = 0.00
 !8!0{LEN!0}[] = lift(res!1, (i!3:len!0)): _ -> {'A'} for 0.00 * 1 = 0.00
-	sum!2{}[!10!0] = Φ(!2!0{}[!10!0], sum!3{}[(!10!0 - 1)]): A -> {} for 0.00 * 1024 = 0.00
-	sum!3{}[!10!0] = (sum!2{}[!10!0] + !3!0{}[!10!0]): A -> {} for 908.96 * 1024 = 930769.92
+	sum!2{}[!10!0] = Φ(!2!0{}[!10!0], sum!3{}[(!10!0 - 1)]): A -> {} for 0.00 * 8 = 0.00
+	sum!3{}[!10!0] = (sum!2{}[!10!0] + !3!0{}[!10!0]): A -> {} for 908.96 * 8 = 7271.64
 !4!0 = drop_dim(sum!3{LEN!0}[]): _ -> {'Y', 'A'} for 1690.43 * 1 = 1690.43 (A->Y)
 exp!1 = (!4!0 / len!0): Y -> {'A'} for 4780.02 * 1 = 4780.02 (Y->A)
 !7!0{LEN!0}[] = lift(exp!1, (i!2:len!0)): _ -> {'A'} for 0.00 * 1 = 0.00
-dist!2{LEN!0}[] = (!6!0{LEN!0}[] - !7!0{LEN!0}[]): A -> {} for 2518.03 * 1 = 2518.03
-!1!2{LEN!0}[] = (dist!2{LEN!0}[] * dist!2{LEN!0}[]): A -> {} for 15381.24 * 1 = 15381.24
+dist!2{LEN!0}[] = (!6!0{LEN!0}[] - !7!0{LEN!0}[]): A -> {} for 1065.18 * 1 = 1065.18
+!1!2{LEN!0}[] = (dist!2{LEN!0}[] * dist!2{LEN!0}[]): A -> {} for 3209.34 * 1 = 3209.34
 V!2{LEN!0}[] = VectorizedUpdate(!5!0{LEN!0}[], [I!2], !1!2{LEN!0}[]): A -> {} for 0.00 * 1 = 0.00
-	res!2{}[!11!0] = Φ(!8!0{}[!11!0], res!3{}[(!11!0 - 1)]): A -> {} for 0.00 * 1024 = 0.00
-	res!3{}[!11!0] = (res!2{}[!11!0] + V!2{}[!11!0]): A -> {} for 908.96 * 1024 = 930769.92
+	res!2{}[!11!0] = Φ(!8!0{}[!11!0], res!3{}[(!11!0 - 1)]): A -> {} for 0.00 * 8 = 0.00
+	res!3{}[!11!0] = (res!2{}[!11!0] + V!2{}[!11!0]): A -> {} for 908.96 * 8 = 7271.64
 !9!0 = drop_dim(res!3{LEN!0}[]): _ -> {'Y', 'A'} for 1690.43 * 1 = 1690.43 (A->Y)
 variance!1 = (!9!0 / len!0): Y -> {} for 2812.29 * 1 = 2812.29
 return variance!1
@@ -6172,7 +6163,7 @@ def histogram(A!0: shared[list[int; ?]], B!0: shared[list[int; ?]], N!0: plainte
     return !3!0
 ```
 #### Mixed configuration
-```Total cost:	47399795.05
+```Total cost:	31503.42
 Input vars:	{B!0: {'Y'}, A!0: {'Y'}}
 Constants:	{}
 Plaintext vars:	{result!0: {'Y'}}
@@ -6181,11 +6172,11 @@ Plaintext vars:	{result!0: {'Y'}}
 !6!0{NUM_BINS!0, N!0}[] = lift(i!1, (i!1:num_bins!0, j!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
 !7!0{NUM_BINS!0, N!0}[] = lift(B!0[j!1], (i!1:num_bins!0, j!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
 !4!0{NUM_BINS!0, N!0}[] = lift(!2!0{NUM_BINS!0}[], (i!1:num_bins!0, j!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!1!3{NUM_BINS!0, N!0}[] = (!5!0{NUM_BINS!0, N!0}[] == !6!0{NUM_BINS!0, N!0}[]): Y -> {} for 12623296.92 * 1 = 12623296.92
-	result!2{NUM_BINS!0}[!8!0] = Φ(!4!0{NUM_BINS!0}[!8!0], result!3{NUM_BINS!0}[(!8!0 - 1)]): Y -> {} for 0.00 * 1024 = 0.00
-	val!3{NUM_BINS!0}[!8!0] = (result!2{NUM_BINS!0}[!8!0] + !7!0{NUM_BINS!0}[!8!0]): Y -> {} for 18080.57 * 1024 = 18514505.98
-	val!5{NUM_BINS!0}[!8!0] = MUX(!1!3{NUM_BINS!0}[!8!0], val!3{NUM_BINS!0}[!8!0], result!2{NUM_BINS!0}[!8!0]): Y -> {} for 15880.85 * 1024 = 16261992.15
-	result!3{NUM_BINS!0}[!8!0] = VectorizedUpdate(result!2{NUM_BINS!0}[!8!0], [I!1, !8!0], val!5{NUM_BINS!0}[!8!0]): Y -> {} for 0.00 * 1024 = 0.00
+!1!3{NUM_BINS!0, N!0}[] = (!5!0{NUM_BINS!0, N!0}[] == !6!0{NUM_BINS!0, N!0}[]): Y -> {} for 3403.38 * 1 = 3403.38
+	result!2{NUM_BINS!0}[!8!0] = Φ(!4!0{NUM_BINS!0}[!8!0], result!3{NUM_BINS!0}[(!8!0 - 1)]): Y -> {} for 0.00 * 8 = 0.00
+	val!3{NUM_BINS!0}[!8!0] = (result!2{NUM_BINS!0}[!8!0] + !7!0{NUM_BINS!0}[!8!0]): Y -> {} for 1785.63 * 8 = 14285.04
+	val!5{NUM_BINS!0}[!8!0] = MUX(!1!3{NUM_BINS!0}[!8!0], val!3{NUM_BINS!0}[!8!0], result!2{NUM_BINS!0}[!8!0]): Y -> {} for 1726.87 * 8 = 13815.00
+	result!3{NUM_BINS!0}[!8!0] = VectorizedUpdate(result!2{NUM_BINS!0}[!8!0], [I!1, !8!0], val!5{NUM_BINS!0}[!8!0]): Y -> {} for 0.00 * 8 = 0.00
 !3!0{NUM_BINS!0}[] = drop_dim(result!3{NUM_BINS!0, N!0}[]): _ -> {'Y'} for 0.00 * 1 = 0.00
 return !3!0
 Output vars:	{!3!0: {'Y'}}
@@ -6498,7 +6489,7 @@ def inner_product(A!0: shared[list[int; ?]], B!0: shared[list[int; ?]], N!0: pla
     return !4!0
 ```
 #### Mixed configuration
-```Total cost:	946151.16
+```Total cost:	6124.64
 Input vars:	{B!0: {'A'}, A!0: {'A'}}
 Constants:	{0: {'A'}}
 Plaintext vars:	{}
@@ -6506,9 +6497,9 @@ sum!1 = 0: _ -> {'A'} for 0.00 * 1 = 0.00
 !2!0{N!0}[] = lift(A!0[i!1], (i!1:N!0)): _ -> {'A'} for 0.00 * 1 = 0.00
 !3!0{N!0}[] = lift(B!0[i!1], (i!1:N!0)): _ -> {'A'} for 0.00 * 1 = 0.00
 !1!0{N!0}[] = lift(sum!1, (i!1:N!0)): _ -> {'A'} for 0.00 * 1 = 0.00
-temp!2{N!0}[] = (!2!0{N!0}[] * !3!0{N!0}[]): A -> {} for 15381.24 * 1 = 15381.24
-	sum!2{}[!5!0] = Φ(!1!0{}[!5!0], sum!3{}[(!5!0 - 1)]): A -> {} for 0.00 * 1024 = 0.00
-	sum!3{}[!5!0] = (sum!2{}[!5!0] + temp!2{}[!5!0]): A -> {} for 908.96 * 1024 = 930769.92
+temp!2{N!0}[] = (!2!0{N!0}[] * !3!0{N!0}[]): A -> {} for 3397.78 * 1 = 3397.78
+	sum!2{}[!5!0] = Φ(!1!0{}[!5!0], sum!3{}[(!5!0 - 1)]): A -> {} for 0.00 * 3 = 0.00
+	sum!3{}[!5!0] = (sum!2{}[!5!0] + temp!2{}[!5!0]): A -> {} for 908.96 * 3 = 2726.87
 !4!0 = drop_dim(sum!3{N!0}[]): _ -> {'A'} for 0.00 * 1 = 0.00
 return !4!0
 Output vars:	{!4!0: {'A'}}
@@ -6963,36 +6954,36 @@ def longest_102(Seq!0: shared[list[int; ?]], N!0: plaintext[int], Syms!0: shared
     return !18!0
 ```
 #### Mixed configuration
-```Total cost:	10646216.47
-Input vars:	{Syms!0: {'B'}, Seq!0: {'B'}}
-Constants:	{False: {'B'}, 0: {'Y'}, 1: {'Y'}}
+```Total cost:	112476.63
+Input vars:	{Syms!0: {'Y'}, Seq!0: {'Y'}}
+Constants:	{False: {'Y'}, 0: {'Y'}, 1: {'Y'}}
 Plaintext vars:	{}
-s0!1 = False: _ -> {'B'} for 0.00 * 1 = 0.00
+s0!1 = False: _ -> {'Y'} for 0.00 * 1 = 0.00
 max_len!1 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
 length!1 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
-!12!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!13!0{N!0}[] = lift(Syms!0[2], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!15!0{N!0}[] = lift(Syms!0[1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!17!0{N!0}[] = lift(Syms!0[0], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!12!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
+!13!0{N!0}[] = lift(Syms!0[2], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
+!15!0{N!0}[] = lift(Syms!0[1], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
+!17!0{N!0}[] = lift(Syms!0[0], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
 length!4 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
-!9!0{N!0}[] = lift(s0!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!9!0{N!0}[] = lift(s0!1, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
 !10!0{N!0}[] = lift(max_len!1, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
 !11!0{N!0}[] = lift(length!1, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!1!2{N!0}[] = (!12!0{N!0}[] == !13!0{N!0}[]): B -> {} for 30996.76 * 1 = 30996.76
-!2!2{N!0}[] = (!12!0{N!0}[] == !15!0{N!0}[]): B -> {} for 30996.76 * 1 = 30996.76
-!4!2{N!0}[] = (!12!0{N!0}[] == !17!0{N!0}[]): B -> {} for 30996.76 * 1 = 30996.76
-	s0!2{}[!19!0] = Φ(!9!0{}[!19!0], s0!3{}[(!19!0 - 1)]): B -> {} for 0.00 * 1024 = 0.00
-	!5!2{}[!19!0] = (s0!2{}[!19!0] and !4!2{}[!19!0]): B -> {} for 1372.38 * 1024 = 1405320.70
-	s0!3{}[!19!0] = (!2!2{}[!19!0] or !5!2{}[!19!0]): B -> {} for 1381.97 * 1024 = 1415136.26
-s1!2{N!0}[] = (s0!2{N!0}[] and !1!2{N!0}[]): B -> {'Y'} for 89512.92 * 1 = 89512.92 (B->Y)
-!6!2{N!0}[] = (s1!2{N!0}[] or s0!3{N!0}[]): B -> {'Y'} for 98676.72 * 1 = 98676.72 (B->Y)
-	length!2{}[!20!0] = Φ(!11!0{}[!20!0], length!5{}[(!20!0 - 1)]): Y -> {} for 0.00 * 1024 = 0.00
-	length!3{}[!20!0] = (length!2{}[!20!0] + 1): Y -> {} for 1476.35 * 1024 = 1511781.89
-	length!5{}[!20!0] = MUX(!6!2{}[!20!0], length!3{}[!20!0], length!4): Y -> {} for 1474.56 * 1024 = 1509947.90
-	max_len!2{}[!21!0] = Φ(!10!0{}[!21!0], max_len!4{}[(!21!0 - 1)]): Y -> {} for 0.00 * 1024 = 0.00
-	!7!2{}[!21!0] = (max_len!2{}[!21!0] < length!5{}[!21!0]): Y -> {} for 1479.81 * 1024 = 1515325.95
-	!8!2{}[!21!0] = (s1!2{}[!21!0] and !7!2{}[!21!0]): Y -> {} for 1462.48 * 1024 = 1497575.94
-	max_len!4{}[!21!0] = MUX(!8!2{}[!21!0], length!5{}[!21!0], max_len!2{}[!21!0]): Y -> {} for 1474.56 * 1024 = 1509947.90
+!1!2{N!0}[] = (!12!0{N!0}[] == !13!0{N!0}[]): Y -> {} for 1877.86 * 1 = 1877.86
+!2!2{N!0}[] = (!12!0{N!0}[] == !15!0{N!0}[]): Y -> {} for 1877.86 * 1 = 1877.86
+!4!2{N!0}[] = (!12!0{N!0}[] == !17!0{N!0}[]): Y -> {} for 1877.86 * 1 = 1877.86
+	s0!2{}[!19!0] = Φ(!9!0{}[!19!0], s0!3{}[(!19!0 - 1)]): Y -> {} for 0.00 * 10 = 0.00
+	!5!2{}[!19!0] = (s0!2{}[!19!0] and !4!2{}[!19!0]): Y -> {} for 1462.48 * 10 = 14624.76
+	s0!3{}[!19!0] = (!2!2{}[!19!0] or !5!2{}[!19!0]): Y -> {} for 1463.25 * 10 = 14632.47
+s1!2{N!0}[] = (s0!2{N!0}[] and !1!2{N!0}[]): Y -> {} for 1876.83 * 1 = 1876.83
+!6!2{N!0}[] = (s1!2{N!0}[] or s0!3{N!0}[]): Y -> {} for 2031.45 * 1 = 2031.45
+	length!2{}[!20!0] = Φ(!11!0{}[!20!0], length!5{}[(!20!0 - 1)]): Y -> {} for 0.00 * 10 = 0.00
+	length!3{}[!20!0] = (length!2{}[!20!0] + 1): Y -> {} for 1476.35 * 10 = 14763.50
+	length!5{}[!20!0] = MUX(!6!2{}[!20!0], length!3{}[!20!0], length!4): Y -> {} for 1474.56 * 10 = 14745.59
+	max_len!2{}[!21!0] = Φ(!10!0{}[!21!0], max_len!4{}[(!21!0 - 1)]): Y -> {} for 0.00 * 10 = 0.00
+	!7!2{}[!21!0] = (max_len!2{}[!21!0] < length!5{}[!21!0]): Y -> {} for 1479.81 * 10 = 14798.10
+	!8!2{}[!21!0] = (s1!2{}[!21!0] and !7!2{}[!21!0]): Y -> {} for 1462.48 * 10 = 14624.76
+	max_len!4{}[!21!0] = MUX(!8!2{}[!21!0], length!5{}[!21!0], max_len!2{}[!21!0]): Y -> {} for 1474.56 * 10 = 14745.59
 !18!0 = drop_dim(max_len!4{N!0}[]): _ -> {'Y'} for 0.00 * 1 = 0.00
 return !18!0
 Output vars:	{!18!0: {'Y'}}
@@ -7185,7 +7176,7 @@ encrypto::motion::SecureUnsignedInteger longest_102(
     // Constant initializations
     encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_0 = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(std::uint32_t(0)), 0);
     encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_1 = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(std::uint32_t(1)), 0);
-    encrypto::motion::ShareWrapper _MPC_CONSTANT_false = party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::BitVector(1, false), 0);
+    encrypto::motion::ShareWrapper _MPC_CONSTANT_false = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::BitVector(1, false), 0);
 
     // Plaintext parameter assignments
 
@@ -7225,13 +7216,7 @@ encrypto::motion::SecureUnsignedInteger longest_102(
     }
 
     vectorized_assign(s1_2, {_MPC_PLAINTEXT_N_0}, {true}, {}, (to_share_wrapper(vectorized_access(s0_2, {_MPC_PLAINTEXT_N_0}, {true}, {})) & to_share_wrapper(vectorized_access(_1_2, {_MPC_PLAINTEXT_N_0}, {true}, {}))));
-    std::vector<encrypto::motion::ShareWrapper> s1_2_Y((_MPC_PLAINTEXT_N_0));
-    vectorized_assign(s1_2_Y, {_MPC_PLAINTEXT_N_0}, {true}, {}, (vectorized_access(s1_2, {_MPC_PLAINTEXT_N_0}, {true}, {}).Convert<encrypto::motion::MpcProtocol::kBmr>()));
-
     vectorized_assign(_6_2, {_MPC_PLAINTEXT_N_0}, {true}, {}, (to_share_wrapper(vectorized_access(s1_2, {_MPC_PLAINTEXT_N_0}, {true}, {})) | to_share_wrapper(vectorized_access(s0_3, {_MPC_PLAINTEXT_N_0}, {true}, {}))));
-    std::vector<encrypto::motion::ShareWrapper> _6_2_Y((_MPC_PLAINTEXT_N_0));
-    vectorized_assign(_6_2_Y, {_MPC_PLAINTEXT_N_0}, {true}, {}, (vectorized_access(_6_2, {_MPC_PLAINTEXT_N_0}, {true}, {}).Convert<encrypto::motion::MpcProtocol::kBmr>()));
-
 
     // Initialize loop counter
     _MPC_PLAINTEXT__20_0 = std::uint32_t(0);
@@ -7244,7 +7229,7 @@ encrypto::motion::SecureUnsignedInteger longest_102(
         }
 
         length_3[_MPC_PLAINTEXT__20_0] = (length_2[_MPC_PLAINTEXT__20_0] + _MPC_CONSTANT_1);
-        length_5[_MPC_PLAINTEXT__20_0] = _6_2_Y[_MPC_PLAINTEXT__20_0].Mux(length_3[_MPC_PLAINTEXT__20_0].Get(), length_4.Get());
+        length_5[_MPC_PLAINTEXT__20_0] = _6_2[_MPC_PLAINTEXT__20_0].Mux(length_3[_MPC_PLAINTEXT__20_0].Get(), length_4.Get());
 
     }
 
@@ -7260,7 +7245,7 @@ encrypto::motion::SecureUnsignedInteger longest_102(
         }
 
         _7_2[_MPC_PLAINTEXT__21_0] = (length_5[_MPC_PLAINTEXT__21_0] > max_len_2[_MPC_PLAINTEXT__21_0]);
-        _8_2[_MPC_PLAINTEXT__21_0] = (to_share_wrapper(s1_2_Y[_MPC_PLAINTEXT__21_0]) & to_share_wrapper(_7_2[_MPC_PLAINTEXT__21_0]));
+        _8_2[_MPC_PLAINTEXT__21_0] = (to_share_wrapper(s1_2[_MPC_PLAINTEXT__21_0]) & to_share_wrapper(_7_2[_MPC_PLAINTEXT__21_0]));
         max_len_4[_MPC_PLAINTEXT__21_0] = _8_2[_MPC_PLAINTEXT__21_0].Mux(length_5[_MPC_PLAINTEXT__21_0].Get(), max_len_2[_MPC_PLAINTEXT__21_0].Get());
 
     }
@@ -7649,7 +7634,7 @@ def longest_odd_10(Seq!0: shared[list[int; ?]], N!0: plaintext[int], Syms!0: sha
     return !15!0
 ```
 #### Mixed configuration
-```Total cost:	9284692.36
+```Total cost:	80428.98
 Input vars:	{Syms!0: {'Y'}, Seq!0: {'Y'}}
 Constants:	{0: {'Y'}, False: {'Y'}, 1: {'Y'}}
 Plaintext vars:	{}
@@ -7663,21 +7648,21 @@ current_length!4 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
 !8!0{N!0}[] = lift(current_length!1, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
 !9!0{N!0}[] = lift(max_length!1, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
 !10!0{N!0}[] = lift(s2!1, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!1!2{N!0}[] = (!11!0{N!0}[] == !12!0{N!0}[]): Y -> {} for 49309.75 * 1 = 49309.75
-s2!3{N!0}[] = (!11!0{N!0}[] == !14!0{N!0}[]): Y -> {} for 49309.75 * 1 = 49309.75
-	s2!2{}[!16!0] = Φ(!10!0{}[!16!0], s2!3{}[(!16!0 - 1)]): Y -> {} for 0.00 * 1024 = 0.00
-s1!2{N!0}[] = (s2!2{N!0}[] and !1!2{N!0}[]): Y -> {} for 49530.22 * 1 = 49530.22
+!1!2{N!0}[] = (!11!0{N!0}[] == !12!0{N!0}[]): Y -> {} for 1975.88 * 1 = 1975.88
+s2!3{N!0}[] = (!11!0{N!0}[] == !14!0{N!0}[]): Y -> {} for 1975.88 * 1 = 1975.88
+	s2!2{}[!16!0] = Φ(!10!0{}[!16!0], s2!3{}[(!16!0 - 1)]): Y -> {} for 0.00 * 8 = 0.00
+s1!2{N!0}[] = (s2!2{N!0}[] and !1!2{N!0}[]): Y -> {} for 1947.15 * 1 = 1947.15
 !2!2{N!0}[] = not s2!2{N!0}[]: Y -> {} for 0.00 * 1 = 0.00
-	current_length!2{}[!17!0] = Φ(!8!0{}[!17!0], current_length!6{}[(!17!0 - 1)]): Y -> {} for 0.00 * 1024 = 0.00
-	current_length!5{}[!17!0] = MUX(!2!2{}[!17!0], current_length!4, current_length!2{}[!17!0]): Y -> {} for 1474.56 * 1024 = 1509947.90
-	current_length!3{}[!17!0] = (current_length!2{}[!17!0] + 1): Y -> {} for 1476.35 * 1024 = 1511781.89
-	current_length!6{}[!17!0] = MUX(s1!2{}[!17!0], current_length!3{}[!17!0], current_length!5{}[!17!0]): Y -> {} for 1474.56 * 1024 = 1509947.90
-!4!2{N!0}[] = (current_length!6{N!0}[] & 1): Y -> {} for 49530.22 * 1 = 49530.22
-!5!2{N!0}[] = (!4!2{N!0}[] == 1): Y -> {} for 49309.75 * 1 = 49309.75
-	max_length!2{}[!18!0] = Φ(!9!0{}[!18!0], max_length!4{}[(!18!0 - 1)]): Y -> {} for 0.00 * 1024 = 0.00
-	!6!2{}[!18!0] = (current_length!6{}[!18!0] > max_length!2{}[!18!0]): Y -> {} for 1463.38 * 1024 = 1498501.12
-	!7!2{}[!18!0] = (!5!2{}[!18!0] and !6!2{}[!18!0]): Y -> {} for 1462.48 * 1024 = 1497575.94
-	max_length!4{}[!18!0] = MUX(!7!2{}[!18!0], current_length!6{}[!18!0], max_length!2{}[!18!0]): Y -> {} for 1474.56 * 1024 = 1509947.90
+	current_length!2{}[!17!0] = Φ(!8!0{}[!17!0], current_length!6{}[(!17!0 - 1)]): Y -> {} for 0.00 * 8 = 0.00
+	current_length!5{}[!17!0] = MUX(!2!2{}[!17!0], current_length!4, current_length!2{}[!17!0]): Y -> {} for 1474.56 * 8 = 11796.47
+	current_length!3{}[!17!0] = (current_length!2{}[!17!0] + 1): Y -> {} for 1476.35 * 8 = 11810.80
+	current_length!6{}[!17!0] = MUX(s1!2{}[!17!0], current_length!3{}[!17!0], current_length!5{}[!17!0]): Y -> {} for 1474.56 * 8 = 11796.47
+!4!2{N!0}[] = (current_length!6{N!0}[] & 1): Y -> {} for 1947.15 * 1 = 1947.15
+!5!2{N!0}[] = (!4!2{N!0}[] == 1): Y -> {} for 1975.88 * 1 = 1975.88
+	max_length!2{}[!18!0] = Φ(!9!0{}[!18!0], max_length!4{}[(!18!0 - 1)]): Y -> {} for 0.00 * 8 = 0.00
+	!6!2{}[!18!0] = (current_length!6{}[!18!0] > max_length!2{}[!18!0]): Y -> {} for 1463.38 * 8 = 11707.04
+	!7!2{}[!18!0] = (!5!2{}[!18!0] and !6!2{}[!18!0]): Y -> {} for 1462.48 * 8 = 11699.81
+	max_length!4{}[!18!0] = MUX(!7!2{}[!18!0], current_length!6{}[!18!0], max_length!2{}[!18!0]): Y -> {} for 1474.56 * 8 = 11796.47
 !15!0 = drop_dim(max_length!4{N!0}[]): _ -> {'Y'} for 0.00 * 1 = 0.00
 return !15!0
 Output vars:	{!15!0: {'Y'}}
@@ -8234,7 +8219,7 @@ def max_dist_between_syms(Seq!0: shared[list[int; ?]], N!0: plaintext[int], Sym!
     return !8!0
 ```
 #### Mixed configuration
-```Total cost:	6079488.57
+```Total cost:	49086.65
 Input vars:	{Sym!0: {'Y'}, Seq!0: {'Y'}}
 Constants:	{0: {'Y'}, 1: {'Y'}}
 Plaintext vars:	{}
@@ -8245,14 +8230,14 @@ current_dist!1 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
 current_dist!4 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
 !4!0{N!0}[] = lift(max_dist!1, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
 !5!0{N!0}[] = lift(current_dist!1, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!1!2{N!0}[] = (!6!0{N!0}[] == !7!0{N!0}[]): Y -> {} for 49309.75 * 1 = 49309.75
+!1!2{N!0}[] = (!6!0{N!0}[] == !7!0{N!0}[]): Y -> {} for 1975.88 * 1 = 1975.88
 !2!2{N!0}[] = not !1!2{N!0}[]: Y -> {} for 0.00 * 1 = 0.00
-	current_dist!2{}[!9!0] = Φ(!5!0{}[!9!0], current_dist!5{}[(!9!0 - 1)]): Y -> {} for 0.00 * 1024 = 0.00
-	current_dist!3{}[!9!0] = (current_dist!2{}[!9!0] + 1): Y -> {} for 1476.35 * 1024 = 1511781.89
-	current_dist!5{}[!9!0] = MUX(!2!2{}[!9!0], current_dist!3{}[!9!0], current_dist!4): Y -> {} for 1474.56 * 1024 = 1509947.90
-	max_dist!2{}[!10!0] = Φ(!4!0{}[!10!0], max_dist!4{}[(!10!0 - 1)]): Y -> {} for 0.00 * 1024 = 0.00
-	!3!2{}[!10!0] = (current_dist!5{}[!10!0] > max_dist!2{}[!10!0]): Y -> {} for 1463.38 * 1024 = 1498501.12
-	max_dist!4{}[!10!0] = MUX(!3!2{}[!10!0], current_dist!5{}[!10!0], max_dist!2{}[!10!0]): Y -> {} for 1474.56 * 1024 = 1509947.90
+	current_dist!2{}[!9!0] = Φ(!5!0{}[!9!0], current_dist!5{}[(!9!0 - 1)]): Y -> {} for 0.00 * 8 = 0.00
+	current_dist!3{}[!9!0] = (current_dist!2{}[!9!0] + 1): Y -> {} for 1476.35 * 8 = 11810.80
+	current_dist!5{}[!9!0] = MUX(!2!2{}[!9!0], current_dist!3{}[!9!0], current_dist!4): Y -> {} for 1474.56 * 8 = 11796.47
+	max_dist!2{}[!10!0] = Φ(!4!0{}[!10!0], max_dist!4{}[(!10!0 - 1)]): Y -> {} for 0.00 * 8 = 0.00
+	!3!2{}[!10!0] = (current_dist!5{}[!10!0] > max_dist!2{}[!10!0]): Y -> {} for 1463.38 * 8 = 11707.04
+	max_dist!4{}[!10!0] = MUX(!3!2{}[!10!0], current_dist!5{}[!10!0], max_dist!2{}[!10!0]): Y -> {} for 1474.56 * 8 = 11796.47
 !8!0 = drop_dim(max_dist!4{N!0}[]): _ -> {'Y'} for 0.00 * 1 = 0.00
 return !8!0
 Output vars:	{!8!0: {'Y'}}
@@ -8709,7 +8694,7 @@ def max_sum_between_syms(Seq!0: shared[list[int; ?]], N!0: plaintext[int], Sym!0
     return !9!0
 ```
 #### Mixed configuration
-```Total cost:	6079488.57
+```Total cost:	49086.65
 Input vars:	{Sym!0: {'Y'}, Seq!0: {'Y'}}
 Constants:	{0: {'Y'}}
 Plaintext vars:	{}
@@ -8720,14 +8705,14 @@ current_sum!1 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
 current_sum!4 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
 !4!0{N!0}[] = lift(max_sum!1, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
 !5!0{N!0}[] = lift(current_sum!1, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!1!2{N!0}[] = (!6!0{N!0}[] == !7!0{N!0}[]): Y -> {} for 49309.75 * 1 = 49309.75
+!1!2{N!0}[] = (!6!0{N!0}[] == !7!0{N!0}[]): Y -> {} for 1975.88 * 1 = 1975.88
 !2!2{N!0}[] = not !1!2{N!0}[]: Y -> {} for 0.00 * 1 = 0.00
-	current_sum!2{}[!10!0] = Φ(!5!0{}[!10!0], current_sum!5{}[(!10!0 - 1)]): Y -> {} for 0.00 * 1024 = 0.00
-	current_sum!3{}[!10!0] = (current_sum!2{}[!10!0] + !6!0{}[!10!0]): Y -> {} for 1476.35 * 1024 = 1511781.89
-	current_sum!5{}[!10!0] = MUX(!2!2{}[!10!0], current_sum!3{}[!10!0], current_sum!4): Y -> {} for 1474.56 * 1024 = 1509947.90
-	max_sum!2{}[!11!0] = Φ(!4!0{}[!11!0], max_sum!4{}[(!11!0 - 1)]): Y -> {} for 0.00 * 1024 = 0.00
-	!3!2{}[!11!0] = (current_sum!5{}[!11!0] > max_sum!2{}[!11!0]): Y -> {} for 1463.38 * 1024 = 1498501.12
-	max_sum!4{}[!11!0] = MUX(!3!2{}[!11!0], current_sum!5{}[!11!0], max_sum!2{}[!11!0]): Y -> {} for 1474.56 * 1024 = 1509947.90
+	current_sum!2{}[!10!0] = Φ(!5!0{}[!10!0], current_sum!5{}[(!10!0 - 1)]): Y -> {} for 0.00 * 8 = 0.00
+	current_sum!3{}[!10!0] = (current_sum!2{}[!10!0] + !6!0{}[!10!0]): Y -> {} for 1476.35 * 8 = 11810.80
+	current_sum!5{}[!10!0] = MUX(!2!2{}[!10!0], current_sum!3{}[!10!0], current_sum!4): Y -> {} for 1474.56 * 8 = 11796.47
+	max_sum!2{}[!11!0] = Φ(!4!0{}[!11!0], max_sum!4{}[(!11!0 - 1)]): Y -> {} for 0.00 * 8 = 0.00
+	!3!2{}[!11!0] = (current_sum!5{}[!11!0] > max_sum!2{}[!11!0]): Y -> {} for 1463.38 * 8 = 11707.04
+	max_sum!4{}[!11!0] = MUX(!3!2{}[!11!0], current_sum!5{}[!11!0], max_sum!2{}[!11!0]): Y -> {} for 1474.56 * 8 = 11796.47
 !9!0 = drop_dim(max_sum!4{N!0}[]): _ -> {'Y'} for 0.00 * 1 = 0.00
 return !9!0
 Output vars:	{!9!0: {'Y'}}
@@ -9247,34 +9232,34 @@ def minimal_points(X_coords!0: shared[list[int; ?]], Y_coords!0: shared[list[int
     return !7!1
 ```
 #### Mixed configuration
-```Total cost:	256230639.91
-Input vars:	{Y_coords!0: {'B'}, X_coords!0: {'B'}, result_Y!0: {'B'}, result_X!0: {'B'}}
-Constants:	{False: {'B'}}
+```Total cost:	15551.57
+Input vars:	{Y_coords!0: {'Y'}, X_coords!0: {'Y'}, result_Y!0: {'Y'}, result_X!0: {'Y'}}
+Constants:	{False: {'Y'}}
 Plaintext vars:	{}
-!8!0{N!0}[] = lift(result_X!0, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!9!0{N!0}[] = lift(result_Y!0, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!16!0{N!0}[] = lift(X_coords!0[i!1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!17!0{N!0}[] = lift(Y_coords!0[i!1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-bx!2 = False: _ -> {'B'} for 0.00 * 1 = 0.00
-!11!0{N!0, N!0}[] = lift(X_coords!0[j!1], (i!1:N!0, j!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!12!0{N!0, N!0}[] = lift(X_coords!0[i!1], (i!1:N!0, j!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!13!0{N!0, N!0}[] = lift(Y_coords!0[j!1], (i!1:N!0, j!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!14!0{N!0, N!0}[] = lift(Y_coords!0[i!1], (i!1:N!0, j!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!10!0{N!0, N!0}[] = lift(bx!2, (i!1:N!0, j!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!3!3{N!0, N!0}[] = (!11!0{N!0, N!0}[] < !12!0{N!0, N!0}[]): B -> {} for 93583671.30 * 1 = 93583671.30
-!4!3{N!0, N!0}[] = (!13!0{N!0, N!0}[] < !14!0{N!0, N!0}[]): B -> {} for 93583671.30 * 1 = 93583671.30
-!5!3{N!0, N!0}[] = (!3!3{N!0, N!0}[] and !4!3{N!0, N!0}[]): B -> {} for 29817300.58 * 1 = 29817300.58
-	bx!3{N!0}[!18!0] = Φ(!10!0{N!0}[!18!0], bx!4{N!0}[(!18!0 - 1)]): B -> {} for 0.00 * 1024 = 0.00
-	bx!4{N!0}[!18!0] = (bx!3{N!0}[!18!0] or !5!3{N!0}[!18!0]): B -> {} for 38282.25 * 1024 = 39201026.87
-!15!0{N!0}[] = drop_dim(bx!4{N!0, N!0}[]): _ -> {'B'} for 0.00 * 1 = 0.00
-!6!2{N!0}[] = not !15!0{N!0}[]: B -> {} for 0.00 * 1 = 0.00
-val_X!4{N!0}[] = MUX(!6!2{N!0}[], !16!0{N!0}[], !8!0{N!0}[]): B -> {} for 22484.93 * 1 = 22484.93
-val_Y!4{N!0}[] = MUX(!6!2{N!0}[], !17!0{N!0}[], !9!0{N!0}[]): B -> {} for 22484.93 * 1 = 22484.93
-result_X!2{N!0}[] = VectorizedUpdate(!8!0{N!0}[], [I!1], val_X!4{N!0}[]): B -> {} for 0.00 * 1 = 0.00
-result_Y!2{N!0}[] = VectorizedUpdate(!9!0{N!0}[], [I!1], val_Y!4{N!0}[]): B -> {} for 0.00 * 1 = 0.00
+!8!0{N!0}[] = lift(result_X!0, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
+!9!0{N!0}[] = lift(result_Y!0, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
+!16!0{N!0}[] = lift(X_coords!0[i!1], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
+!17!0{N!0}[] = lift(Y_coords!0[i!1], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
+bx!2 = False: _ -> {'Y'} for 0.00 * 1 = 0.00
+!11!0{N!0, N!0}[] = lift(X_coords!0[j!1], (i!1:N!0, j!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
+!12!0{N!0, N!0}[] = lift(X_coords!0[i!1], (i!1:N!0, j!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
+!13!0{N!0, N!0}[] = lift(Y_coords!0[j!1], (i!1:N!0, j!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
+!14!0{N!0, N!0}[] = lift(Y_coords!0[i!1], (i!1:N!0, j!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
+!10!0{N!0, N!0}[] = lift(bx!2, (i!1:N!0, j!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
+!3!3{N!0, N!0}[] = (!11!0{N!0, N!0}[] < !12!0{N!0, N!0}[]): Y -> {} for 2179.95 * 1 = 2179.95
+!4!3{N!0, N!0}[] = (!13!0{N!0, N!0}[] < !14!0{N!0, N!0}[]): Y -> {} for 2179.95 * 1 = 2179.95
+!5!3{N!0, N!0}[] = (!3!3{N!0, N!0}[] and !4!3{N!0, N!0}[]): Y -> {} for 1939.85 * 1 = 1939.85
+	bx!3{N!0}[!18!0] = Φ(!10!0{N!0}[!18!0], bx!4{N!0}[(!18!0 - 1)]): Y -> {} for 0.00 * 3 = 0.00
+	bx!4{N!0}[!18!0] = (bx!3{N!0}[!18!0] or !5!3{N!0}[!18!0]): Y -> {} for 1838.09 * 3 = 5514.27
+!15!0{N!0}[] = drop_dim(bx!4{N!0, N!0}[]): _ -> {'Y'} for 0.00 * 1 = 0.00
+!6!2{N!0}[] = not !15!0{N!0}[]: Y -> {} for 0.00 * 1 = 0.00
+val_X!4{N!0}[] = MUX(!6!2{N!0}[], !16!0{N!0}[], !8!0{N!0}[]): Y -> {} for 1868.77 * 1 = 1868.77
+val_Y!4{N!0}[] = MUX(!6!2{N!0}[], !17!0{N!0}[], !9!0{N!0}[]): Y -> {} for 1868.77 * 1 = 1868.77
+result_X!2{N!0}[] = VectorizedUpdate(!8!0{N!0}[], [I!1], val_X!4{N!0}[]): Y -> {} for 0.00 * 1 = 0.00
+result_Y!2{N!0}[] = VectorizedUpdate(!9!0{N!0}[], [I!1], val_Y!4{N!0}[]): Y -> {} for 0.00 * 1 = 0.00
 !7!1 = (result_X!2, result_Y!2)
 return !7!1
-Output vars:	{result_Y!2: {'B'}, result_X!2: {'B'}}
+Output vars:	{result_Y!2: {'Y'}, result_X!2: {'Y'}}
 
 ```
 #### MOTION code
@@ -9408,7 +9393,7 @@ std::tuple<std::vector<encrypto::motion::SecureUnsignedInteger>, std::vector<enc
     bool _MPC_PLAINTEXT_bx_2;
 
     // Constant initializations
-    encrypto::motion::ShareWrapper _MPC_CONSTANT_false = party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::BitVector(1, false), 0);
+    encrypto::motion::ShareWrapper _MPC_CONSTANT_false = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::BitVector(1, false), 0);
 
     // Plaintext parameter assignments
 
@@ -9673,7 +9658,7 @@ def mnist_relu(input!0: shared[list[int; ?]], OUTPUT_res!0: plaintext[list[int; 
     return OUTPUT_res!3
 ```
 #### Mixed configuration
-```Total cost:	91059866.83
+```Total cost:	21723.37
 Input vars:	{input!0: {'B'}}
 Constants:	{1: {'B'}}
 Plaintext vars:	{OUTPUT_res!0: {'B'}}
@@ -9681,8 +9666,8 @@ Plaintext vars:	{OUTPUT_res!0: {'B'}}
 !4!0{LEN_OUTER!0, LEN_INNER!0}[] = lift(input!0[((i!1 * len_inner!0) + j!1)], (i!1:len_outer!0, j!1:len_inner!0)): _ -> {'B'} for 0.00 * 1 = 0.00
 val!3 = 1: _ -> {'B'} for 0.00 * 1 = 0.00
 !3!0{LEN_OUTER!0, LEN_INNER!0}[] = lift(!2!0{LEN_OUTER!0, LEN_INNER!0}[], (i!1:len_outer!0, j!1:len_inner!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!1!3{LEN_OUTER!0, LEN_INNER!0}[] = (!4!0{LEN_OUTER!0, LEN_INNER!0}[] > val!3): B -> {} for 68035294.00 * 1 = 68035294.00
-val!5{LEN_OUTER!0, LEN_INNER!0}[] = MUX(!1!3{LEN_OUTER!0, LEN_INNER!0}[], !4!0{LEN_OUTER!0, LEN_INNER!0}[], val!3): B -> {} for 23024572.83 * 1 = 23024572.83
+!1!3{LEN_OUTER!0, LEN_INNER!0}[] = (!4!0{LEN_OUTER!0, LEN_INNER!0}[] > val!3): B -> {} for 15674.91 * 1 = 15674.91
+val!5{LEN_OUTER!0, LEN_INNER!0}[] = MUX(!1!3{LEN_OUTER!0, LEN_INNER!0}[], !4!0{LEN_OUTER!0, LEN_INNER!0}[], val!3): B -> {} for 6048.45 * 1 = 6048.45
 OUTPUT_res!3{LEN_OUTER!0, LEN_INNER!0}[] = VectorizedUpdate(!3!0{LEN_OUTER!0, LEN_INNER!0}[], [I!1, J!1], val!5{LEN_OUTER!0, LEN_INNER!0}[]): B -> {} for 0.00 * 1 = 0.00
 return OUTPUT_res!3
 Output vars:	{OUTPUT_res!3: {'B'}}
@@ -10006,7 +9991,7 @@ def psi(A!0: shared[list[int; ?]], SA!0: plaintext[int], B!0: shared[list[int; ?
     return result!2
 ```
 #### Mixed configuration
-```Total cost:	54787741.64
+```Total cost:	15027.82
 Input vars:	{B!0: {'B'}, A!0: {'B'}, result!0: {'B'}}
 Constants:	{False: {'B'}, True: {'B'}}
 Plaintext vars:	{}
@@ -10017,11 +10002,11 @@ flag!2 = False: _ -> {'B'} for 0.00 * 1 = 0.00
 !5!0{SA!0, SB!0}[] = lift(B!0[j!1], (i!1:SA!0, j!1:SB!0)): _ -> {'B'} for 0.00 * 1 = 0.00
 flag!4 = True: _ -> {'B'} for 0.00 * 1 = 0.00
 !3!0{SA!0, SB!0}[] = lift(flag!2, (i!1:SA!0, j!1:SB!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!1!3{SA!0, SB!0}[] = (!4!0{SA!0, SB!0}[] == !5!0{SA!0, SB!0}[]): B -> {} for 31740683.88 * 1 = 31740683.88
-	flag!3{SA!0}[!8!0] = Φ(!3!0{SA!0}[!8!0], flag!5{SA!0}[(!8!0 - 1)]): B -> {} for 0.00 * 1024 = 0.00
-	flag!5{SA!0}[!8!0] = MUX(!1!3{SA!0}[!8!0], flag!4, flag!3{SA!0}[!8!0]): B -> {} for 22484.93 * 1024 = 23024572.83
+!1!3{SA!0, SB!0}[] = (!4!0{SA!0, SB!0}[] == !5!0{SA!0, SB!0}[]): B -> {} for 3298.70 * 1 = 3298.70
+	flag!3{SA!0}[!8!0] = Φ(!3!0{SA!0}[!8!0], flag!5{SA!0}[(!8!0 - 1)]): B -> {} for 0.00 * 7 = 0.00
+	flag!5{SA!0}[!8!0] = MUX(!1!3{SA!0}[!8!0], flag!4, flag!3{SA!0}[!8!0]): B -> {} for 1466.14 * 7 = 10262.98
 !7!0{SA!0}[] = drop_dim(flag!5{SA!0, SB!0}[]): _ -> {'B'} for 0.00 * 1 = 0.00
-val!4{SA!0}[] = MUX(!7!0{SA!0}[], !6!0{SA!0}[], !2!0{SA!0}[]): B -> {} for 22484.93 * 1 = 22484.93
+val!4{SA!0}[] = MUX(!7!0{SA!0}[], !6!0{SA!0}[], !2!0{SA!0}[]): B -> {} for 1466.14 * 1 = 1466.14
 result!2{SA!0}[] = VectorizedUpdate(!2!0{SA!0}[], [I!1], val!4{SA!0}[]): B -> {} for 0.00 * 1 = 0.00
 return result!2
 Output vars:	{result!2: {'B'}}
