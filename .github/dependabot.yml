@@ -12,3 +12,7 @@ updates:
     directory: /compiler
     schedule:
       interval: daily
+  - package-ecosystem: "gitsubmodule"
+    directory: "/backend_submodules/MOTION"
+    schedule:
+      interval: "daily"
