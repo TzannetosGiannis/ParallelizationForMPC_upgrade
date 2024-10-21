@@ -1,0 +1,45 @@
+def db_cross_join_trivial(A_0, Len_A_0, B_0, Len_B_0, res_0):
+    # Shared array declarations
+    res_1 = [None] * (Len_A_0 * Len_B_0 * 3)
+    res_2 = [None] * (Len_A_0 * Len_B_0 * 3)
+    res_3 = [None] * (Len_A_0 * Len_B_0 * 3)
+    res_4 = [None] * (Len_A_0 * Len_B_0 * 3)
+    # Function body
+    for i_1 in range(0, Len_A_0):
+        # Set ϕ value
+        if i_1 == 0:
+            res_1 = res_0
+        else:
+            res_1 = res_2
+        for j_1 in range(0, Len_B_0):
+            # Set ϕ value
+            if j_1 == 0:
+                res_2 = res_1
+            else:
+                res_2 = res_3
+            for k_1 in range(0, 3):
+                # Set ϕ value
+                if k_1 == 0:
+                    res_3 = res_2
+                else:
+                    res_3 = res_4
+                v_4 = sint(0)
+                _1_4 = ((A_0[(i_1 * 2)]) == (B_0[(j_1 * 2)]))
+                _2_4 = (k_1 == sint(0))
+                v_5 = (A_0[(i_1 * 2)])
+                v_6 = _2_4.if_else(v_5, v_4)
+                _3_4 = (k_1 == sint(1))
+                v_7 = (A_0[((i_1 * 2) + 1)])
+                v_8 = _3_4.if_else(v_7, v_6)
+                _4_4 = (k_1 == sint(2))
+                v_9 = (B_0[((j_1 * 2) + 1)])
+                v_10 = _4_4.if_else(v_9, v_8)
+                v_11 = _1_4.if_else(v_10, v_4)
+                res_3[((((i_1 * Len_B_0) * 3) + (j_1 * 3)) + k_1)] = v_11; res_4 = res_3
+            # Loop exit ϕ values
+            res_3 = res_4
+        # Loop exit ϕ values
+        res_2 = res_3
+    # Loop exit ϕ values
+    res_1 = res_2
+    return res_1

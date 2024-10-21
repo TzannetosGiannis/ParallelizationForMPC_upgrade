@@ -1,0 +1,28 @@
+def max_dist_between_syms(Seq_0, N_0, Sym_0):
+    # Shared array declarations
+
+    # Function body
+    max_dist_1 = sint(0)
+    current_dist_1 = sint(0)
+    for i_1 in range(0, N_0):
+        # Set ϕ value
+        if i_1 == 0:
+            max_dist_2 = max_dist_1
+        else:
+            max_dist_2 = max_dist_4
+        # Set ϕ value
+        if i_1 == 0:
+            current_dist_2 = current_dist_1
+        else:
+            current_dist_2 = current_dist_5
+        _1_2 = ((Seq_0[i_1]) == Sym_0)
+        _2_2 = (_1_2.bit_not())
+        current_dist_4 = sint(0)
+        current_dist_3 = (current_dist_2 + sint(1))
+        current_dist_5 = _2_2.if_else(current_dist_3, current_dist_4)
+        _3_2 = (current_dist_5 > max_dist_2)
+        max_dist_4 = _3_2.if_else(current_dist_5, max_dist_2)
+    # Loop exit ϕ values
+    max_dist_2 = max_dist_4
+    current_dist_2 = current_dist_5
+    return max_dist_2

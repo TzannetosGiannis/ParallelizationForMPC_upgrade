@@ -1,0 +1,82 @@
+template <encrypto::motion::MpcProtocol Protocol>
+std::vector<encrypto::motion::SecureUnsignedInteger> psi(
+    encrypto::motion::PartyPointer &party,
+    std::vector<encrypto::motion::SecureUnsignedInteger> A_0,
+    std::uint32_t _MPC_PLAINTEXT_SA_0,
+    std::vector<encrypto::motion::SecureUnsignedInteger> B_0,
+    std::uint32_t _MPC_PLAINTEXT_SB_0,
+    std::vector<encrypto::motion::SecureUnsignedInteger> result_0
+) {
+    // Shared variable declarations
+    encrypto::motion::ShareWrapper _1_3;
+    encrypto::motion::SecureUnsignedInteger SA_0;
+    encrypto::motion::SecureUnsignedInteger SB_0;
+    encrypto::motion::ShareWrapper flag_2;
+    encrypto::motion::ShareWrapper flag_3;
+    encrypto::motion::ShareWrapper flag_4;
+    encrypto::motion::ShareWrapper flag_5;
+    encrypto::motion::SecureUnsignedInteger i_1;
+    encrypto::motion::SecureUnsignedInteger j_1;
+    std::vector<encrypto::motion::SecureUnsignedInteger> result_1((_MPC_PLAINTEXT_SA_0));
+    std::vector<encrypto::motion::SecureUnsignedInteger> result_2((_MPC_PLAINTEXT_SA_0));
+    encrypto::motion::SecureUnsignedInteger val_2;
+    encrypto::motion::SecureUnsignedInteger val_3;
+    encrypto::motion::SecureUnsignedInteger val_4;
+
+    // Plaintext variable declarations
+    bool _MPC_PLAINTEXT_flag_2;
+    bool _MPC_PLAINTEXT_flag_4;
+    std::uint32_t _MPC_PLAINTEXT_i_1;
+    std::uint32_t _MPC_PLAINTEXT_j_1;
+
+    // Constant initializations
+    encrypto::motion::ShareWrapper _MPC_CONSTANT_false = party->In<Protocol>(encrypto::motion::BitVector(1, false), 0);
+    encrypto::motion::ShareWrapper _MPC_CONSTANT_true = party->In<Protocol>(encrypto::motion::BitVector(1, true), 0);
+
+    // Plaintext parameter assignments
+    SA_0 = party->In<Protocol>(encrypto::motion::ToInput(_MPC_PLAINTEXT_SA_0), 0);
+    SB_0 = party->In<Protocol>(encrypto::motion::ToInput(_MPC_PLAINTEXT_SB_0), 0);
+
+    // Function body
+
+    // Initialize loop counter
+    _MPC_PLAINTEXT_i_1 = std::uint32_t(0);
+    // Initialize phi values
+    result_1 = result_0;
+    for (; _MPC_PLAINTEXT_i_1 < _MPC_PLAINTEXT_SA_0; _MPC_PLAINTEXT_i_1++) {
+        // Update phi values
+        if (_MPC_PLAINTEXT_i_1 != std::uint32_t(0)) {
+            result_1 = result_2;
+        }
+
+        flag_2 = _MPC_CONSTANT_false;
+        _MPC_PLAINTEXT_flag_2 = false;
+
+        // Initialize loop counter
+        _MPC_PLAINTEXT_j_1 = std::uint32_t(0);
+        // Initialize phi values
+        flag_3 = flag_2;
+        for (; _MPC_PLAINTEXT_j_1 < _MPC_PLAINTEXT_SB_0; _MPC_PLAINTEXT_j_1++) {
+            // Update phi values
+            if (_MPC_PLAINTEXT_j_1 != std::uint32_t(0)) {
+                flag_3 = flag_5;
+            }
+
+            _1_3 = (to_share_wrapper(A_0[_MPC_PLAINTEXT_i_1]) == to_share_wrapper(B_0[_MPC_PLAINTEXT_j_1]));
+            flag_4 = _MPC_CONSTANT_true;
+            _MPC_PLAINTEXT_flag_4 = true;
+            flag_5 = _1_3.Mux(flag_4.Get(), flag_3.Get());
+
+        }
+
+        val_2 = result_1[_MPC_PLAINTEXT_i_1];
+        val_3 = A_0[_MPC_PLAINTEXT_i_1];
+        val_4 = flag_3.Mux(val_3.Get(), val_2.Get());
+        result_1[_MPC_PLAINTEXT_i_1] = val_4;
+        result_2 = result_1;
+
+    }
+
+    return result_1;
+
+}

@@ -1,0 +1,75 @@
+template <encrypto::motion::MpcProtocol Protocol>
+std::vector<encrypto::motion::SecureUnsignedInteger> mnist_relu(
+    encrypto::motion::PartyPointer &party,
+    std::vector<encrypto::motion::SecureUnsignedInteger> input_0,
+    std::vector<std::uint32_t> _MPC_PLAINTEXT_OUTPUT_res_0,
+    std::uint32_t _MPC_PLAINTEXT_len_outer_0,
+    std::uint32_t _MPC_PLAINTEXT_len_inner_0
+) {
+    // Shared variable declarations
+    encrypto::motion::ShareWrapper _1_3;
+    std::vector<encrypto::motion::SecureUnsignedInteger> OUTPUT_res_0;
+    std::vector<encrypto::motion::SecureUnsignedInteger> OUTPUT_res_1((_MPC_PLAINTEXT_len_outer_0) * (_MPC_PLAINTEXT_len_inner_0));
+    std::vector<encrypto::motion::SecureUnsignedInteger> OUTPUT_res_2((_MPC_PLAINTEXT_len_outer_0) * (_MPC_PLAINTEXT_len_inner_0));
+    std::vector<encrypto::motion::SecureUnsignedInteger> OUTPUT_res_3((_MPC_PLAINTEXT_len_outer_0) * (_MPC_PLAINTEXT_len_inner_0));
+    encrypto::motion::SecureUnsignedInteger i_1;
+    encrypto::motion::SecureUnsignedInteger j_1;
+    encrypto::motion::SecureUnsignedInteger len_inner_0;
+    encrypto::motion::SecureUnsignedInteger len_outer_0;
+    encrypto::motion::SecureUnsignedInteger val_3;
+    encrypto::motion::SecureUnsignedInteger val_4;
+    encrypto::motion::SecureUnsignedInteger val_5;
+
+    // Plaintext variable declarations
+    std::uint32_t _MPC_PLAINTEXT_i_1;
+    std::uint32_t _MPC_PLAINTEXT_j_1;
+    std::uint32_t _MPC_PLAINTEXT_val_3;
+
+    // Constant initializations
+    encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_1 = party->In<Protocol>(encrypto::motion::ToInput(std::uint32_t(1)), 0);
+
+    // Plaintext parameter assignments
+    OUTPUT_res_0.clear();
+    std::transform(_MPC_PLAINTEXT_OUTPUT_res_0.begin(), _MPC_PLAINTEXT_OUTPUT_res_0.end(), std::back_inserter(OUTPUT_res_0), [&](const auto &val) { return party->In<Protocol>(encrypto::motion::ToInput(val), 0); });
+    len_inner_0 = party->In<Protocol>(encrypto::motion::ToInput(_MPC_PLAINTEXT_len_inner_0), 0);
+    len_outer_0 = party->In<Protocol>(encrypto::motion::ToInput(_MPC_PLAINTEXT_len_outer_0), 0);
+
+    // Function body
+
+    // Initialize loop counter
+    _MPC_PLAINTEXT_i_1 = std::uint32_t(0);
+    // Initialize phi values
+    OUTPUT_res_1 = OUTPUT_res_0;
+    for (; _MPC_PLAINTEXT_i_1 < _MPC_PLAINTEXT_len_outer_0; _MPC_PLAINTEXT_i_1++) {
+        // Update phi values
+        if (_MPC_PLAINTEXT_i_1 != std::uint32_t(0)) {
+            OUTPUT_res_1 = OUTPUT_res_2;
+        }
+
+
+        // Initialize loop counter
+        _MPC_PLAINTEXT_j_1 = std::uint32_t(0);
+        // Initialize phi values
+        OUTPUT_res_2 = OUTPUT_res_1;
+        for (; _MPC_PLAINTEXT_j_1 < _MPC_PLAINTEXT_len_inner_0; _MPC_PLAINTEXT_j_1++) {
+            // Update phi values
+            if (_MPC_PLAINTEXT_j_1 != std::uint32_t(0)) {
+                OUTPUT_res_2 = OUTPUT_res_3;
+            }
+
+            val_3 = _MPC_CONSTANT_1;
+            _MPC_PLAINTEXT_val_3 = std::uint32_t(1);
+            _1_3 = (input_0[((_MPC_PLAINTEXT_i_1 * _MPC_PLAINTEXT_len_inner_0) + _MPC_PLAINTEXT_j_1)] > val_3);
+            val_4 = input_0[((_MPC_PLAINTEXT_i_1 * _MPC_PLAINTEXT_len_inner_0) + _MPC_PLAINTEXT_j_1)];
+            val_5 = _1_3.Mux(val_4.Get(), val_3.Get());
+            OUTPUT_res_2[((_MPC_PLAINTEXT_i_1 * _MPC_PLAINTEXT_len_inner_0) + _MPC_PLAINTEXT_j_1)] = val_5;
+            OUTPUT_res_3 = OUTPUT_res_2;
+
+        }
+
+
+    }
+
+    return OUTPUT_res_1;
+
+}

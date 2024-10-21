@@ -18,6 +18,12 @@ if __name__ == "__main__":
         action="store_true",
         help="Notifies the compiler to generate the mixed compiler output",
     )
+
+    parser.add_argument(
+        "--scallar",
+        action="store_false",
+        help="Notifies the compiler to not run vectorization",
+    )
     parser.add_argument(
         "--test-backend",
         type=Backend,
@@ -29,6 +35,6 @@ if __name__ == "__main__":
     test_context.BACKEND = args.test_backend
 
     if args.regenerate:
-        regenerate_stages(args.mixing)
+        regenerate_stages(args.mixing,args.scallar)
     else:
         run_tests()

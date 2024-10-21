@@ -1,0 +1,28 @@
+def mnist_relu(input_0, OUTPUT_res_0, len_outer_0, len_inner_0):
+    # Shared array declarations
+    OUTPUT_res_1 = [None] * (len_outer_0 * len_inner_0)
+    OUTPUT_res_2 = [None] * (len_outer_0 * len_inner_0)
+    OUTPUT_res_3 = [None] * (len_outer_0 * len_inner_0)
+    # Function body
+    for i_1 in range(0, len_outer_0):
+        # Set ϕ value
+        if i_1 == 0:
+            OUTPUT_res_1 = OUTPUT_res_0
+        else:
+            OUTPUT_res_1 = OUTPUT_res_2
+        for j_1 in range(0, len_inner_0):
+            # Set ϕ value
+            if j_1 == 0:
+                OUTPUT_res_2 = OUTPUT_res_1
+            else:
+                OUTPUT_res_2 = OUTPUT_res_3
+            val_3 = sint(1)
+            _1_3 = ((input_0[((i_1 * len_inner_0) + j_1)]) > val_3)
+            val_4 = (input_0[((i_1 * len_inner_0) + j_1)])
+            val_5 = _1_3.if_else(val_4, val_3)
+            OUTPUT_res_2[((i_1 * len_inner_0) + j_1)] = val_5; OUTPUT_res_3 = OUTPUT_res_2
+        # Loop exit ϕ values
+        OUTPUT_res_2 = OUTPUT_res_3
+    # Loop exit ϕ values
+    OUTPUT_res_1 = OUTPUT_res_2
+    return OUTPUT_res_1

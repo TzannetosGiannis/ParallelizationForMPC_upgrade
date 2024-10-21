@@ -1,0 +1,36 @@
+def count_10s(Seq_0, N_0, Syms_0):
+    # Shared array declarations
+
+    # Function body
+    s0_1 = _v.sbool(False)
+    s1_1 = _v.sbool(False)
+    scount_1 = sint(0)
+    for i_1 in range(0, N_0):
+        # Set ϕ value
+        if i_1 == 0:
+            s0_2 = s0_1
+        else:
+            s0_2 = s0_3
+        # Set ϕ value
+        if i_1 == 0:
+            s1_2 = s1_1
+        else:
+            s1_2 = s1_3
+        # Set ϕ value
+        if i_1 == 0:
+            scount_2 = scount_1
+        else:
+            scount_2 = scount_4
+        _1_2 = ((Seq_0[i_1]) != (Syms_0[0]))
+        _2_2 = s1_2.bit_and(_1_2)
+        scount_3 = (scount_2 + sint(1))
+        scount_4 = _2_2.if_else(scount_3, scount_2)
+        _3_2 = ((Seq_0[i_1]) == (Syms_0[0]))
+        _4_2 = OR(s0_2, s1_2)
+        s1_3 = _3_2.bit_and(_4_2)
+        s0_3 = ((Seq_0[i_1]) == (Syms_0[1]))
+    # Loop exit ϕ values
+    s0_2 = s0_3
+    s1_2 = s1_3
+    scount_2 = scount_4
+    return scount_2

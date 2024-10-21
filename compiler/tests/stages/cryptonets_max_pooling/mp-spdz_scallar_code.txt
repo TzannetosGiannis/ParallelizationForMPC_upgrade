@@ -1,0 +1,34 @@
+def cryptonets_max_pooling(vals_0, cols_0, rows_0, cols_res_0, rows_res_0, OUTPUT_res_0):
+    # Shared array declarations
+    OUTPUT_res_1 = [None] * (rows_res_0 * cols_res_0)
+    OUTPUT_res_2 = [None] * (rows_res_0 * cols_res_0)
+    OUTPUT_res_3 = [None] * (rows_res_0 * cols_res_0)
+    # Function body
+    for i_1 in range(0, rows_res_0):
+        # Set ϕ value
+        if i_1 == 0:
+            OUTPUT_res_1 = OUTPUT_res_0
+        else:
+            OUTPUT_res_1 = OUTPUT_res_2
+        for j_1 in range(0, cols_res_0):
+            # Set ϕ value
+            if j_1 == 0:
+                OUTPUT_res_2 = OUTPUT_res_1
+            else:
+                OUTPUT_res_2 = OUTPUT_res_3
+            max_3 = (vals_0[(((i_1 * 2) * cols_0) + (j_1 * 2))])
+            _1_3 = ((vals_0[((((i_1 * 2) * cols_0) + (j_1 * 2)) + 1)]) > max_3)
+            max_4 = (vals_0[((((i_1 * 2) * cols_0) + (j_1 * 2)) + 1)])
+            max_5 = _1_3.if_else(max_4, max_3)
+            _2_3 = ((vals_0[((((i_1 * 2) + 1) * cols_0) + (j_1 * 2))]) > max_5)
+            max_6 = (vals_0[((((i_1 * 2) + 1) * cols_0) + (j_1 * 2))])
+            max_7 = _2_3.if_else(max_6, max_5)
+            _3_3 = ((vals_0[(((((i_1 * 2) + 1) * cols_0) + (j_1 * 2)) + 1)]) > max_7)
+            max_8 = (vals_0[(((((i_1 * 2) + 1) * cols_0) + (j_1 * 2)) + 1)])
+            max_9 = _3_3.if_else(max_8, max_7)
+            OUTPUT_res_2[((i_1 * cols_res_0) + j_1)] = max_9; OUTPUT_res_3 = OUTPUT_res_2
+        # Loop exit ϕ values
+        OUTPUT_res_2 = OUTPUT_res_3
+    # Loop exit ϕ values
+    OUTPUT_res_1 = OUTPUT_res_2
+    return OUTPUT_res_1

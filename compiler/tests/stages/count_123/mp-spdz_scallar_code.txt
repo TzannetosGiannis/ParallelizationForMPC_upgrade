@@ -1,0 +1,37 @@
+def count_123(Seq_0, N_0, Syms_0):
+    # Shared array declarations
+
+    # Function body
+    s1_1 = _v.sbool(False)
+    s2_1 = _v.sbool(False)
+    c_1 = sint(0)
+    for i_1 in range(0, N_0):
+        # Set ϕ value
+        if i_1 == 0:
+            s1_2 = s1_1
+        else:
+            s1_2 = s1_3
+        # Set ϕ value
+        if i_1 == 0:
+            s2_2 = s2_1
+        else:
+            s2_2 = s2_3
+        # Set ϕ value
+        if i_1 == 0:
+            c_2 = c_1
+        else:
+            c_2 = c_4
+        _1_2 = ((Seq_0[i_1]) == (Syms_0[2]))
+        _2_2 = OR(s2_2, s1_2)
+        _3_2 = _1_2.bit_and(_2_2)
+        c_3 = (c_2 + sint(1))
+        c_4 = _3_2.if_else(c_3, c_2)
+        _4_2 = ((Seq_0[i_1]) == (Syms_0[1]))
+        _5_2 = OR(s1_2, s2_2)
+        s2_3 = _4_2.bit_and(_5_2)
+        s1_3 = ((Seq_0[i_1]) == (Syms_0[0]))
+    # Loop exit ϕ values
+    s1_2 = s1_3
+    s2_2 = s2_3
+    c_2 = c_4
+    return c_2

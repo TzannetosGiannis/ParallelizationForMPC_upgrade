@@ -1,0 +1,29 @@
+def count_102(Seq_0, N_0, Syms_0):
+    # Shared array declarations
+
+    # Function body
+    s0_1 = _v.sbool(False)
+    c_1 = sint(0)
+    for i_1 in range(0, N_0):
+        # Set ϕ value
+        if i_1 == 0:
+            s0_2 = s0_1
+        else:
+            s0_2 = s0_3
+        # Set ϕ value
+        if i_1 == 0:
+            c_2 = c_1
+        else:
+            c_2 = c_4
+        _1_2 = ((Seq_0[i_1]) == (Syms_0[2]))
+        _2_2 = s0_2.bit_and(_1_2)
+        c_3 = (c_2 + sint(1))
+        c_4 = _2_2.if_else(c_3, c_2)
+        _3_2 = ((Seq_0[i_1]) == (Syms_0[1]))
+        _5_2 = ((Seq_0[i_1]) == (Syms_0[0]))
+        _6_2 = s0_2.bit_and(_5_2)
+        s0_3 = OR(_3_2, _6_2)
+    # Loop exit ϕ values
+    s0_2 = s0_3
+    c_2 = c_4
+    return c_2

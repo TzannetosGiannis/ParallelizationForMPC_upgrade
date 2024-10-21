@@ -1,0 +1,28 @@
+def histogram(A_0, B_0, N_0, num_bins_0, result_0):
+    # Shared array declarations
+    result_1 = [None] * (num_bins_0)
+    result_2 = [None] * (num_bins_0)
+    result_3 = [None] * (num_bins_0)
+    # Function body
+    for i_1 in range(0, num_bins_0):
+        # Set ϕ value
+        if i_1 == 0:
+            result_1 = result_0
+        else:
+            result_1 = result_2
+        for j_1 in range(0, N_0):
+            # Set ϕ value
+            if j_1 == 0:
+                result_2 = result_1
+            else:
+                result_2 = result_3
+            _1_3 = ((A_0[j_1]) == i_1)
+            val_4 = (result_2[i_1])
+            val_3 = ((result_2[i_1]) + (B_0[j_1]))
+            val_5 = _1_3.if_else(val_3, val_4)
+            result_2[i_1] = val_5; result_3 = result_2
+        # Loop exit ϕ values
+        result_2 = result_3
+    # Loop exit ϕ values
+    result_1 = result_2
+    return result_1

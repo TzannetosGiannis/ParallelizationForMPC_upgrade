@@ -1,0 +1,37 @@
+def biometric(C_0, D_0, S_0, N_0):
+    # Shared array declarations
+
+    # Function body
+    min_sum_1 = sint(10000)
+    min_index_1 = sint(0)
+    for i_1 in range(0, N_0):
+        # Set ϕ value
+        if i_1 == 0:
+            min_sum_2 = min_sum_1
+        else:
+            min_sum_2 = min_sum_4
+        # Set ϕ value
+        if i_1 == 0:
+            min_index_2 = min_index_1
+        else:
+            min_index_2 = min_index_4
+        sum_2 = sint(0)
+        for j_1 in range(0, D_0):
+            # Set ϕ value
+            if j_1 == 0:
+                sum_3 = sum_2
+            else:
+                sum_3 = sum_4
+            d_3 = ((S_0[((i_1 * D_0) + j_1)]) - (C_0[j_1]))
+            p_3 = (d_3 * d_3)
+            sum_4 = (sum_3 + p_3)
+        # Loop exit ϕ values
+        sum_3 = sum_4
+        _1_2 = (sum_3 < min_sum_2)
+        min_sum_4 = _1_2.if_else(sum_3, min_sum_2)
+        min_index_4 = _1_2.if_else(i_1, min_index_2)
+    # Loop exit ϕ values
+    min_sum_2 = min_sum_4
+    min_index_2 = min_index_4
+    _2_1 = (min_sum_2,min_index_2,)
+    return _2_1

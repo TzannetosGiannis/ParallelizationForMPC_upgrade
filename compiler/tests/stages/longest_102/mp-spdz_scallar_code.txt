@@ -1,0 +1,41 @@
+def longest_102(Seq_0, N_0, Syms_0):
+    # Shared array declarations
+
+    # Function body
+    s0_1 = _v.sbool(False)
+    max_len_1 = sint(0)
+    length_1 = sint(0)
+    for i_1 in range(0, N_0):
+        # Set ϕ value
+        if i_1 == 0:
+            s0_2 = s0_1
+        else:
+            s0_2 = s0_3
+        # Set ϕ value
+        if i_1 == 0:
+            max_len_2 = max_len_1
+        else:
+            max_len_2 = max_len_4
+        # Set ϕ value
+        if i_1 == 0:
+            length_2 = length_1
+        else:
+            length_2 = length_5
+        _1_2 = ((Seq_0[i_1]) == (Syms_0[2]))
+        s1_2 = s0_2.bit_and(_1_2)
+        _2_2 = ((Seq_0[i_1]) == (Syms_0[1]))
+        _4_2 = ((Seq_0[i_1]) == (Syms_0[0]))
+        _5_2 = s0_2.bit_and(_4_2)
+        s0_3 = OR(_2_2, _5_2)
+        _6_2 = OR(s1_2, s0_3)
+        length_4 = sint(0)
+        length_3 = (length_2 + sint(1))
+        length_5 = _6_2.if_else(length_3, length_4)
+        _7_2 = (max_len_2 < length_5)
+        _8_2 = s1_2.bit_and(_7_2)
+        max_len_4 = _8_2.if_else(length_5, max_len_2)
+    # Loop exit ϕ values
+    s0_2 = s0_3
+    max_len_2 = max_len_4
+    length_2 = length_5
+    return max_len_2

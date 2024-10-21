@@ -196,7 +196,7 @@ def get_test_case_expected_output(test_case_dir: str) -> str:
     return proc.stdout
 
 
-def regenerate_stages(mixing = False):
+def regenerate_stages(mixing = False,vectorization = True):
     for test_case_dir in os.scandir(test_context.STAGES_DIR):
         if test_case_dir.name in test_context.SKIPPED_TESTS[None]:
             continue
@@ -235,51 +235,52 @@ def regenerate_stages(mixing = False):
         with open(os.path.join(test_case_dir, "dep_graph.txt"), "w") as f:
             f.write(f"{dep_graph}\n")
 
-        compiler.vectorize.remove_infeasible_edges(loop_linear, dep_graph)
-        with open(
-            os.path.join(test_case_dir, "dep_graph_remove_infeasible_edges.txt"), "w"
-        ) as f:
-            f.write(f"{dep_graph}\n")
+        if vectorization:
+            compiler.vectorize.remove_infeasible_edges(loop_linear, dep_graph)
+            with open(
+                os.path.join(test_case_dir, "dep_graph_remove_infeasible_edges.txt"), "w"
+            ) as f:
+                f.write(f"{dep_graph}\n")
+
+            (loop_linear, type_env) = compiler.type_check(loop_linear, dep_graph)
+            with open(os.path.join(test_case_dir, "unvectorized_linear.txt"), "w") as f:
+                f.write(f"{loop_linear}\n")
+            with open(os.path.join(test_case_dir, "unvectorized_type_env.txt"), "w") as f:
+                f.write(f"{type_env}\n")
+
+            (loop_linear, dep_graph) = compiler.vectorize.basic_vectorization_phase_1(
+                loop_linear, type_env
+            )
+            with open(os.path.join(test_case_dir, "bv_phase_1.txt"), "w") as f:
+                f.write(f"{loop_linear}\n")
+            with open(os.path.join(test_case_dir, "bv_phase_1_dep_graph.txt"), "w") as f:
+                f.write(f"{dep_graph}\n")
+
+            (
+                loop_linear,
+                dep_graph,
+            ) = compiler.vectorize.basic_vectorization_phase_2(loop_linear)
+            with open(os.path.join(test_case_dir, "bv_phase_2.txt"), "w") as f:
+                f.write(f"{loop_linear}\n")
+            with open(os.path.join(test_case_dir, "bv_phase_2_dep_graph.txt"), "w") as f:
+                f.write(f"{dep_graph}\n")
 
         (loop_linear, type_env) = compiler.type_check(loop_linear, dep_graph)
-        with open(os.path.join(test_case_dir, "unvectorized_linear.txt"), "w") as f:
+        with open(os.path.join(test_case_dir, f"vectorized_linear{'' if vectorization else '_scallar'}.txt"), "w") as f:
             f.write(f"{loop_linear}\n")
-        with open(os.path.join(test_case_dir, "unvectorized_type_env.txt"), "w") as f:
-            f.write(f"{type_env}\n")
-
-        (loop_linear, dep_graph) = compiler.vectorize.basic_vectorization_phase_1(
-            loop_linear, type_env
-        )
-        with open(os.path.join(test_case_dir, "bv_phase_1.txt"), "w") as f:
-            f.write(f"{loop_linear}\n")
-        with open(os.path.join(test_case_dir, "bv_phase_1_dep_graph.txt"), "w") as f:
-            f.write(f"{dep_graph}\n")
-
-        (
-            loop_linear,
-            dep_graph,
-        ) = compiler.vectorize.basic_vectorization_phase_2(loop_linear)
-        with open(os.path.join(test_case_dir, "bv_phase_2.txt"), "w") as f:
-            f.write(f"{loop_linear}\n")
-        with open(os.path.join(test_case_dir, "bv_phase_2_dep_graph.txt"), "w") as f:
-            f.write(f"{dep_graph}\n")
-
-        (loop_linear, type_env) = compiler.type_check(loop_linear, dep_graph)
-        with open(os.path.join(test_case_dir, "vectorized_linear.txt"), "w") as f:
-            f.write(f"{loop_linear}\n")
-        with open(os.path.join(test_case_dir, "vectorized_type_env.txt"), "w") as f:
+        with open(os.path.join(test_case_dir, f"vectorized_type_env{'' if vectorization else '_scallar'}.txt"), "w") as f:
             f.write(f"{type_env}\n")
 
         (loop_linear, dep_graph, type_env) = compiler.copy_propagation(
             loop_linear, dep_graph, type_env
         )
-        with open(os.path.join(test_case_dir, "copy_prop_linear.txt"), "w") as f:
+        with open(os.path.join(test_case_dir, f"copy_prop_linear{'' if vectorization else '_scallar'}.txt"), "w") as f:
             f.write(f"{loop_linear}\n")
 
         (loop_linear, dep_graph, type_env) = compiler.common_subexpression_elimination(
             loop_linear, dep_graph, type_env
         )
-        with open(os.path.join(test_case_dir, "copy_subexp_linear.txt"), "w") as f:
+        with open(os.path.join(test_case_dir, f"copy_subexp_linear{'' if vectorization else '_scallar'}.txt"), "w") as f:
             f.write(f"{loop_linear}\n")
 
         for backend in Backend:
@@ -308,6 +309,10 @@ def regenerate_stages(mixing = False):
             code_name = str(backend)
             if mixing:
                 code_name += "_mixed"
+            
+            if not vectorization:
+                code_name += "_scallar"
+
             with open(
                 os.path.join(test_case_dir, f"{code_name}_code.txt".lower()), "w"
             ) as f:

@@ -1,0 +1,52 @@
+def convex_hull(X_coords_0, Y_coords_0, N_0, result_X_0, result_Y_0):
+    # Shared array declarations
+    result_X_1 = [None] * (N_0)
+    result_X_2 = [None] * (N_0)
+    result_Y_1 = [None] * (N_0)
+    result_Y_2 = [None] * (N_0)
+    # Function body
+    for i_1 in range(0, N_0):
+        # Set ϕ value
+        if i_1 == 0:
+            result_X_1 = result_X_0
+        else:
+            result_X_1 = result_X_2
+        # Set ϕ value
+        if i_1 == 0:
+            result_Y_1 = result_Y_0
+        else:
+            result_Y_1 = result_Y_2
+        is_hull_2 = _v.sbool(True)
+        p1_X_2 = (X_coords_0[i_1])
+        p1_Y_2 = (Y_coords_0[i_1])
+        _1_2 = (p1_X_2 <= sint(0))
+        _2_2 = (p1_Y_2 >= sint(0))
+        _3_2 = _1_2.bit_and(_2_2)
+        for j_1 in range(0, N_0):
+            # Set ϕ value
+            if j_1 == 0:
+                is_hull_3 = is_hull_2
+            else:
+                is_hull_3 = is_hull_5
+            p2_X_3 = (X_coords_0[j_1])
+            p2_Y_3 = (Y_coords_0[j_1])
+            _6_3 = (p1_X_2 <= p2_X_3)
+            _7_3 = (p1_Y_2 >= p2_Y_3)
+            _8_3 = OR(_6_3, _7_3)
+            _9_3 = (_8_3.bit_not())
+            is_hull_4 = _v.sbool(False)
+            is_hull_5 = _9_3.if_else(is_hull_4, is_hull_3)
+        # Loop exit ϕ values
+        is_hull_3 = is_hull_5
+        is_hull_6 = _3_2.if_else(is_hull_3, is_hull_2)
+        val_X_2 = (result_X_1[i_1])
+        val_Y_2 = (result_Y_1[i_1])
+        val_X_4 = is_hull_6.if_else(p1_X_2, val_X_2)
+        val_Y_4 = is_hull_6.if_else(p1_Y_2, val_Y_2)
+        result_X_1[i_1] = val_X_4; result_X_2 = result_X_1
+        result_Y_1[i_1] = val_Y_4; result_Y_2 = result_Y_1
+    # Loop exit ϕ values
+    result_X_1 = result_X_2
+    result_Y_1 = result_Y_2
+    _10_1 = (result_X_1,result_Y_1,)
+    return _10_1

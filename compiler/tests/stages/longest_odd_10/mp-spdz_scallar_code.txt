@@ -1,0 +1,41 @@
+def longest_odd_10(Seq_0, N_0, Syms_0):
+    # Shared array declarations
+
+    # Function body
+    current_length_1 = sint(0)
+    max_length_1 = sint(0)
+    s2_1 = _v.sbool(False)
+    for i_1 in range(0, N_0):
+        # Set ϕ value
+        if i_1 == 0:
+            current_length_2 = current_length_1
+        else:
+            current_length_2 = current_length_6
+        # Set ϕ value
+        if i_1 == 0:
+            max_length_2 = max_length_1
+        else:
+            max_length_2 = max_length_4
+        # Set ϕ value
+        if i_1 == 0:
+            s2_2 = s2_1
+        else:
+            s2_2 = s2_3
+        _1_2 = ((Seq_0[i_1]) == (Syms_0[1]))
+        s1_2 = s2_2.bit_and(_1_2)
+        _2_2 = (s2_2.bit_not())
+        current_length_4 = sint(0)
+        current_length_5 = _2_2.if_else(current_length_4, current_length_2)
+        current_length_3 = (current_length_2 + sint(1))
+        current_length_6 = s1_2.if_else(current_length_3, current_length_5)
+        _4_2 = current_length_6.bit_and(sint(1))
+        _5_2 = (_4_2 == sint(1))
+        _6_2 = (current_length_6 > max_length_2)
+        _7_2 = _5_2.bit_and(_6_2)
+        max_length_4 = _7_2.if_else(current_length_6, max_length_2)
+        s2_3 = ((Seq_0[i_1]) == (Syms_0[0]))
+    # Loop exit ϕ values
+    current_length_2 = current_length_6
+    max_length_2 = max_length_4
+    s2_2 = s2_3
+    return max_length_2

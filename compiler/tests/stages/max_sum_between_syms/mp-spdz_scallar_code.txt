@@ -1,0 +1,28 @@
+def max_sum_between_syms(Seq_0, N_0, Sym_0):
+    # Shared array declarations
+
+    # Function body
+    max_sum_1 = sint(0)
+    current_sum_1 = sint(0)
+    for i_1 in range(0, N_0):
+        # Set ϕ value
+        if i_1 == 0:
+            max_sum_2 = max_sum_1
+        else:
+            max_sum_2 = max_sum_4
+        # Set ϕ value
+        if i_1 == 0:
+            current_sum_2 = current_sum_1
+        else:
+            current_sum_2 = current_sum_5
+        _1_2 = ((Seq_0[i_1]) == Sym_0)
+        _2_2 = (_1_2.bit_not())
+        current_sum_4 = sint(0)
+        current_sum_3 = (current_sum_2 + (Seq_0[i_1]))
+        current_sum_5 = _2_2.if_else(current_sum_3, current_sum_4)
+        _3_2 = (current_sum_5 > max_sum_2)
+        max_sum_4 = _3_2.if_else(current_sum_5, max_sum_2)
+    # Loop exit ϕ values
+    max_sum_2 = max_sum_4
+    current_sum_2 = current_sum_5
+    return max_sum_2

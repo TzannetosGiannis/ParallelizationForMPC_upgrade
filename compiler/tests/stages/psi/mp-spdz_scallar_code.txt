@@ -1,0 +1,30 @@
+def psi(A_0, SA_0, B_0, SB_0, result_0):
+    # Shared array declarations
+    result_1 = [None] * (SA_0)
+    result_2 = [None] * (SA_0)
+    # Function body
+    for i_1 in range(0, SA_0):
+        # Set ϕ value
+        if i_1 == 0:
+            result_1 = result_0
+        else:
+            result_1 = result_2
+        flag_2 = _v.sbool(False)
+        for j_1 in range(0, SB_0):
+            # Set ϕ value
+            if j_1 == 0:
+                flag_3 = flag_2
+            else:
+                flag_3 = flag_5
+            _1_3 = ((A_0[i_1]) == (B_0[j_1]))
+            flag_4 = _v.sbool(True)
+            flag_5 = _1_3.if_else(flag_4, flag_3)
+        # Loop exit ϕ values
+        flag_3 = flag_5
+        val_2 = (result_1[i_1])
+        val_3 = (A_0[i_1])
+        val_4 = flag_3.if_else(val_3, val_2)
+        result_1[i_1] = val_4; result_2 = result_1
+    # Loop exit ϕ values
+    result_1 = result_2
+    return result_1

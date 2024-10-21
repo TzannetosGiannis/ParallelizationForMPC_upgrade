@@ -1,0 +1,96 @@
+template <encrypto::motion::MpcProtocol Protocol>
+encrypto::motion::SecureUnsignedInteger db_variance(
+    encrypto::motion::PartyPointer &party,
+    std::vector<encrypto::motion::SecureUnsignedInteger> A_0,
+    std::vector<encrypto::motion::SecureUnsignedInteger> V_0,
+    std::uint32_t _MPC_PLAINTEXT_len_0
+) {
+    // Shared variable declarations
+    encrypto::motion::SecureUnsignedInteger _1_2;
+    std::vector<encrypto::motion::SecureUnsignedInteger> V_1((_MPC_PLAINTEXT_len_0));
+    std::vector<encrypto::motion::SecureUnsignedInteger> V_2((_MPC_PLAINTEXT_len_0));
+    encrypto::motion::SecureUnsignedInteger dist_2;
+    encrypto::motion::SecureUnsignedInteger exp_1;
+    encrypto::motion::SecureUnsignedInteger i_1;
+    encrypto::motion::SecureUnsignedInteger i_2;
+    encrypto::motion::SecureUnsignedInteger i_3;
+    encrypto::motion::SecureUnsignedInteger len_0;
+    encrypto::motion::SecureUnsignedInteger res_1;
+    encrypto::motion::SecureUnsignedInteger res_2;
+    encrypto::motion::SecureUnsignedInteger res_3;
+    encrypto::motion::SecureUnsignedInteger sum_1;
+    encrypto::motion::SecureUnsignedInteger sum_2;
+    encrypto::motion::SecureUnsignedInteger sum_3;
+    encrypto::motion::SecureUnsignedInteger variance_1;
+
+    // Plaintext variable declarations
+    std::uint32_t _MPC_PLAINTEXT_i_1;
+    std::uint32_t _MPC_PLAINTEXT_i_2;
+    std::uint32_t _MPC_PLAINTEXT_i_3;
+    std::uint32_t _MPC_PLAINTEXT_res_1;
+    std::uint32_t _MPC_PLAINTEXT_sum_1;
+
+    // Constant initializations
+    encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_0 = party->In<Protocol>(encrypto::motion::ToInput(std::uint32_t(0)), 0);
+
+    // Plaintext parameter assignments
+    len_0 = party->In<Protocol>(encrypto::motion::ToInput(_MPC_PLAINTEXT_len_0), 0);
+
+    // Function body
+    sum_1 = _MPC_CONSTANT_0;
+    _MPC_PLAINTEXT_sum_1 = std::uint32_t(0);
+
+    // Initialize loop counter
+    _MPC_PLAINTEXT_i_1 = std::uint32_t(0);
+    // Initialize phi values
+    sum_2 = sum_1;
+    for (; _MPC_PLAINTEXT_i_1 < _MPC_PLAINTEXT_len_0; _MPC_PLAINTEXT_i_1++) {
+        // Update phi values
+        if (_MPC_PLAINTEXT_i_1 != std::uint32_t(0)) {
+            sum_2 = sum_3;
+        }
+
+        sum_3 = (sum_2 + A_0[_MPC_PLAINTEXT_i_1]);
+
+    }
+
+    exp_1 = (sum_2 / len_0);
+
+    // Initialize loop counter
+    _MPC_PLAINTEXT_i_2 = std::uint32_t(0);
+    // Initialize phi values
+    V_1 = V_0;
+    for (; _MPC_PLAINTEXT_i_2 < _MPC_PLAINTEXT_len_0; _MPC_PLAINTEXT_i_2++) {
+        // Update phi values
+        if (_MPC_PLAINTEXT_i_2 != std::uint32_t(0)) {
+            V_1 = V_2;
+        }
+
+        dist_2 = (A_0[_MPC_PLAINTEXT_i_2] - exp_1);
+        _1_2 = (dist_2 * dist_2);
+        V_1[_MPC_PLAINTEXT_i_2] = _1_2;
+        V_2 = V_1;
+
+    }
+
+    res_1 = _MPC_CONSTANT_0;
+    _MPC_PLAINTEXT_res_1 = std::uint32_t(0);
+
+    // Initialize loop counter
+    _MPC_PLAINTEXT_i_3 = std::uint32_t(0);
+    // Initialize phi values
+    res_2 = res_1;
+    for (; _MPC_PLAINTEXT_i_3 < _MPC_PLAINTEXT_len_0; _MPC_PLAINTEXT_i_3++) {
+        // Update phi values
+        if (_MPC_PLAINTEXT_i_3 != std::uint32_t(0)) {
+            res_2 = res_3;
+        }
+
+        res_3 = (res_2 + V_1[_MPC_PLAINTEXT_i_3]);
+
+    }
+
+    variance_1 = (res_2 / len_0);
+    return variance_1;
+
+}

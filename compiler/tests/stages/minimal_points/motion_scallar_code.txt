@@ -1,0 +1,96 @@
+template <encrypto::motion::MpcProtocol Protocol>
+std::tuple<std::vector<encrypto::motion::SecureUnsignedInteger>, std::vector<encrypto::motion::SecureUnsignedInteger>> minimal_points(
+    encrypto::motion::PartyPointer &party,
+    std::vector<encrypto::motion::SecureUnsignedInteger> X_coords_0,
+    std::vector<encrypto::motion::SecureUnsignedInteger> Y_coords_0,
+    std::uint32_t _MPC_PLAINTEXT_N_0,
+    std::vector<encrypto::motion::SecureUnsignedInteger> result_X_0,
+    std::vector<encrypto::motion::SecureUnsignedInteger> result_Y_0
+) {
+    // Shared variable declarations
+    encrypto::motion::ShareWrapper _3_3;
+    encrypto::motion::ShareWrapper _4_3;
+    encrypto::motion::ShareWrapper _5_3;
+    encrypto::motion::ShareWrapper _6_2;
+    std::tuple<std::vector<encrypto::motion::SecureUnsignedInteger>, std::vector<encrypto::motion::SecureUnsignedInteger>> _7_1;
+    encrypto::motion::SecureUnsignedInteger N_0;
+    encrypto::motion::ShareWrapper bx_2;
+    encrypto::motion::ShareWrapper bx_3;
+    encrypto::motion::ShareWrapper bx_4;
+    encrypto::motion::SecureUnsignedInteger i_1;
+    encrypto::motion::SecureUnsignedInteger j_1;
+    std::vector<encrypto::motion::SecureUnsignedInteger> result_X_1((_MPC_PLAINTEXT_N_0));
+    std::vector<encrypto::motion::SecureUnsignedInteger> result_X_2((_MPC_PLAINTEXT_N_0));
+    std::vector<encrypto::motion::SecureUnsignedInteger> result_Y_1((_MPC_PLAINTEXT_N_0));
+    std::vector<encrypto::motion::SecureUnsignedInteger> result_Y_2((_MPC_PLAINTEXT_N_0));
+    encrypto::motion::SecureUnsignedInteger val_X_2;
+    encrypto::motion::SecureUnsignedInteger val_X_3;
+    encrypto::motion::SecureUnsignedInteger val_X_4;
+    encrypto::motion::SecureUnsignedInteger val_Y_2;
+    encrypto::motion::SecureUnsignedInteger val_Y_3;
+    encrypto::motion::SecureUnsignedInteger val_Y_4;
+
+    // Plaintext variable declarations
+    std::tuple<std::vector<std::uint32_t>, std::vector<std::uint32_t>> _MPC_PLAINTEXT__7_1;
+    bool _MPC_PLAINTEXT_bx_2;
+    std::uint32_t _MPC_PLAINTEXT_i_1;
+    std::uint32_t _MPC_PLAINTEXT_j_1;
+
+    // Constant initializations
+    encrypto::motion::ShareWrapper _MPC_CONSTANT_false = party->In<Protocol>(encrypto::motion::BitVector(1, false), 0);
+
+    // Plaintext parameter assignments
+    N_0 = party->In<Protocol>(encrypto::motion::ToInput(_MPC_PLAINTEXT_N_0), 0);
+
+    // Function body
+
+    // Initialize loop counter
+    _MPC_PLAINTEXT_i_1 = std::uint32_t(0);
+    // Initialize phi values
+    result_X_1 = result_X_0;
+    result_Y_1 = result_Y_0;
+    for (; _MPC_PLAINTEXT_i_1 < _MPC_PLAINTEXT_N_0; _MPC_PLAINTEXT_i_1++) {
+        // Update phi values
+        if (_MPC_PLAINTEXT_i_1 != std::uint32_t(0)) {
+            result_X_1 = result_X_2;
+            result_Y_1 = result_Y_2;
+        }
+
+        bx_2 = _MPC_CONSTANT_false;
+        _MPC_PLAINTEXT_bx_2 = false;
+
+        // Initialize loop counter
+        _MPC_PLAINTEXT_j_1 = std::uint32_t(0);
+        // Initialize phi values
+        bx_3 = bx_2;
+        for (; _MPC_PLAINTEXT_j_1 < _MPC_PLAINTEXT_N_0; _MPC_PLAINTEXT_j_1++) {
+            // Update phi values
+            if (_MPC_PLAINTEXT_j_1 != std::uint32_t(0)) {
+                bx_3 = bx_4;
+            }
+
+            _3_3 = (X_coords_0[_MPC_PLAINTEXT_i_1] > X_coords_0[_MPC_PLAINTEXT_j_1]);
+            _4_3 = (Y_coords_0[_MPC_PLAINTEXT_i_1] > Y_coords_0[_MPC_PLAINTEXT_j_1]);
+            _5_3 = (to_share_wrapper(_3_3) & to_share_wrapper(_4_3));
+            bx_4 = (to_share_wrapper(bx_3) | to_share_wrapper(_5_3));
+
+        }
+
+        val_X_2 = result_X_1[_MPC_PLAINTEXT_i_1];
+        val_Y_2 = result_Y_1[_MPC_PLAINTEXT_i_1];
+        _6_2 = (~bx_3);
+        val_X_3 = X_coords_0[_MPC_PLAINTEXT_i_1];
+        val_Y_3 = Y_coords_0[_MPC_PLAINTEXT_i_1];
+        val_X_4 = _6_2.Mux(val_X_3.Get(), val_X_2.Get());
+        val_Y_4 = _6_2.Mux(val_Y_3.Get(), val_Y_2.Get());
+        result_X_1[_MPC_PLAINTEXT_i_1] = val_X_4;
+        result_X_2 = result_X_1;
+        result_Y_1[_MPC_PLAINTEXT_i_1] = val_Y_4;
+        result_Y_2 = result_Y_1;
+
+    }
+
+    _7_1 = std::make_tuple(result_X_1, result_Y_1);
+    return _7_1;
+
+}

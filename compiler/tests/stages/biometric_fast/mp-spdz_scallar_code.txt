@@ -1,0 +1,56 @@
+def biometric_fast(D_0, N_0, C_0, C_sqr_sum_0, two_C_0, S_0, S_sqr_sum_0, differences_0):
+    # Shared array declarations
+    differences_1 = [None] * (N_0)
+    differences_2 = [None] * (N_0)
+    # Function body
+    min_index_1 = sint(0)
+    for i_1 in range(0, N_0):
+        # Set ϕ value
+        if i_1 == 0:
+            min_index_2 = min_index_1
+        else:
+            min_index_2 = min_index_3
+        # Set ϕ value
+        if i_1 == 0:
+            differences_1 = differences_0
+        else:
+            differences_1 = differences_2
+        a_sqr_plus_b_sqr_2 = ((S_sqr_sum_0[i_1]) + C_sqr_sum_0)
+        two_a_b_2 = sint(0)
+        for j_1 in range(0, D_0):
+            # Set ϕ value
+            if j_1 == 0:
+                two_a_b_3 = two_a_b_2
+            else:
+                two_a_b_3 = two_a_b_4
+            tmp_3 = ((S_0[((i_1 * D_0) + j_1)]) * (two_C_0[j_1]))
+            two_a_b_4 = (two_a_b_3 + tmp_3)
+        # Loop exit ϕ values
+        two_a_b_3 = two_a_b_4
+        this_diff_2 = (a_sqr_plus_b_sqr_2 - two_a_b_3)
+        differences_1[i_1] = this_diff_2; differences_2 = differences_1
+        min_index_3 = sint(0)
+    # Loop exit ϕ values
+    min_index_2 = min_index_3
+    differences_1 = differences_2
+    min_diff_1 = sint(99999)
+    for i_2 in range(0, N_0):
+        # Set ϕ value
+        if i_2 == 0:
+            min_index_4 = min_index_2
+        else:
+            min_index_4 = min_index_6
+        # Set ϕ value
+        if i_2 == 0:
+            min_diff_2 = min_diff_1
+        else:
+            min_diff_2 = min_diff_4
+        _1_2 = ((differences_1[i_2]) < min_diff_2)
+        min_diff_3 = (differences_1[i_2])
+        min_index_6 = _1_2.if_else(i_2, min_index_4)
+        min_diff_4 = _1_2.if_else(min_diff_3, min_diff_2)
+    # Loop exit ϕ values
+    min_index_4 = min_index_6
+    min_diff_2 = min_diff_4
+    _2_1 = (min_diff_2,min_index_4,)
+    return _2_1

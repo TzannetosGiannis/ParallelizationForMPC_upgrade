@@ -1,0 +1,39 @@
+def db_variance(A_0, V_0, len_0):
+    # Shared array declarations
+    V_1 = [None] * (len_0)
+    V_2 = [None] * (len_0)
+    # Function body
+    sum_1 = sint(0)
+    for i_1 in range(0, len_0):
+        # Set ϕ value
+        if i_1 == 0:
+            sum_2 = sum_1
+        else:
+            sum_2 = sum_3
+        sum_3 = (sum_2 + (A_0[i_1]))
+    # Loop exit ϕ values
+    sum_2 = sum_3
+    exp_1 = _v.div(sum_2, len_0)
+    for i_2 in range(0, len_0):
+        # Set ϕ value
+        if i_2 == 0:
+            V_1 = V_0
+        else:
+            V_1 = V_2
+        dist_2 = ((A_0[i_2]) - exp_1)
+        _1_2 = (dist_2 * dist_2)
+        V_1[i_2] = _1_2; V_2 = V_1
+    # Loop exit ϕ values
+    V_1 = V_2
+    res_1 = sint(0)
+    for i_3 in range(0, len_0):
+        # Set ϕ value
+        if i_3 == 0:
+            res_2 = res_1
+        else:
+            res_2 = res_3
+        res_3 = (res_2 + (V_1[i_3]))
+    # Loop exit ϕ values
+    res_2 = res_3
+    variance_1 = _v.div(res_2, len_0)
+    return variance_1
