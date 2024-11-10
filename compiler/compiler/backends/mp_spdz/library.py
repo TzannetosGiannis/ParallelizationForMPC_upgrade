@@ -153,11 +153,17 @@ class VectorizationLibrary:
         zero_index = tuple(0 for _ in dim_sizes)
         first_value = expr(zero_index)
         if isinstance(first_value, int) or (
-            isinstance(first_value, (self._sint, self.sbool)) and first_value.size == 1
+            isinstance(first_value, (self._sint, self.sbool,self._sbits)) and first_value.size == 1
         ):
-            value_type = (
-                self.sbool if isinstance(first_value, self.sbool) else self._sint
-            )
+            if isinstance(first_value, self.sbool):
+                value_type = self.sbool
+            if isinstance(first_value, int):
+                value_type = self._sint
+            if isinstance(first_value, self._sint):
+                value_type = self._sint
+            if isinstance(first_value, self._sbits):
+                value_type = self._sbits
+
             a = [None] * math.prod(dim_sizes)
             all_indices = [range(size) for size in dim_sizes]
             for index in itertools.product(*all_indices):
@@ -166,7 +172,7 @@ class VectorizationLibrary:
             return a
         else:
             assert isinstance(first_value, list) or (
-                isinstance(first_value, (self._sint, self.sbool))
+                isinstance(first_value, (self._sint, self.sbool,self._sbits))
                 and first_value.size > 1
             ), type(first_value)
             source_array = first_value

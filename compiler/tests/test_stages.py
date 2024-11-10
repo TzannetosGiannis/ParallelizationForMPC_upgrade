@@ -114,7 +114,6 @@ class StagesTestCase(unittest.TestCase):
             print(f"Testing {name}...")
             expected_output = get_test_case_expected_output(test_case_dir.path)
             
-            
             for protocol in test_context.BACKEND.valid_protocols():
                 
                 if protocol == "ArithmeticGmw":
@@ -134,36 +133,45 @@ class StagesTestCase(unittest.TestCase):
                     self.assertEqual(party0.strip(), expected_output.strip())
                     self.assertEqual(party1.strip(), expected_output.strip())
 
-            # read the stages testcase for the input protocol
-            # at this step assume that the input variables have the same protocol
-            mixed_input_path = test_case_dir.path+"/mixed_input.txt" 
-            protocols = {
-                "A":"ArithmeticGmw",
-                "B":"BooleanGmw",
-                "Y":"Bmr"
-            }
-            if os.path.exists(mixed_input_path):
-                
-                with open(mixed_input_path, 'r') as file:
-                    content = json.loads(file.read())
-                    initial_value = None
-                    for key, value in content.items():
-                        implemented = True
-                        if len(value) > 1:
-                            implemented = False
-                            break
-                        if initial_value == None:
-                            initial_value = value[0]
-                        elif initial_value != value[0]:
-                            
-                            implemented = False
-                            break
-            else:
-                raise FileNotFoundError("mixed_input doesnt exist , please generate with --mixing")
-            if implemented == False:
-                raise NotImplementedError("Unsupported mixed input")
 
-            protocol = protocols[initial_value]
+            if test_context.BACKEND == 'MOTION':
+                # read the stages testcase for the input protocol
+                # at this step assume that the input variables have the same protocol
+
+                mixed_input_path = test_case_dir.path+"/mixed_input.txt" 
+                protocols = {
+                    "A":"ArithmeticGmw",
+                    "B":"BooleanGmw",
+                    "Y":"Bmr"
+                }
+                if os.path.exists(mixed_input_path):
+                    
+                    with open(mixed_input_path, 'r') as file:
+                        content = json.loads(file.read())
+                        initial_value = None
+                        for key, value in content.items():
+                            implemented = True
+                            if len(value) > 1:
+                                implemented = False
+                                break
+                            if initial_value == None:
+                                initial_value = value[0]
+                            elif initial_value != value[0]:
+                                
+                                implemented = False
+                                break
+                else:
+                    raise FileNotFoundError("mixed_input doesnt exist , please generate with --mixing")
+                if implemented == False:
+                    raise NotImplementedError("Unsupported mixed input")
+
+                protocol = protocols[initial_value]
+            else:
+                # In case of mpsdz we dont need to specify protocol input as it is part
+                # of compilation steps
+                protocol = 'semi'
+                pass
+            
             output = run_benchmark(
                 test_context.BACKEND,
                 name,

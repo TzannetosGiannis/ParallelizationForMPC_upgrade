@@ -49,7 +49,7 @@ class Backend(Enum):
         if self is Backend.MOTION:
             return motion.render_application(func, type_env, params, ran_vectorization,mixing,mixed_config)
         elif self is Backend.MP_SPDZ:
-            return mp_spdz.render_application(func, type_env, params, ran_vectorization)
+            return mp_spdz.render_application(func, type_env, params, ran_vectorization,mixing,mixed_config)
         else:
             assert_never(self)
 

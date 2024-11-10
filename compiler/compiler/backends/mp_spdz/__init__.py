@@ -33,7 +33,7 @@ from ...loop_linear_code import (
     LoopBound,
 )
 from ...type_analysis import TypeEnv, Constant, DataType
-
+from ...protocol_mixing import Config
 
 UpdatelessAssignRHS = Union[
     Atom, Subscript, BinOp, UnaryOp, List, Tuple, Mux, LiftExpr, DropDim
@@ -50,12 +50,12 @@ VALID_PROTOCOLS = [
     # "semi-bmr",
     # "cowgear",
     # "chaigear",
-    # "semi",
+    "semi",
     # "hemi",
     # "temi",
     # "soho",
     # "semi2k",
-    "semi-bin",
+    # "semi-bin",
     # "yao-gc",
     # "yao-bmr",
     # "shamir",
@@ -651,9 +651,13 @@ def render_args(func: Function) -> str:
 
 
 def render_application(
-    func: Function, type_env: TypeEnv, params: dict[str, Any], ran_vectorization: bool
+    func: Function, type_env: TypeEnv, params: dict[str, Any], ran_vectorization: bool,mixing=False,mixed_config:Config =None
 ) -> None:
-    func_rendered = render_function(func, type_env, ran_vectorization)
+
+    if mixing == True:
+        func_rendered = render_mixed_function(func, type_env, ran_vectorization,mixed_config)
+    else:
+        func_rendered = render_function(func, type_env, ran_vectorization)
     set_args = render_set_args(func)
     args = render_args(func)
     app_rendered = (

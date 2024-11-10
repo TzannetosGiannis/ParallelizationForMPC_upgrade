@@ -55,10 +55,12 @@ class CompileStatsBin:
         self.vm_rounds = _parse_int_pattern(r"(\d+) virtual machine rounds", stdout)
 
 
-def get_mpc_file_name(benchmark_name: str, vectorized: bool) -> str:
+def get_mpc_file_name(benchmark_name: str, vectorized: bool,mixed:bool) -> str:
     postfix = ""
     if vectorized:
         postfix = "_vec"
+    if mixed:
+        postfix += "_mixed"
     return f"{benchmark_name}{postfix}"
 
 def bmr_workaround() -> None:
@@ -75,7 +77,7 @@ def bmr_workaround() -> None:
 
 
 def set_up_spdz_compile(
-    benchmark_name: str, benchmark_path: str, vectorized: bool
+    benchmark_name: str, benchmark_path: str, vectorized: bool, mixed: bool
 ) -> str:
     input_fname = os.path.join(benchmark_path, "input.py")
 
@@ -84,9 +86,9 @@ def set_up_spdz_compile(
 
     submodule_path = Backend.MP_SPDZ.submodule_path()
 
-    mpc_file = get_mpc_file_name(benchmark_name, vectorized)
+    mpc_file = get_mpc_file_name(benchmark_name, vectorized,mixed)
     app_path = os.path.join(submodule_path, "Programs", "Source", f"{mpc_file}.mpc")
-
+    
     compiler.compile(
         f"{benchmark_name}.py",
         input_py,
@@ -96,6 +98,7 @@ def set_up_spdz_compile(
         app_path,
         True,
         None,
+        mixing=mixed
     )
 
     # Copy vectorization library so compiled programs can use it
@@ -116,10 +119,10 @@ def set_up_spdz_compile(
 
 
 def _get_compile_stats_common(
-    benchmark_name: str, benchmark_path: str, binary: Optional[int], vectorized: bool
+    benchmark_name: str, benchmark_path: str, binary: Optional[int], vectorized: bool, mixed: bool
 ) -> tuple[float, str]:
-    set_up_spdz_compile(benchmark_name, benchmark_path, vectorized)
-    mpc_file = get_mpc_file_name(benchmark_name, vectorized)
+    set_up_spdz_compile(benchmark_name, benchmark_path, vectorized,mixed)
+    mpc_file = get_mpc_file_name(benchmark_name, vectorized,mixed)
     submodule_path = Backend.MP_SPDZ.submodule_path()
 
     start_time = time()
@@ -138,13 +141,14 @@ def _get_compile_stats_common(
 
 
 def get_compile_stats_arith(
-    benchmark_name: str, benchmark_path: str, vectorized: bool
+    benchmark_name: str, benchmark_path: str, vectorized: bool, mixed: bool
 ) -> CompileStatsArith:
     compile_time, stdout = _get_compile_stats_common(
         benchmark_name=benchmark_name,
         benchmark_path=benchmark_path,
         binary=None,
         vectorized=vectorized,
+        mixed=mixed
     )
     return CompileStatsArith(time=compile_time, stdout=stdout)
 
@@ -167,13 +171,14 @@ def run_benchmark(
     protocol: str,
     vectorized=True,
     timeout=60 * 60,
+    mixed=False
 ) -> BenchmarkOutput:
-    set_up_spdz_compile(benchmark_name, benchmark_path, vectorized)
-    mpc_file = get_mpc_file_name(benchmark_name, vectorized)
+    
+    set_up_spdz_compile(benchmark_name, benchmark_path, vectorized,mixed)
+    mpc_file = get_mpc_file_name(benchmark_name, vectorized,mixed)
     submodule_path = Backend.MP_SPDZ.submodule_path()
 
     print("RUNNING BENCH",benchmark_name,benchmark_path,submodule_path)    
-
     
     # Write an indicator file when running `make setup` so it only needs to run once
     setup_indicator_path = os.path.join(submodule_path, ".ran-make-setup")
