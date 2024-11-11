@@ -347,8 +347,14 @@ def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],conve
         key = render_var(stmt.lhs.array,dict())
         convertion_to = list(convertion_dict[str(stmt.lhs)]['to'])
         convertion_from = list(convertion_dict[str(stmt.lhs)]['from'])
-        falsy = render_var(stmt.rhs_false.array,dict())
-        truthy = render_var(stmt.rhs_true.array,dict())
+        if hasattr(stmt.rhs_false, 'array'):
+            falsy = render_var(stmt.rhs_false.array,dict())
+        else:
+            falsy = render_var(stmt.rhs_false,dict())
+        if hasattr(stmt.rhs_true, 'array'):
+            truthy = render_var(stmt.rhs_true.array,dict())
+        else:
+            truthy = render_var(stmt.rhs_true,dict())
         if len(convertion_to) == 0 and len(convertion_from) == 1:
             stmt_details_dict[key][convertion_from[0]] = key
             stmt_details_dict[falsy][convertion_from[0]] = falsy
@@ -394,8 +400,23 @@ def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],conve
             assign2 = render_mixed_statement(
                 Assign(lhs=stmt.lhs, rhs=rhs_array_access), containing_loop,convertion_dict,stmt_details_dict
             )
-
-            return f"{assign1}; {assign2}"
+            key = render_var(stmt.lhs.array,dict())
+            convertion_tuple = list(convertion_dict[str(stmt.lhs)]["convertion_tuple"])
+            convertion =""
+            if len(convertion_tuple) == 1:
+                convertion_tuple = convertion_tuple[0]
+                stmt_details_dict[key][convertion_tuple[0]] = key
+                new_key = f"{key}_{convertion_tuple[1]}"
+                stmt_details_dict[key][convertion_tuple[1]] = new_key
+                # initialize the new variable
+                current_declaration = stmt_details_dict[key]['declaration'].replace(key,new_key)
+                
+                # perform the convertion
+                convertion = ";\n" + current_declaration + "\n"
+                convertion += f"for _random_iter in range(0,{render_var(stmt.lhs.dim_sizes[0],dict())}):\n"
+                convertion += f"  {new_key}[_random_iter] = {apply(convertion_tuple[1],f'{key}[_random_iter]',True)}" 
+            
+            return f"{assign1}; {assign2}{convertion}"
         elif isinstance(stmt.lhs, VectorizedAccess):
             # TODO: Cludgy fix for SPDZ vectorized MUX, 2 lines
             if isinstance(stmt.rhs,Mux):
