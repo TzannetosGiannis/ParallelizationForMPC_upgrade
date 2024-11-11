@@ -218,7 +218,11 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
         render_key = render_expr(const, render_ctx)
         if str(const.value) not in mixed_config.constants:
             continue
-        for elem in mixed_config.constants[str(const.value)]:
+        
+        # Convert keys of mixed_config.constants to str if they are int
+        string_constants_keys = {str(k): v for k, v in mixed_config.constants.items()}
+
+        for elem in string_constants_keys[str(const.value)]:
             retrieved_protocol = PROTOCOL_CONVERTIONS[elem]
             const_declaration = f"{render_datatype(const.datatype, plaintext=False)} {render_key} = party->In<Protocol>({render_expr(const, dt.replace(render_ctx, as_motion_input=True))}, 0);\n"
             # first time we see this variable
@@ -281,7 +285,7 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
                                         .replace("input_value_1",render_expr(param.var, dt.replace(render_ctx, plaintext=True)))
                                         .replace("Protocol",PROTOCOL_CONVERTIONS[pr])
                         )
-                        assigment_declaration = stmt_details_dict[dict_key]["declaration"].replace(dict_key,new_key)
+                        assigment_declaration = str(stmt_details_dict[dict_key]["declaration"]).replace(dict_key,new_key)
                         assignment += (
                             f"{assigment_declaration}\n"
                             f"{initialization}"
@@ -335,10 +339,7 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
         if new_script == cpp_script:
             break  # Stop when no further replacements are made
         cpp_script = new_script  # Update the string for the next iteration
-
-    for key,value in plaintext_replace_dict.items():
-        cpp_script = cpp_script.replace(key,value)
-
+     
     return cpp_script
     
 
@@ -471,7 +472,7 @@ def render_function(func: Function, type_env: TypeEnv, ran_vectorization: bool) 
 
 
 def render_application(
-    func: Function, type_env: TypeEnv, params: dict[str, Any], ran_vectorization: bool,mixing=False,mixed_config:Config =None
+    func: Function, type_env: TypeEnv, params: dict[str, Any], ran_vectorization: bool,mixing=False,mixed_config:Config = Config()
 ) -> None:
 
     

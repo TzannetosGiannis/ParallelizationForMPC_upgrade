@@ -1,7 +1,7 @@
 from copy import copy
 import dataclasses as dc
 from textwrap import indent
-from typing import Optional, Union,Dict
+from typing import Optional, Union, Dict, Any
 
 from ...ast_shared import (
     BinOpKind,
@@ -437,8 +437,8 @@ def render_stmt(
 
 
 def identify_protocols(
-    convertions_dict: set
-) -> List:
+    convertions_dict: Dict[str, Any]
+) -> list[str]:
     
     convertions_set = convertions_dict['to']
     if (len(convertions_set)) == 0:
@@ -948,6 +948,8 @@ def render_mixed_stmt(
         replace_dict = {}
         identified_in_loop = {}
         for body_stmt in stmt.body:
+            if not hasattr(body_stmt,"lhs"):
+                continue
             convertion_from = convertions_dict[str(body_stmt.lhs)]['from']
             convertion_to = convertions_dict[str(body_stmt.lhs)]['to']
             for key in stmt_details_dict.keys():
@@ -969,7 +971,8 @@ def render_mixed_stmt(
                             replace_dict[key] = stmt_details_dict[key][convertion_from]
                         else:
                             replace_dict[key] = stmt_details_dict[key][convertion_from]
-                            identified_in_loop[body_stmt.lhs.array] = list(convertion_to)[0]
+                            if hasattr(body_stmt.lhs,"array"):
+                                identified_in_loop[body_stmt.lhs.array] = list(convertion_to)[0]
 
         
         # make the replacements all in one

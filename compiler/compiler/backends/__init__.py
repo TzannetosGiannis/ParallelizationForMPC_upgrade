@@ -44,7 +44,7 @@ class Backend(Enum):
         params: dict[str, Any],
         ran_vectorization: bool,
         mixing=False,
-        mixed_config:Config =None
+        mixed_config:Config = Config()
     ) -> None:
         if self is Backend.MOTION:
             return motion.render_application(func, type_env, params, ran_vectorization,mixing,mixed_config)
