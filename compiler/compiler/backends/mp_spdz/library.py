@@ -184,6 +184,13 @@ class VectorizationLibrary:
             if isinstance(first_value, self._sbitvecn):
                 value_type = self._sbitvecn
 
+            # if isinstance(first_value, self._sbitintvec):
+            value_type = (
+                type(first_value[0])
+                if isinstance(first_value, list)
+                else type(first_value)
+            )
+                
             a = [None] * math.prod(dim_sizes)
             all_indices = [range(size) for size in dim_sizes]
             for index in itertools.product(*all_indices):
@@ -202,6 +209,7 @@ class VectorizationLibrary:
                 else source_array.size
             )
             assert dim_sizes[0] <= source_array_len, source_array
+            
             value_type = (
                 type(first_value[0])
                 if isinstance(first_value, list)
