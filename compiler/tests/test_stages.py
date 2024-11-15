@@ -115,7 +115,7 @@ class StagesTestCase(unittest.TestCase):
             expected_output = get_test_case_expected_output(test_case_dir.path)
             
             for protocol in test_context.BACKEND.valid_protocols():
-                
+
                 if protocol == "ArithmeticGmw":
                     continue
                 print(f"    Protocol {protocol}...")
@@ -166,13 +166,8 @@ class StagesTestCase(unittest.TestCase):
                     raise NotImplementedError("Unsupported mixed input")
 
                 protocol = protocols[initial_value]
-            else:
-                # In case of mpsdz we dont need to specify protocol input as it is part
-                # of compilation steps
-                protocol = 'semi'
-                pass
-            
-            output = run_benchmark(
+
+                output = run_benchmark(
                 test_context.BACKEND,
                 name,
                 test_case_dir.path,
@@ -180,12 +175,33 @@ class StagesTestCase(unittest.TestCase):
                 True, # for vectorization
                 mixed=True
                 
-            )
-            assert output
-            party0, party1 = output
-            self.assertEqual(party0.strip(), party1.strip())
-            self.assertEqual(party0.strip(), expected_output.strip())
-            self.assertEqual(party1.strip(), expected_output.strip())
+                )
+                assert output
+                party0, party1 = output
+                self.assertEqual(party0.strip(), party1.strip())
+                self.assertEqual(party0.strip(), expected_output.strip())
+                self.assertEqual(party1.strip(), expected_output.strip())
+            else:
+                # In case of mpsdz we dont need to specify protocol input as it is part
+                # of compilation steps
+
+                for protocol in test_context.BACKEND.valid_protocols():
+                    print(f"Testing {name}... {protocol} mixed")
+                    output = run_benchmark(
+                        test_context.BACKEND,
+                        name,
+                        test_case_dir.path,
+                        protocol,
+                        True, # for vectorization
+                        mixed=True    
+                    )
+                    assert output
+                    party0, party1 = output
+                    self.assertEqual(party0.strip(), party1.strip())
+                    self.assertEqual(party0.strip(), expected_output.strip())
+                    self.assertEqual(party1.strip(), expected_output.strip())
+            
+            
 
 
 def get_test_case_expected_output(test_case_dir: str) -> str:
