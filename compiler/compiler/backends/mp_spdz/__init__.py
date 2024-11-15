@@ -336,7 +336,7 @@ def apply(protocol,someArg,convert=False):
     if protocol == "B" and convert == True:
         return f"siv32({someArg})"
     if protocol == "B" and convert == False:
-        return f"sb32({someArg})"
+        return f"siv32({someArg})"
     elif protocol == "A":
         return f"sint({someArg})"
     else:
@@ -573,8 +573,6 @@ def render_mixed_statements(stmts: list[Statement], containing_loop: Optional[Fo
         mixed_stmt = render_mixed_statement(stmt, containing_loop,convertion_dict,stmt_details_dict)
         if hasattr(stmt,'lhs') and str(stmt.lhs) in convertion_dict:
             conv = convertion_dict[str(stmt.lhs)]
-            # if conv['from'] == 'B' and 1 ==1
-            # ,"ok",stmt,mixed_stmt)
             
         result_stmts.append(mixed_stmt)
     return "\n".join(result_stmts)
