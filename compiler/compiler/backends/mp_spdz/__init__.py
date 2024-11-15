@@ -471,25 +471,46 @@ def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],conve
             else:
                 
                 
-                # find the explicit convertion
-                basic_stmt = render_vectorized_assign(stmt.lhs, stmt.rhs)
-                
-                ordering = convertion_dict[str(stmt.lhs)]['convertion_tuple'][0]
-                stmt_details_dict[key][ordering[0]] = key
-                
-                # now find the declaration 
-                new_key = f"{key}_{ordering[1]}"
-                
-                # initialize the new variable
-                current_declaration = stmt_details_dict[key]['declaration'].replace(key,new_key)
-                
-                # perform the convertion
-                convertion = basic_stmt +"\n" + current_declaration + "\n"
-                convertion += f"for _random_iter in range(0,{str(stmt.lhs.dim_sizes[0]).replace('!', '_')}):\n"
-                convertion += f"  {new_key}[_random_iter] = {apply(ordering[1],f'{key}[_random_iter]',True)}" 
+                # find the explicit convertion if exists
 
-                # store the variable to the stmt details dict to use it when using protocol 2 for the lhs (1 -> 2)
-                stmt_details_dict[key][ordering[1]] = new_key
+                if (len(convertion_dict[str(stmt.lhs)]['convertion_tuple'])  == 1):
+                    basic_stmt = render_vectorized_assign(stmt.lhs, stmt.rhs)
+                    
+                    ordering = convertion_dict[str(stmt.lhs)]['convertion_tuple'][0]
+                    stmt_details_dict[key][ordering[0]] = key
+                    
+                    # now find the declaration 
+                    new_key = f"{key}_{ordering[1]}"
+                    
+                    # initialize the new variable
+                    current_declaration = stmt_details_dict[key]['declaration'].replace(key,new_key)
+                    
+                    # perform the convertion
+                    convertion = basic_stmt +"\n" + current_declaration + "\n"
+                    convertion += f"for _random_iter in range(0,{str(stmt.lhs.dim_sizes[0]).replace('!', '_')}):\n"
+                    convertion += f"  {new_key}[_random_iter] = {apply(ordering[1],f'{key}[_random_iter]',True)}" 
+
+                    # store the variable to the stmt details dict to use it when using protocol 2 for the lhs (1 -> 2)
+                    stmt_details_dict[key][ordering[1]] = new_key
+                else:
+                    basic_stmt = render_vectorized_assign(stmt.lhs, stmt.rhs)
+                    key = render_var(stmt.lhs.array,dict())
+                    if isinstance(stmt.rhs,LiftExpr):
+                        lift_key = render_var(stmt.rhs.expr,dict())
+                        print("hwere",lift_key)
+                        if stmt_details_dict[lift_key]['A'] == lift_key:
+                            stmt_details_dict[key]['A'] = key
+                            new_key = f"{key}_B"
+                            stmt_details_dict[key]['B'] = new_key
+                            stmt_B = f";{new_key} = {basic_stmt.split(' = ')[1].replace(lift_key,f'{lift_key}_B')}"
+                            return f"{basic_stmt}{stmt_B}"
+                        else:
+                            stmt_details_dict[key]['B'] = key
+                            new_key = f"{key}_A"
+                            stmt_details_dict[key]['A'] = new_key
+                            stmt_A = f";{new_key} = {basic_stmt.split(' = ')[1].replace(lift_key,f'{lift_key}_A')}"
+                            return f"{basic_stmt}{stmt_A}"
+                    
                 return convertion
         else:
             
@@ -516,7 +537,17 @@ def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],conve
                 
                 to = list(convertion_dict[str(stmt.lhs)]['to'])[0]
                 stmt_details_dict[render_var(stmt.lhs,dict())][to] = render_var(stmt.lhs,dict())
-                return f"{lhs} = {apply(to,rhs)}"
+                if convertion_dict[str(stmt.lhs)]['from'] == '_':
+                    return f"{lhs} = {apply(to,rhs)}"
+                else:
+                    # now we can also have it for free to the other share type
+                    other = convertion_dict[str(stmt.lhs)]['from']
+                    new_key = f"{render_var(stmt.lhs,dict())}_{other}"
+                    
+                    stmt_details_dict[render_var(stmt.lhs,dict())][other] = new_key
+                    conv = f"{lhs} = {apply(to,rhs)}; {new_key}  = {apply(other,lhs)}"
+                    
+                    return conv
             else:
                 # find the explicit convertion
                 basic_stmt = f"{lhs} = {rhs}"
