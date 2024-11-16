@@ -33,7 +33,7 @@ from ...loop_linear_code import (
     LoopBound,
 )
 from ...type_analysis import TypeEnv, Constant, DataType
-
+from ...protocol_mixing import Config
 
 UpdatelessAssignRHS = Union[
     Atom, Subscript, BinOp, UnaryOp, List, Tuple, Mux, LiftExpr, DropDim
@@ -324,6 +324,290 @@ def render_statement(stmt: Statement, containing_loop: Optional[For]) -> str:
     else:
         assert_never(stmt)
 
+def apply(protocol,someArg,convert=False):
+    if someArg.startswith("sint("):
+        someArg = someArg.replace("sint(","")[:-1]
+
+    # if the protocol is a dropdim do not convert as you dont know the dims
+    if someArg.startswith("_v.drop_dim"):
+        return someArg
+    if protocol == "B" and someArg.startswith("_v.sbool"):
+        return f"siv32({someArg})"
+    if protocol == "B" and convert == True:
+        return f"siv32({someArg})"
+    if protocol == "B" and convert == False:
+        return f"siv32({someArg})"
+    elif protocol == "A":
+        return f"sint({someArg})"
+    else:
+        assert_never(protocol)
+
+def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],convertion_dict,stmt_details_dict) -> str:
+    
+    if isinstance(stmt, Phi):
+        # mixer always operates on vectorized but here the type can be also Var whic has no array
+        # thus we add the check for the pytest to pass
+        if not hasattr(stmt.lhs,'array'):
+            raise Exception("mixed version requires vectors")
+
+        key = render_var(stmt.lhs.array,dict())
+        convertion_to = list(convertion_dict[str(stmt.lhs)]['to'])
+        convertion_from = list(convertion_dict[str(stmt.lhs)]['from'])
+        if hasattr(stmt.rhs_false, 'array'):
+            falsy = render_var(stmt.rhs_false.array,dict())
+        else:
+            falsy = render_var(stmt.rhs_false,dict())
+        if hasattr(stmt.rhs_true, 'array'):
+            truthy = render_var(stmt.rhs_true.array,dict())
+        else:
+            truthy = render_var(stmt.rhs_true,dict())
+        if len(convertion_to) == 0 and len(convertion_from) == 1:
+            stmt_details_dict[key][convertion_from[0]] = key
+            stmt_details_dict[falsy][convertion_from[0]] = falsy
+            stmt_details_dict[truthy][convertion_from[0]] = truthy
+        
+        assert containing_loop
+        assert isinstance(containing_loop.bound_low, Constant)
+        assert containing_loop.bound_low.value == 0
+        loop_counter = render_var(containing_loop.counter, dict())
+        
+        phi_assign_false = render_mixed_statement(
+            Assign(lhs=stmt.lhs, rhs=stmt.rhs_false), None,convertion_dict,stmt_details_dict
+        )
+        phi_assign_true = render_mixed_statement(
+            Assign(lhs=stmt.lhs, rhs=stmt.rhs_true), None,convertion_dict,stmt_details_dict
+        )
+        return (
+            f"# Set ϕ value\n"
+            + f"if {loop_counter} == 0:\n"
+            + f"    {phi_assign_false}\n"
+            + f"else:\n"
+            + f"    {phi_assign_true}"
+        )
+    elif isinstance(stmt, Assign):
+        
+        lhs = render_atom(stmt.lhs, False, dict())
+        if isinstance(stmt.rhs, Update):
+            array = render_var(stmt.rhs.array, dict())
+            index = render_subscript_index(stmt.rhs.index, dict())
+            value = render_atom(stmt.rhs.value, True, dict())
+            return f"{array}[{index}] = {value}; {lhs} = {array}"
+        elif isinstance(stmt.rhs, VectorizedUpdate):
+            rhs_array_access = VectorizedAccess(
+                array=stmt.rhs.array,
+                dim_sizes=stmt.rhs.dim_sizes,
+                vectorized_dims=stmt.rhs.vectorized_dims,
+                idx_vars=stmt.rhs.idx_vars,
+            )
+            assign1 = render_vectorized_assign(
+                lhs=rhs_array_access,
+                rhs=stmt.rhs.value,
+            )
+            assign2 = render_mixed_statement(
+                Assign(lhs=stmt.lhs, rhs=rhs_array_access), containing_loop,convertion_dict,stmt_details_dict
+            )
+            # mixer always operates on vectorized but here the type can be also Var whic has no array
+            # thus we add the check for the pytest to pass
+            if not hasattr(stmt.lhs,'array'):
+                raise Exception("mixed version requires vectors")
+            key = render_var(stmt.lhs.array,dict())
+            convertion_tuple = list(convertion_dict[str(stmt.lhs)]["convertion_tuple"])
+            convertion =""
+            if len(convertion_tuple) == 1:
+                # mixer always operates on vectorized but here the type can be also Var whic has no array
+                # thus we add the check for the pytest to pass
+                if isinstance(stmt.lhs,Var):
+                    raise Exception("mixed version requires vectors")
+                convertion_tuple = convertion_tuple[0]
+                stmt_details_dict[key][convertion_tuple[0]] = key
+                new_key = f"{key}_{convertion_tuple[1]}"
+                stmt_details_dict[key][convertion_tuple[1]] = new_key
+                # initialize the new variable
+                current_declaration = stmt_details_dict[key]['declaration'].replace(key,new_key)
+                
+                # perform the convertion
+                convertion = ";\n" + current_declaration + "\n"
+                
+                convertion += f"for _random_iter in range(0,{str(stmt.lhs.dim_sizes[0]).replace('!', '_')}):\n"
+                convertion += f"  {new_key}[_random_iter] = {apply(convertion_tuple[1],f'{key}[_random_iter]',True)}" 
+            
+            return f"{assign1}; {assign2}{convertion}"
+        elif isinstance(stmt.lhs, VectorizedAccess):
+            
+            # TODO: Cludgy fix for SPDZ vectorized MUX, 2 lines
+            if isinstance(stmt.rhs,Mux):
+                initial_mux = render_iterative_mux(stmt.lhs, stmt.rhs)
+                stmt_key = render_var(stmt.lhs.array,dict())
+                convertion_to = list(convertion_dict[str(stmt.lhs)]['to'])
+                convertion_from = list(convertion_dict[str(stmt.lhs)]['from'])
+                if len(convertion_to) == 0 and len(convertion_from) == 1:
+                    stmt_details_dict[stmt_key][convertion_from[0]] = stmt_key
+                    for key in stmt_details_dict:
+                        if key in initial_mux and f"_{key}" not in initial_mux:
+                            initial_mux = initial_mux.replace(key,stmt_details_dict[key][convertion_from[0]])
+                    # update the stmt_details_dict for the muxed var
+                    
+                return initial_mux
+            key = render_var(stmt.lhs.array,dict())
+            convertion_to = list(convertion_dict[str(stmt.lhs)]['to'])
+            
+            if len(convertion_to) == 0:
+                
+                initial_access = render_vectorized_assign(stmt.lhs, stmt.rhs)
+                
+                stmt_details_dict[key][convertion_dict[str(stmt.lhs)]['from']] = key
+                
+                if convertion_dict[str(stmt.lhs)]['from'] == 'B':
+                    initial_access = initial_access.replace('sint','siv32')
+
+                for k in stmt_details_dict:
+                        if k in initial_access and f"_{k}" not in initial_access:
+                            initial_access = initial_access.replace(k,stmt_details_dict[k][convertion_dict[str(stmt.lhs)]['from']])
+                return initial_access
+            # already in the correct protocol
+            elif len(convertion_to) == 1:
+                stmt_details_dict[key][convertion_to[0]] = key
+                return render_vectorized_assign(stmt.lhs, stmt.rhs)
+            else:
+                
+                
+                # find the explicit convertion if exists
+
+                if (len(convertion_dict[str(stmt.lhs)]['convertion_tuple'])  == 1):
+                    basic_stmt = render_vectorized_assign(stmt.lhs, stmt.rhs)
+                    
+                    ordering = convertion_dict[str(stmt.lhs)]['convertion_tuple'][0]
+                    stmt_details_dict[key][ordering[0]] = key
+                    
+                    # now find the declaration 
+                    new_key = f"{key}_{ordering[1]}"
+                    
+                    # initialize the new variable
+                    current_declaration = stmt_details_dict[key]['declaration'].replace(key,new_key)
+                    
+                    # perform the convertion
+                    convertion = basic_stmt +"\n" + current_declaration + "\n"
+                    convertion += f"for _random_iter in range(0,{str(stmt.lhs.dim_sizes[0]).replace('!', '_')}):\n"
+                    convertion += f"  {new_key}[_random_iter] = {apply(ordering[1],f'{key}[_random_iter]',True)}" 
+
+                    # store the variable to the stmt details dict to use it when using protocol 2 for the lhs (1 -> 2)
+                    stmt_details_dict[key][ordering[1]] = new_key
+                else:
+                    basic_stmt = render_vectorized_assign(stmt.lhs, stmt.rhs)
+                    key = render_var(stmt.lhs.array,dict())
+                    if isinstance(stmt.rhs,LiftExpr):
+                        lift_key = render_var(stmt.rhs.expr,dict())
+                        print("hwere",lift_key)
+                        if stmt_details_dict[lift_key]['A'] == lift_key:
+                            stmt_details_dict[key]['A'] = key
+                            new_key = f"{key}_B"
+                            stmt_details_dict[key]['B'] = new_key
+                            stmt_B = f";{new_key} = {basic_stmt.split(' = ')[1].replace(lift_key,f'{lift_key}_B')}"
+                            return f"{basic_stmt}{stmt_B}"
+                        else:
+                            stmt_details_dict[key]['B'] = key
+                            new_key = f"{key}_A"
+                            stmt_details_dict[key]['A'] = new_key
+                            stmt_A = f";{new_key} = {basic_stmt.split(' = ')[1].replace(lift_key,f'{lift_key}_A')}"
+                            return f"{basic_stmt}{stmt_A}"
+                    
+                return convertion
+        else:
+            
+            rhs = render_assign_rhs(stmt.rhs, dict()) 
+            if str(stmt.lhs) not in convertion_dict:
+                return f"{lhs} = {rhs}"
+            
+            stmt_details_dict[render_var(stmt.lhs,dict())] = {
+                'A': None,
+                'B': None
+            }
+            if len(list(convertion_dict[str(stmt.lhs)]['to'])) == 0:
+                stmt_from = list(convertion_dict[str(stmt.lhs)]['from'])[0]
+                stmt_details_dict[render_var(stmt.lhs,dict())][stmt_from] = render_var(stmt.lhs,dict())
+                mixed_stmt = f"{lhs} = {rhs}"
+                for key in stmt_details_dict:
+                        if key in mixed_stmt and f"_{key}" not in mixed_stmt:
+                            mixed_stmt = mixed_stmt.replace(key,stmt_details_dict[key][stmt_from])
+
+                if stmt_from == 'B' and "sint" in mixed_stmt:
+                    mixed_stmt = mixed_stmt.replace('sint',"siv32")
+                return mixed_stmt
+            elif len(list(convertion_dict[str(stmt.lhs)]['to'])) == 1:
+                
+                to = list(convertion_dict[str(stmt.lhs)]['to'])[0]
+                stmt_details_dict[render_var(stmt.lhs,dict())][to] = render_var(stmt.lhs,dict())
+                if convertion_dict[str(stmt.lhs)]['from'] == '_':
+                    return f"{lhs} = {apply(to,rhs)}"
+                else:
+                    # now we can also have it for free to the other share type
+                    other = convertion_dict[str(stmt.lhs)]['from']
+                    new_key = f"{render_var(stmt.lhs,dict())}_{other}"
+                    
+                    stmt_details_dict[render_var(stmt.lhs,dict())][other] = new_key
+                    conv = f"{lhs} = {apply(to,rhs)}; {new_key}  = {apply(other,lhs)}"
+                    
+                    return conv
+            else:
+                # find the explicit convertion
+                basic_stmt = f"{lhs} = {rhs}"
+                key = render_var(stmt.lhs,dict())
+                
+                ordering = convertion_dict[str(stmt.lhs)]['convertion_tuple'][0]
+                stmt_details_dict[key][ordering[0]] = key
+              
+                # now find the declaration 
+                new_key = f"{key}_{ordering[1]}"
+                
+                # initialize the new variable
+                if 'declaration' in stmt_details_dict[key]:
+
+                    # for dimsizes to exist it shall be an array stmt.lhs
+                    if isinstance(stmt.lhs,Var):
+                        raise Exception('No Var can have declaration statement , unless is a vector')
+                    current_declaration = stmt_details_dict[key]['declaration'].replace(key,new_key)
+                    # perform the convertion
+                    convertion = basic_stmt +"\n" + current_declaration + "\n"
+                    convertion += f"for _random_iter in range(0,{render_var(stmt.lhs.dim_sizes[0],dict())}):\n"
+                    convertion += f"  {new_key}[_random_iter] = {apply(ordering[1],f'{key}[_random_iter]',True)}" 
+                else:
+                    convertion = basic_stmt + "\n"
+                    convertion += f"{new_key} = {apply(ordering[1],f'{key}',True)}"
+
+                # store the variable to the stmt details dict to use it when using protocol 2 for the lhs (1 -> 2)
+                stmt_details_dict[key][ordering[1]] = new_key
+                return convertion
+                
+    elif isinstance(stmt, For):
+        counter = render_var(stmt.counter, dict())
+        bound_low = render_atom(stmt.bound_low, False, dict())
+        bound_high = render_atom(stmt.bound_high, False, dict())
+        body = indent(render_mixed_statements(stmt.body, stmt,convertion_dict,stmt_details_dict), "    ")
+        exit_phi = render_loop_exit_phi(stmt)
+        return (
+            f"for {counter} in range({bound_low}, {bound_high}):\n"
+            + f"{body}\n"
+            + "# Loop exit ϕ values\n"
+            + exit_phi
+        )
+    elif isinstance(stmt, Return):
+        value = render_var(stmt.value, dict())
+        return f"return {value}"
+    else:
+        assert_never(stmt)
+
+
+def render_mixed_statements(stmts: list[Statement], containing_loop: Optional[For],convertion_dict,stmt_details_dict) -> str:
+    
+    result_stmts = []
+    for stmt in stmts:
+        mixed_stmt = render_mixed_statement(stmt, containing_loop,convertion_dict,stmt_details_dict)
+        if hasattr(stmt,'lhs') and str(stmt.lhs) in convertion_dict:
+            conv = convertion_dict[str(stmt.lhs)]
+            
+        result_stmts.append(mixed_stmt)
+    return "\n".join(result_stmts)
+
 
 def render_statements(stmts: list[Statement], containing_loop: Optional[For]) -> str:
     return "\n".join(render_statement(stmt, containing_loop) for stmt in stmts)
@@ -371,6 +655,80 @@ def render_shared_array_decls(type_env: TypeEnv) -> str:
     )
 
 
+def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: bool,mixed_config) -> str:
+    
+    convertion_dict = {}
+    stmt_details_dict = {}
+    
+    # identify the convertions in the mixed config file
+    for i in range(len(mixed_config.assignments)) :
+        convertion_dict[str(mixed_config.assignments[i][0].lhs)] = {
+            "from":mixed_config.assignments[i][1],
+            "to":mixed_config.assignments[i][2],
+            "convertion_tuple":mixed_config.assignments[i][-1]
+        }
+    
+    # identify all the vectorized versions
+    for var, var_type in sorted(type_env.items(), key=lambda x: str(x[0])):
+        if var_type.dim_sizes is not None and var_type.dim_sizes != []:
+            stmt_details_dict[render_var(var,dict())] = {
+                    "declaration":render_shared_array_decl(var, var_type.datatype, var_type.dim_sizes),
+                    "A":None,
+                    "B":None,
+        }
+
+    # handle plaintext from mixed config
+    plaintext_dict = mixed_config.plaintexts
+    plaintext_convertions = ""
+
+    func_args = {}
+    for _random_iter in range(len(func.parameters)):
+        func_args[render_var(func.parameters[_random_iter].var,dict())] = str(func.parameters[_random_iter])
+
+    performed_plaintext_convertion = False
+    for plain in plaintext_dict:
+        small_key = render_var(plain,dict())
+        new_key = None
+        
+        if len(list(plaintext_dict[plain])) == 1 and list(plaintext_dict[plain])[0] == 'B':
+            
+            if "list" not in func_args[small_key]:
+                plaintext_convertions += f"{small_key}_B = siv32({small_key})\n"
+                new_key = f"{small_key}_B"
+                stmt_details_dict[small_key] = {
+                    "A":small_key,
+                    "B":new_key,
+                }
+                performed_plaintext_convertion = True
+            else:
+                # know we need to convert it as a list
+                plaintext_convertions += f"{'' if performed_plaintext_convertion == False else '    '}for _random_iter in range(0,len({small_key})):\n"
+                plaintext_convertions += f"     {small_key}[_random_iter] = siv32({small_key}[_random_iter])"
+
+                stmt_details_dict[small_key] = {
+                    "A":None,
+                    "B":small_key,
+                }
+
+                performed_plaintext_convertion = True
+                
+            plaintext_convertions +="\n"
+    params = ", ".join(render_var(param.var, dict()) for param in func.parameters)
+    shared_array_decls = indent(render_shared_array_decls(type_env), "    ")
+    func_body = indent(render_mixed_statements(func.body, None,convertion_dict,stmt_details_dict), "    ")
+
+    return (
+        f"def {func.name}({params}):\n"
+        + "    # Convertion functions\n"
+        + "    siv32 = sbitintvec.get_type(32)\n"
+        + "    sb32 = sbits.get_type(32)\n"
+        + f"    {plaintext_convertions}\n"
+        + "    # Shared array declarations\n"
+        + f"{shared_array_decls}\n"
+        + "    # Function body\n"
+        + f"{func_body}"
+    )
+
 def render_function(func: Function, type_env: TypeEnv, ran_vectorization: bool) -> str:
     params = ", ".join(render_var(param.var, dict()) for param in func.parameters)
     shared_array_decls = indent(render_shared_array_decls(type_env), "    ")
@@ -384,19 +742,29 @@ def render_function(func: Function, type_env: TypeEnv, ran_vectorization: bool) 
     )
 
 
-def render_load_args(func: Function) -> str:
+def render_load_args(func: Function,mixing: bool = False,mixed_config:Config = Config()) -> str:
     ret = []
     program_args_index = 1
     for arg in func.parameters:
         var = render_var(arg.var, dict())
         party = arg.party_idx or 0
         dims = arg.var_type.dims
+        actual_type = 'sint'
+        if mixing:
+            for mixed_input in mixed_config.inputs:
+                if render_var(mixed_input,dict()) == var:
+                    ty = list(mixed_config.inputs[mixed_input])
+                    if len(ty) !=1:
+                        raise NotImplementedError('Input variables support only one protocol currently')
+                    protocol = ty[0]
+                    if protocol == 'B':
+                        actual_type = 'siv32'
         if dims == 0:
             if arg.var_type.is_plaintext():
                 ret.append(f"{var} = int(program.args[{program_args_index}])")
                 #program_args_index += 1
             else:
-                ret.append(f"{var} = sint()")
+                ret.append(f"{var} = {actual_type}()")
                 ret.append(f"{var}.input_from({party})")
             program_args_index += 1
         else:
@@ -404,41 +772,62 @@ def render_load_args(func: Function) -> str:
             if arg.var_type.is_plaintext():
                 ret.append(f"{var} = int(program.args[{program_args_index}])")
             else:
-                ret.append(f"{var} = sint.Array(int(program.args[{program_args_index}]))")
+                ret.append(f"{var} = {actual_type}.Array(int(program.args[{program_args_index}]))")
                 ret.append(f"{var}.input_from({party})")
             program_args_index += 1
     return "\n".join(ret)
 
 
-def render_default_arg(arg: Parameter) -> str:
+def render_default_arg(arg: Parameter,mixing: bool = False,mixed_config:Config = Config()) -> str:
     var = render_var(arg.var, dict())
+    actual_type = 'sint'
+    protocol = 'A'
+    if mixing:
+        for mixed_input in mixed_config.inputs:
+            if render_var(mixed_input,dict()) == var:
+                ty = list(mixed_config.inputs[mixed_input])
+                if len(ty) !=1:
+                    raise NotImplementedError('Input variables support only one protocol currently')
+                protocol = ty[0]
+                if protocol == 'B':
+                    actual_type = 'siv32'
+                    break
     dims = arg.var_type.dims
     value = arg.default_values[0]
     if dims == 0:
         if arg.var_type.is_plaintext():
             return f"{var} = {value}"
         else:
-            return f"{var} = sint({value})"
+            return f"{var} = {actual_type}({value})"
     else:
         assert dims == 1
-        return f"{var} = {value}; {var} = _v.lift(lambda indices: {var}[indices[0]], [len({var})])"
+        input_vec = f"{var} = {value}; {var} = _v.lift(lambda indices: {var}[indices[0]], [len({var})])\n"
+        if protocol == 'B':
+            input_vec += f"for _random_iter in range(0,len({var})):\n"
+            input_vec += f"     {var}[_random_iter] = siv32({var}[_random_iter])"
+        return input_vec
 
 
-def render_default_args(func: Function) -> str:
-    return "\n".join(render_default_arg(arg) for arg in func.parameters)
+def render_default_args(func: Function,mixing: bool = False,mixed_config:Config = Config()) -> str:
+    return "\n".join(render_default_arg(arg,mixing,mixed_config) for arg in func.parameters)
 
 
-def render_set_args(func: Function) -> str:
+def render_set_args(func: Function,mixing: bool = False,mixed_config:Config = Config()) -> str:
+
+    
     has_defaults = all(len(arg.default_values) >= 1 for arg in func.parameters)
+    
     if has_defaults:
         return "\n".join(
             [
                 "try:",
                 "    # Load input arguments",
-                indent(render_load_args(func), "    "),
+                f"{'' if mixing == False else '    siv32 = sbitintvec.get_type(32)'}",
+                indent(render_load_args(func,mixing,mixed_config), "    "),
                 "except:",
                 "    # Use default arguments",
-                indent(render_default_args(func), "    "),
+                f"{'' if mixing == False else '    siv32 = sbitintvec.get_type(32)'}",
+                indent(render_default_args(func,mixing,mixed_config), "    "),
             ]
         )
     else:
@@ -450,10 +839,14 @@ def render_args(func: Function) -> str:
 
 
 def render_application(
-    func: Function, type_env: TypeEnv, params: dict[str, Any], ran_vectorization: bool
+    func: Function, type_env: TypeEnv, params: dict[str, Any], ran_vectorization: bool,mixing=False,mixed_config:Config = Config()
 ) -> None:
-    func_rendered = render_function(func, type_env, ran_vectorization)
-    set_args = render_set_args(func)
+
+    if mixing == True:
+        func_rendered = render_mixed_function(func, type_env, ran_vectorization,mixed_config)
+    else:
+        func_rendered = render_function(func, type_env, ran_vectorization)
+    set_args = render_set_args(func,mixing,mixed_config)
     args = render_args(func)
     app_rendered = (
         "from vectorization_library import VectorizationLibrary\n"

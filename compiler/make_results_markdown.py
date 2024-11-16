@@ -178,7 +178,7 @@ def build_motion_benchmark_tables(circuits_path: str) -> str:
                 vectorized =True
                 # identify input protocol
 
-                mixed_input_path = test_case_dir.path+"/mixed_input.txt" 
+                mixed_input_path = test_case_dir.path+"/mixed_input_motion.txt" 
                 protocols = {
                     "A":"ArithmeticGmw",
                     "B":"BooleanGmw",
@@ -254,7 +254,7 @@ def build_spdz_benchmark_tables() -> str:
     for test_case_dir in test_case_dirs:
         for vectorized in (True, False):
             data = spdz_get_compile_stats_arith(
-                test_case_dir.name, test_case_dir.path, vectorized
+                test_case_dir.name, test_case_dir.path, vectorized, mixed=False
             )
             table += "|"
             table += (
@@ -309,6 +309,23 @@ def build_spdz_benchmark_tables() -> str:
                 table += str(data.time_seconds) + "|"
                 table += str(data.data_sent_mb) + "|"
                 table += "\n"
+
+            # also add a line for mixed
+
+            data = spdz_run_benchmark(
+                    test_case_dir.name, test_case_dir.path, protocol, True, mixed = True
+                )
+
+            table += "|"
+            table += (
+                test_case_dir.name
+                + " mixed"
+                + "|"
+            )
+            table += str(data.time_seconds) + "|"
+            table += str(data.data_sent_mb) + "|"
+            table += "\n"
+
 
     return table
 
@@ -438,25 +455,29 @@ def main():
         md += "#### Common subexpression elimination\n"
         md += f"```python\n{loop_linear_code}\n```\n"
 
-        mixed_config = compiler.mix_protocols(f"{test_case_dir.name}.py", type_env, loop_linear_code.body, dep_graph)
-        md += "#### Mixed configuration\n"
-        md += f"```{ mixed_config }\n```\n"
-
         for backend in Backend:
+            mixed_protocols = None
             if backend is Backend.MOTION:
                 lang = "cpp"
+                mixed_protocols = {'A','B','Y'}
             elif backend is Backend.MP_SPDZ:
                 lang = "py"
+                mixed_protocols = {'A','B'}
             else:
                 lang = ""
+
+            mixed_config = compiler.mix_protocols(f"{test_case_dir.name}.py", type_env, loop_linear_code.body, dep_graph, mixed_protocols)
+            md += "#### Mixed configuration\n"
+            md += f"```{ mixed_config }\n```\n"
+            
             backend_code = backend.render_function(loop_linear_code, type_env, True)
             md += f"#### {backend} code\n"
             md += f"```{lang}\n{backend_code}\n```\n"
 
-            if backend is Backend.MOTION:
-                backend_code = backend.render_mixed_function(loop_linear_code, type_env, True, mixed_config)
-                md += f"#### {backend} mixed code\n"
-                md += f"```{lang}\n{backend_code}\n```\n"
+            
+            backend_code = backend.render_mixed_function(loop_linear_code, type_env, True, mixed_config)
+            md += f"#### {backend} mixed code\n"
+            md += f"```{lang}\n{backend_code}\n```\n"
         
     md_path = os.path.join(args.path, "README.md")
     with open(md_path, "w") as f:

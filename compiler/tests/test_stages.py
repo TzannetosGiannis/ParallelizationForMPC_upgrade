@@ -114,9 +114,8 @@ class StagesTestCase(unittest.TestCase):
             print(f"Testing {name}...")
             expected_output = get_test_case_expected_output(test_case_dir.path)
             
-            
             for protocol in test_context.BACKEND.valid_protocols():
-                
+
                 if protocol == "ArithmeticGmw":
                     continue
                 print(f"    Protocol {protocol}...")
@@ -134,37 +133,41 @@ class StagesTestCase(unittest.TestCase):
                     self.assertEqual(party0.strip(), expected_output.strip())
                     self.assertEqual(party1.strip(), expected_output.strip())
 
-            # read the stages testcase for the input protocol
-            # at this step assume that the input variables have the same protocol
-            mixed_input_path = test_case_dir.path+"/mixed_input.txt" 
-            protocols = {
-                "A":"ArithmeticGmw",
-                "B":"BooleanGmw",
-                "Y":"Bmr"
-            }
-            if os.path.exists(mixed_input_path):
-                
-                with open(mixed_input_path, 'r') as file:
-                    content = json.loads(file.read())
-                    initial_value = None
-                    for key, value in content.items():
-                        implemented = True
-                        if len(value) > 1:
-                            implemented = False
-                            break
-                        if initial_value == None:
-                            initial_value = value[0]
-                        elif initial_value != value[0]:
-                            
-                            implemented = False
-                            break
-            else:
-                raise FileNotFoundError("mixed_input doesnt exist , please generate with --mixing")
-            if implemented == False:
-                raise NotImplementedError("Unsupported mixed input")
 
-            protocol = protocols[initial_value]
-            output = run_benchmark(
+            if test_context.BACKEND == 'MOTION':
+                # read the stages testcase for the input protocol
+                # at this step assume that the input variables have the same protocol
+
+                mixed_input_path = test_case_dir.path+"/mixed_input_motion.txt" 
+                protocols = {
+                    "A":"ArithmeticGmw",
+                    "B":"BooleanGmw",
+                    "Y":"Bmr"
+                }
+                if os.path.exists(mixed_input_path):
+                    
+                    with open(mixed_input_path, 'r') as file:
+                        content = json.loads(file.read())
+                        initial_value = None
+                        for key, value in content.items():
+                            implemented = True
+                            if len(value) > 1:
+                                implemented = False
+                                break
+                            if initial_value == None:
+                                initial_value = value[0]
+                            elif initial_value != value[0]:
+                                
+                                implemented = False
+                                break
+                else:
+                    raise FileNotFoundError("mixed_input doesnt exist , please generate with --mixing")
+                if implemented == False:
+                    raise NotImplementedError("Unsupported mixed input")
+
+                protocol = protocols[initial_value]
+
+                output = run_benchmark(
                 test_context.BACKEND,
                 name,
                 test_case_dir.path,
@@ -172,12 +175,33 @@ class StagesTestCase(unittest.TestCase):
                 True, # for vectorization
                 mixed=True
                 
-            )
-            assert output
-            party0, party1 = output
-            self.assertEqual(party0.strip(), party1.strip())
-            self.assertEqual(party0.strip(), expected_output.strip())
-            self.assertEqual(party1.strip(), expected_output.strip())
+                )
+                assert output
+                party0, party1 = output
+                self.assertEqual(party0.strip(), party1.strip())
+                self.assertEqual(party0.strip(), expected_output.strip())
+                self.assertEqual(party1.strip(), expected_output.strip())
+            else:
+                # In case of mpsdz we dont need to specify protocol input as it is part
+                # of compilation steps
+
+                for protocol in test_context.BACKEND.valid_protocols():
+                    print(f"Testing {name}... {protocol} mixed")
+                    output = run_benchmark(
+                        test_context.BACKEND,
+                        name,
+                        test_case_dir.path,
+                        protocol,
+                        True, # for vectorization
+                        mixed=True    
+                    )
+                    assert output
+                    party0, party1 = output
+                    self.assertEqual(party0.strip(), party1.strip())
+                    self.assertEqual(party0.strip(), expected_output.strip())
+                    self.assertEqual(party1.strip(), expected_output.strip())
+            
+            
 
 
 def get_test_case_expected_output(test_case_dir: str) -> str:
@@ -284,11 +308,13 @@ def regenerate_stages(mixing = False,vectorization = True):
             f.write(f"{loop_linear}\n")
 
         for backend in Backend:
-            # [TODO] fix when mp-spdz mixing exists
-            if mixing and str(backend).lower() == "mp-spdz":
-                continue
+            
             if mixing:
-                mixed_config = compiler.mix_protocols(f"{test_case_dir.name}.py", type_env, loop_linear.body, dep_graph)
+                if backend.name == 'MOTION':
+                    mixer_protocols = {'A','B','Y'}
+                elif backend.name == 'MP_SPDZ':
+                    mixer_protocols = {'A','B'}
+                mixed_config = compiler.mix_protocols(f"{test_case_dir.name}.py", type_env, loop_linear.body, dep_graph, mixer_protocols)
                 
                 # Convert the dictionary to the desired format
                 result = {}
@@ -298,9 +324,9 @@ def regenerate_stages(mixing = False,vectorization = True):
                     # Convert the set of values to a list
                     result[key] = list(values)
 
-                
-                with open(os.path.join(test_case_dir, "mixed_input.txt"), "w") as f:
-                    f.write(json.dumps(result))
+                if backend.name == 'MOTION':
+                    with open(os.path.join(test_case_dir, "mixed_input_motion.txt"), "w") as f:
+                        f.write(json.dumps(result))
                 
                 backend_code = backend.render_mixed_function(loop_linear, type_env, True,mixed_config)
             else:

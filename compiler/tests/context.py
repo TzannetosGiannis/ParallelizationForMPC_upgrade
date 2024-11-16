@@ -45,25 +45,24 @@ SKIPPED_TESTS = {
     # Skipped only in SPDZ
     Backend.MP_SPDZ: [
         # AssertionError: assert all(array.vectorized_dims)
-        "histogram",
-        # These benchmarks work now
-        #"db_cross_join_trivial",
-        #"mnist_relu", 
-        #"cryptonets_max_pooling", 
-        #"minimal_points", 
-        #"psi", 
-        #"convex_hull", 
-        #"longest_102", 
-        #"count_102",
-        #"biometric_fast",
-        #"max_dist_between_syms",
-        #"count_123",
-        #"max_sum_between_syms",
-        #"inner_product", 
-        #"biometric", 
-        #"count_10s"
-        #"chapterfour_figure_12",
-        #"longest_odd_10",
-        #"db_variance",
+        "histogram", # it doesnt compile
+        # "convex_hull", 
+        # "biometric",
+        # "biometric_fast",
+        # "chapterfour_figure_12",
+        # "count_123", 
+        # "minimal_points", 
+        # "inner_product",
+        # "db_cross_join_trivial",
+        # "psi", 
+        # "count_10s",
+        # "longest_102",
+        # "db_variance",
+        # "count_102",
+        # "mnist_relu", 
+        # "max_sum_between_syms",
+        # "cryptonets_max_pooling", 
+        # "max_dist_between_syms",
+        # "longest_odd_10" 
     ],
 }

@@ -77,6 +77,8 @@ class VectorizationLibrary:
         self._print_str = globals["print_str"]
         self._sint = globals["sint"]
         self._sbits = globals["sbits"].get_type(_BIT_LENGTH)
+        self._sbitvecn = globals["sbitvec"]
+        self._sbitintvec = globals["sbitintvec"]
 
         try:
             self.sbool = globals["sintbit"]
@@ -89,11 +91,27 @@ class VectorizationLibrary:
         first = values[0]
         if len(values) == 1:
             return first
-        element_type = self.sbool if isinstance(first, self.sbool) else self._sint
         try:
-            return element_type(values)
-        except:
-            return element_type([self._sbits(value) for value in values])
+
+            if isinstance(first, self.sbool):
+                element_type = self.sbool
+                return element_type(values)
+            if isinstance(first, int):
+                element_type = self._sint
+                return element_type(values)
+            if isinstance(first, self._sint):
+                element_type = self._sint
+                return element_type(values)
+            if isinstance(first, self._sbits):
+                element_type = self._sbits
+                return element_type(values)
+            if isinstance(first, self._sbitvecn):
+                element_type = self._sbitintvec
+                return element_type([self._sbitintvec(value) for value in values])
+
+            # element_type = self.sbool if isinstance(first, self.sbool) else self._sint
+        except Exception as ex:
+                return element_type([self._sbits(value) for value in values])
 
     def vectorized_access_simd(
         self, array: list, shape: list[int], indices: tuple[typing.Optional[int]]
@@ -153,11 +171,30 @@ class VectorizationLibrary:
         zero_index = tuple(0 for _ in dim_sizes)
         first_value = expr(zero_index)
         if isinstance(first_value, int) or (
-            isinstance(first_value, (self._sint, self.sbool)) and first_value.size == 1
+            isinstance(first_value, (self._sint, self.sbool,self._sbits,self._sbitvecn)) and first_value.size == 1
         ):
-            value_type = (
-                self.sbool if isinstance(first_value, self.sbool) else self._sint
-            )
+            if isinstance(first_value, self.sbool):
+                value_type = self.sbool
+            if isinstance(first_value, int):
+                value_type = self._sint
+            if isinstance(first_value, self._sint):
+                value_type = self._sint
+            if isinstance(first_value, self._sbits):
+                value_type = self._sbits
+            if isinstance(first_value, self._sbitvecn):
+                 value_type = (
+                    type(first_value[0])
+                    if isinstance(first_value, list)
+                    else type(first_value)
+                )
+
+            if isinstance(first_value, self._sbitintvec):
+                value_type = (
+                    type(first_value[0])
+                    if isinstance(first_value, list)
+                    else type(first_value)
+                )
+                
             a = [None] * math.prod(dim_sizes)
             all_indices = [range(size) for size in dim_sizes]
             for index in itertools.product(*all_indices):
@@ -166,7 +203,7 @@ class VectorizationLibrary:
             return a
         else:
             assert isinstance(first_value, list) or (
-                isinstance(first_value, (self._sint, self.sbool))
+                isinstance(first_value, (self._sint, self.sbool,self._sbits))
                 and first_value.size > 1
             ), type(first_value)
             source_array = first_value
@@ -176,6 +213,7 @@ class VectorizationLibrary:
                 else source_array.size
             )
             assert dim_sizes[0] <= source_array_len, source_array
+            
             value_type = (
                 type(first_value[0])
                 if isinstance(first_value, list)
