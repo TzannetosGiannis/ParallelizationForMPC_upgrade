@@ -122,7 +122,13 @@ def compile(
         print()
 
     if mixing:
-        mixed_config = mix_protocols(filename, type_env, linear.body, dep_graph)
+        protocols = None
+        if backend:
+            if backend.name == 'MOTION':
+                protocols = {'A','B','Y'}
+            elif backend.name == 'MP_SPDZ':
+                protocols = {'A','B'}
+        mixed_config = mix_protocols(filename, type_env, linear.body, dep_graph,protocols)
         if not quiet:
             print("Protocol Mixing Assignments:")
             print(mixed_config)

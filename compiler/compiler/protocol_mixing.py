@@ -1028,6 +1028,7 @@ def mergeDriver(configs1: list[Config], configs2: list[Config], dep_graph: DepGr
 # ASSUMPTION: TUPLES ARE ONLY USED TO PACK RETURN VALUES
 #   THIS IS SAFE BECAUSE OPERATIONS WILL BE APPLIED AT EVERY ELEMENT OF A VECTOR AND VECTOR CONVERSIONS ARE AMORTIZED (IT IS LESS EXPENSIVE TO CONVERT ALL ELEMENTS THAN TO INDIVIDUALLY CONVERT EACH ELEMENT)
 def mix(body: list[Statement], dep_graph: DepGraph, trackedVars: set[Var], freeConversions: set[Var], loop_depth: int = 1, loopNestCount: int = 0, debug=False) -> list[Config]:
+
     if debug:
         print("CALL TO MIX")
 
@@ -1089,7 +1090,12 @@ def mix(body: list[Statement], dep_graph: DepGraph, trackedVars: set[Var], freeC
 
 
 # run the mixer
-def mix_protocols(filename: str, type_env: TypeEnv, body: list[Statement], dep_graph: DepGraph) -> Config:
+def mix_protocols(filename: str, type_env: TypeEnv, body: list[Statement], dep_graph: DepGraph, mixer_protocols: str = None) -> Config:
+
+    if mixer_protocols:
+        protocols.clear() 
+        protocols.update(mixer_protocols)
+    
     getLoopBounds(filename)
     getOpCosts()
     trackedVars, directIOVars = getTrackedVars(type_env, body, dep_graph)

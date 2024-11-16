@@ -154,13 +154,14 @@ def get_compile_stats_arith(
 
 
 def get_compile_stats_bin(
-    benchmark_name: str, benchmark_path: str, vectorized: bool, binary: int
+    benchmark_name: str, benchmark_path: str, vectorized: bool, binary: int, mixed: bool = False
 ) -> CompileStatsBin:
     compile_time, stdout = _get_compile_stats_common(
         benchmark_name=benchmark_name,
         benchmark_path=benchmark_path,
         binary=binary,
         vectorized=vectorized,
+        mixed=mixed
     )
     return CompileStatsBin(time=compile_time, stdout=stdout)
 
