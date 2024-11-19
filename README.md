@@ -4,469 +4,587 @@
 ### BooleanGmw
 | Benchmark | Total # Gates | # SIMD gates | # Non-SIMD gates | # messages sent (party 0) | Sent size (party 0) | # messages received (party 0) | Received Size (party 0) | Runtime | Circuit Generation Time |
 | - | - | - | - | - | - | - | - | - | - |
-|biometric|9999|8352|1647|4947|0.615 MiB |4946|0.615 MiB |3416.743 ms |611.0 ms |
-|biometric (Non-Vectorized)|105250|0|105250|47073|2.704 MiB |47072|2.704 MiB |14780.933 ms |6426.0 ms |
-|biometric_fast|10636|8974|1662|5265|0.611 MiB |5264|0.611 MiB |3772.647 ms |643.0 ms |
-|biometric_fast (Non-Vectorized)|99903|0|99903|44529|2.558 MiB |44528|2.558 MiB |14784.537 ms |6036.0 ms |
-|chapterfour_figure_12|805|0|805|752|0.048 MiB |751|0.048 MiB |425.515 ms |49.0 ms |
-|chapterfour_figure_12 (Non-Vectorized)|805|0|805|752|0.048 MiB |751|0.048 MiB |405.644 ms |50.0 ms |
-|convex_hull|2106|2063|43|1381|0.122 MiB |1380|0.122 MiB |913.659 ms |128.0 ms |
-|convex_hull (Non-Vectorized)|12112|0|12112|6265|0.364 MiB |6264|0.364 MiB |2424.941 ms |742.0 ms |
-|count_102|6610|297|6313|3820|0.237 MiB |3819|0.237 MiB |3701.47 ms |397.0 ms |
-|count_102 (Non-Vectorized)|9188|0|9188|5512|0.321 MiB |5511|0.321 MiB |3200.845 ms |555.0 ms |
-|count_10s|4720|298|4422|2848|0.177 MiB |2847|0.177 MiB |2465.144 ms |285.0 ms |
-|count_10s (Non-Vectorized)|6440|0|6440|3976|0.233 MiB |3975|0.233 MiB |2230.779 ms |391.0 ms |
-|count_123|4729|305|4424|2850|0.177 MiB |2849|0.177 MiB |2602.898 ms |286.0 ms |
-|count_123 (Non-Vectorized)|6476|0|6476|3990|0.234 MiB |3989|0.233 MiB |2325.397 ms |388.0 ms |
-|cryptonets_max_pooling|1349|1217|132|951|0.139 MiB |950|0.138 MiB |1053.685 ms |84.0 ms |
-|cryptonets_max_pooling (Non-Vectorized)|24124|0|24124|11211|0.647 MiB |11210|0.647 MiB |4213.824 ms |1473.0 ms |
-|db_cross_join_trivial|21900|116|21784|14486|0.877 MiB |14485|0.876 MiB |4052.797 ms |1378.0 ms |
-|db_cross_join_trivial (Non-Vectorized)|29201|0|29201|19666|1.132 MiB |19665|1.132 MiB |5305.758 ms |1814.0 ms |
-|db_variance|29520|5864|23656|13646|0.926 MiB |13645|0.926 MiB |55439.558 ms |1771.0 ms |
-|db_variance (Non-Vectorized)|70507|0|70507|31524|1.812 MiB |31523|1.812 MiB |59212.791 ms |4201.0 ms |
-|histogram|5234|5123|111|3018|0.276 MiB |3017|0.276 MiB |2312.095 ms |342.0 ms |
-|histogram (Non-Vectorized)|28668|0|28668|15676|0.903 MiB |15675|0.903 MiB |5425.994 ms |1735.0 ms |
-|inner_product|7075|5207|1868|3582|0.245 MiB |3581|0.245 MiB |1791.821 ms |430.0 ms |
-|inner_product (Non-Vectorized)|17478|0|17478|8054|0.467 MiB |8053|0.467 MiB |2904.528 ms |1043.0 ms |
-|longest_102|10649|305|10344|5642|0.341 MiB |5641|0.341 MiB |4760.963 ms |670.0 ms |
-|longest_102 (Non-Vectorized)|13278|0|13278|7352|0.426 MiB |7351|0.426 MiB |4328.432 ms |796.0 ms |
-|longest_odd_10|8518|304|8214|4614|0.283 MiB |4613|0.283 MiB |5162.832 ms |538.0 ms |
-|longest_odd_10 (Non-Vectorized)|10543|0|10543|5944|0.349 MiB |5943|0.349 MiB |3330.957 ms |642.0 ms |
-|max_dist_between_syms|8276|100|8176|4454|0.263 MiB |4453|0.263 MiB |2915.573 ms |522.0 ms |
-|max_dist_between_syms (Non-Vectorized)|8941|0|8941|4888|0.285 MiB |4887|0.285 MiB |2984.453 ms |540.0 ms |
-|max_sum_between_syms|8275|100|8175|4454|0.263 MiB |4453|0.263 MiB |2939.178 ms |511.0 ms |
-|max_sum_between_syms (Non-Vectorized)|8940|0|8940|4888|0.285 MiB |4887|0.285 MiB |2903.673 ms |542.0 ms |
-|minimal_points|882|847|35|765|0.071 MiB |764|0.071 MiB |695.877 ms |52.0 ms |
-|minimal_points (Non-Vectorized)|7292|0|7292|3649|0.214 MiB |3648|0.214 MiB |1434.981 ms |441.0 ms |
-|mnist_relu|1014|407|607|771|0.33 MiB |770|0.33 MiB |458.346 ms |87.0 ms |
-|mnist_relu (Non-Vectorized)|80603|0|80603|36591|2.101 MiB |36590|2.101 MiB |10978.484 ms |4873.0 ms |
-|psi|182|138|44|474|0.05 MiB |473|0.05 MiB |620.117 ms |10.0 ms |
-|psi (Non-Vectorized)|3391|0|3391|2646|0.157 MiB |2645|0.157 MiB |1184.724 ms |206.0 ms |
+|biometric|9999|8352|1647|4947|0.615 MiB |4946|0.615 MiB |3407.737 ms |607.0 ms |
+|biometric (Non-Vectorized)|105250|0|105250|47073|2.704 MiB |47072|2.704 MiB |14932.526 ms |6845.0 ms |
+|biometric_fast|10636|8974|1662|5265|0.611 MiB |5264|0.611 MiB |3622.588 ms |669.0 ms |
+|biometric_fast (Non-Vectorized)|99903|0|99903|44529|2.558 MiB |44528|2.558 MiB |14957.194 ms |5987.0 ms |
+|chapterfour_figure_12|805|0|805|752|0.048 MiB |751|0.048 MiB |361.786 ms |49.0 ms |
+|chapterfour_figure_12 (Non-Vectorized)|805|0|805|752|0.048 MiB |751|0.048 MiB |359.733 ms |49.0 ms |
+|convex_hull|2106|2063|43|1381|0.122 MiB |1380|0.122 MiB |857.528 ms |128.0 ms |
+|convex_hull (Non-Vectorized)|12112|0|12112|6265|0.364 MiB |6264|0.364 MiB |2165.204 ms |742.0 ms |
+|count_102|6610|297|6313|3820|0.237 MiB |3819|0.237 MiB |3838.691 ms |401.0 ms |
+|count_102 (Non-Vectorized)|9188|0|9188|5512|0.321 MiB |5511|0.321 MiB |3161.592 ms |581.0 ms |
+|count_10s|4720|298|4422|2848|0.177 MiB |2847|0.177 MiB |2522.248 ms |286.0 ms |
+|count_10s (Non-Vectorized)|6440|0|6440|3976|0.233 MiB |3975|0.233 MiB |2405.268 ms |391.0 ms |
+|count_123|4729|305|4424|2850|0.177 MiB |2849|0.177 MiB |2685.745 ms |293.0 ms |
+|count_123 (Non-Vectorized)|6476|0|6476|3990|0.234 MiB |3989|0.233 MiB |2286.866 ms |390.0 ms |
+|cryptonets_max_pooling|1349|1217|132|951|0.139 MiB |950|0.138 MiB |987.295 ms |82.0 ms |
+|cryptonets_max_pooling (Non-Vectorized)|24124|0|24124|11211|0.647 MiB |11210|0.647 MiB |3812.197 ms |1468.0 ms |
+|db_cross_join_trivial|21900|116|21784|14486|0.877 MiB |14485|0.876 MiB |4000.388 ms |1382.0 ms |
+|db_cross_join_trivial (Non-Vectorized)|29201|0|29201|19666|1.132 MiB |19665|1.132 MiB |5403.511 ms |1899.0 ms |
+|db_variance|29520|5864|23656|13646|0.926 MiB |13645|0.926 MiB |55411.443 ms |1782.0 ms |
+|db_variance (Non-Vectorized)|70507|0|70507|31524|1.812 MiB |31523|1.812 MiB |59075.545 ms |4246.0 ms |
+|histogram|5234|5123|111|3018|0.276 MiB |3017|0.276 MiB |2273.022 ms |351.0 ms |
+|histogram (Non-Vectorized)|28668|0|28668|15676|0.903 MiB |15675|0.903 MiB |5619.721 ms |1740.0 ms |
+|inner_product|7075|5207|1868|3582|0.245 MiB |3581|0.245 MiB |1890.557 ms |422.0 ms |
+|inner_product (Non-Vectorized)|17478|0|17478|8054|0.467 MiB |8053|0.467 MiB |2991.701 ms |1045.0 ms |
+|longest_102|10649|305|10344|5642|0.341 MiB |5641|0.341 MiB |4934.148 ms |668.0 ms |
+|longest_102 (Non-Vectorized)|13278|0|13278|7352|0.426 MiB |7351|0.426 MiB |4557.561 ms |802.0 ms |
+|longest_odd_10|8518|304|8214|4614|0.283 MiB |4613|0.283 MiB |5283.796 ms |522.0 ms |
+|longest_odd_10 (Non-Vectorized)|10543|0|10543|5944|0.349 MiB |5943|0.349 MiB |3380.079 ms |644.0 ms |
+|max_dist_between_syms|8276|100|8176|4454|0.263 MiB |4453|0.263 MiB |3049.793 ms |505.0 ms |
+|max_dist_between_syms (Non-Vectorized)|8941|0|8941|4888|0.285 MiB |4887|0.285 MiB |2962.495 ms |554.0 ms |
+|max_sum_between_syms|8275|100|8175|4454|0.263 MiB |4453|0.263 MiB |2979.714 ms |506.0 ms |
+|max_sum_between_syms (Non-Vectorized)|8940|0|8940|4888|0.285 MiB |4887|0.285 MiB |2907.591 ms |545.0 ms |
+|minimal_points|882|847|35|765|0.071 MiB |764|0.071 MiB |610.072 ms |52.0 ms |
+|minimal_points (Non-Vectorized)|7292|0|7292|3649|0.214 MiB |3648|0.214 MiB |1437.174 ms |443.0 ms |
+|mnist_relu|1014|407|607|771|0.33 MiB |770|0.33 MiB |472.542 ms |86.0 ms |
+|mnist_relu (Non-Vectorized)|80603|0|80603|36591|2.101 MiB |36590|2.101 MiB |11037.24 ms |4954.0 ms |
+|psi|182|138|44|474|0.05 MiB |473|0.05 MiB |620.148 ms |10.0 ms |
+|psi (Non-Vectorized)|3391|0|3391|2646|0.157 MiB |2645|0.157 MiB |1140.984 ms |204.0 ms |
 
 ### Bmr
 | Benchmark | Total # Gates | # SIMD gates | # Non-SIMD gates | # messages sent (party 0) | Sent size (party 0) | # messages received (party 0) | Received Size (party 0) | Runtime | Circuit Generation Time |
 | - | - | - | - | - | - | - | - | - | - |
-|biometric|4486|3645|841|7843|4.37 MiB |7846|4.37 MiB |762.755 ms |705.0 ms |
-|biometric (Non-Vectorized)|51452|0|51452|86503|8.263 MiB |86506|8.263 MiB |7840.419 ms |7235.0 ms |
-|biometric_fast|4658|3802|856|8019|4.327 MiB |8019|4.327 MiB |848.338 ms |719.0 ms |
-|biometric_fast (Non-Vectorized)|49849|0|49849|85284|8.151 MiB |85284|8.151 MiB |6560.281 ms |7134.0 ms |
-|chapterfour_figure_12|398|0|398|975|0.087 MiB |972|0.087 MiB |55.165 ms |53.0 ms |
-|chapterfour_figure_12 (Non-Vectorized)|398|0|398|975|0.087 MiB |972|0.087 MiB |58.247 ms |53.0 ms |
-|convex_hull|1040|991|49|1992|0.514 MiB |1981|0.513 MiB |236.245 ms |147.0 ms |
-|convex_hull (Non-Vectorized)|5650|0|5650|8998|0.861 MiB |8987|0.861 MiB |870.674 ms |757.0 ms |
-|count_102|1753|109|1644|3831|0.569 MiB |3819|0.569 MiB |302.667 ms |279.0 ms |
-|count_102 (Non-Vectorized)|2639|0|2639|8061|0.779 MiB |8049|0.778 MiB |492.916 ms |529.0 ms |
-|count_10s|1264|110|1154|2942|0.415 MiB |2932|0.414 MiB |173.274 ms |205.0 ms |
-|count_10s (Non-Vectorized)|1856|0|1856|5762|0.555 MiB |5752|0.554 MiB |305.714 ms |366.0 ms |
-|count_123|1271|115|1156|2948|0.417 MiB |2939|0.416 MiB |164.53 ms |203.0 ms |
-|count_123 (Non-Vectorized)|1878|0|1878|5798|0.558 MiB |5789|0.558 MiB |301.2 ms |369.0 ms |
-|cryptonets_max_pooling|757|605|152|1484|1.013 MiB |1379|1.007 MiB |219.163 ms |109.0 ms |
-|cryptonets_max_pooling (Non-Vectorized)|11904|0|11904|17957|1.828 MiB |17852|1.823 MiB |1977.009 ms |1619.0 ms |
-|db_cross_join_trivial|7971|62|7909|36652|6.318 MiB |36345|6.302 MiB |1471.108 ms |2188.0 ms |
-|db_cross_join_trivial (Non-Vectorized)|11276|0|11276|86306|8.773 MiB |85999|8.757 MiB |1694.808 ms |4757.0 ms |
-|db_variance|13352|3017|10335|20698|3.612 MiB |20695|3.611 MiB |2232.403 ms |2045.0 ms |
-|db_variance (Non-Vectorized)|34410|0|34410|56538|5.389 MiB |56535|5.389 MiB |5070.757 ms |4720.0 ms |
-|histogram|1473|1357|116|2939|1.046 MiB |2891|1.043 MiB |244.12 ms |259.0 ms |
-|histogram (Non-Vectorized)|7673|0|7673|18072|1.795 MiB |18024|1.793 MiB |1448.745 ms |1321.0 ms |
-|inner_product|3301|2827|474|5833|1.004 MiB |5830|1.004 MiB |454.616 ms |464.0 ms |
-|inner_product (Non-Vectorized)|8944|0|8944|15763|1.497 MiB |15760|1.496 MiB |1324.836 ms |1366.0 ms |
-|longest_102|3730|115|3615|6776|0.867 MiB |6764|0.866 MiB |544.24 ms |552.0 ms |
-|longest_102 (Non-Vectorized)|4649|0|4649|11051|1.079 MiB |11039|1.078 MiB |722.908 ms |801.0 ms |
-|longest_odd_10|2993|114|2879|6671|0.869 MiB |6660|0.868 MiB |408.869 ms |500.0 ms |
-|longest_odd_10 (Non-Vectorized)|3688|0|3688|10864|1.077 MiB |10853|1.076 MiB |589.119 ms |730.0 ms |
-|max_dist_between_syms|2879|38|2841|5152|0.559 MiB |5141|0.558 MiB |423.638 ms |414.0 ms |
-|max_dist_between_syms (Non-Vectorized)|3110|0|3110|6237|0.612 MiB |6226|0.612 MiB |523.538 ms |481.0 ms |
-|max_sum_between_syms|2878|38|2840|5150|0.558 MiB |5140|0.557 MiB |423.767 ms |417.0 ms |
-|max_sum_between_syms (Non-Vectorized)|3109|0|3109|6235|0.612 MiB |6225|0.611 MiB |442.416 ms |481.0 ms |
-|minimal_points|472|431|41|1015|0.244 MiB |1012|0.244 MiB |94.43 ms |61.0 ms |
-|minimal_points (Non-Vectorized)|3566|0|3566|4161|0.4 MiB |4158|0.4 MiB |601.795 ms |411.0 ms |
-|mnist_relu|1010|203|807|1684|3.225 MiB |1280|3.205 MiB |490.516 ms |159.0 ms |
-|mnist_relu (Non-Vectorized)|40003|0|40003|59195|6.07 MiB |58791|6.05 MiB |6772.103 ms |6465.0 ms |
-|psi|141|92|49|748|0.348 MiB |740|0.348 MiB |61.727 ms |27.0 ms |
-|psi (Non-Vectorized)|1306|0|1306|6674|0.641 MiB |6666|0.641 MiB |190.145 ms |360.0 ms |
+|biometric|4486|3645|841|7843|4.37 MiB |7846|4.37 MiB |882.222 ms |704.0 ms |
+|biometric (Non-Vectorized)|51452|0|51452|86503|8.263 MiB |86506|8.263 MiB |6813.498 ms |7311.0 ms |
+|biometric_fast|4658|3802|856|8019|4.327 MiB |8019|4.327 MiB |819.998 ms |720.0 ms |
+|biometric_fast (Non-Vectorized)|49849|0|49849|85284|8.151 MiB |85284|8.151 MiB |6752.529 ms |7122.0 ms |
+|chapterfour_figure_12|398|0|398|975|0.087 MiB |972|0.087 MiB |48.535 ms |53.0 ms |
+|chapterfour_figure_12 (Non-Vectorized)|398|0|398|975|0.087 MiB |972|0.087 MiB |43.358 ms |54.0 ms |
+|convex_hull|1040|991|49|1992|0.514 MiB |1981|0.513 MiB |167.299 ms |146.0 ms |
+|convex_hull (Non-Vectorized)|5650|0|5650|8998|0.861 MiB |8987|0.861 MiB |948.972 ms |764.0 ms |
+|count_102|1753|109|1644|3831|0.569 MiB |3819|0.569 MiB |251.065 ms |279.0 ms |
+|count_102 (Non-Vectorized)|2639|0|2639|8061|0.779 MiB |8049|0.778 MiB |382.118 ms |521.0 ms |
+|count_10s|1264|110|1154|2942|0.415 MiB |2932|0.414 MiB |207.62 ms |196.0 ms |
+|count_10s (Non-Vectorized)|1856|0|1856|5762|0.555 MiB |5752|0.554 MiB |300.832 ms |364.0 ms |
+|count_123|1271|115|1156|2948|0.417 MiB |2939|0.416 MiB |224.268 ms |205.0 ms |
+|count_123 (Non-Vectorized)|1878|0|1878|5798|0.558 MiB |5789|0.558 MiB |237.751 ms |368.0 ms |
+|cryptonets_max_pooling|757|605|152|1484|1.013 MiB |1379|1.007 MiB |219.939 ms |110.0 ms |
+|cryptonets_max_pooling (Non-Vectorized)|11904|0|11904|17957|1.828 MiB |17852|1.823 MiB |1931.081 ms |1626.0 ms |
+|db_cross_join_trivial|7971|62|7909|36652|6.318 MiB |36345|6.302 MiB |1356.874 ms |2215.0 ms |
+|db_cross_join_trivial (Non-Vectorized)|11276|0|11276|86306|8.773 MiB |85999|8.757 MiB |1941.785 ms |4784.0 ms |
+|db_variance|13352|3017|10335|20698|3.612 MiB |20695|3.611 MiB |1887.558 ms |1812.0 ms |
+|db_variance (Non-Vectorized)|34410|0|34410|56538|5.389 MiB |56535|5.389 MiB |5024.598 ms |4756.0 ms |
+|histogram|1473|1357|116|2939|1.046 MiB |2891|1.043 MiB |296.811 ms |253.0 ms |
+|histogram (Non-Vectorized)|7673|0|7673|18072|1.795 MiB |18024|1.793 MiB |1312.255 ms |1311.0 ms |
+|inner_product|3301|2827|474|5833|1.004 MiB |5830|1.004 MiB |443.854 ms |464.0 ms |
+|inner_product (Non-Vectorized)|8944|0|8944|15763|1.497 MiB |15760|1.496 MiB |1339.84 ms |1283.0 ms |
+|longest_102|3730|115|3615|6776|0.867 MiB |6764|0.866 MiB |539.455 ms |570.0 ms |
+|longest_102 (Non-Vectorized)|4649|0|4649|11051|1.079 MiB |11039|1.078 MiB |746.948 ms |794.0 ms |
+|longest_odd_10|2993|114|2879|6671|0.869 MiB |6660|0.868 MiB |548.08 ms |507.0 ms |
+|longest_odd_10 (Non-Vectorized)|3688|0|3688|10864|1.077 MiB |10853|1.076 MiB |511.18 ms |737.0 ms |
+|max_dist_between_syms|2879|38|2841|5152|0.559 MiB |5141|0.558 MiB |514.162 ms |416.0 ms |
+|max_dist_between_syms (Non-Vectorized)|3110|0|3110|6237|0.612 MiB |6226|0.612 MiB |582.313 ms |478.0 ms |
+|max_sum_between_syms|2878|38|2840|5150|0.558 MiB |5140|0.557 MiB |450.871 ms |417.0 ms |
+|max_sum_between_syms (Non-Vectorized)|3109|0|3109|6235|0.612 MiB |6225|0.611 MiB |493.264 ms |477.0 ms |
+|minimal_points|472|431|41|1015|0.244 MiB |1012|0.244 MiB |125.816 ms |61.0 ms |
+|minimal_points (Non-Vectorized)|3566|0|3566|4161|0.4 MiB |4158|0.4 MiB |574.366 ms |412.0 ms |
+|mnist_relu|1010|203|807|1684|3.225 MiB |1280|3.205 MiB |364.282 ms |159.0 ms |
+|mnist_relu (Non-Vectorized)|40003|0|40003|59195|6.07 MiB |58791|6.05 MiB |5653.887 ms |6287.0 ms |
+|psi|141|92|49|748|0.348 MiB |740|0.348 MiB |25.123 ms |27.0 ms |
+|psi (Non-Vectorized)|1306|0|1306|6674|0.641 MiB |6666|0.641 MiB |150.044 ms |363.0 ms |
 
 ### mixed
 | Benchmark | Total # Gates | # SIMD gates | # Non-SIMD gates | # messages sent (party 0) | Sent size (party 0) | # messages received (party 0) | Received Size (party 0) | Runtime | Circuit Generation Time |
 | - | - | - | - | - | - | - | - | - | - |
-|biometric|1026|185|841|2237|0.252 MiB |2230|0.252 MiB |172.673 ms |158.0 ms |
-|biometric_fast|1045|189|856|2237|0.252 MiB |2230|0.252 MiB |155.838 ms |155.0 ms |
-|chapterfour_figure_12|398|0|398|975|0.087 MiB |972|0.087 MiB |89.555 ms |53.0 ms |
-|convex_hull|1039|991|48|1990|0.513 MiB |1980|0.513 MiB |228.109 ms |147.0 ms |
-|count_102|1752|109|1643|3829|0.569 MiB |3818|0.568 MiB |317.85 ms |277.0 ms |
-|count_10s|1263|110|1153|2940|0.414 MiB |2931|0.414 MiB |241.418 ms |204.0 ms |
-|count_123|1270|115|1155|2946|0.416 MiB |2938|0.416 MiB |210.792 ms |203.0 ms |
-|cryptonets_max_pooling|753|605|148|1476|1.01 MiB |1375|1.005 MiB |192.679 ms |109.0 ms |
-|db_cross_join_trivial|21897|116|21781|14486|0.877 MiB |14485|0.876 MiB |4149.891 ms |1350.0 ms |
-|db_variance|8215|11|8204|13396|1.306 MiB |13394|1.29 MiB |1331.003 ms |1137.0 ms |
-|histogram|1471|1357|114|2935|1.045 MiB |2889|1.042 MiB |306.587 ms |250.0 ms |
-|inner_product|19|6|13|394|0.029 MiB |393|0.029 MiB |43.866 ms |0.0 ms |
-|longest_102|3729|115|3614|6774|0.866 MiB |6763|0.866 MiB |653.36 ms |549.0 ms |
-|longest_odd_10|2992|114|2878|6669|0.868 MiB |6659|0.868 MiB |408.395 ms |501.0 ms |
-|max_dist_between_syms|2878|38|2840|5150|0.558 MiB |5140|0.557 MiB |415.509 ms |417.0 ms |
-|max_sum_between_syms|2877|38|2839|5148|0.557 MiB |5139|0.557 MiB |445.32 ms |417.0 ms |
-|minimal_points|471|431|40|1013|0.244 MiB |1011|0.244 MiB |92.176 ms |60.0 ms |
-|mnist_relu|1012|407|605|771|0.33 MiB |770|0.33 MiB |435.188 ms |89.0 ms |
-|psi|180|138|42|474|0.05 MiB |473|0.05 MiB |620.046 ms |10.0 ms |
+|biometric|1026|185|841|2237|0.252 MiB |2230|0.252 MiB |178.956 ms |159.0 ms |
+|biometric_fast|1045|189|856|2237|0.252 MiB |2230|0.252 MiB |189.948 ms |158.0 ms |
+|chapterfour_figure_12|398|0|398|975|0.087 MiB |972|0.087 MiB |61.119 ms |55.0 ms |
+|convex_hull|1039|991|48|1990|0.513 MiB |1980|0.513 MiB |218.667 ms |146.0 ms |
+|count_102|1752|109|1643|3829|0.569 MiB |3818|0.568 MiB |247.996 ms |276.0 ms |
+|count_10s|1263|110|1153|2940|0.414 MiB |2931|0.414 MiB |171.27 ms |203.0 ms |
+|count_123|1270|115|1155|2946|0.416 MiB |2938|0.416 MiB |173.677 ms |204.0 ms |
+|cryptonets_max_pooling|753|605|148|1476|1.01 MiB |1375|1.005 MiB |168.966 ms |109.0 ms |
+|db_cross_join_trivial|21897|116|21781|14486|0.877 MiB |14485|0.876 MiB |4248.399 ms |1363.0 ms |
+|db_variance|8215|11|8204|13396|1.306 MiB |13394|1.29 MiB |1330.161 ms |1123.0 ms |
+|histogram|1471|1357|114|2935|1.045 MiB |2889|1.042 MiB |340.53 ms |251.0 ms |
+|inner_product|19|6|13|394|0.029 MiB |393|0.029 MiB |43.922 ms |0.0 ms |
+|longest_102|3729|115|3614|6774|0.866 MiB |6763|0.866 MiB |669.03 ms |553.0 ms |
+|longest_odd_10|2992|114|2878|6669|0.868 MiB |6659|0.868 MiB |485.18 ms |502.0 ms |
+|max_dist_between_syms|2878|38|2840|5150|0.558 MiB |5140|0.557 MiB |443.325 ms |414.0 ms |
+|max_sum_between_syms|2877|38|2839|5148|0.557 MiB |5139|0.557 MiB |551.876 ms |419.0 ms |
+|minimal_points|471|431|40|1013|0.244 MiB |1011|0.244 MiB |105.475 ms |61.0 ms |
+|mnist_relu|1012|407|605|771|0.33 MiB |770|0.33 MiB |455.689 ms |86.0 ms |
+|psi|180|138|42|474|0.05 MiB |473|0.05 MiB |620.044 ms |10.0 ms |
 
 ## MP-SPDZ Benchmark Data
 ### Arithmetic protocol compilation
 | Benchmark | Compile time (seconds) | # int triples | # int opens | # VM rounds |
 | - | - | - | - | - |
-|biometric|0.422|504|6|34|
-|biometric (Non-Vectorized)|0.226|504|6|34|
-|biometric_fast|0.234|504|6|34|
-|biometric_fast (Non-Vectorized)|0.225|504|6|34|
-|chapterfour_figure_12|0.144|242|3|10|
-|chapterfour_figure_12 (Non-Vectorized)|0.143|242|3|10|
-|convex_hull|0.159|2910|30|14|
-|convex_hull (Non-Vectorized)|0.158|2910|30|14|
-|count_102|0.152|1930|31|39|
-|count_102 (Non-Vectorized)|0.152|1930|31|28|
-|count_10s|0.162|1351|22|30|
-|count_10s (Non-Vectorized)|0.145|1351|22|22|
-|count_123|0.153|1358|22|31|
-|count_123 (Non-Vectorized)|0.147|1358|22|23|
-|cryptonets_max_pooling|0.23|7260|80|25|
-|cryptonets_max_pooling (Non-Vectorized)|0.226|7260|80|25|
+|biometric|0.424|504|6|34|
+|biometric (Non-Vectorized)|0.23|504|6|34|
+|biometric_fast|0.236|504|6|34|
+|biometric_fast (Non-Vectorized)|0.238|504|6|34|
+|chapterfour_figure_12|0.145|242|3|10|
+|chapterfour_figure_12 (Non-Vectorized)|0.144|242|3|10|
+|convex_hull|0.16|2910|30|14|
+|convex_hull (Non-Vectorized)|0.16|2910|30|14|
+|count_102|0.154|1930|31|39|
+|count_102 (Non-Vectorized)|0.154|1930|31|28|
+|count_10s|0.153|1351|22|30|
+|count_10s (Non-Vectorized)|0.147|1351|22|22|
+|count_123|0.151|1358|22|31|
+|count_123 (Non-Vectorized)|0.149|1358|22|23|
+|cryptonets_max_pooling|0.232|7260|80|25|
+|cryptonets_max_pooling (Non-Vectorized)|0.228|7260|80|25|
 |db_cross_join_trivial|0.322|19389|378|12|
-|db_cross_join_trivial (Non-Vectorized)|0.301|19200|375|12|
-|db_variance|1.912|4000|29|184|
-|db_variance (Non-Vectorized)|1.963|4000|29|184|
-|inner_product|0.08|3|1|2|
+|db_cross_join_trivial (Non-Vectorized)|0.305|19200|375|12|
+|db_variance|1.991|4000|29|184|
+|db_variance (Non-Vectorized)|1.988|4000|29|184|
+|inner_product|0.079|3|1|2|
 |inner_product (Non-Vectorized)|0.075|3|1|2|
-|longest_102|0.468|3160|41|130|
-|longest_102 (Non-Vectorized)|0.476|3160|41|102|
-|longest_odd_10|0.429|2520|33|105|
-|longest_odd_10 (Non-Vectorized)|0.613|2520|33|139|
-|max_dist_between_syms|0.397|1480|17|80|
-|max_dist_between_syms (Non-Vectorized)|0.397|1480|17|73|
-|max_sum_between_syms|0.399|1480|17|80|
-|max_sum_between_syms (Non-Vectorized)|0.396|1480|17|73|
-|minimal_points|0.155|2184|24|13|
-|minimal_points (Non-Vectorized)|0.153|2184|24|13|
-|mnist_relu|0.259|24200|400|9|
-|mnist_relu (Non-Vectorized)|0.279|24200|400|9|
-|psi|0.157|2245|40|16|
+|longest_102|0.469|3160|41|130|
+|longest_102 (Non-Vectorized)|0.461|3160|41|102|
+|longest_odd_10|0.435|2520|33|105|
+|longest_odd_10 (Non-Vectorized)|0.611|2520|33|139|
+|max_dist_between_syms|0.406|1480|17|80|
+|max_dist_between_syms (Non-Vectorized)|0.402|1480|17|73|
+|max_sum_between_syms|0.411|1480|17|80|
+|max_sum_between_syms (Non-Vectorized)|0.395|1480|17|73|
+|minimal_points|0.157|2184|24|13|
+|minimal_points (Non-Vectorized)|0.156|2184|24|13|
+|mnist_relu|0.262|24200|400|9|
+|mnist_relu (Non-Vectorized)|0.28|24200|400|9|
+|psi|0.16|2245|40|16|
 |psi (Non-Vectorized)|0.16|2245|40|16|
 ### Binary protocol compilation (32 bit default)
 | Benchmark | Compile time (seconds) | # bit triples | # VM rounds |
 | - | - | - | - |
-|biometric|0.78|25788|95|
-|biometric (Non-Vectorized)|6.551|25788|72|
-|biometric_fast|0.846|22920|104|
-|biometric_fast (Non-Vectorized)|6.174|22920|74|
-|chapterfour_figure_12|0.132|190|9|
-|chapterfour_figure_12 (Non-Vectorized)|0.129|190|9|
-|convex_hull|0.381|5439|30|
-|convex_hull (Non-Vectorized)|0.503|1755|13|
-|count_102|0.646|2300|79|
-|count_102 (Non-Vectorized)|0.688|2300|61|
-|count_10s|0.464|1610|66|
-|count_10s (Non-Vectorized)|0.493|1610|55|
-|count_123|0.504|1638|67|
-|count_123 (Non-Vectorized)|0.508|1638|55|
-|cryptonets_max_pooling|0.87|5700|22|
-|cryptonets_max_pooling (Non-Vectorized)|1.645|5700|22|
-|db_cross_join_trivial|4.647|18993|10|
-|db_cross_join_trivial (Non-Vectorized)|4.517|18900|10|
-|db_variance|121.07|396834|642|
-|db_variance (Non-Vectorized)|122.027|396834|611|
-|inner_product|0.41|3924|46|
-|inner_product (Non-Vectorized)|0.897|3924|39|
-|longest_102|0.958|3300|112|
-|longest_102 (Non-Vectorized)|1.009|3300|94|
-|longest_odd_10|0.833|3080|121|
-|longest_odd_10 (Non-Vectorized)|0.932|3080|77|
-|max_dist_between_syms|0.72|2056|72|
-|max_dist_between_syms (Non-Vectorized)|0.678|2056|72|
-|max_sum_between_syms|0.691|2056|72|
-|max_sum_between_syms (Non-Vectorized)|0.67|2056|72|
-|minimal_points|0.291|1650|12|
-|minimal_points (Non-Vectorized)|0.403|1371|12|
-|mnist_relu|2.778|19000|8|
-|mnist_relu (Non-Vectorized)|6.519|19000|8|
-|psi|0.302|1280|14|
+|biometric|0.795|25788|95|
+|biometric (Non-Vectorized)|6.981|25788|72|
+|biometric_fast|0.895|22920|104|
+|biometric_fast (Non-Vectorized)|6.495|22920|74|
+|chapterfour_figure_12|0.135|190|9|
+|chapterfour_figure_12 (Non-Vectorized)|0.127|190|9|
+|convex_hull|0.384|5439|30|
+|convex_hull (Non-Vectorized)|0.513|1755|13|
+|count_102|0.661|2300|79|
+|count_102 (Non-Vectorized)|0.72|2300|61|
+|count_10s|0.489|1610|66|
+|count_10s (Non-Vectorized)|0.509|1610|55|
+|count_123|0.512|1638|67|
+|count_123 (Non-Vectorized)|0.519|1638|55|
+|cryptonets_max_pooling|0.878|5700|22|
+|cryptonets_max_pooling (Non-Vectorized)|1.629|5700|22|
+|db_cross_join_trivial|4.771|18993|10|
+|db_cross_join_trivial (Non-Vectorized)|4.641|18900|10|
+|db_variance|118.603|396834|642|
+|db_variance (Non-Vectorized)|124.598|396834|611|
+|inner_product|0.42|3924|46|
+|inner_product (Non-Vectorized)|0.917|3924|39|
+|longest_102|0.987|3300|112|
+|longest_102 (Non-Vectorized)|1.033|3300|94|
+|longest_odd_10|0.856|3080|121|
+|longest_odd_10 (Non-Vectorized)|0.951|3080|77|
+|max_dist_between_syms|0.726|2056|72|
+|max_dist_between_syms (Non-Vectorized)|0.703|2056|72|
+|max_sum_between_syms|0.709|2056|72|
+|max_sum_between_syms (Non-Vectorized)|0.693|2056|72|
+|minimal_points|0.299|1650|12|
+|minimal_points (Non-Vectorized)|0.415|1371|12|
+|mnist_relu|2.916|19000|8|
+|mnist_relu (Non-Vectorized)|6.63|19000|8|
+|psi|0.307|1280|14|
 |psi (Non-Vectorized)|0.346|1280|14|
 
 ### Mascot protocol
 | Benchmark | Time (seconds) | Data sent (MB) |
 | - | - | - |
-|biometric|0.230166|19.7196|
-|biometric (Non-Vectorized)|0.263062|19.7196|
-|biometric_fast|0.227426|19.7196|
-|biometric_fast (Non-Vectorized)|0.227692|19.7196|
-|chapterfour_figure_12|0.117779|8.87755|
-|chapterfour_figure_12 (Non-Vectorized)|0.118992|8.87755|
-|convex_hull|1.16136|106.009|
-|convex_hull (Non-Vectorized)|1.09822|106.009|
-|count_102|1.0314|98.5974|
-|count_102 (Non-Vectorized)|1.03202|98.5974|
-|count_10s|0.716723|69.0582|
-|count_10s (Non-Vectorized)|0.709003|69.0582|
-|count_123|0.71653|69.1752|
-|count_123 (Non-Vectorized)|0.736646|69.1752|
-|cryptonets_max_pooling|3.60676|264.745|
-|cryptonets_max_pooling (Non-Vectorized)|2.65931|264.745|
-|db_cross_join_trivial|10.1755|1014.76|
-|db_cross_join_trivial (Non-Vectorized)|10.0684|1014.75|
-|db_variance|2.78784|349.936|
-|db_variance (Non-Vectorized)|2.72409|349.936|
-|inner_product|0.00656917|0.110123|
-|inner_product (Non-Vectorized)|0.00652352|0.110123|
-|longest_102|1.45712|143.098|
-|longest_102 (Non-Vectorized)|1.45623|143.098|
-|longest_odd_10|1.19449|114.329|
-|longest_odd_10 (Non-Vectorized)|1.20288|114.33|
-|max_dist_between_syms|0.649177|61.5599|
-|max_dist_between_syms (Non-Vectorized)|0.64958|61.5599|
-|max_sum_between_syms|0.654555|61.5599|
-|max_sum_between_syms (Non-Vectorized)|0.652541|61.5599|
-|minimal_points|0.830818|79.5515|
-|minimal_points (Non-Vectorized)|0.830067|79.5515|
-|mnist_relu|8.90278|897.666|
-|mnist_relu (Non-Vectorized)|8.95908|897.666|
-|psi|1.1738|114.932|
-|psi (Non-Vectorized)|1.18329|114.932|
+|biometric|0.226661|19.7196|
+|biometric (Non-Vectorized)|0.227861|19.7196|
+|biometric mixed|10.5652|849.978|
+|biometric_fast|0.229492|19.7196|
+|biometric_fast (Non-Vectorized)|0.231067|19.7196|
+|biometric_fast mixed|9.51058|849.978|
+|chapterfour_figure_12|0.122314|8.87755|
+|chapterfour_figure_12 (Non-Vectorized)|0.120281|8.87755|
+|chapterfour_figure_12 mixed|0.129911|9.56406|
+|convex_hull|1.13284|106.009|
+|convex_hull (Non-Vectorized)|1.13122|106.009|
+|count_102|1.04553|98.5974|
+|count_102 (Non-Vectorized)|1.04746|98.5974|
+|count_10s|0.716421|69.0582|
+|count_10s (Non-Vectorized)|0.719802|69.0582|
+|count_123|0.751671|69.1752|
+|count_123 (Non-Vectorized)|0.73714|69.1752|
+|cryptonets_max_pooling|2.65986|264.745|
+|cryptonets_max_pooling (Non-Vectorized)|2.66307|264.745|
+|cryptonets_max_pooling mixed|9.66134|859.184|
+|db_cross_join_trivial|10.1649|1014.76|
+|db_cross_join_trivial (Non-Vectorized)|10.0992|1014.75|
+|db_cross_join_trivial mixed|22.8083|2078.96|
+|db_variance|2.74878|349.936|
+|db_variance (Non-Vectorized)|2.67715|349.936|
+|db_variance mixed|100.127|11822.0|
+|inner_product|0.00683592|0.110123|
+|inner_product (Non-Vectorized)|0.00662408|0.110123|
+|inner_product mixed|0.00664009|0.110123|
+|longest_102|1.46631|143.098|
+|longest_102 (Non-Vectorized)|1.46778|143.098|
+|longest_odd_10|1.20504|114.329|
+|longest_odd_10 (Non-Vectorized)|1.21157|114.33|
+|max_dist_between_syms|0.656548|61.5599|
+|max_dist_between_syms (Non-Vectorized)|0.656544|61.5599|
+|max_dist_between_syms mixed|9.59393|849.657|
+|max_sum_between_syms|0.651347|61.5599|
+|max_sum_between_syms (Non-Vectorized)|0.651061|61.5599|
+|max_sum_between_syms mixed|9.71778|849.657|
+|minimal_points|0.822426|79.5515|
+|minimal_points (Non-Vectorized)|0.834422|79.5515|
+|mnist_relu|8.89389|897.666|
+|mnist_relu (Non-Vectorized)|8.83176|897.666|
+|mnist_relu mixed|10.0382|897.29|
+|psi|1.18523|114.932|
+|psi (Non-Vectorized)|1.17662|114.932|
 
 ### Semi-Bmr protocol
 | Benchmark | Time (seconds) | Data sent (MB) |
 | - | - | - |
-|biometric|3.8096|728.81|
-|biometric (Non-Vectorized)|3.6928|728.81|
-|biometric_fast|3.3183|647.489|
-|biometric_fast (Non-Vectorized)|3.27862|647.489|
-|chapterfour_figure_12|0.0543013|6.25733|
-|chapterfour_figure_12 (Non-Vectorized)|0.0556955|6.25733|
-|convex_hull|0.805489|153.29|
-|convex_hull (Non-Vectorized)|0.286238|50.0566|
-|count_102|0.36507|65.6899|
-|count_102 (Non-Vectorized)|0.361675|65.6899|
-|count_10s|0.264131|46.9119|
-|count_10s (Non-Vectorized)|0.261327|46.9119|
-|count_123|0.263138|46.9235|
-|count_123 (Non-Vectorized)|0.262125|46.9235|
-|cryptonets_max_pooling|0.89721|162.651|
-|cryptonets_max_pooling (Non-Vectorized)|0.905269|162.651|
-|db_cross_join_trivial|2.88052|534.947|
-|db_cross_join_trivial (Non-Vectorized)|2.89875|534.908|
-|db_variance|56.9184|11173.4|
-|db_variance (Non-Vectorized)|57.0556|11173.4|
-|inner_product|0.596512|112.593|
-|inner_product (Non-Vectorized)|0.596721|112.593|
-|longest_102|0.499942|93.8424|
-|longest_102 (Non-Vectorized)|0.499767|93.8424|
-|longest_odd_10|0.466495|87.5872|
-|longest_odd_10 (Non-Vectorized)|0.461313|87.5872|
-|max_dist_between_syms|0.329537|59.4247|
-|max_dist_between_syms (Non-Vectorized)|0.331543|59.4247|
-|max_sum_between_syms|0.319128|59.4247|
-|max_sum_between_syms (Non-Vectorized)|0.317173|59.4247|
-|minimal_points|0.268542|46.9311|
-|minimal_points (Non-Vectorized)|0.236592|40.6513|
-|mnist_relu|3.09997|535.014|
-|mnist_relu (Non-Vectorized)|3.11676|535.014|
-|psi|0.226545|37.5311|
-|psi (Non-Vectorized)|0.214308|37.5311|
+|biometric|3.76982|728.81|
+|biometric (Non-Vectorized)|3.77971|728.81|
+|biometric mixed|3.78258|728.81|
+|biometric_fast|3.3327|647.489|
+|biometric_fast (Non-Vectorized)|3.33512|647.489|
+|biometric_fast mixed|3.29434|647.489|
+|chapterfour_figure_12|0.0537429|6.25733|
+|chapterfour_figure_12 (Non-Vectorized)|0.0539764|6.25733|
+|chapterfour_figure_12 mixed|0.0550496|6.25733|
+|convex_hull|0.809208|153.29|
+|convex_hull (Non-Vectorized)|0.290432|50.0566|
+|convex_hull mixed|0.804447|153.29|
+|count_102|0.357357|65.6899|
+|count_102 (Non-Vectorized)|0.375466|65.6899|
+|count_102 mixed|0.405405|75.0643|
+|count_10s|0.259318|46.9119|
+|count_10s (Non-Vectorized)|0.279479|46.9119|
+|count_10s mixed|0.291568|53.1666|
+|count_123|0.26443|46.9235|
+|count_123 (Non-Vectorized)|0.260568|46.9235|
+|count_123 mixed|0.690371|131.386|
+|cryptonets_max_pooling|0.891315|162.651|
+|cryptonets_max_pooling (Non-Vectorized)|0.89603|162.651|
+|cryptonets_max_pooling mixed|0.895437|162.651|
+|db_cross_join_trivial|2.90908|534.947|
+|db_cross_join_trivial (Non-Vectorized)|3.01082|534.908|
+|db_cross_join_trivial mixed|2.90053|534.947|
+|db_variance|57.2726|11173.4|
+|db_variance (Non-Vectorized)|56.9296|11173.4|
+|db_variance mixed|57.2856|11173.4|
+|inner_product|0.604873|112.593|
+|inner_product (Non-Vectorized)|0.595643|112.593|
+|inner_product mixed|0.610136|112.593|
+|longest_102|0.510455|93.8424|
+|longest_102 (Non-Vectorized)|0.504264|93.8424|
+|longest_102 mixed|1.1212|215.823|
+|longest_odd_10|0.470773|87.5872|
+|longest_odd_10 (Non-Vectorized)|0.468811|87.5872|
+|longest_odd_10 mixed|0.501177|93.854|
+|max_dist_between_syms|0.330584|59.4247|
+|max_dist_between_syms (Non-Vectorized)|0.332332|59.4247|
+|max_dist_between_syms mixed|0.325646|59.4247|
+|max_sum_between_syms|0.323838|59.4247|
+|max_sum_between_syms (Non-Vectorized)|0.331754|59.4247|
+|max_sum_between_syms mixed|0.331526|59.4247|
+|minimal_points|0.270836|46.9311|
+|minimal_points (Non-Vectorized)|0.237463|40.6513|
+|minimal_points mixed|0.795317|150.125|
+|mnist_relu|3.12923|535.014|
+|mnist_relu (Non-Vectorized)|3.14898|535.014|
+|mnist_relu mixed|3.13069|535.014|
+|psi|0.223181|37.5311|
+|psi (Non-Vectorized)|0.222408|37.5311|
+|psi mixed|0.221842|37.5311|
 
 ### Semi protocol
 | Benchmark | Time (seconds) | Data sent (MB) |
 | - | - | - |
-|biometric|0.0304889|1.61202|
-|biometric (Non-Vectorized)|0.0311638|1.61202|
-|biometric_fast|0.0309023|1.61202|
-|biometric_fast (Non-Vectorized)|0.0311625|1.61202|
-|chapterfour_figure_12|0.0175341|0.794624|
-|chapterfour_figure_12 (Non-Vectorized)|0.0177264|0.794624|
-|convex_hull|0.116887|9.1351|
-|convex_hull (Non-Vectorized)|0.116972|9.1351|
-|count_102|0.0864496|6.0977|
-|count_102 (Non-Vectorized)|0.086845|6.0977|
-|count_10s|0.0636581|4.28294|
-|count_10s (Non-Vectorized)|0.0621165|4.28294|
-|count_123|0.0628956|4.30159|
-|count_123 (Non-Vectorized)|0.0655617|4.30159|
-|cryptonets_max_pooling|0.266409|22.7714|
-|cryptonets_max_pooling (Non-Vectorized)|0.262235|22.7714|
-|db_cross_join_trivial|0.683422|62.8005|
-|db_cross_join_trivial (Non-Vectorized)|0.682169|62.7944|
-|db_variance|0.259578|24.9527|
-|db_variance (Non-Vectorized)|0.240922|24.9527|
-|inner_product|0.00480048|0.04864|
-|inner_product (Non-Vectorized)|0.00472189|0.04864|
-|longest_102|0.131167|9.94978|
-|longest_102 (Non-Vectorized)|0.127947|9.94978|
-|longest_odd_10|0.110624|7.93893|
-|longest_odd_10 (Non-Vectorized)|0.110126|7.93893|
-|max_dist_between_syms|0.0701129|4.67201|
-|max_dist_between_syms (Non-Vectorized)|0.0711467|4.67201|
-|max_sum_between_syms|0.0713217|4.67201|
-|max_sum_between_syms (Non-Vectorized)|0.0694524|4.67201|
-|minimal_points|0.0880047|6.87126|
-|minimal_points (Non-Vectorized)|0.0953767|6.87126|
-|mnist_relu|0.850734|78.2001|
-|mnist_relu (Non-Vectorized)|0.839904|78.2001|
-|psi|0.0936447|7.09977|
-|psi (Non-Vectorized)|0.09365|7.09977|
+|biometric|0.0312938|1.61202|
+|biometric (Non-Vectorized)|0.0314634|1.61202|
+|biometric mixed|0.0629041|0.290945|
+|biometric_fast|0.031724|1.61202|
+|biometric_fast (Non-Vectorized)|0.0316908|1.61202|
+|biometric_fast mixed|0.063459|0.290945|
+|chapterfour_figure_12|0.0176218|0.794624|
+|chapterfour_figure_12 (Non-Vectorized)|0.017608|0.794624|
+|chapterfour_figure_12 mixed|0.00505411|0.040584|
+|convex_hull|0.117801|9.1351|
+|convex_hull (Non-Vectorized)|0.117435|9.1351|
+|convex_hull mixed|0.0673756|0.331006|
+|count_102|0.0888691|6.0977|
+|count_102 (Non-Vectorized)|0.0871363|6.0977|
+|count_102 mixed|0.0617506|0.269036|
+|count_10s|0.0624099|4.28294|
+|count_10s (Non-Vectorized)|0.0637163|4.28294|
+|count_10s mixed|0.0601816|0.263907|
+|count_123|0.0627169|4.30159|
+|count_123 (Non-Vectorized)|0.0646195|4.30159|
+|count_123 mixed|0.0759157|0.331495|
+|cryptonets_max_pooling|0.267467|22.7714|
+|cryptonets_max_pooling (Non-Vectorized)|0.26376|22.7714|
+|cryptonets_max_pooling mixed|0.137878|0.60512|
+|db_cross_join_trivial|0.690684|62.8005|
+|db_cross_join_trivial (Non-Vectorized)|0.688987|62.7944|
+|db_cross_join_trivial mixed|2.11757|8.87613|
+|db_variance|0.233303|24.9527|
+|db_variance (Non-Vectorized)|0.235472|24.9527|
+|db_variance mixed|1.12833|5.15715|
+|inner_product|0.00549822|0.04864|
+|inner_product (Non-Vectorized)|0.00514961|0.04864|
+|inner_product mixed|0.00492656|0.04864|
+|longest_102|0.127779|9.94978|
+|longest_102 (Non-Vectorized)|0.128177|9.94978|
+|longest_102 mixed|0.0831966|0.366134|
+|longest_odd_10|0.109739|7.93893|
+|longest_odd_10 (Non-Vectorized)|0.110445|7.93893|
+|longest_odd_10 mixed|0.0692719|0.292034|
+|max_dist_between_syms|0.072036|4.67201|
+|max_dist_between_syms (Non-Vectorized)|0.0715042|4.67201|
+|max_dist_between_syms mixed|0.0522933|0.223576|
+|max_sum_between_syms|0.070976|4.67201|
+|max_sum_between_syms (Non-Vectorized)|0.0707074|4.67201|
+|max_sum_between_syms mixed|0.055148|0.223577|
+|minimal_points|0.088499|6.87126|
+|minimal_points (Non-Vectorized)|0.0905084|6.87126|
+|minimal_points mixed|0.073038|0.313176|
+|mnist_relu|0.846033|78.2001|
+|mnist_relu (Non-Vectorized)|0.839301|78.2001|
+|mnist_relu mixed|0.442964|2.07145|
+|psi|0.09472|7.09977|
+|psi (Non-Vectorized)|0.0929429|7.09977|
+|psi mixed|0.0639434|0.281092|
 
 ### Hemi protocol
 | Benchmark | Time (seconds) | Data sent (MB) |
 | - | - | - |
-|biometric|0.169696|1.61721|
-|biometric (Non-Vectorized)|0.171838|1.61721|
-|biometric_fast|0.171318|1.61721|
-|biometric_fast (Non-Vectorized)|0.170063|1.61721|
-|chapterfour_figure_12|0.171543|1.60469|
-|chapterfour_figure_12 (Non-Vectorized)|0.172393|1.60469|
-|convex_hull|0.170803|1.72941|
-|convex_hull (Non-Vectorized)|0.170762|1.72941|
-|count_102|0.172732|1.7124|
-|count_102 (Non-Vectorized)|0.172316|1.7124|
-|count_10s|0.17064|1.67325|
-|count_10s (Non-Vectorized)|0.173606|1.67325|
-|count_123|0.170624|1.67347|
-|count_123 (Non-Vectorized)|0.174657|1.67347|
-|cryptonets_max_pooling|0.177423|1.94109|
-|cryptonets_max_pooling (Non-Vectorized)|0.174524|1.94109|
-|db_cross_join_trivial|0.449305|5.87349|
-|db_cross_join_trivial (Non-Vectorized)|0.466451|5.86739|
-|db_variance|0.252146|2.42505|
-|db_variance (Non-Vectorized)|0.250802|2.42505|
-|inner_product|0.16324|1.58308|
-|inner_product (Non-Vectorized)|0.164562|1.58308|
-|longest_102|0.179311|1.76625|
-|longest_102 (Non-Vectorized)|0.177185|1.76625|
-|longest_odd_10|0.177388|1.73131|
-|longest_odd_10 (Non-Vectorized)|0.180337|1.73131|
-|max_dist_between_syms|0.176128|1.6691|
-|max_dist_between_syms (Non-Vectorized)|0.18854|1.6691|
-|max_sum_between_syms|0.17398|1.6691|
-|max_sum_between_syms (Non-Vectorized)|0.174388|1.6691|
-|minimal_points|0.171574|1.69584|
-|minimal_points (Non-Vectorized)|0.170413|1.69584|
-|mnist_relu|0.464394|5.86395|
-|mnist_relu (Non-Vectorized)|0.447625|5.86395|
-|psi|0.173552|1.73081|
-|psi (Non-Vectorized)|0.172497|1.73081|
+|biometric|0.171479|1.61721|
+|biometric (Non-Vectorized)|0.169967|1.61721|
+|biometric mixed|0.226934|1.79528|
+|biometric_fast|0.170235|1.61721|
+|biometric_fast (Non-Vectorized)|0.170478|1.61721|
+|biometric_fast mixed|0.224461|1.79528|
+|chapterfour_figure_12|0.169252|1.60469|
+|chapterfour_figure_12 (Non-Vectorized)|0.169242|1.60469|
+|chapterfour_figure_12 mixed|0.00462992|0.02093|
+|convex_hull|0.171079|1.72941|
+|convex_hull (Non-Vectorized)|0.170937|1.72941|
+|convex_hull mixed|0.231213|1.87835|
+|count_102|0.173994|1.7124|
+|count_102 (Non-Vectorized)|0.172258|1.7124|
+|count_102 mixed|0.224375|1.81945|
+|count_10s|0.171526|1.67325|
+|count_10s (Non-Vectorized)|0.171508|1.67325|
+|count_10s mixed|0.230221|1.81125|
+|count_123|0.172571|1.67347|
+|count_123 (Non-Vectorized)|0.171324|1.67347|
+|count_123 mixed|0.23707|1.87884|
+|cryptonets_max_pooling|0.176584|1.94109|
+|cryptonets_max_pooling (Non-Vectorized)|0.176314|1.94109|
+|cryptonets_max_pooling mixed|0.128795|0.595293|
+|db_cross_join_trivial|0.450297|5.87349|
+|db_cross_join_trivial (Non-Vectorized)|0.448366|5.86739|
+|db_cross_join_trivial mixed|1.83019|8.8663|
+|db_variance|0.25043|2.42505|
+|db_variance (Non-Vectorized)|0.254576|2.42505|
+|db_variance mixed|1.27103|7.09419|
+|inner_product|0.164069|1.58308|
+|inner_product (Non-Vectorized)|0.163329|1.58308|
+|inner_product mixed|0.163598|1.58308|
+|longest_102|0.179106|1.76625|
+|longest_102 (Non-Vectorized)|0.177882|1.76625|
+|longest_102 mixed|0.24129|1.91655|
+|longest_odd_10|0.178743|1.73131|
+|longest_odd_10 (Non-Vectorized)|0.179477|1.73131|
+|longest_odd_10 mixed|0.231685|1.84245|
+|max_dist_between_syms|0.175799|1.6691|
+|max_dist_between_syms (Non-Vectorized)|0.175007|1.6691|
+|max_dist_between_syms mixed|0.0549184|0.213749|
+|max_sum_between_syms|0.175533|1.6691|
+|max_sum_between_syms (Non-Vectorized)|0.174579|1.6691|
+|max_sum_between_syms mixed|0.05738|0.21375|
+|minimal_points|0.17172|1.69584|
+|minimal_points (Non-Vectorized)|0.171545|1.69584|
+|minimal_points mixed|0.232253|1.86359|
+|mnist_relu|0.45686|5.86395|
+|mnist_relu (Non-Vectorized)|0.451878|5.86395|
+|mnist_relu mixed|0.450693|2.06163|
+|psi|0.173236|1.73081|
+|psi (Non-Vectorized)|0.172664|1.73081|
+|psi mixed|0.228551|1.82843|
 
 ### Temi protocol
 | Benchmark | Time (seconds) | Data sent (MB) |
 | - | - | - |
-|biometric|0.126684|2.00169|
-|biometric (Non-Vectorized)|0.124858|2.00161|
-|biometric_fast|0.12457|2.00166|
-|biometric_fast (Non-Vectorized)|0.125333|2.00173|
-|chapterfour_figure_12|0.121115|1.9864|
-|chapterfour_figure_12 (Non-Vectorized)|0.121404|1.98654|
-|convex_hull|0.140424|2.14631|
-|convex_hull (Non-Vectorized)|0.140132|2.14625|
-|count_102|0.145831|2.1341|
-|count_102 (Non-Vectorized)|0.145479|2.1342|
-|count_10s|0.139713|2.08544|
-|count_10s (Non-Vectorized)|0.138103|2.0855|
-|count_123|0.138431|2.08574|
-|count_123 (Non-Vectorized)|0.138308|2.08568|
-|cryptonets_max_pooling|0.283024|4.36953|
-|cryptonets_max_pooling (Non-Vectorized)|0.282183|4.36944|
-|db_cross_join_trivial|1.03776|15.3955|
-|db_cross_join_trivial (Non-Vectorized)|1.03835|15.3898|
-|db_variance|0.39999|5.64993|
-|db_variance (Non-Vectorized)|0.399534|5.64987|
-|inner_product|0.119174|1.97216|
-|inner_product (Non-Vectorized)|0.118883|1.97212|
-|longest_102|0.160226|2.20722|
-|longest_102 (Non-Vectorized)|0.158052|2.2072|
-|longest_odd_10|0.151671|2.15998|
-|longest_odd_10 (Non-Vectorized)|0.153729|2.15992|
-|max_dist_between_syms|0.136629|2.07315|
-|max_dist_between_syms (Non-Vectorized)|0.136962|2.07313|
-|max_sum_between_syms|0.137443|2.07319|
-|max_sum_between_syms (Non-Vectorized)|0.136622|2.07307|
-|minimal_points|0.135205|2.10278|
-|minimal_points (Non-Vectorized)|0.134927|2.10284|
-|mnist_relu|0.841999|13.2359|
-|mnist_relu (Non-Vectorized)|1.03987|13.2359|
-|psi|0.257014|2.16101|
-|psi (Non-Vectorized)|0.149201|2.16101|
+|biometric|0.125469|2.00157|
+|biometric (Non-Vectorized)|0.125656|2.00162|
+|biometric mixed|0.176735|2.20444|
+|biometric_fast|0.126827|2.00166|
+|biometric_fast (Non-Vectorized)|0.125443|2.0018|
+|biometric_fast mixed|0.181906|2.20458|
+|chapterfour_figure_12|0.122412|1.98648|
+|chapterfour_figure_12 (Non-Vectorized)|0.121581|1.98646|
+|chapterfour_figure_12 mixed|0.00471834|0.02093|
+|convex_hull|0.140817|2.14633|
+|convex_hull (Non-Vectorized)|0.140987|2.14627|
+|convex_hull mixed|0.184855|2.25758|
+|count_102|0.146197|2.13417|
+|count_102 (Non-Vectorized)|0.146773|2.13416|
+|count_102 mixed|0.18316|2.19868|
+|count_10s|0.138238|2.08541|
+|count_10s (Non-Vectorized)|0.141213|2.08553|
+|count_10s mixed|0.181893|2.19062|
+|count_123|0.138507|2.08577|
+|count_123 (Non-Vectorized)|0.138224|2.08572|
+|count_123 mixed|0.191067|2.25812|
+|cryptonets_max_pooling|0.286974|4.36939|
+|cryptonets_max_pooling (Non-Vectorized)|0.285288|4.36945|
+|cryptonets_max_pooling mixed|0.240505|2.57559|
+|db_cross_join_trivial|1.03708|15.3958|
+|db_cross_join_trivial (Non-Vectorized)|1.03909|15.3895|
+|db_cross_join_trivial mixed|1.97264|10.8451|
+|db_variance|0.403719|5.64984|
+|db_variance (Non-Vectorized)|0.400132|5.65001|
+|db_variance mixed|1.19379|7.62521|
+|inner_product|0.119736|1.97212|
+|inner_product (Non-Vectorized)|0.120449|1.97208|
+|inner_product mixed|0.122648|1.97209|
+|longest_102|0.160807|2.20718|
+|longest_102 (Non-Vectorized)|0.158774|2.20731|
+|longest_102 mixed|0.206058|2.29582|
+|longest_odd_10|0.152246|2.15999|
+|longest_odd_10 (Non-Vectorized)|0.154462|2.15992|
+|longest_odd_10 mixed|0.191649|2.2217|
+|max_dist_between_syms|0.137741|2.07313|
+|max_dist_between_syms (Non-Vectorized)|0.138639|2.07314|
+|max_dist_between_syms mixed|0.169482|2.1961|
+|max_sum_between_syms|0.137966|2.07312|
+|max_sum_between_syms (Non-Vectorized)|0.137063|2.07317|
+|max_sum_between_syms mixed|0.171076|2.19608|
+|minimal_points|0.13603|2.1028|
+|minimal_points (Non-Vectorized)|0.135309|2.10274|
+|minimal_points mixed|0.191146|2.2428|
+|mnist_relu|0.843111|13.2358|
+|mnist_relu (Non-Vectorized)|0.852373|13.2356|
+|mnist_relu mixed|0.54596|4.02964|
+|psi|0.149491|2.16093|
+|psi (Non-Vectorized)|0.149366|2.16098|
+|psi mixed|0.180402|2.2078|
 
 ### Soho protocol
 | Benchmark | Time (seconds) | Data sent (MB) |
 | - | - | - |
-|biometric|1.11011|8.6347|
-|biometric (Non-Vectorized)|1.11027|8.63486|
-|biometric_fast|1.11364|8.63474|
-|biometric_fast (Non-Vectorized)|1.11409|8.63489|
-|chapterfour_figure_12|1.10685|8.62313|
-|chapterfour_figure_12 (Non-Vectorized)|1.11448|8.62315|
-|convex_hull|1.12904|8.74591|
-|convex_hull (Non-Vectorized)|1.12813|8.74582|
-|count_102|1.12633|8.72397|
-|count_102 (Non-Vectorized)|1.13109|8.72417|
-|count_10s|1.1758|8.69047|
-|count_10s (Non-Vectorized)|1.13045|8.69056|
-|count_123|1.12777|8.69069|
-|count_123 (Non-Vectorized)|1.12615|8.69072|
-|cryptonets_max_pooling|1.14359|8.9464|
-|cryptonets_max_pooling (Non-Vectorized)|1.15062|8.94631|
-|db_cross_join_trivial|2.98971|18.3526|
-|db_cross_join_trivial (Non-Vectorized)|2.42533|18.3465|
-|db_variance|1.62088|11.7947|
-|db_variance (Non-Vectorized)|1.61101|11.7944|
-|inner_product|0.62885|5.49077|
-|inner_product (Non-Vectorized)|0.631575|5.49081|
-|longest_102|1.1366|8.78049|
-|longest_102 (Non-Vectorized)|1.14658|8.78028|
-|longest_odd_10|1.13526|8.7464|
-|longest_odd_10 (Non-Vectorized)|1.13953|8.74644|
-|max_dist_between_syms|1.11897|8.68629|
-|max_dist_between_syms (Non-Vectorized)|1.13022|8.68638|
-|max_sum_between_syms|1.12599|8.68631|
-|max_sum_between_syms (Non-Vectorized)|1.12176|8.6863|
-|minimal_points|1.11184|8.71249|
-|minimal_points (Non-Vectorized)|1.1137|8.7124|
-|mnist_relu|2.35778|18.3308|
-|mnist_relu (Non-Vectorized)|2.33848|18.3307|
-|psi|1.13337|8.7426|
-|psi (Non-Vectorized)|1.18703|8.74275|
+|biometric|1.11209|8.63486|
+|biometric (Non-Vectorized)|1.11226|8.63491|
+|biometric mixed|0.682186|5.72297|
+|biometric_fast|1.11992|8.63481|
+|biometric_fast (Non-Vectorized)|1.11469|8.63497|
+|biometric_fast mixed|0.683309|5.72302|
+|chapterfour_figure_12|1.11047|8.62304|
+|chapterfour_figure_12 (Non-Vectorized)|1.10545|8.62323|
+|chapterfour_figure_12 mixed|0.00502833|0.02093|
+|convex_hull|1.12119|8.74587|
+|convex_hull (Non-Vectorized)|1.12696|8.7459|
+|convex_hull mixed|0.697025|5.77619|
+|count_102|1.12967|8.72401|
+|count_102 (Non-Vectorized)|1.19261|8.72424|
+|count_102 mixed|0.690933|5.71732|
+|count_10s|1.12723|8.69041|
+|count_10s (Non-Vectorized)|1.12537|8.69044|
+|count_10s mixed|0.693476|5.70919|
+|count_123|1.13559|8.69074|
+|count_123 (Non-Vectorized)|1.12589|8.69075|
+|count_123 mixed|0.706866|5.77677|
+|cryptonets_max_pooling|1.15294|8.94624|
+|cryptonets_max_pooling (Non-Vectorized)|1.15444|8.94627|
+|cryptonets_max_pooling mixed|0.745064|6.0942|
+|db_cross_join_trivial|2.41897|18.3526|
+|db_cross_join_trivial (Non-Vectorized)|2.44396|18.3466|
+|db_cross_join_trivial mixed|2.52153|14.3638|
+|db_variance|1.6249|11.7944|
+|db_variance (Non-Vectorized)|1.61476|11.7944|
+|db_variance mixed|2.02445|12.3235|
+|inner_product|0.767102|5.49077|
+|inner_product (Non-Vectorized)|0.630579|5.49071|
+|inner_product mixed|0.631054|5.49072|
+|longest_102|1.14391|8.78059|
+|longest_102 (Non-Vectorized)|1.14551|8.78028|
+|longest_102 mixed|0.714356|5.81437|
+|longest_odd_10|1.13487|8.74653|
+|longest_odd_10 (Non-Vectorized)|1.14193|8.74655|
+|longest_odd_10 mixed|0.703197|5.74025|
+|max_dist_between_syms|1.12813|8.68645|
+|max_dist_between_syms (Non-Vectorized)|1.12068|8.68626|
+|max_dist_between_syms mixed|0.671167|5.71462|
+|max_sum_between_syms|1.12436|8.68632|
+|max_sum_between_syms (Non-Vectorized)|1.13463|8.68631|
+|max_sum_between_syms mixed|0.67685|5.71474|
+|minimal_points|1.11708|8.71242|
+|minimal_points (Non-Vectorized)|1.12002|8.71253|
+|minimal_points mixed|0.706155|5.7614|
+|mnist_relu|2.36732|18.3311|
+|mnist_relu (Non-Vectorized)|2.34066|18.3308|
+|mnist_relu mixed|1.07065|7.54832|
+|psi|1.13198|8.7425|
+|psi (Non-Vectorized)|1.12928|8.74271|
+|psi mixed|0.696356|5.72633|
 
 ### Semi-Bin protocol
 | Benchmark | Time (seconds) | Data sent (MB) |
 | - | - | - |
-|biometric|0.0377813|0.476873|
-|biometric (Non-Vectorized)|0.041078|0.319821|
-|biometric_fast|0.0379116|0.476527|
-|biometric_fast (Non-Vectorized)|0.0427634|0.319105|
-|chapterfour_figure_12|0.027577|0.113894|
-|chapterfour_figure_12 (Non-Vectorized)|0.0276661|0.113894|
-|convex_hull|0.027192|0.11637|
-|convex_hull (Non-Vectorized)|0.0264772|0.114326|
-|count_102|0.02945|0.114587|
-|count_102 (Non-Vectorized)|0.0285997|0.114445|
-|count_10s|0.0288013|0.114296|
-|count_10s (Non-Vectorized)|0.028934|0.114268|
-|count_123|0.029652|0.114304|
-|count_123 (Non-Vectorized)|0.0283992|0.114274|
-|cryptonets_max_pooling|0.0275844|0.115612|
-|cryptonets_max_pooling (Non-Vectorized)|0.0276871|0.115423|
-|db_cross_join_trivial|0.0338585|0.218976|
-|db_cross_join_trivial (Non-Vectorized)|0.0335752|0.218914|
-|db_variance|0.359138|4.35979|
-|db_variance (Non-Vectorized)|0.266504|4.10358|
-|inner_product|0.18034|16.1209|
-|inner_product (Non-Vectorized)|0.0278609|0.114841|
-|longest_102|0.0497591|0.114854|
-|longest_102 (Non-Vectorized)|0.030124|0.114702|
-|longest_odd_10|0.0326449|0.114651|
-|longest_odd_10 (Non-Vectorized)|0.03016|0.114644|
-|max_dist_between_syms|0.0292235|0.114383|
-|max_dist_between_syms (Non-Vectorized)|0.0293566|0.114383|
-|max_sum_between_syms|0.0298473|0.114383|
-|max_sum_between_syms (Non-Vectorized)|0.0298112|0.114383|
-|minimal_points|0.0271852|0.11459|
-|minimal_points (Non-Vectorized)|0.0256991|0.114231|
-|mnist_relu|0.0269924|0.219939|
-|mnist_relu (Non-Vectorized)|0.0354699|0.219939|
-|psi|0.0365228|0.114242|
-|psi (Non-Vectorized)|0.0270665|0.114204|
+|biometric|0.0381375|0.476873|
+|biometric (Non-Vectorized)|0.0428893|0.319821|
+|biometric mixed|0.0380092|0.476873|
+|biometric_fast|0.0381939|0.476527|
+|biometric_fast (Non-Vectorized)|0.0429004|0.319105|
+|biometric_fast mixed|0.0383491|0.476527|
+|chapterfour_figure_12|0.0193177|0.113894|
+|chapterfour_figure_12 (Non-Vectorized)|0.0263754|0.113894|
+|chapterfour_figure_12 mixed|0.0268536|0.113894|
+|convex_hull|0.0270875|0.11637|
+|convex_hull (Non-Vectorized)|0.026804|0.114326|
+|convex_hull mixed|0.0279603|0.11637|
+|count_102|0.0303265|0.114587|
+|count_102 (Non-Vectorized)|0.0297333|0.114445|
+|count_102 mixed|0.0269271|0.114711|
+|count_10s|0.0293421|0.114296|
+|count_10s (Non-Vectorized)|0.0279935|0.114268|
+|count_10s mixed|0.0298332|0.114358|
+|count_123|0.0299135|0.114304|
+|count_123 (Non-Vectorized)|0.0284215|0.114274|
+|count_123 mixed|0.0292822|0.115164|
+|cryptonets_max_pooling|0.0499425|0.115612|
+|cryptonets_max_pooling (Non-Vectorized)|0.0281583|0.115423|
+|cryptonets_max_pooling mixed|0.0281798|0.115612|
+|db_cross_join_trivial|0.0267737|0.218976|
+|db_cross_join_trivial (Non-Vectorized)|0.0329494|0.218914|
+|db_cross_join_trivial mixed|0.0326662|0.218976|
+|db_variance|0.268101|4.35979|
+|db_variance (Non-Vectorized)|0.278056|4.10358|
+|db_variance mixed|0.27059|4.35979|
+|inner_product|0.182206|16.1209|
+|inner_product (Non-Vectorized)|0.0282895|0.114841|
+|inner_product mixed|0.186411|16.1209|
+|longest_102|0.0325462|0.114854|
+|longest_102 (Non-Vectorized)|0.0306875|0.114702|
+|longest_102 mixed|0.0347113|0.116574|
+|longest_odd_10|0.0321545|0.114651|
+|longest_odd_10 (Non-Vectorized)|0.0296566|0.114644|
+|longest_odd_10 mixed|0.0319271|0.114713|
+|max_dist_between_syms|0.0313714|0.114383|
+|max_dist_between_syms (Non-Vectorized)|0.0294033|0.114383|
+|max_dist_between_syms mixed|0.0297193|0.114383|
+|max_sum_between_syms|0.0302563|0.114383|
+|max_sum_between_syms (Non-Vectorized)|0.0299474|0.114383|
+|max_sum_between_syms mixed|0.028883|0.114383|
+|minimal_points|0.0274617|0.11459|
+|minimal_points (Non-Vectorized)|0.0263946|0.114231|
+|minimal_points mixed|0.0295619|0.116984|
+|mnist_relu|0.0333246|0.219939|
+|mnist_relu (Non-Vectorized)|0.0344533|0.219939|
+|mnist_relu mixed|0.0324346|0.219939|
+|psi|0.0269793|0.114242|
+|psi (Non-Vectorized)|0.0264127|0.114204|
+|psi mixed|0.0266792|0.114242|
 
 ## Compiler stages with different benchmarks
 ### `biometric`
@@ -741,7 +859,7 @@ def biometric(C!0: shared[list[int; ?]], D!0: plaintext[int], S!0: shared[list[i
 #### Mixed configuration
 ```Total cost:	29277.51
 Input vars:	{C!0: {'A'}, S!0: {'A'}}
-Constants:	{10000: {'Y'}, 0: {'Y', 'A'}}
+Constants:	{10000: {'Y'}, 0: {'A', 'Y'}}
 Plaintext vars:	{}
 min_sum!1 = 10000: _ -> {'Y'} for 0.00 * 1 = 0.00
 min_index!1 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
@@ -756,7 +874,7 @@ d!3{N!0, D!0}[] = (!6!0{N!0, D!0}[] - !7!0{N!0, D!0}[]): A -> {} for 1163.85 * 1
 p!3{N!0, D!0}[] = (d!3{N!0, D!0}[] * d!3{N!0, D!0}[]): A -> {} for 3515.59 * 1 = 3515.59
 	sum!3{N!0}[!12!0] = Φ(!5!0{N!0}[!12!0], sum!4{N!0}[(!12!0 - 1)]): A -> {} for 0.00 * 4 = 0.00
 	sum!4{N!0}[!12!0] = (sum!3{N!0}[!12!0] + p!3{N!0}[!12!0]): A -> {} for 1088.57 * 4 = 4354.26
-!8!0{N!0}[] = drop_dim(sum!4{N!0, D!0}[]): _ -> {'Y', 'A'} for 2528.10 * 1 = 2528.10 (A->Y)
+!8!0{N!0}[] = drop_dim(sum!4{N!0, D!0}[]): _ -> {'A', 'Y'} for 2528.10 * 1 = 2528.10 (A->Y)
 	min_sum!2{}[!14!0] = Φ(!3!0{}[!14!0], min_sum!4{}[(!14!0 - 1)]): Y -> {} for 0.00 * 4 = 0.00
 	!1!2{}[!14!0] = (!8!0{}[!14!0] < min_sum!2{}[!14!0]): Y -> {} for 1479.81 * 4 = 5919.24
 	min_sum!4{}[!14!0] = MUX(!1!2{}[!14!0], !8!0{}[!14!0], min_sum!2{}[!14!0]): Y -> {} for 1474.56 * 4 = 5898.23
@@ -942,8 +1060,8 @@ std::tuple<encrypto::motion::SecureUnsignedInteger, encrypto::motion::SecureUnsi
     std::uint32_t _MPC_PLAINTEXT_sum_2;
 
     // Constant initializations
-    encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_0 = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(std::uint32_t(0)), 0);
-    encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_0_A = party->In<encrypto::motion::MpcProtocol::kArithmeticGmw>(std::uint32_t(0), 0);
+    encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_0 = party->In<encrypto::motion::MpcProtocol::kArithmeticGmw>(std::uint32_t(0), 0);
+    encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_0_Y = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(std::uint32_t(0)), 0);
     encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_10000 = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(std::uint32_t(10000)), 0);
 
     // Plaintext parameter assignments
@@ -951,9 +1069,9 @@ std::tuple<encrypto::motion::SecureUnsignedInteger, encrypto::motion::SecureUnsi
     // Function body
     min_sum_1 = _MPC_CONSTANT_10000;
     _MPC_PLAINTEXT_min_sum_1 = std::uint32_t(10000);
-    min_index_1 = _MPC_CONSTANT_0;
+    min_index_1 = _MPC_CONSTANT_0_Y;
     _MPC_PLAINTEXT_min_index_1 = std::uint32_t(0);
-    sum_2 = _MPC_CONSTANT_0_A;
+    sum_2 = _MPC_CONSTANT_0;
     _MPC_PLAINTEXT_sum_2 = std::uint32_t(0);
     vectorized_assign(_6_0, {_MPC_PLAINTEXT_N_0, _MPC_PLAINTEXT_D_0}, {true, true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return S_0[((indices[0] * _MPC_PLAINTEXT_D_0) + indices[1])];}), {_MPC_PLAINTEXT_N_0, _MPC_PLAINTEXT_D_0}));
     vectorized_assign(_7_0, {_MPC_PLAINTEXT_N_0, _MPC_PLAINTEXT_D_0}, {true, true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return C_0[indices[1]];}), {_MPC_PLAINTEXT_N_0, _MPC_PLAINTEXT_D_0}));
@@ -1020,6 +1138,37 @@ std::tuple<encrypto::motion::SecureUnsignedInteger, encrypto::motion::SecureUnsi
 
 }
 ```
+#### Mixed configuration
+```Total cost:	31448.83
+Input vars:	{C!0: {'A'}, S!0: {'A'}}
+Constants:	{10000: {'B'}, 0: {'A', 'B'}}
+Plaintext vars:	{}
+min_sum!1 = 10000: _ -> {'B'} for 0.00 * 1 = 0.00
+min_index!1 = 0: _ -> {'B'} for 0.00 * 1 = 0.00
+sum!2 = 0: _ -> {'A'} for 0.00 * 1 = 0.00
+!6!0{N!0, D!0}[] = lift(S!0[((i!1 * D!0) + j!1)], (i!1:N!0, j!1:D!0)): _ -> {'A'} for 0.00 * 1 = 0.00
+!7!0{N!0, D!0}[] = lift(C!0[j!1], (i!1:N!0, j!1:D!0)): _ -> {'A'} for 0.00 * 1 = 0.00
+!13!0{N!0}[] = lift(i!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!3!0{N!0}[] = lift(min_sum!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!4!0{N!0}[] = lift(min_index!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!5!0{N!0, D!0}[] = lift(sum!2, (i!1:N!0, j!1:D!0)): _ -> {'A'} for 0.00 * 1 = 0.00
+d!3{N!0, D!0}[] = (!6!0{N!0, D!0}[] - !7!0{N!0, D!0}[]): A -> {} for 1163.85 * 1 = 1163.85
+p!3{N!0, D!0}[] = (d!3{N!0, D!0}[] * d!3{N!0, D!0}[]): A -> {} for 3515.59 * 1 = 3515.59
+	sum!3{N!0}[!12!0] = Φ(!5!0{N!0}[!12!0], sum!4{N!0}[(!12!0 - 1)]): A -> {} for 0.00 * 4 = 0.00
+	sum!4{N!0}[!12!0] = (sum!3{N!0}[!12!0] + p!3{N!0}[!12!0]): A -> {} for 1088.57 * 4 = 4354.26
+!8!0{N!0}[] = drop_dim(sum!4{N!0, D!0}[]): _ -> {'B', 'A'} for 2626.56 * 1 = 2626.56 (A->B)
+	min_sum!2{}[!14!0] = Φ(!3!0{}[!14!0], min_sum!4{}[(!14!0 - 1)]): B -> {} for 0.00 * 4 = 0.00
+	!1!2{}[!14!0] = (!8!0{}[!14!0] < min_sum!2{}[!14!0]): B -> {} for 2136.03 * 4 = 8544.12
+	min_sum!4{}[!14!0] = MUX(!1!2{}[!14!0], !8!0{}[!14!0], min_sum!2{}[!14!0]): B -> {} for 1405.56 * 4 = 5622.22
+	min_index!2{}[!15!0] = Φ(!4!0{}[!15!0], min_index!4{}[(!15!0 - 1)]): B -> {} for 0.00 * 4 = 0.00
+	min_index!4{}[!15!0] = MUX(!1!2{}[!15!0], !13!0{}[!15!0], min_index!2{}[!15!0]): B -> {} for 1405.56 * 4 = 5622.22
+!10!0 = drop_dim(min_sum!4{N!0}[]): _ -> {'B'} for 0.00 * 1 = 0.00
+!11!0 = drop_dim(min_index!4{N!0}[]): _ -> {'B'} for 0.00 * 1 = 0.00
+!2!1 = (!10!0, !11!0)
+return !2!1
+Output vars:	{!11!0: {'B'}, !10!0: {'B'}}
+
+```
 #### MP-SPDZ code
 ```py
 def biometric(C_0, D_0, S_0, N_0):
@@ -1070,6 +1219,79 @@ def biometric(C_0, D_0, S_0, N_0):
             _v.vectorized_assign(min_sum_2, [N_0], [_14_0], _v.vectorized_access(min_sum_4, [N_0], [(_14_0 - 1)]))
         _v.vectorized_assign(_1_2, [N_0], [_14_0], (_v.vectorized_access_simd(_8_0, [N_0], [_14_0]) < _v.vectorized_access_simd(min_sum_2, [N_0], [_14_0])))
         _v.iterative_mux(min_sum_4,_1_2,_8_0,min_sum_2,[N_0],[_14_0])
+    # Loop exit ϕ values
+    _v.vectorized_assign(min_sum_2, [N_0], [_14_0], _v.vectorized_access(min_sum_4, [N_0], [(_14_0 - 1)]))
+    for _15_0 in range(0, N_0):
+        # Set ϕ value
+        if _15_0 == 0:
+            _v.vectorized_assign(min_index_2, [N_0], [_15_0], _v.vectorized_access(_4_0, [N_0], [_15_0]))
+        else:
+            _v.vectorized_assign(min_index_2, [N_0], [_15_0], _v.vectorized_access(min_index_4, [N_0], [(_15_0 - 1)]))
+        _v.iterative_mux(min_index_4,_1_2,_13_0,min_index_2,[N_0],[_15_0])
+    # Loop exit ϕ values
+    _v.vectorized_assign(min_index_2, [N_0], [_15_0], _v.vectorized_access(min_index_4, [N_0], [(_15_0 - 1)]))
+    _10_0 = _v.drop_dim(min_sum_4, [N_0])
+    _11_0 = _v.drop_dim(min_index_4, [N_0])
+    _2_1 = (_10_0,_11_0,)
+    return _2_1
+```
+#### MP-SPDZ mixed code
+```py
+def biometric(C_0, D_0, S_0, N_0):
+    # Convertion functions
+    siv32 = sbitintvec.get_type(32)
+    sb32 = sbits.get_type(32)
+    
+    # Shared array declarations
+    _1_2 = [None] * (N_0)
+    _13_0 = [None] * (N_0)
+    _3_0 = [None] * (N_0)
+    _4_0 = [None] * (N_0)
+    _5_0 = [None] * (N_0 * D_0)
+    _6_0 = [None] * (N_0 * D_0)
+    _7_0 = [None] * (N_0 * D_0)
+    _8_0 = [None] * (N_0)
+    d_3 = [None] * (N_0 * D_0)
+    min_index_2 = [None] * (N_0)
+    min_index_4 = [None] * (N_0)
+    min_sum_2 = [None] * (N_0)
+    min_sum_4 = [None] * (N_0)
+    p_3 = [None] * (N_0 * D_0)
+    sum_3 = [None] * (N_0 * D_0)
+    sum_4 = [None] * (N_0 * D_0)
+    # Function body
+    min_sum_1 = siv32(10000)
+    min_index_1 = siv32(0)
+    sum_2 = sint(0)
+    _6_0 = _v.lift(lambda indices: (S_0[((indices[0] * D_0) + indices[1])]), [N_0, D_0])
+    _7_0 = _v.lift(lambda indices: (C_0[indices[1]]), [N_0, D_0])
+    _13_0 = _v.lift(lambda indices: indices[0], [N_0])
+    _3_0 = _v.lift(lambda indices: min_sum_1, [N_0])
+    _4_0 = _v.lift(lambda indices: min_index_1, [N_0])
+    _5_0 = _v.lift(lambda indices: sum_2, [N_0, D_0])
+    _v.vectorized_assign(d_3, [N_0, D_0], [None, None], (_v.vectorized_access_simd(_6_0, [N_0, D_0], [None, None]) - _v.vectorized_access_simd(_7_0, [N_0, D_0], [None, None])))
+    _v.vectorized_assign(p_3, [N_0, D_0], [None, None], (_v.vectorized_access_simd(d_3, [N_0, D_0], [None, None]) * _v.vectorized_access_simd(d_3, [N_0, D_0], [None, None])))
+    for _12_0 in range(0, D_0):
+        # Set ϕ value
+        if _12_0 == 0:
+            _v.vectorized_assign(sum_3, [N_0, D_0], [None, _12_0], _v.vectorized_access(_5_0, [N_0, D_0], [None, _12_0]))
+        else:
+            _v.vectorized_assign(sum_3, [N_0, D_0], [None, _12_0], _v.vectorized_access(sum_4, [N_0, D_0], [None, (_12_0 - 1)]))
+        _v.vectorized_assign(sum_4, [N_0, D_0], [None, _12_0], (_v.vectorized_access_simd(sum_3, [N_0, D_0], [None, _12_0]) + _v.vectorized_access_simd(p_3, [N_0, D_0], [None, _12_0])))
+    # Loop exit ϕ values
+    _v.vectorized_assign(sum_3, [N_0, D_0], [None, _12_0], _v.vectorized_access(sum_4, [N_0, D_0], [None, (_12_0 - 1)]))
+    _v.vectorized_assign(_8_0, [N_0], [None], _v.drop_dim(sum_4, [N_0, D_0]))
+    _8_0_B = [None] * (N_0)
+    for _random_iter in range(0,N_0):
+      _8_0_B[_random_iter] = siv32(_8_0[_random_iter])
+    for _14_0 in range(0, N_0):
+        # Set ϕ value
+        if _14_0 == 0:
+            _v.vectorized_assign(min_sum_2, [N_0], [_14_0], _v.vectorized_access(_3_0, [N_0], [_14_0]))
+        else:
+            _v.vectorized_assign(min_sum_2, [N_0], [_14_0], _v.vectorized_access(min_sum_4, [N_0], [(_14_0 - 1)]))
+        _v.vectorized_assign(_1_2, [N_0], [_14_0], (_v.vectorized_access_simd(_8_0_B, [N_0], [_14_0]) < _v.vectorized_access_simd(min_sum_2, [N_0], [_14_0])))
+        _v.iterative_mux(min_sum_4,_1_2,_8_0_B,min_sum_2,[N_0],[_14_0])
     # Loop exit ϕ values
     _v.vectorized_assign(min_sum_2, [N_0], [_14_0], _v.vectorized_access(min_sum_4, [N_0], [(_14_0 - 1)]))
     for _15_0 in range(0, N_0):
@@ -1458,7 +1680,7 @@ def biometric_fast(D!0: plaintext[int], N!0: plaintext[int], C!0: shared[list[in
 #### Mixed configuration
 ```Total cost:	30295.91
 Input vars:	{two_C!0: {'A'}, S!0: {'A'}, C_sqr_sum!0: {'A'}, S_sqr_sum!0: {'A'}, differences!0: {'A'}}
-Constants:	{0: {'Y', 'A'}, 99999: {'Y'}}
+Constants:	{0: {'A', 'Y'}, 99999: {'Y'}}
 Plaintext vars:	{}
 min_index!1 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
 !4!0{N!0}[] = lift(differences!0, (i!1:N!0)): _ -> {'A'} for 0.00 * 1 = 0.00
@@ -1716,23 +1938,23 @@ std::tuple<encrypto::motion::SecureUnsignedInteger, encrypto::motion::SecureUnsi
     std::uint32_t _MPC_PLAINTEXT_two_a_b_2;
 
     // Constant initializations
-    encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_0 = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(std::uint32_t(0)), 0);
-    encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_0_A = party->In<encrypto::motion::MpcProtocol::kArithmeticGmw>(std::uint32_t(0), 0);
+    encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_0 = party->In<encrypto::motion::MpcProtocol::kArithmeticGmw>(std::uint32_t(0), 0);
+    encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_0_Y = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(std::uint32_t(0)), 0);
     encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_99999 = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(std::uint32_t(99999)), 0);
 
     // Plaintext parameter assignments
 
     // Function body
-    min_index_1 = _MPC_CONSTANT_0;
+    min_index_1 = _MPC_CONSTANT_0_Y;
     _MPC_PLAINTEXT_min_index_1 = std::uint32_t(0);
     vectorized_assign(_4_0, {_MPC_PLAINTEXT_N_0}, {true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return differences_0;}), {_MPC_PLAINTEXT_N_0}));
     vectorized_assign(_5_0, {_MPC_PLAINTEXT_N_0}, {true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return S_sqr_sum_0[indices[0]];}), {_MPC_PLAINTEXT_N_0}));
     vectorized_assign(_6_0, {_MPC_PLAINTEXT_N_0}, {true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return C_sqr_sum_0;}), {_MPC_PLAINTEXT_N_0}));
-    two_a_b_2 = _MPC_CONSTANT_0_A;
+    two_a_b_2 = _MPC_CONSTANT_0;
     _MPC_PLAINTEXT_two_a_b_2 = std::uint32_t(0);
     vectorized_assign(_8_0, {_MPC_PLAINTEXT_N_0, _MPC_PLAINTEXT_D_0}, {true, true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return S_0[((indices[0] * _MPC_PLAINTEXT_D_0) + indices[1])];}), {_MPC_PLAINTEXT_N_0, _MPC_PLAINTEXT_D_0}));
     vectorized_assign(_9_0, {_MPC_PLAINTEXT_N_0, _MPC_PLAINTEXT_D_0}, {true, true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return two_C_0[indices[1]];}), {_MPC_PLAINTEXT_N_0, _MPC_PLAINTEXT_D_0}));
-    min_index_3 = _MPC_CONSTANT_0;
+    min_index_3 = _MPC_CONSTANT_0_Y;
     _MPC_PLAINTEXT_min_index_3 = std::uint32_t(0);
     min_diff_1 = _MPC_CONSTANT_99999;
     _MPC_PLAINTEXT_min_diff_1 = std::uint32_t(99999);
@@ -1816,6 +2038,44 @@ std::tuple<encrypto::motion::SecureUnsignedInteger, encrypto::motion::SecureUnsi
 
 }
 ```
+#### Mixed configuration
+```Total cost:	32467.23
+Input vars:	{two_C!0: {'A'}, S!0: {'A'}, C_sqr_sum!0: {'A'}, S_sqr_sum!0: {'A'}, differences!0: {'A'}}
+Constants:	{0: {'A', 'B'}, 99999: {'B'}}
+Plaintext vars:	{}
+min_index!1 = 0: _ -> {'B'} for 0.00 * 1 = 0.00
+!4!0{N!0}[] = lift(differences!0, (i!1:N!0)): _ -> {'A'} for 0.00 * 1 = 0.00
+!5!0{N!0}[] = lift(S_sqr_sum!0[i!1], (i!1:N!0)): _ -> {'A'} for 0.00 * 1 = 0.00
+!6!0{N!0}[] = lift(C_sqr_sum!0, (i!1:N!0)): _ -> {'A'} for 0.00 * 1 = 0.00
+two_a_b!2 = 0: _ -> {'A'} for 0.00 * 1 = 0.00
+!8!0{N!0, D!0}[] = lift(S!0[((i!1 * D!0) + j!1)], (i!1:N!0, j!1:D!0)): _ -> {'A'} for 0.00 * 1 = 0.00
+!9!0{N!0, D!0}[] = lift(two_C!0[j!1], (i!1:N!0, j!1:D!0)): _ -> {'A'} for 0.00 * 1 = 0.00
+min_index!3 = 0: _ -> {'B'} for 0.00 * 1 = 0.00
+min_diff!1 = 99999: _ -> {'B'} for 0.00 * 1 = 0.00
+!16!0{N!0}[] = lift(i!2, (i!2:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!3!0{N!0}[] = lift(min_index!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+a_sqr_plus_b_sqr!2{N!0}[] = (!5!0{N!0}[] + !6!0{N!0}[]): A -> {} for 1088.57 * 1 = 1088.57
+!7!0{N!0, D!0}[] = lift(two_a_b!2, (i!1:N!0, j!1:D!0)): _ -> {'A'} for 0.00 * 1 = 0.00
+tmp!3{N!0, D!0}[] = (!8!0{N!0, D!0}[] * !9!0{N!0, D!0}[]): A -> {} for 3515.59 * 1 = 3515.59
+!11!0{N!0}[] = lift(min_diff!1, (i!2:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+	min_index!2{}[!15!0] = Φ(!3!0{}[!15!0], min_index!3): B -> {} for 0.00 * 4 = 0.00
+	two_a_b!3{N!0}[!14!0] = Φ(!7!0{N!0}[!14!0], two_a_b!4{N!0}[(!14!0 - 1)]): A -> {} for 0.00 * 4 = 0.00
+	two_a_b!4{N!0}[!14!0] = (two_a_b!3{N!0}[!14!0] + tmp!3{N!0}[!14!0]): A -> {} for 1088.57 * 4 = 4354.26
+!10!0{N!0}[] = drop_dim(two_a_b!4{N!0, D!0}[]): _ -> {'A'} for 0.00 * 1 = 0.00
+this_diff!2{N!0}[] = (a_sqr_plus_b_sqr!2{N!0}[] - !10!0{N!0}[]): A -> {} for 1093.69 * 1 = 1093.69
+differences!2{N!0}[] = VectorizedUpdate(!4!0{N!0}[], [I!1], this_diff!2{N!0}[]): A -> {'B'} for 2626.56 * 1 = 2626.56 (A->B)
+	min_diff!2{}[!17!0] = Φ(!11!0{}[!17!0], min_diff!4{}[(!17!0 - 1)]): B -> {} for 0.00 * 4 = 0.00
+	!1!2{}[!17!0] = (differences!2{}[!17!0] < min_diff!2{}[!17!0]): B -> {} for 2136.03 * 4 = 8544.12
+	min_diff!4{}[!17!0] = MUX(!1!2{}[!17!0], differences!2{}[!17!0], min_diff!2{}[!17!0]): B -> {} for 1405.56 * 4 = 5622.22
+	min_index!4{}[!18!0] = Φ(min_index!2{}[!18!0], min_index!6{}[(!18!0 - 1)]): B -> {} for 0.00 * 4 = 0.00
+	min_index!6{}[!18!0] = MUX(!1!2{}[!18!0], !16!0{}[!18!0], min_index!4{}[!18!0]): B -> {} for 1405.56 * 4 = 5622.22
+!12!0 = drop_dim(min_diff!4{N!0}[]): _ -> {'B'} for 0.00 * 1 = 0.00
+!13!0 = drop_dim(min_index!6{N!0}[]): _ -> {'B'} for 0.00 * 1 = 0.00
+!2!1 = (!12!0, !13!0)
+return !2!1
+Output vars:	{!13!0: {'B'}, !12!0: {'B'}}
+
+```
 #### MP-SPDZ code
 ```py
 def biometric_fast(D_0, N_0, C_0, C_sqr_sum_0, two_C_0, S_0, S_sqr_sum_0, differences_0):
@@ -1886,6 +2146,99 @@ def biometric_fast(D_0, N_0, C_0, C_sqr_sum_0, two_C_0, S_0, S_sqr_sum_0, differ
             _v.vectorized_assign(min_diff_2, [N_0], [_17_0], _v.vectorized_access(min_diff_4, [N_0], [(_17_0 - 1)]))
         _v.vectorized_assign(_1_2, [N_0], [_17_0], (_v.vectorized_access_simd(differences_2, [N_0], [_17_0]) < _v.vectorized_access_simd(min_diff_2, [N_0], [_17_0])))
         _v.iterative_mux(min_diff_4,_1_2,differences_2,min_diff_2,[N_0],[_17_0])
+    # Loop exit ϕ values
+    _v.vectorized_assign(min_diff_2, [N_0], [_17_0], _v.vectorized_access(min_diff_4, [N_0], [(_17_0 - 1)]))
+    for _18_0 in range(0, N_0):
+        # Set ϕ value
+        if _18_0 == 0:
+            _v.vectorized_assign(min_index_4, [N_0], [_18_0], _v.vectorized_access(min_index_2, [N_0], [_18_0]))
+        else:
+            _v.vectorized_assign(min_index_4, [N_0], [_18_0], _v.vectorized_access(min_index_6, [N_0], [(_18_0 - 1)]))
+        _v.iterative_mux(min_index_6,_1_2,_16_0,min_index_4,[N_0],[_18_0])
+    # Loop exit ϕ values
+    _v.vectorized_assign(min_index_4, [N_0], [_18_0], _v.vectorized_access(min_index_6, [N_0], [(_18_0 - 1)]))
+    _12_0 = _v.drop_dim(min_diff_4, [N_0])
+    _13_0 = _v.drop_dim(min_index_6, [N_0])
+    _2_1 = (_12_0,_13_0,)
+    return _2_1
+```
+#### MP-SPDZ mixed code
+```py
+def biometric_fast(D_0, N_0, C_0, C_sqr_sum_0, two_C_0, S_0, S_sqr_sum_0, differences_0):
+    # Convertion functions
+    siv32 = sbitintvec.get_type(32)
+    sb32 = sbits.get_type(32)
+    
+    # Shared array declarations
+    _1_2 = [None] * (N_0)
+    _10_0 = [None] * (N_0)
+    _11_0 = [None] * (N_0)
+    _16_0 = [None] * (N_0)
+    _3_0 = [None] * (N_0)
+    _4_0 = [None] * (N_0)
+    _5_0 = [None] * (N_0)
+    _6_0 = [None] * (N_0)
+    _7_0 = [None] * (N_0 * D_0)
+    _8_0 = [None] * (N_0 * D_0)
+    _9_0 = [None] * (N_0 * D_0)
+    a_sqr_plus_b_sqr_2 = [None] * (N_0)
+    differences_2 = [None] * (N_0)
+    min_diff_2 = [None] * (N_0)
+    min_diff_4 = [None] * (N_0)
+    min_index_2 = [None] * (N_0)
+    min_index_4 = [None] * (N_0)
+    min_index_6 = [None] * (N_0)
+    this_diff_2 = [None] * (N_0)
+    tmp_3 = [None] * (N_0 * D_0)
+    two_a_b_3 = [None] * (N_0 * D_0)
+    two_a_b_4 = [None] * (N_0 * D_0)
+    # Function body
+    min_index_1 = siv32(0)
+    _4_0 = _v.lift(lambda indices: differences_0, [N_0])
+    _5_0 = _v.lift(lambda indices: (S_sqr_sum_0[indices[0]]), [N_0])
+    _6_0 = _v.lift(lambda indices: C_sqr_sum_0, [N_0])
+    two_a_b_2 = sint(0)
+    _8_0 = _v.lift(lambda indices: (S_0[((indices[0] * D_0) + indices[1])]), [N_0, D_0])
+    _9_0 = _v.lift(lambda indices: (two_C_0[indices[1]]), [N_0, D_0])
+    min_index_3 = siv32(0)
+    min_diff_1 = siv32(99999)
+    _16_0 = _v.lift(lambda indices: indices[0], [N_0])
+    _3_0 = _v.lift(lambda indices: min_index_1, [N_0])
+    _v.vectorized_assign(a_sqr_plus_b_sqr_2, [N_0], [None], (_v.vectorized_access_simd(_5_0, [N_0], [None]) + _v.vectorized_access_simd(_6_0, [N_0], [None])))
+    _7_0 = _v.lift(lambda indices: two_a_b_2, [N_0, D_0])
+    _v.vectorized_assign(tmp_3, [N_0, D_0], [None, None], (_v.vectorized_access_simd(_8_0, [N_0, D_0], [None, None]) * _v.vectorized_access_simd(_9_0, [N_0, D_0], [None, None])))
+    _11_0 = _v.lift(lambda indices: min_diff_1, [N_0])
+    for _15_0 in range(0, N_0):
+        # Set ϕ value
+        if _15_0 == 0:
+            _v.vectorized_assign(min_index_2, [N_0], [_15_0], _v.vectorized_access(_3_0, [N_0], [_15_0]))
+        else:
+            _v.vectorized_assign(min_index_2, [N_0], [_15_0], min_index_3)
+    # Loop exit ϕ values
+    _v.vectorized_assign(min_index_2, [N_0], [_15_0], min_index_3)
+    for _14_0 in range(0, D_0):
+        # Set ϕ value
+        if _14_0 == 0:
+            _v.vectorized_assign(two_a_b_3, [N_0, D_0], [None, _14_0], _v.vectorized_access(_7_0, [N_0, D_0], [None, _14_0]))
+        else:
+            _v.vectorized_assign(two_a_b_3, [N_0, D_0], [None, _14_0], _v.vectorized_access(two_a_b_4, [N_0, D_0], [None, (_14_0 - 1)]))
+        _v.vectorized_assign(two_a_b_4, [N_0, D_0], [None, _14_0], (_v.vectorized_access_simd(two_a_b_3, [N_0, D_0], [None, _14_0]) + _v.vectorized_access_simd(tmp_3, [N_0, D_0], [None, _14_0])))
+    # Loop exit ϕ values
+    _v.vectorized_assign(two_a_b_3, [N_0, D_0], [None, _14_0], _v.vectorized_access(two_a_b_4, [N_0, D_0], [None, (_14_0 - 1)]))
+    _v.vectorized_assign(_10_0, [N_0], [None], _v.drop_dim(two_a_b_4, [N_0, D_0]))
+    _v.vectorized_assign(this_diff_2, [N_0], [None], (_v.vectorized_access_simd(a_sqr_plus_b_sqr_2, [N_0], [None]) - _v.vectorized_access_simd(_10_0, [N_0], [None])))
+    _v.vectorized_assign(_4_0, [N_0], [None], _v.vectorized_access(this_diff_2, [N_0], [None])); _v.vectorized_assign(differences_2, [N_0], [None], _v.vectorized_access(_4_0, [N_0], [None]));
+    differences_2_B = [None] * (N_0)
+    for _random_iter in range(0,N_0):
+      differences_2_B[_random_iter] = siv32(differences_2[_random_iter])
+    for _17_0 in range(0, N_0):
+        # Set ϕ value
+        if _17_0 == 0:
+            _v.vectorized_assign(min_diff_2, [N_0], [_17_0], _v.vectorized_access(_11_0, [N_0], [_17_0]))
+        else:
+            _v.vectorized_assign(min_diff_2, [N_0], [_17_0], _v.vectorized_access(min_diff_4, [N_0], [(_17_0 - 1)]))
+        _v.vectorized_assign(_1_2, [N_0], [_17_0], (_v.vectorized_access_simd(differences_2_B, [N_0], [_17_0]) < _v.vectorized_access_simd(min_diff_2, [N_0], [_17_0])))
+        _v.iterative_mux(min_diff_4,_1_2,differences_2_B,min_diff_2,[N_0],[_17_0])
     # Loop exit ϕ values
     _v.vectorized_assign(min_diff_2, [N_0], [_17_0], _v.vectorized_access(min_diff_4, [N_0], [(_17_0 - 1)]))
     for _18_0 in range(0, N_0):
@@ -2134,6 +2487,22 @@ encrypto::motion::SecureUnsignedInteger chapterfour_figure_12(
 
 }
 ```
+#### Mixed configuration
+```Total cost:	6863.48
+Input vars:	{y!0: {'B'}, x!0: {'B'}}
+Constants:	{0: {'B'}, 1: {'B'}}
+Plaintext vars:	{}
+z!1 = 0: _ -> {'B'} for 0.00 * 1 = 0.00
+!1!1 = (x!0 > 0): B -> {} for 2026.18 * 1 = 2026.18
+!2!1 = (y!0 > 0): B -> {} for 2026.18 * 1 = 2026.18
+z!3 = 0: _ -> {'B'} for 0.00 * 1 = 0.00
+z!2 = 1: _ -> {'B'} for 0.00 * 1 = 0.00
+z!4 = MUX(!2!1, z!2, z!3): B -> {} for 1405.56 * 1 = 1405.56
+z!5 = MUX(!1!1, z!4, z!1): B -> {} for 1405.56 * 1 = 1405.56
+return z!5
+Output vars:	{z!5: {'B'}}
+
+```
 #### MP-SPDZ code
 ```py
 def chapterfour_figure_12(x_0, y_0):
@@ -2145,6 +2514,25 @@ def chapterfour_figure_12(x_0, y_0):
     _2_1 = (y_0 > sint(0))
     z_3 = sint(0)
     z_2 = sint(1)
+    z_4 = _2_1.if_else(z_2, z_3)
+    z_5 = _1_1.if_else(z_4, z_1)
+    return z_5
+```
+#### MP-SPDZ mixed code
+```py
+def chapterfour_figure_12(x_0, y_0):
+    # Convertion functions
+    siv32 = sbitintvec.get_type(32)
+    sb32 = sbits.get_type(32)
+    
+    # Shared array declarations
+
+    # Function body
+    z_1 = siv32(0)
+    _1_1 = (x_0 > siv32(0))
+    _2_1 = (y_0 > siv32(0))
+    z_3 = siv32(0)
+    z_2 = siv32(1)
     z_4 = _2_1.if_else(z_2, z_3)
     z_5 = _1_1.if_else(z_4, z_1)
     return z_5
@@ -2749,6 +3137,42 @@ std::tuple<std::vector<encrypto::motion::SecureUnsignedInteger>, std::vector<enc
 
 }
 ```
+#### Mixed configuration
+```Total cost:	24793.87
+Input vars:	{Y_coords!0: {'B'}, X_coords!0: {'B'}}
+Constants:	{True: {'B'}, False: {'B'}, 0: {'B'}}
+Plaintext vars:	{result_X!0: {'B'}, result_Y!0: {'B'}}
+!11!0{N!0}[] = lift(result_X!0, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!12!0{N!0}[] = lift(result_Y!0, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!13!0{N!0}[] = lift(X_coords!0[i!1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!14!0{N!0}[] = lift(Y_coords!0[i!1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+is_hull!2 = True: _ -> {'B'} for 0.00 * 1 = 0.00
+!16!0{N!0, N!0}[] = lift(X_coords!0[j!1], (i!1:N!0, j!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!17!0{N!0, N!0}[] = lift(Y_coords!0[j!1], (i!1:N!0, j!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+is_hull!4 = False: _ -> {'B'} for 0.00 * 1 = 0.00
+!15!0{N!0, N!0}[] = lift(is_hull!2, (i!1:N!0, j!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!1!2{N!0}[] = (!13!0{N!0}[] <= 0): B -> {} for 2438.77 * 1 = 2438.77
+!18!0{N!0, N!0}[] = lift(!13!0{N!0}[], (i!1:N!0, j!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!2!2{N!0}[] = (!14!0{N!0}[] >= 0): B -> {} for 2735.29 * 1 = 2735.29
+!19!0{N!0, N!0}[] = lift(!14!0{N!0}[], (i!1:N!0, j!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!6!3{N!0, N!0}[] = (!18!0{N!0, N!0}[] <= !16!0{N!0, N!0}[]): B -> {} for 2721.39 * 1 = 2721.39
+!3!2{N!0}[] = (!1!2{N!0}[] and !2!2{N!0}[]): B -> {} for 1678.69 * 1 = 1678.69
+!7!3{N!0, N!0}[] = (!19!0{N!0, N!0}[] >= !17!0{N!0, N!0}[]): B -> {} for 3052.64 * 1 = 3052.64
+!8!3{N!0, N!0}[] = (!6!3{N!0, N!0}[] or !7!3{N!0, N!0}[]): B -> {} for 1830.30 * 1 = 1830.30
+!9!3{N!0, N!0}[] = not !8!3{N!0, N!0}[]: B -> {} for 0.00 * 1 = 0.00
+	is_hull!3{N!0}[!21!0] = Φ(!15!0{N!0}[!21!0], is_hull!5{N!0}[(!21!0 - 1)]): B -> {} for 0.00 * 3 = 0.00
+	is_hull!5{N!0}[!21!0] = MUX(!9!3{N!0}[!21!0], is_hull!4, is_hull!3{N!0}[!21!0]): B -> {} for 1722.80 * 3 = 5168.39
+!20!0{N!0}[] = drop_dim(is_hull!5{N!0, N!0}[]): _ -> {'B'} for 0.00 * 1 = 0.00
+is_hull!6{N!0}[] = MUX(!3!2{N!0}[], !20!0{N!0}[], is_hull!2): B -> {} for 1722.80 * 1 = 1722.80
+val_X!4{N!0}[] = MUX(is_hull!6{N!0}[], !13!0{N!0}[], !11!0{N!0}[]): B -> {} for 1722.80 * 1 = 1722.80
+val_Y!4{N!0}[] = MUX(is_hull!6{N!0}[], !14!0{N!0}[], !12!0{N!0}[]): B -> {} for 1722.80 * 1 = 1722.80
+result_X!2{N!0}[] = VectorizedUpdate(!11!0{N!0}[], [I!1], val_X!4{N!0}[]): B -> {} for 0.00 * 1 = 0.00
+result_Y!2{N!0}[] = VectorizedUpdate(!12!0{N!0}[], [I!1], val_Y!4{N!0}[]): B -> {} for 0.00 * 1 = 0.00
+!10!1 = (result_X!2, result_Y!2)
+return !10!1
+Output vars:	{result_Y!2: {'B'}, result_X!2: {'B'}}
+
+```
 #### MP-SPDZ code
 ```py
 def convex_hull(X_coords_0, Y_coords_0, N_0, result_X_0, result_Y_0):
@@ -2790,6 +3214,79 @@ def convex_hull(X_coords_0, Y_coords_0, N_0, result_X_0, result_Y_0):
     _v.vectorized_assign(_1_2, [N_0], [None], (_v.vectorized_access_simd(_13_0, [N_0], [None]) <= sint(0)))
     _18_0 = _v.lift(lambda indices: _v.vectorized_access(_13_0, [N_0], [None]), [N_0, N_0])
     _v.vectorized_assign(_2_2, [N_0], [None], (_v.vectorized_access_simd(_14_0, [N_0], [None]) >= sint(0)))
+    _19_0 = _v.lift(lambda indices: _v.vectorized_access(_14_0, [N_0], [None]), [N_0, N_0])
+    _v.vectorized_assign(_6_3, [N_0, N_0], [None, None], (_v.vectorized_access_simd(_18_0, [N_0, N_0], [None, None]) <= _v.vectorized_access_simd(_16_0, [N_0, N_0], [None, None])))
+    _v.vectorized_assign(_3_2, [N_0], [None], _v.vectorized_access_simd(_1_2, [N_0], [None]).bit_and(_v.vectorized_access_simd(_2_2, [N_0], [None])))
+    _v.vectorized_assign(_7_3, [N_0, N_0], [None, None], (_v.vectorized_access_simd(_19_0, [N_0, N_0], [None, None]) >= _v.vectorized_access_simd(_17_0, [N_0, N_0], [None, None])))
+    _v.vectorized_assign(_8_3, [N_0, N_0], [None, None], OR(_v.vectorized_access_simd(_6_3, [N_0, N_0], [None, None]), _v.vectorized_access_simd(_7_3, [N_0, N_0], [None, None])))
+    _v.vectorized_assign(_9_3, [N_0, N_0], [None, None], (_v.vectorized_access_simd(_8_3, [N_0, N_0], [None, None]).bit_not()))
+    for _21_0 in range(0, N_0):
+        # Set ϕ value
+        if _21_0 == 0:
+            _v.vectorized_assign(is_hull_3, [N_0, N_0], [None, _21_0], _v.vectorized_access(_15_0, [N_0, N_0], [None, _21_0]))
+        else:
+            _v.vectorized_assign(is_hull_3, [N_0, N_0], [None, _21_0], _v.vectorized_access(is_hull_5, [N_0, N_0], [None, (_21_0 - 1)]))
+        _v.iterative_mux(is_hull_5,_9_3,is_hull_4,is_hull_3,[N_0, N_0],[None, _21_0])
+    # Loop exit ϕ values
+    _v.vectorized_assign(is_hull_3, [N_0, N_0], [None, _21_0], _v.vectorized_access(is_hull_5, [N_0, N_0], [None, (_21_0 - 1)]))
+    _v.vectorized_assign(_20_0, [N_0], [None], _v.drop_dim(is_hull_5, [N_0, N_0]))
+    _v.iterative_mux(is_hull_6,_3_2,_20_0,is_hull_2,[N_0],[None])
+    _v.iterative_mux(val_X_4,is_hull_6,_13_0,_11_0,[N_0],[None])
+    _v.iterative_mux(val_Y_4,is_hull_6,_14_0,_12_0,[N_0],[None])
+    _v.vectorized_assign(_11_0, [N_0], [None], _v.vectorized_access(val_X_4, [N_0], [None])); _v.vectorized_assign(result_X_2, [N_0], [None], _v.vectorized_access(_11_0, [N_0], [None]))
+    _v.vectorized_assign(_12_0, [N_0], [None], _v.vectorized_access(val_Y_4, [N_0], [None])); _v.vectorized_assign(result_Y_2, [N_0], [None], _v.vectorized_access(_12_0, [N_0], [None]))
+    _10_1 = (result_X_2,result_Y_2,)
+    return _10_1
+```
+#### MP-SPDZ mixed code
+```py
+def convex_hull(X_coords_0, Y_coords_0, N_0, result_X_0, result_Y_0):
+    # Convertion functions
+    siv32 = sbitintvec.get_type(32)
+    sb32 = sbits.get_type(32)
+    for _random_iter in range(0,len(result_X_0)):
+     result_X_0[_random_iter] = siv32(result_X_0[_random_iter])
+    for _random_iter in range(0,len(result_Y_0)):
+     result_Y_0[_random_iter] = siv32(result_Y_0[_random_iter])
+
+    # Shared array declarations
+    _1_2 = [None] * (N_0)
+    _11_0 = [None] * (N_0)
+    _12_0 = [None] * (N_0)
+    _13_0 = [None] * (N_0)
+    _14_0 = [None] * (N_0)
+    _15_0 = [None] * (N_0 * N_0)
+    _16_0 = [None] * (N_0 * N_0)
+    _17_0 = [None] * (N_0 * N_0)
+    _18_0 = [None] * (N_0 * N_0)
+    _19_0 = [None] * (N_0 * N_0)
+    _2_2 = [None] * (N_0)
+    _20_0 = [None] * (N_0)
+    _3_2 = [None] * (N_0)
+    _6_3 = [None] * (N_0 * N_0)
+    _7_3 = [None] * (N_0 * N_0)
+    _8_3 = [None] * (N_0 * N_0)
+    _9_3 = [None] * (N_0 * N_0)
+    is_hull_3 = [None] * (N_0 * N_0)
+    is_hull_5 = [None] * (N_0 * N_0)
+    is_hull_6 = [None] * (N_0)
+    result_X_2 = [None] * (N_0)
+    result_Y_2 = [None] * (N_0)
+    val_X_4 = [None] * (N_0)
+    val_Y_4 = [None] * (N_0)
+    # Function body
+    _11_0 = _v.lift(lambda indices: result_X_0, [N_0])
+    _12_0 = _v.lift(lambda indices: result_Y_0, [N_0])
+    _13_0 = _v.lift(lambda indices: (X_coords_0[indices[0]]), [N_0])
+    _14_0 = _v.lift(lambda indices: (Y_coords_0[indices[0]]), [N_0])
+    is_hull_2 = siv32(_v.sbool(True))
+    _16_0 = _v.lift(lambda indices: (X_coords_0[indices[1]]), [N_0, N_0])
+    _17_0 = _v.lift(lambda indices: (Y_coords_0[indices[1]]), [N_0, N_0])
+    is_hull_4 = siv32(_v.sbool(False))
+    _15_0 = _v.lift(lambda indices: is_hull_2, [N_0, N_0])
+    _v.vectorized_assign(_1_2, [N_0], [None], (_v.vectorized_access_simd(_13_0, [N_0], [None]) <= siv32(0)))
+    _18_0 = _v.lift(lambda indices: _v.vectorized_access(_13_0, [N_0], [None]), [N_0, N_0])
+    _v.vectorized_assign(_2_2, [N_0], [None], (_v.vectorized_access_simd(_14_0, [N_0], [None]) >= siv32(0)))
     _19_0 = _v.lift(lambda indices: _v.vectorized_access(_14_0, [N_0], [None]), [N_0, N_0])
     _v.vectorized_assign(_6_3, [N_0, N_0], [None, None], (_v.vectorized_access_simd(_18_0, [N_0, N_0], [None, None]) <= _v.vectorized_access_simd(_16_0, [N_0, N_0], [None, None])))
     _v.vectorized_assign(_3_2, [N_0], [None], _v.vectorized_access_simd(_1_2, [N_0], [None]).bit_and(_v.vectorized_access_simd(_2_2, [N_0], [None])))
@@ -3267,6 +3764,34 @@ encrypto::motion::SecureUnsignedInteger count_102(
 
 }
 ```
+#### Mixed configuration
+```Total cost:	70553.40
+Input vars:	{Syms!0: {'B'}, Seq!0: {'B'}}
+Constants:	{False: {'B'}, 0: {'B'}, 1: {'B'}}
+Plaintext vars:	{}
+s0!1 = False: _ -> {'B'} for 0.00 * 1 = 0.00
+c!1 = 0: _ -> {'B'} for 0.00 * 1 = 0.00
+!9!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!10!0{N!0}[] = lift(Syms!0[2], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!12!0{N!0}[] = lift(Syms!0[1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!14!0{N!0}[] = lift(Syms!0[0], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!7!0{N!0}[] = lift(s0!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!8!0{N!0}[] = lift(c!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!1!2{N!0}[] = (!9!0{N!0}[] == !10!0{N!0}[]): B -> {} for 2149.74 * 1 = 2149.74
+!3!2{N!0}[] = (!9!0{N!0}[] == !12!0{N!0}[]): B -> {} for 2149.74 * 1 = 2149.74
+!5!2{N!0}[] = (!9!0{N!0}[] == !14!0{N!0}[]): B -> {} for 2149.74 * 1 = 2149.74
+	s0!2{}[!16!0] = Φ(!7!0{}[!16!0], s0!3{}[(!16!0 - 1)]): B -> {} for 0.00 * 10 = 0.00
+	!6!2{}[!16!0] = (s0!2{}[!16!0] and !5!2{}[!16!0]): B -> {} for 1372.38 * 10 = 13723.83
+	s0!3{}[!16!0] = (!3!2{}[!16!0] or !6!2{}[!16!0]): B -> {} for 1381.97 * 10 = 13819.69
+!2!2{N!0}[] = (s0!2{N!0}[] and !1!2{N!0}[]): B -> {} for 1669.87 * 1 = 1669.87
+	c!2{}[!17!0] = Φ(!8!0{}[!17!0], c!4{}[(!17!0 - 1)]): B -> {} for 0.00 * 10 = 0.00
+	c!3{}[!17!0] = (c!2{}[!17!0] + 1): B -> {} for 2083.52 * 10 = 20835.23
+	c!4{}[!17!0] = MUX(!2!2{}[!17!0], c!3{}[!17!0], c!2{}[!17!0]): B -> {} for 1405.56 * 10 = 14055.56
+!15!0 = drop_dim(c!4{N!0}[]): _ -> {'B'} for 0.00 * 1 = 0.00
+return !15!0
+Output vars:	{!15!0: {'B'}}
+
+```
 #### MP-SPDZ code
 ```py
 def count_102(Seq_0, N_0, Syms_0):
@@ -3317,6 +3842,66 @@ def count_102(Seq_0, N_0, Syms_0):
         else:
             _v.vectorized_assign(c_2, [N_0], [_17_0], _v.vectorized_access(c_4, [N_0], [(_17_0 - 1)]))
         _v.vectorized_assign(c_3, [N_0], [_17_0], (_v.vectorized_access_simd(c_2, [N_0], [_17_0]) + sint(1)))
+        _v.iterative_mux(c_4,_2_2,c_3,c_2,[N_0],[_17_0])
+    # Loop exit ϕ values
+    _v.vectorized_assign(c_2, [N_0], [_17_0], _v.vectorized_access(c_4, [N_0], [(_17_0 - 1)]))
+    _15_0 = _v.drop_dim(c_4, [N_0])
+    return _15_0
+```
+#### MP-SPDZ mixed code
+```py
+def count_102(Seq_0, N_0, Syms_0):
+    # Convertion functions
+    siv32 = sbitintvec.get_type(32)
+    sb32 = sbits.get_type(32)
+    
+    # Shared array declarations
+    _1_2 = [None] * (N_0)
+    _10_0 = [None] * (N_0)
+    _12_0 = [None] * (N_0)
+    _14_0 = [None] * (N_0)
+    _2_2 = [None] * (N_0)
+    _3_2 = [None] * (N_0)
+    _5_2 = [None] * (N_0)
+    _6_2 = [None] * (N_0)
+    _7_0 = [None] * (N_0)
+    _8_0 = [None] * (N_0)
+    _9_0 = [None] * (N_0)
+    c_2 = [None] * (N_0)
+    c_3 = [None] * (N_0)
+    c_4 = [None] * (N_0)
+    s0_2 = [None] * (N_0)
+    s0_3 = [None] * (N_0)
+    # Function body
+    s0_1 = siv32(_v.sbool(False))
+    c_1 = siv32(0)
+    _9_0 = _v.lift(lambda indices: (Seq_0[indices[0]]), [N_0])
+    _10_0 = _v.lift(lambda indices: (Syms_0[2]), [N_0])
+    _12_0 = _v.lift(lambda indices: (Syms_0[1]), [N_0])
+    _14_0 = _v.lift(lambda indices: (Syms_0[0]), [N_0])
+    _7_0 = _v.lift(lambda indices: s0_1, [N_0])
+    _8_0 = _v.lift(lambda indices: c_1, [N_0])
+    _v.vectorized_assign(_1_2, [N_0], [None], (_v.vectorized_access_simd(_9_0, [N_0], [None]) == _v.vectorized_access_simd(_10_0, [N_0], [None])))
+    _v.vectorized_assign(_3_2, [N_0], [None], (_v.vectorized_access_simd(_9_0, [N_0], [None]) == _v.vectorized_access_simd(_12_0, [N_0], [None])))
+    _v.vectorized_assign(_5_2, [N_0], [None], (_v.vectorized_access_simd(_9_0, [N_0], [None]) == _v.vectorized_access_simd(_14_0, [N_0], [None])))
+    for _16_0 in range(0, N_0):
+        # Set ϕ value
+        if _16_0 == 0:
+            _v.vectorized_assign(s0_2, [N_0], [_16_0], _v.vectorized_access(_7_0, [N_0], [_16_0]))
+        else:
+            _v.vectorized_assign(s0_2, [N_0], [_16_0], _v.vectorized_access(s0_3, [N_0], [(_16_0 - 1)]))
+        _v.vectorized_assign(_6_2, [N_0], [_16_0], _v.vectorized_access_simd(s0_2, [N_0], [_16_0]).bit_and(_v.vectorized_access_simd(_5_2, [N_0], [_16_0])))
+        _v.vectorized_assign(s0_3, [N_0], [_16_0], OR(_v.vectorized_access_simd(_3_2, [N_0], [_16_0]), _v.vectorized_access_simd(_6_2, [N_0], [_16_0])))
+    # Loop exit ϕ values
+    _v.vectorized_assign(s0_2, [N_0], [_16_0], _v.vectorized_access(s0_3, [N_0], [(_16_0 - 1)]))
+    _v.vectorized_assign(_2_2, [N_0], [None], _v.vectorized_access_simd(s0_2, [N_0], [None]).bit_and(_v.vectorized_access_simd(_1_2, [N_0], [None])))
+    for _17_0 in range(0, N_0):
+        # Set ϕ value
+        if _17_0 == 0:
+            _v.vectorized_assign(c_2, [N_0], [_17_0], _v.vectorized_access(_8_0, [N_0], [_17_0]))
+        else:
+            _v.vectorized_assign(c_2, [N_0], [_17_0], _v.vectorized_access(c_4, [N_0], [(_17_0 - 1)]))
+        _v.vectorized_assign(c_3, [N_0], [_17_0], (_v.vectorized_access_simd(c_2, [N_0], [_17_0]) + siv32(1)))
         _v.iterative_mux(c_4,_2_2,c_3,c_2,[N_0],[_17_0])
     # Loop exit ϕ values
     _v.vectorized_assign(c_2, [N_0], [_17_0], _v.vectorized_access(c_4, [N_0], [(_17_0 - 1)]))
@@ -3848,6 +4433,36 @@ encrypto::motion::SecureUnsignedInteger count_10s(
 
 }
 ```
+#### Mixed configuration
+```Total cost:	52233.55
+Input vars:	{Syms!0: {'B'}, Seq!0: {'B'}}
+Constants:	{False: {'B'}, 0: {'B'}, 1: {'B'}}
+Plaintext vars:	{}
+s0!1 = False: _ -> {'B'} for 0.00 * 1 = 0.00
+s1!1 = False: _ -> {'B'} for 0.00 * 1 = 0.00
+scount!1 = 0: _ -> {'B'} for 0.00 * 1 = 0.00
+!8!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!9!0{N!0}[] = lift(Syms!0[0], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!13!0{N!0}[] = lift(Syms!0[1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!5!0{N!0}[] = lift(s0!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!6!0{N!0}[] = lift(s1!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!7!0{N!0}[] = lift(scount!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!1!2{N!0}[] = (!8!0{N!0}[] != !9!0{N!0}[]): B -> {} for 2273.08 * 1 = 2273.08
+!3!2{N!0}[] = (!8!0{N!0}[] == !9!0{N!0}[]): B -> {} for 2264.92 * 1 = 2264.92
+s0!3{N!0}[] = (!8!0{N!0}[] == !13!0{N!0}[]): B -> {} for 2264.92 * 1 = 2264.92
+	s0!2{}[!15!0] = Φ(!5!0{}[!15!0], s0!3{}[(!15!0 - 1)]): B -> {} for 0.00 * 7 = 0.00
+	s1!2{}[!16!0] = Φ(!6!0{}[!16!0], s1!3{}[(!16!0 - 1)]): B -> {} for 0.00 * 7 = 0.00
+	!4!2{}[!16!0] = (s0!2{}[!16!0] or s1!2{}[!16!0]): B -> {} for 1381.97 * 7 = 9673.78
+	s1!3{}[!16!0] = (!3!2{}[!16!0] and !4!2{}[!16!0]): B -> {} for 1372.38 * 7 = 9606.68
+!2!2{N!0}[] = (s1!2{N!0}[] and !1!2{N!0}[]): B -> {} for 1726.62 * 1 = 1726.62
+	scount!2{}[!17!0] = Φ(!7!0{}[!17!0], scount!4{}[(!17!0 - 1)]): B -> {} for 0.00 * 7 = 0.00
+	scount!3{}[!17!0] = (scount!2{}[!17!0] + 1): B -> {} for 2083.52 * 7 = 14584.66
+	scount!4{}[!17!0] = MUX(!2!2{}[!17!0], scount!3{}[!17!0], scount!2{}[!17!0]): B -> {} for 1405.56 * 7 = 9838.89
+!14!0 = drop_dim(scount!4{N!0}[]): _ -> {'B'} for 0.00 * 1 = 0.00
+return !14!0
+Output vars:	{!14!0: {'B'}}
+
+```
 #### MP-SPDZ code
 ```py
 def count_10s(Seq_0, N_0, Syms_0):
@@ -3908,6 +4523,76 @@ def count_10s(Seq_0, N_0, Syms_0):
         else:
             _v.vectorized_assign(scount_2, [N_0], [_17_0], _v.vectorized_access(scount_4, [N_0], [(_17_0 - 1)]))
         _v.vectorized_assign(scount_3, [N_0], [_17_0], (_v.vectorized_access_simd(scount_2, [N_0], [_17_0]) + sint(1)))
+        _v.iterative_mux(scount_4,_2_2,scount_3,scount_2,[N_0],[_17_0])
+    # Loop exit ϕ values
+    _v.vectorized_assign(scount_2, [N_0], [_17_0], _v.vectorized_access(scount_4, [N_0], [(_17_0 - 1)]))
+    _14_0 = _v.drop_dim(scount_4, [N_0])
+    return _14_0
+```
+#### MP-SPDZ mixed code
+```py
+def count_10s(Seq_0, N_0, Syms_0):
+    # Convertion functions
+    siv32 = sbitintvec.get_type(32)
+    sb32 = sbits.get_type(32)
+    
+    # Shared array declarations
+    _1_2 = [None] * (N_0)
+    _13_0 = [None] * (N_0)
+    _2_2 = [None] * (N_0)
+    _3_2 = [None] * (N_0)
+    _4_2 = [None] * (N_0)
+    _5_0 = [None] * (N_0)
+    _6_0 = [None] * (N_0)
+    _7_0 = [None] * (N_0)
+    _8_0 = [None] * (N_0)
+    _9_0 = [None] * (N_0)
+    s0_2 = [None] * (N_0)
+    s0_3 = [None] * (N_0)
+    s1_2 = [None] * (N_0)
+    s1_3 = [None] * (N_0)
+    scount_2 = [None] * (N_0)
+    scount_3 = [None] * (N_0)
+    scount_4 = [None] * (N_0)
+    # Function body
+    s0_1 = siv32(_v.sbool(False))
+    s1_1 = siv32(_v.sbool(False))
+    scount_1 = siv32(0)
+    _8_0 = _v.lift(lambda indices: (Seq_0[indices[0]]), [N_0])
+    _9_0 = _v.lift(lambda indices: (Syms_0[0]), [N_0])
+    _13_0 = _v.lift(lambda indices: (Syms_0[1]), [N_0])
+    _5_0 = _v.lift(lambda indices: s0_1, [N_0])
+    _6_0 = _v.lift(lambda indices: s1_1, [N_0])
+    _7_0 = _v.lift(lambda indices: scount_1, [N_0])
+    _v.vectorized_assign(_1_2, [N_0], [None], (_v.vectorized_access_simd(_8_0, [N_0], [None]) != _v.vectorized_access_simd(_9_0, [N_0], [None])))
+    _v.vectorized_assign(_3_2, [N_0], [None], (_v.vectorized_access_simd(_8_0, [N_0], [None]) == _v.vectorized_access_simd(_9_0, [N_0], [None])))
+    _v.vectorized_assign(s0_3, [N_0], [None], (_v.vectorized_access_simd(_8_0, [N_0], [None]) == _v.vectorized_access_simd(_13_0, [N_0], [None])))
+    for _15_0 in range(0, N_0):
+        # Set ϕ value
+        if _15_0 == 0:
+            _v.vectorized_assign(s0_2, [N_0], [_15_0], _v.vectorized_access(_5_0, [N_0], [_15_0]))
+        else:
+            _v.vectorized_assign(s0_2, [N_0], [_15_0], _v.vectorized_access(s0_3, [N_0], [(_15_0 - 1)]))
+    # Loop exit ϕ values
+    _v.vectorized_assign(s0_2, [N_0], [_15_0], _v.vectorized_access(s0_3, [N_0], [(_15_0 - 1)]))
+    for _16_0 in range(0, N_0):
+        # Set ϕ value
+        if _16_0 == 0:
+            _v.vectorized_assign(s1_2, [N_0], [_16_0], _v.vectorized_access(_6_0, [N_0], [_16_0]))
+        else:
+            _v.vectorized_assign(s1_2, [N_0], [_16_0], _v.vectorized_access(s1_3, [N_0], [(_16_0 - 1)]))
+        _v.vectorized_assign(_4_2, [N_0], [_16_0], OR(_v.vectorized_access_simd(s0_2, [N_0], [_16_0]), _v.vectorized_access_simd(s1_2, [N_0], [_16_0])))
+        _v.vectorized_assign(s1_3, [N_0], [_16_0], _v.vectorized_access_simd(_3_2, [N_0], [_16_0]).bit_and(_v.vectorized_access_simd(_4_2, [N_0], [_16_0])))
+    # Loop exit ϕ values
+    _v.vectorized_assign(s1_2, [N_0], [_16_0], _v.vectorized_access(s1_3, [N_0], [(_16_0 - 1)]))
+    _v.vectorized_assign(_2_2, [N_0], [None], _v.vectorized_access_simd(s1_2, [N_0], [None]).bit_and(_v.vectorized_access_simd(_1_2, [N_0], [None])))
+    for _17_0 in range(0, N_0):
+        # Set ϕ value
+        if _17_0 == 0:
+            _v.vectorized_assign(scount_2, [N_0], [_17_0], _v.vectorized_access(_7_0, [N_0], [_17_0]))
+        else:
+            _v.vectorized_assign(scount_2, [N_0], [_17_0], _v.vectorized_access(scount_4, [N_0], [(_17_0 - 1)]))
+        _v.vectorized_assign(scount_3, [N_0], [_17_0], (_v.vectorized_access_simd(scount_2, [N_0], [_17_0]) + siv32(1)))
         _v.iterative_mux(scount_4,_2_2,scount_3,scount_2,[N_0],[_17_0])
     # Loop exit ϕ values
     _v.vectorized_assign(scount_2, [N_0], [_17_0], _v.vectorized_access(scount_4, [N_0], [(_17_0 - 1)]))
@@ -4459,6 +5144,38 @@ encrypto::motion::SecureUnsignedInteger count_123(
 
 }
 ```
+#### Mixed configuration
+```Total cost:	54027.36
+Input vars:	{Syms!0: {'B'}, Seq!0: {'B'}}
+Constants:	{False: {'B'}, 0: {'B'}, 1: {'B'}}
+Plaintext vars:	{}
+s1!1 = False: _ -> {'B'} for 0.00 * 1 = 0.00
+s2!1 = False: _ -> {'B'} for 0.00 * 1 = 0.00
+c!1 = 0: _ -> {'B'} for 0.00 * 1 = 0.00
+!9!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!10!0{N!0}[] = lift(Syms!0[2], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!12!0{N!0}[] = lift(Syms!0[1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!14!0{N!0}[] = lift(Syms!0[0], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!6!0{N!0}[] = lift(s1!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!7!0{N!0}[] = lift(s2!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!8!0{N!0}[] = lift(c!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!1!2{N!0}[] = (!9!0{N!0}[] == !10!0{N!0}[]): B -> {} for 2264.92 * 1 = 2264.92
+!4!2{N!0}[] = (!9!0{N!0}[] == !12!0{N!0}[]): B -> {} for 2264.92 * 1 = 2264.92
+s1!3{N!0}[] = (!9!0{N!0}[] == !14!0{N!0}[]): B -> {} for 2264.92 * 1 = 2264.92
+	s1!2{}[!16!0] = Φ(!6!0{}[!16!0], s1!3{}[(!16!0 - 1)]): B -> {} for 0.00 * 7 = 0.00
+	s2!2{}[!17!0] = Φ(!7!0{}[!17!0], s2!3{}[(!17!0 - 1)]): B -> {} for 0.00 * 7 = 0.00
+	!5!2{}[!17!0] = (s1!2{}[!17!0] or s2!2{}[!17!0]): B -> {} for 1381.97 * 7 = 9673.78
+	s2!3{}[!17!0] = (!4!2{}[!17!0] and !5!2{}[!17!0]): B -> {} for 1372.38 * 7 = 9606.68
+!2!2{N!0}[] = (s2!2{N!0}[] or s1!2{N!0}[]): B -> {} for 1801.97 * 1 = 1801.97
+!3!2{N!0}[] = (!1!2{N!0}[] and !2!2{N!0}[]): B -> {} for 1726.62 * 1 = 1726.62
+	c!2{}[!18!0] = Φ(!8!0{}[!18!0], c!4{}[(!18!0 - 1)]): B -> {} for 0.00 * 7 = 0.00
+	c!3{}[!18!0] = (c!2{}[!18!0] + 1): B -> {} for 2083.52 * 7 = 14584.66
+	c!4{}[!18!0] = MUX(!3!2{}[!18!0], c!3{}[!18!0], c!2{}[!18!0]): B -> {} for 1405.56 * 7 = 9838.89
+!15!0 = drop_dim(c!4{N!0}[]): _ -> {'B'} for 0.00 * 1 = 0.00
+return !15!0
+Output vars:	{!15!0: {'B'}}
+
+```
 #### MP-SPDZ code
 ```py
 def count_123(Seq_0, N_0, Syms_0):
@@ -4523,6 +5240,80 @@ def count_123(Seq_0, N_0, Syms_0):
         else:
             _v.vectorized_assign(c_2, [N_0], [_18_0], _v.vectorized_access(c_4, [N_0], [(_18_0 - 1)]))
         _v.vectorized_assign(c_3, [N_0], [_18_0], (_v.vectorized_access_simd(c_2, [N_0], [_18_0]) + sint(1)))
+        _v.iterative_mux(c_4,_3_2,c_3,c_2,[N_0],[_18_0])
+    # Loop exit ϕ values
+    _v.vectorized_assign(c_2, [N_0], [_18_0], _v.vectorized_access(c_4, [N_0], [(_18_0 - 1)]))
+    _15_0 = _v.drop_dim(c_4, [N_0])
+    return _15_0
+```
+#### MP-SPDZ mixed code
+```py
+def count_123(Seq_0, N_0, Syms_0):
+    # Convertion functions
+    siv32 = sbitintvec.get_type(32)
+    sb32 = sbits.get_type(32)
+    
+    # Shared array declarations
+    _1_2 = [None] * (N_0)
+    _10_0 = [None] * (N_0)
+    _12_0 = [None] * (N_0)
+    _14_0 = [None] * (N_0)
+    _2_2 = [None] * (N_0)
+    _3_2 = [None] * (N_0)
+    _4_2 = [None] * (N_0)
+    _5_2 = [None] * (N_0)
+    _6_0 = [None] * (N_0)
+    _7_0 = [None] * (N_0)
+    _8_0 = [None] * (N_0)
+    _9_0 = [None] * (N_0)
+    c_2 = [None] * (N_0)
+    c_3 = [None] * (N_0)
+    c_4 = [None] * (N_0)
+    s1_2 = [None] * (N_0)
+    s1_3 = [None] * (N_0)
+    s2_2 = [None] * (N_0)
+    s2_3 = [None] * (N_0)
+    # Function body
+    s1_1 = siv32(_v.sbool(False))
+    s2_1 = siv32(_v.sbool(False))
+    c_1 = siv32(0)
+    _9_0 = _v.lift(lambda indices: (Seq_0[indices[0]]), [N_0])
+    _10_0 = _v.lift(lambda indices: (Syms_0[2]), [N_0])
+    _12_0 = _v.lift(lambda indices: (Syms_0[1]), [N_0])
+    _14_0 = _v.lift(lambda indices: (Syms_0[0]), [N_0])
+    _6_0 = _v.lift(lambda indices: s1_1, [N_0])
+    _7_0 = _v.lift(lambda indices: s2_1, [N_0])
+    _8_0 = _v.lift(lambda indices: c_1, [N_0])
+    _v.vectorized_assign(_1_2, [N_0], [None], (_v.vectorized_access_simd(_9_0, [N_0], [None]) == _v.vectorized_access_simd(_10_0, [N_0], [None])))
+    _v.vectorized_assign(_4_2, [N_0], [None], (_v.vectorized_access_simd(_9_0, [N_0], [None]) == _v.vectorized_access_simd(_12_0, [N_0], [None])))
+    _v.vectorized_assign(s1_3, [N_0], [None], (_v.vectorized_access_simd(_9_0, [N_0], [None]) == _v.vectorized_access_simd(_14_0, [N_0], [None])))
+    for _16_0 in range(0, N_0):
+        # Set ϕ value
+        if _16_0 == 0:
+            _v.vectorized_assign(s1_2, [N_0], [_16_0], _v.vectorized_access(_6_0, [N_0], [_16_0]))
+        else:
+            _v.vectorized_assign(s1_2, [N_0], [_16_0], _v.vectorized_access(s1_3, [N_0], [(_16_0 - 1)]))
+    # Loop exit ϕ values
+    _v.vectorized_assign(s1_2, [N_0], [_16_0], _v.vectorized_access(s1_3, [N_0], [(_16_0 - 1)]))
+    for _17_0 in range(0, N_0):
+        # Set ϕ value
+        if _17_0 == 0:
+            _v.vectorized_assign(s2_2, [N_0], [_17_0], _v.vectorized_access(_7_0, [N_0], [_17_0]))
+        else:
+            _v.vectorized_assign(s2_2, [N_0], [_17_0], _v.vectorized_access(s2_3, [N_0], [(_17_0 - 1)]))
+        _v.vectorized_assign(_5_2, [N_0], [_17_0], OR(_v.vectorized_access_simd(s1_2, [N_0], [_17_0]), _v.vectorized_access_simd(s2_2, [N_0], [_17_0])))
+        _v.vectorized_assign(s2_3, [N_0], [_17_0], _v.vectorized_access_simd(_4_2, [N_0], [_17_0]).bit_and(_v.vectorized_access_simd(_5_2, [N_0], [_17_0])))
+    # Loop exit ϕ values
+    _v.vectorized_assign(s2_2, [N_0], [_17_0], _v.vectorized_access(s2_3, [N_0], [(_17_0 - 1)]))
+    _v.vectorized_assign(_2_2, [N_0], [None], OR(_v.vectorized_access_simd(s2_2, [N_0], [None]), _v.vectorized_access_simd(s1_2, [N_0], [None])))
+    _v.vectorized_assign(_3_2, [N_0], [None], _v.vectorized_access_simd(_1_2, [N_0], [None]).bit_and(_v.vectorized_access_simd(_2_2, [N_0], [None])))
+    for _18_0 in range(0, N_0):
+        # Set ϕ value
+        if _18_0 == 0:
+            _v.vectorized_assign(c_2, [N_0], [_18_0], _v.vectorized_access(_8_0, [N_0], [_18_0]))
+        else:
+            _v.vectorized_assign(c_2, [N_0], [_18_0], _v.vectorized_access(c_4, [N_0], [(_18_0 - 1)]))
+        _v.vectorized_assign(c_3, [N_0], [_18_0], (_v.vectorized_access_simd(c_2, [N_0], [_18_0]) + siv32(1)))
         _v.iterative_mux(c_4,_3_2,c_3,c_2,[N_0],[_18_0])
     # Loop exit ϕ values
     _v.vectorized_assign(c_2, [N_0], [_18_0], _v.vectorized_access(c_4, [N_0], [(_18_0 - 1)]))
@@ -4933,9 +5724,70 @@ std::vector<encrypto::motion::SecureUnsignedInteger> cryptonets_max_pooling(
 
 }
 ```
+#### Mixed configuration
+```Total cost:	17603.80
+Input vars:	{vals!0: {'B'}}
+Constants:	{}
+Plaintext vars:	{OUTPUT_res!0: {'B'}}
+!4!0{ROWS_RES!0, COLS_RES!0}[] = lift(OUTPUT_res!0, (_:rows_res!0, _:cols_res!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!6!0{ROWS_RES!0, COLS_RES!0}[] = lift(vals!0[(((i!1 * 2) * cols!0) + (j!1 * 2))], (i!1:rows_res!0, j!1:cols_res!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!7!0{ROWS_RES!0, COLS_RES!0}[] = lift(vals!0[((((i!1 * 2) * cols!0) + (j!1 * 2)) + 1)], (i!1:rows_res!0, j!1:cols_res!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!9!0{ROWS_RES!0, COLS_RES!0}[] = lift(vals!0[((((i!1 * 2) + 1) * cols!0) + (j!1 * 2))], (i!1:rows_res!0, j!1:cols_res!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!11!0{ROWS_RES!0, COLS_RES!0}[] = lift(vals!0[(((((i!1 * 2) + 1) * cols!0) + (j!1 * 2)) + 1)], (i!1:rows_res!0, j!1:cols_res!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!5!0{ROWS_RES!0, COLS_RES!0}[] = lift(!4!0{ROWS_RES!0, COLS_RES!0}[], (i!1:rows_res!0, j!1:cols_res!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!1!3{ROWS_RES!0, COLS_RES!0}[] = (!7!0{ROWS_RES!0, COLS_RES!0}[] > !6!0{ROWS_RES!0, COLS_RES!0}[]): B -> {} for 3770.40 * 1 = 3770.40
+max!5{ROWS_RES!0, COLS_RES!0}[] = MUX(!1!3{ROWS_RES!0, COLS_RES!0}[], !7!0{ROWS_RES!0, COLS_RES!0}[], !6!0{ROWS_RES!0, COLS_RES!0}[]): B -> {} for 2097.54 * 1 = 2097.54
+!2!3{ROWS_RES!0, COLS_RES!0}[] = (!9!0{ROWS_RES!0, COLS_RES!0}[] > max!5{ROWS_RES!0, COLS_RES!0}[]): B -> {} for 3770.40 * 1 = 3770.40
+max!7{ROWS_RES!0, COLS_RES!0}[] = MUX(!2!3{ROWS_RES!0, COLS_RES!0}[], !9!0{ROWS_RES!0, COLS_RES!0}[], max!5{ROWS_RES!0, COLS_RES!0}[]): B -> {} for 2097.54 * 1 = 2097.54
+!3!3{ROWS_RES!0, COLS_RES!0}[] = (!11!0{ROWS_RES!0, COLS_RES!0}[] > max!7{ROWS_RES!0, COLS_RES!0}[]): B -> {} for 3770.40 * 1 = 3770.40
+max!9{ROWS_RES!0, COLS_RES!0}[] = MUX(!3!3{ROWS_RES!0, COLS_RES!0}[], !11!0{ROWS_RES!0, COLS_RES!0}[], max!7{ROWS_RES!0, COLS_RES!0}[]): B -> {} for 2097.54 * 1 = 2097.54
+OUTPUT_res!3{ROWS_RES!0, COLS_RES!0}[] = VectorizedUpdate(!5!0{ROWS_RES!0, COLS_RES!0}[], [I!1, J!1], max!9{ROWS_RES!0, COLS_RES!0}[]): B -> {} for 0.00 * 1 = 0.00
+return OUTPUT_res!3
+Output vars:	{OUTPUT_res!3: {'B'}}
+
+```
 #### MP-SPDZ code
 ```py
 def cryptonets_max_pooling(vals_0, cols_0, rows_0, cols_res_0, rows_res_0, OUTPUT_res_0):
+    # Shared array declarations
+    _1_3 = [None] * (rows_res_0 * cols_res_0)
+    _11_0 = [None] * (rows_res_0 * cols_res_0)
+    _2_3 = [None] * (rows_res_0 * cols_res_0)
+    _3_3 = [None] * (rows_res_0 * cols_res_0)
+    _4_0 = [None] * (rows_res_0 * cols_res_0)
+    _5_0 = [None] * (rows_res_0 * cols_res_0)
+    _6_0 = [None] * (rows_res_0 * cols_res_0)
+    _7_0 = [None] * (rows_res_0 * cols_res_0)
+    _9_0 = [None] * (rows_res_0 * cols_res_0)
+    OUTPUT_res_3 = [None] * (rows_res_0 * cols_res_0)
+    max_5 = [None] * (rows_res_0 * cols_res_0)
+    max_7 = [None] * (rows_res_0 * cols_res_0)
+    max_9 = [None] * (rows_res_0 * cols_res_0)
+    # Function body
+    _4_0 = _v.lift(lambda indices: OUTPUT_res_0, [rows_res_0, cols_res_0])
+    _6_0 = _v.lift(lambda indices: (vals_0[(((indices[0] * 2) * cols_0) + (indices[1] * 2))]), [rows_res_0, cols_res_0])
+    _7_0 = _v.lift(lambda indices: (vals_0[((((indices[0] * 2) * cols_0) + (indices[1] * 2)) + 1)]), [rows_res_0, cols_res_0])
+    _9_0 = _v.lift(lambda indices: (vals_0[((((indices[0] * 2) + 1) * cols_0) + (indices[1] * 2))]), [rows_res_0, cols_res_0])
+    _11_0 = _v.lift(lambda indices: (vals_0[(((((indices[0] * 2) + 1) * cols_0) + (indices[1] * 2)) + 1)]), [rows_res_0, cols_res_0])
+    _5_0 = _v.lift(lambda indices: _v.vectorized_access(_4_0, [rows_res_0, cols_res_0], [None, None]), [rows_res_0, cols_res_0])
+    _v.vectorized_assign(_1_3, [rows_res_0, cols_res_0], [None, None], (_v.vectorized_access_simd(_7_0, [rows_res_0, cols_res_0], [None, None]) > _v.vectorized_access_simd(_6_0, [rows_res_0, cols_res_0], [None, None])))
+    _v.iterative_mux(max_5,_1_3,_7_0,_6_0,[rows_res_0, cols_res_0],[None, None])
+    _v.vectorized_assign(_2_3, [rows_res_0, cols_res_0], [None, None], (_v.vectorized_access_simd(_9_0, [rows_res_0, cols_res_0], [None, None]) > _v.vectorized_access_simd(max_5, [rows_res_0, cols_res_0], [None, None])))
+    _v.iterative_mux(max_7,_2_3,_9_0,max_5,[rows_res_0, cols_res_0],[None, None])
+    _v.vectorized_assign(_3_3, [rows_res_0, cols_res_0], [None, None], (_v.vectorized_access_simd(_11_0, [rows_res_0, cols_res_0], [None, None]) > _v.vectorized_access_simd(max_7, [rows_res_0, cols_res_0], [None, None])))
+    _v.iterative_mux(max_9,_3_3,_11_0,max_7,[rows_res_0, cols_res_0],[None, None])
+    _v.vectorized_assign(_5_0, [rows_res_0, cols_res_0], [None, None], _v.vectorized_access(max_9, [rows_res_0, cols_res_0], [None, None])); _v.vectorized_assign(OUTPUT_res_3, [rows_res_0, cols_res_0], [None, None], _v.vectorized_access(_5_0, [rows_res_0, cols_res_0], [None, None]))
+    return OUTPUT_res_3
+```
+#### MP-SPDZ mixed code
+```py
+def cryptonets_max_pooling(vals_0, cols_0, rows_0, cols_res_0, rows_res_0, OUTPUT_res_0):
+    # Convertion functions
+    siv32 = sbitintvec.get_type(32)
+    sb32 = sbits.get_type(32)
+    for _random_iter in range(0,len(OUTPUT_res_0)):
+     OUTPUT_res_0[_random_iter] = siv32(OUTPUT_res_0[_random_iter])
+
     # Shared array declarations
     _1_3 = [None] * (rows_res_0 * cols_res_0)
     _11_0 = [None] * (rows_res_0 * cols_res_0)
@@ -5406,6 +6258,32 @@ std::vector<encrypto::motion::SecureUnsignedInteger> db_cross_join_trivial(
 
 }
 ```
+#### Mixed configuration
+```Total cost:	17564.45
+Input vars:	{B!0: {'B'}, A!0: {'B'}, res!0: {'B'}}
+Constants:	{0: {'B'}, 1: {'B'}, 2: {'B'}}
+Plaintext vars:	{}
+!5!0{LEN_A!0, LEN_B!0, 3}[] = lift(res!0, (_:Len_A!0, _:Len_B!0, _:3)): _ -> {'B'} for 0.00 * 1 = 0.00
+!8!0{LEN_A!0, LEN_B!0, 3}[] = lift(A!0[(i!1 * 2)], (i!1:Len_A!0, j!1:Len_B!0, k!1:3)): _ -> {'B'} for 0.00 * 1 = 0.00
+!9!0{LEN_A!0, LEN_B!0, 3}[] = lift(B!0[(j!1 * 2)], (i!1:Len_A!0, j!1:Len_B!0, k!1:3)): _ -> {'B'} for 0.00 * 1 = 0.00
+!11!0{LEN_A!0, LEN_B!0, 3}[] = lift(A!0[((i!1 * 2) + 1)], (i!1:Len_A!0, j!1:Len_B!0, k!1:3)): _ -> {'B'} for 0.00 * 1 = 0.00
+!12!0{LEN_A!0, LEN_B!0, 3}[] = lift(B!0[((j!1 * 2) + 1)], (i!1:Len_A!0, j!1:Len_B!0, k!1:3)): _ -> {'B'} for 0.00 * 1 = 0.00
+v!4 = 0: _ -> {'B'} for 0.00 * 1 = 0.00
+!13!0{LEN_A!0, LEN_B!0, 3}[] = lift((k!1 == 0), (i!1:Len_A!0, j!1:Len_B!0, k!1:3)): _ -> {'B'} for 0.00 * 1 = 0.00
+!14!0{LEN_A!0, LEN_B!0, 3}[] = lift((k!1 == 1), (i!1:Len_A!0, j!1:Len_B!0, k!1:3)): _ -> {'B'} for 0.00 * 1 = 0.00
+!15!0{LEN_A!0, LEN_B!0, 3}[] = lift((k!1 == 2), (i!1:Len_A!0, j!1:Len_B!0, k!1:3)): _ -> {'B'} for 0.00 * 1 = 0.00
+!6!0{LEN_A!0, LEN_B!0, 3}[] = lift(!5!0{LEN_A!0, LEN_B!0, 3}[], (i!1:Len_A!0, _:Len_A!0, _:Len_B!0, _:3)): _ -> {'B'} for 0.00 * 1 = 0.00
+!1!4{LEN_A!0, LEN_B!0, 3}[] = (!8!0{LEN_A!0, LEN_B!0, 3}[] == !9!0{LEN_A!0, LEN_B!0, 3}[]): B -> {} for 4627.10 * 1 = 4627.10
+!7!0{LEN_A!0, LEN_B!0, 3}[] = lift(!6!0{LEN_A!0, LEN_B!0, 3}[], (i!1:Len_A!0, j!1:Len_B!0, k!1:3)): _ -> {'B'} for 0.00 * 1 = 0.00
+v!6{LEN_A!0, LEN_B!0, 3}[] = MUX(!13!0{LEN_A!0, LEN_B!0, 3}[], !8!0{LEN_A!0, LEN_B!0, 3}[], v!4): B -> {} for 3234.34 * 1 = 3234.34
+v!8{LEN_A!0, LEN_B!0, 3}[] = MUX(!14!0{LEN_A!0, LEN_B!0, 3}[], !11!0{LEN_A!0, LEN_B!0, 3}[], v!6{LEN_A!0, LEN_B!0, 3}[]): B -> {} for 3234.34 * 1 = 3234.34
+v!10{LEN_A!0, LEN_B!0, 3}[] = MUX(!15!0{LEN_A!0, LEN_B!0, 3}[], !12!0{LEN_A!0, LEN_B!0, 3}[], v!8{LEN_A!0, LEN_B!0, 3}[]): B -> {} for 3234.34 * 1 = 3234.34
+v!11{LEN_A!0, LEN_B!0, 3}[] = MUX(!1!4{LEN_A!0, LEN_B!0, 3}[], v!10{LEN_A!0, LEN_B!0, 3}[], v!4): B -> {} for 3234.34 * 1 = 3234.34
+res!4{LEN_A!0, LEN_B!0, 3}[] = VectorizedUpdate(!7!0{LEN_A!0, LEN_B!0, 3}[], [I!1, J!1, K!1], v!11{LEN_A!0, LEN_B!0, 3}[]): B -> {} for 0.00 * 1 = 0.00
+return res!4
+Output vars:	{res!4: {'B'}}
+
+```
 #### MP-SPDZ code
 ```py
 def db_cross_join_trivial(A_0, Len_A_0, B_0, Len_B_0, res_0):
@@ -5433,6 +6311,50 @@ def db_cross_join_trivial(A_0, Len_A_0, B_0, Len_B_0, res_0):
     _11_0 = _v.lift(lambda indices: (A_0[((indices[0] * 2) + 1)]), [Len_A_0, Len_B_0, 3])
     _12_0 = _v.lift(lambda indices: (B_0[((indices[1] * 2) + 1)]), [Len_A_0, Len_B_0, 3])
     v_4 = sint(0)
+    _13_0 = _v.lift(lambda indices: (indices[2] == sint(0)), [Len_A_0, Len_B_0, 3])
+    _14_0 = _v.lift(lambda indices: (indices[2] == sint(1)), [Len_A_0, Len_B_0, 3])
+    _15_0 = _v.lift(lambda indices: (indices[2] == sint(2)), [Len_A_0, Len_B_0, 3])
+    _6_0 = _v.lift(lambda indices: _v.vectorized_access(_5_0, [Len_A_0, Len_B_0, 3], [None, None, None]), [Len_A_0, Len_A_0, Len_B_0, 3])
+    _v.vectorized_assign(_1_4, [Len_A_0, Len_B_0, 3], [None, None, None], (_v.vectorized_access_simd(_8_0, [Len_A_0, Len_B_0, 3], [None, None, None]) == _v.vectorized_access_simd(_9_0, [Len_A_0, Len_B_0, 3], [None, None, None])))
+    _7_0 = _v.lift(lambda indices: _v.vectorized_access(_6_0, [Len_A_0, Len_B_0, 3], [None, None, None]), [Len_A_0, Len_B_0, 3])
+    _v.iterative_mux(v_6,_13_0,_8_0,v_4,[Len_A_0, Len_B_0, 3],[None, None, None])
+    _v.iterative_mux(v_8,_14_0,_11_0,v_6,[Len_A_0, Len_B_0, 3],[None, None, None])
+    _v.iterative_mux(v_10,_15_0,_12_0,v_8,[Len_A_0, Len_B_0, 3],[None, None, None])
+    _v.iterative_mux(v_11,_1_4,v_10,v_4,[Len_A_0, Len_B_0, 3],[None, None, None])
+    _v.vectorized_assign(_7_0, [Len_A_0, Len_B_0, 3], [None, None, None], _v.vectorized_access(v_11, [Len_A_0, Len_B_0, 3], [None, None, None])); _v.vectorized_assign(res_4, [Len_A_0, Len_B_0, 3], [None, None, None], _v.vectorized_access(_7_0, [Len_A_0, Len_B_0, 3], [None, None, None]))
+    return res_4
+```
+#### MP-SPDZ mixed code
+```py
+def db_cross_join_trivial(A_0, Len_A_0, B_0, Len_B_0, res_0):
+    # Convertion functions
+    siv32 = sbitintvec.get_type(32)
+    sb32 = sbits.get_type(32)
+    
+    # Shared array declarations
+    _1_4 = [None] * (Len_A_0 * Len_B_0 * 3)
+    _11_0 = [None] * (Len_A_0 * Len_B_0 * 3)
+    _12_0 = [None] * (Len_A_0 * Len_B_0 * 3)
+    _13_0 = [None] * (Len_A_0 * Len_B_0 * 3)
+    _14_0 = [None] * (Len_A_0 * Len_B_0 * 3)
+    _15_0 = [None] * (Len_A_0 * Len_B_0 * 3)
+    _5_0 = [None] * (Len_A_0 * Len_B_0 * 3)
+    _6_0 = [None] * (Len_A_0 * Len_B_0 * 3)
+    _7_0 = [None] * (Len_A_0 * Len_B_0 * 3)
+    _8_0 = [None] * (Len_A_0 * Len_B_0 * 3)
+    _9_0 = [None] * (Len_A_0 * Len_B_0 * 3)
+    res_4 = [None] * (Len_A_0 * Len_B_0 * 3)
+    v_10 = [None] * (Len_A_0 * Len_B_0 * 3)
+    v_11 = [None] * (Len_A_0 * Len_B_0 * 3)
+    v_6 = [None] * (Len_A_0 * Len_B_0 * 3)
+    v_8 = [None] * (Len_A_0 * Len_B_0 * 3)
+    # Function body
+    _5_0 = _v.lift(lambda indices: res_0, [Len_A_0, Len_B_0, 3])
+    _8_0 = _v.lift(lambda indices: (A_0[(indices[0] * 2)]), [Len_A_0, Len_B_0, 3])
+    _9_0 = _v.lift(lambda indices: (B_0[(indices[1] * 2)]), [Len_A_0, Len_B_0, 3])
+    _11_0 = _v.lift(lambda indices: (A_0[((indices[0] * 2) + 1)]), [Len_A_0, Len_B_0, 3])
+    _12_0 = _v.lift(lambda indices: (B_0[((indices[1] * 2) + 1)]), [Len_A_0, Len_B_0, 3])
+    v_4 = siv32(0)
     _13_0 = _v.lift(lambda indices: (indices[2] == sint(0)), [Len_A_0, Len_B_0, 3])
     _14_0 = _v.lift(lambda indices: (indices[2] == sint(1)), [Len_A_0, Len_B_0, 3])
     _15_0 = _v.lift(lambda indices: (indices[2] == sint(2)), [Len_A_0, Len_B_0, 3])
@@ -5703,15 +6625,15 @@ res!1 = 0: _ -> {'A'} for 0.00 * 1 = 0.00
 !8!0{LEN!0}[] = lift(res!1, (i!3:len!0)): _ -> {'A'} for 0.00 * 1 = 0.00
 	sum!2{}[!10!0] = Φ(!2!0{}[!10!0], sum!3{}[(!10!0 - 1)]): A -> {} for 0.00 * 8 = 0.00
 	sum!3{}[!10!0] = (sum!2{}[!10!0] + !3!0{}[!10!0]): A -> {} for 908.96 * 8 = 7271.64
-!4!0 = drop_dim(sum!3{LEN!0}[]): _ -> {'Y', 'A'} for 1690.43 * 1 = 1690.43 (A->Y)
+!4!0 = drop_dim(sum!3{LEN!0}[]): _ -> {'A', 'Y'} for 1690.43 * 1 = 1690.43 (A->Y)
 exp!1 = (!4!0 / len!0): Y -> {'A'} for 4780.02 * 1 = 4780.02 (Y->A)
-!7!0{LEN!0}[] = lift(exp!1, (i!2:len!0)): _ -> {'A'} for 0.00 * 1 = 0.00
+!7!0{LEN!0}[] = lift(exp!1, (i!2:len!0)): _ -> {'A', 'Y'} for 0.00 * 1 = 0.00
 dist!2{LEN!0}[] = (!6!0{LEN!0}[] - !7!0{LEN!0}[]): A -> {} for 1065.18 * 1 = 1065.18
 !1!2{LEN!0}[] = (dist!2{LEN!0}[] * dist!2{LEN!0}[]): A -> {} for 3209.34 * 1 = 3209.34
 V!2{LEN!0}[] = VectorizedUpdate(!5!0{LEN!0}[], [I!2], !1!2{LEN!0}[]): A -> {} for 0.00 * 1 = 0.00
 	res!2{}[!11!0] = Φ(!8!0{}[!11!0], res!3{}[(!11!0 - 1)]): A -> {} for 0.00 * 8 = 0.00
 	res!3{}[!11!0] = (res!2{}[!11!0] + V!2{}[!11!0]): A -> {} for 908.96 * 8 = 7271.64
-!9!0 = drop_dim(res!3{LEN!0}[]): _ -> {'Y', 'A'} for 1690.43 * 1 = 1690.43 (A->Y)
+!9!0 = drop_dim(res!3{LEN!0}[]): _ -> {'A', 'Y'} for 1690.43 * 1 = 1690.43 (A->Y)
 variance!1 = (!9!0 / len!0): Y -> {} for 2812.29 * 1 = 2812.29
 return variance!1
 Output vars:	{variance!1: {'Y'}}
@@ -5916,6 +6838,34 @@ encrypto::motion::SecureUnsignedInteger db_variance(
 
 }
 ```
+#### Mixed configuration
+```Total cost:	35462.85
+Input vars:	{A!0: {'A'}, V!0: {'A'}}
+Constants:	{0: {'A'}}
+Plaintext vars:	{len!0: {'B'}}
+sum!1 = 0: _ -> {'A'} for 0.00 * 1 = 0.00
+!3!0{LEN!0}[] = lift(A!0[i!1], (i!1:len!0)): _ -> {'A'} for 0.00 * 1 = 0.00
+!5!0{LEN!0}[] = lift(V!0, (i!2:len!0)): _ -> {'A'} for 0.00 * 1 = 0.00
+!6!0{LEN!0}[] = lift(A!0[i!2], (i!2:len!0)): _ -> {'A'} for 0.00 * 1 = 0.00
+res!1 = 0: _ -> {'A'} for 0.00 * 1 = 0.00
+!2!0{LEN!0}[] = lift(sum!1, (i!1:len!0)): _ -> {'A'} for 0.00 * 1 = 0.00
+!8!0{LEN!0}[] = lift(res!1, (i!3:len!0)): _ -> {'A'} for 0.00 * 1 = 0.00
+	sum!2{}[!10!0] = Φ(!2!0{}[!10!0], sum!3{}[(!10!0 - 1)]): A -> {} for 0.00 * 8 = 0.00
+	sum!3{}[!10!0] = (sum!2{}[!10!0] + !3!0{}[!10!0]): A -> {} for 908.96 * 8 = 7271.64
+!4!0 = drop_dim(sum!3{LEN!0}[]): _ -> {'B', 'A'} for 1772.02 * 1 = 1772.02 (A->B)
+exp!1 = (!4!0 / len!0): B -> {'A'} for 7270.01 * 1 = 7270.01 (B->A)
+!7!0{LEN!0}[] = lift(exp!1, (i!2:len!0)): _ -> {'A', 'B'} for 0.00 * 1 = 0.00
+dist!2{LEN!0}[] = (!6!0{LEN!0}[] - !7!0{LEN!0}[]): A -> {} for 1065.18 * 1 = 1065.18
+!1!2{LEN!0}[] = (dist!2{LEN!0}[] * dist!2{LEN!0}[]): A -> {} for 3209.34 * 1 = 3209.34
+V!2{LEN!0}[] = VectorizedUpdate(!5!0{LEN!0}[], [I!2], !1!2{LEN!0}[]): A -> {} for 0.00 * 1 = 0.00
+	res!2{}[!11!0] = Φ(!8!0{}[!11!0], res!3{}[(!11!0 - 1)]): A -> {} for 0.00 * 8 = 0.00
+	res!3{}[!11!0] = (res!2{}[!11!0] + V!2{}[!11!0]): A -> {} for 908.96 * 8 = 7271.64
+!9!0 = drop_dim(res!3{LEN!0}[]): _ -> {'B', 'A'} for 1772.02 * 1 = 1772.02 (A->B)
+variance!1 = (!9!0 / len!0): B -> {} for 5831.00 * 1 = 5831.00
+return variance!1
+Output vars:	{variance!1: {'B'}}
+
+```
 #### MP-SPDZ code
 ```py
 def db_variance(A_0, V_0, len_0):
@@ -5967,6 +6917,67 @@ def db_variance(A_0, V_0, len_0):
     _v.vectorized_assign(res_2, [len_0], [_11_0], _v.vectorized_access(res_3, [len_0], [(_11_0 - 1)]))
     _9_0 = _v.drop_dim(res_3, [len_0])
     variance_1 = _v.div(_9_0, len_0)
+    return variance_1
+```
+#### MP-SPDZ mixed code
+```py
+def db_variance(A_0, V_0, len_0):
+    # Convertion functions
+    siv32 = sbitintvec.get_type(32)
+    sb32 = sbits.get_type(32)
+    len_0_B = siv32(len_0)
+
+
+    # Shared array declarations
+    _1_2 = [None] * (len_0)
+    _2_0 = [None] * (len_0)
+    _3_0 = [None] * (len_0)
+    _5_0 = [None] * (len_0)
+    _6_0 = [None] * (len_0)
+    _7_0 = [None] * (len_0)
+    _8_0 = [None] * (len_0)
+    V_2 = [None] * (len_0)
+    dist_2 = [None] * (len_0)
+    res_2 = [None] * (len_0)
+    res_3 = [None] * (len_0)
+    sum_2 = [None] * (len_0)
+    sum_3 = [None] * (len_0)
+    # Function body
+    sum_1 = sint(0)
+    _3_0 = _v.lift(lambda indices: (A_0[indices[0]]), [len_0])
+    _5_0 = _v.lift(lambda indices: V_0, [len_0])
+    _6_0 = _v.lift(lambda indices: (A_0[indices[0]]), [len_0])
+    res_1 = sint(0)
+    _2_0 = _v.lift(lambda indices: sum_1, [len_0])
+    _8_0 = _v.lift(lambda indices: res_1, [len_0])
+    for _10_0 in range(0, len_0):
+        # Set ϕ value
+        if _10_0 == 0:
+            _v.vectorized_assign(sum_2, [len_0], [_10_0], _v.vectorized_access(_2_0, [len_0], [_10_0]))
+        else:
+            _v.vectorized_assign(sum_2, [len_0], [_10_0], _v.vectorized_access(sum_3, [len_0], [(_10_0 - 1)]))
+        _v.vectorized_assign(sum_3, [len_0], [_10_0], (_v.vectorized_access_simd(sum_2, [len_0], [_10_0]) + _v.vectorized_access_simd(_3_0, [len_0], [_10_0])))
+    # Loop exit ϕ values
+    _v.vectorized_assign(sum_2, [len_0], [_10_0], _v.vectorized_access(sum_3, [len_0], [(_10_0 - 1)]))
+    _4_0 = _v.drop_dim(sum_3, [len_0])
+    _4_0_B = siv32(_4_0)
+    exp_1 = sint(_v.div(_4_0, len_0)); exp_1_B  = siv32(exp_1)
+    _7_0 = _v.lift(lambda indices: exp_1, [len_0]);_7_0_B = _v.lift(lambda indices: exp_1_B, [len_0])
+    _v.vectorized_assign(dist_2, [len_0], [None], (_v.vectorized_access_simd(_6_0, [len_0], [None]) - _v.vectorized_access_simd(_7_0, [len_0], [None])))
+    _v.vectorized_assign(_1_2, [len_0], [None], (_v.vectorized_access_simd(dist_2, [len_0], [None]) * _v.vectorized_access_simd(dist_2, [len_0], [None])))
+    _v.vectorized_assign(_5_0, [len_0], [None], _v.vectorized_access(_1_2, [len_0], [None])); _v.vectorized_assign(V_2, [len_0], [None], _v.vectorized_access(_5_0, [len_0], [None]))
+    for _11_0 in range(0, len_0):
+        # Set ϕ value
+        if _11_0 == 0:
+            _v.vectorized_assign(res_2, [len_0], [_11_0], _v.vectorized_access(_8_0, [len_0], [_11_0]))
+        else:
+            _v.vectorized_assign(res_2, [len_0], [_11_0], _v.vectorized_access(res_3, [len_0], [(_11_0 - 1)]))
+        _v.vectorized_assign(res_3, [len_0], [_11_0], (_v.vectorized_access_simd(res_2, [len_0], [_11_0]) + _v.vectorized_access_simd(V_2, [len_0], [_11_0])))
+    # Loop exit ϕ values
+    _v.vectorized_assign(res_2, [len_0], [_11_0], _v.vectorized_access(res_3, [len_0], [(_11_0 - 1)]))
+    _9_0 = _v.drop_dim(res_3, [len_0])
+    _9_0_B = siv32(_9_0)
+    variance_1 = _v.div(_9_0_B, len_0_B)
     return variance_1
 ```
 ### `histogram`
@@ -6316,9 +7327,71 @@ std::vector<encrypto::motion::SecureUnsignedInteger> histogram(
 
 }
 ```
+#### Mixed configuration
+```Total cost:	36422.82
+Input vars:	{B!0: {'B'}, A!0: {'B'}}
+Constants:	{}
+Plaintext vars:	{result!0: {'B'}}
+!2!0{NUM_BINS!0}[] = lift(result!0, (i!1:num_bins!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!5!0{NUM_BINS!0, N!0}[] = lift(A!0[j!1], (i!1:num_bins!0, j!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!6!0{NUM_BINS!0, N!0}[] = lift(i!1, (i!1:num_bins!0, j!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!7!0{NUM_BINS!0, N!0}[] = lift(B!0[j!1], (i!1:num_bins!0, j!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!4!0{NUM_BINS!0, N!0}[] = lift(!2!0{NUM_BINS!0}[], (i!1:num_bins!0, j!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!1!3{NUM_BINS!0, N!0}[] = (!5!0{NUM_BINS!0, N!0}[] == !6!0{NUM_BINS!0, N!0}[]): B -> {} for 3465.38 * 1 = 3465.38
+	result!2{NUM_BINS!0}[!8!0] = Φ(!4!0{NUM_BINS!0}[!8!0], result!3{NUM_BINS!0}[(!8!0 - 1)]): B -> {} for 0.00 * 8 = 0.00
+	val!3{NUM_BINS!0}[!8!0] = (result!2{NUM_BINS!0}[!8!0] + !7!0{NUM_BINS!0}[!8!0]): B -> {} for 2653.54 * 8 = 21228.32
+	val!5{NUM_BINS!0}[!8!0] = MUX(!1!3{NUM_BINS!0}[!8!0], val!3{NUM_BINS!0}[!8!0], result!2{NUM_BINS!0}[!8!0]): B -> {} for 1466.14 * 8 = 11729.12
+	result!3{NUM_BINS!0}[!8!0] = VectorizedUpdate(result!2{NUM_BINS!0}[!8!0], [I!1, !8!0], val!5{NUM_BINS!0}[!8!0]): B -> {} for 0.00 * 8 = 0.00
+!3!0{NUM_BINS!0}[] = drop_dim(result!3{NUM_BINS!0, N!0}[]): _ -> {'B'} for 0.00 * 1 = 0.00
+return !3!0
+Output vars:	{!3!0: {'B'}}
+
+```
 #### MP-SPDZ code
 ```py
 def histogram(A_0, B_0, N_0, num_bins_0, result_0):
+    # Shared array declarations
+    _1_3 = [None] * (num_bins_0 * N_0)
+    _2_0 = [None] * (num_bins_0)
+    _3_0 = [None] * (num_bins_0)
+    _4_0 = [None] * (num_bins_0 * N_0)
+    _5_0 = [None] * (num_bins_0 * N_0)
+    _6_0 = [None] * (num_bins_0 * N_0)
+    _7_0 = [None] * (num_bins_0 * N_0)
+    result_2 = [None] * (num_bins_0 * N_0)
+    result_3 = [None] * (num_bins_0 * N_0)
+    val_3 = [None] * (num_bins_0 * N_0)
+    val_5 = [None] * (num_bins_0 * N_0)
+    # Function body
+    _2_0 = _v.lift(lambda indices: result_0, [num_bins_0])
+    _5_0 = _v.lift(lambda indices: (A_0[indices[1]]), [num_bins_0, N_0])
+    _6_0 = _v.lift(lambda indices: indices[0], [num_bins_0, N_0])
+    _7_0 = _v.lift(lambda indices: (B_0[indices[1]]), [num_bins_0, N_0])
+    _4_0 = _v.lift(lambda indices: _v.vectorized_access(_2_0, [num_bins_0], [None]), [num_bins_0, N_0])
+    _v.vectorized_assign(_1_3, [num_bins_0, N_0], [None, None], (_v.vectorized_access_simd(_5_0, [num_bins_0, N_0], [None, None]) == _v.vectorized_access_simd(_6_0, [num_bins_0, N_0], [None, None])))
+    for _8_0 in range(0, N_0):
+        # Set ϕ value
+        if _8_0 == 0:
+            _v.vectorized_assign(result_2, [num_bins_0, N_0], [None, _8_0], _v.vectorized_access(_4_0, [num_bins_0, N_0], [None, _8_0]))
+        else:
+            _v.vectorized_assign(result_2, [num_bins_0, N_0], [None, _8_0], _v.vectorized_access(result_3, [num_bins_0, N_0], [None, (_8_0 - 1)]))
+        _v.vectorized_assign(val_3, [num_bins_0, N_0], [None, _8_0], (_v.vectorized_access_simd(result_2, [num_bins_0, N_0], [None, _8_0]) + _v.vectorized_access_simd(_7_0, [num_bins_0, N_0], [None, _8_0])))
+        _v.iterative_mux(val_5,_1_3,val_3,result_2,[num_bins_0, N_0],[None, _8_0])
+        _v.vectorized_assign((TODO: fix this case), [num_bins_0, N_0], [None, _8_0], _v.vectorized_access(val_5, [num_bins_0, N_0], [None, _8_0])); _v.vectorized_assign(result_3, [num_bins_0, N_0], [None, _8_0], _v.vectorized_access((TODO: fix this case), [num_bins_0, N_0], [None, _8_0]))
+    # Loop exit ϕ values
+    _v.vectorized_assign(result_2, [num_bins_0, N_0], [None, _8_0], _v.vectorized_access(result_3, [num_bins_0, N_0], [None, (_8_0 - 1)]))
+    _v.vectorized_assign(_3_0, [num_bins_0], [None], _v.drop_dim(result_3, [num_bins_0, N_0]))
+    return _3_0
+```
+#### MP-SPDZ mixed code
+```py
+def histogram(A_0, B_0, N_0, num_bins_0, result_0):
+    # Convertion functions
+    siv32 = sbitintvec.get_type(32)
+    sb32 = sbits.get_type(32)
+    for _random_iter in range(0,len(result_0)):
+     result_0[_random_iter] = siv32(result_0[_random_iter])
+
     # Shared array declarations
     _1_3 = [None] * (num_bins_0 * N_0)
     _2_0 = [None] * (num_bins_0)
@@ -6619,9 +7692,58 @@ encrypto::motion::SecureUnsignedInteger inner_product(
 
 }
 ```
+#### Mixed configuration
+```Total cost:	6124.64
+Input vars:	{B!0: {'A'}, A!0: {'A'}}
+Constants:	{0: {'A'}}
+Plaintext vars:	{}
+sum!1 = 0: _ -> {'A'} for 0.00 * 1 = 0.00
+!2!0{N!0}[] = lift(A!0[i!1], (i!1:N!0)): _ -> {'A'} for 0.00 * 1 = 0.00
+!3!0{N!0}[] = lift(B!0[i!1], (i!1:N!0)): _ -> {'A'} for 0.00 * 1 = 0.00
+!1!0{N!0}[] = lift(sum!1, (i!1:N!0)): _ -> {'A'} for 0.00 * 1 = 0.00
+temp!2{N!0}[] = (!2!0{N!0}[] * !3!0{N!0}[]): A -> {} for 3397.78 * 1 = 3397.78
+	sum!2{}[!5!0] = Φ(!1!0{}[!5!0], sum!3{}[(!5!0 - 1)]): A -> {} for 0.00 * 3 = 0.00
+	sum!3{}[!5!0] = (sum!2{}[!5!0] + temp!2{}[!5!0]): A -> {} for 908.96 * 3 = 2726.87
+!4!0 = drop_dim(sum!3{N!0}[]): _ -> {'A'} for 0.00 * 1 = 0.00
+return !4!0
+Output vars:	{!4!0: {'A'}}
+
+```
 #### MP-SPDZ code
 ```py
 def inner_product(A_0, B_0, N_0):
+    # Shared array declarations
+    _1_0 = [None] * (N_0)
+    _2_0 = [None] * (N_0)
+    _3_0 = [None] * (N_0)
+    sum_2 = [None] * (N_0)
+    sum_3 = [None] * (N_0)
+    temp_2 = [None] * (N_0)
+    # Function body
+    sum_1 = sint(0)
+    _2_0 = _v.lift(lambda indices: (A_0[indices[0]]), [N_0])
+    _3_0 = _v.lift(lambda indices: (B_0[indices[0]]), [N_0])
+    _1_0 = _v.lift(lambda indices: sum_1, [N_0])
+    _v.vectorized_assign(temp_2, [N_0], [None], (_v.vectorized_access_simd(_2_0, [N_0], [None]) * _v.vectorized_access_simd(_3_0, [N_0], [None])))
+    for _5_0 in range(0, N_0):
+        # Set ϕ value
+        if _5_0 == 0:
+            _v.vectorized_assign(sum_2, [N_0], [_5_0], _v.vectorized_access(_1_0, [N_0], [_5_0]))
+        else:
+            _v.vectorized_assign(sum_2, [N_0], [_5_0], _v.vectorized_access(sum_3, [N_0], [(_5_0 - 1)]))
+        _v.vectorized_assign(sum_3, [N_0], [_5_0], (_v.vectorized_access_simd(sum_2, [N_0], [_5_0]) + _v.vectorized_access_simd(temp_2, [N_0], [_5_0])))
+    # Loop exit ϕ values
+    _v.vectorized_assign(sum_2, [N_0], [_5_0], _v.vectorized_access(sum_3, [N_0], [(_5_0 - 1)]))
+    _4_0 = _v.drop_dim(sum_3, [N_0])
+    return _4_0
+```
+#### MP-SPDZ mixed code
+```py
+def inner_product(A_0, B_0, N_0):
+    # Convertion functions
+    siv32 = sbitintvec.get_type(32)
+    sb32 = sbits.get_type(32)
+    
     # Shared array declarations
     _1_0 = [None] * (N_0)
     _2_0 = [None] * (N_0)
@@ -7255,6 +8377,42 @@ encrypto::motion::SecureUnsignedInteger longest_102(
 
 }
 ```
+#### Mixed configuration
+```Total cost:	121456.48
+Input vars:	{Syms!0: {'B'}, Seq!0: {'B'}}
+Constants:	{False: {'B'}, 0: {'B'}, 1: {'B'}}
+Plaintext vars:	{}
+s0!1 = False: _ -> {'B'} for 0.00 * 1 = 0.00
+max_len!1 = 0: _ -> {'B'} for 0.00 * 1 = 0.00
+length!1 = 0: _ -> {'B'} for 0.00 * 1 = 0.00
+!12!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!13!0{N!0}[] = lift(Syms!0[2], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!15!0{N!0}[] = lift(Syms!0[1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!17!0{N!0}[] = lift(Syms!0[0], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+length!4 = 0: _ -> {'B'} for 0.00 * 1 = 0.00
+!9!0{N!0}[] = lift(s0!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!10!0{N!0}[] = lift(max_len!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!11!0{N!0}[] = lift(length!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!1!2{N!0}[] = (!12!0{N!0}[] == !13!0{N!0}[]): B -> {} for 2149.74 * 1 = 2149.74
+!2!2{N!0}[] = (!12!0{N!0}[] == !15!0{N!0}[]): B -> {} for 2149.74 * 1 = 2149.74
+!4!2{N!0}[] = (!12!0{N!0}[] == !17!0{N!0}[]): B -> {} for 2149.74 * 1 = 2149.74
+	s0!2{}[!19!0] = Φ(!9!0{}[!19!0], s0!3{}[(!19!0 - 1)]): B -> {} for 0.00 * 10 = 0.00
+	!5!2{}[!19!0] = (s0!2{}[!19!0] and !4!2{}[!19!0]): B -> {} for 1372.38 * 10 = 13723.83
+	s0!3{}[!19!0] = (!2!2{}[!19!0] or !5!2{}[!19!0]): B -> {} for 1381.97 * 10 = 13819.69
+s1!2{N!0}[] = (s0!2{N!0}[] and !1!2{N!0}[]): B -> {} for 1669.87 * 1 = 1669.87
+!6!2{N!0}[] = (s1!2{N!0}[] or s0!3{N!0}[]): B -> {} for 1763.39 * 1 = 1763.39
+	length!2{}[!20!0] = Φ(!11!0{}[!20!0], length!5{}[(!20!0 - 1)]): B -> {} for 0.00 * 10 = 0.00
+	length!3{}[!20!0] = (length!2{}[!20!0] + 1): B -> {} for 2083.52 * 10 = 20835.23
+	length!5{}[!20!0] = MUX(!6!2{}[!20!0], length!3{}[!20!0], length!4): B -> {} for 1405.56 * 10 = 14055.56
+	max_len!2{}[!21!0] = Φ(!10!0{}[!21!0], max_len!4{}[(!21!0 - 1)]): B -> {} for 0.00 * 10 = 0.00
+	!7!2{}[!21!0] = (max_len!2{}[!21!0] < length!5{}[!21!0]): B -> {} for 2136.03 * 10 = 21360.30
+	!8!2{}[!21!0] = (s1!2{}[!21!0] and !7!2{}[!21!0]): B -> {} for 1372.38 * 10 = 13723.83
+	max_len!4{}[!21!0] = MUX(!8!2{}[!21!0], length!5{}[!21!0], max_len!2{}[!21!0]): B -> {} for 1405.56 * 10 = 14055.56
+!18!0 = drop_dim(max_len!4{N!0}[]): _ -> {'B'} for 0.00 * 1 = 0.00
+return !18!0
+Output vars:	{!18!0: {'B'}}
+
+```
 #### MP-SPDZ code
 ```py
 def longest_102(Seq_0, N_0, Syms_0):
@@ -7315,6 +8473,87 @@ def longest_102(Seq_0, N_0, Syms_0):
         else:
             _v.vectorized_assign(length_2, [N_0], [_20_0], _v.vectorized_access(length_5, [N_0], [(_20_0 - 1)]))
         _v.vectorized_assign(length_3, [N_0], [_20_0], (_v.vectorized_access_simd(length_2, [N_0], [_20_0]) + sint(1)))
+        _v.iterative_mux(length_5,_6_2,length_3,length_4,[N_0],[_20_0])
+    # Loop exit ϕ values
+    _v.vectorized_assign(length_2, [N_0], [_20_0], _v.vectorized_access(length_5, [N_0], [(_20_0 - 1)]))
+    for _21_0 in range(0, N_0):
+        # Set ϕ value
+        if _21_0 == 0:
+            _v.vectorized_assign(max_len_2, [N_0], [_21_0], _v.vectorized_access(_10_0, [N_0], [_21_0]))
+        else:
+            _v.vectorized_assign(max_len_2, [N_0], [_21_0], _v.vectorized_access(max_len_4, [N_0], [(_21_0 - 1)]))
+        _v.vectorized_assign(_7_2, [N_0], [_21_0], (_v.vectorized_access_simd(max_len_2, [N_0], [_21_0]) < _v.vectorized_access_simd(length_5, [N_0], [_21_0])))
+        _v.vectorized_assign(_8_2, [N_0], [_21_0], _v.vectorized_access_simd(s1_2, [N_0], [_21_0]).bit_and(_v.vectorized_access_simd(_7_2, [N_0], [_21_0])))
+        _v.iterative_mux(max_len_4,_8_2,length_5,max_len_2,[N_0],[_21_0])
+    # Loop exit ϕ values
+    _v.vectorized_assign(max_len_2, [N_0], [_21_0], _v.vectorized_access(max_len_4, [N_0], [(_21_0 - 1)]))
+    _18_0 = _v.drop_dim(max_len_4, [N_0])
+    return _18_0
+```
+#### MP-SPDZ mixed code
+```py
+def longest_102(Seq_0, N_0, Syms_0):
+    # Convertion functions
+    siv32 = sbitintvec.get_type(32)
+    sb32 = sbits.get_type(32)
+    
+    # Shared array declarations
+    _1_2 = [None] * (N_0)
+    _10_0 = [None] * (N_0)
+    _11_0 = [None] * (N_0)
+    _12_0 = [None] * (N_0)
+    _13_0 = [None] * (N_0)
+    _15_0 = [None] * (N_0)
+    _17_0 = [None] * (N_0)
+    _2_2 = [None] * (N_0)
+    _4_2 = [None] * (N_0)
+    _5_2 = [None] * (N_0)
+    _6_2 = [None] * (N_0)
+    _7_2 = [None] * (N_0)
+    _8_2 = [None] * (N_0)
+    _9_0 = [None] * (N_0)
+    length_2 = [None] * (N_0)
+    length_3 = [None] * (N_0)
+    length_5 = [None] * (N_0)
+    max_len_2 = [None] * (N_0)
+    max_len_4 = [None] * (N_0)
+    s0_2 = [None] * (N_0)
+    s0_3 = [None] * (N_0)
+    s1_2 = [None] * (N_0)
+    # Function body
+    s0_1 = siv32(_v.sbool(False))
+    max_len_1 = siv32(0)
+    length_1 = siv32(0)
+    _12_0 = _v.lift(lambda indices: (Seq_0[indices[0]]), [N_0])
+    _13_0 = _v.lift(lambda indices: (Syms_0[2]), [N_0])
+    _15_0 = _v.lift(lambda indices: (Syms_0[1]), [N_0])
+    _17_0 = _v.lift(lambda indices: (Syms_0[0]), [N_0])
+    length_4 = siv32(0)
+    _9_0 = _v.lift(lambda indices: s0_1, [N_0])
+    _10_0 = _v.lift(lambda indices: max_len_1, [N_0])
+    _11_0 = _v.lift(lambda indices: length_1, [N_0])
+    _v.vectorized_assign(_1_2, [N_0], [None], (_v.vectorized_access_simd(_12_0, [N_0], [None]) == _v.vectorized_access_simd(_13_0, [N_0], [None])))
+    _v.vectorized_assign(_2_2, [N_0], [None], (_v.vectorized_access_simd(_12_0, [N_0], [None]) == _v.vectorized_access_simd(_15_0, [N_0], [None])))
+    _v.vectorized_assign(_4_2, [N_0], [None], (_v.vectorized_access_simd(_12_0, [N_0], [None]) == _v.vectorized_access_simd(_17_0, [N_0], [None])))
+    for _19_0 in range(0, N_0):
+        # Set ϕ value
+        if _19_0 == 0:
+            _v.vectorized_assign(s0_2, [N_0], [_19_0], _v.vectorized_access(_9_0, [N_0], [_19_0]))
+        else:
+            _v.vectorized_assign(s0_2, [N_0], [_19_0], _v.vectorized_access(s0_3, [N_0], [(_19_0 - 1)]))
+        _v.vectorized_assign(_5_2, [N_0], [_19_0], _v.vectorized_access_simd(s0_2, [N_0], [_19_0]).bit_and(_v.vectorized_access_simd(_4_2, [N_0], [_19_0])))
+        _v.vectorized_assign(s0_3, [N_0], [_19_0], OR(_v.vectorized_access_simd(_2_2, [N_0], [_19_0]), _v.vectorized_access_simd(_5_2, [N_0], [_19_0])))
+    # Loop exit ϕ values
+    _v.vectorized_assign(s0_2, [N_0], [_19_0], _v.vectorized_access(s0_3, [N_0], [(_19_0 - 1)]))
+    _v.vectorized_assign(s1_2, [N_0], [None], _v.vectorized_access_simd(s0_2, [N_0], [None]).bit_and(_v.vectorized_access_simd(_1_2, [N_0], [None])))
+    _v.vectorized_assign(_6_2, [N_0], [None], OR(_v.vectorized_access_simd(s1_2, [N_0], [None]), _v.vectorized_access_simd(s0_3, [N_0], [None])))
+    for _20_0 in range(0, N_0):
+        # Set ϕ value
+        if _20_0 == 0:
+            _v.vectorized_assign(length_2, [N_0], [_20_0], _v.vectorized_access(_11_0, [N_0], [_20_0]))
+        else:
+            _v.vectorized_assign(length_2, [N_0], [_20_0], _v.vectorized_access(length_5, [N_0], [(_20_0 - 1)]))
+        _v.vectorized_assign(length_3, [N_0], [_20_0], (_v.vectorized_access_simd(length_2, [N_0], [_20_0]) + siv32(1)))
         _v.iterative_mux(length_5,_6_2,length_3,length_4,[N_0],[_20_0])
     # Loop exit ϕ values
     _v.vectorized_assign(length_2, [N_0], [_20_0], _v.vectorized_access(length_5, [N_0], [(_20_0 - 1)]))
@@ -7932,6 +9171,41 @@ encrypto::motion::SecureUnsignedInteger longest_odd_10(
 
 }
 ```
+#### Mixed configuration
+```Total cost:	88008.43
+Input vars:	{Syms!0: {'B'}, Seq!0: {'B'}}
+Constants:	{0: {'B'}, False: {'B'}, 1: {'B'}}
+Plaintext vars:	{}
+current_length!1 = 0: _ -> {'B'} for 0.00 * 1 = 0.00
+max_length!1 = 0: _ -> {'B'} for 0.00 * 1 = 0.00
+s2!1 = False: _ -> {'B'} for 0.00 * 1 = 0.00
+!11!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!12!0{N!0}[] = lift(Syms!0[1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!14!0{N!0}[] = lift(Syms!0[0], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+current_length!4 = 0: _ -> {'B'} for 0.00 * 1 = 0.00
+!8!0{N!0}[] = lift(current_length!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!9!0{N!0}[] = lift(max_length!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!10!0{N!0}[] = lift(s2!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!1!2{N!0}[] = (!11!0{N!0}[] == !12!0{N!0}[]): B -> {} for 2298.92 * 1 = 2298.92
+s2!3{N!0}[] = (!11!0{N!0}[] == !14!0{N!0}[]): B -> {} for 2298.92 * 1 = 2298.92
+	s2!2{}[!16!0] = Φ(!10!0{}[!16!0], s2!3{}[(!16!0 - 1)]): B -> {} for 0.00 * 8 = 0.00
+s1!2{N!0}[] = (s2!2{N!0}[] and !1!2{N!0}[]): B -> {} for 1760.82 * 1 = 1760.82
+!2!2{N!0}[] = not s2!2{N!0}[]: B -> {} for 0.00 * 1 = 0.00
+	current_length!2{}[!17!0] = Φ(!8!0{}[!17!0], current_length!6{}[(!17!0 - 1)]): B -> {} for 0.00 * 8 = 0.00
+	current_length!5{}[!17!0] = MUX(!2!2{}[!17!0], current_length!4, current_length!2{}[!17!0]): B -> {} for 1405.56 * 8 = 11244.44
+	current_length!3{}[!17!0] = (current_length!2{}[!17!0] + 1): B -> {} for 2083.52 * 8 = 16668.18
+	current_length!6{}[!17!0] = MUX(s1!2{}[!17!0], current_length!3{}[!17!0], current_length!5{}[!17!0]): B -> {} for 1405.56 * 8 = 11244.44
+!4!2{N!0}[] = (current_length!6{N!0}[] & 1): B -> {} for 1760.82 * 1 = 1760.82
+!5!2{N!0}[] = (!4!2{N!0}[] == 1): B -> {} for 2298.92 * 1 = 2298.92
+	max_length!2{}[!18!0] = Φ(!9!0{}[!18!0], max_length!4{}[(!18!0 - 1)]): B -> {} for 0.00 * 8 = 0.00
+	!6!2{}[!18!0] = (current_length!6{}[!18!0] > max_length!2{}[!18!0]): B -> {} for 2026.18 * 8 = 16209.46
+	!7!2{}[!18!0] = (!5!2{}[!18!0] and !6!2{}[!18!0]): B -> {} for 1372.38 * 8 = 10979.07
+	max_length!4{}[!18!0] = MUX(!7!2{}[!18!0], current_length!6{}[!18!0], max_length!2{}[!18!0]): B -> {} for 1405.56 * 8 = 11244.44
+!15!0 = drop_dim(max_length!4{N!0}[]): _ -> {'B'} for 0.00 * 1 = 0.00
+return !15!0
+Output vars:	{!15!0: {'B'}}
+
+```
 #### MP-SPDZ code
 ```py
 def longest_odd_10(Seq_0, N_0, Syms_0):
@@ -7993,6 +9267,85 @@ def longest_odd_10(Seq_0, N_0, Syms_0):
     _v.vectorized_assign(current_length_2, [N_0], [_17_0], _v.vectorized_access(current_length_6, [N_0], [(_17_0 - 1)]))
     _v.vectorized_assign(_4_2, [N_0], [None], _v.vectorized_access_simd(current_length_6, [N_0], [None]).bit_and(sint(1)))
     _v.vectorized_assign(_5_2, [N_0], [None], (_v.vectorized_access_simd(_4_2, [N_0], [None]) == sint(1)))
+    for _18_0 in range(0, N_0):
+        # Set ϕ value
+        if _18_0 == 0:
+            _v.vectorized_assign(max_length_2, [N_0], [_18_0], _v.vectorized_access(_9_0, [N_0], [_18_0]))
+        else:
+            _v.vectorized_assign(max_length_2, [N_0], [_18_0], _v.vectorized_access(max_length_4, [N_0], [(_18_0 - 1)]))
+        _v.vectorized_assign(_6_2, [N_0], [_18_0], (_v.vectorized_access_simd(current_length_6, [N_0], [_18_0]) > _v.vectorized_access_simd(max_length_2, [N_0], [_18_0])))
+        _v.vectorized_assign(_7_2, [N_0], [_18_0], _v.vectorized_access_simd(_5_2, [N_0], [_18_0]).bit_and(_v.vectorized_access_simd(_6_2, [N_0], [_18_0])))
+        _v.iterative_mux(max_length_4,_7_2,current_length_6,max_length_2,[N_0],[_18_0])
+    # Loop exit ϕ values
+    _v.vectorized_assign(max_length_2, [N_0], [_18_0], _v.vectorized_access(max_length_4, [N_0], [(_18_0 - 1)]))
+    _15_0 = _v.drop_dim(max_length_4, [N_0])
+    return _15_0
+```
+#### MP-SPDZ mixed code
+```py
+def longest_odd_10(Seq_0, N_0, Syms_0):
+    # Convertion functions
+    siv32 = sbitintvec.get_type(32)
+    sb32 = sbits.get_type(32)
+    
+    # Shared array declarations
+    _1_2 = [None] * (N_0)
+    _10_0 = [None] * (N_0)
+    _11_0 = [None] * (N_0)
+    _12_0 = [None] * (N_0)
+    _14_0 = [None] * (N_0)
+    _2_2 = [None] * (N_0)
+    _4_2 = [None] * (N_0)
+    _5_2 = [None] * (N_0)
+    _6_2 = [None] * (N_0)
+    _7_2 = [None] * (N_0)
+    _8_0 = [None] * (N_0)
+    _9_0 = [None] * (N_0)
+    current_length_2 = [None] * (N_0)
+    current_length_3 = [None] * (N_0)
+    current_length_5 = [None] * (N_0)
+    current_length_6 = [None] * (N_0)
+    max_length_2 = [None] * (N_0)
+    max_length_4 = [None] * (N_0)
+    s1_2 = [None] * (N_0)
+    s2_2 = [None] * (N_0)
+    s2_3 = [None] * (N_0)
+    # Function body
+    current_length_1 = siv32(0)
+    max_length_1 = siv32(0)
+    s2_1 = siv32(_v.sbool(False))
+    _11_0 = _v.lift(lambda indices: (Seq_0[indices[0]]), [N_0])
+    _12_0 = _v.lift(lambda indices: (Syms_0[1]), [N_0])
+    _14_0 = _v.lift(lambda indices: (Syms_0[0]), [N_0])
+    current_length_4 = siv32(0)
+    _8_0 = _v.lift(lambda indices: current_length_1, [N_0])
+    _9_0 = _v.lift(lambda indices: max_length_1, [N_0])
+    _10_0 = _v.lift(lambda indices: s2_1, [N_0])
+    _v.vectorized_assign(_1_2, [N_0], [None], (_v.vectorized_access_simd(_11_0, [N_0], [None]) == _v.vectorized_access_simd(_12_0, [N_0], [None])))
+    _v.vectorized_assign(s2_3, [N_0], [None], (_v.vectorized_access_simd(_11_0, [N_0], [None]) == _v.vectorized_access_simd(_14_0, [N_0], [None])))
+    for _16_0 in range(0, N_0):
+        # Set ϕ value
+        if _16_0 == 0:
+            _v.vectorized_assign(s2_2, [N_0], [_16_0], _v.vectorized_access(_10_0, [N_0], [_16_0]))
+        else:
+            _v.vectorized_assign(s2_2, [N_0], [_16_0], _v.vectorized_access(s2_3, [N_0], [(_16_0 - 1)]))
+    # Loop exit ϕ values
+    _v.vectorized_assign(s2_2, [N_0], [_16_0], _v.vectorized_access(s2_3, [N_0], [(_16_0 - 1)]))
+    _v.vectorized_assign(s1_2, [N_0], [None], _v.vectorized_access_simd(s2_2, [N_0], [None]).bit_and(_v.vectorized_access_simd(_1_2, [N_0], [None])))
+    _v.vectorized_assign(_2_2, [N_0], [None], (_v.vectorized_access_simd(s2_2, [N_0], [None]).bit_not()))
+    for _17_0 in range(0, N_0):
+        # Set ϕ value
+        if _17_0 == 0:
+            _v.vectorized_assign(current_length_2, [N_0], [_17_0], _v.vectorized_access(_8_0, [N_0], [_17_0]))
+        else:
+            _v.vectorized_assign(current_length_2, [N_0], [_17_0], _v.vectorized_access(current_length_6, [N_0], [(_17_0 - 1)]))
+        _v.iterative_mux(current_length_5,_2_2,current_length_4,current_length_2,[N_0],[_17_0])
+        _v.vectorized_assign(current_length_3, [N_0], [_17_0], (_v.vectorized_access_simd(current_length_2, [N_0], [_17_0]) + siv32(1)))
+        _v.iterative_mux(current_length_6,s1_2,current_length_3,current_length_5,[N_0],[_17_0])
+    # Loop exit ϕ values
+    _v.vectorized_assign(current_length_2, [N_0], [_17_0], _v.vectorized_access(current_length_6, [N_0], [(_17_0 - 1)]))
+    _v.vectorized_assign(_4_2, [N_0], [None], _v.vectorized_access_simd(current_length_6, [N_0], [None]).bit_and(siv32(1)))
+    _v.vectorized_assign(_5_2, [N_0], [None], (_v.vectorized_access_simd(_4_2, [N_0], [None]) == siv32(1)))
     for _18_0 in range(0, N_0):
         # Set ϕ value
         if _18_0 == 0:
@@ -8429,6 +9782,31 @@ encrypto::motion::SecureUnsignedInteger max_dist_between_syms(
 
 }
 ```
+#### Mixed configuration
+```Total cost:	57665.45
+Input vars:	{Sym!0: {'B'}, Seq!0: {'B'}}
+Constants:	{0: {'B'}, 1: {'B'}}
+Plaintext vars:	{}
+max_dist!1 = 0: _ -> {'B'} for 0.00 * 1 = 0.00
+current_dist!1 = 0: _ -> {'B'} for 0.00 * 1 = 0.00
+!6!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!7!0{N!0}[] = lift(Sym!0, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+current_dist!4 = 0: _ -> {'B'} for 0.00 * 1 = 0.00
+!4!0{N!0}[] = lift(max_dist!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!5!0{N!0}[] = lift(current_dist!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!1!2{N!0}[] = (!6!0{N!0}[] == !7!0{N!0}[]): B -> {} for 2298.92 * 1 = 2298.92
+!2!2{N!0}[] = not !1!2{N!0}[]: B -> {} for 0.00 * 1 = 0.00
+	current_dist!2{}[!9!0] = Φ(!5!0{}[!9!0], current_dist!5{}[(!9!0 - 1)]): B -> {} for 0.00 * 8 = 0.00
+	current_dist!3{}[!9!0] = (current_dist!2{}[!9!0] + 1): B -> {} for 2083.52 * 8 = 16668.18
+	current_dist!5{}[!9!0] = MUX(!2!2{}[!9!0], current_dist!3{}[!9!0], current_dist!4): B -> {} for 1405.56 * 8 = 11244.44
+	max_dist!2{}[!10!0] = Φ(!4!0{}[!10!0], max_dist!4{}[(!10!0 - 1)]): B -> {} for 0.00 * 8 = 0.00
+	!3!2{}[!10!0] = (current_dist!5{}[!10!0] > max_dist!2{}[!10!0]): B -> {} for 2026.18 * 8 = 16209.46
+	max_dist!4{}[!10!0] = MUX(!3!2{}[!10!0], current_dist!5{}[!10!0], max_dist!2{}[!10!0]): B -> {} for 1405.56 * 8 = 11244.44
+!8!0 = drop_dim(max_dist!4{N!0}[]): _ -> {'B'} for 0.00 * 1 = 0.00
+return !8!0
+Output vars:	{!8!0: {'B'}}
+
+```
 #### MP-SPDZ code
 ```py
 def max_dist_between_syms(Seq_0, N_0, Sym_0):
@@ -8462,6 +9840,59 @@ def max_dist_between_syms(Seq_0, N_0, Sym_0):
         else:
             _v.vectorized_assign(current_dist_2, [N_0], [_9_0], _v.vectorized_access(current_dist_5, [N_0], [(_9_0 - 1)]))
         _v.vectorized_assign(current_dist_3, [N_0], [_9_0], (_v.vectorized_access_simd(current_dist_2, [N_0], [_9_0]) + sint(1)))
+        _v.iterative_mux(current_dist_5,_2_2,current_dist_3,current_dist_4,[N_0],[_9_0])
+    # Loop exit ϕ values
+    _v.vectorized_assign(current_dist_2, [N_0], [_9_0], _v.vectorized_access(current_dist_5, [N_0], [(_9_0 - 1)]))
+    for _10_0 in range(0, N_0):
+        # Set ϕ value
+        if _10_0 == 0:
+            _v.vectorized_assign(max_dist_2, [N_0], [_10_0], _v.vectorized_access(_4_0, [N_0], [_10_0]))
+        else:
+            _v.vectorized_assign(max_dist_2, [N_0], [_10_0], _v.vectorized_access(max_dist_4, [N_0], [(_10_0 - 1)]))
+        _v.vectorized_assign(_3_2, [N_0], [_10_0], (_v.vectorized_access_simd(current_dist_5, [N_0], [_10_0]) > _v.vectorized_access_simd(max_dist_2, [N_0], [_10_0])))
+        _v.iterative_mux(max_dist_4,_3_2,current_dist_5,max_dist_2,[N_0],[_10_0])
+    # Loop exit ϕ values
+    _v.vectorized_assign(max_dist_2, [N_0], [_10_0], _v.vectorized_access(max_dist_4, [N_0], [(_10_0 - 1)]))
+    _8_0 = _v.drop_dim(max_dist_4, [N_0])
+    return _8_0
+```
+#### MP-SPDZ mixed code
+```py
+def max_dist_between_syms(Seq_0, N_0, Sym_0):
+    # Convertion functions
+    siv32 = sbitintvec.get_type(32)
+    sb32 = sbits.get_type(32)
+    
+    # Shared array declarations
+    _1_2 = [None] * (N_0)
+    _2_2 = [None] * (N_0)
+    _3_2 = [None] * (N_0)
+    _4_0 = [None] * (N_0)
+    _5_0 = [None] * (N_0)
+    _6_0 = [None] * (N_0)
+    _7_0 = [None] * (N_0)
+    current_dist_2 = [None] * (N_0)
+    current_dist_3 = [None] * (N_0)
+    current_dist_5 = [None] * (N_0)
+    max_dist_2 = [None] * (N_0)
+    max_dist_4 = [None] * (N_0)
+    # Function body
+    max_dist_1 = siv32(0)
+    current_dist_1 = siv32(0)
+    _6_0 = _v.lift(lambda indices: (Seq_0[indices[0]]), [N_0])
+    _7_0 = _v.lift(lambda indices: Sym_0, [N_0])
+    current_dist_4 = siv32(0)
+    _4_0 = _v.lift(lambda indices: max_dist_1, [N_0])
+    _5_0 = _v.lift(lambda indices: current_dist_1, [N_0])
+    _v.vectorized_assign(_1_2, [N_0], [None], (_v.vectorized_access_simd(_6_0, [N_0], [None]) == _v.vectorized_access_simd(_7_0, [N_0], [None])))
+    _v.vectorized_assign(_2_2, [N_0], [None], (_v.vectorized_access_simd(_1_2, [N_0], [None]).bit_not()))
+    for _9_0 in range(0, N_0):
+        # Set ϕ value
+        if _9_0 == 0:
+            _v.vectorized_assign(current_dist_2, [N_0], [_9_0], _v.vectorized_access(_5_0, [N_0], [_9_0]))
+        else:
+            _v.vectorized_assign(current_dist_2, [N_0], [_9_0], _v.vectorized_access(current_dist_5, [N_0], [(_9_0 - 1)]))
+        _v.vectorized_assign(current_dist_3, [N_0], [_9_0], (_v.vectorized_access_simd(current_dist_2, [N_0], [_9_0]) + siv32(1)))
         _v.iterative_mux(current_dist_5,_2_2,current_dist_3,current_dist_4,[N_0],[_9_0])
     # Loop exit ϕ values
     _v.vectorized_assign(current_dist_2, [N_0], [_9_0], _v.vectorized_access(current_dist_5, [N_0], [(_9_0 - 1)]))
@@ -8902,6 +10333,31 @@ encrypto::motion::SecureUnsignedInteger max_sum_between_syms(
 
 }
 ```
+#### Mixed configuration
+```Total cost:	57665.45
+Input vars:	{Sym!0: {'B'}, Seq!0: {'B'}}
+Constants:	{0: {'B'}}
+Plaintext vars:	{}
+max_sum!1 = 0: _ -> {'B'} for 0.00 * 1 = 0.00
+current_sum!1 = 0: _ -> {'B'} for 0.00 * 1 = 0.00
+!6!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!7!0{N!0}[] = lift(Sym!0, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+current_sum!4 = 0: _ -> {'B'} for 0.00 * 1 = 0.00
+!4!0{N!0}[] = lift(max_sum!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!5!0{N!0}[] = lift(current_sum!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!1!2{N!0}[] = (!6!0{N!0}[] == !7!0{N!0}[]): B -> {} for 2298.92 * 1 = 2298.92
+!2!2{N!0}[] = not !1!2{N!0}[]: B -> {} for 0.00 * 1 = 0.00
+	current_sum!2{}[!10!0] = Φ(!5!0{}[!10!0], current_sum!5{}[(!10!0 - 1)]): B -> {} for 0.00 * 8 = 0.00
+	current_sum!3{}[!10!0] = (current_sum!2{}[!10!0] + !6!0{}[!10!0]): B -> {} for 2083.52 * 8 = 16668.18
+	current_sum!5{}[!10!0] = MUX(!2!2{}[!10!0], current_sum!3{}[!10!0], current_sum!4): B -> {} for 1405.56 * 8 = 11244.44
+	max_sum!2{}[!11!0] = Φ(!4!0{}[!11!0], max_sum!4{}[(!11!0 - 1)]): B -> {} for 0.00 * 8 = 0.00
+	!3!2{}[!11!0] = (current_sum!5{}[!11!0] > max_sum!2{}[!11!0]): B -> {} for 2026.18 * 8 = 16209.46
+	max_sum!4{}[!11!0] = MUX(!3!2{}[!11!0], current_sum!5{}[!11!0], max_sum!2{}[!11!0]): B -> {} for 1405.56 * 8 = 11244.44
+!9!0 = drop_dim(max_sum!4{N!0}[]): _ -> {'B'} for 0.00 * 1 = 0.00
+return !9!0
+Output vars:	{!9!0: {'B'}}
+
+```
 #### MP-SPDZ code
 ```py
 def max_sum_between_syms(Seq_0, N_0, Sym_0):
@@ -8924,6 +10380,59 @@ def max_sum_between_syms(Seq_0, N_0, Sym_0):
     _6_0 = _v.lift(lambda indices: (Seq_0[indices[0]]), [N_0])
     _7_0 = _v.lift(lambda indices: Sym_0, [N_0])
     current_sum_4 = sint(0)
+    _4_0 = _v.lift(lambda indices: max_sum_1, [N_0])
+    _5_0 = _v.lift(lambda indices: current_sum_1, [N_0])
+    _v.vectorized_assign(_1_2, [N_0], [None], (_v.vectorized_access_simd(_6_0, [N_0], [None]) == _v.vectorized_access_simd(_7_0, [N_0], [None])))
+    _v.vectorized_assign(_2_2, [N_0], [None], (_v.vectorized_access_simd(_1_2, [N_0], [None]).bit_not()))
+    for _10_0 in range(0, N_0):
+        # Set ϕ value
+        if _10_0 == 0:
+            _v.vectorized_assign(current_sum_2, [N_0], [_10_0], _v.vectorized_access(_5_0, [N_0], [_10_0]))
+        else:
+            _v.vectorized_assign(current_sum_2, [N_0], [_10_0], _v.vectorized_access(current_sum_5, [N_0], [(_10_0 - 1)]))
+        _v.vectorized_assign(current_sum_3, [N_0], [_10_0], (_v.vectorized_access_simd(current_sum_2, [N_0], [_10_0]) + _v.vectorized_access_simd(_6_0, [N_0], [_10_0])))
+        _v.iterative_mux(current_sum_5,_2_2,current_sum_3,current_sum_4,[N_0],[_10_0])
+    # Loop exit ϕ values
+    _v.vectorized_assign(current_sum_2, [N_0], [_10_0], _v.vectorized_access(current_sum_5, [N_0], [(_10_0 - 1)]))
+    for _11_0 in range(0, N_0):
+        # Set ϕ value
+        if _11_0 == 0:
+            _v.vectorized_assign(max_sum_2, [N_0], [_11_0], _v.vectorized_access(_4_0, [N_0], [_11_0]))
+        else:
+            _v.vectorized_assign(max_sum_2, [N_0], [_11_0], _v.vectorized_access(max_sum_4, [N_0], [(_11_0 - 1)]))
+        _v.vectorized_assign(_3_2, [N_0], [_11_0], (_v.vectorized_access_simd(current_sum_5, [N_0], [_11_0]) > _v.vectorized_access_simd(max_sum_2, [N_0], [_11_0])))
+        _v.iterative_mux(max_sum_4,_3_2,current_sum_5,max_sum_2,[N_0],[_11_0])
+    # Loop exit ϕ values
+    _v.vectorized_assign(max_sum_2, [N_0], [_11_0], _v.vectorized_access(max_sum_4, [N_0], [(_11_0 - 1)]))
+    _9_0 = _v.drop_dim(max_sum_4, [N_0])
+    return _9_0
+```
+#### MP-SPDZ mixed code
+```py
+def max_sum_between_syms(Seq_0, N_0, Sym_0):
+    # Convertion functions
+    siv32 = sbitintvec.get_type(32)
+    sb32 = sbits.get_type(32)
+    
+    # Shared array declarations
+    _1_2 = [None] * (N_0)
+    _2_2 = [None] * (N_0)
+    _3_2 = [None] * (N_0)
+    _4_0 = [None] * (N_0)
+    _5_0 = [None] * (N_0)
+    _6_0 = [None] * (N_0)
+    _7_0 = [None] * (N_0)
+    current_sum_2 = [None] * (N_0)
+    current_sum_3 = [None] * (N_0)
+    current_sum_5 = [None] * (N_0)
+    max_sum_2 = [None] * (N_0)
+    max_sum_4 = [None] * (N_0)
+    # Function body
+    max_sum_1 = siv32(0)
+    current_sum_1 = siv32(0)
+    _6_0 = _v.lift(lambda indices: (Seq_0[indices[0]]), [N_0])
+    _7_0 = _v.lift(lambda indices: Sym_0, [N_0])
+    current_sum_4 = siv32(0)
     _4_0 = _v.lift(lambda indices: max_sum_1, [N_0])
     _5_0 = _v.lift(lambda indices: current_sum_1, [N_0])
     _v.vectorized_assign(_1_2, [N_0], [None], (_v.vectorized_access_simd(_6_0, [N_0], [None]) == _v.vectorized_access_simd(_7_0, [N_0], [None])))
@@ -9438,6 +10947,37 @@ std::tuple<std::vector<encrypto::motion::SecureUnsignedInteger>, std::vector<enc
 
 }
 ```
+#### Mixed configuration
+```Total cost:	16703.41
+Input vars:	{Y_coords!0: {'B'}, X_coords!0: {'B'}, result_Y!0: {'B'}, result_X!0: {'B'}}
+Constants:	{False: {'B'}}
+Plaintext vars:	{}
+!8!0{N!0}[] = lift(result_X!0, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!9!0{N!0}[] = lift(result_Y!0, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!16!0{N!0}[] = lift(X_coords!0[i!1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!17!0{N!0}[] = lift(Y_coords!0[i!1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+bx!2 = False: _ -> {'B'} for 0.00 * 1 = 0.00
+!11!0{N!0, N!0}[] = lift(X_coords!0[j!1], (i!1:N!0, j!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!12!0{N!0, N!0}[] = lift(X_coords!0[i!1], (i!1:N!0, j!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!13!0{N!0, N!0}[] = lift(Y_coords!0[j!1], (i!1:N!0, j!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!14!0{N!0, N!0}[] = lift(Y_coords!0[i!1], (i!1:N!0, j!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!10!0{N!0, N!0}[] = lift(bx!2, (i!1:N!0, j!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!3!3{N!0, N!0}[] = (!11!0{N!0, N!0}[] < !12!0{N!0, N!0}[]): B -> {} for 3114.89 * 1 = 3114.89
+!4!3{N!0, N!0}[] = (!13!0{N!0, N!0}[] < !14!0{N!0, N!0}[]): B -> {} for 3114.89 * 1 = 3114.89
+!5!3{N!0, N!0}[] = (!3!3{N!0, N!0}[] and !4!3{N!0, N!0}[]): B -> {} for 1741.90 * 1 = 1741.90
+	bx!3{N!0}[!18!0] = Φ(!10!0{N!0}[!18!0], bx!4{N!0}[(!18!0 - 1)]): B -> {} for 0.00 * 3 = 0.00
+	bx!4{N!0}[!18!0] = (bx!3{N!0}[!18!0] or !5!3{N!0}[!18!0]): B -> {} for 1762.04 * 3 = 5286.13
+!15!0{N!0}[] = drop_dim(bx!4{N!0, N!0}[]): _ -> {'B'} for 0.00 * 1 = 0.00
+!6!2{N!0}[] = not !15!0{N!0}[]: B -> {} for 0.00 * 1 = 0.00
+val_X!4{N!0}[] = MUX(!6!2{N!0}[], !16!0{N!0}[], !8!0{N!0}[]): B -> {} for 1722.80 * 1 = 1722.80
+val_Y!4{N!0}[] = MUX(!6!2{N!0}[], !17!0{N!0}[], !9!0{N!0}[]): B -> {} for 1722.80 * 1 = 1722.80
+result_X!2{N!0}[] = VectorizedUpdate(!8!0{N!0}[], [I!1], val_X!4{N!0}[]): B -> {} for 0.00 * 1 = 0.00
+result_Y!2{N!0}[] = VectorizedUpdate(!9!0{N!0}[], [I!1], val_Y!4{N!0}[]): B -> {} for 0.00 * 1 = 0.00
+!7!1 = (result_X!2, result_Y!2)
+return !7!1
+Output vars:	{result_Y!2: {'B'}, result_X!2: {'B'}}
+
+```
 #### MP-SPDZ code
 ```py
 def minimal_points(X_coords_0, Y_coords_0, N_0, result_X_0, result_Y_0):
@@ -9468,6 +11008,66 @@ def minimal_points(X_coords_0, Y_coords_0, N_0, result_X_0, result_Y_0):
     _16_0 = _v.lift(lambda indices: (X_coords_0[indices[0]]), [N_0])
     _17_0 = _v.lift(lambda indices: (Y_coords_0[indices[0]]), [N_0])
     bx_2 = _v.sbool(False)
+    _11_0 = _v.lift(lambda indices: (X_coords_0[indices[1]]), [N_0, N_0])
+    _12_0 = _v.lift(lambda indices: (X_coords_0[indices[0]]), [N_0, N_0])
+    _13_0 = _v.lift(lambda indices: (Y_coords_0[indices[1]]), [N_0, N_0])
+    _14_0 = _v.lift(lambda indices: (Y_coords_0[indices[0]]), [N_0, N_0])
+    _10_0 = _v.lift(lambda indices: bx_2, [N_0, N_0])
+    _v.vectorized_assign(_3_3, [N_0, N_0], [None, None], (_v.vectorized_access_simd(_11_0, [N_0, N_0], [None, None]) < _v.vectorized_access_simd(_12_0, [N_0, N_0], [None, None])))
+    _v.vectorized_assign(_4_3, [N_0, N_0], [None, None], (_v.vectorized_access_simd(_13_0, [N_0, N_0], [None, None]) < _v.vectorized_access_simd(_14_0, [N_0, N_0], [None, None])))
+    _v.vectorized_assign(_5_3, [N_0, N_0], [None, None], _v.vectorized_access_simd(_3_3, [N_0, N_0], [None, None]).bit_and(_v.vectorized_access_simd(_4_3, [N_0, N_0], [None, None])))
+    for _18_0 in range(0, N_0):
+        # Set ϕ value
+        if _18_0 == 0:
+            _v.vectorized_assign(bx_3, [N_0, N_0], [None, _18_0], _v.vectorized_access(_10_0, [N_0, N_0], [None, _18_0]))
+        else:
+            _v.vectorized_assign(bx_3, [N_0, N_0], [None, _18_0], _v.vectorized_access(bx_4, [N_0, N_0], [None, (_18_0 - 1)]))
+        _v.vectorized_assign(bx_4, [N_0, N_0], [None, _18_0], OR(_v.vectorized_access_simd(bx_3, [N_0, N_0], [None, _18_0]), _v.vectorized_access_simd(_5_3, [N_0, N_0], [None, _18_0])))
+    # Loop exit ϕ values
+    _v.vectorized_assign(bx_3, [N_0, N_0], [None, _18_0], _v.vectorized_access(bx_4, [N_0, N_0], [None, (_18_0 - 1)]))
+    _v.vectorized_assign(_15_0, [N_0], [None], _v.drop_dim(bx_4, [N_0, N_0]))
+    _v.vectorized_assign(_6_2, [N_0], [None], (_v.vectorized_access_simd(_15_0, [N_0], [None]).bit_not()))
+    _v.iterative_mux(val_X_4,_6_2,_16_0,_8_0,[N_0],[None])
+    _v.iterative_mux(val_Y_4,_6_2,_17_0,_9_0,[N_0],[None])
+    _v.vectorized_assign(_8_0, [N_0], [None], _v.vectorized_access(val_X_4, [N_0], [None])); _v.vectorized_assign(result_X_2, [N_0], [None], _v.vectorized_access(_8_0, [N_0], [None]))
+    _v.vectorized_assign(_9_0, [N_0], [None], _v.vectorized_access(val_Y_4, [N_0], [None])); _v.vectorized_assign(result_Y_2, [N_0], [None], _v.vectorized_access(_9_0, [N_0], [None]))
+    _7_1 = (result_X_2,result_Y_2,)
+    return _7_1
+```
+#### MP-SPDZ mixed code
+```py
+def minimal_points(X_coords_0, Y_coords_0, N_0, result_X_0, result_Y_0):
+    # Convertion functions
+    siv32 = sbitintvec.get_type(32)
+    sb32 = sbits.get_type(32)
+    
+    # Shared array declarations
+    _10_0 = [None] * (N_0 * N_0)
+    _11_0 = [None] * (N_0 * N_0)
+    _12_0 = [None] * (N_0 * N_0)
+    _13_0 = [None] * (N_0 * N_0)
+    _14_0 = [None] * (N_0 * N_0)
+    _15_0 = [None] * (N_0)
+    _16_0 = [None] * (N_0)
+    _17_0 = [None] * (N_0)
+    _3_3 = [None] * (N_0 * N_0)
+    _4_3 = [None] * (N_0 * N_0)
+    _5_3 = [None] * (N_0 * N_0)
+    _6_2 = [None] * (N_0)
+    _8_0 = [None] * (N_0)
+    _9_0 = [None] * (N_0)
+    bx_3 = [None] * (N_0 * N_0)
+    bx_4 = [None] * (N_0 * N_0)
+    result_X_2 = [None] * (N_0)
+    result_Y_2 = [None] * (N_0)
+    val_X_4 = [None] * (N_0)
+    val_Y_4 = [None] * (N_0)
+    # Function body
+    _8_0 = _v.lift(lambda indices: result_X_0, [N_0])
+    _9_0 = _v.lift(lambda indices: result_Y_0, [N_0])
+    _16_0 = _v.lift(lambda indices: (X_coords_0[indices[0]]), [N_0])
+    _17_0 = _v.lift(lambda indices: (Y_coords_0[indices[0]]), [N_0])
+    bx_2 = siv32(_v.sbool(False))
     _11_0 = _v.lift(lambda indices: (X_coords_0[indices[1]]), [N_0, N_0])
     _12_0 = _v.lift(lambda indices: (X_coords_0[indices[0]]), [N_0, N_0])
     _13_0 = _v.lift(lambda indices: (Y_coords_0[indices[1]]), [N_0, N_0])
@@ -9764,6 +11364,22 @@ std::vector<encrypto::motion::SecureUnsignedInteger> mnist_relu(
 
 }
 ```
+#### Mixed configuration
+```Total cost:	21723.37
+Input vars:	{input!0: {'B'}}
+Constants:	{1: {'B'}}
+Plaintext vars:	{OUTPUT_res!0: {'B'}}
+!2!0{LEN_OUTER!0, LEN_INNER!0}[] = lift(OUTPUT_res!0, (_:len_outer!0, _:len_inner!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!4!0{LEN_OUTER!0, LEN_INNER!0}[] = lift(input!0[((i!1 * len_inner!0) + j!1)], (i!1:len_outer!0, j!1:len_inner!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+val!3 = 1: _ -> {'B'} for 0.00 * 1 = 0.00
+!3!0{LEN_OUTER!0, LEN_INNER!0}[] = lift(!2!0{LEN_OUTER!0, LEN_INNER!0}[], (i!1:len_outer!0, j!1:len_inner!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!1!3{LEN_OUTER!0, LEN_INNER!0}[] = (!4!0{LEN_OUTER!0, LEN_INNER!0}[] > val!3): B -> {} for 15674.91 * 1 = 15674.91
+val!5{LEN_OUTER!0, LEN_INNER!0}[] = MUX(!1!3{LEN_OUTER!0, LEN_INNER!0}[], !4!0{LEN_OUTER!0, LEN_INNER!0}[], val!3): B -> {} for 6048.45 * 1 = 6048.45
+OUTPUT_res!3{LEN_OUTER!0, LEN_INNER!0}[] = VectorizedUpdate(!3!0{LEN_OUTER!0, LEN_INNER!0}[], [I!1, J!1], val!5{LEN_OUTER!0, LEN_INNER!0}[]): B -> {} for 0.00 * 1 = 0.00
+return OUTPUT_res!3
+Output vars:	{OUTPUT_res!3: {'B'}}
+
+```
 #### MP-SPDZ code
 ```py
 def mnist_relu(input_0, OUTPUT_res_0, len_outer_0, len_inner_0):
@@ -9778,6 +11394,32 @@ def mnist_relu(input_0, OUTPUT_res_0, len_outer_0, len_inner_0):
     _2_0 = _v.lift(lambda indices: OUTPUT_res_0, [len_outer_0, len_inner_0])
     _4_0 = _v.lift(lambda indices: (input_0[((indices[0] * len_inner_0) + indices[1])]), [len_outer_0, len_inner_0])
     val_3 = sint(1)
+    _3_0 = _v.lift(lambda indices: _v.vectorized_access(_2_0, [len_outer_0, len_inner_0], [None, None]), [len_outer_0, len_inner_0])
+    _v.vectorized_assign(_1_3, [len_outer_0, len_inner_0], [None, None], (_v.vectorized_access_simd(_4_0, [len_outer_0, len_inner_0], [None, None]) > val_3))
+    _v.iterative_mux(val_5,_1_3,_4_0,val_3,[len_outer_0, len_inner_0],[None, None])
+    _v.vectorized_assign(_3_0, [len_outer_0, len_inner_0], [None, None], _v.vectorized_access(val_5, [len_outer_0, len_inner_0], [None, None])); _v.vectorized_assign(OUTPUT_res_3, [len_outer_0, len_inner_0], [None, None], _v.vectorized_access(_3_0, [len_outer_0, len_inner_0], [None, None]))
+    return OUTPUT_res_3
+```
+#### MP-SPDZ mixed code
+```py
+def mnist_relu(input_0, OUTPUT_res_0, len_outer_0, len_inner_0):
+    # Convertion functions
+    siv32 = sbitintvec.get_type(32)
+    sb32 = sbits.get_type(32)
+    for _random_iter in range(0,len(OUTPUT_res_0)):
+     OUTPUT_res_0[_random_iter] = siv32(OUTPUT_res_0[_random_iter])
+
+    # Shared array declarations
+    _1_3 = [None] * (len_outer_0 * len_inner_0)
+    _2_0 = [None] * (len_outer_0 * len_inner_0)
+    _3_0 = [None] * (len_outer_0 * len_inner_0)
+    _4_0 = [None] * (len_outer_0 * len_inner_0)
+    OUTPUT_res_3 = [None] * (len_outer_0 * len_inner_0)
+    val_5 = [None] * (len_outer_0 * len_inner_0)
+    # Function body
+    _2_0 = _v.lift(lambda indices: OUTPUT_res_0, [len_outer_0, len_inner_0])
+    _4_0 = _v.lift(lambda indices: (input_0[((indices[0] * len_inner_0) + indices[1])]), [len_outer_0, len_inner_0])
+    val_3 = siv32(1)
     _3_0 = _v.lift(lambda indices: _v.vectorized_access(_2_0, [len_outer_0, len_inner_0], [None, None]), [len_outer_0, len_inner_0])
     _v.vectorized_assign(_1_3, [len_outer_0, len_inner_0], [None, None], (_v.vectorized_access_simd(_4_0, [len_outer_0, len_inner_0], [None, None]) > val_3))
     _v.iterative_mux(val_5,_1_3,_4_0,val_3,[len_outer_0, len_inner_0],[None, None])
@@ -10159,6 +11801,28 @@ std::vector<encrypto::motion::SecureUnsignedInteger> psi(
 
 }
 ```
+#### Mixed configuration
+```Total cost:	15027.82
+Input vars:	{B!0: {'B'}, A!0: {'B'}, result!0: {'B'}}
+Constants:	{False: {'B'}, True: {'B'}}
+Plaintext vars:	{}
+!2!0{SA!0}[] = lift(result!0, (i!1:SA!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!6!0{SA!0}[] = lift(A!0[i!1], (i!1:SA!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+flag!2 = False: _ -> {'B'} for 0.00 * 1 = 0.00
+!4!0{SA!0, SB!0}[] = lift(A!0[i!1], (i!1:SA!0, j!1:SB!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!5!0{SA!0, SB!0}[] = lift(B!0[j!1], (i!1:SA!0, j!1:SB!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+flag!4 = True: _ -> {'B'} for 0.00 * 1 = 0.00
+!3!0{SA!0, SB!0}[] = lift(flag!2, (i!1:SA!0, j!1:SB!0)): _ -> {'B'} for 0.00 * 1 = 0.00
+!1!3{SA!0, SB!0}[] = (!4!0{SA!0, SB!0}[] == !5!0{SA!0, SB!0}[]): B -> {} for 3298.70 * 1 = 3298.70
+	flag!3{SA!0}[!8!0] = Φ(!3!0{SA!0}[!8!0], flag!5{SA!0}[(!8!0 - 1)]): B -> {} for 0.00 * 7 = 0.00
+	flag!5{SA!0}[!8!0] = MUX(!1!3{SA!0}[!8!0], flag!4, flag!3{SA!0}[!8!0]): B -> {} for 1466.14 * 7 = 10262.98
+!7!0{SA!0}[] = drop_dim(flag!5{SA!0, SB!0}[]): _ -> {'B'} for 0.00 * 1 = 0.00
+val!4{SA!0}[] = MUX(!7!0{SA!0}[], !6!0{SA!0}[], !2!0{SA!0}[]): B -> {} for 1466.14 * 1 = 1466.14
+result!2{SA!0}[] = VectorizedUpdate(!2!0{SA!0}[], [I!1], val!4{SA!0}[]): B -> {} for 0.00 * 1 = 0.00
+return result!2
+Output vars:	{result!2: {'B'}}
+
+```
 #### MP-SPDZ code
 ```py
 def psi(A_0, SA_0, B_0, SB_0, result_0):
@@ -10181,6 +11845,48 @@ def psi(A_0, SA_0, B_0, SB_0, result_0):
     _4_0 = _v.lift(lambda indices: (A_0[indices[0]]), [SA_0, SB_0])
     _5_0 = _v.lift(lambda indices: (B_0[indices[1]]), [SA_0, SB_0])
     flag_4 = _v.sbool(True)
+    _3_0 = _v.lift(lambda indices: flag_2, [SA_0, SB_0])
+    _v.vectorized_assign(_1_3, [SA_0, SB_0], [None, None], (_v.vectorized_access_simd(_4_0, [SA_0, SB_0], [None, None]) == _v.vectorized_access_simd(_5_0, [SA_0, SB_0], [None, None])))
+    for _8_0 in range(0, SB_0):
+        # Set ϕ value
+        if _8_0 == 0:
+            _v.vectorized_assign(flag_3, [SA_0, SB_0], [None, _8_0], _v.vectorized_access(_3_0, [SA_0, SB_0], [None, _8_0]))
+        else:
+            _v.vectorized_assign(flag_3, [SA_0, SB_0], [None, _8_0], _v.vectorized_access(flag_5, [SA_0, SB_0], [None, (_8_0 - 1)]))
+        _v.iterative_mux(flag_5,_1_3,flag_4,flag_3,[SA_0, SB_0],[None, _8_0])
+    # Loop exit ϕ values
+    _v.vectorized_assign(flag_3, [SA_0, SB_0], [None, _8_0], _v.vectorized_access(flag_5, [SA_0, SB_0], [None, (_8_0 - 1)]))
+    _v.vectorized_assign(_7_0, [SA_0], [None], _v.drop_dim(flag_5, [SA_0, SB_0]))
+    _v.iterative_mux(val_4,_7_0,_6_0,_2_0,[SA_0],[None])
+    _v.vectorized_assign(_2_0, [SA_0], [None], _v.vectorized_access(val_4, [SA_0], [None])); _v.vectorized_assign(result_2, [SA_0], [None], _v.vectorized_access(_2_0, [SA_0], [None]))
+    return result_2
+```
+#### MP-SPDZ mixed code
+```py
+def psi(A_0, SA_0, B_0, SB_0, result_0):
+    # Convertion functions
+    siv32 = sbitintvec.get_type(32)
+    sb32 = sbits.get_type(32)
+    
+    # Shared array declarations
+    _1_3 = [None] * (SA_0 * SB_0)
+    _2_0 = [None] * (SA_0)
+    _3_0 = [None] * (SA_0 * SB_0)
+    _4_0 = [None] * (SA_0 * SB_0)
+    _5_0 = [None] * (SA_0 * SB_0)
+    _6_0 = [None] * (SA_0)
+    _7_0 = [None] * (SA_0)
+    flag_3 = [None] * (SA_0 * SB_0)
+    flag_5 = [None] * (SA_0 * SB_0)
+    result_2 = [None] * (SA_0)
+    val_4 = [None] * (SA_0)
+    # Function body
+    _2_0 = _v.lift(lambda indices: result_0, [SA_0])
+    _6_0 = _v.lift(lambda indices: (A_0[indices[0]]), [SA_0])
+    flag_2 = siv32(_v.sbool(False))
+    _4_0 = _v.lift(lambda indices: (A_0[indices[0]]), [SA_0, SB_0])
+    _5_0 = _v.lift(lambda indices: (B_0[indices[1]]), [SA_0, SB_0])
+    flag_4 = siv32(_v.sbool(True))
     _3_0 = _v.lift(lambda indices: flag_2, [SA_0, SB_0])
     _v.vectorized_assign(_1_3, [SA_0, SB_0], [None, None], (_v.vectorized_access_simd(_4_0, [SA_0, SB_0], [None, None]) == _v.vectorized_access_simd(_5_0, [SA_0, SB_0], [None, None])))
     for _8_0 in range(0, SB_0):
