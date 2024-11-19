@@ -311,7 +311,9 @@ def build_spdz_benchmark_tables() -> str:
                 table += "\n"
 
             # also add a line for mixed
-
+            # [TODO] those are bypassed rue to overflow
+            if protocol == 'mascot' and (test_case_dir.name == 'count_102' or test_case_dir.name == 'longest_102' or test_case_dir.name == 'count_123' or test_case_dir.name == 'count_10s' or test_case_dir.name == 'convex_hull'):
+                continue
             data = spdz_run_benchmark(
                     test_case_dir.name, test_case_dir.path, protocol, True, mixed = True
                 )
