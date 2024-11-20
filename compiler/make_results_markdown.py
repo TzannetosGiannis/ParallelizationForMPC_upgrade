@@ -291,7 +291,7 @@ def build_spdz_benchmark_tables() -> str:
 
     table += "### Mixed protocols compilation\n"
     table += "| Benchmark | Compile time (seconds) | # int triples | # int opens | # bit triples | # VM rounds |\n"
-    table += "| - | - | - | - | - |\n"
+    table += "| - | - | - | - | - | - |\n"
     for test_case_dir in test_case_dirs:
         
         data = spdz_get_compile_stats_mixed(
