@@ -25,10 +25,19 @@ class BenchmarkOutput:
         self.data_sent_mb = float(parse(r"Data sent = (.+) MB.*")[0])
 
 
-def _parse_int_pattern(pattern: str, stdout: str) -> int:
+def _parse_int_pattern(pattern: str, stdout: str, mixed:bool = False) -> int:
     m = re.search(rf"^\s*{pattern}\s*$", stdout, re.MULTILINE)
-    assert m is not None, repr(stdout)
-    return int(m.groups()[0])
+    # if we compile in mixed this means that if the protocol schosen
+    # is binary then we there only be bit triples and the arith (int_triples) will not
+    # be in the stdout, thus we need to relaz the assertion for mixed
+    if not mixed:
+        assert m is not None, repr(stdout)
+        return int(m.groups()[0])
+    else:
+        if m is None:
+            return 0
+        else:
+            return int(m.groups()[0])
 
 
 class CompileStatsArith:
@@ -41,6 +50,20 @@ class CompileStatsArith:
         self.time = time
         self.int_triples = _parse_int_pattern(r"(\d+) integer triples", stdout)
         self.int_opens = _parse_int_pattern(r"(\d+) integer opens", stdout)
+        self.vm_rounds = _parse_int_pattern(r"(\d+) virtual machine rounds", stdout)
+
+class CompileStatsMixed:
+    time: float
+    int_triples: int
+    bit_triples: int
+    int_opens: int
+    vm_rounds: int
+
+    def __init__(self, time: float, stdout: str) -> None:
+        self.time = time
+        self.int_triples = _parse_int_pattern(r"(\d+) integer triples", stdout, mixed = True)
+        self.int_opens = _parse_int_pattern(r"(\d+) integer opens", stdout, mixed = True)
+        self.bit_triples = _parse_int_pattern(r"(\d+) bit triples", stdout, mixed = True)
         self.vm_rounds = _parse_int_pattern(r"(\d+) virtual machine rounds", stdout)
 
 
@@ -141,30 +164,41 @@ def _get_compile_stats_common(
 
 
 def get_compile_stats_arith(
-    benchmark_name: str, benchmark_path: str, vectorized: bool, mixed: bool
+    benchmark_name: str, benchmark_path: str, vectorized: bool
 ) -> CompileStatsArith:
     compile_time, stdout = _get_compile_stats_common(
         benchmark_name=benchmark_name,
         benchmark_path=benchmark_path,
         binary=None,
         vectorized=vectorized,
-        mixed=mixed
+        mixed=False
     )
     return CompileStatsArith(time=compile_time, stdout=stdout)
 
 
+def get_compile_stats_mixed(
+    benchmark_name: str, benchmark_path: str
+) -> CompileStatsMixed:
+    compile_time, stdout = _get_compile_stats_common(
+        benchmark_name=benchmark_name,
+        benchmark_path=benchmark_path,
+        binary=None,
+        vectorized=True,
+        mixed=True
+    )
+    return CompileStatsMixed(time=compile_time, stdout=stdout)
+
 def get_compile_stats_bin(
-    benchmark_name: str, benchmark_path: str, vectorized: bool, binary: int, mixed: bool = False
+    benchmark_name: str, benchmark_path: str, vectorized: bool, binary: int
 ) -> CompileStatsBin:
     compile_time, stdout = _get_compile_stats_common(
         benchmark_name=benchmark_name,
         benchmark_path=benchmark_path,
         binary=binary,
         vectorized=vectorized,
-        mixed=mixed
+        mixed=False
     )
     return CompileStatsBin(time=compile_time, stdout=stdout)
-
 
 def run_benchmark(
     benchmark_name: str,

@@ -19,6 +19,7 @@ from tests.backends.mp_spdz.benchmark import (
     run_benchmark as spdz_run_benchmark,
     get_compile_stats_arith as spdz_get_compile_stats_arith,
     get_compile_stats_bin as spdz_get_compile_stats_bin,
+    get_compile_stats_mixed as spdz_get_compile_stats_mixed
 )
 from tests.backends import Backend
 
@@ -254,7 +255,7 @@ def build_spdz_benchmark_tables() -> str:
     for test_case_dir in test_case_dirs:
         for vectorized in (True, False):
             data = spdz_get_compile_stats_arith(
-                test_case_dir.name, test_case_dir.path, vectorized, mixed=False
+                test_case_dir.name, test_case_dir.path, vectorized
             )
             table += "|"
             table += (
@@ -288,6 +289,24 @@ def build_spdz_benchmark_tables() -> str:
             table += str(data.vm_rounds) + "|"
             table += "\n"
 
+    table += "### Mixed protocols compilation\n"
+    table += "| Benchmark | Compile time (seconds) | # int triples | # int opens | # bit triples | # VM rounds |\n"
+    table += "| - | - | - | - | - |\n"
+    for test_case_dir in test_case_dirs:
+        
+        data = spdz_get_compile_stats_mixed(
+            test_case_dir.name, test_case_dir.path
+        )
+        table += "|"
+        table += test_case_dir.name + " mixed" + "|"
+        
+        table += str(round(data.time, ndigits=3)) + "|"
+        table += str(data.int_triples) + "|"
+        table += str(data.int_opens) + "|"
+        table += str(data.bit_triples) + "|"
+        table += str(data.vm_rounds) + "|"
+        table += "\n"
+        
     for protocol in compiler.backends.mp_spdz.VALID_PROTOCOLS:
         table += f"\n### {protocol.title()} protocol\n"
 
@@ -469,7 +488,7 @@ def main():
                 lang = ""
 
             mixed_config = compiler.mix_protocols(f"{test_case_dir.name}.py", type_env, loop_linear_code.body, dep_graph, mixed_protocols)
-            md += "#### Mixed configuration\n"
+            md += f"#### {backend} mixed configuration\n"
             md += f"```{ mixed_config }\n```\n"
             
             backend_code = backend.render_function(loop_linear_code, type_env, True)
