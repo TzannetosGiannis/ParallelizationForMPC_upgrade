@@ -554,6 +554,7 @@ def render_mixed_stmt(
             )
 
             mixed_convertion = f"vectorized_assign({render_expr(stmt.lhs.array, ctx)}, {dim_sizes}, {vectorized_dims}, {idxs}, {val_expr});"
+            # assign the protocol based on the convertion dict
             if "party->In<Protocol>" in mixed_convertion:
                 mixed_convertion =  mixed_convertion.replace("party->In<Protocol>",f"party->In<{to_be_converted[0]}>")
 
@@ -578,13 +579,17 @@ def render_mixed_stmt(
                                 "to": set(to_be_coexist[i][1])
                             }
                     )[0]
+                    
                     # try to identify if need to extract the share with .Get() or already in that format 
                     extraction = ".Get()"
+                    # this means that casting has already take place
+                    # so we don't need to do more actions
                     if "to_share_wrapper(" in mixed_convertion:
                         extraction = ""
+
                     convertion_vectorized_access = f"(vectorized_access({stmt_key}, {dim_sizes}, {{true}}, {{}}){extraction}.Convert<{identified_pr}>()))"
                     convertion_stmt = f"vectorized_assign({new_key}, {dim_sizes}, {{true}}, {{}}, {convertion_vectorized_access};\n"            
-                    mixed_convertion = mixed_convertion + "\n"  #+ f"{new_key} = {stmt_key}.Convert<{identified_pr}>()"
+                    mixed_convertion = mixed_convertion + "\n"
                     mixed_convertion += convertion_stmt
                 
                     # store for future reference
@@ -725,6 +730,9 @@ def render_mixed_stmt(
                     ),
             )
             
+            # store all the information that you didnt have till now
+            # if the mixer hasnt identified a convertion and a var is used
+            # it means that it is already in the correct protocol
             if search_key in stmt_details_dict:
                 for elem in stmt_details_dict[search_key]:
                     if stmt_details_dict[search_key][elem] == search_key:
@@ -790,6 +798,7 @@ def render_mixed_stmt(
                                 "to": convertion_to
                             }
                     )[0]
+                    
                     mixed_convertion = f"{mixed_convertion[:-1]}.Get().Convert<{identified_pr}>();"        
                     stmt_details_dict[lhs_key][convertion_from] = lhs_key
 
@@ -1006,7 +1015,6 @@ def render_mixed_stmt(
                 f"{convertion_stmt}"
             )   
                        
-        
         return result_stmt
 
     elif isinstance(stmt, Return):

@@ -25,7 +25,10 @@ from .low_level_rendering import (
     render_type,
 )
 
+# supported protocols
 VALID_PROTOCOLS = ["ArithmeticGmw","BooleanGmw", "Bmr"]
+
+# protocol representations in native motion
 PROTOCOL_CONVERTIONS = {
     "A":'encrypto::motion::MpcProtocol::kArithmeticGmw',
     "B":'encrypto::motion::MpcProtocol::kBooleanGmw',
@@ -130,6 +133,7 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
     convertion_dict = {}
     stmt_details_dict = {}
     
+    
     for i in range(len(mixed_config.assignments)) :
         convertion_dict[str(mixed_config.assignments[i][0].lhs)] = {
             "from":mixed_config.assignments[i][1],
@@ -222,9 +226,11 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
         # Convert keys of mixed_config.constants to str if they are int
         string_constants_keys = {str(k): v for k, v in mixed_config.constants.items()}
 
+        # constants in motion need to be in specific protocol
         for elem in string_constants_keys[str(const.value)]:
             retrieved_protocol = PROTOCOL_CONVERTIONS[elem]
             const_declaration = f"{render_datatype(const.datatype, plaintext=False)} {render_key} = party->In<Protocol>({render_expr(const, dt.replace(render_ctx, as_motion_input=True))}, 0);\n"
+            
             # first time we see this variable
             if render_key not in stmt_details_dict:
                 stmt_details_dict[render_key] = {
@@ -246,9 +252,12 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
     plaintext_dict = {}
     plaintext_replace_dict = {}
 
+    # plaintext need to be in specific protocol
     for key , value in mixed_config.plaintexts.items():
         plaintext_dict[render_expr(key, dt.replace(render_ctx, plaintext=False))] = list(value)
-        
+
+    # handle the input variables , for now allow one protocol only
+    # [TODO] allow inputs of {"var": {A,B}} 
     for key , value in mixed_config.inputs.items():
         dict_key = render_expr(key, dt.replace(render_ctx, plaintext=False))
         if dict_key not in plaintext_dict:
@@ -256,7 +265,7 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
         if len(value) > 1:
             raise NotImplementedError("input supported only in one protocol")
     
-    
+    # handle parameters both as scalar and vectors with respect to protocol assignment
     for i, param in enumerate(sorted(func.parameters, key=str)):
         
         if param.var_type.is_plaintext() and render_expr(param.var, dt.replace(render_ctx, plaintext=False)) in plaintext_dict:
