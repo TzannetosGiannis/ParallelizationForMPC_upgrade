@@ -189,7 +189,7 @@
 |psi (Non-Vectorized)|0.353|1280|14|
 ### Mixed protocols compilation
 | Benchmark | Compile time (seconds) | # int triples | # int opens | # bit triples | # VM rounds |
-| - | - | - | - | - |
+| - | - | - | - | - | - |
 |biometric mixed|0.542|16|8|1300|40|
 |biometric_fast mixed|0.547|16|8|1300|40|
 |chapterfour_figure_12 mixed|0.139|0|0|190|9|
