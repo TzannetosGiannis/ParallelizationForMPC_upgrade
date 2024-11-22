@@ -829,10 +829,12 @@ def render_default_arg(arg: Parameter,mixing: bool = False,mixed_config:Config =
             return f"{var} = {actual_type}({value})"
     else:
         assert dims == 1
-        input_vec = f"{var} = {value}; {var} = _v.lift(lambda indices: {var}[indices[0]], [len({var})])\n"
+        input_vec = f"{var} = {value}\n"
+        lift_oper =  f"{var} = _v.lift(lambda indices: {var}[indices[0]], [len({var})])\n"
         if protocol == 'B':
             input_vec += f"for _random_iter in range(0,len({var})):\n"
-            input_vec += f"     {var}[_random_iter] = siv32({var}[_random_iter])"
+            input_vec += f"     {var}[_random_iter] = siv32({var}[_random_iter])\n"
+        input_vec += lift_oper
         return input_vec
 
 
@@ -850,11 +852,11 @@ def render_set_args(func: Function,mixing: bool = False,mixed_config:Config = Co
             [
                 "try:",
                 "    # Load input arguments",
-                f"{'' if mixing == False else '    siv32 = sbitintvec.get_type(32)'}",
+                f"{'' if mixing == False else '    siv32 = sbitint.get_type(32);sb32 = sbits.get_type(32)'}",
                 indent(render_load_args(func,mixing,mixed_config), "    "),
                 "except:",
                 "    # Use default arguments",
-                f"{'' if mixing == False else '    siv32 = sbitintvec.get_type(32)'}",
+                f"{'' if mixing == False else '    siv32 = sbitint.get_type(32);sb32 = sbits.get_type(32)'}",
                 indent(render_default_args(func,mixing,mixed_config), "    "),
             ]
         )
