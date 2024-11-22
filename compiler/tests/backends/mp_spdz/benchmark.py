@@ -13,8 +13,10 @@ class BenchmarkOutput:
     result: str
     time_seconds: float
     data_sent_mb: float
+    communication_rounds:str
 
     def __init__(self, stdout: str) -> None:
+        
         def parse(pattern: str) -> tuple[str, ...]:
             m = re.search(rf"^\s*{pattern}\s*$", stdout, re.MULTILINE)
             assert m is not None, repr(stdout)
@@ -23,7 +25,7 @@ class BenchmarkOutput:
         self.result = parse(r"MPC BENCHMARK OUTPUT (.+)")[0]
         self.time_seconds = float(parse(r"Time = (.+) seconds")[0])
         self.data_sent_mb = float(parse(r"Data sent = (.+) MB.*")[0])
-
+        self.communication_rounds = parse(r"Data sent = .*~(\d+)\s*rounds.*")[0]
 
 def _parse_int_pattern(pattern: str, stdout: str, mixed:bool = False) -> int:
     m = re.search(rf"^\s*{pattern}\s*$", stdout, re.MULTILINE)

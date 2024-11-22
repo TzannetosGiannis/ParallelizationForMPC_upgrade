@@ -310,8 +310,8 @@ def build_spdz_benchmark_tables() -> str:
     for protocol in compiler.backends.mp_spdz.VALID_PROTOCOLS:
         table += f"\n### {protocol.title()} protocol\n"
 
-        table += "| Benchmark | Time (seconds) | Data sent (MB) |\n"
-        table += "| - | - | - |\n"
+        table += "| Benchmark | Time (seconds) | Data sent (MB) | Communication rounds |\n"
+        table += "| - | - | - | - |\n"
 
         for test_case_dir in test_case_dirs:
             for vectorized in (True, False):
@@ -327,6 +327,7 @@ def build_spdz_benchmark_tables() -> str:
                 )
                 table += str(data.time_seconds) + "|"
                 table += str(data.data_sent_mb) + "|"
+                table += str(data.communication_rounds) + "|"
                 table += "\n"
 
             # also add a line for mixed
@@ -345,6 +346,7 @@ def build_spdz_benchmark_tables() -> str:
             )
             table += str(data.time_seconds) + "|"
             table += str(data.data_sent_mb) + "|"
+            table += str(data.communication_rounds) + "|"
             table += "\n"
 
 
