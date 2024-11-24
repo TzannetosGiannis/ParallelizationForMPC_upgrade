@@ -14,19 +14,18 @@ from .type_analysis import collect_idx_vars
 
 import dataclasses as dc
 from dataclasses import dataclass
-from typing import Iterable, Union, Optional, cast
+from typing import Iterable, Union, Optional, cast, TypeVar, Any
 
 import z3  # type: ignore
 
 # copy of loop_linear_code.py imports
 from dataclasses import dataclass
-from typing import Union, Optional, cast, TypeVar
 from textwrap import indent
 
 from .ssa import (
     Atom,
     Operand,
-    Var,
+    # Var,
     Phi,
     Assign,
     LoopBound,
@@ -46,6 +45,21 @@ from .ssa import (
     VectorizedUpdate,
     assign_rhs_accessed_vars,
 )
+from .loop_linear_code import (
+    Function,
+    Statement,
+    Assign,
+    TypeEnv,
+    Phi,
+    For,
+    Return,
+    VectorizedAccess,
+    Constant,
+    Mux,
+    VectorizedUpdate,
+    Subscript,
+    Update
+)
 from .tac_cfg import LiftExpr, DropDim, assign_rhs_accessed_vars
 from .ast_shared import (
     VarType,
@@ -62,10 +76,9 @@ from copy import deepcopy
 import json
 from os.path import dirname, exists
 
-
-Statement = Union[Phi, Assign, "For", "Return"]
-Protocol = Union['A', 'B', 'Y']
+Protocol = str # Union['A', 'B', 'Y']
 protocols = {'A', 'B', 'Y'}
+# protocols = {'A', 'B'}
 transparent_ops = [LiftExpr, DropDim, VectorizedAccess, Constant] # CHECK IF THIS IS THE FULL LIST
 
 conversionSymbols = {'A': {'B': 'zic_a2b', 'Y': 'zic_a2y'}, 'B': {'A': 'zic_b2a', 'Y': 'zic_b2y'}, 'Y': {'A': 'zic_y2a', 'B': 'zic_y2b'}}
@@ -74,9 +87,9 @@ zeroCostOps = {'LiftExpr', 'DropDim', 'Return', 'Phi', 'Constant', 'VectorizedAc
 opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt',
   '*': 'zi_mul', 'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor',
   '>>': 'zi_shr', '-UNARY': 'UNAVAILABLE', '&': 'zi_&', '|': 'zi_|', 'Var': 'UNAVAILABLE', '/': 'zi_div'}
-costTable = None
-loopBounds = None
-bounds = dict()
+costTable: dict[str, dict[str, dict[str, float]]] = dict()
+loopBounds: dict[str, int] = dict()
+bounds: dict[Var, dict[str, tuple[int, int]]] = dict()
 
 
 class Config:
@@ -89,14 +102,17 @@ class Config:
     #                                    |         |              cost to execute this statement (including conversions)
     #                                    |         conversions after assignment
     #                                    protocol used to execute operation
-    assignments: list[Statement, Protocol, set[Protocol], float, float, int, list[tuple[Protocol, Protocol]]]
+    assignments: list[Any]
+               # mypy does not support homogenous list types. I need this to be a list type, not a tuple type to support item assignment
+               # below is the correct type for lists over homogenous types:
+               # list[list[Statement, Protocol, set[Protocol], float, float, int, list[tuple[Protocol, Protocol]]]]
     
     inputs: dict[Var, set[Protocol]]        # the input interface required to execute this sequence
     outputs: dict[Var, set[Protocol]]       # the output interface of this program (return value assignments)
     total_cost: float                       # the total cost (including conversions) required to execute this sequence
     protocolByVar: dict[Var, set[Protocol]] # a quick way to access the protocols of each variable
     finalStmts: list[Statement]             # used to print the return statement and the tuple if it exists
-    constants: dict[int, set[Protocol]]     # dictionary that converts constants to the required protocols
+    constants: dict[Var, set[Protocol]]     # dictionary that converts constants to the required protocols
     plaintexts: dict[Var, set[Protocol]]    # dictionary that converts plaintext variables into their required protocols (these conversions should be free, but some backends don't support free plaintext->protocol conversions)
 
     # sets of variables can be locked to the same set of protocols by transparent (zero-cost) operations
@@ -130,7 +146,7 @@ def getRHSConstants(rhs: AssignRHS) -> list[Var]:
     if isinstance(rhs, Var):
         return []
     elif isinstance(rhs, Constant):
-        return [str(rhs.value)]
+        return [Var(str(rhs.value))]
     elif isinstance(rhs, Subscript):
         return []
     elif isinstance(rhs, VectorizedAccess):
@@ -195,14 +211,14 @@ def getNaturalBounds(nonZeroVars: set[Var], stmts: list[Statement], loop_depth: 
         if isinstance(stmt, llc.Return):
             continue
         if isinstance(stmt, llc.For):
-            low = stmt.bound_low
+            low: Union[str, int, bool, Var, Constant] = stmt.bound_low
             if isinstance(low, Constant):
                 low = low.value
             else:
                 low = str(low)
                 assert low in loopBounds.keys()
                 low = loopBounds[low]
-            high = stmt.bound_high
+            high: Union[str, int, bool, Var, Constant] = stmt.bound_high
             if isinstance(high, Constant):
                 high = high.value
             else:
@@ -227,6 +243,7 @@ def getBounds(nonZeroVars: set[Var], dep_graph: DepGraph, stmts: list[Statement]
     getNaturalBounds(nonZeroVars, stmts, 1)
     for var in nonZeroVars:
         stmt = dep_graph.var_to_assignment[var]
+        assert not isinstance(stmt, DepParameter)
         count = 0
         if not 'input' in bounds[var].keys():
             curStmt = stmt
@@ -238,11 +255,13 @@ def getBounds(nonZeroVars: set[Var], dep_graph: DepGraph, stmts: list[Statement]
                     inputVal = bounds[getLHSVar(curStmt)]['input']
                     break
                 if isinstance(curStmt, Assign) and isinstance(curStmt.rhs, LiftExpr):
-                    rhsVar = getRHSSimpleVars(curStmt.rhs)
-                    assert len(rhsVar) == 1
-                    rhsVar = rhsVar[0]
+                    rhsVars = getRHSSimpleVars(curStmt.rhs)
+                    assert len(rhsVars) == 1
+                    rhsVar = rhsVars[0]
                     if rhsVar in dep_graph.var_to_assignment.keys():
-                        curStmt = dep_graph.var_to_assignment[rhsVar]
+                        temp = dep_graph.var_to_assignment[rhsVar]
+                        assert not isinstance(temp, DepParameter)
+                        curStmt = temp
                     else:
                         inputVal = (-1, -1)
                         break
@@ -276,7 +295,7 @@ def getBounds(nonZeroVars: set[Var], dep_graph: DepGraph, stmts: list[Statement]
                     break
             for outVar in sameKeys:
                 bounds[outVar]['output'] = outputVal
-    return bounds
+    return
 
 
 # get the bounds for every loop in the current test case (needed for cost computation)
@@ -297,10 +316,11 @@ def getOpCosts() -> None:
 
 
 # get the variables the mixer needs to track. Also detect variables that are directly input/output from the program (ie the I/O interface)
-def getTrackedVars(type_env: TypeEnv, stmts: list[Statement], dep_graph: DepGraph) -> (set[Var], set[Var]):
+def getTrackedVars(type_env: TypeEnv, stmts: list[Statement], dep_graph: DepGraph) -> tuple[set[Var], set[Var]]:
     # add inputs, outputs, and constants
     directIO = {var for var, stmt in dep_graph.var_to_assignment.items() if isinstance(stmt, DepParameter)}
     directIO.add(getLHSVar(stmts[-1]))
+    stmt: Union[Phi, Assign, For, Return, DepParameter]
     for stmt in stmts:
         if isinstance(stmt, Assign) and isinstance(stmt.rhs, Constant):
             directIO.add(getLHSVar(stmt))
@@ -323,7 +343,7 @@ def getTrackedVars(type_env: TypeEnv, stmts: list[Statement], dep_graph: DepGrap
                         toAdd.add(getLHSVar(stmt2))
         if len(toAdd):
             directIO |= toAdd
-    return {var for var, t in type_env.items() if t.visibility.value != 'plaintext'}, directIO
+    return {var for var, t in type_env.items() if t.visibility and t.visibility.value != 'plaintext'}, directIO
 
 
 # copied from dep_graph.py
@@ -369,10 +389,10 @@ def separate_seqs(function: list[Statement]) -> list[list[Statement]]:
 
 
 # get the LHS variable from the statement
-def getLHSVar(stmt: Statement) -> Var:
-    if isinstance(stmt, llc.Return):
-        return stmt.value
-    stmt = stmt.lhs
+def getLHSVar(stmt1: Union[Statement, DepParameter]) -> Var:
+    if isinstance(stmt1, llc.Return):
+        return stmt1.value
+    stmt = stmt1.lhs
     if isinstance(stmt, Subscript) or isinstance(stmt, VectorizedAccess) or isinstance(stmt, Update) or isinstance(stmt, VectorizedUpdate) or isinstance(stmt, DropDim):
         return stmt.array
     return stmt
@@ -423,8 +443,8 @@ def getRHSSimpleVars(rhs: AssignRHS) -> list[Var]:
 # get the predicted cost for the given operator, protocol, and vector length
 # if vectorLen <= tableMaxIndex, choose unit cost from linear interpolation
 #   otherwise (vectorLen > tableMaxIndex), choose unit cost = value at tableMaxIndex
-def getCost(op: str, p: str, vectorLen: int) -> float:
-    prelim = costTable[op]
+def getCost(op: str, p: Optional[str], vectorLen: int) -> float:
+    prelim: Any = costTable[op]
     if p:
         if p not in prelim.keys():
             return float('inf')
@@ -450,19 +470,20 @@ def getCost(op: str, p: str, vectorLen: int) -> float:
 
 
 # find the size of the vector in a VectorizedAccess
-def findVectorBound(stmt: Statement) -> int:
+def findVectorBound(stmt: Union[VectorizedAccess, VectorizedUpdate, Var]) -> int:
     if isinstance(stmt, VectorizedUpdate):
-        assert_never(stmt)
+        raise Exception(stmt)
     if isinstance(stmt, VectorizedAccess):
         toRet = 1
-        for size, vectorized in zip(stmt.dim_sizes, stmt.vectorized_dims):
+        for s, vectorized in zip(stmt.dim_sizes, stmt.vectorized_dims):
+            size: int
             if vectorized:
-                if isinstance(size, Constant):
-                    size = size.value
+                if isinstance(s, Constant):
+                    size = s.value
                 else:
-                    size = str(size)
-                    assert size in loopBounds.keys()
-                    size = loopBounds[size]
+                    s1 = str(s)
+                    assert s1 in loopBounds.keys()
+                    size = loopBounds[s1]
                 toRet *= size
         return toRet
     return 1
@@ -473,7 +494,7 @@ def findVectorBound(stmt: Statement) -> int:
 def createNewConfig(conversions: set[Protocol], p: Protocol, prevConfig: Config, trackedVars: set[Var], addOutput: bool, head: Statement, requiredInputVars: set[Var], loop_depth: int, loopNestCount: int, dep_graph: DepGraph) -> Config:
     # clean conversion set
     conv = deepcopy(conversions)
-    convPairs = []
+    convPairs: list[tuple[str, str]] = []
     if p in conv:
         conv.remove(p)
 
@@ -485,6 +506,7 @@ def createNewConfig(conversions: set[Protocol], p: Protocol, prevConfig: Config,
         newConfig.protocolByVar[lhsVar] = (set() if p == '_' else {p}) | conv
 
     # edge case - skip other steps for Return or Tuple types
+    assert not isinstance(head, For)
     if isinstance(head, llc.Return) or (not isinstance(head, Phi) and isinstance(head.rhs, llc.Tuple)):
         newConfig.finalStmts.append(head)
         return newConfig
@@ -531,6 +553,7 @@ def createNewConfig(conversions: set[Protocol], p: Protocol, prevConfig: Config,
             if assignment[0] == targetStmt:
                 found = True
                 if p not in ({assignment[1]} | assignment[2]):
+                    assert not isinstance(targetStmt, Return)
                     vecBound = findVectorBound(targetStmt.lhs)
                     targetLhs = getLHSVar(targetStmt)
                     assignment[2].add(p)
@@ -619,18 +642,19 @@ def assign_seq(seq: list[Statement], dep_graph: DepGraph, trackedVars: set[Var],
         assert useCount <= len(uses)
 
         # add possible protocols to the new configurations. This grows exponentially with the number of statements
-        ps = []
+        ps = set()
         if isinstance(head, llc.Return):
-            ps.append('_')
+            ps.add('_')
         if len(ps) == 0:
             for op in transparent_ops:
+                assert not isinstance(head, Return)
                 if not isinstance(head, Phi) and isinstance(head.rhs, op):
                     lockSet(getRHSSimpleVars(head.rhs) + [getLHSVar(head)], config)
                     locks = config.lockedVarsSets[config.lockedVarsIdx[getLHSVar(head)]]
                     for var in locks:
                         if var in config.protocolByVar.keys() and len(config.protocolByVar[var] - {'_'}) > 0:
                             conversions |= config.protocolByVar[var]
-                    ps.append('_')
+                    ps.add('_')
                     break
         if len(ps) == 0:
             ps = protocols.copy()
@@ -725,6 +749,7 @@ def subsumes(a: Config, b: Config, loop_depth: int, dep_graph: DepGraph, freeCon
                             for stmt, p, conv, _, _, _, _ in b.assignments:
                                 if stmt == toFind:
                                     assert p == '_' and conv == set()
+                                    assert isinstance(toFind, Assign)
                                     curSet += getRHSSimpleVars(toFind.rhs)
                                     break
                     continue
@@ -858,9 +883,9 @@ def merge(c1: Config, c2: Config, dep_graph: DepGraph, trackedVars: set[Var]) ->
                 targetStmts |= toAdd
 
                 # for each line in c2, update it's conversions to protSet if is one of the target statements
-                for line in newConfig.assignments:
-                    if line[0] in targetStmts and line[0] in c2Stmts:
-                        line[2] = protSet
+                for assignment in newConfig.assignments:
+                    if assignment[0] in targetStmts and assignment[0] in c2Stmts:
+                        assignment[2] = protSet
                 # TODO IS THERE EVER A SCENARIO WHERE THIS EFFECTS COST?
             
             # assign new required conversions associated with this input-output pair
@@ -894,7 +919,7 @@ def merge(c1: Config, c2: Config, dep_graph: DepGraph, trackedVars: set[Var]) ->
                     assert not continueLooping or count == 1 # currently unhandled for multiple branches at this location
 
                 # chain to "base" variable through raise_dims
-                while not isinstance(stmt, DepParameter) and not isinstance(stmt, Phi) and (isinstance(stmt.rhs, LiftExpr) or isinstance(stmt.rhs, VectorizedAccess)):
+                while not isinstance(stmt, DepParameter) and not isinstance(stmt, Phi) and not isinstance(stmt, For) and not isinstance(stmt, Return) and (isinstance(stmt.rhs, LiftExpr) or isinstance(stmt.rhs, VectorizedAccess)):
                     assert len(getRHSSimpleVars(stmt.rhs)) == 1
                     if getRHSSimpleVars(stmt.rhs)[0] not in dep_graph.var_to_assignment.keys():
                         break
@@ -920,12 +945,14 @@ def merge(c1: Config, c2: Config, dep_graph: DepGraph, trackedVars: set[Var]) ->
                             # special condition for chained drop_dim
                             if changed:
                                 assert assignment[1] == '_'
-                                var = getRHSSimpleVars(stmt.rhs)
-                                assert len(var) == 1
-                                var = var[0]
+                                assert isinstance(stmt, Assign)
+                                variables = getRHSSimpleVars(stmt.rhs)
+                                assert len(variables) == 1
+                                var = variables[0]
                                 assert assignment[2] == c2.inputs[var]
                                 assignment[2] = c1OutputsCopy[var]
                                 newProtocols = c2.inputs[var] - assignment[2]
+                            assert not isinstance(stmt, Return)
                             vecBound = findVectorBound(stmt.lhs)
                             assert len(newProtocols.intersection({assignment[1]} | assignment[2])) == 0
                             for p in newProtocols:
@@ -984,6 +1011,7 @@ def merge(c1: Config, c2: Config, dep_graph: DepGraph, trackedVars: set[Var]) ->
     for stmt, ps in backPs.items():
         for assignment in newConfig.assignments:
             if assignment[0] == stmt:
+                assert not isinstance(stmt, Return)
                 vecBound = findVectorBound(stmt.lhs)
                 newProtocols = ps - {assignment[1]} - assignment[2]
                 for p in newProtocols:
@@ -1028,7 +1056,6 @@ def mergeDriver(configs1: list[Config], configs2: list[Config], dep_graph: DepGr
 # ASSUMPTION: TUPLES ARE ONLY USED TO PACK RETURN VALUES
 #   THIS IS SAFE BECAUSE OPERATIONS WILL BE APPLIED AT EVERY ELEMENT OF A VECTOR AND VECTOR CONVERSIONS ARE AMORTIZED (IT IS LESS EXPENSIVE TO CONVERT ALL ELEMENTS THAN TO INDIVIDUALLY CONVERT EACH ELEMENT)
 def mix(body: list[Statement], dep_graph: DepGraph, trackedVars: set[Var], freeConversions: set[Var], loop_depth: int = 1, loopNestCount: int = 0, debug=False) -> list[Config]:
-
     if debug:
         print("CALL TO MIX")
 
@@ -1041,14 +1068,14 @@ def mix(body: list[Statement], dep_graph: DepGraph, trackedVars: set[Var], freeC
     rawConfigs = []
     for seq in seqs:
         if isinstance(seq[0], llc.For) and len(seq) == 1:
-            low = seq[0].bound_low
+            low: Any = seq[0].bound_low
             if isinstance(low, Constant):
                 low = low.value
             else:
                 low = str(low)
                 assert low in loopBounds.keys()
                 low = loopBounds[low]
-            high = seq[0].bound_high
+            high: Any = seq[0].bound_high
             if isinstance(high, Constant):
                 high = high.value
             else:
@@ -1090,22 +1117,19 @@ def mix(body: list[Statement], dep_graph: DepGraph, trackedVars: set[Var], freeC
 
 
 # run the mixer
-def mix_protocols(filename: str, type_env: TypeEnv, body: list[Statement], dep_graph: DepGraph, mixer_protocols: str = None) -> Config:
-
+def mix_protocols(filename: str, type_env: TypeEnv, body: list[Statement], dep_graph: DepGraph, mixer_protocols: Optional[set[str]] = None) -> Config:
     if mixer_protocols:
-        protocols.clear() 
-        protocols.update(mixer_protocols)
-    
+        protocols = mixer_protocols.copy()
+
     getLoopBounds(filename)
     getOpCosts()
     trackedVars, directIOVars = getTrackedVars(type_env, body, dep_graph)
     getBounds(trackedVars - directIOVars, dep_graph, body)
     mixed = mix(body, dep_graph, trackedVars, directIOVars, debug=False)
     minCost = float("inf")
-    best = None
     for c in mixed:
         if c.total_cost < minCost:
             best = c
             minCost = c.total_cost
-    populateConstantsAndPlaintexts(best, {var for var, t in type_env.items() if t.visibility.value == 'plaintext'})
+    populateConstantsAndPlaintexts(best, {var for var, t in type_env.items() if t.visibility and t.visibility.value == 'plaintext'})
     return best
