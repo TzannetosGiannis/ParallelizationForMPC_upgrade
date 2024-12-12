@@ -13,6 +13,7 @@ opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', 
   '>>': 'zi_shr', '-UNARY': 'UNAVAILABLE', '&': 'zi_&', '|': 'zi_|', 'Var': 'UNAVAILABLE', '/': 'zi_div'}
 spdzTypes = ["A", "B", "X", "Y"]
 vecSizes = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500, 800, 1000]
+trials, loopIters, intSize = (100, 1000, 32)
 
 
 def averageStats(statsList):
@@ -40,9 +41,18 @@ def runTrial(code):
     return {"time": random()*2*code, "dataSent": randint(1,20*code), "commRounds": randint(1,200*code)}
 
 
-def runBenchmark(backend, protocol, operator, symbol, trials, loopIters, conv=False):
-    finalStats = dict()
+def runBenchmark(backend, protocol, operator, symbol, trials, loopIters, conv=False, finalStats=None):
+    repairMode = True
+    if not finalStats:
+        finalStats = dict()
+        repairMode = False
+
     for vecSize in vecSizes:
+        if repairMode and str(vecSize) in finalStats.keys():
+            continue
+        if repairMode:
+            print(f"Missing {backend} {protocol} {operator} {symbol} {vecSize}")
+
         statsMultiList = []
         statsSingleList = []
 
@@ -105,7 +115,6 @@ def printOutputToJSON(outputDict, log=False, save=True):
 
 
 def createCostTable():
-    trials, loopIters, intSize = (100, 1000, 32)
     resultsDict = {"params": {"trials": trials, "loopIters": loopIters, "intSize": intSize}}
     for backend in backends:
         resultsDict[str(backend)] = dict()
@@ -138,9 +147,47 @@ def repairCostTable(tableName="", useLastTable=True):
             print("No cost tables found to repair")
             return
         tableName = fileNames[-1]
+        print("\nRepairing cost table:", tableName)
     with open(tableName) as json_data:
         resultsDict = json.load(json_data)
-    pass
 
-# createCostTable()
+    for backend in backends:
+        if str(backend) not in resultsDict.keys():
+            resultsDict[str(backend)] = dict()
+
+        # Compute costs for each operator
+        for op, sym in opToCostSymbol.items():
+            if sym not in resultsDict[str(backend)].keys():
+                resultsDict[str(backend)][sym] = dict()
+            for protocol in backend.valid_protocols():
+                if not sym == 'UNAVAILABLE':
+                    if backend == Backend.MP_SPDZ:
+                        for spdzType in spdzTypes:
+                            t = protocol + '_' + spdzType
+                            if t in resultsDict[str(backend)][sym].keys():
+                                runBenchmark(backend, t, op, sym, trials, loopIters, finalStats=resultsDict[str(backend)][sym][t])
+                            else:
+                                print(f"Running missing benchmark {str(backend)} {op} {sym} {t}")
+                                resultsDict[str(backend)][sym][t] = runBenchmark(backend, t, op, sym, trials, loopIters)
+                    else:
+                        if protocol in resultsDict[str(backend)][sym].keys():
+                            runBenchmark(backend, protocol, op, sym, trials, loopIters, finalStats=resultsDict[str(backend)][sym][protocol])
+                        else:
+                            print(f"Running missing benchmark {str(backend)} {op} {sym} {protocol}")
+                            resultsDict[str(backend)][sym][protocol] = runBenchmark(backend, protocol, op, sym, trials, loopIters)
+
+        # Compute conversion costs
+        convPossibilities = spdzTypes if backend == Backend.MP_SPDZ else backend.valid_protocols()
+        for a in convPossibilities:
+            for b in convPossibilities:
+                if a != b:
+                    cType = a + "2" + b
+                    if cType in resultsDict[str(backend)].keys():
+                        runBenchmark(backend, a + "2" + b, None, None, trials, loopIters, conv=True, finalStats=resultsDict[str(backend)][cType])
+                    else:
+                        print(f"Running missing benchmark {str(backend)} {cType}")
+                        resultsDict[str(backend)][cType] = runBenchmark(backend, a + "2" + b, None, None, trials, loopIters, conv=True)
+    printOutputToJSON(resultsDict, log=False, save=True)
+
+createCostTable()
 repairCostTable()
