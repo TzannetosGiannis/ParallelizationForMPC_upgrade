@@ -35,7 +35,7 @@ def commandLoop():
                         print('Timed out')
                         s.send('error'.encode())
                     assert p.returncode == 0, stderr
-                    print(stdout)
+                    print('Output: ', stdout[:-1])
                     print('Test execution complete')
                 elif fst == 'quit':
                     print('Exiting...')

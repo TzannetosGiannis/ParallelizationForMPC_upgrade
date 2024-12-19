@@ -5,15 +5,21 @@ import json
 from os import listdir
 from os.path import isfile
 import socket
+import subprocess
 
 
-backends = [Backend.MOTION, Backend.MP_SPDZ]
-opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt',
-  '*': 'zi_mul', 'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor',
-  '>>': 'zi_shr', '-UNARY': 'UNAVAILABLE', '&': 'zi_&', '|': 'zi_|', 'Var': 'UNAVAILABLE', '/': 'zi_div'}
-spdzTypes = ["A", "B", "X", "Y"]
-vecSizes = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500, 800, 1000]
-trials, loopIters, intSize = (100, 1000, 32)
+# backends = [Backend.MOTION, Backend.MP_SPDZ]
+backends = [Backend.MOTION]
+# opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt',
+#   '*': 'zi_mul', 'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor',
+#   '>>': 'zi_shr', '-UNARY': 'UNAVAILABLE', '&': 'zi_&', '|': 'zi_|', 'Var': 'UNAVAILABLE', '/': 'zi_div'}
+opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and'}
+# spdzTypes = ["A", "B", "X", "Y"]
+spdzTypes = ["A", "B"]
+# vecSizes = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500, 800, 1000]
+vecSizes = [1, 10]
+# trials, loopIters, intSize = (100, 1000, 32)
+trials, loopIters, intSize = (10, 10, 32)
 port = 12345
 
 
@@ -42,16 +48,39 @@ def averageStats(statsList):
 
 def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
     # TEMP CODE FOR TESTING
-    if random() < 0.2:
-        raise Exception("Random fail genCode")
-    return iters*vecSize
+    val = iters * vecSize
+    fileName = 'test' + str(iters)
+    code = f'from random import random, randint\nprint(random()*2*{val}, randint(1, 20*{val}), randint(1, 200*{val}))'
+    with open(fileName + 'Server.py', 'w') as f:
+        f.write(code)
+        f.close()
+    sendCmd('save ' + fileName + 'Client.py ' + code)
+
+    # if random() < 0.2:
+    #     raise Exception("Random fail genCode")
+    return fileName
 
 
-def runTrial(code):
+def runTrial(codeName):
     # TEMP CODE FOR TESTING
-    if random() < 0.02:
-        raise Exception("Random fail runTrial")
-    return {"time": random()*2*code, "dataSent": randint(1,20*code), "commRounds": randint(1,200*code)}
+    p = subprocess.Popen(['python', codeName+'Server.py'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, )
+    sendCmd('execute python ' + codeName + 'Client.py')
+    try:
+        stdout, stderr = p.communicate(timeout=1000)
+    except TimeoutError:
+        print('Timed out')
+        s.send('error'.encode())
+    assert p.returncode == 0, stderr
+    # print('Output: ', stdout[:-1])
+    vals = stdout[:-1].split(' ')
+    stats = {"time": float(vals[0]), "dataSent": int(vals[1]), "commRounds": int(vals[2])}
+    print('Stats: ', stats)
+    print('Test execution complete')
+
+
+    # if random() < 0.02:
+    #     raise Exception("Random fail runTrial")
+    return stats
 
 
 def runBenchmark(backend, protocol, operator, symbol, trials, loopIters, conv=False, finalStats=None):
@@ -215,9 +244,7 @@ def sendCmd(cmd):
 
 
 s = startSocket()
-sendCmd('save helloWorld.py print("hi")')
-sendCmd('execute python helloWorld.py')
-sendCmd('quit')
-# createCostTable()
+createCostTable()
 # repairCostTable()
+sendCmd('quit')
 s.close()
