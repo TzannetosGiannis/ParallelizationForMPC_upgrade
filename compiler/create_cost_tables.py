@@ -1,10 +1,10 @@
 import datetime
-
 from compiler.backends import Backend
 from random import random, randint
 import json
 from os import listdir
-from os.path import isfile, join
+from os.path import isfile
+import socket
 
 
 backends = [Backend.MOTION, Backend.MP_SPDZ]
@@ -14,6 +14,19 @@ opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', 
 spdzTypes = ["A", "B", "X", "Y"]
 vecSizes = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500, 800, 1000]
 trials, loopIters, intSize = (100, 1000, 32)
+port = 12345
+
+
+def startSocket():
+    sock = socket.socket()
+    sock.bind(('', port))
+    sock.listen(1)
+    print(f'Listening on port {port}')
+
+    c, addr = sock.accept()
+    print(f'Received connection from {addr[0]}:{addr[1]}')
+
+    return c
 
 
 def averageStats(statsList):
@@ -189,5 +202,22 @@ def repairCostTable(tableName="", useLastTable=True):
                         resultsDict[str(backend)][cType] = runBenchmark(backend, a + "2" + b, None, None, trials, loopIters, conv=True)
     printOutputToJSON(resultsDict, log=False, save=True)
 
-createCostTable()
-repairCostTable()
+
+def sendCmd(cmd):
+    s.send((cmd + chr(3)).encode())
+    msg = ''
+    while not len(msg):
+        msg = s.recv(1024).decode()
+    if msg != cmd.split(' ')[0]:
+        if msg == 'error':
+            raise Exception('Client failed to run command')
+        raise Exception("Command failed for unknown reasons")
+
+
+s = startSocket()
+sendCmd('save helloWorld.py print("hi")')
+sendCmd('execute python helloWorld.py')
+sendCmd('quit')
+# createCostTable()
+# repairCostTable()
+s.close()
