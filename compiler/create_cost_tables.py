@@ -2,26 +2,33 @@ import datetime
 from compiler.backends import Backend
 from random import random, randint
 import json
-from os import listdir
+from os import listdir, getcwd
 from os.path import isfile
 import socket
 import subprocess
+import re
+
+def parse(pattern: str,text: str) -> tuple[str, ...]:
+    m = re.search(rf"^\s*{pattern}\s*$", text, re.MULTILINE)
+    assert m is not None, repr(text)
+    return m.groups()
 
 
 # backends = [Backend.MOTION, Backend.MP_SPDZ]
-backends = [Backend.MOTION]
+backends = [Backend.MP_SPDZ]
 # opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt',
 #   '*': 'zi_mul', 'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor',
 #   '>>': 'zi_shr', '-UNARY': 'UNAVAILABLE', '&': 'zi_&', '|': 'zi_|', 'Var': 'UNAVAILABLE', '/': 'zi_div'}
-opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and'}
+opToCostSymbol = {'+': 'zi_add', } # 'and': 'zi_and'
 # spdzTypes = ["A", "B", "X", "Y"]
-spdzTypes = ["A", "B"]
+spdzTypes = ["A","B"]
 # vecSizes = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500, 800, 1000]
-vecSizes = [1, 10]
+vecSizes = [10]
 # trials, loopIters, intSize = (100, 1000, 32)
-trials, loopIters, intSize = (10, 10, 32)
+trials, loopIters, intSize = (2, 2, 32)
 port = 12345
 
+common_prefix = f'{getcwd()}/../backend_submodules/MP-SPDZ/'
 
 def startSocket():
     sock = socket.socket()
@@ -48,38 +55,61 @@ def averageStats(statsList):
 
 def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
     # TEMP CODE FOR TESTING
+    
     val = iters * vecSize
-    fileName = 'test' + str(iters)
-    code = f'from random import random, randint\nprint(random()*2*{val}, randint(1, 20*{val}), randint(1, 200*{val}))'
-    with open(fileName + 'Server.py', 'w') as f:
-        f.write(code)
-        f.close()
-    sendCmd('save ' + fileName + 'Client.py ' + code)
 
-    # if random() < 0.2:
-    #     raise Exception("Random fail genCode")
-    return fileName
+    if str(backend) == 'MP-SPDZ':
+      
+        prot = protocol.split("_")[0]
+        spdzType = protocol.split("_")[1]
+        dummy_filename = f'{symbol}_{spdzType}.mpc'
+    
+        # retrieve the sample 
+        with open(f'./mpc_samples/{backend}/{symbol}_{spdzType}.mpc','r') as f:
+            code = f.read()
+        
+        # modify the test compoenents
+        code = code.replace("_iters",str(iters)).replace('_vec_size',str(vecSize))
+        
+        # save it to tmp file
+        with open(dummy_filename, "w") as file:  # Open the file in write mode
+            file.write(code)
 
+        sendCmd('save ' + dummy_filename + ' ' + code)
+        sendCmd(f'execute {common_prefix}compile.py ./{dummy_filename}')
+        p = subprocess.Popen([f'{common_prefix}compile.py', f'./{dummy_filename}'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, )
 
-def runTrial(codeName):
-    # TEMP CODE FOR TESTING
-    p = subprocess.Popen(['python', codeName+'Server.py'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, )
-    sendCmd('execute python ' + codeName + 'Client.py')
     try:
         stdout, stderr = p.communicate(timeout=1000)
     except TimeoutError:
         print('Timed out')
         s.send('error'.encode())
     assert p.returncode == 0, stderr
-    # print('Output: ', stdout[:-1])
-    vals = stdout[:-1].split(' ')
-    stats = {"time": float(vals[0]), "dataSent": int(vals[1]), "commRounds": int(vals[2])}
-    print('Stats: ', stats)
-    print('Test execution complete')
+   
+    return dummy_filename
 
 
-    # if random() < 0.02:
-    #     raise Exception("Random fail runTrial")
+def runTrial(codeName,backend,protocol):
+
+    # TEMP CODE FOR TESTING
+    if str(backend) == 'MP-SPDZ':
+        prot = protocol.split('_')[0]
+        p = subprocess.Popen([f'{common_prefix}Scripts/../{prot}-party.x','0',codeName.split(".mpc")[0], '-pn','13110','-h','localhost','-N','2'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, )
+        sendCmd(f'execute {common_prefix}Scripts/../{prot}-party.x 1 {codeName.split(".mpc")[0]} -pn 13110 -h localhost -N 2')
+    
+        try:
+            stdout, stderr = p.communicate(timeout=1000)
+        except TimeoutError:
+            print('Timed out')
+            s.send('error'.encode())
+        
+        assert p.returncode == 0, stderr
+        # print('Output: ', stderr)
+        # vals = stdout[:-1].split(' ')
+        stats = {"time": float(parse(r"Time = (.+) seconds",stderr)[0]), "dataSent": float(parse(r"Data sent = (.+) MB.*",stderr)[0]), "commRounds": int(parse(r"Data sent = .*~(\d+)\s*rounds.*",stderr)[0])}
+        print('Stats: ', stats)
+        print('Test execution complete')
+
     return stats
 
 
@@ -119,14 +149,14 @@ def runBenchmark(backend, protocol, operator, symbol, trials, loopIters, conv=Fa
         totalFails = 0
         while len(statsMultiList) < trials:
             try:
-                statsMultiList.append(runTrial(codeMultiIter))
+                statsMultiList.append(runTrial(codeMultiIter,backend,protocol))
             except:
                 totalFails += 1
                 if totalFails > 10:
                     break
         while len(statsSingleList) < trials:
             try:
-                statsSingleList.append(runTrial(codeSingleIter))
+                statsSingleList.append(runTrial(codeSingleIter,backend,protocol))
             except:
                 totalFails += 1
                 if totalFails > 10:
@@ -165,6 +195,8 @@ def createCostTable():
         for op, sym in opToCostSymbol.items():
             resultsDict[str(backend)][sym] = dict()
             for protocol in backend.valid_protocols():
+                if protocol != 'semi':
+                    continue
                 if not sym == 'UNAVAILABLE':
                     if backend == Backend.MP_SPDZ:
                         for spdzType in spdzTypes:
