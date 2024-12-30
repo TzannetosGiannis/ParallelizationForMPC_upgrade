@@ -23,9 +23,9 @@ opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', 
 # cannotDo = {'Mux': 'zi_mux','and': 'zi_and','or': 'zi_or','%': 'zi_rem', '-UNARY': 'UNAVAILABLE', '|': 'zi_|', 'Var': 'UNAVAILABLE', '/': 'zi_div'}
 opToCostSymbol = { '+': 'zi_add','-': 'zi_sub', '*': 'zi_mul'} 
 # opToCostSymbol = { '==': 'zi_eq','>=': 'zi_ge','>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt','!=': 'zi_ne','&': 'zi_&','<<': 'zi_shl','^': 'zi_xor', '>>': 'zi_shr','^': 'zi_xor', '>>': 'zi_shr'} 
-# opToCostSymbol = {  '+': 'zi_add'} 
-# spdzTypes = ["A", "B", "X", "Y"]
+# opToCostSymbol = {  '==': 'zi_eq'} 
 spdzTypes = ["A","B","A2B","B2A","A2X","A2Y"]
+# spdzTypes = ["B2A"]
 # vecSizes = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500, 800, 1000]
 vecSizes = [10]
 # trials, loopIters, intSize = (100, 1000, 32)
@@ -97,12 +97,18 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
         
 
         if spdzType == 'A2B':
-            code = code.replace("_convertion1",f"c = [siv32(c[i]) for i in range(len(c))]")
+            if actualPrototype == 'protocol':
+                code = code.replace("_convertion1",f"c = [siv32(c[i]) for i in range(len(c))]")
+            else:
+                code = code.replace("_convertion1",f"")
+            code = code.replace("_convertion2",f"c[i] = siv32(c[i])")
         elif spdzType == 'B2A':
             code = code.replace("_convertion1",f"x = c.elements();printer=False;c = [sint(r) for r in x]")
             code = code.replace('return c.elements()','return c')
+            code = code.replace("_convertion2",f"")
         else:
             code = code.replace("_convertion1",f"")
+            code = code.replace("_convertion2",f"")
 
         if symbol in opToCostSymbol:
             basic_operation = "c = (a _operator b)"
@@ -258,7 +264,7 @@ def createCostTable():
                     else:
                         resultsDict[str(backend)][sym][protocol] = runBenchmark(backend, protocol, op, sym, trials, loopIters)
 
-        # Compute conversion costs
+        # [TODO] Brandon lets talk about this ==> Compute conversion costs
         # convPossibilities = spdzTypes if backend == Backend.MP_SPDZ else backend.valid_protocols()
         # for a in convPossibilities:
         #     for b in convPossibilities:
