@@ -16,10 +16,14 @@ def parse(pattern: str,text: str) -> tuple[str, ...]:
 
 # backends = [Backend.MOTION, Backend.MP_SPDZ]
 backends = [Backend.MP_SPDZ]
-# opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt',
-#   '*': 'zi_mul', 'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor',
-#   '>>': 'zi_shr', '-UNARY': 'UNAVAILABLE', '&': 'zi_&', '|': 'zi_|', 'Var': 'UNAVAILABLE', '/': 'zi_div'}
-opToCostSymbol = {'+': 'zi_add', } # 'and': 'zi_and'
+opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt',
+  '*': 'zi_mul', 'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor',
+  '>>': 'zi_shr', '-UNARY': 'UNAVAILABLE', '&': 'zi_&', '|': 'zi_|', 'Var': 'UNAVAILABLE', '/': 'zi_div'}
+
+# cannotDo = {'Mux': 'zi_mux','and': 'zi_and','or': 'zi_or','%': 'zi_rem', '-UNARY': 'UNAVAILABLE', '|': 'zi_|', 'Var': 'UNAVAILABLE', '/': 'zi_div'}
+# opToCostSymbol = { '+': 'zi_add','-': 'zi_sub', '*': 'zi_mul'} 
+# opToCostSymbol = { '==': 'zi_eq','>=': 'zi_ge','>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt','!=': 'zi_ne','&': 'zi_&','<<': 'zi_shl','^': 'zi_xor', '>>': 'zi_shr','^': 'zi_xor', '>>': 'zi_shr'} 
+# opToCostSymbol = {  '/': 'zi_div'} 
 # spdzTypes = ["A", "B", "X", "Y"]
 spdzTypes = ["A","B"]
 # vecSizes = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500, 800, 1000]
@@ -57,16 +61,55 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
     # TEMP CODE FOR TESTING
     
     val = iters * vecSize
-
+    
     if str(backend) == 'MP-SPDZ':
-      
+        
+        opToCostSymbol = ['zi_add','zi_sub','zi_mul']
+
+        if symbol in opToCostSymbol:
+            actualPrototype = 'protocol' 
+        else:
+            actualPrototype =  "protocol_2"
+    
         prot = protocol.split("_")[0]
         spdzType = protocol.split("_")[1]
-        dummy_filename = f'{symbol}_{spdzType}.mpc'
-    
+        dummy_filename = 'protocol2.mpc'
+
         # retrieve the sample 
-        with open(f'./mpc_samples/{backend}/{symbol}_{spdzType}.mpc','r') as f:
+        with open(f'./mpc_samples/{backend}/{actualPrototype}.mpc','r') as f:
             code = f.read()
+        
+        if spdzType.startswith('B'):
+            code = code.replace("_isArithmetic","False")
+        if spdzType.startswith('A'):
+            code = code.replace('_input_var_type','sint')
+            code = code.replace("_isArithmetic","True")
+
+        if spdzType.endswith('2X'):
+            code = code.replace('_activateX',"True")
+        else:
+            code = code.replace('_activateX',"False")
+        if spdzType.endswith('2Y'):
+            code = code.replace('_activateY',"True")
+        else:
+            code = code.replace('_activateY',"False")
+        
+        if symbol in opToCostSymbol:
+            basic_operation = "c = (a _operator b)"
+            basic_operation = basic_operation.replace('_operator',operator)
+            code = code.replace('_operation1',basic_operation)
+        else:
+            if spdzType.startswith('A'):
+                basic_operation = "c[i] = (a[i] _operator b[i])"
+                code = code.replace('_operation1',"pass")
+                basic_operation = basic_operation.replace('_operator',operator)
+                code = code.replace('_operation2',basic_operation)
+            else:
+                basic_operation = "c = (a _operator b)"
+                code = code.replace('_operation2',"pass")
+                basic_operation = basic_operation.replace('_operator',operator)
+                code = code.replace('_operation1',basic_operation)
+
         
         # modify the test compoenents
         code = code.replace("_iters",str(iters)).replace('_vec_size',str(vecSize))
