@@ -15,6 +15,7 @@ def zi_prot(a,b,iters,printer):
     
     for l in range(iters):
        _operation1
+       _convertion1
       
     if (printer):
         return c

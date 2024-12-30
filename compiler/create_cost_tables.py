@@ -21,11 +21,11 @@ opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', 
   '>>': 'zi_shr', '-UNARY': 'UNAVAILABLE', '&': 'zi_&', '|': 'zi_|', 'Var': 'UNAVAILABLE', '/': 'zi_div'}
 
 # cannotDo = {'Mux': 'zi_mux','and': 'zi_and','or': 'zi_or','%': 'zi_rem', '-UNARY': 'UNAVAILABLE', '|': 'zi_|', 'Var': 'UNAVAILABLE', '/': 'zi_div'}
-# opToCostSymbol = { '+': 'zi_add','-': 'zi_sub', '*': 'zi_mul'} 
+opToCostSymbol = { '+': 'zi_add','-': 'zi_sub', '*': 'zi_mul'} 
 # opToCostSymbol = { '==': 'zi_eq','>=': 'zi_ge','>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt','!=': 'zi_ne','&': 'zi_&','<<': 'zi_shl','^': 'zi_xor', '>>': 'zi_shr','^': 'zi_xor', '>>': 'zi_shr'} 
-# opToCostSymbol = {  '/': 'zi_div'} 
+# opToCostSymbol = {  '+': 'zi_add'} 
 # spdzTypes = ["A", "B", "X", "Y"]
-spdzTypes = ["A","B"]
+spdzTypes = ["A","B","A2B","B2A","A2X","A2Y"]
 # vecSizes = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500, 800, 1000]
 vecSizes = [10]
 # trials, loopIters, intSize = (100, 1000, 32)
@@ -75,6 +75,7 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
         spdzType = protocol.split("_")[1]
         dummy_filename = 'protocol2.mpc'
 
+        
         # retrieve the sample 
         with open(f'./mpc_samples/{backend}/{actualPrototype}.mpc','r') as f:
             code = f.read()
@@ -94,6 +95,15 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
         else:
             code = code.replace('_activateY',"False")
         
+
+        if spdzType == 'A2B':
+            code = code.replace("_convertion1",f"c = [siv32(c[i]) for i in range(len(c))]")
+        elif spdzType == 'B2A':
+            code = code.replace("_convertion1",f"x = c.elements();printer=False;c = [sint(r) for r in x]")
+            code = code.replace('return c.elements()','return c')
+        else:
+            code = code.replace("_convertion1",f"")
+
         if symbol in opToCostSymbol:
             basic_operation = "c = (a _operator b)"
             basic_operation = basic_operation.replace('_operator',operator)
@@ -249,11 +259,11 @@ def createCostTable():
                         resultsDict[str(backend)][sym][protocol] = runBenchmark(backend, protocol, op, sym, trials, loopIters)
 
         # Compute conversion costs
-        convPossibilities = spdzTypes if backend == Backend.MP_SPDZ else backend.valid_protocols()
-        for a in convPossibilities:
-            for b in convPossibilities:
-                if a != b:
-                    resultsDict[str(backend)][a + "2" + b] = runBenchmark(backend, a + "2" + b, None, None, trials, loopIters, conv=True)
+        # convPossibilities = spdzTypes if backend == Backend.MP_SPDZ else backend.valid_protocols()
+        # for a in convPossibilities:
+        #     for b in convPossibilities:
+        #         if a != b:
+        #             resultsDict[str(backend)][a + "2" + b] = runBenchmark(backend, a + "2" + b, None, None, trials, loopIters, conv=True)
     printOutputToJSON(resultsDict, log=False, save=True)
 
 
