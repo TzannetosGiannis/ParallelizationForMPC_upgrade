@@ -1,12 +1,13 @@
 import datetime
 from compiler.backends import Backend
-from random import random, randint
 import json
 from os import listdir, getcwd
 from os.path import isfile
 import socket
 import subprocess
 import re
+from time import sleep
+import signal, sys
 
 def parse(pattern: str,text: str) -> tuple[str, ...]:
     m = re.search(rf"^\s*{pattern}\s*$", text, re.MULTILINE)
@@ -21,7 +22,7 @@ opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', 
   '>>': 'zi_shr', '-UNARY': 'UNAVAILABLE', '&': 'zi_&', '|': 'zi_|', 'Var': 'UNAVAILABLE', '/': 'zi_div'}
 
 # cannotDo = {'Mux': 'zi_mux','and': 'zi_and','or': 'zi_or','%': 'zi_rem', '-UNARY': 'UNAVAILABLE', '|': 'zi_|', 'Var': 'UNAVAILABLE', '/': 'zi_div'}
-opToCostSymbol = { '+': 'zi_add','-': 'zi_sub', '*': 'zi_mul'} 
+# opToCostSymbol = { '+': 'zi_add','-': 'zi_sub', '*': 'zi_mul'}
 # opToCostSymbol = { '==': 'zi_eq','>=': 'zi_ge','>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt','!=': 'zi_ne','&': 'zi_&','<<': 'zi_shl','^': 'zi_xor', '>>': 'zi_shr','^': 'zi_xor', '>>': 'zi_shr'} 
 # opToCostSymbol = {  '==': 'zi_eq'} 
 spdzTypes = ["A","B","A2B","B2A","A2X","A2Y"]
@@ -192,10 +193,13 @@ def runBenchmark(backend, protocol, operator, symbol, trials, loopIters, conv=Fa
         success = False
         while True:
             try:
+                sleep(0.01)
                 codeMultiIter = genCode(backend, protocol, operator, symbol, loopIters, conv, vecSize)
                 codeSingleIter = genCode(backend, protocol, operator, symbol, 1, conv, vecSize)
                 success = True
                 break
+            except SystemExit:
+                sys.exit(1)
             except:
                 failGenCount += 1
                 if failGenCount > 5:
@@ -207,15 +211,21 @@ def runBenchmark(backend, protocol, operator, symbol, trials, loopIters, conv=Fa
         # run the benchmark
         totalFails = 0
         while len(statsMultiList) < trials:
+            sleep(0.01)
             try:
                 statsMultiList.append(runTrial(codeMultiIter,backend,protocol))
+            except SystemExit:
+                sys.exit(1)
             except:
                 totalFails += 1
                 if totalFails > 10:
                     break
         while len(statsSingleList) < trials:
+            sleep(0.01)
             try:
                 statsSingleList.append(runTrial(codeSingleIter,backend,protocol))
+            except SystemExit:
+                sys.exit(1)
             except:
                 totalFails += 1
                 if totalFails > 10:
@@ -333,6 +343,15 @@ def sendCmd(cmd):
             raise Exception('Client failed to run command')
         raise Exception("Command failed for unknown reasons")
 
+
+def signal_handler(sig, frame):
+    print('Ctrl+C received. Closing socket and exiting...')
+    sendCmd('quit')
+    s.close()
+    sys.exit(1)
+
+# signal is used to capture ctrl+c signals and exit gracefully
+signal.signal(signal.SIGINT, signal_handler)
 
 s = startSocket()
 createCostTable()
