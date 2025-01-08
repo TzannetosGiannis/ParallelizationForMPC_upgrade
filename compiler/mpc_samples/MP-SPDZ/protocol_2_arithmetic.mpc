@@ -5,7 +5,7 @@ def zi_prot(a,b,iters):
     c = sint.Array(len(a))
     for l in range(iters):
         for i in range(len(a)):
-           _operation2
+           _operation
     
       
     return c

@@ -1,8 +1,3 @@
-# [TODO] isolate the one iteration code from multiteration code
-# [TODO] remove the convertion code and isolate it
-
-
-
 import datetime
 from compiler.backends import Backend
 import json
@@ -29,11 +24,11 @@ opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', 
 # cannotDo = {'Mux': 'zi_mux','and': 'zi_and','or': 'zi_or','%': 'zi_rem', '-UNARY': 'UNAVAILABLE', '|': 'zi_|', 'Var': 'UNAVAILABLE', '/': 'zi_div'}
 # opToCostSymbol = { '+': 'zi_add','-': 'zi_sub', '*': 'zi_mul'}
 # opToCostSymbol = { '==': 'zi_eq','>=': 'zi_ge','>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt','!=': 'zi_ne','&': 'zi_&','<<': 'zi_shl','^': 'zi_xor', '>>': 'zi_shr','^': 'zi_xor', '>>': 'zi_shr'} 
-opToCostSymbol = { '-': 'zi_sub', '*': 'zi_mul', '==': 'zi_eq'} 
-spdzTypes = ["A","B"]
+opToCostSymbol = { '<=': 'zi_le'} 
+spdzTypes = ["X","B","Y"]
 # spdzTypes = ["B2A"]
 # vecSizes = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500, 800, 1000]
-vecSizes = [10]
+vecSizes = [100]
 # trials, loopIters, intSize = (100, 1000, 32)
 trials, loopIters, intSize = (2, 10, 32)
 port = 12345
@@ -76,7 +71,7 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
         spdzType = protocol.split("_")[1]
         
         if symbol in opToCostSymbol:
-            if spdzType == 'A':
+            if spdzType == 'A' or spdzType == 'X' or spdzType == 'Y':
                 actualPrototype = 'protocol_arithmetic'
             elif spdzType == 'B':
                 actualPrototype = 'protocol_binary'
@@ -84,7 +79,7 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
                 raise TypeError("This is a type error")
                 
         else:
-            if spdzType == 'A':
+            if spdzType == 'A' or spdzType == 'X' or spdzType == 'Y':
                 actualPrototype = 'protocol_2_arithmetic'
             elif spdzType == 'B':
                 actualPrototype = 'protocol_binary'
@@ -100,6 +95,12 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
         with open(f'./mpc_samples/{backend}/{actualPrototype}.mpc','r') as f:
             code = f.read()
         
+        if spdzType == 'X':
+            X_code = 'program.use_dabit = True\n'
+            code = X_code + code
+        if spdzType == 'Y':
+            Y_code = 'program.use_edabit(True)\n'
+            code = Y_code + code
         # modify the test compoenents
         code = code.replace("_iters",str(iters)).replace('_vec_size',str(vecSize))
         
@@ -109,10 +110,10 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
             basic_operation = basic_operation.replace('_operator',operator)
             code = code.replace("_operation",basic_operation)
         else:
-            if spdzType == 'A':
+            if spdzType == 'A' or spdzType == 'X' or spdzType == 'Y':
                 basic_operation = "c[i] = (a[i] _operator b[i])"
                 basic_operation = basic_operation.replace('_operator',operator)
-                code = code.replace('_operation2',basic_operation)
+                code = code.replace('_operation',basic_operation)
             else:
                 basic_operation = "c = (a _operator b)"
                 basic_operation = basic_operation.replace('_operator',operator)
