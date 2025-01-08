@@ -1,3 +1,8 @@
+# [TODO] isolate the one iteration code from multiteration code
+# [TODO] remove the convertion code and isolate it
+
+
+
 import datetime
 from compiler.backends import Backend
 import json
@@ -24,13 +29,13 @@ opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', 
 # cannotDo = {'Mux': 'zi_mux','and': 'zi_and','or': 'zi_or','%': 'zi_rem', '-UNARY': 'UNAVAILABLE', '|': 'zi_|', 'Var': 'UNAVAILABLE', '/': 'zi_div'}
 # opToCostSymbol = { '+': 'zi_add','-': 'zi_sub', '*': 'zi_mul'}
 # opToCostSymbol = { '==': 'zi_eq','>=': 'zi_ge','>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt','!=': 'zi_ne','&': 'zi_&','<<': 'zi_shl','^': 'zi_xor', '>>': 'zi_shr','^': 'zi_xor', '>>': 'zi_shr'} 
-# opToCostSymbol = {  '==': 'zi_eq'} 
-spdzTypes = ["A","B","A2B","B2A","A2X","A2Y"]
+opToCostSymbol = { '-': 'zi_sub', '*': 'zi_mul', '==': 'zi_eq'} 
+spdzTypes = ["A","B"]
 # spdzTypes = ["B2A"]
 # vecSizes = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500, 800, 1000]
 vecSizes = [10]
 # trials, loopIters, intSize = (100, 1000, 32)
-trials, loopIters, intSize = (2, 2, 32)
+trials, loopIters, intSize = (2, 10, 32)
 port = 12345
 
 common_prefix = f'{getcwd()}/../backend_submodules/MP-SPDZ/'
@@ -66,70 +71,53 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
     if str(backend) == 'MP-SPDZ':
         
         opToCostSymbol = ['zi_add','zi_sub','zi_mul']
-
-        if symbol in opToCostSymbol:
-            actualPrototype = 'protocol' 
-        else:
-            actualPrototype =  "protocol_2"
-    
+        
         prot = protocol.split("_")[0]
         spdzType = protocol.split("_")[1]
-        dummy_filename = 'protocol2.mpc'
+        
+        if symbol in opToCostSymbol:
+            if spdzType == 'A':
+                actualPrototype = 'protocol_arithmetic'
+            elif spdzType == 'B':
+                actualPrototype = 'protocol_binary'
+            else:
+                raise TypeError("This is a type error")
+                
+        else:
+            if spdzType == 'A':
+                actualPrototype = 'protocol_2_arithmetic'
+            elif spdzType == 'B':
+                actualPrototype = 'protocol_binary'
+            else:
+                raise TypeError("This is a type error")
+    
+
+        
+        dummy_filename = f'protocol2_{iters}.mpc'
 
         
         # retrieve the sample 
         with open(f'./mpc_samples/{backend}/{actualPrototype}.mpc','r') as f:
             code = f.read()
         
-        if spdzType.startswith('B'):
-            code = code.replace("_isArithmetic","False")
-        if spdzType.startswith('A'):
-            code = code.replace('_input_var_type','sint')
-            code = code.replace("_isArithmetic","True")
-
-        if spdzType.endswith('2X'):
-            code = code.replace('_activateX',"True")
-        else:
-            code = code.replace('_activateX',"False")
-        if spdzType.endswith('2Y'):
-            code = code.replace('_activateY',"True")
-        else:
-            code = code.replace('_activateY',"False")
+        # modify the test compoenents
+        code = code.replace("_iters",str(iters)).replace('_vec_size',str(vecSize))
         
-
-        if spdzType == 'A2B':
-            if actualPrototype == 'protocol':
-                code = code.replace("_convertion1",f"c = [siv32(c[i]) for i in range(len(c))]")
-            else:
-                code = code.replace("_convertion1",f"")
-            code = code.replace("_convertion2",f"c[i] = siv32(c[i])")
-        elif spdzType == 'B2A':
-            code = code.replace("_convertion1",f"x = c.elements();printer=False;c = [sint(r) for r in x]")
-            code = code.replace('return c.elements()','return c')
-            code = code.replace("_convertion2",f"")
-        else:
-            code = code.replace("_convertion1",f"")
-            code = code.replace("_convertion2",f"")
 
         if symbol in opToCostSymbol:
             basic_operation = "c = (a _operator b)"
             basic_operation = basic_operation.replace('_operator',operator)
-            code = code.replace('_operation1',basic_operation)
+            code = code.replace("_operation",basic_operation)
         else:
-            if spdzType.startswith('A'):
+            if spdzType == 'A':
                 basic_operation = "c[i] = (a[i] _operator b[i])"
-                code = code.replace('_operation1',"pass")
                 basic_operation = basic_operation.replace('_operator',operator)
                 code = code.replace('_operation2',basic_operation)
             else:
                 basic_operation = "c = (a _operator b)"
-                code = code.replace('_operation2',"pass")
                 basic_operation = basic_operation.replace('_operator',operator)
-                code = code.replace('_operation1',basic_operation)
+                code = code.replace("_operation",basic_operation)
 
-        
-        # modify the test compoenents
-        code = code.replace("_iters",str(iters)).replace('_vec_size',str(vecSize))
         
         # save it to tmp file
         with open(dummy_filename, "w") as file:  # Open the file in write mode
@@ -200,10 +188,11 @@ def runBenchmark(backend, protocol, operator, symbol, trials, loopIters, conv=Fa
                 break
             except SystemExit:
                 sys.exit(1)
-            except:
+            except Exception as e:
                 failGenCount += 1
                 if failGenCount > 5:
                     print(f"Skipping {protocol} {operator} {symbol} {vecSize} due to excessive generation errors")
+                    print(e)
                     break
         if not success:
             continue

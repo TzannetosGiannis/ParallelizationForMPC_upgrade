@@ -1,0 +1,16 @@
+
+
+def zi_prot(a,b,iters):
+    
+    c = sint.Array(len(a))
+    for l in range(iters):
+        for i in range(len(a)):
+           _operation2
+    
+      
+    return c
+
+
+a = ([sint(i) for i in range(_vec_size)])
+b = ([sint(i) for i in range(_vec_size)])
+c = zi_prot(a, b, _iters)
