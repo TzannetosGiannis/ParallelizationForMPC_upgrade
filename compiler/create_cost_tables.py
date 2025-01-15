@@ -21,16 +21,14 @@ opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', 
   '*': 'zi_mul', 'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor',
   '>>': 'zi_shr', '-UNARY': 'UNAVAILABLE', '&': 'zi_&', '|': 'zi_|', 'Var': 'UNAVAILABLE', '/': 'zi_div'}
 
-# cannotDo = {'Mux': 'zi_mux','and': 'zi_and','or': 'zi_or','%': 'zi_rem', '-UNARY': 'UNAVAILABLE', '|': 'zi_|', 'Var': 'UNAVAILABLE', '/': 'zi_div'}
-# opToCostSymbol = { '+': 'zi_add','-': 'zi_sub', '*': 'zi_mul'}
-# opToCostSymbol = { '==': 'zi_eq','>=': 'zi_ge','>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt','!=': 'zi_ne','&': 'zi_&','<<': 'zi_shl','^': 'zi_xor', '>>': 'zi_shr','^': 'zi_xor', '>>': 'zi_shr'} 
-opToCostSymbol = { '<=': 'zi_le'} 
-spdzTypes = ["X","B","Y"]
+# cannotDo = {'Mux': 'zi_mux','%': 'zi_rem', '|': 'zi_|'}
+opToCostSymbol = {'%': 'zi_rem'} 
+spdzTypes = ["A","B","X","Y"]
 # spdzTypes = ["B2A"]
 # vecSizes = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500, 800, 1000]
-vecSizes = [100]
+vecSizes = [10]
 # trials, loopIters, intSize = (100, 1000, 32)
-trials, loopIters, intSize = (2, 10, 32)
+trials, loopIters, intSize = (2, 2, 32)
 port = 12345
 
 common_prefix = f'{getcwd()}/../backend_submodules/MP-SPDZ/'
@@ -65,19 +63,27 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
     
     if str(backend) == 'MP-SPDZ':
         
-        opToCostSymbol = ['zi_add','zi_sub','zi_mul']
+        opToCostSymbolCategory = ['zi_add','zi_sub','zi_mul','zi_and','zi_or']
+        opToCostSymbolCategory3 = ['zi_rem']
         
         prot = protocol.split("_")[0]
         spdzType = protocol.split("_")[1]
         
-        if symbol in opToCostSymbol:
+        if symbol in opToCostSymbolCategory:
             if spdzType == 'A' or spdzType == 'X' or spdzType == 'Y':
                 actualPrototype = 'protocol_arithmetic'
             elif spdzType == 'B':
                 actualPrototype = 'protocol_binary'
             else:
                 raise TypeError("This is a type error")
-                
+        elif symbol in opToCostSymbolCategory3:
+            if spdzType == 'A' or spdzType == 'X' or spdzType == 'Y':
+                actualPrototype = 'protocol_3_arithmetic'
+            elif spdzType == 'B':
+                # Just letting this here , but anyways the execution will fail
+                actualPrototype = 'protocol_binary'
+            else:
+                raise TypeError("This is a type error")
         else:
             if spdzType == 'A' or spdzType == 'X' or spdzType == 'Y':
                 actualPrototype = 'protocol_2_arithmetic'
@@ -105,10 +111,14 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
         code = code.replace("_iters",str(iters)).replace('_vec_size',str(vecSize))
         
 
-        if symbol in opToCostSymbol:
+        if symbol in opToCostSymbolCategory:
             basic_operation = "c = (a _operator b)"
             basic_operation = basic_operation.replace('_operator',operator)
             code = code.replace("_operation",basic_operation)
+        elif symbol in opToCostSymbolCategory3:
+            basic_operation = "c[i] = (a[i] _operator 2)"
+            basic_operation = basic_operation.replace('_operator',operator)
+            code = code.replace('_operation',basic_operation)
         else:
             if spdzType == 'A' or spdzType == 'X' or spdzType == 'Y':
                 basic_operation = "c[i] = (a[i] _operator b[i])"
