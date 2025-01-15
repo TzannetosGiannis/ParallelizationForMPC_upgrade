@@ -21,8 +21,8 @@ opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', 
   '*': 'zi_mul', 'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor',
   '>>': 'zi_shr', '-UNARY': 'UNAVAILABLE', '&': 'zi_&', '|': 'zi_|', 'Var': 'UNAVAILABLE', '/': 'zi_div'}
 
-# cannotDo = {'Mux': 'zi_mux','%': 'zi_rem', '|': 'zi_|'}
-opToCostSymbol = {'%': 'zi_rem'} 
+# cannotDo = {'Mux': 'zi_mux'}
+opToCostSymbol = {'Mux': 'zi_mux'} 
 spdzTypes = ["A","B","X","Y"]
 # spdzTypes = ["B2A"]
 # vecSizes = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500, 800, 1000]
@@ -120,7 +120,13 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
             basic_operation = basic_operation.replace('_operator',operator)
             code = code.replace('_operation',basic_operation)
         else:
-            if spdzType == 'A' or spdzType == 'X' or spdzType == 'Y':
+            if symbol == 'zi_mux':
+                if spdzType == 'B':
+                    c = f'c = sb32.Array(len(a))\n       for i in range(len(a)):\n            '
+                    code = code.replace('_operation',f"{c}c[i] = sb32(0).if_else(sb32(2), sb32(3))")
+                else:
+                    code = code.replace('_operation',"c[i] = sint(0).if_else(sint(2), sint(3))")
+            elif spdzType == 'A' or spdzType == 'X' or spdzType == 'Y':
                 basic_operation = "c[i] = (a[i] _operator b[i])"
                 basic_operation = basic_operation.replace('_operator',operator)
                 code = code.replace('_operation',basic_operation)
