@@ -22,7 +22,7 @@ opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', 
   '>>': 'zi_shr', '-UNARY': 'UNAVAILABLE', '&': 'zi_&', '|': 'zi_|', 'Var': 'UNAVAILABLE', '/': 'zi_div'}
 
 # cannotDo = {'Mux': 'zi_mux'}
-opToCostSymbol = {'Mux': 'zi_mux'} 
+# opToCostSymbol = {'Mux': 'zi_mux'}
 spdzTypes = ["A","B","X","Y"]
 # spdzTypes = ["B2A"]
 # vecSizes = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500, 800, 1000]
@@ -32,6 +32,7 @@ trials, loopIters, intSize = (2, 2, 32)
 port = 12345
 
 common_prefix = f'{getcwd()}/../backend_submodules/MP-SPDZ/'
+timestamp = datetime.datetime.strftime(datetime.datetime.now(), '%Y_%m_%d_%H_%M_%S')
 
 def startSocket():
     sock = socket.socket()
@@ -255,7 +256,6 @@ def printOutputToJSON(outputDict, log=False, save=True):
     if log:
         print(jsonData)
     if save:
-        timestamp = datetime.datetime.strftime(datetime.datetime.now(), '%Y_%m_%d_%H_%M_%S')
         with open(timestamp + "_cost_table.txt", "w") as text_file:
             print(f'Wrote json data to "{timestamp}_cost_table.txt"')
             text_file.write(jsonData)
@@ -277,8 +277,11 @@ def createCostTable():
                         for spdzType in spdzTypes:
                             t = protocol + '_' + spdzType
                             resultsDict[str(backend)][sym][t] = runBenchmark(backend, t, op, sym, trials, loopIters)
+                            printOutputToJSON(resultsDict, log=False, save=True)
                     else:
                         resultsDict[str(backend)][sym][protocol] = runBenchmark(backend, protocol, op, sym, trials, loopIters)
+                        printOutputToJSON(resultsDict, log=False, save=True)
+
 
         # [TODO] Brandon lets talk about this ==> Compute conversion costs
         # convPossibilities = spdzTypes if backend == Backend.MP_SPDZ else backend.valid_protocols()
