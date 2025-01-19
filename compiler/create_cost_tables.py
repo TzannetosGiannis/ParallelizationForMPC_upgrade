@@ -22,25 +22,37 @@ opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', 
   '>>': 'zi_shr', '-UNARY': 'UNAVAILABLE', '&': 'zi_&', '|': 'zi_|', 'Var': 'UNAVAILABLE', '/': 'zi_div'}
 
 # cannotDo = {'Mux': 'zi_mux'}
-# opToCostSymbol = {'Mux': 'zi_mux'}
+remainingOps = {}
+# '*': 'zi_mul' -> too slow in B. Looks like it runs out of memory during runtime
+# '>>': 'zi_shr' -> too slow in A. Looks like it runs out of memory during compiletime
+testedOps = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt',
+  'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor', '&': 'zi_&', '|': 'zi_|', '/': 'zi_div'}
+opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt',
+  'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor', '&': 'zi_&', '|': 'zi_|', '/': 'zi_div'}
 spdzTypes = ["A","B","X","Y"]
 # spdzTypes = ["B2A"]
-# vecSizes = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500, 800, 1000]
-vecSizes = [10]
+vecSizes = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500, 800, 1000]
+# vecSizes = [10]
 # trials, loopIters, intSize = (100, 1000, 32)
-trials, loopIters, intSize = (2, 2, 32)
+trials, loopIters, intSize = (2, 100, 32)
 port = 12345
+conn_address = ''
+server_address = '10.10.1.1'
 
 common_prefix = f'{getcwd()}/../backend_submodules/MP-SPDZ/'
 timestamp = datetime.datetime.strftime(datetime.datetime.now(), '%Y_%m_%d_%H_%M_%S')
 
 def startSocket():
+    global conn_address, server_address
     sock = socket.socket()
     sock.bind(('', port))
     sock.listen(1)
     print(f'Listening on port {port}')
 
     c, addr = sock.accept()
+    conn_address = addr[0]
+    if conn_address == '127.0.0.1':
+        server_address = conn_address
     print(f'Received connection from {addr[0]}:{addr[1]}')
 
     return c
@@ -160,8 +172,8 @@ def runTrial(codeName,backend,protocol):
     # TEMP CODE FOR TESTING
     if str(backend) == 'MP-SPDZ':
         prot = protocol.split('_')[0]
-        p = subprocess.Popen([f'{common_prefix}Scripts/../{prot}-party.x','0',codeName.split(".mpc")[0], '-pn','13110','-h','localhost','-N','2'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, )
-        sendCmd(f'execute {common_prefix}Scripts/../{prot}-party.x 1 {codeName.split(".mpc")[0]} -pn 13110 -h localhost -N 2')
+        p = subprocess.Popen([f'{common_prefix}Scripts/../{prot}-party.x','0',codeName.split(".mpc")[0], '-pn','13110','-h',server_address,'-N','2'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, )
+        sendCmd(f'execute {common_prefix}Scripts/../{prot}-party.x 1 {codeName.split(".mpc")[0]} -pn 13110 -h {server_address} -N 2')
     
         try:
             stdout, stderr = p.communicate(timeout=1000)
@@ -312,33 +324,39 @@ def repairCostTable(tableName="", useLastTable=True):
             if sym not in resultsDict[str(backend)].keys():
                 resultsDict[str(backend)][sym] = dict()
             for protocol in backend.valid_protocols():
+                if protocol != 'semi':
+                    continue
                 if not sym == 'UNAVAILABLE':
                     if backend == Backend.MP_SPDZ:
                         for spdzType in spdzTypes:
                             t = protocol + '_' + spdzType
                             if t in resultsDict[str(backend)][sym].keys():
-                                runBenchmark(backend, t, op, sym, trials, loopIters, finalStats=resultsDict[str(backend)][sym][t])
+                                resultsDict[str(backend)][sym][t] = runBenchmark(backend, t, op, sym, trials, loopIters, finalStats=resultsDict[str(backend)][sym][t])
+                                printOutputToJSON(resultsDict, log=False, save=True)
                             else:
                                 print(f"Running missing benchmark {str(backend)} {op} {sym} {t}")
                                 resultsDict[str(backend)][sym][t] = runBenchmark(backend, t, op, sym, trials, loopIters)
+                                printOutputToJSON(resultsDict, log=False, save=True)
                     else:
                         if protocol in resultsDict[str(backend)][sym].keys():
-                            runBenchmark(backend, protocol, op, sym, trials, loopIters, finalStats=resultsDict[str(backend)][sym][protocol])
+                            resultsDict[str(backend)][sym][protocol] = runBenchmark(backend, protocol, op, sym, trials, loopIters, finalStats=resultsDict[str(backend)][sym][protocol])
+                            printOutputToJSON(resultsDict, log=False, save=True)
                         else:
                             print(f"Running missing benchmark {str(backend)} {op} {sym} {protocol}")
                             resultsDict[str(backend)][sym][protocol] = runBenchmark(backend, protocol, op, sym, trials, loopIters)
+                            printOutputToJSON(resultsDict, log=False, save=True)
 
         # Compute conversion costs
-        convPossibilities = spdzTypes if backend == Backend.MP_SPDZ else backend.valid_protocols()
-        for a in convPossibilities:
-            for b in convPossibilities:
-                if a != b:
-                    cType = a + "2" + b
-                    if cType in resultsDict[str(backend)].keys():
-                        runBenchmark(backend, a + "2" + b, None, None, trials, loopIters, conv=True, finalStats=resultsDict[str(backend)][cType])
-                    else:
-                        print(f"Running missing benchmark {str(backend)} {cType}")
-                        resultsDict[str(backend)][cType] = runBenchmark(backend, a + "2" + b, None, None, trials, loopIters, conv=True)
+#        convPossibilities = spdzTypes if backend == Backend.MP_SPDZ else backend.valid_protocols()
+#        for a in convPossibilities:
+#            for b in convPossibilities:
+#                if a != b:
+#                    cType = a + "2" + b
+#                    if cType in resultsDict[str(backend)].keys():
+#                        runBenchmark(backend, a + "2" + b, None, None, trials, loopIters, conv=True, finalStats=resultsDict[str(backend)][cType])
+#                    else:
+#                        print(f"Running missing benchmark {str(backend)} {cType}")
+#                        resultsDict[str(backend)][cType] = runBenchmark(backend, a + "2" + b, None, None, trials, loopIters, conv=True)
     printOutputToJSON(resultsDict, log=False, save=True)
 
 
@@ -363,7 +381,7 @@ def signal_handler(sig, frame):
 signal.signal(signal.SIGINT, signal_handler)
 
 s = startSocket()
-createCostTable()
-# repairCostTable()
+# createCostTable()
+repairCostTable()
 sendCmd('quit')
 s.close()
