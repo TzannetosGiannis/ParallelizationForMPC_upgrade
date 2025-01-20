@@ -30,12 +30,11 @@ testedOps = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 
 opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt',
   'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor', '&': 'zi_&', '|': 'zi_|', '/': 'zi_div'}
 spdzTypes = ["A","B","X","Y"]
-spdzMix = ['AB','XB',"YB"]
-# spdzTypes = ["B2A"]
-# vecSizes = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500, 800, 1000]
-vecSizes = [10]
+spdzMix = ["AB","BA",'XB','YB','BX','BY']
+vecSizes = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500, 800, 1000]
+# vecSizes = [10]
 # trials, loopIters, intSize = (100, 1000, 32)
-trials, loopIters, intSize = (2, 10, 32)
+trials, loopIters, intSize = (2, 100, 32)
 port = 12345
 conn_address = ''
 server_address = '127.0.0.1'

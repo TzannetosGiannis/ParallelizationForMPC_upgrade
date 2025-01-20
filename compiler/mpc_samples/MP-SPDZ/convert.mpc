@@ -1,0 +1,18 @@
+
+
+def zi_prot(a,iters):
+    
+    c = _init.Array(len(a))
+    for l in range(iters):
+        for i in range(len(a)):
+           _operation
+    
+      
+    return c
+
+
+siv32 = sbitint.get_type(32)
+sb32 = sbits.get_type(32)
+
+a = ([_siv32(_isArith(i)) for i in range(_vec_size)])
+c = zi_prot(a, _iters)
