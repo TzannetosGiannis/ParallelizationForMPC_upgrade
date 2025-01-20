@@ -30,14 +30,15 @@ testedOps = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 
 opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt',
   'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor', '&': 'zi_&', '|': 'zi_|', '/': 'zi_div'}
 spdzTypes = ["A","B","X","Y"]
+spdzMix = ['AB','XB',"YB"]
 # spdzTypes = ["B2A"]
-vecSizes = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500, 800, 1000]
-# vecSizes = [10]
+# vecSizes = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500, 800, 1000]
+vecSizes = [10]
 # trials, loopIters, intSize = (100, 1000, 32)
-trials, loopIters, intSize = (2, 100, 32)
+trials, loopIters, intSize = (2, 10, 32)
 port = 12345
 conn_address = ''
-server_address = '10.10.1.1'
+server_address = '127.0.0.1'
 
 common_prefix = f'{getcwd()}/../backend_submodules/MP-SPDZ/'
 timestamp = datetime.datetime.strftime(datetime.datetime.now(), '%Y_%m_%d_%H_%M_%S')
@@ -69,6 +70,52 @@ def averageStats(statsList):
     return sumStat
 
 
+
+def genCodeConv(backend,protocol,iters,vecSize):
+
+    protocol = protocol.split('_')[1]
+    if str(backend) == 'MP-SPDZ':
+
+        dummy_filename = f'protocol_mixed_{iters}.mpc'
+
+        # retrieve the sample 
+        with open(f'./mpc_samples/{backend}/convert.mpc','r') as f:
+            code = f.read()
+
+        if  'X' in protocol:
+            X_code = 'program.use_dabit = True\n'
+            code = X_code + code
+        if  'Y' in protocol:
+            Y_code = 'program.use_edabit(True)\n'
+            code = Y_code + code
+        # modify the test compoenents
+        code = code.replace("_iters",str(iters)).replace('_vec_size',str(vecSize))
+
+        if protocol[0] == 'B':
+            code = code.replace('_isArith','sb32').replace('_siv32','siv32')
+            code = code.replace('_operation','c[i] = sint(a[i])').replace('_init','sint')
+        else:
+            code = code.replace('_isArith','sint').replace('_siv32','')
+            code = code.replace('_operation','c[i] = sb32(a[i])').replace('_init','sb32')
+
+        # save it to tmp file
+        with open(dummy_filename, "w") as file:  # Open the file in write mode
+            file.write(code)
+
+        sendCmd('save ' + dummy_filename + ' ' + code)
+        sendCmd(f'execute {common_prefix}compile.py ./{dummy_filename}')
+        p = subprocess.Popen([f'{common_prefix}compile.py', f'./{dummy_filename}'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, )
+
+    try:
+        stdout, stderr = p.communicate(timeout=1000)
+    except TimeoutError:
+        print('Timed out')
+        s.send('error'.encode())
+    assert p.returncode == 0, stderr
+   
+    return dummy_filename
+        
+
 def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
     # TEMP CODE FOR TESTING
     
@@ -76,6 +123,8 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
     
     if str(backend) == 'MP-SPDZ':
         
+        
+
         opToCostSymbolCategory = ['zi_add','zi_sub','zi_mul','zi_and','zi_or']
         opToCostSymbolCategory3 = ['zi_rem']
         
@@ -212,8 +261,12 @@ def runBenchmark(backend, protocol, operator, symbol, trials, loopIters, conv=Fa
         while True:
             try:
                 sleep(0.01)
-                codeMultiIter = genCode(backend, protocol, operator, symbol, loopIters, conv, vecSize)
-                codeSingleIter = genCode(backend, protocol, operator, symbol, 1, conv, vecSize)
+                if conv:
+                    codeMultiIter = genCodeConv(backend, protocol, loopIters, vecSize)
+                    codeSingleIter = genCodeConv(backend, protocol, 1, vecSize)
+                else:
+                    codeMultiIter = genCode(backend, protocol, operator, symbol, loopIters, conv, vecSize)
+                    codeSingleIter = genCode(backend, protocol, operator, symbol, 1, conv, vecSize)
                 success = True
                 break
             except SystemExit:
@@ -294,13 +347,13 @@ def createCostTable():
                         resultsDict[str(backend)][sym][protocol] = runBenchmark(backend, protocol, op, sym, trials, loopIters)
                         printOutputToJSON(resultsDict, log=False, save=True)
 
-
-        # [TODO] Brandon lets talk about this ==> Compute conversion costs
-        # convPossibilities = spdzTypes if backend == Backend.MP_SPDZ else backend.valid_protocols()
-        # for a in convPossibilities:
-        #     for b in convPossibilities:
-        #         if a != b:
-        #             resultsDict[str(backend)][a + "2" + b] = runBenchmark(backend, a + "2" + b, None, None, trials, loopIters, conv=True)
+        # Compute conversion costs
+        for protocol in backend.valid_protocols():
+            if protocol != 'semi':
+                    continue
+            convPossibilities = spdzMix if backend == Backend.MP_SPDZ else backend.valid_protocols()
+            for conv in convPossibilities:
+                resultsDict[str(backend)][f"{protocol}_{conv}"] = runBenchmark(backend,f"{protocol}_{conv}", None, None, trials, loopIters, conv=True)
     printOutputToJSON(resultsDict, log=False, save=True)
 
 
@@ -346,17 +399,16 @@ def repairCostTable(tableName="", useLastTable=True):
                             resultsDict[str(backend)][sym][protocol] = runBenchmark(backend, protocol, op, sym, trials, loopIters)
                             printOutputToJSON(resultsDict, log=False, save=True)
 
-        # Compute conversion costs
-#        convPossibilities = spdzTypes if backend == Backend.MP_SPDZ else backend.valid_protocols()
-#        for a in convPossibilities:
-#            for b in convPossibilities:
-#                if a != b:
-#                    cType = a + "2" + b
-#                    if cType in resultsDict[str(backend)].keys():
-#                        runBenchmark(backend, a + "2" + b, None, None, trials, loopIters, conv=True, finalStats=resultsDict[str(backend)][cType])
-#                    else:
-#                        print(f"Running missing benchmark {str(backend)} {cType}")
-#                        resultsDict[str(backend)][cType] = runBenchmark(backend, a + "2" + b, None, None, trials, loopIters, conv=True)
+
+    # Compute conversion costs
+        convPossibilities = spdzMix if backend == Backend.MP_SPDZ else backend.valid_protocols()
+        
+        for conv in convPossibilities:
+                
+                if conv in resultsDict[str(backend)].keys():
+                    runBenchmark(backend, conv, None, None, trials, loopIters, conv=True, finalStats=resultsDict[str(backend)][cType])
+                else:
+                    resultsDict[str(backend)][cType] = runBenchmark(backend, conv, None, None, trials, loopIters, conv=True)
     printOutputToJSON(resultsDict, log=False, save=True)
 
 
@@ -381,7 +433,7 @@ def signal_handler(sig, frame):
 signal.signal(signal.SIGINT, signal_handler)
 
 s = startSocket()
-# createCostTable()
-repairCostTable()
+createCostTable()
+# repairCostTable()
 sendCmd('quit')
 s.close()
