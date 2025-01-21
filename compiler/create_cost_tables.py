@@ -30,14 +30,14 @@ testedOps = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 
 opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt',
   'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor', '&': 'zi_&', '|': 'zi_|', '/': 'zi_div'}
 spdzTypes = ["A","B","X","Y"]
-spdzMix = ["AB","BA",'XB','YB','BX','BY']
+spdzMix = ['AB','BA','XB','BX','YB','BY']
 vecSizes = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500, 800, 1000]
-# vecSizes = [10]
+vecSizesConv = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500]
 # trials, loopIters, intSize = (100, 1000, 32)
-trials, loopIters, intSize = (2, 100, 32)
+trials, loopIters, intSize = (20, 20, 32)
 port = 12345
 conn_address = ''
-server_address = '127.0.0.1'
+server_address = '128.110.219.110'
 
 common_prefix = f'{getcwd()}/../backend_submodules/MP-SPDZ/'
 timestamp = datetime.datetime.strftime(datetime.datetime.now(), '%Y_%m_%d_%H_%M_%S')
@@ -245,7 +245,8 @@ def runBenchmark(backend, protocol, operator, symbol, trials, loopIters, conv=Fa
         finalStats = dict()
         repairMode = False
 
-    for vecSize in vecSizes:
+    v = vecSizesConv if conv else vecSizes
+    for vecSize in v:
         if repairMode and str(vecSize) in finalStats.keys():
             continue
         if repairMode:
@@ -347,12 +348,14 @@ def createCostTable():
                         printOutputToJSON(resultsDict, log=False, save=True)
 
         # Compute conversion costs
+        convPossibilities = spdzMix if backend == Backend.MP_SPDZ else backend.valid_protocols()
+        # above line needs to be modified for MOTION
         for protocol in backend.valid_protocols():
             if protocol != 'semi':
-                    continue
-            convPossibilities = spdzMix if backend == Backend.MP_SPDZ else backend.valid_protocols()
+                continue
             for conv in convPossibilities:
                 resultsDict[str(backend)][f"{protocol}_{conv}"] = runBenchmark(backend,f"{protocol}_{conv}", None, None, trials, loopIters, conv=True)
+                printOutputToJSON(resultsDict, log=False, save=True)
     printOutputToJSON(resultsDict, log=False, save=True)
 
 
@@ -401,13 +404,17 @@ def repairCostTable(tableName="", useLastTable=True):
 
     # Compute conversion costs
         convPossibilities = spdzMix if backend == Backend.MP_SPDZ else backend.valid_protocols()
-        
-        for conv in convPossibilities:
-                
+        for protocol in backend.valid_protocols():
+            if protocol != 'semi':
+                continue
+            for conv in convPossibilities:
+                conv = f"{protocol}_{conv}"
                 if conv in resultsDict[str(backend)].keys():
-                    runBenchmark(backend, conv, None, None, trials, loopIters, conv=True, finalStats=resultsDict[str(backend)][cType])
+                    resultsDict[str(backend)][conv] = runBenchmark(backend, conv, None, None, trials, loopIters, conv=True, finalStats=resultsDict[str(backend)][conv])
+                    printOutputToJSON(resultsDict, log=False, save=True)
                 else:
-                    resultsDict[str(backend)][cType] = runBenchmark(backend, conv, None, None, trials, loopIters, conv=True)
+                    resultsDict[str(backend)][conv] = runBenchmark(backend, conv, None, None, trials, loopIters, conv=True)
+                    printOutputToJSON(resultsDict, log=False, save=True)
     printOutputToJSON(resultsDict, log=False, save=True)
 
 
