@@ -220,8 +220,6 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
     for i, const in enumerate(sorted(plaintext_constants, key=lambda c: str(c.value))):
         
         render_key = render_expr(const, render_ctx)
-        if str(const.value) not in mixed_config.constants:
-            continue
         
         # Convert keys of mixed_config.constants to str if they are int
         string_constants_keys = {str(k): v for k, v in mixed_config.constants.items()}
@@ -543,9 +541,9 @@ def render_application(
     )
 
     output_dir = os.path.abspath(params["out_dir"])
-
+    
     os.makedirs(output_dir, exist_ok=params["overwrite"])
-
+    
     # Define the pattern and the replacement
     pattern = r"party->In<encrypto::motion::MpcProtocol::kArithmeticGmw>\(encrypto::motion::ToInput\((.*?)\), (.*?)\)\)"
     replacement = r"party->In<encrypto::motion::MpcProtocol::kArithmeticGmw>(\1, \2))"
@@ -579,3 +577,4 @@ def render_application(
         os.path.join(template_dir, "collect_stats.cpp"),
         os.path.join(output_dir, "collect_stats.cpp"),
     )
+    
