@@ -1,7 +1,8 @@
 import datetime
 from compiler.backends import Backend
 import json
-from os import listdir, getcwd
+from os import listdir, getcwd, makedirs, path
+import shutil
 from os.path import isfile
 import socket
 import subprocess
@@ -21,23 +22,26 @@ opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', 
   '*': 'zi_mul', 'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor',
   '>>': 'zi_shr', '-UNARY': 'UNAVAILABLE', '&': 'zi_&', '|': 'zi_|', 'Var': 'UNAVAILABLE', '/': 'zi_div'}
 
-# cannotDo = {'Mux': 'zi_mux'}
-remainingOps = {}
-# '*': 'zi_mul' -> too slow in B. Looks like it runs out of memory during runtime
-# '>>': 'zi_shr' -> too slow in A. Looks like it runs out of memory during compiletime
+# MP_SPDZ ==> '*': 'zi_mul' -> too slow in B. Looks like it runs out of memory during runtime
+# MP_SPDZ ==> '>>': 'zi_shr' -> too slow in A. Looks like it runs out of memory during compiletime
 testedOps = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt',
   'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor', '&': 'zi_&', '|': 'zi_|', '/': 'zi_div'}
 opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt',
   'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor', '&': 'zi_&', '|': 'zi_|', '/': 'zi_div'}
+
 spdzTypes = ["A","B","X","Y"]
 spdzMix = ['AB','BA','XB','BX','YB','BY']
+
+motionTypes = ["A"]
+opToCostSymbol = {'+': 'zi_add'}
+# motionMix = ["A","B","Y"]
 vecSizes = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500, 800, 1000]
 vecSizesConv = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500]
 # trials, loopIters, intSize = (100, 1000, 32)
 trials, loopIters, intSize = (20, 20, 32)
 port = 12345
 conn_address = ''
-server_address = '128.110.219.110'
+server_address = '10.10.1.1'
 
 common_prefix = f'{getcwd()}/../backend_submodules/MP-SPDZ/'
 timestamp = datetime.datetime.strftime(datetime.datetime.now(), '%Y_%m_%d_%H_%M_%S')
@@ -117,16 +121,58 @@ def genCodeConv(backend,protocol,iters,vecSize):
 
 def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
     # TEMP CODE FOR TESTING
-    
     val = iters * vecSize
-    
-    if str(backend) == 'MP-SPDZ':
+    if str(backend) == 'MOTION': 
+
+        
+        # generate a working directory and move template files there
+        
+        # Define the source and destination directories
+        source_dir = "./mpc_samples/MOTION/templates"
+        destination_dir = "./dummy_MOTION"
+
+        # Delete the destination directory if it exists
+        if path.exists(destination_dir):
+            shutil.rmtree(destination_dir)
+        # Create the new directory if it doesn't exist
+        makedirs(destination_dir, exist_ok=True)
+
+        # Move all files and subdirectories from source to destination
+        for item in listdir(source_dir):
+            source_item = path.join(source_dir, item)
+            destination_item = path.join(destination_dir, item)
+            shutil.copy2(source_item, destination_item)
+        
+        # Construct the proper template
+
+        # Generate the build directory
+        app_path = "/opt/ParallelizationForMPC_upgrade/compiler/dummy_MOTION"
+        subprocess.run(
+            ["cmake", "-S", app_path, "-B", path.join(app_path, "build")],
+            check=True,
+        )
+
+        # Build
+        subprocess.run(
+            ["cmake", "--build", path.join(app_path, "build")],
+            check=True,
+        )
+
+        # Tranfer the code 
+
+        dummy_filename = f'MOTION_code.cpp'
+
+        # Build the code 
+        exit()
+
+    elif str(backend) == 'MP-SPDZ':
         
         
 
-        opToCostSymbolCategory = ['zi_add','zi_sub','zi_mul','zi_and','zi_or']
+        opToCostSymbolCategory = ['zi_add','zi_sub','zi_mul']
         opToCostSymbolCategory3 = ['zi_rem']
-        
+        opToCostSymbolCategory4 = ['zi_and','zi_or','zi_xor']
+       
         prot = protocol.split("_")[0]
         spdzType = protocol.split("_")[1]
         
@@ -153,8 +199,7 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
             else:
                 raise TypeError("This is a type error")
     
-
-        
+     
         dummy_filename = f'protocol2_{iters}.mpc'
 
         
@@ -180,6 +225,17 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
             basic_operation = "c[i] = (a[i] _operator 2)"
             basic_operation = basic_operation.replace('_operator',operator)
             code = code.replace('_operation',basic_operation)
+        elif symbol in opToCostSymbolCategory4:
+            if spdzType == 'A' or spdzType == 'X' or spdzType == 'Y':
+                basic_operation = "c[i] = (a[i]_operator(b[i]))"
+                basic_operation = basic_operation.replace('_operator',f".bit_{symbol.split('_')[1]}")
+                code = code.replace('_operation',basic_operation)
+            else:
+                basic_operation = "c = (a_operator(b))"
+                basic_operation = basic_operation.replace('_operator',f".bit_{symbol.split('_')[1]}")
+                code = code.replace('_operation',basic_operation)
+                
+
         else:
             if symbol == 'zi_mux':
                 if spdzType == 'B':
@@ -195,7 +251,7 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
                 basic_operation = "c = (a _operator b)"
                 basic_operation = basic_operation.replace('_operator',operator)
                 code = code.replace("_operation",basic_operation)
-
+    
         
         # save it to tmp file
         with open(dummy_filename, "w") as file:  # Open the file in write mode
@@ -244,7 +300,7 @@ def runBenchmark(backend, protocol, operator, symbol, trials, loopIters, conv=Fa
     if not finalStats:
         finalStats = dict()
         repairMode = False
-
+    
     v = vecSizesConv if conv else vecSizes
     for vecSize in v:
         if repairMode and str(vecSize) in finalStats.keys():
@@ -327,6 +383,7 @@ def printOutputToJSON(outputDict, log=False, save=True):
 
 
 def createCostTable():
+
     resultsDict = {"params": {"trials": trials, "loopIters": loopIters, "intSize": intSize}}
     for backend in backends:
         resultsDict[str(backend)] = dict()
@@ -335,7 +392,7 @@ def createCostTable():
         for op, sym in opToCostSymbol.items():
             resultsDict[str(backend)][sym] = dict()
             for protocol in backend.valid_protocols():
-                if protocol != 'semi':
+                if protocol != 'semi' and str(backend) == 'MP-SPDZ':
                     continue
                 if not sym == 'UNAVAILABLE':
                     if backend == Backend.MP_SPDZ:
@@ -351,7 +408,7 @@ def createCostTable():
         convPossibilities = spdzMix if backend == Backend.MP_SPDZ else backend.valid_protocols()
         # above line needs to be modified for MOTION
         for protocol in backend.valid_protocols():
-            if protocol != 'semi':
+            if protocol != 'semi' and str(backend) == 'MP-SPDZ':
                 continue
             for conv in convPossibilities:
                 resultsDict[str(backend)][f"{protocol}_{conv}"] = runBenchmark(backend,f"{protocol}_{conv}", None, None, trials, loopIters, conv=True)
@@ -379,7 +436,7 @@ def repairCostTable(tableName="", useLastTable=True):
             if sym not in resultsDict[str(backend)].keys():
                 resultsDict[str(backend)][sym] = dict()
             for protocol in backend.valid_protocols():
-                if protocol != 'semi':
+                if protocol != 'semi' and str(backend) == 'MP-SPDZ':
                     continue
                 if not sym == 'UNAVAILABLE':
                     if backend == Backend.MP_SPDZ:
@@ -405,7 +462,7 @@ def repairCostTable(tableName="", useLastTable=True):
     # Compute conversion costs
         convPossibilities = spdzMix if backend == Backend.MP_SPDZ else backend.valid_protocols()
         for protocol in backend.valid_protocols():
-            if protocol != 'semi':
+            if protocol != 'semi' and str(backend) == 'MP-SPDZ':
                 continue
             for conv in convPossibilities:
                 conv = f"{protocol}_{conv}"
