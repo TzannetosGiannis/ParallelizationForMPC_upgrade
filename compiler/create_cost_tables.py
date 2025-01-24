@@ -16,8 +16,8 @@ def parse(pattern: str,text: str) -> tuple[str, ...]:
     return m.groups()
 
 
-# backends = [Backend.MOTION, Backend.MP_SPDZ]
-backends = [Backend.MP_SPDZ]
+backends = [Backend.MOTION, Backend.MP_SPDZ]
+
 opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt',
   '*': 'zi_mul', 'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor',
   '>>': 'zi_shr', '-UNARY': 'UNAVAILABLE', '&': 'zi_&', '|': 'zi_|', 'Var': 'UNAVAILABLE', '/': 'zi_div'}
@@ -45,6 +45,11 @@ server_address = '10.10.1.1'
 
 common_prefix = f'{getcwd()}/../backend_submodules/MP-SPDZ/'
 timestamp = datetime.datetime.strftime(datetime.datetime.now(), '%Y_%m_%d_%H_%M_%S')
+
+
+backends = [Backend.MOTION]
+vecSizes = [10]
+trials, loopIters, intSize = (1, 2, 32)
 
 def startSocket():
     global conn_address, server_address
@@ -147,6 +152,24 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
 
         # Generate the build directory
         app_path = "/opt/ParallelizationForMPC_upgrade/compiler/dummy_MOTION"
+    
+
+        # Tranfer the code 
+        dummy_filename = f'MOTION_code.cpp'
+        # retrieve the sample 
+        with open(f'{app_path}/template_code.h','r') as f:
+            code = f.read()
+        # Build the code 
+        sendCmd('save ' + dummy_filename + ' ' + code)
+        sendCmd(f'execute sudo mkdir -p client_motion_{iters}')
+        sendCmd(f'execute sudo rm -rf ./client_motion_{iters}/*')
+        sendCmd(f'execute sudo cp mpc_samples/MOTION/templates/CMakeLists.txt ./client_motion_{iters}/')
+        sendCmd(f'execute sudo cp mpc_samples/MOTION/templates/collect_stats.cpp ./client_motion_{iters}/')
+        sendCmd(f'execute sudo cp mpc_samples/MOTION/templates/collect_stats.h ./client_motion_{iters}/')
+        sendCmd(f'execute sudo cp mpc_samples/MOTION/templates/main.cpp ./client_motion_{iters}/')
+        sendCmd(f'execute sudo mv {dummy_filename} client_motion_{iters}/template_code.h')
+
+        # Compile on local version
         subprocess.run(
             ["cmake", "-S", app_path, "-B", path.join(app_path, "build")],
             check=True,
@@ -158,13 +181,15 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
             check=True,
         )
 
-        # Tranfer the code 
-
-        dummy_filename = f'MOTION_code.cpp'
-
-        # Build the code 
-        exit()
-
+        # Compile on clients end
+        client_path = f"/opt/ParallelizationForMPC_upgrade/compiler/client_motion_{iters}"
+        command1 = f"cmake -S {client_path} -B {path.join(client_path,'build')}"
+        command2 = f"cmake --build {path.join(client_path,'build')}"
+        sendCmd(f"execute sudo {command1}")
+        sendCmd(f"execute sudo {command2}")
+        
+        return f"client_motion_{iters}"
+    
     elif str(backend) == 'MP-SPDZ':
         
         
@@ -274,6 +299,9 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
 def runTrial(codeName,backend,protocol):
 
     # TEMP CODE FOR TESTING
+
+    if str(backend) == 'MOTION':
+        pass
     if str(backend) == 'MP-SPDZ':
         prot = protocol.split('_')[0]
         p = subprocess.Popen([f'{common_prefix}Scripts/../{prot}-party.x','0',codeName.split(".mpc")[0], '-pn','13110','-h',server_address,'-N','2'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, )
