@@ -16,7 +16,8 @@ def parse(pattern: str,text: str) -> tuple[str, ...]:
     return m.groups()
 
 
-backends = [Backend.MOTION, Backend.MP_SPDZ]
+#backends = [Backend.MOTION, Backend.MP_SPDZ]
+backends = [Backend.MP_SPDZ]
 
 opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt',
   '*': 'zi_mul', 'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor',
@@ -28,12 +29,12 @@ testedOps = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 
   'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor', '&': 'zi_&', '|': 'zi_|', '/': 'zi_div'}
 opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt',
   'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor', '&': 'zi_&', '|': 'zi_|', '/': 'zi_div'}
+opToCostSymbol = {'*': 'zi_mul', 'and': 'zi_and', 'or': 'zi_or', '^': 'zi_xor'}
 
 spdzTypes = ["A","B","X","Y"]
 spdzMix = ['AB','BA','XB','BX','YB','BY']
 
 motionTypes = ["A"]
-opToCostSymbol = {'+': 'zi_add'}
 # motionMix = ["A","B","Y"]
 vecSizes = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500, 800, 1000]
 vecSizesConv = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500]
@@ -47,9 +48,9 @@ common_prefix = f'{getcwd()}/../backend_submodules/MP-SPDZ/'
 timestamp = datetime.datetime.strftime(datetime.datetime.now(), '%Y_%m_%d_%H_%M_%S')
 
 
-backends = [Backend.MOTION]
-vecSizes = [10]
-trials, loopIters, intSize = (1, 2, 32)
+# backends = [Backend.MOTION]
+# vecSizes = [10]
+# trials, loopIters, intSize = (1, 2, 32)
 
 def startSocket():
     global conn_address, server_address
@@ -299,9 +300,44 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
 def runTrial(codeName,backend,protocol):
 
     # TEMP CODE FOR TESTING
-
     if str(backend) == 'MOTION':
-        pass
+
+        app_path = "/opt/ParallelizationForMPC_upgrade/compiler/dummy_MOTION/build/template_code"
+        client_path = f"/opt/ParallelizationForMPC_upgrade/compiler/{codeName}/build/template_code"
+        p = subprocess.Popen([app_path,"--my-id","0", "--parties", "0,127.0.0.1,23000","1,127.0.0.1,23001"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,)
+        sendCmd(f'execute sudo {client_path} --my-id 1 --parties 0,127.0.0.1,23000 1,127.0.0.1,23001')
+
+        try:
+            stdout, stderr = p.communicate(timeout=1000)
+        except TimeoutError:
+            print('Timed out')
+            s.send('error'.encode())
+        
+        assert p.returncode == 0, stderr
+        # print('Output: ', stderr)
+
+        circuit_eval_pattern = r"Circuit Evaluation\s+([\d.]+) ms"
+        sent_pattern = r"Sent:\s+([\d.]+)\s+MiB"
+        message_pattern = r"Sent:\s+[\d.]+\s+MiB in (\d+) messages"
+
+        # Find all matches for Circuit Evaluation in the log
+        circuit_eval = float((re.findall(circuit_eval_pattern, stderr))[0])
+        circuit_sent = float((re.findall(sent_pattern, stderr))[0])
+        circuit_message = int((re.findall(message_pattern, stderr))[0])
+        print(circuit_message)
+
+        stats = {
+            "time": circuit_eval,
+            "dataSent":circuit_sent,
+            'commRounds':circuit_message
+        }
+
+        print('Stats: ', stats)
+        print('Test execution complete')
+
+       
+
+
     if str(backend) == 'MP-SPDZ':
         prot = protocol.split('_')[0]
         p = subprocess.Popen([f'{common_prefix}Scripts/../{prot}-party.x','0',codeName.split(".mpc")[0], '-pn','13110','-h',server_address,'-N','2'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, )
