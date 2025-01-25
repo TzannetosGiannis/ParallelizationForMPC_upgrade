@@ -49,6 +49,7 @@ timestamp = datetime.datetime.strftime(datetime.datetime.now(), '%Y_%m_%d_%H_%M_
 
 
 # backends = [Backend.MOTION]
+# opToCostSymbol = {'+': 'zi_add'}
 # vecSizes = [10]
 # trials, loopIters, intSize = (1, 2, 32)
 
@@ -135,7 +136,7 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
         
         # Define the source and destination directories
         source_dir = "./mpc_samples/MOTION/templates"
-        destination_dir = "./dummy_MOTION"
+        destination_dir = f"./dummy_MOTION_{iters}"
 
         # Delete the destination directory if it exists
         if path.exists(destination_dir):
@@ -152,7 +153,7 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
         # Construct the proper template
 
         # Generate the build directory
-        app_path = "/opt/ParallelizationForMPC_upgrade/compiler/dummy_MOTION"
+        app_path = f"/opt/ParallelizationForMPC_upgrade/compiler/dummy_MOTION_{iters}"
     
 
         # Tranfer the code 
@@ -301,8 +302,9 @@ def runTrial(codeName,backend,protocol):
 
     # TEMP CODE FOR TESTING
     if str(backend) == 'MOTION':
-
-        app_path = "/opt/ParallelizationForMPC_upgrade/compiler/dummy_MOTION/build/template_code"
+        nameComponents = codeName.split("_")
+        iters = nameComponents[len(nameComponents)-1]
+        app_path = f"/opt/ParallelizationForMPC_upgrade/compiler/dummy_MOTION_{iters}/build/template_code"
         client_path = f"/opt/ParallelizationForMPC_upgrade/compiler/{codeName}/build/template_code"
         p = subprocess.Popen([app_path,"--my-id","0", "--parties", "0,127.0.0.1,23000","1,127.0.0.1,23001"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,)
         sendCmd(f'execute sudo {client_path} --my-id 1 --parties 0,127.0.0.1,23000 1,127.0.0.1,23001')
