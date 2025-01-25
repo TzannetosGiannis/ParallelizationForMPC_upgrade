@@ -34,8 +34,6 @@ opToCostSymbol = {'*': 'zi_mul', 'and': 'zi_and', 'or': 'zi_or', '^': 'zi_xor'}
 spdzTypes = ["A","B","X","Y"]
 spdzMix = ['AB','BA','XB','BX','YB','BY']
 
-motionTypes = ["A"]
-# motionMix = ["A","B","Y"]
 vecSizes = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500, 800, 1000]
 vecSizesConv = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500]
 # trials, loopIters, intSize = (100, 1000, 32)
@@ -50,7 +48,7 @@ timestamp = datetime.datetime.strftime(datetime.datetime.now(), '%Y_%m_%d_%H_%M_
 
 # backends = [Backend.MOTION]
 # opToCostSymbol = {'+': 'zi_add'}
-# vecSizes = [10]
+# vecSizes = [4]
 # trials, loopIters, intSize = (1, 2, 32)
 
 def startSocket():
@@ -155,21 +153,51 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
         # Generate the build directory
         app_path = f"/opt/ParallelizationForMPC_upgrade/compiler/dummy_MOTION_{iters}"
     
+        with open(f'{app_path}/main.cpp','r') as f:
+            main_code = f.read()
 
-        # Tranfer the code 
-        dummy_filename = f'MOTION_code.cpp'
+        main_code = main_code.replace('_vec_size',str(vecSize))
+        if protocol == "ArithmeticGmw":
+            main_code = main_code.replace("_inputA_placeHolder","A = party->In<encrypto::motion::MpcProtocol::kArithmeticGmw>(list_A,0);")
+            main_code = main_code.replace("_inputB_placeHolder","B = party->In<encrypto::motion::MpcProtocol::kArithmeticGmw>(list_B,1);")
+        if protocol == 'BooleanGmw':
+            main_code = main_code.replace("_inputA_placeHolder","A = party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::ToInput(list_A),0);")
+            main_code = main_code.replace("_inputB_placeHolder","B = party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::ToInput(list_B),1);")
+        if protocol == "Bmr":
+            main_code = main_code.replace("_inputA_placeHolder","A = party->In<encrypto::motion::MpcProtocol::kBmr>(list_A,0);")
+            main_code = main_code.replace("_inputB_placeHolder","B = party->In<encrypto::motion::MpcProtocol::kBmr>(list_B,1);")
+ 
+        
+        # save the main file to server side
+        # Open the file in write mode and write the content
+        with open(f'{app_path}/main.cpp', 'w') as f:
+            f.write(main_code)
+
         # retrieve the sample 
         with open(f'{app_path}/template_code.h','r') as f:
             code = f.read()
+
+        code = code.replace("_iters",str(iters)).replace("_operator",operator)
+
+        # retrieve the sample 
+        with open(f'{app_path}/template_code.h','w') as f:
+            f.write(code)
+
+
+        # Tranfer the code 
+        dummy_template_filename = f'MOTION_code.cpp'
+        dummy_main_filename = f'MOTION_main.cpp'
+       
         # Build the code 
-        sendCmd('save ' + dummy_filename + ' ' + code)
+        sendCmd('save ' + dummy_main_filename + ' ' + main_code)
+        sendCmd('save ' + dummy_template_filename + ' ' + code)
         sendCmd(f'execute sudo mkdir -p client_motion_{iters}')
         sendCmd(f'execute sudo rm -rf ./client_motion_{iters}/*')
         sendCmd(f'execute sudo cp mpc_samples/MOTION/templates/CMakeLists.txt ./client_motion_{iters}/')
         sendCmd(f'execute sudo cp mpc_samples/MOTION/templates/collect_stats.cpp ./client_motion_{iters}/')
         sendCmd(f'execute sudo cp mpc_samples/MOTION/templates/collect_stats.h ./client_motion_{iters}/')
-        sendCmd(f'execute sudo cp mpc_samples/MOTION/templates/main.cpp ./client_motion_{iters}/')
-        sendCmd(f'execute sudo mv {dummy_filename} client_motion_{iters}/template_code.h')
+        sendCmd(f'execute sudo mv {dummy_template_filename} client_motion_{iters}/template_code.h')
+        sendCmd(f'execute sudo mv {dummy_main_filename} client_motion_{iters}/main.cpp')
 
         # Compile on local version
         subprocess.run(
@@ -460,6 +488,8 @@ def createCostTable():
             for protocol in backend.valid_protocols():
                 if protocol != 'semi' and str(backend) == 'MP-SPDZ':
                     continue
+                # if protocol == 'ArithmeticGmw' or protocol == 'BooleanGmw':
+                #     continue
                 if not sym == 'UNAVAILABLE':
                     if backend == Backend.MP_SPDZ:
                         for spdzType in spdzTypes:

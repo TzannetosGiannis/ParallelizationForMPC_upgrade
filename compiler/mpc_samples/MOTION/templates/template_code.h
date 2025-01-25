@@ -18,7 +18,9 @@ encrypto::motion::SecureUnsignedInteger  template_code(
     
     encrypto::motion::SecureUnsignedInteger result_C;
     
-    result_C = list_A + list_B;
+    for (int i = 0; i < _iters; i++) {
+        result_C = list_A _operator list_B;
+    }
 
     std::vector<encrypto::motion::SecureUnsignedInteger> result_C_unsimdified = result_C.Unsimdify();
 

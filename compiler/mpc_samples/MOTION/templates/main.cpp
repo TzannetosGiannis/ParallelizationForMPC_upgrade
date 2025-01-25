@@ -174,15 +174,14 @@ int main(const int argc, const char *const argv[])
     std::vector<std::uint32_t> list_B;
     encrypto::motion::SecureUnsignedInteger B;
     
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < _vec_size; i++) {
         list_A.push_back(i);
         list_B.push_back(i);
     }
 
-    A = party->In<encrypto::motion::MpcProtocol::kArithmeticGmw>(list_A,0);
-    B = party->In<encrypto::motion::MpcProtocol::kArithmeticGmw>(list_B,1);
-
-
+    _inputA_placeHolder
+    _inputB_placeHolder
+    
      //clang-format on
 
     auto circuit_gen_start = std::chrono::steady_clock::now();
