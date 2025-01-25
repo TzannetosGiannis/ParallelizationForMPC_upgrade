@@ -11,16 +11,21 @@ if file == "":
 with open(file, 'r') as f:
     rawJSON = json.load(f)
 spdzJSON = rawJSON['MP-SPDZ']
-del spdzJSON['UNAVAILABLE']
+if 'UNAVAILABLE' in spdzJSON.keys():
+    del spdzJSON['UNAVAILABLE']
 
 # find the set of protocols and share types in the cost table
 protocols = set()
 shareTypes = set()
+conversions = set()
 for op in spdzJSON.keys():
-    for protocol in spdzJSON[op].keys():
-        x = protocol.split('_')
-        protocols.add(x[0])
-        shareTypes.add(x[1])
+    if 'zi_' in op:
+        for protocol in spdzJSON[op].keys():
+            x = protocol.split('_')
+            protocols.add(x[0])
+            shareTypes.add(x[1])
+    else:
+        conversions.add(op)
 protocols = sorted(list(protocols))
 shareTypes = sorted(list(shareTypes))
 headerString = ',' + ','.join(shareTypes) + '\n'
@@ -33,15 +38,23 @@ for protocol in protocols:
     # for each operator, write which share types are present
     for op in spdzJSON.keys():
         csvString += op + ','
-        for shareType in shareTypes:
-            k = protocol + '_' + shareType
-            if k in spdzJSON[op].keys():
-                if len(spdzJSON[op][k]) != 0:
+        if op in conversions:
+            for shareType in shareTypes:
+                convProts = op.split('_')[1]
+                if shareType in convProts:
                     csvString += ','
                 else:
                     csvString += 'x,'
-            else:
-                csvString += 'x,'
+        else:
+            for shareType in shareTypes:
+                k = protocol + '_' + shareType
+                if k in spdzJSON[op].keys():
+                    if len(spdzJSON[op][k]) != 0:
+                        csvString += ','
+                    else:
+                        csvString += 'x,'
+                else:
+                    csvString += 'x,'
         csvString = csvString[:-1] + '\n'
     csvString += '\n\n'
 
