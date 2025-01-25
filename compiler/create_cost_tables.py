@@ -47,9 +47,15 @@ timestamp = datetime.datetime.strftime(datetime.datetime.now(), '%Y_%m_%d_%H_%M_
 
 
 # backends = [Backend.MOTION]
-# opToCostSymbol = {'+': 'zi_add'}
+# opToCostSymbol = {'*': 'zi_mul'}
 # vecSizes = [4]
 # trials, loopIters, intSize = (1, 2, 32)
+
+# backends = [Backend.MP_SPDZ]
+# opToCostSymbol = {'*': 'zi_mul'}
+# vecSizes = [4]
+# trials, loopIters, intSize = (1, 2, 32)
+# spdzTypes = ["A"]
 
 def startSocket():
     global conn_address, server_address
@@ -164,8 +170,8 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
             main_code = main_code.replace("_inputA_placeHolder","A = party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::ToInput(list_A),0);")
             main_code = main_code.replace("_inputB_placeHolder","B = party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::ToInput(list_B),1);")
         if protocol == "Bmr":
-            main_code = main_code.replace("_inputA_placeHolder","A = party->In<encrypto::motion::MpcProtocol::kBmr>(list_A,0);")
-            main_code = main_code.replace("_inputB_placeHolder","B = party->In<encrypto::motion::MpcProtocol::kBmr>(list_B,1);")
+            main_code = main_code.replace("_inputA_placeHolder","A = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(list_A),0);")
+            main_code = main_code.replace("_inputB_placeHolder","B = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(list_B),1);")
  
         
         # save the main file to server side
