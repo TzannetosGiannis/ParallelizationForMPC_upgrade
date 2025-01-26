@@ -76,6 +76,20 @@ for op in spdzJSON.keys():
         convA = conv[0]
         convB = conv[1]
 
+# remove empty share types
+toRem = []
+for protocol in restructuredJSON.keys():
+    for measType in restructuredJSON[protocol].keys():
+        for intSize in restructuredJSON[protocol][measType].keys():
+            for op in restructuredJSON[protocol][measType][intSize].keys():
+                if 'zi_' in op:
+                    for shareType in restructuredJSON[protocol][measType][intSize][op].keys():
+                        if restructuredJSON[protocol][measType][intSize][op][shareType] == dict():
+                            toRem.append((protocol, measType, intSize, op, shareType))
+
+for protocol, measType, intSize, op, shareType in toRem:
+    del restructuredJSON[protocol][measType][intSize][op][shareType]
+
 # print output files
 for protocol in protocols:
     for measType in measurementTypes:
