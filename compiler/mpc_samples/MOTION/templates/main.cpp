@@ -185,7 +185,7 @@ int main(const int argc, const char *const argv[])
      //clang-format on
 
     auto circuit_gen_start = std::chrono::steady_clock::now();
-    auto output = template_code(party, A, B).Out();
+    template_code(party, A, B);
     auto circuit_gen_end = std::chrono::steady_clock::now();
     auto circuit_gen_time = std::chrono::duration_cast<std::chrono::milliseconds>(circuit_gen_end - circuit_gen_start).count();
     
@@ -208,7 +208,7 @@ int main(const int argc, const char *const argv[])
     std::cout << "circuit_gen_time: " << circuit_gen_time << std::endl;
 
 
-    std::cout<< "RESULT ===> " << output.As<std::uint32_t>() << std::endl;
+    // std::cout<< "RESULT ===> " << output_output_type << std::endl;
     
 
     return 0;

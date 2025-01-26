@@ -46,10 +46,28 @@ common_prefix = f'{getcwd()}/../backend_submodules/MP-SPDZ/'
 timestamp = datetime.datetime.strftime(datetime.datetime.now(), '%Y_%m_%d_%H_%M_%S')
 
 
-# backends = [Backend.MOTION]
-# opToCostSymbol = {'*': 'zi_mul'}
-# vecSizes = [4]
-# trials, loopIters, intSize = (1, 2, 32)
+backends = [Backend.MOTION]
+opToCostSymbol = { 'and': 'zi_and',  'Mux': 'zi_mux', 'or': 'zi_or' }
+
+# '+': 'zi_add' ALL
+# '==': 'zi_eq' NOT ARITHMETIC
+# '&': 'zi_&' NOT ARITHMETIC
+# '|': 'zi_|' NOT ARITHMETIC
+# '/': 'zi_div' NOT AT ALL
+# '>=': 'zi_ge' NOT AT ALL ==>  error: no match for ‘operator>=’ (operand types are ‘encrypto::motion::ShareWrapper’ and ‘encrypto::motion::ShareWrapper’)
+# '<=': 'zi_le' NOT AT ALL ==>  error: no match for ‘operator<=’ (operand types are ‘encrypto::motion::ShareWrapper’ and ‘encrypto::motion::ShareWrapper’)
+# '>': 'zi_gt'  NOT BOOLEAN AND BMR ==> what():  GreaterThan operation is only supported for arithmetic GMW shares
+# '<': 'zi_lt'  NOT AT ALL ==>  error: no match for ‘operator<’ (operand types are ‘encrypto::motion::ShareWrapper’ and ‘encrypto::motion::ShareWrapper’)
+# '*': 'zi_mul' ALL
+# '-': 'zi_sub' ALL
+# '!=': 'zi_ne' NOT AT ALL ==> error: return type of ‘encrypto::motion::ShareWrapper encrypto::motion::ShareWrapper::operator==(const encrypto::motion::ShareWrapper&) const’ is not ‘bool’
+#  '%': 'zi_rem' NOT AT ALL
+# '<<': 'zi_shl' NOT AT ALL ==>  error: no match for ‘operator<<’ (operand types are ‘encrypto::motion::SecureUnsignedInteger’ and ‘encrypto::motion::SecureUnsignedInteger’)
+# '^': 'zi_xor' NOT ARITHMETIC
+# ,'>>': 'zi_shr' NOT AT ALL ==>  error: no match for ‘operator>>’ (operand types are ‘encrypto::motion::ShareWrapper’ and ‘encrypto::motion::ShareWrapper’)
+opToCostSymbol = {} 
+vecSizes = [4]
+trials, loopIters, intSize = (1, 2, 32)
 
 # backends = [Backend.MP_SPDZ]
 # opToCostSymbol = {'*': 'zi_mul'}
@@ -135,6 +153,7 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
     val = iters * vecSize
     if str(backend) == 'MOTION': 
 
+        category1 = ["zi_add","zi_mul","zi_sub"]
         
         # generate a working directory and move template files there
         
@@ -173,7 +192,10 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
             main_code = main_code.replace("_inputA_placeHolder","A = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(list_A),0);")
             main_code = main_code.replace("_inputB_placeHolder","B = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(list_B),1);")
  
-        
+        if symbol in category1:
+            main_code = main_code.replace("_output_type",".As<std::uint32_t>()")
+        else:
+            main_code = main_code.replace("_output_type","")
         # save the main file to server side
         # Open the file in write mode and write the content
         with open(f'{app_path}/main.cpp', 'w') as f:
@@ -183,7 +205,22 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
         with open(f'{app_path}/template_code.h','r') as f:
             code = f.read()
 
-        code = code.replace("_iters",str(iters)).replace("_operator",operator)
+        code = code.replace("_iters",str(iters))
+
+        type1 = "encrypto::motion::SecureUnsignedInteger"
+        type2 = "encrypto::motion::ShareWrapper"
+
+        operator_type1 = "result_C = list_A _operator list_B;"
+        operator_type2 = "result_C = encrypto::motion::ShareWrapper(list_A.Get()) _operator encrypto::motion::ShareWrapper(list_B.Get());"
+       
+        if symbol in category1:
+            code = code.replace("_type_to_replace",type1)
+            code = code.replace("_operator_to_replace",operator_type1)
+            code = code.replace("_operator",operator)
+        else:
+            code = code.replace("_type_to_replace",type2)
+            code = code.replace("_operator_to_replace",operator_type2)
+            code = code.replace("_operator",operator)
 
         # retrieve the sample 
         with open(f'{app_path}/template_code.h','w') as f:
@@ -193,7 +230,7 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
         # Tranfer the code 
         dummy_template_filename = f'MOTION_code.cpp'
         dummy_main_filename = f'MOTION_main.cpp'
-       
+
         # Build the code 
         sendCmd('save ' + dummy_main_filename + ' ' + main_code)
         sendCmd('save ' + dummy_template_filename + ' ' + code)
@@ -494,8 +531,9 @@ def createCostTable():
             for protocol in backend.valid_protocols():
                 if protocol != 'semi' and str(backend) == 'MP-SPDZ':
                     continue
-                # if protocol == 'ArithmeticGmw' or protocol == 'BooleanGmw':
-                #     continue
+                # if protocol == "ArithmeticGmw" or protocol == "Bmr":
+                #     print("Continue from ",protocol)
+                    # continue
                 if not sym == 'UNAVAILABLE':
                     if backend == Backend.MP_SPDZ:
                         for spdzType in spdzTypes:
