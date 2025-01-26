@@ -1,11 +1,11 @@
-import os, json, sys
+import os, json
 from math import ceil
 
 threshold = 1e-5
 
 # replace small numbers and negative numbers with 0
 # round comm rounds up
-# replace {} with infinite cost
+# remove operators with {}
 def clean(costs):
     if costs.keys():
         for i in costs.keys():
@@ -43,14 +43,27 @@ for op in spdzJSON.keys():
 protocols = sorted(list(protocols))
 shareTypes = sorted(list(shareTypes))
 
-# clean up the json entries
+# clean up the json entries and remove missing measurements
+toRem = []
 for op in spdzJSON.keys():
     if op in conversions:
         clean(spdzJSON[op])
     else:
+
         for protocol in spdzJSON[op].keys():
-            clean(spdzJSON[op][protocol])
+            if spdzJSON[op][protocol] == dict():
+                toRem.append((op, protocol))
+            else:
+                clean(spdzJSON[op][protocol])
+for op, protocol in toRem:
+    del spdzJSON[op][protocol]
+toRem = []
+for op in spdzJSON.keys():
+    if spdzJSON[op] == dict():
+        toRem.append(op)
+for op in toRem:
+    del spdzJSON[op]
 
 # print to output file
 with open(file[:-3] + 'json', 'w') as f:
-    f.write(json.dumps(spdzJSON, indent=4))
+    f.write(json.dumps(rawJSON, indent=4))
