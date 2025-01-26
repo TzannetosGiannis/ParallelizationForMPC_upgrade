@@ -23,6 +23,7 @@ def compile(
     filename: str,
     text: str,
     backend: Optional[Backend],
+    costType: str = 'time',
     quiet: bool = True,
     run_vectorization: bool = True,
     out_dir: Optional[str] = None,
@@ -122,13 +123,7 @@ def compile(
         print()
 
     if mixing:
-        protocols = None
-        if backend:
-            if backend.name == 'MOTION':
-                protocols = {'A','B','Y'}
-            elif backend.name == 'MP_SPDZ':
-                protocols = {'A','B'}
-        mixed_config = mix_protocols(filename, type_env, linear.body, dep_graph,protocols)
+        mixed_config = mix_protocols(filename, type_env, linear.body, dep_graph, backend, costType)
         if not quiet:
             print("Protocol Mixing Assignments:")
             print(mixed_config)

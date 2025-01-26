@@ -22,6 +22,10 @@ import z3  # type: ignore
 from dataclasses import dataclass
 from textwrap import indent
 
+# need importlib to get around a circular dependency in compiler.backends
+import importlib
+Backend = importlib.import_module("compiler.backends", "Backend")
+
 from .ssa import (
     Atom,
     Operand,
@@ -78,10 +82,12 @@ from os.path import dirname, exists
 
 Protocol = str # Union['A', 'B', 'Y']
 protocols = {'A', 'B', 'Y'}
-# protocols = {'A', 'B'}
+protocolsMotion = [{'A', 'B', 'Y'}]
+protocolsSPDZ = [{'A', 'B'}, {'X', 'B'}, {'Y', 'B'}]
+protocolsSPDZ = [{'A'}, {'B'}, {'X'}, {'Y'}]
 transparent_ops = [LiftExpr, DropDim, VectorizedAccess, Constant] # CHECK IF THIS IS THE FULL LIST
 
-conversionSymbols = {'A': {'B': 'zic_a2b', 'Y': 'zic_a2y'}, 'B': {'A': 'zic_b2a', 'Y': 'zic_b2y'}, 'Y': {'A': 'zic_y2a', 'B': 'zic_y2b'}}
+# conversionSymbols = {'A': {'B': 'zic_a2b', 'Y': 'zic_a2y'}, 'B': {'A': 'zic_b2a', 'Y': 'zic_b2y'}, 'Y': {'A': 'zic_y2a', 'B': 'zic_y2b'}}
 # TODO CHECK IF THESE ARE ALL ZERO COST. ESPECIALLY CONSTANT and VectorizedAccess
 zeroCostOps = {'LiftExpr', 'DropDim', 'Return', 'Phi', 'Constant', 'VectorizedAccess', 'Tuple', 'VectorizedUpdate', 'notUNARY'}
 opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt',
@@ -309,10 +315,10 @@ def getLoopBounds(filename: str) -> None:
 
 # get the cost table
 # ASSUMPTION: EVERYTHING IS 32 BIT
-def getOpCosts() -> None:
+def getOpCosts(filename: str) -> None:
     global costTable
-    assert exists(dirname(__file__) + '/DIVcosts-LAN.json')
-    costTable = json.load(open(dirname(__file__) + '/DIVcosts-LAN.json'))['32']
+    assert exists(dirname(__file__) + filename)
+    costTable = json.load(open(dirname(__file__) + filename))['32']
 
 
 # get the variables the mixer needs to track. Also detect variables that are directly input/output from the program (ie the I/O interface)
@@ -539,7 +545,8 @@ def createNewConfig(conversions: set[Protocol], p: Protocol, prevConfig: Config,
         c += getCost(opToCostSymbol[op], p.lower(), vecBound)
     for pr in conv:
         if p != '_':
-            c += getCost(conversionSymbols[p][pr], None, vecBound)
+            conversionSymbol = f'zic_{p.lower()}2{pr.lower()}'
+            c += getCost(conversionSymbol, None, vecBound)
             assert (p, pr) not in convPairs
             convPairs.append((p, pr))
 
@@ -562,7 +569,8 @@ def createNewConfig(conversions: set[Protocol], p: Protocol, prevConfig: Config,
                     minC = float('inf')
                     minPr = '_'
                     for pr in ({assignment[1]} | assignment[2]) - {p}:
-                        curCost = getCost(conversionSymbols[pr][p], None, vecBound)
+                        conversionSymbol = f'zic_{p.lower()}2{pr.lower()}'
+                        curCost = getCost(conversionSymbol, None, vecBound)
                         if curCost < minC:
                             minC = curCost
                             minPr = pr
@@ -717,7 +725,8 @@ def subsumes(a: Config, b: Config, loop_depth: int, dep_graph: DepGraph, freeCon
                 if requiredP not in b.inputs[var]:
                     minC = float("inf")
                     for availP in b.inputs[var]:
-                        minC = min(getCost(conversionSymbols[availP][requiredP], None, loopBound), minC)
+                        conversionSymbol = f'zic_{availP.lower()}2{requiredP.lower()}'
+                        minC = min(getCost(conversionSymbol, None, loopBound), minC)
                     costComparison -= minC*loop_depth
                     if costComparison < 0:
                         return False
@@ -756,7 +765,8 @@ def subsumes(a: Config, b: Config, loop_depth: int, dep_graph: DepGraph, freeCon
                 if requiredP not in a.outputs[var]:
                     minC = float("inf")
                     for availP in a.outputs[var]:
-                        minC = min(getCost(conversionSymbols[availP][requiredP], None, loopBound), minC)
+                        conversionSymbol = f'zic_{availP.lower()}2{requiredP.lower()}'
+                        minC = min(getCost(conversionSymbol, None, loopBound), minC)
                     costComparison -= minC*loop_depth
                     if costComparison < 0:
                         return False
@@ -965,7 +975,8 @@ def merge(c1: Config, c2: Config, dep_graph: DepGraph, trackedVars: set[Var]) ->
                                     print("WARNING THIS TRIGGERED A SPECIAL CASE THAT IS NOT FULLY CHECKED")
                                 # TODO THIS WAY OF PROTOCOL CHAINING IS NOT QUITE CORRECT...BUT IT'S NOT TRIVIAL TO FIX EITHER
                                 for availP in ({assignment[1]} | assignment[2]) - {'_'}:
-                                    curCost = getCost(conversionSymbols[availP][p], None, vecBound)
+                                    conversionSymbol = f'zic_{availP.lower()}2{p.lower()}'
+                                    curCost = getCost(conversionSymbol, None, vecBound)
                                     if curCost < minC:
                                         minC = curCost
                                         minPr = availP
@@ -1019,7 +1030,8 @@ def merge(c1: Config, c2: Config, dep_graph: DepGraph, trackedVars: set[Var]) ->
                     minPr = '_'
                     # TODO THIS WAY OF PROTOCOL CHAINING IS NOT QUITE CORRECT...BUT IT'S NOT TRIVIAL TO FIX EITHER
                     for availP in ({assignment[1]} | assignment[2]) - {'_'}:
-                        curCost = getCost(conversionSymbols[availP][p], None, vecBound)
+                        conversionSymbol = f'zic_{availP.lower()}2{p.lower()}'
+                        curCost = getCost(conversionSymbol, None, vecBound)
                         if curCost < minC:
                             minC = curCost
                             minPr = availP
@@ -1117,15 +1129,26 @@ def mix(body: list[Statement], dep_graph: DepGraph, trackedVars: set[Var], freeC
 
 
 # run the mixer
-def mix_protocols(filename: str, type_env: TypeEnv, body: list[Statement], dep_graph: DepGraph, mixer_protocols: Optional[set[str]] = None) -> Config:
-    if mixer_protocols:
-        protocols = mixer_protocols.copy()
+def mix_protocols(filename: str, type_env: TypeEnv, body: list[Statement], dep_graph: DepGraph, backend: Backend, costType: str, spdzProtocol: str = 'semi') -> Config:
+    global protocols
+    if costType not in {'time', 'dataSent', 'commRounds'}:
+        raise Exception('Unknown cost type provided to protocol_mixing.py')
+    targetCostFile = '/../Cost_Tables/'
+    if backend == Backend.Backend.MOTION:
+        protList = protocolsMotion
+        targetCostFile += f'MOTION/{costType}.json'
+    elif backend == Backend.Backend.MP_SPDZ:
+        protList = protocolsSPDZ
+        targetCostFile += f'MP-SPDZ/{spdzProtocol}/{costType}.json'
 
     getLoopBounds(filename)
-    getOpCosts()
+    getOpCosts(targetCostFile)
     trackedVars, directIOVars = getTrackedVars(type_env, body, dep_graph)
     getBounds(trackedVars - directIOVars, dep_graph, body)
-    mixed = mix(body, dep_graph, trackedVars, directIOVars, debug=False)
+    mixed = []
+    for protSet in protList:
+        protocols = protSet
+        mixed += mix(body, dep_graph, trackedVars, directIOVars, debug=False)
     minCost = float("inf")
     for c in mixed:
         if c.total_cost < minCost:

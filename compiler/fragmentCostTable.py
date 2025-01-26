@@ -96,4 +96,4 @@ for protocol in protocols:
         fileName = f'Cost_Tables/MP-SPDZ/{protocol}/{measType}.json'
         with open(fileName, 'w') as f:
             print(f'Writing {fileName}')
-            f.write(json.dumps(restructuredJSON[protocol][measType], indent=4, sort_keys=True))
+            f.write(json.dumps(restructuredJSON[protocol][measType], indent=4, sort_keys=False))

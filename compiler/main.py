@@ -37,6 +37,11 @@ def parse_args():
         action="store_true",
         help="Run protocol mixing algorithm to find optimal assignments",
     )
+    parser.add_argument(
+        "--costType",
+        choices=['time', 'dataSent', 'commRounds'],
+        help="Type of cost model to use for mixing",
+    )
     return parser.parse_args()
 
 
@@ -46,6 +51,7 @@ if __name__ == "__main__":
         args.input.name,
         args.input.read(),
         args.backend,
+        'time' if args.costType is None else args.costType,
         args.quiet,
         True,  # Only output vectorized code when invoked from the command line
         args.out_dir,
