@@ -745,7 +745,14 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
     shared_array_decls = indent(render_shared_array_decls(type_env), "    ")
     func_body = indent(render_mixed_statements(func.body, None,convertion_dict,stmt_details_dict), "    ")
 
+    mix_activation = ""
+    if 'Y' in mixed_config.flags:
+        mix_activation = 'program.use_edabit(True)\n'
+    if 'X' in mixed_config.flags:
+        mix_activation = 'program.use_dabit = True\n'
+
     return (
+        f"{mix_activation}"
         f"def {func.name}({params}):\n"
         + "    # Convertion functions\n"
         + "    siv32 = sbitintvec.get_type(32)\n"
