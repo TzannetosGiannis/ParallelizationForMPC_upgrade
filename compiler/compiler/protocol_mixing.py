@@ -84,7 +84,7 @@ Protocol = str # Union['A', 'B', 'Y']
 protocols = {'A', 'B', 'Y'}
 protocolsMotion = [{'A', 'B', 'Y'}]
 protocolsSPDZ = [{'A', 'B'}, {'X', 'B'}, {'Y', 'B'}]
-protocolsSPDZ = [{'A'}, {'B'}, {'X'}, {'Y'}]
+# protocolsSPDZ = [{'A'}, {'B'}, {'X'}, {'Y'}]
 transparent_ops = [LiftExpr, DropDim, VectorizedAccess, Constant] # CHECK IF THIS IS THE FULL LIST
 
 # conversionSymbols = {'A': {'B': 'zic_a2b', 'Y': 'zic_a2y'}, 'B': {'A': 'zic_b2a', 'Y': 'zic_b2y'}, 'Y': {'A': 'zic_y2a', 'B': 'zic_y2b'}}
@@ -120,12 +120,13 @@ class Config:
     finalStmts: list[Statement]             # used to print the return statement and the tuple if it exists
     constants: dict[Var, set[Protocol]]     # dictionary that converts constants to the required protocols
     plaintexts: dict[Var, set[Protocol]]    # dictionary that converts plaintext variables into their required protocols (these conversions should be free, but some backends don't support free plaintext->protocol conversions)
+    flags: set[str]                        # the set of flags used by this program. MP-SPDZ can use the 'X' and 'Y' flags
 
     # sets of variables can be locked to the same set of protocols by transparent (zero-cost) operations
     lockedVarsIdx: dict[Var, int]
     lockedVarsSets: list[set[Var]]
 
-    def __init__(self) -> None:
+    def __init__(self, flag: str=None) -> None:
         self.inputs = dict()
         self.outputs = dict()
         self.assignments = []
@@ -136,15 +137,17 @@ class Config:
         self.finalStmts = []
         self.constants = dict()
         self.plaintexts = dict()
+        self.flags = set(flag) if flag else set()
 
     def __str__(self) -> str:
         inputs = "Input vars:\t{" + ", ".join(str(var) + ": " + (str(conv) if len(conv) else '{}') for var, conv in self.inputs.items()) + "}"
         constants = "Constants:\t{" + ", ".join(str(val) + ": " + (str(conv) if len(conv) else '{}') for val, conv in self.constants.items()) + "}"
         plaintexts = "Plaintext vars:\t{" + ", ".join(str(var) + ": " + (str(conv) if len(conv) else '{}') for var, conv in self.plaintexts.items()) + "}"
+        flags = "Flags:\t\t{" + ", ".join(str(flag) for flag in self.flags) + "}"
         stmts = "\n".join("\t"*count + str(stmt) + ": " + str(assign) + " -> " + (str(conv) if len(conv) else '{}') + " for " + "{:.2f}".format(cost) + " * " + str(depth) + " = " + "{:.2f}".format(cost*depth) + (" (" + (", ".join(cd[0] + "->" + cd[1] for cd in convDict) if len(conv) else "") + ")" if len(convDict) else "") for stmt, assign, conv, cost, depth, count, convDict in self.assignments)
         finalLines = "\n".join(str(l) for l in reversed(self.finalStmts))
         outputs = "Output vars:\t{" + ", ".join(str(var) + ": " + (str(conv) if len(conv) else '{}') for var, conv in self.outputs.items()) + "}"
-        return "Total cost:\t{:.2f}".format(self.total_cost) + "\n" + inputs + "\n" + constants + "\n" + plaintexts + "\n" + stmts + "\n" + finalLines + "\n" + outputs + "\n"
+        return "Total cost:\t{:.2f}".format(self.total_cost) + "\n" + inputs + "\n" + constants + "\n" + plaintexts + "\n" + flags + "\n" + stmts + "\n" + finalLines + "\n" + outputs + "\n"
 
 
 # get any constants from the RHS of a statement
@@ -185,6 +188,50 @@ def getRHSConstants(rhs: AssignRHS) -> list[Var]:
         return getRHSConstants(rhs.array)
     else:
         assert_never(rhs)
+
+
+def populateFlags(config: Config) -> None:
+    replace = {'X': 'A'} if 'X' in config.flags else ({'Y': 'A'} if 'Y' in config.flags else None)
+    if not replace:
+        return
+
+    # correct assignments
+    for i in range(len(config.assignments)):
+        val = config.assignments[i][1]
+        if val in replace.keys():
+            config.assignments[i][1] = replace[val]
+        for k, v in replace.items():
+            if k in config.assignments[i][2]:
+                config.assignments[i][2].add(v)
+                config.assignments[i][2].remove(k)
+        for j in range(len(config.assignments[i][6])):
+            for k, v in replace.items():
+                if k == config.assignments[i][6][j][0]:
+                    config.assignments[i][6][j] = (v, config.assignments[i][6][j][1])
+                if k == config.assignments[i][6][j][1]:
+                    config.assignments[i][6][j] = (config.assignments[i][6][j][0], v)
+
+    # correct input variables
+    for key in config.inputs.keys():
+        for k, v in replace.items():
+            if k in config.inputs[key]:
+                config.inputs[key].add(v)
+                config.inputs[key].remove(k)
+
+    # correct constants
+    for key in config.constants.keys():
+        for k, v in replace.items():
+            if k in config.constants[key]:
+                config.constants[key].add(v)
+                config.constants[key].remove(k)
+
+    # correct plaintext variables
+    for key in config.plaintexts.keys():
+        for k, v in replace.items():
+            if k in config.plaintexts[key]:
+                config.plaintexts[key].add(v)
+                config.plaintexts[key].remove(k)
+
 
 
 # function to get the required protocols for every constant
@@ -617,7 +664,7 @@ def assign_seq(seq: list[Statement], dep_graph: DepGraph, trackedVars: set[Var],
 
     # base case
     if len(seq) == 0:
-        return [Config()]
+        return [Config('X' if 'X' in protocols else ('Y' if 'Y' in protocols else None))]
 
     # tail recursion
     tail = assign_seq(seq[1:], dep_graph, trackedVars, loop_depth, loopNestCount)
@@ -1155,4 +1202,5 @@ def mix_protocols(filename: str, type_env: TypeEnv, body: list[Statement], dep_g
             best = c
             minCost = c.total_cost
     populateConstantsAndPlaintexts(best, {var for var, t in type_env.items() if t.visibility and t.visibility.value == 'plaintext'})
+    populateFlags(best)
     return best
