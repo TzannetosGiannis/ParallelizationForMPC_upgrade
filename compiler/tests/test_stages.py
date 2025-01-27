@@ -116,9 +116,10 @@ class StagesTestCase(unittest.TestCase):
             
             for protocol in test_context.BACKEND.valid_protocols():
 
-                if protocol == "ArithmeticGmw":
+                if protocol == "ArithmeticGmw" :
                     continue
                 print(f"    Protocol {protocol}...")
+
                 for vectorized in (False, True):
                     output = run_benchmark(
                         test_context.BACKEND,
@@ -132,7 +133,6 @@ class StagesTestCase(unittest.TestCase):
                     self.assertEqual(party0.strip(), party1.strip())
                     self.assertEqual(party0.strip(), expected_output.strip())
                     self.assertEqual(party1.strip(), expected_output.strip())
-
 
             if test_context.BACKEND == 'MOTION':
                 # read the stages testcase for the input protocol
@@ -310,11 +310,8 @@ def regenerate_stages(mixing = False,vectorization = True):
         for backend in Backend:
             
             if mixing:
-                if backend.name == 'MOTION':
-                    mixer_protocols = {'A','B','Y'}
-                elif backend.name == 'MP_SPDZ':
-                    mixer_protocols = {'A','B'}
-                mixed_config = compiler.mix_protocols(f"{test_case_dir.name}.py", type_env, loop_linear.body, dep_graph, mixer_protocols)
+                
+                mixed_config = compiler.mix_protocols(f"{test_case_dir.name}.py", type_env, loop_linear.body, dep_graph,  backend, "time")
                 
                 # Convert the dictionary to the desired format
                 result = {}

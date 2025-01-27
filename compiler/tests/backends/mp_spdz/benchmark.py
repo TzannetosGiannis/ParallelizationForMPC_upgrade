@@ -110,22 +110,21 @@ def set_up_spdz_compile(
         input_py = f.read().strip()
 
     submodule_path = Backend.MP_SPDZ.submodule_path()
-
     mpc_file = get_mpc_file_name(benchmark_name, vectorized,mixed)
     app_path = os.path.join(submodule_path, "Programs", "Source", f"{mpc_file}.mpc")
     
     compiler.compile(
-        f"{benchmark_name}.py",
-        input_py,
-        Backend.MP_SPDZ,
-        True,
-        vectorized,
-        app_path,
-        True,
-        None,
+        filename=f"{benchmark_name}.py",
+        text=input_py,
+        backend=Backend.MP_SPDZ,
+        quiet=True,
+        run_vectorization=vectorized,
+        out_dir=app_path,
+        overwrite_out_dir=True,
+        protocol=None,
         mixing=mixed
     )
-
+    
     # Copy vectorization library so compiled programs can use it
     shutil.copyfile(
         os.path.join(
@@ -210,15 +209,15 @@ def run_benchmark(
     timeout=60 * 60,
     mixed=False
 ) -> BenchmarkOutput:
-    
+
     set_up_spdz_compile(benchmark_name, benchmark_path, vectorized,mixed)
     mpc_file = get_mpc_file_name(benchmark_name, vectorized,mixed)
     submodule_path = Backend.MP_SPDZ.submodule_path()
 
     print("RUNNING BENCH",benchmark_name,benchmark_path,submodule_path)    
-    
     # Write an indicator file when running `make setup` so it only needs to run once
     setup_indicator_path = os.path.join(submodule_path, ".ran-make-setup")
+
     if not os.path.exists(setup_indicator_path):
         subprocess.run(["make", "setup"], cwd=submodule_path, check=True)
         with open(setup_indicator_path, "w") as _:
@@ -236,6 +235,7 @@ def run_benchmark(
         stderr=subprocess.PIPE,
         text=True,
     )
+    
     stdout, stderr = p.communicate(timeout=600)
     assert p.returncode == 0, stderr
     end_time = time()
