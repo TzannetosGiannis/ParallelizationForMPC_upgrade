@@ -78,6 +78,11 @@ def render_var(var: Var, var_mappings: dict[Var, str]) -> str:
         return str(var).replace("!", "_")
 
 
+def modify_stmt_details_dict(stmt_details_dict,key,field,value):
+    if stmt_details_dict[key][field] is None:
+        stmt_details_dict[key][field] = value
+
+
 def render_vec_indices(v: VectorizedAccess, var_mappings: dict[Var, str]) -> str:
     return (
         "["
@@ -484,7 +489,7 @@ def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],conve
             # P _
             if len(convertion_to) == 0:
                 initial_access = render_vectorized_assign(stmt.lhs, stmt.rhs)
-                
+                print("initial access",initial_access)
                 stmt_details_dict[key][convertion_dict[str(stmt.lhs)]['from']] = key
                 
                 # convert
@@ -496,6 +501,7 @@ def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],conve
                             # if the key exists and is not part of other key
                             # replace with the representation of the correct protocol
                             initial_access = initial_access.replace(k,stmt_details_dict[k][convertion_dict[str(stmt.lhs)]['from']])
+                            print("initial access 2",initial_access,k)
                 return initial_access
             
             # already in the correct protocol
@@ -506,11 +512,13 @@ def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],conve
                 return render_vectorized_assign(stmt.lhs, stmt.rhs)
             else:
                 # _ {'A','B'} _
-                print("TZANNETOS",convertion_dict[str(stmt.lhs)])
+                print("TZANNETOS",stmt,convertion_dict[str(stmt.lhs)])
                 # exit()
                 # exactly one explicit convertion identified
                 if (len(convertion_dict[str(stmt.lhs)]['convertion_tuple'])  == 1):
+                    print("TZANNETOS 1",stmt,convertion_dict[str(stmt.lhs)])
                     basic_stmt = render_vectorized_assign(stmt.lhs, stmt.rhs)
+                    print("here 3",stmt_details_dict[key])
                     stmt_details_dict[key][convertion_dict[str(stmt.lhs)]['convertion_tuple'][0][0]] = key
 
                     print("MARIA", basic_stmt)
@@ -521,8 +529,13 @@ def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],conve
                             print(k,stmt_details_dict[k])
                             if  stmt_details_dict[k][convertion_dict[str(stmt.lhs)]['from']] is not None:
                                 basic_stmt = basic_stmt.replace(k,stmt_details_dict[k][convertion_dict[str(stmt.lhs)]['from']])
-                    print("MARIA 2",basic_stmt)
+                    
+                    
                     ordering = convertion_dict[str(stmt.lhs)]['convertion_tuple'][0]
+
+                    if ordering[0] == 'B':
+                        basic_stmt = basic_stmt.replace('sint','sb32')
+                    print("here 2",stmt_details_dict[key])
                     stmt_details_dict[key][ordering[0]] = key
                     
                     # now find the declaration 
@@ -545,7 +558,11 @@ def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],conve
                         convertion += f"{new_key}[{render_key}] = {apply(ordering[1],f'{key}[{render_key}]',True)}" 
 
                     # store the variable to the stmt details dict to use it when using protocol 2 for the lhs (1 -> 2)
-                    stmt_details_dict[key][ordering[1]] = new_key
+                    print("here 1",stmt_details_dict[key])
+                    if stmt_details_dict[key][ordering[1]] is None:
+                        stmt_details_dict[key][ordering[1]] = new_key
+                        print("here",stmt_details_dict[key])
+                    
                 else:
                     # example _ {A,B} _
                     basic_stmt = render_vectorized_assign(stmt.lhs, stmt.rhs)
@@ -782,7 +799,18 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
                     "A":None,
                     "B":None,
         }
-
+    
+    # initialize the convertions for phi node
+    for co in convertion_dict:
+        key = render_var(co,dict()).split("{")[0]
+        
+        convertion_tuple = convertion_dict[co]['convertion_tuple']
+        if len(convertion_tuple) > 0:
+            key_from = key
+            key_to = f"{key}_{convertion_tuple[0][1]}"
+            stmt_details_dict[key][convertion_tuple[0][1]] = key_to
+            stmt_details_dict[key][convertion_tuple[0][0]] = key_from
+    
     # handle plaintext from mixed config
     plaintext_dict = mixed_config.plaintexts
     plaintext_convertions = ""
