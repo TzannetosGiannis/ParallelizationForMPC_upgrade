@@ -74,8 +74,10 @@ class _SimdifyInput:
 
 class VectorizationLibrary:
     def __init__(self, globals):
+        
         self._print_str = globals["print_str"]
         self._sint = globals["sint"]
+        self._sintbit = globals["sintbit"]
         self._sbits = globals["sbits"].get_type(_BIT_LENGTH)
         self._sbitvecn = globals["sbitvec"]
         self._sbitintvec = globals["sbitintvec"]
@@ -116,7 +118,12 @@ class VectorizationLibrary:
     def vectorized_access_simd(
         self, array: list, shape: list[int], indices: tuple[typing.Optional[int]]
     ):
+    
+        if isinstance(array[0],self._sbits) and indices[0] == None:
+            return self._sbitintvec(array)
         result_list = self.vectorized_access(array, shape, indices)
+        if isinstance(array[0],self._sbits):
+            return self._sbitintvec(result_list)
         return self._simdify(_SimdifyInput(result_list))
 
     def vectorized_access(
@@ -132,11 +139,16 @@ class VectorizationLibrary:
         self, array, shape: list[int], indices: tuple[typing.Optional[int]], value
     ) -> None:
         assert value is not None
+        condition = str(type(value)) == "<class 'Compiler.GC.types.sbitvec.get_type.<locals>.sbitvecn'>" and indices[0] == None
         indices_full = _expand_vectorized_indices(shape, indices)
         value = _unsimdify(value)
+        print(condition,type(value),len(indices_full),len(value))
         assert len(indices_full) == len(value)
         for value_index, tensor_index in enumerate(indices_full):
-            value_elem = value[value_index]
+            if condition:
+                value_elem = self._sintbit(value[value_index])
+            else:
+                value_elem = value[value_index]
             self.assign_tensor(array, tensor_index, shape, value_elem)
 
     def access_tensor(

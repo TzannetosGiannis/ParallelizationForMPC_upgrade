@@ -69,6 +69,7 @@ VALID_PROTOCOLS = [
     # "dealer",
 ]
 
+global_declarations = []
 
 def render_var(var: Var, var_mappings: dict[Var, str]) -> str:
     try:
@@ -128,6 +129,7 @@ def render_vectorized_assign(lhs: VectorizedAccess, rhs: UpdatelessAssignRHS) ->
         return f"{array} = {value}"
     shape = render_array_shape(lhs.dim_sizes)
     indices = render_vec_indices(lhs, dict())
+    print("tzannetos",f"_v.vectorized_assign({array}, {shape}, {indices}, {value})")
     return f"_v.vectorized_assign({array}, {shape}, {indices}, {value})"
 
 
@@ -332,11 +334,11 @@ def apply(protocol,someArg,convert=False):
     if someArg.startswith("_v.drop_dim"):
         return someArg
     if protocol == "B" and someArg.startswith("_v.sbool"):
-        return f"siv32({someArg})"
+        return f"sb32({someArg})"
     if protocol == "B" and convert == True:
-        return f"siv32({someArg})"
+        return f"sb32({someArg})"
     if protocol == "B" and convert == False:
-        return f"siv32({someArg})"
+        return f"sb32({someArg})"
     elif protocol == "A":
         return f"sint({someArg})"
     else:
@@ -460,6 +462,8 @@ def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],conve
                 elif len(convertion_to) == 1 and len(convertion_from) == 1:
                     print("MACARI 2",initial_mux)
                     print("we are hereeee")
+                    if stmt_key != "current_dist_5":
+                        exit()
                     stmt_details_dict[stmt_key][convertion_from[0]] = stmt_key
                     for key in stmt_details_dict:
                         if key in initial_mux and f"_{key}" not in initial_mux:
@@ -468,7 +472,7 @@ def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],conve
                             initial_mux = initial_mux.replace(key,stmt_details_dict[key][convertion_from[0]])
                     # Now we need to modify to the converted protocol
                     new_key = f"{stmt_key}_{convertion_to[0]}"
-                    convertor = 'sint' if convertion_to[0] == 'A' else "siv32"
+                    convertor = 'sint' if convertion_to[0] == 'A' else "sb32"
                     converted_mux = f"{new_key} = [{convertor}({stmt_key}[i]) for i in range(len({stmt_key}))]"
                     stmt_details_dict[stmt_key][convertion_to[0]] = new_key  
                     return f"{initial_mux};{converted_mux}"
@@ -485,7 +489,7 @@ def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],conve
                 
                 # convert
                 if convertion_dict[str(stmt.lhs)]['from'] == 'B':
-                    initial_access = initial_access.replace('sint','siv32')
+                    initial_access = initial_access.replace('sint','sb32')
 
                 for k in stmt_details_dict:
                         if k in initial_access and f"_{k}" not in initial_access:
@@ -528,9 +532,17 @@ def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],conve
                     current_declaration = stmt_details_dict[key]['declaration'].replace(key,new_key)
                     
                     # perform the convertion
-                    convertion = basic_stmt +"\n" + current_declaration + "\n"
-                    convertion += f"for _random_iter in range(0,len({key})):\n"
-                    convertion += f"  {new_key}[_random_iter] = {apply(ordering[1],f'{key}[_random_iter]',True)}" 
+                    global_declarations.append(current_declaration)
+                    
+                    render_key = render_var(stmt.lhs.idx_vars[0],dict())
+                    
+                    if render_key == 'i_1':
+                        convertion = basic_stmt +"\n" 
+                        convertion += f"for _random_iter in range(0,len({key})):\n"
+                        convertion += f"  {new_key}[_random_iter] = {apply(ordering[1],f'{key}[_random_iter]',True)}" 
+                    else:
+                        convertion = basic_stmt +";" 
+                        convertion += f"{new_key}[{render_key}] = {apply(ordering[1],f'{key}[{render_key}]',True)}" 
 
                     # store the variable to the stmt details dict to use it when using protocol 2 for the lhs (1 -> 2)
                     stmt_details_dict[key][ordering[1]] = new_key
@@ -587,7 +599,7 @@ def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],conve
                 # render atom induces the basic types 
                 # so we need to convert if the type is B
                 if stmt_from == 'B' and "sint" in mixed_stmt:
-                    mixed_stmt = mixed_stmt.replace('sint',"siv32")
+                    mixed_stmt = mixed_stmt.replace('sint',"sb32")
                 return mixed_stmt
             elif len(list(convertion_dict[str(stmt.lhs)]['to'])) == 1:
                 # we want cases Pr1 Pr _
@@ -750,6 +762,7 @@ def render_shared_array_decls(type_env: TypeEnv) -> str:
 
 def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: bool,mixed_config) -> str:
     
+    global_declarations.clear()
     convertion_dict = {}
     stmt_details_dict = {}
     
@@ -794,7 +807,7 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
                         "B":None,
             }
             
-            input_convertions += f"{new_key} = [ siv32(elem) for elem in {small_key}] if isinstance({small_key}, list) else siv32({small_key})\n    "
+            input_convertions += f"{new_key} = [ sb32(elem) for elem in {small_key}] if isinstance({small_key}, list) else sb32({small_key})\n    "
             stmt_details_dict[small_key]['B'] = new_key
   
     for plain in plaintext_dict:
@@ -808,7 +821,7 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
             
             # simple types means simple convertion based on type
             if "list" not in func_args[small_key]:
-                plaintext_convertions += f"{small_key}_B = siv32({small_key})\n"
+                plaintext_convertions += f"{small_key}_B = sb32({small_key})\n"
                 new_key = f"{small_key}_B"
                 stmt_details_dict[small_key] = {
                     "A":small_key,
@@ -819,7 +832,7 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
                 # know we need to convert it as a list (iterate through the elements)
                 # no vectorized convetion exists
                 plaintext_convertions += f"{'' if performed_plaintext_convertion == False else '    '}for _random_iter in range(0,len({small_key})):\n"
-                plaintext_convertions += f"     {small_key}[_random_iter] = siv32({small_key}[_random_iter])"
+                plaintext_convertions += f"     {small_key}[_random_iter] = sb32({small_key}[_random_iter])"
 
                 stmt_details_dict[small_key] = {
                     "A":None,
@@ -845,6 +858,7 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
     if 'X' in mixed_config.flags:
         mix_activation = 'program.use_dabit = True\n'
 
+    global_declarations_str = "\n    ".join(global_declarations)
     return (
         f"{mix_activation}"
         f"def {func.name}({params}):\n"
@@ -855,6 +869,8 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
         + f"    {input_convertions}\n"
         + "    # Shared array declarations\n"
         + f"{shared_array_decls}\n"
+        + "    # Shared array convertion declarations\n"
+        + f"    {global_declarations_str}\n"
         + "    # Function body\n"
         + f"{func_body}"
     )
@@ -890,7 +906,7 @@ def render_load_args(func: Function,mixing: bool = False,mixed_config:Config = C
                         protocol = 'A'
                     protocol = ty[0]
                     if protocol == 'B':
-                        actual_type = 'siv32'
+                        actual_type = 'sb32'
         if dims == 0:
             if arg.var_type.is_plaintext():
                 ret.append(f"{var} = int(program.args[{program_args_index}])")
@@ -923,7 +939,7 @@ def render_default_arg(arg: Parameter,mixing: bool = False,mixed_config:Config =
                     protocol = 'A'
                 protocol = ty[0]
                 if protocol == 'B':
-                    actual_type = 'siv32'
+                    actual_type = 'sb32'
                     break
     dims = arg.var_type.dims
     value = arg.default_values[0]
@@ -938,7 +954,7 @@ def render_default_arg(arg: Parameter,mixing: bool = False,mixed_config:Config =
         lift_oper =  f"{var} = _v.lift(lambda indices: {var}[indices[0]], [len({var})])\n"
         if protocol == 'B':
             input_vec += f"for _random_iter in range(0,len({var})):\n"
-            input_vec += f"     {var}[_random_iter] = siv32({var}[_random_iter])\n"
+            input_vec += f"     {var}[_random_iter] = sb32({var}[_random_iter])\n"
         input_vec += lift_oper
         return input_vec
 
