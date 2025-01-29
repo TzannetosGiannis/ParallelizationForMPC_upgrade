@@ -69,6 +69,8 @@ VALID_PROTOCOLS = [
     # "dealer",
 ]
 
+# when we find a convertion inside a for loop we need to have initialized before entering
+# thuse we use this list to move the declaration on top of the programme
 global_declarations = []
 
 def render_var(var: Var, var_mappings: dict[Var, str]) -> str:
@@ -77,11 +79,22 @@ def render_var(var: Var, var_mappings: dict[Var, str]) -> str:
     except KeyError:
         return str(var).replace("!", "_")
 
-
+# safe modify dictionary that keeps variables and allocated protocol
 def modify_stmt_details_dict(stmt_details_dict,key,field,value):
     if stmt_details_dict[key][field] is None:
         stmt_details_dict[key][field] = value
 
+# iterate throught the strings associated with the current code line and replace with the correct protocol
+# if we have a line in B and the rendered is in A we can find it here and replace it with the B 
+def replace_variables_in_protocol(stmt_details_dict,assigned_value,protocol_to_be_replaced):
+    for k in stmt_details_dict:
+        if k in assigned_value and f"_{k}" not in assigned_value:
+            # if the key exists and is not part of other key
+            # replace with the representation of the correct protocol_to_be_replaced
+            if stmt_details_dict[k][protocol_to_be_replaced] is not None:
+                assigned_value = assigned_value.replace(k,stmt_details_dict[k][protocol_to_be_replaced])
+    return assigned_value
+                    
 
 def render_vec_indices(v: VectorizedAccess, var_mappings: dict[Var, str]) -> str:
     return (
@@ -134,7 +147,6 @@ def render_vectorized_assign(lhs: VectorizedAccess, rhs: UpdatelessAssignRHS) ->
         return f"{array} = {value}"
     shape = render_array_shape(lhs.dim_sizes)
     indices = render_vec_indices(lhs, dict())
-    print("tzannetos",f"_v.vectorized_assign({array}, {shape}, {indices}, {value})")
     return f"_v.vectorized_assign({array}, {shape}, {indices}, {value})"
 
 
@@ -352,7 +364,7 @@ def apply(protocol,someArg,convert=False):
 def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],convertion_dict,stmt_details_dict) -> str:
     
     if isinstance(stmt, Phi):
-        # mixer always operates on vectorized but here the type can be also Var whic has no array
+        # mixer always operates on vectorized but here the type can be also Var which has no array
         # thus we add the check for the pytest to pass
         if not hasattr(stmt.lhs,'array'):
             raise Exception("mixed version requires vectors")
@@ -368,12 +380,12 @@ def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],conve
             truthy = render_var(stmt.rhs_true.array,dict())
         else:
             truthy = render_var(stmt.rhs_true,dict())
+        
         if len(convertion_to) == 0 and len(convertion_from) == 1:
             modify_stmt_details_dict(stmt_details_dict,key,convertion_from[0],key)
             modify_stmt_details_dict(stmt_details_dict,falsy,convertion_from[0],falsy)
             modify_stmt_details_dict(stmt_details_dict,truthy,convertion_from[0],truthy)
-            
-        
+               
         assert containing_loop
         assert isinstance(containing_loop.bound_low, Constant)
         assert containing_loop.bound_low.value == 0
@@ -393,16 +405,13 @@ def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],conve
             + f"    {phi_assign_true}"
         )
     elif isinstance(stmt, Assign):
-        print("STMT 1",stmt)
         lhs = render_atom(stmt.lhs, False, dict())
         if isinstance(stmt.rhs, Update):
-            print("STMT 2",stmt)
             array = render_var(stmt.rhs.array, dict())
             index = render_subscript_index(stmt.rhs.index, dict())
             value = render_atom(stmt.rhs.value, True, dict())
             return f"{array}[{index}] = {value}; {lhs} = {array}"
         elif isinstance(stmt.rhs, VectorizedUpdate):
-            print("STMT 3",stmt)
             rhs_array_access = VectorizedAccess(
                 array=stmt.rhs.array,
                 dim_sizes=stmt.rhs.dim_sizes,
@@ -434,66 +443,39 @@ def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],conve
                 modify_stmt_details_dict(stmt_details_dict,key,convertion_tuple[0],key)
                 new_key = f"{key}_{convertion_tuple[1]}"
                 modify_stmt_details_dict(stmt_details_dict,key,convertion_tuple[1],new_key)
-    
-                # initialize the new variable
                 current_declaration = stmt_details_dict[key]['declaration'].replace(key,new_key)
-                
-                # perform the convertion
                 convertion = ";\n" + current_declaration + "\n"
-                
                 convertion += f"for _random_iter in range(0,len({key})):\n"
                 convertion += f"  {new_key}[_random_iter] = {apply(convertion_tuple[1],f'{key}[_random_iter]',True)}" 
             
             return f"{assign1}; {assign2}{convertion}"
         elif isinstance(stmt.lhs, VectorizedAccess):
-            print("STMT 4",stmt)
             # TODO: Cludgy fix for SPDZ vectorized MUX, 2 lines
             if isinstance(stmt.rhs,Mux):
                 initial_mux = render_iterative_mux(stmt.lhs, stmt.rhs)
-                print("MACARI",initial_mux)
                 stmt_key = render_var(stmt.lhs.array,dict())
                 convertion_to = list(convertion_dict[str(stmt.lhs)]['to'])
                 convertion_from = list(convertion_dict[str(stmt.lhs)]['from'])
                 if len(convertion_to) == 0 and len(convertion_from) == 1:
-                    stmt_details_dict[stmt_key][convertion_from[0]] = stmt_key
-                    print("MACARI 1",initial_mux,stmt_key)
-                    print("|||||||||")
-                    print("STMT 7",stmt_key,stmt_details_dict[stmt_key])
-                    for key in stmt_details_dict:
-                        if key in initial_mux and f"_{key}" not in initial_mux:
-                            # if the key exists and is not part of other key
-                            # replace with the representation of the correct protocol
-                            print(key)
-                            initial_mux = initial_mux.replace(key,stmt_details_dict[key][convertion_from[0]])
+                    modify_stmt_details_dict(stmt_details_dict,stmt_key,convertion_from[0],stmt_key)
+                    initial_mux = replace_variables_in_protocol(stmt_details_dict,initial_mux,convertion_from[0])
                     return initial_mux
                 elif len(convertion_to) == 1 and len(convertion_from) == 1:
-                    print("MACARI 2",initial_mux)
-                    
-                    stmt_details_dict[stmt_key][convertion_from[0]] = stmt_key
-                    for key in stmt_details_dict:
-                        if key in initial_mux and f"_{key}" not in initial_mux:
-                            # if the key exists and is not part of other key
-                            # replace with the representation of the correct protocol
-                            initial_mux = initial_mux.replace(key,stmt_details_dict[key][convertion_from[0]])
-                    # Now we need to modify to the converted protocol
+                    modify_stmt_details_dict(stmt_details_dict,stmt_key,convertion_from[0],stmt_key)
+                    initial_mux = replace_variables_in_protocol(stmt_details_dict,initial_mux,convertion_from[0])
                     new_key = f"{stmt_key}_{convertion_to[0]}"
                     convertor = 'sint' if convertion_to[0] == 'A' else "siv32"
-                    
                     convertion_key = render_var(stmt.lhs.idx_vars[0],dict())
                     if convertion_key == 'i_1':
                         converted_mux = f"{new_key} = [{convertor}({stmt_key}[_random_iter]) for _random_iter in range(len({stmt_key}))]" 
                     else:
                         converted_mux = f"{new_key}[{convertion_key}] = {convertor}({stmt_key}[{convertion_key}])" 
-                    stmt_details_dict[stmt_key][convertion_to[0]] = new_key  
-                    print("MACARI 3",initial_mux)
-                    print(stmt_details_dict[stmt_key])
-                     # initialize the new variable
+
+                    modify_stmt_details_dict(stmt_details_dict,stmt_key,convertion_to[0],new_key)
                     current_declaration = stmt_details_dict[stmt_key]['declaration'].replace(stmt_key,new_key)
-                    # perform the convertion
                     global_declarations.append(current_declaration)
-                    print("current",convertion_key)
                     return f"{initial_mux};{converted_mux}"
-            print("STMT 5",stmt)
+            
             key = render_var(stmt.lhs.array,dict())
             convertion_to = list(convertion_dict[str(stmt.lhs)]['to'])
             # the protocol to be converted is irelevant
@@ -501,19 +483,13 @@ def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],conve
             # P _
             if len(convertion_to) == 0:
                 initial_access = render_vectorized_assign(stmt.lhs, stmt.rhs)
-                print("initial access",initial_access)
                 stmt_details_dict[key][convertion_dict[str(stmt.lhs)]['from']] = key
                 
                 # convert
                 if convertion_dict[str(stmt.lhs)]['from'] == 'B':
                     initial_access = initial_access.replace('sint','sb32')
 
-                for k in stmt_details_dict:
-                        if k in initial_access and f"_{k}" not in initial_access:
-                            # if the key exists and is not part of other key
-                            # replace with the representation of the correct protocol
-                            initial_access = initial_access.replace(k,stmt_details_dict[k][convertion_dict[str(stmt.lhs)]['from']])
-                            print("initial access 2",initial_access,k)
+                initial_access = replace_variables_in_protocol(stmt_details_dict,initial_access,convertion_dict[str(stmt.lhs)]['from'])
                 # Cast it again to B just in case
                 # if it is already B then nothing happens
                 if convertion_dict[str(stmt.lhs)]['from'] == 'B':
@@ -527,19 +503,9 @@ def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],conve
             
             # already in the correct protocol
             elif len(convertion_to) == 1 and len(convertion_dict[str(stmt.lhs)]['convertion_tuple']) == 0:
-                print("STMT 6",stmt)
-                print(convertion_dict[str(stmt.lhs)])
                 stmt_details_dict[key][convertion_to[0]] = key
                 assigned_value = render_vectorized_assign(stmt.lhs, stmt.rhs)
-                
-                for k in stmt_details_dict:
-                        if k in assigned_value and f"_{k}" not in assigned_value:
-                            # if the key exists and is not part of other key
-                            # replace with the representation of the correct protocol
-                            if stmt_details_dict[k][convertion_to[0]] is not None:
-                                assigned_value = assigned_value.replace(k,stmt_details_dict[k][convertion_to[0]])
-                            
-                
+                assigned_value = replace_variables_in_protocol(stmt_details_dict,assigned_value,convertion_to[0])
                 convertor = "sint" if convertion_to[0] == 'A' else 'siv32'
                 # this means that indices have been used for example indices[2] == sint(0)) and thus we need to cast it back to binary 
                 # otherwise it will be sint
@@ -548,41 +514,19 @@ def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],conve
                 return assigned_value
             else:
                 # _ {'A','B'} _
-                print("TZANNETOS",stmt,convertion_dict[str(stmt.lhs)])
-                # exit()
                 # exactly one explicit convertion identified
                 if (len(convertion_dict[str(stmt.lhs)]['convertion_tuple'])  == 1):
-                    print("TZANNETOS 1",stmt,convertion_dict[str(stmt.lhs)])
                     basic_stmt = render_vectorized_assign(stmt.lhs, stmt.rhs)
-                    print("here 3",stmt_details_dict[key])
-                    stmt_details_dict[key][convertion_dict[str(stmt.lhs)]['convertion_tuple'][0][0]] = key
-
-                    print("MARIA", basic_stmt)
-                    for k in stmt_details_dict:
-                        if k in basic_stmt and f"_{k}" not in basic_stmt:
-                            # if the key exists and is not part of other key
-                            # replace with the representation of the correct protocol
-                            print(k,stmt_details_dict[k])
-                            if  stmt_details_dict[k][convertion_dict[str(stmt.lhs)]['from']] is not None:
-                                basic_stmt = basic_stmt.replace(k,stmt_details_dict[k][convertion_dict[str(stmt.lhs)]['from']])
-                    
-                    
+                    modify_stmt_details_dict(stmt_details_dict,key,convertion_dict[str(stmt.lhs)]['convertion_tuple'][0][0],key)
+                    basic_stmt = replace_variables_in_protocol(stmt_details_dict,basic_stmt,convertion_dict[str(stmt.lhs)]['from'])
                     ordering = convertion_dict[str(stmt.lhs)]['convertion_tuple'][0]
-
                     if ordering[0] == 'B':
                         basic_stmt = basic_stmt.replace('sint','sb32')
-                    print("here 2",stmt_details_dict[key])
-                    stmt_details_dict[key][ordering[0]] = key
+                    modify_stmt_details_dict(stmt_details_dict,key,ordering[0],key)
                     
-                    # now find the declaration 
                     new_key = f"{key}_{ordering[1]}"
-                    
-                    # initialize the new variable
                     current_declaration = stmt_details_dict[key]['declaration'].replace(key,new_key)
-                    
-                    # perform the convertion
                     global_declarations.append(current_declaration)
-                    
                     render_key = render_var(stmt.lhs.idx_vars[0],dict())
                     
                     if render_key == 'i_1':
@@ -594,10 +538,8 @@ def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],conve
                         convertion += f"{new_key}[{render_key}] = {apply(ordering[1],f'{key}[{render_key}]',True)}" 
 
                     # store the variable to the stmt details dict to use it when using protocol 2 for the lhs (1 -> 2)
-                    print("here 1",stmt_details_dict[key])
-                    if stmt_details_dict[key][ordering[1]] is None:
-                        stmt_details_dict[key][ordering[1]] = new_key
-                        print("here",stmt_details_dict[key])
+                    modify_stmt_details_dict(stmt_details_dict,key,ordering[1],new_key)
+                    
                     
                 else:
                     # example _ {A,B} _
@@ -607,19 +549,18 @@ def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],conve
                     # identify if it is a lift
                     if isinstance(stmt.rhs,LiftExpr):
                         lift_key = render_var(stmt.rhs.expr.array,dict())
-                        print(stmt,lift_key,"important",stmt_details_dict[lift_key])
                         # identify either A or B
                         # store both the actual and converted
                         if stmt_details_dict[lift_key]['A'] == lift_key:
-                            stmt_details_dict[key]['A'] = key
+                            modify_stmt_details_dict(stmt_details_dict,key,'A',key)
                             new_key = f"{key}_B"
-                            stmt_details_dict[key]['B'] = new_key
+                            modify_stmt_details_dict(stmt_details_dict,key,'B',new_key)
                             stmt_B = f";{new_key} = {basic_stmt.split(' = ')[1].replace(lift_key,f'{lift_key}_B')}"
                             return f"{basic_stmt}{stmt_B}"
                         else:
-                            stmt_details_dict[key]['B'] = key
+                            modify_stmt_details_dict(stmt_details_dict,key,'B',key)
                             new_key = f"{key}_A"
-                            stmt_details_dict[key]['A'] = new_key
+                            modify_stmt_details_dict(stmt_details_dict,key,'A',new_key)
                             stmt_A = f";{new_key} = {basic_stmt.split(' = ')[1].replace(lift_key,f'{lift_key}_A')}"
                             return f"{basic_stmt}{stmt_A}"
                     
@@ -642,13 +583,9 @@ def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],conve
                 stmt_from = list(convertion_dict[str(stmt.lhs)]['from'])[0]
                 
                 # store the key for future reference in protocol Pr
-                stmt_details_dict[render_var(stmt.lhs,dict())][stmt_from] = render_var(stmt.lhs,dict())
+                modify_stmt_details_dict(stmt_details_dict,render_var(stmt.lhs,dict()),stmt_from,render_var(stmt.lhs,dict()))
                 mixed_stmt = f"{lhs} = {rhs}"
-                for key in stmt_details_dict:
-                        if key in mixed_stmt and f"_{key}" not in mixed_stmt:
-                            # replace keys to be in the correct protocol
-                            mixed_stmt = mixed_stmt.replace(key,stmt_details_dict[key][stmt_from])
-
+                mixed_stmt = replace_variables_in_protocol(stmt_details_dict,mixed_stmt,stmt_from)
                 # render atom induces the basic types 
                 # so we need to convert if the type is B
                 if stmt_from == 'B' and "sint" in mixed_stmt:
@@ -657,7 +594,7 @@ def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],conve
             elif len(list(convertion_dict[str(stmt.lhs)]['to'])) == 1:
                 # we want cases Pr1 Pr _
                 to = list(convertion_dict[str(stmt.lhs)]['to'])[0]
-                stmt_details_dict[render_var(stmt.lhs,dict())][to] = render_var(stmt.lhs,dict())
+                modify_stmt_details_dict(stmt_details_dict,render_var(stmt.lhs,dict()),to,render_var(stmt.lhs,dict()))
                 # Pr1 = _
                 if convertion_dict[str(stmt.lhs)]['from'] == '_':
                     return f"{lhs} = {apply(to,rhs)}"
@@ -665,44 +602,26 @@ def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],conve
                     # now we can also have it for free to the other share type
                     other = convertion_dict[str(stmt.lhs)]['from']
                     new_key = f"{render_var(stmt.lhs,dict())}_{other}"
-                    
-                    stmt_details_dict[render_var(stmt.lhs,dict())][other] = new_key
+                    modify_stmt_details_dict(stmt_details_dict,render_var(stmt.lhs,dict()),other,new_key)
                     # keep both Pr1 Pr
                     conv = f"{lhs} = {apply(to,rhs)}; {new_key}  = {apply(other,lhs)}"
-                    
                     return conv
             else:
                 # find the explicit convertion
                 basic_stmt = f"{lhs} = {rhs}"
                 if convertion_dict[str(stmt.lhs)]['from'] == '_' and len(convertion_dict[str(stmt.lhs)]['to']) == 2 and len(convertion_dict[str(stmt.lhs)]["convertion_tuple"]) == 0:
                     if isinstance(stmt.rhs,DropDim):
-                        basic_stmt_A = basic_stmt
-                        basic_stmt_B = basic_stmt
-                        print(stmt_details_dict)
-                        for key in stmt_details_dict:
-                            if key in basic_stmt_A and f"_{key}" not in basic_stmt_A:
-                                # replace keys to be in the correct protocol
-                                if stmt_details_dict[key]['A'] is not None:
-                                    print("trying to replace",key,stmt_details_dict[key])
-                                    basic_stmt_A = basic_stmt_A.replace(key,stmt_details_dict[key]['A'])
-
-                            if key in basic_stmt_B and f"_{key}" not in basic_stmt_B:
-                                # replace keys to be in the correct protocol
-                                if stmt_details_dict[key]['B'] is not None:
-                                    basic_stmt_B = basic_stmt_B.replace(key,stmt_details_dict[key]['B'])
+                        basic_stmt_A = replace_variables_in_protocol(stmt_details_dict,basic_stmt,'A')
+                        basic_stmt_B = replace_variables_in_protocol(stmt_details_dict,basic_stmt,'B')
                         key = render_var(stmt.lhs,dict())
-                        stmt_details_dict[key]['A'] = key
-                        stmt_details_dict[key]['A'] = f"{key}_B"
+                        modify_stmt_details_dict(stmt_details_dict,key,'A',key)
+                        modify_stmt_details_dict(stmt_details_dict,key,'B',f"{key}_B")
                         basic_stmt_B = basic_stmt_B.replace(key,f"{key}_B")
                         return f"{basic_stmt_A};{basic_stmt_B}"
                       
                 key = render_var(stmt.lhs,dict())
-                print(convertion_dict[str(stmt.lhs)],stmt)
-                print(stmt_details_dict)
                 ordering = convertion_dict[str(stmt.lhs)]['convertion_tuple'][0]
-                stmt_details_dict[key][ordering[0]] = key
-              
-                # now find the declaration 
+                modify_stmt_details_dict(stmt_details_dict,key,ordering[0], key)
                 new_key = f"{key}_{ordering[1]}"
                 
                 # initialize the new variable
@@ -712,7 +631,6 @@ def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],conve
                     if isinstance(stmt.lhs,Var):
                         raise Exception('No Var can have declaration statement , unless is a vector')
                     current_declaration = stmt_details_dict[key]['declaration'].replace(key,new_key)
-                    # perform the convertion
                     convertion = basic_stmt +"\n" + current_declaration + "\n"
                     convertion += f"for _random_iter in range(0,len({key})):\n"
                     convertion += f"  {new_key}[_random_iter] = {apply(ordering[1],f'{key}[_random_iter]',True)}" 
@@ -722,7 +640,7 @@ def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],conve
                     convertion += f"{new_key} = {apply(ordering[1],f'{key}',True)}"
 
                 # store the variable to the stmt details dict to use it when using protocol 2 for the lhs (1 -> 2)
-                stmt_details_dict[key][ordering[1]] = new_key
+                modify_stmt_details_dict(stmt_details_dict,key,ordering[1], new_key)
                 return convertion
                 
     elif isinstance(stmt, For):
@@ -731,15 +649,6 @@ def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],conve
         bound_high = render_atom(stmt.bound_high, False, dict())
         body = indent(render_mixed_statements(stmt.body, stmt,convertion_dict,stmt_details_dict), "    ")
         exit_phi = render_loop_exit_phi(stmt)
-        print("DOCTOR START")
-        print(
-            f"for {counter} in range({bound_low}, {bound_high}):\n"
-            + f"{body}\n"
-            + "# Loop exit ϕ values\n"
-            + exit_phi
-        )
-        print("DOCTOR FINISH")
-        # exit()
         return (
             f"for {counter} in range({bound_low}, {bound_high}):\n"
             + f"{body}\n"
@@ -757,12 +666,8 @@ def render_mixed_statements(stmts: list[Statement], containing_loop: Optional[Fo
     result_stmts = []
     for stmt in stmts:
         mixed_stmt = render_mixed_statement(stmt, containing_loop,convertion_dict,stmt_details_dict)
-        print("-----------")
-        print(stmt)
-        print(mixed_stmt)
-        print("-----------")
         if hasattr(stmt,'lhs') and str(stmt.lhs) in convertion_dict:
-            conv = convertion_dict[str(stmt.lhs)]
+            pass
         result_stmts.append(mixed_stmt)
     return "\n".join(result_stmts)
 
@@ -815,11 +720,14 @@ def render_shared_array_decls(type_env: TypeEnv) -> str:
 
 def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: bool,mixed_config) -> str:
     
+    # clear the list that holds declarations inside for loops
     global_declarations.clear()
+    # will store all the stmt convertions
     convertion_dict = {}
+    # will keep track of all the variables and the correspoding protocols ( A or B) that they are available
     stmt_details_dict = {}
     
-    # identify the convertions in the mixed config file
+    # identify the convertions in the mixed config file and store them in dict
     for i in range(len(mixed_config.assignments)) :
         convertion_dict[str(mixed_config.assignments[i][0].lhs)] = {
             "from":mixed_config.assignments[i][1],
@@ -836,7 +744,9 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
                     "B":None,
         }
     
-    # initialize the convertions for phi node
+    # initialize the convertions that will be made available in both protocols
+    # example convertion tuple (B-> A) means that the result will be available directly on B
+    # and then a convertion will be applied and stored on A
     for co in convertion_dict:
         key = render_var(co,dict()).split("{")[0]
         
@@ -844,8 +754,8 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
         if len(convertion_tuple) > 0:
             key_from = key
             key_to = f"{key}_{convertion_tuple[0][1]}"
-            stmt_details_dict[key][convertion_tuple[0][1]] = key_to
-            stmt_details_dict[key][convertion_tuple[0][0]] = key_from
+            modify_stmt_details_dict(stmt_details_dict,key,convertion_tuple[0][1], key_to)
+            modify_stmt_details_dict(stmt_details_dict,key,convertion_tuple[0][0], key_from)
     
     # handle plaintext from mixed config
     plaintext_dict = mixed_config.plaintexts
@@ -859,8 +769,6 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
 
     input_convertions = ""
     # Handle multiple inputs in the protocol. In inputs we assume that if they are in {'A','B'} they have allready been passed as 'A'
-
-    # [TODO] check if we need to install here also in case of only one convertion
     for inp in mixed_config.inputs:
         if len(mixed_config.inputs[inp]) == 2:
             small_key = render_var(inp,dict())
@@ -872,15 +780,13 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
             }
             
             input_convertions += f"{new_key} = [ siv32(elem) for elem in {small_key}] if isinstance({small_key}, list) else siv32({small_key})\n    "
-            stmt_details_dict[small_key]['B'] = new_key
+            modify_stmt_details_dict(stmt_details_dict,small_key,'B' , new_key)
   
+    # handle variables that are passed as plaintext inside the programme and the mixer requests them to have a protocol assigned
     for plain in plaintext_dict:
         small_key = render_var(plain,dict())
         new_key = None
         
-        # we only support inputs of one protocol in the plaintext field
-        # [TODO] accept {"var":{A,B}} in future versions
-
         if len(list(plaintext_dict[plain])) == 1 and list(plaintext_dict[plain])[0] == 'B':
             
             # simple types means simple convertion based on type
@@ -915,7 +821,8 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
     params = ", ".join(render_var(param.var, dict()) for param in func.parameters)
     shared_array_decls = indent(render_shared_array_decls(type_env), "    ")
     func_body = indent(render_mixed_statements(func.body, None,convertion_dict,stmt_details_dict), "    ")
-    # func_body = indent(render_statements(func.body, None), "    ")
+    
+    # retrieve the programm flags for X or Y from mixer
     mix_activation = ""
     if 'Y' in mixed_config.flags:
         mix_activation = 'program.use_edabit(True)\n'
@@ -923,7 +830,6 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
         mix_activation = 'program.use_dabit = True\n'
 
     global_declarations_str = "\n    ".join(global_declarations)
-    print(mixed_config)
     return (
         f"{mix_activation}"
         f"def {func.name}({params}):\n"
@@ -966,10 +872,10 @@ def render_load_args(func: Function,mixing: bool = False,mixed_config:Config = C
                 if render_var(mixed_input,dict()) == var:
                     ty = list(mixed_config.inputs[mixed_input])
                     # if it is in multiple protocols pass it in A and convert inside the function
-                    print(ty)
                     if len(ty) !=1:
                         protocol = 'A'
-                    protocol = ty[0]
+                    else:
+                        protocol = ty[0]
                     if protocol == 'B':
                         actual_type = 'sb32'
         if dims == 0:
@@ -1018,7 +924,6 @@ def render_default_arg(arg: Parameter,mixing: bool = False,mixed_config:Config =
         assert dims == 1
         input_vec = f"{var} = {value}\n"
         lift_oper =  f"{var} = _v.lift(lambda indices: {var}[indices[0]], [len({var})])\n"
-        print("here",protocol)
         if protocol == 'B':
             input_vec += f"for _random_iter in range(0,len({var})):\n"
             input_vec += f"     {var}[_random_iter] = sb32({var}[_random_iter])\n"
@@ -1032,7 +937,6 @@ def render_default_args(func: Function,mixing: bool = False,mixed_config:Config 
 
 def render_set_args(func: Function,mixing: bool = False,mixed_config:Config = Config()) -> str:
 
-    
     has_defaults = all(len(arg.default_values) >= 1 for arg in func.parameters)
     
     if has_defaults:
