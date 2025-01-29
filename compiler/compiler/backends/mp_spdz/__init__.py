@@ -490,15 +490,6 @@ def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],conve
                     initial_access = initial_access.replace('sint','sb32')
 
                 initial_access = replace_variables_in_protocol(stmt_details_dict,initial_access,convertion_dict[str(stmt.lhs)]['from'])
-                # Cast it again to B just in case
-                # if it is already B then nothing happens
-                if convertion_dict[str(stmt.lhs)]['from'] == 'B':
-                    key_idx = render_var(stmt.lhs.idx_vars[0],dict())
-                    if key_idx == 'i_1':
-                        return f"{initial_access}; {key} = [siv32({key}[i]) for i in range(len({key}))]"
-                    else:
-                        return f"{initial_access}; {key}[{key_idx}] = siv32({key}[{key_idx}])"
-                    
                 return initial_access
             
             # already in the correct protocol

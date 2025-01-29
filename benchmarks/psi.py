@@ -2,16 +2,16 @@ from UTIL import shared
 
 # returns a list[int] which is the intersection of privite sets of integers A and B
 # requires: no repetition of elements in either A or B
-# requires: len(A) = SA, len(B) = SB
+# requires: len(A) = D, len(B) = R
 # requires: result is an array of 0's len(result) >= min(len(A),len(B))
 def psi(
-    A: shared[list[int]], SA: int, B: shared[list[int]], SB: int, result: shared[list[int]]
+    A: shared[list[int]], D: int, B: shared[list[int]], R: int, result: shared[list[int]]
 ) -> shared[list[int]]:
     #dummy: int = 0
     #result: list[int] = []
-    for i in range(0, SA):
+    for i in range(0, D):
         flag: bool = False
-        for j in range(0, SB):
+        for j in range(0, R):
             if A[i] == B[j]:
                 flag = True
         val: int = result[i]
