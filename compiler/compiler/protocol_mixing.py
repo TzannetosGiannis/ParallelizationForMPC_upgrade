@@ -232,6 +232,13 @@ def populateFlags(config: Config) -> None:
                 config.plaintexts[key].add(v)
                 config.plaintexts[key].remove(k)
 
+    # correct output variables
+    for key in config.outputs.keys():
+        for k, v in replace.items():
+            if k in config.outputs[key]:
+                config.outputs[key].add(v)
+                config.outputs[key].remove(k)
+
 
 
 # function to get the required protocols for every constant
@@ -733,7 +740,7 @@ def subsumes(a: Config, b: Config, loop_depth: int, dep_graph: DepGraph, freeCon
     
     # can't subsume if a is already more expensive than b
     costComparison = b.total_cost - a.total_cost
-    if costComparison < 0:
+    if costComparison <= 0:
         return False
 
     # input conversion cost (b -> a)
@@ -818,7 +825,7 @@ def subsumes(a: Config, b: Config, loop_depth: int, dep_graph: DepGraph, freeCon
                     if costComparison < 0:
                         return False
 
-    if costComparison < 0:
+    if costComparison <= 0:
         return False
     return True
 
@@ -1175,6 +1182,23 @@ def mix(body: list[Statement], dep_graph: DepGraph, trackedVars: set[Var], freeC
     return finalConfigs
 
 
+# return the number of i/o protocols in the given config and the number of conversions
+def getInterfaceSize(c: Config) -> (int, int):
+    i = 0
+    for _, v in c.inputs.items():
+        i += len(v)
+    for _, v in c.constants.items():
+        i += len(v)
+    for _, v in c.plaintexts.items():
+        i += len(v)
+    for _, v in c.outputs.items():
+        i += len(v)
+    conv = 0
+    for _, _, _, _, _, _, v in c.assignments:
+        conv += len(v)
+    return i, conv
+
+
 # run the mixer
 def mix_protocols(filename: str, type_env: TypeEnv, body: list[Statement], dep_graph: DepGraph, backend: Backend, costType: str, spdzProtocol: str = 'semi') -> Config:
     global protocols
@@ -1196,11 +1220,17 @@ def mix_protocols(filename: str, type_env: TypeEnv, body: list[Statement], dep_g
     for protSet in protList:
         protocols = protSet
         mixed += mix(body, dep_graph, trackedVars, directIOVars, debug=False)
-    minCost = float("inf")
+    minCost, minInterface, minConversions = (float("inf"), float("inf"), float("inf"))
     for c in mixed:
-        if c.total_cost < minCost:
+        populateConstantsAndPlaintexts(c, {var for var, t in type_env.items() if
+                                              t.visibility and t.visibility.value == 'plaintext'})
+        interface, conversions = getInterfaceSize(c)
+        if (c.total_cost < minCost or (c.total_cost == minCost and interface < minInterface) or
+                (c.total_cost == minCost and interface == minInterface and conversions < minConversions)):
             best = c
             minCost = c.total_cost
-    populateConstantsAndPlaintexts(best, {var for var, t in type_env.items() if t.visibility and t.visibility.value == 'plaintext'})
+            minInterface = interface
+            minConversions = conversions
+    # populateConstantsAndPlaintexts(best, {var for var, t in type_env.items() if t.visibility and t.visibility.value == 'plaintext'})
     populateFlags(best)
     return best
