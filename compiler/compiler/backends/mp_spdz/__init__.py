@@ -961,10 +961,13 @@ def render_application(
         func_rendered = render_function(func, type_env, ran_vectorization)
     set_args = render_set_args(func,mixing,mixed_config)
     args = render_args(func)
+    
     app_rendered = (
         "from vectorization_library import VectorizationLibrary\n"
         + "_v = VectorizationLibrary(globals())\n"
-        + "from Compiler.util import OR\n"
+        + "#from Compiler.util import OR\n"
+        + "# The reason we comment this out is that OR uses as implementation a + b - a.bit_and(b) which doesnt allow parrallel binary computation on sbitvec([sbit])\n"
+        + "def OR(a,b):\n    return ((a.bit_not()).bit_and(b.bit_not())).bit_not()\n"
         + "\n"
         + "\n"
         + f"{func_rendered}\n"

@@ -71,10 +71,10 @@ trials, loopIters, intSize = (1, 2, 32)
 
 # backends = [Backend.MP_SPDZ]
 # opToCostSymbol = {'or': 'zi_or','and': 'zi_and','not': 'zi_not','^': 'zi_xor'}
-# # opToCostSymbol = {'not': 'zi_not'}
+# opToCostSymbol = {'not': 'zi_not'}
 # vecSizes = [4]
 # trials, loopIters, intSize = (1, 2, 32)
-# spdzTypes = ["A","B"]
+# spdzTypes = ["B"]
 # spdzMix = []
 
 def startSocket():
@@ -332,21 +332,23 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
             code = code.replace('_operation',basic_operation)
         elif symbol in opToCostSymbolCategory4:
             if spdzType == 'A' or spdzType == 'X' or spdzType == 'Y':
-                basic_operation = "c[i] = (a[i]_operator(b[i]))" if symbol.split('_')[1] != 'not' else "c[i] = (a[i]_operator())"
-                basic_operation = basic_operation.replace('_operator',f".bit_{symbol.split('_')[1]}")
+                code = code.replace("sint.Array(len(a))","sintbit.Array(len(a))")
+                if symbol.split('_')[1] == 'or': 
+                    basic_operation = "c[i] = ((a[i].bit_not()).bit_and(b[i].bit_not())).bit_not()"
+                else: 
+                    basic_operation = "c[i] = (a[i]_operator(b[i]))" if symbol.split('_')[1] != 'not' else "c[i] = (a[i]_operator())"
+                    basic_operation = basic_operation.replace('_operator',f".bit_{symbol.split('_')[1]}")
                 code = code.replace('_operation',basic_operation)
                 code = code.replace('sint(i)',"sintbit(0)").replace("sint(i+1)","sintbit(1)")
             else:
-                basic_operation = "c = (a_operator(b))" if symbol.split('_')[1] != 'not' else "c = (a_operator())"
-                basic_operation = basic_operation.replace('_operator',f".bit_{symbol.split('_')[1]}")
+                if symbol.split('_')[1] == 'or': 
+                    basic_operation = "c = ((a.bit_not()).bit_and(b.bit_not())).bit_not()"
+                else:
+                    basic_operation = "c = (a_operator(b))" if symbol.split('_')[1] != 'not' else "c = (a_operator())"
+                    basic_operation = basic_operation.replace('_operator',f".bit_{symbol.split('_')[1]}")
                 code = code.replace('_operation',basic_operation)
                 code = code.replace('sb32(i)',"sbit(0)").replace("sb32(i+1)","sbit(1)")
-                # or is not supported in sbitvec (Only god knows why)
-                if symbol.split('_')[1] != 'or': 
-                    code = code.replace("sbitint.get_type(32)","sbitvec")
-                
-                
-
+                code = code.replace("sbitint.get_type(32)","sbitvec")
         else:
             if symbol == 'zi_mux':
                 if spdzType == 'B':
