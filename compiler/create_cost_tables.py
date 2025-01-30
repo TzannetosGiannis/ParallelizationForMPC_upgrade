@@ -21,15 +21,15 @@ backends = [Backend.MP_SPDZ]
 
 opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt',
   '*': 'zi_mul', 'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor',
-  '>>': 'zi_shr', '-UNARY': 'UNAVAILABLE', '&': 'zi_&', '|': 'zi_|', 'Var': 'UNAVAILABLE', '/': 'zi_div'}
+  '>>': 'zi_shr', '-UNARY': 'UNAVAILABLE', '&': 'zi_&', '|': 'zi_|', 'Var': 'UNAVAILABLE', '/': 'zi_div','not': 'zi_not'}
 
 # MP_SPDZ ==> '*': 'zi_mul' -> too slow in B. Looks like it runs out of memory during runtime
 # MP_SPDZ ==> '>>': 'zi_shr' -> too slow in A. Looks like it runs out of memory during compiletime
 testedOps = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt',
-  'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor', '&': 'zi_&', '|': 'zi_|', '/': 'zi_div'}
+  'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor', '&': 'zi_&', '|': 'zi_|', '/': 'zi_div','not': 'zi_not'}
 opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt',
-  'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor', '&': 'zi_&', '|': 'zi_|', '/': 'zi_div'}
-opToCostSymbol = {'*': 'zi_mul', 'and': 'zi_and', 'or': 'zi_or', '^': 'zi_xor'}
+  'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor', '&': 'zi_&', '|': 'zi_|', '/': 'zi_div','not': 'zi_not'}
+opToCostSymbol = {'*': 'zi_mul', 'and': 'zi_and', 'or': 'zi_or', '^': 'zi_xor','not': 'zi_not'}
 
 spdzTypes = ["A","B","X","Y"]
 spdzMix = ['AB','BA','XB','BX','YB','BY']
@@ -70,10 +70,12 @@ vecSizes = [4]
 trials, loopIters, intSize = (1, 2, 32)
 
 # backends = [Backend.MP_SPDZ]
-# opToCostSymbol = {'*': 'zi_mul'}
+# opToCostSymbol = {'or': 'zi_or','and': 'zi_and','not': 'zi_not','^': 'zi_xor'}
+# # opToCostSymbol = {'not': 'zi_not'}
 # vecSizes = [4]
 # trials, loopIters, intSize = (1, 2, 32)
-# spdzTypes = ["A"]
+# spdzTypes = ["A","B"]
+# spdzMix = []
 
 def startSocket():
     global conn_address, server_address
@@ -269,7 +271,7 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
 
         opToCostSymbolCategory = ['zi_add','zi_sub','zi_mul']
         opToCostSymbolCategory3 = ['zi_rem']
-        opToCostSymbolCategory4 = ['zi_and','zi_or','zi_xor']
+        opToCostSymbolCategory4 = ['zi_and','zi_or','zi_xor','zi_not']
        
         prot = protocol.split("_")[0]
         spdzType = protocol.split("_")[1]
@@ -312,6 +314,11 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
             Y_code = 'program.use_edabit(True)\n'
             code = Y_code + code
         # modify the test compoenents
+        if symbol.split('_')[1] == 'not':
+            code = code.replace("b = ([sint(i+1) for i in range(_vec_size)])","")
+            code = code.replace("b = siv32([sb32(i+1) for i in range(_vec_size)])","")
+            code = code.replace("zi_prot(a, b,","zi_prot(a,")
+
         code = code.replace("_iters",str(iters)).replace('_vec_size',str(vecSize))
         
 
@@ -325,13 +332,19 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
             code = code.replace('_operation',basic_operation)
         elif symbol in opToCostSymbolCategory4:
             if spdzType == 'A' or spdzType == 'X' or spdzType == 'Y':
-                basic_operation = "c[i] = (a[i]_operator(b[i]))"
+                basic_operation = "c[i] = (a[i]_operator(b[i]))" if symbol.split('_')[1] != 'not' else "c[i] = (a[i]_operator())"
                 basic_operation = basic_operation.replace('_operator',f".bit_{symbol.split('_')[1]}")
                 code = code.replace('_operation',basic_operation)
+                code = code.replace('sint(i)',"sintbit(0)").replace("sint(i+1)","sintbit(1)")
             else:
-                basic_operation = "c = (a_operator(b))"
+                basic_operation = "c = (a_operator(b))" if symbol.split('_')[1] != 'not' else "c = (a_operator())"
                 basic_operation = basic_operation.replace('_operator',f".bit_{symbol.split('_')[1]}")
                 code = code.replace('_operation',basic_operation)
+                code = code.replace('sb32(i)',"sbit(0)").replace("sb32(i+1)","sbit(1)")
+                # or is not supported in sbitvec (Only god knows why)
+                if symbol.split('_')[1] != 'or': 
+                    code = code.replace("sbitint.get_type(32)","sbitvec")
+                
                 
 
         else:

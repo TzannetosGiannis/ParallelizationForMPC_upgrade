@@ -1,6 +1,6 @@
 
 
-def zi_prot(a,b,iters):
+def zi_prot(a, b,iters):
     
     c = sint.Array(len(a))
     for l in range(iters):

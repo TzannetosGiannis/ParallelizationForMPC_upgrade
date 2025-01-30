@@ -146,10 +146,8 @@ class VectorizationLibrary:
     ) -> None:
         assert value is not None
         condition = str(type(value)) == "<class 'Compiler.GC.types.sbitvec.get_type.<locals>.sbitvecn'>" and indices[0] == None
-
         indices_full = _expand_vectorized_indices(shape, indices)
         value = _unsimdify(value)
-        print(condition,type(value),len(indices_full),len(value))
         assert len(indices_full) == len(value)
         for value_index, tensor_index in enumerate(indices_full):
             if condition:
