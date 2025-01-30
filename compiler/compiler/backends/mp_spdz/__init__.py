@@ -580,7 +580,7 @@ def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],conve
                 # render atom induces the basic types 
                 # so we need to convert if the type is B
                 if stmt_from == 'B' and "sint" in mixed_stmt:
-                    mixed_stmt = mixed_stmt.replace('sint',"sb32")
+                    mixed_stmt = mixed_stmt.replace('sint',"siv32")
                 return mixed_stmt
             elif len(list(convertion_dict[str(stmt.lhs)]['to'])) == 1:
                 # we want cases Pr1 Pr _
