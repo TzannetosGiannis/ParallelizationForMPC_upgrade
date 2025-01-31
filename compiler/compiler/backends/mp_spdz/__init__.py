@@ -367,7 +367,7 @@ def apply(protocol,someArg,convert=False):
     if protocol == "B" and convert == True:
         return f"sb32({someArg})"
     if protocol == "B" and convert == False:
-        return f"sb32({someArg})"
+        return f"siv32({someArg})"
     elif protocol == "A":
         return f"sint({someArg})"
     else:
@@ -499,7 +499,7 @@ def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],conve
                 
                 # convert
                 if convertion_dict[str(stmt.lhs)]['from'] == 'B':
-                    initial_access = initial_access.replace('sint','sb32')
+                    initial_access = initial_access.replace('sint','siv32')
 
                 initial_access = replace_variables_in_protocol(stmt_details_dict,initial_access,convertion_dict[str(stmt.lhs)]['from'])
                 return initial_access

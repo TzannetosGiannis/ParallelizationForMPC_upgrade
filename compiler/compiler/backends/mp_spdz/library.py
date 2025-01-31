@@ -109,7 +109,10 @@ class VectorizationLibrary:
         if isinstance(first, self._sbit):
             return self._sbitvec(values)
         
-        raise Exception('Unknown vectorized type requested')
+        if isinstance(first,self._sbitvec):
+             return self._sbitintvec([ self._sbits(value) for value in values])
+        
+        raise Exception(type(first))
        
 
     def vectorized_access_simd(
@@ -175,7 +178,7 @@ class VectorizationLibrary:
         zero_index = tuple(0 for _ in dim_sizes)
         first_value = expr(zero_index)
         if isinstance(first_value, (int,self._sbit,self._sbits)) or (
-            isinstance(first_value, (self._sint,self._sintbit)) and first_value.size == 1
+            isinstance(first_value, (self._sint,self._sintbit,self._sbitintvec,self._sbitvec)) and first_value.size == 1
         ):
             
             if isinstance(first_value, int):
