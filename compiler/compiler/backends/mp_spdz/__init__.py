@@ -351,11 +351,23 @@ def apply(protocol,someArg,convert=False):
     if someArg.startswith("_v.drop_dim"):
         return someArg
     if protocol == "B" and someArg.startswith("_v.sbool"):
-        return f"siv32({someArg})"
+        if protocol == 'A':
+            if "False" in someArg:
+                return "sintbit(0)"
+            else:
+                return "sintbit(1)"
+        elif protocol == 'B':
+            if "False" in someArg:
+                return "sbit(0)"
+            else:
+                return "sbit(1)"
+        else:
+            assert_never
+
     if protocol == "B" and convert == True:
         return f"sb32({someArg})"
     if protocol == "B" and convert == False:
-        return f"siv32({someArg})"
+        return f"sb32({someArg})"
     elif protocol == "A":
         return f"sint({someArg})"
     else:
@@ -464,7 +476,7 @@ def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],conve
                     modify_stmt_details_dict(stmt_details_dict,stmt_key,convertion_from[0],stmt_key)
                     initial_mux = replace_variables_in_protocol(stmt_details_dict,initial_mux,convertion_from[0])
                     new_key = f"{stmt_key}_{convertion_to[0]}"
-                    convertor = 'sint' if convertion_to[0] == 'A' else "siv32"
+                    convertor = 'sint' if convertion_to[0] == 'A' else "sb32"
                     convertion_key = render_var(stmt.lhs.idx_vars[0],dict())
                     if convertion_key == 'i_1':
                         converted_mux = f"{new_key} = [{convertor}({stmt_key}[_random_iter]) for _random_iter in range(len({stmt_key}))]" 
@@ -497,10 +509,10 @@ def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],conve
                 stmt_details_dict[key][convertion_to[0]] = key
                 assigned_value = render_vectorized_assign(stmt.lhs, stmt.rhs)
                 assigned_value = replace_variables_in_protocol(stmt_details_dict,assigned_value,convertion_to[0])
-                convertor = "sint" if convertion_to[0] == 'A' else 'siv32'
+                convertor = "sint" if convertion_to[0] == 'A' else 'sb32'
                 # this means that indices have been used for example indices[2] == sint(0)) and thus we need to cast it back to binary 
                 # otherwise it will be sint
-                if convertor == 'siv32' and "sint" in assigned_value:
+                if convertor == 'sb32' and "sint" in assigned_value:
                     assigned_value = f"{assigned_value}; {key} = [ {convertor}({key}[i]) for i in range(len({key}))]"
                 return assigned_value
             else:
@@ -770,7 +782,7 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
                         "B":None,
             }
             
-            input_convertions += f"{new_key} = [ siv32(elem) for elem in {small_key}] if isinstance({small_key}, list) else siv32({small_key})\n    "
+            input_convertions += f"{new_key} = [ sb32(elem) for elem in {small_key}] if isinstance({small_key}, list) else sb32({small_key})\n    "
             modify_stmt_details_dict(stmt_details_dict,small_key,'B' , new_key)
   
     # handle variables that are passed as plaintext inside the programme and the mixer requests them to have a protocol assigned
