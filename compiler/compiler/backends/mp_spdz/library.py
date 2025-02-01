@@ -291,6 +291,15 @@ class VectorizationLibrary:
         sa = self._sint(a) if isinstance(a, int) else a
         sb = self._sint(b) if isinstance(b, int) else b
         return sa.int_div(sb, bit_length=_BIT_LENGTH)
+    
+    def convertion_check(self,element):
+        if isinstance(element,self._sintbit):
+            return self._sbit(element)
+        elif isinstance(element,self._sint):
+            return self._sbitintvec.get_type(32)(element)
+        else:
+            raise Exception(type(element))
+        
 
     # TODO: Cludgy fix for SPDZ Mux (binary)
     def iterative_mux(self, dest_array: list, cond: typing.Union[list,typing.Any],

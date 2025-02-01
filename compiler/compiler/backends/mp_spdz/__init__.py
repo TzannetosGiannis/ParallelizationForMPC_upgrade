@@ -365,7 +365,7 @@ def apply(protocol,someArg,convert=False):
             assert_never
 
     if protocol == "B" and convert == True:
-        return f"sb32({someArg})"
+        return f"_v.convertion_check({someArg})"
     if protocol == "B" and convert == False:
         return f"siv32({someArg})"
     elif protocol == "A":
@@ -779,7 +779,7 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
                         "B":None,
             }
             
-            input_convertions += f"{new_key} = [ sb32(elem) for elem in {small_key}] if isinstance({small_key}, list) else sb32({small_key})\n    "
+            input_convertions += f"{new_key} = [ siv32(elem) for elem in {small_key}] if isinstance({small_key}, list) else siv32({small_key})\n    "
             modify_stmt_details_dict(stmt_details_dict,small_key,'B' , new_key)
   
     # handle variables that are passed as plaintext inside the programme and the mixer requests them to have a protocol assigned
@@ -970,13 +970,12 @@ def render_application(
         func_rendered = render_function(func, type_env, ran_vectorization)
     set_args = render_set_args(func,mixing,mixed_config)
     args = render_args(func)
-    
     app_rendered = (
         "from vectorization_library import VectorizationLibrary\n"
         + "_v = VectorizationLibrary(globals())\n"
         + "#from Compiler.util import OR\n"
         + "# The reason we comment this out is that OR uses as implementation a + b - a.bit_and(b) which doesnt allow parrallel binary computation on sbitvec([sbit])\n"
-        + "def OR(a,b):\n    return ((a.bit_not()).bit_and(b.bit_not())).bit_not()\n"
+        + "def OR(a,b):\n    or_value  = ((a.bit_not()).bit_and(b.bit_not())).bit_not()\n    if type(or_value) == sint:\n        or_value = sintbit(or_value)\n    return or_value"
         + "\n"
         + "\n"
         + f"{func_rendered}\n"
