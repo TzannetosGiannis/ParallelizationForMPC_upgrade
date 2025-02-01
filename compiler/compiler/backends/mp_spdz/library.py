@@ -139,9 +139,18 @@ class VectorizationLibrary:
     ) -> None:
         assert value is not None
         indices_full = _expand_vectorized_indices(shape, indices)
+        
+        # if value per in index is sbitvecn of size 1 then cast to sbit
+        if isinstance(value,self._sbitvec) and value.size == 1:
+            local_bit_length = str(value.elements()[0])[-3:]
+            if local_bit_length == "(1)":
+                value = self._sbit(value)
+            
         value = _unsimdify(value)
+      
         assert len(indices_full) == len(value)
         for value_index, tensor_index in enumerate(indices_full):
+            
             value_elem = value[value_index]
             self.assign_tensor(array, tensor_index, shape, value_elem)
         
@@ -293,4 +302,6 @@ class VectorizationLibrary:
             cond_value = cond[flat_index] if isinstance(cond,list) else cond
             op1_value = op1[flat_index] if isinstance(op1,list) else op1
             op2_value = op2[flat_index] if isinstance(op2,list) else op2
+            if str(type(cond_value)) == "<class 'Compiler.GC.types.sbitint.get_type.<locals>._'>":
+                cond_value = self._sbit(cond_value)
             dest_array[flat_index] = cond_value.if_else(op1_value,op2_value)

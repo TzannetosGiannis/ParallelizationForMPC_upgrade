@@ -509,11 +509,8 @@ def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],conve
                 stmt_details_dict[key][convertion_to[0]] = key
                 assigned_value = render_vectorized_assign(stmt.lhs, stmt.rhs)
                 assigned_value = replace_variables_in_protocol(stmt_details_dict,assigned_value,convertion_to[0])
-                convertor = "sint" if convertion_to[0] == 'A' else 'sb32'
-                # this means that indices have been used for example indices[2] == sint(0)) and thus we need to cast it back to binary 
-                # otherwise it will be sint
-                if convertor == 'sb32' and "sint" in assigned_value:
-                    assigned_value = f"{assigned_value}; {key} = [ {convertor}({key}[i]) for i in range(len({key}))]"
+                if convertion_to[0] == 'B':
+                    assigned_value = assigned_value.replace("sint","siv32")   
                 return assigned_value
             else:
                 # _ {'A','B'} _
