@@ -83,9 +83,9 @@ from os.path import dirname, exists
 Protocol = str # Union['A', 'B', 'Y']
 protocols = {'A', 'B', 'Y'}
 protocolsMotion = [{'A', 'B', 'Y'}]
-# protocolsSPDZ = [{'A', 'B'}, {'X', 'B'}, {'Y', 'B'}]
+protocolsSPDZ = [{'A', 'B'}, {'X', 'B'}, {'Y', 'B'}]
 # protocolsSPDZ = [{'A'}, {'B'}, {'X'}, {'Y'}]
-protocolsSPDZ = [{'A'}]
+# protocolsSPDZ = [{'A'}]
 # protocolsSPDZ = [{'B'}]
 transparent_ops = [LiftExpr, DropDim, VectorizedAccess, Constant] # CHECK IF THIS IS THE FULL LIST
 
