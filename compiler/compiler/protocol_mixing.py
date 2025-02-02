@@ -83,8 +83,10 @@ from os.path import dirname, exists
 Protocol = str # Union['A', 'B', 'Y']
 protocols = {'A', 'B', 'Y'}
 protocolsMotion = [{'A', 'B', 'Y'}]
-protocolsSPDZ = [{'A', 'B'}, {'X', 'B'}, {'Y', 'B'}]
+# protocolsSPDZ = [{'A', 'B'}, {'X', 'B'}, {'Y', 'B'}]
 # protocolsSPDZ = [{'A'}, {'B'}, {'X'}, {'Y'}]
+protocolsSPDZ = [{'A'}]
+# protocolsSPDZ = [{'B'}]
 transparent_ops = [LiftExpr, DropDim, VectorizedAccess, Constant] # CHECK IF THIS IS THE FULL LIST
 
 # conversionSymbols = {'A': {'B': 'zic_a2b', 'Y': 'zic_a2y'}, 'B': {'A': 'zic_b2a', 'Y': 'zic_b2y'}, 'Y': {'A': 'zic_y2a', 'B': 'zic_y2b'}}
@@ -1221,6 +1223,8 @@ def mix_protocols(filename: str, type_env: TypeEnv, body: list[Statement], dep_g
         protocols = protSet
         mixed += mix(body, dep_graph, trackedVars, directIOVars, debug=False)
     minCost, minInterface, minConversions = (float("inf"), float("inf"), float("inf"))
+    if len(mixed) == 0:
+        raise Exception("No valid mix found")
     for c in mixed:
         populateConstantsAndPlaintexts(c, {var for var, t in type_env.items() if
                                               t.visibility and t.visibility.value == 'plaintext'})
