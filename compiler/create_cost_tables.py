@@ -27,9 +27,9 @@ opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', 
 # MP_SPDZ ==> '>>': 'zi_shr' -> too slow in A. Looks like it runs out of memory during compiletime
 testedOps = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt',
   'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor', '&': 'zi_&', '|': 'zi_|', '/': 'zi_div','not': 'zi_not'}
-opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt',
+opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt', '*': 'zi_mul',
   'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor', '&': 'zi_&', '|': 'zi_|', '/': 'zi_div','not': 'zi_not'}
-opToCostSymbol = {'*': 'zi_mul', 'and': 'zi_and', 'or': 'zi_or', '^': 'zi_xor','not': 'zi_not'}
+#opToCostSymbol = {'*': 'zi_mul', 'and': 'zi_and', 'or': 'zi_or', '^': 'zi_xor','not': 'zi_not'}
 
 spdzTypes = ["A","B","X","Y"]
 spdzMix = ['AB','BA','XB','BX','YB','BY']
@@ -44,10 +44,6 @@ server_address = '10.10.1.1'
 
 common_prefix = f'{getcwd()}/../backend_submodules/MP-SPDZ/'
 timestamp = datetime.datetime.strftime(datetime.datetime.now(), '%Y_%m_%d_%H_%M_%S')
-
-
-backends = [Backend.MOTION]
-opToCostSymbol = { 'and': 'zi_and',  'Mux': 'zi_mux', 'or': 'zi_or' }
 
 # '+': 'zi_add' ALL
 # '==': 'zi_eq' NOT ARITHMETIC
@@ -65,17 +61,7 @@ opToCostSymbol = { 'and': 'zi_and',  'Mux': 'zi_mux', 'or': 'zi_or' }
 # '<<': 'zi_shl' NOT AT ALL ==>  error: no match for ‘operator<<’ (operand types are ‘encrypto::motion::SecureUnsignedInteger’ and ‘encrypto::motion::SecureUnsignedInteger’)
 # '^': 'zi_xor' NOT ARITHMETIC
 # ,'>>': 'zi_shr' NOT AT ALL ==>  error: no match for ‘operator>>’ (operand types are ‘encrypto::motion::ShareWrapper’ and ‘encrypto::motion::ShareWrapper’)
-opToCostSymbol = {} 
-vecSizes = [4]
-trials, loopIters, intSize = (1, 2, 32)
 
-# backends = [Backend.MP_SPDZ]
-# opToCostSymbol = {'or': 'zi_or','and': 'zi_and','not': 'zi_not','^': 'zi_xor'}
-# opToCostSymbol = {'not': 'zi_not'}
-# vecSizes = [4]
-# trials, loopIters, intSize = (1, 2, 32)
-# spdzTypes = ["B"]
-# spdzMix = []
 
 def startSocket():
     global conn_address, server_address
