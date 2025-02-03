@@ -476,7 +476,7 @@ def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],conve
                     modify_stmt_details_dict(stmt_details_dict,stmt_key,convertion_from[0],stmt_key)
                     initial_mux = replace_variables_in_protocol(stmt_details_dict,initial_mux,convertion_from[0])
                     new_key = f"{stmt_key}_{convertion_to[0]}"
-                    convertor = 'sint' if convertion_to[0] == 'A' else "sb32"
+                    convertor = 'sint' if convertion_to[0] == 'A' else "siv32"
                     convertion_key = render_var(stmt.lhs.idx_vars[0],dict())
                     if convertion_key == 'i_1':
                         converted_mux = f"{new_key} = [{convertor}({stmt_key}[_random_iter]) for _random_iter in range(len({stmt_key}))]" 
