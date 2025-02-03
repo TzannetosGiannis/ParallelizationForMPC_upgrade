@@ -518,7 +518,7 @@ def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],conve
                 if (len(convertion_dict[str(stmt.lhs)]['convertion_tuple'])  == 1):
                     basic_stmt = render_vectorized_assign(stmt.lhs, stmt.rhs)
                     modify_stmt_details_dict(stmt_details_dict,key,convertion_dict[str(stmt.lhs)]['convertion_tuple'][0][0],key)
-                    basic_stmt = replace_variables_in_protocol(stmt_details_dict,basic_stmt,convertion_dict[str(stmt.lhs)]['from'])
+                    basic_stmt = replace_variables_in_protocol(stmt_details_dict,basic_stmt,convertion_dict[str(stmt.lhs)]['convertion_tuple'][0][0])
                     ordering = convertion_dict[str(stmt.lhs)]['convertion_tuple'][0]
                     if ordering[0] == 'B':
                         basic_stmt = basic_stmt.replace('sint','sb32')
