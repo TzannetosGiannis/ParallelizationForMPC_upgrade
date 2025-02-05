@@ -45,23 +45,46 @@ server_address = '10.10.1.1'
 common_prefix = f'{getcwd()}/../backend_submodules/MP-SPDZ/'
 timestamp = datetime.datetime.strftime(datetime.datetime.now(), '%Y_%m_%d_%H_%M_%S')
 
-# '+': 'zi_add' ALL
-# '==': 'zi_eq' NOT ARITHMETIC
-# '&': 'zi_&' NOT ARITHMETIC
-# '|': 'zi_|' NOT ARITHMETIC
-# '/': 'zi_div' NOT AT ALL
-# '>=': 'zi_ge' NOT AT ALL ==>  error: no match for ‘operator>=’ (operand types are ‘encrypto::motion::ShareWrapper’ and ‘encrypto::motion::ShareWrapper’)
-# '<=': 'zi_le' NOT AT ALL ==>  error: no match for ‘operator<=’ (operand types are ‘encrypto::motion::ShareWrapper’ and ‘encrypto::motion::ShareWrapper’)
-# '>': 'zi_gt'  NOT BOOLEAN AND BMR ==> what():  GreaterThan operation is only supported for arithmetic GMW shares
-# '<': 'zi_lt'  NOT AT ALL ==>  error: no match for ‘operator<’ (operand types are ‘encrypto::motion::ShareWrapper’ and ‘encrypto::motion::ShareWrapper’)
-# '*': 'zi_mul' ALL
-# '-': 'zi_sub' ALL
-# '!=': 'zi_ne' NOT AT ALL ==> error: return type of ‘encrypto::motion::ShareWrapper encrypto::motion::ShareWrapper::operator==(const encrypto::motion::ShareWrapper&) const’ is not ‘bool’
-#  '%': 'zi_rem' NOT AT ALL
-# '<<': 'zi_shl' NOT AT ALL ==>  error: no match for ‘operator<<’ (operand types are ‘encrypto::motion::SecureUnsignedInteger’ and ‘encrypto::motion::SecureUnsignedInteger’)
-# '^': 'zi_xor' NOT ARITHMETIC
-# ,'>>': 'zi_shr' NOT AT ALL ==>  error: no match for ‘operator>>’ (operand types are ‘encrypto::motion::ShareWrapper’ and ‘encrypto::motion::ShareWrapper’)
+# [TODO] test output
+opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt', '*': 'zi_mul',
+  'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor', '&': 'zi_&', '|': 'zi_|', '/': 'zi_div','not': 'zi_not'}
 
+# '+': 'zi_add' ALL (Brandon accepts)
+# '==': 'zi_eq' NOT ARITHMETIC (Brandon accepts)
+# '&': 'zi_&' NOT ARITHMETIC (Brandon accepts)
+# '|': 'zi_|' NOT ARITHMETIC (Brandon accepts)
+# '>': 'zi_gt'  ALL (Brandon accepts and is happy)
+# '>=': 'zi_ge' NOT ARITHMETIC (Brandon accepts)
+# '<': 'zi_lt'  ALL (Brandon accepts and is happy) # maybe use it ???
+# '<=': 'zi_le' NOT ARITHMETIC (Brandon accepts)
+# '*': 'zi_mul' ALL (Brandon accepts)
+# '-': 'zi_sub' ALL (Brandon accepts)
+# '!=':'zi_ne' needs test NOT ARITHMETIC (Brandon accepts)
+# '/': 'zi_div' needs test ALL ?? if yes (Brandon accepts)
+#  '%': 'zi_rem' NOT USED AND NOT IMPLEMENTED IN MOTION ?? (NEED TO CHECK) 
+# '<<': 'zi_shl' NOT USED AND NOT IMPLEMENTED IN MOTION ?? (NEED TO CHECK) 
+# '>>': 'zi_shr' NOT USED AND NOT IMPLEMENTED IN MOTION ?? (NEED TO CHECK) 
+
+
+# STOP HERE TO REFLECT
+# 'Mux': 'zi_mux' 'not': 'zi_not'
+# WE NEED TO MODIFY THOSE OR CHECK
+# '^': 'zi_xor' NOT ARITHMETIC (Brandon accepts)
+# 'and': 'zi_and' BRANDON IS NOT HAPPY WE SHOULD SEE IF IS USED CORRECT AS OF NOW WE USE &
+# 'or': 'zi_or' BRANDON IS NOT HAPPY WE SHOULD SEE IF IS USED CORRECT AS OF NOW WE USE |
+
+
+#[TODO] NEED TO PRINT THE RESULT for the benchmarks
+
+
+
+
+# backends = [Backend.MOTION]
+
+# vecSizes = [4]
+# vecSizesConv = [1]
+
+# opToCostSymbol = {'+': 'zi_add','==': 'zi_eq' ,'&': 'zi_&','|': 'zi_|','>': 'zi_gt','>=': 'zi_ge','<': 'zi_lt','<=': 'zi_le','*': 'zi_mul','-': 'zi_sub','!=':'zi_ne'}
 
 def startSocket():
     global conn_address, server_address
@@ -141,7 +164,8 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
     val = iters * vecSize
     if str(backend) == 'MOTION': 
 
-        category1 = ["zi_add","zi_mul","zi_sub"]
+        category1 = ["zi_add","zi_mul","zi_sub","zi_div"]
+        category2 = ["zi_gt","zi_lt","zi_ge","zi_le","zi_ne","zi_and","zi_or"]
         
         # generate a working directory and move template files there
         
@@ -205,7 +229,37 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
             code = code.replace("_type_to_replace",type1)
             code = code.replace("_operator_to_replace",operator_type1)
             code = code.replace("_operator",operator)
+        elif symbol in category2:
+
+            if symbol == "zi_gt":
+                code = code.replace("_type_to_replace",type2)
+                code = code.replace("_operator_to_replace",operator_type1)
+                code = code.replace("_operator",operator)
+            elif symbol == "zi_lt":
+                code = code.replace("_type_to_replace",type2)
+                code = code.replace("_operator_to_replace","result_C = list_B > list_A;")
+            elif symbol == "zi_ge":
+                code = code.replace("_type_to_replace",type2)
+                operation = "result_C = (list_A > list_B) | (list_A == list_B);"
+                code = code.replace("_operator_to_replace",operation)
+            elif symbol == "zi_le":
+                code = code.replace("_type_to_replace",type2)
+                operation = "result_C = (list_B > list_A) | (list_A == list_B);"
+                code = code.replace("_operator_to_replace",operation)
+            elif symbol == "zi_ne":
+                code = code.replace("_type_to_replace",type2)
+                operation = "result_C = ~(list_A == list_B);"
+                code = code.replace("_operator_to_replace",operation)
+            elif symbol == "zi_and":
+                code = code.replace("_type_to_replace",type2)
+                operation = "result_C = (list_A & list_B);"
+                code = code.replace("_operator_to_replace",operation)
+            elif symbol == "zi_or":
+                code = code.replace("_type_to_replace",type2)
+                operation = "result_C = (list_A | list_B);"
+                code = code.replace("_operator_to_replace",operation)
         else:
+            
             code = code.replace("_type_to_replace",type2)
             code = code.replace("_operator_to_replace",operator_type2)
             code = code.replace("_operator",operator)
