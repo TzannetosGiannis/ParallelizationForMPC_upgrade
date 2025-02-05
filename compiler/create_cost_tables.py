@@ -46,8 +46,8 @@ common_prefix = f'{getcwd()}/../backend_submodules/MP-SPDZ/'
 timestamp = datetime.datetime.strftime(datetime.datetime.now(), '%Y_%m_%d_%H_%M_%S')
 
 # [TODO] test output
-opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt', '*': 'zi_mul',
-  'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor', '&': 'zi_&', '|': 'zi_|', '/': 'zi_div','not': 'zi_not'}
+# opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt', '*': 'zi_mul',
+#   'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor', '&': 'zi_&', '|': 'zi_|', '/': 'zi_div','not': 'zi_not'}
 
 # '+': 'zi_add' ALL (Brandon accepts)
 # '==': 'zi_eq' NOT ARITHMETIC (Brandon accepts)
@@ -584,8 +584,8 @@ def createCostTable():
         for op, sym in opToCostSymbol.items():
             resultsDict[str(backend)][sym] = dict()
             for protocol in backend.valid_protocols():
-                if protocol != 'semi' and str(backend) == 'MP-SPDZ':
-                    continue
+                # if protocol != 'semi' and str(backend) == 'MP-SPDZ':
+                #     continue
                 # if protocol == "ArithmeticGmw" or protocol == "Bmr":
                 #     print("Continue from ",protocol)
                     # continue
@@ -603,8 +603,8 @@ def createCostTable():
         convPossibilities = spdzMix if backend == Backend.MP_SPDZ else backend.valid_protocols()
         # above line needs to be modified for MOTION
         for protocol in backend.valid_protocols():
-            if protocol != 'semi' and str(backend) == 'MP-SPDZ':
-                continue
+            # if protocol != 'semi' and str(backend) == 'MP-SPDZ':
+            #     continue
             for conv in convPossibilities:
                 resultsDict[str(backend)][f"{protocol}_{conv}"] = runBenchmark(backend,f"{protocol}_{conv}", None, None, trials, loopIters, conv=True)
                 printOutputToJSON(resultsDict, log=False, save=True)
@@ -631,8 +631,8 @@ def repairCostTable(tableName="", useLastTable=True):
             if sym not in resultsDict[str(backend)].keys():
                 resultsDict[str(backend)][sym] = dict()
             for protocol in backend.valid_protocols():
-                if protocol != 'semi' and str(backend) == 'MP-SPDZ':
-                    continue
+                # if protocol != 'semi' and str(backend) == 'MP-SPDZ':
+                #     continue
                 if not sym == 'UNAVAILABLE':
                     if backend == Backend.MP_SPDZ:
                         for spdzType in spdzTypes:
@@ -657,8 +657,8 @@ def repairCostTable(tableName="", useLastTable=True):
     # Compute conversion costs
         convPossibilities = spdzMix if backend == Backend.MP_SPDZ else backend.valid_protocols()
         for protocol in backend.valid_protocols():
-            if protocol != 'semi' and str(backend) == 'MP-SPDZ':
-                continue
+            # if protocol != 'semi' and str(backend) == 'MP-SPDZ':
+            #     continue
             for conv in convPossibilities:
                 conv = f"{protocol}_{conv}"
                 if conv in resultsDict[str(backend)].keys():
@@ -691,7 +691,7 @@ def signal_handler(sig, frame):
 signal.signal(signal.SIGINT, signal_handler)
 
 s = startSocket()
-createCostTable()
-# repairCostTable()
+# createCostTable()
+repairCostTable('9999_UPDATED_20ITER_cost_table.txt', useLastTable=False)
 sendCmd('quit')
 s.close()
