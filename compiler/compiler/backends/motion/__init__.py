@@ -220,30 +220,30 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
     for i, const in enumerate(sorted(plaintext_constants, key=lambda c: str(c.value))):
         
         render_key = render_expr(const, render_ctx)
-        
         # Convert keys of mixed_config.constants to str if they are int
         string_constants_keys = {str(k): v for k, v in mixed_config.constants.items()}
 
         # constants in motion need to be in specific protocol
-        for elem in string_constants_keys[str(const.value)]:
-            retrieved_protocol = PROTOCOL_CONVERTIONS[elem]
-            const_declaration = f"{render_datatype(const.datatype, plaintext=False)} {render_key} = party->In<Protocol>({render_expr(const, dt.replace(render_ctx, as_motion_input=True))}, 0);\n"
-            
-            # first time we see this variable
-            if render_key not in stmt_details_dict:
-                stmt_details_dict[render_key] = {
-                    "declaration":var_declaration,
-                    "A":None,
-                    "B":None,
-                    "Y":None,
-                }
-                stmt_details_dict[render_key][elem] = render_key
-            else:
-                new_render_key = render_key+f"_{elem}"
-                stmt_details_dict[render_key][elem] = new_render_key
-                const_declaration = const_declaration.replace(render_key,new_render_key)
-            
-            constant_initialization += const_declaration.replace('Protocol',retrieved_protocol)
+        if str(const.value) in string_constants_keys:
+            for elem in string_constants_keys[str(const.value)]:
+                retrieved_protocol = PROTOCOL_CONVERTIONS[elem]
+                const_declaration = f"{render_datatype(const.datatype, plaintext=False)} {render_key} = party->In<Protocol>({render_expr(const, dt.replace(render_ctx, as_motion_input=True))}, 0);\n"
+                
+                # first time we see this variable
+                if render_key not in stmt_details_dict:
+                    stmt_details_dict[render_key] = {
+                        "declaration":var_declaration,
+                        "A":None,
+                        "B":None,
+                        "Y":None,
+                    }
+                    stmt_details_dict[render_key][elem] = render_key
+                else:
+                    new_render_key = render_key+f"_{elem}"
+                    stmt_details_dict[render_key][elem] = new_render_key
+                    const_declaration = const_declaration.replace(render_key,new_render_key)
+                
+                constant_initialization += const_declaration.replace('Protocol',retrieved_protocol)
 
     plaintext_param_assignments = "// Plaintext parameter assignments\n"
 
