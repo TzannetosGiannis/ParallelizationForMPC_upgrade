@@ -34,8 +34,12 @@ opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', 
 spdzTypes = ["A","B","X","Y"]
 spdzMix = ['AB','BA','XB','BX','YB','BY']
 
-vecSizes = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500, 800, 1000]
-vecSizesConv = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500]
+#vecSizes = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500, 800, 1000]
+#vecSizesConv = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500]
+vecSizes = [1]
+vecSizesConv = [1]
+opToCostSymbol = {'+': 'zi_add'}
+
 # trials, loopIters, intSize = (100, 1000, 32)
 trials, loopIters, intSize = (20, 20, 32)
 port = 12345
@@ -49,29 +53,30 @@ timestamp = datetime.datetime.strftime(datetime.datetime.now(), '%Y_%m_%d_%H_%M_
 # opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt', '*': 'zi_mul',
 #   'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor', '&': 'zi_&', '|': 'zi_|', '/': 'zi_div','not': 'zi_not'}
 
-# '+': 'zi_add' ALL (Brandon accepts)
-# '==': 'zi_eq' NOT ARITHMETIC (Brandon accepts)
-# '&': 'zi_&' NOT ARITHMETIC (Brandon accepts)
-# '|': 'zi_|' NOT ARITHMETIC (Brandon accepts)
-# '>': 'zi_gt'  ALL (Brandon accepts and is happy)
-# '>=': 'zi_ge' NOT ARITHMETIC (Brandon accepts)
-# '<': 'zi_lt'  ALL (Brandon accepts and is happy) # maybe use it ???
-# '<=': 'zi_le' NOT ARITHMETIC (Brandon accepts)
-# '*': 'zi_mul' ALL (Brandon accepts)
-# '-': 'zi_sub' ALL (Brandon accepts)
-# '!=':'zi_ne' needs test NOT ARITHMETIC (Brandon accepts)
-# '/': 'zi_div' needs test ALL ?? if yes (Brandon accepts)
+# Accept them all in this section
+# '+': 'zi_add' ALL (Brandon accepts F)
+# '==': 'zi_eq' NOT ARITHMETIC (Brandon accepts F)
+# '>': 'zi_gt'  ALL (Brandon accepts and is happy F)
+# '>=': 'zi_ge' NOT ARITHMETIC (Brandon accepts F)
+# '<': 'zi_lt'  ALL (Brandon accepts and is happy F) # maybe use it ???
+# '<=': 'zi_le' NOT ARITHMETIC (Brandon accepts F)
+# '*': 'zi_mul' ALL (Brandon accepts F)
+# '-': 'zi_sub' ALL (Brandon accepts F)
+# '!=':'zi_ne'  NOT ARITHMETIC (Brandon accepts F)
+# '^': 'zi_xor' NOT ARITHMETIC (Brandon accepts F)
+# '&': 'zi_&' NOT ARITHMETIC (Brandon accepts F)
+# '|': 'zi_|' NOT ARITHMETIC (Brandon accepts F)
+# 'not': 'zi_not' NOT ARITHMETIC (Brandon accepts F)
+
+# '/': 'zi_div' NOT ARITHMETIC (Brandon accepts ) ==> still need to print results
+
 #  '%': 'zi_rem' NOT USED AND NOT IMPLEMENTED IN MOTION ?? (NEED TO CHECK) 
 # '<<': 'zi_shl' NOT USED AND NOT IMPLEMENTED IN MOTION ?? (NEED TO CHECK) 
 # '>>': 'zi_shr' NOT USED AND NOT IMPLEMENTED IN MOTION ?? (NEED TO CHECK) 
 
 
 # STOP HERE TO REFLECT
-# 'Mux': 'zi_mux' 'not': 'zi_not'
 # WE NEED TO MODIFY THOSE OR CHECK
-# '^': 'zi_xor' NOT ARITHMETIC (Brandon accepts)
-# 'and': 'zi_and' BRANDON IS NOT HAPPY WE SHOULD SEE IF IS USED CORRECT AS OF NOW WE USE &
-# 'or': 'zi_or' BRANDON IS NOT HAPPY WE SHOULD SEE IF IS USED CORRECT AS OF NOW WE USE |
 
 
 #[TODO] NEED TO PRINT THE RESULT for the benchmarks
@@ -79,12 +84,12 @@ timestamp = datetime.datetime.strftime(datetime.datetime.now(), '%Y_%m_%d_%H_%M_
 
 
 
-# backends = [Backend.MOTION]
+backends = [Backend.MOTION]
 
-# vecSizes = [4]
-# vecSizesConv = [1]
-
-# opToCostSymbol = {'+': 'zi_add','==': 'zi_eq' ,'&': 'zi_&','|': 'zi_|','>': 'zi_gt','>=': 'zi_ge','<': 'zi_lt','<=': 'zi_le','*': 'zi_mul','-': 'zi_sub','!=':'zi_ne'}
+vecSizes = [4]
+vecSizesConv = [1]
+trials, loopIters, intSize = (1, 20, 32)
+opToCostSymbol = {'mux': 'zi_mux'}
 
 def startSocket():
     global conn_address, server_address
@@ -165,7 +170,7 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
     if str(backend) == 'MOTION': 
 
         category1 = ["zi_add","zi_mul","zi_sub","zi_div"]
-        category2 = ["zi_gt","zi_lt","zi_ge","zi_le","zi_ne","zi_and","zi_or"]
+        category2 = ["zi_gt","zi_lt","zi_ge","zi_le","zi_ne","zi_and","zi_or","zi_|","zi_&","zi_xor","zi_not","zi_mux"]
         
         # generate a working directory and move template files there
         
@@ -208,11 +213,7 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
             main_code = main_code.replace("_output_type",".As<std::uint32_t>()")
         else:
             main_code = main_code.replace("_output_type","")
-        # save the main file to server side
-        # Open the file in write mode and write the content
-        with open(f'{app_path}/main.cpp', 'w') as f:
-            f.write(main_code)
-
+        
         # retrieve the sample 
         with open(f'{app_path}/template_code.h','r') as f:
             code = f.read()
@@ -250,16 +251,65 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
                 code = code.replace("_type_to_replace",type2)
                 operation = "result_C = ~(list_A == list_B);"
                 code = code.replace("_operator_to_replace",operation)
-            elif symbol == "zi_and":
-                code = code.replace("_type_to_replace",type2)
-                operation = "result_C = (list_A & list_B);"
+            elif symbol == "zi_&":
+                code = code.replace("_type_to_replace",type1)
+                operation = "result_C = (list_A.Get() & list_B.Get());"
                 code = code.replace("_operator_to_replace",operation)
-            elif symbol == "zi_or":
-                code = code.replace("_type_to_replace",type2)
-                operation = "result_C = (list_A | list_B);"
+            elif symbol == "zi_|":
+                code = code.replace("_type_to_replace",type1)
+                operation = "result_C = (list_A.Get() | list_B.Get());"
                 code = code.replace("_operator_to_replace",operation)
-        else:
+            elif symbol == "zi_and" or symbol == "zi_or" or symbol == "zi_xor":
+                replace_symbols = {"zi_and":"&", "zi_or":"|","zi_xor":"^"}
+                code = code.replace("_type_to_replace",type1)
+                code = code.replace("encrypto::motion::SecureUnsignedInteger","encrypto::motion::ShareWrapper")
+                operation = f"result_C = (list_A {replace_symbols[symbol]} list_B);"
+                code = code.replace("_operator_to_replace",operation)
+
+                # declarations on main
+                main_code = main_code.replace("encrypto::motion::SecureUnsignedInteger A;","encrypto::motion::ShareWrapper A;")
+                main_code = main_code.replace("std::vector<std::uint32_t> list_A","std::vector<std::uint8_t> list_A")
+                main_code = main_code.replace("encrypto::motion::SecureUnsignedInteger B;","encrypto::motion::ShareWrapper B;")
+                main_code = main_code.replace("std::vector<std::uint32_t> list_B","std::vector<std::uint8_t> list_B")
+
+                # input in 0 1
+                main_code = main_code.replace("list_A.push_back(i);","list_A.push_back(0);")
+                main_code = main_code.replace("list_B.push_back(i);","list_B.push_back(1);")
             
+            elif symbol == "zi_not":
+            
+                code = code.replace("_type_to_replace",type1)
+                code = code.replace("encrypto::motion::SecureUnsignedInteger","encrypto::motion::ShareWrapper")
+
+                operation = f"result_C = ~(list_A);"
+                code = code.replace("_operator_to_replace",operation)
+                code = code.replace("encrypto::motion::ShareWrapper list_B","").replace("encrypto::motion::ShareWrapper list_A,","encrypto::motion::ShareWrapper list_A")
+
+
+                # declarations on main
+                main_code = main_code.replace("encrypto::motion::SecureUnsignedInteger A;","encrypto::motion::ShareWrapper A;")
+                main_code = main_code.replace("std::vector<std::uint32_t> list_A","std::vector<std::uint8_t> list_A")
+                main_code = main_code.replace("encrypto::motion::SecureUnsignedInteger B;","")
+                main_code = main_code.replace("std::vector<std::uint32_t> list_B;","")
+                main_code = main_code.replace("B = party->In<encrypto::motion::MpcProtocol::kArithmeticGmw>(list_B,1);","")
+                main_code = main_code.replace("B = party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::ToInput(list_B),1);","")
+                main_code = main_code.replace("B = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(list_B),1);","")
+                main_code = main_code.replace("template_code(party, A, B);","template_code(party, A);")
+
+
+                # input in 0 1
+                main_code = main_code.replace("list_A.push_back(i);","list_A.push_back(0);")
+                main_code = main_code.replace("list_B.push_back(i);","")
+
+            elif symbol == "zi_mux":
+                code = code.replace("_type_to_replace",type1)
+                code = code.replace("encrypto::motion::SecureUnsignedInteger result_C;","encrypto::motion::SecureUnsignedInteger result_C; encrypto::motion::ShareWrapper comp = (list_A > list_B);")
+                operation = f"result_C = comp.Mux(list_A.Get(),list_B.Get());"
+                code = code.replace("_operator_to_replace",operation)
+    
+        
+        else:
+            raise Exception("Dont go here")
             code = code.replace("_type_to_replace",type2)
             code = code.replace("_operator_to_replace",operator_type2)
             code = code.replace("_operator",operator)
@@ -268,6 +318,11 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
         with open(f'{app_path}/template_code.h','w') as f:
             f.write(code)
 
+
+        # save the main file to server side
+        # Open the file in write mode and write the content
+        with open(f'{app_path}/main.cpp', 'w') as f:
+            f.write(main_code)
 
         # Tranfer the code 
         dummy_template_filename = f'MOTION_code.cpp'
@@ -536,7 +591,8 @@ def runBenchmark(backend, protocol, operator, symbol, trials, loopIters, conv=Fa
                 statsMultiList.append(runTrial(codeMultiIter,backend,protocol))
             except SystemExit:
                 sys.exit(1)
-            except:
+            except Exception as e:
+                print(e)
                 totalFails += 1
                 if totalFails > 10:
                     break
@@ -691,7 +747,7 @@ def signal_handler(sig, frame):
 signal.signal(signal.SIGINT, signal_handler)
 
 s = startSocket()
-# createCostTable()
-repairCostTable('9999_UPDATED_20ITER_cost_table.txt', useLastTable=False)
+createCostTable()
+# repairCostTable('2025_02_06_15_34_29_cost_table.txt', useLastTable=False)
 sendCmd('quit')
 s.close()
