@@ -91,7 +91,7 @@ def run_benchmark(
         )
 
         subprocess.run(
-            ["cmake", "--build", os.path.join(app_path, "build")],
+            ["cmake", "--build", os.path.join(app_path, "build"),"-j8"],
             check=True,
         )
 
