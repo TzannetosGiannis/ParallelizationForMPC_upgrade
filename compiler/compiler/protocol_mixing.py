@@ -88,6 +88,7 @@ protocolsSPDZ = [{'A', 'B'}, {'X', 'B'}, {'Y', 'B'}]
 # protocolsSPDZ = [{'A'}]
 # protocolsSPDZ = [{'B'}]
 transparent_ops = [LiftExpr, DropDim, VectorizedAccess, Constant] # CHECK IF THIS IS THE FULL LIST
+runningSpdz = None
 
 # conversionSymbols = {'A': {'B': 'zic_a2b', 'Y': 'zic_a2y'}, 'B': {'A': 'zic_b2a', 'Y': 'zic_b2y'}, 'Y': {'A': 'zic_y2a', 'B': 'zic_y2b'}}
 # TODO CHECK IF THESE ARE ALL ZERO COST. ESPECIALLY CONSTANT and VectorizedAccess
@@ -673,7 +674,9 @@ def assign_seq(seq: list[Statement], dep_graph: DepGraph, trackedVars: set[Var],
 
     # base case
     if len(seq) == 0:
-        return [Config('X' if 'X' in protocols else ('Y' if 'Y' in protocols else None))]
+        if runningSpdz:
+            return [Config('X' if 'X' in protocols else ('Y' if 'Y' in protocols else None))]
+        return [Config()]
 
     # tail recursion
     tail = assign_seq(seq[1:], dep_graph, trackedVars, loop_depth, loopNestCount)
@@ -1203,7 +1206,8 @@ def getInterfaceSize(c: Config) -> (int, int):
 
 # run the mixer
 def mix_protocols(filename: str, type_env: TypeEnv, body: list[Statement], dep_graph: DepGraph, backend: Backend, costType: str, spdzProtocol: str = 'semi') -> Config:
-    global protocols
+    global protocols, runningSpdz
+    runningSpdz = True if backend == Backend.Backend.MP_SPDZ else False
     if costType not in {'time', 'dataSent', 'commRounds'}:
         raise Exception('Unknown cost type provided to protocol_mixing.py')
     targetCostFile = '/../Cost_Tables/'
@@ -1236,5 +1240,6 @@ def mix_protocols(filename: str, type_env: TypeEnv, body: list[Statement], dep_g
             minInterface = interface
             minConversions = conversions
     # populateConstantsAndPlaintexts(best, {var for var, t in type_env.items() if t.visibility and t.visibility.value == 'plaintext'})
-    populateFlags(best)
+    if runningSpdz:
+        populateFlags(best)
     return best
