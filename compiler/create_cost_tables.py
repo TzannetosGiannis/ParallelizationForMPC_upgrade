@@ -36,9 +36,6 @@ spdzMix = ['AB','BA','XB','BX','YB','BY']
 
 #vecSizes = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500, 800, 1000]
 #vecSizesConv = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500]
-vecSizes = [1]
-vecSizesConv = [1]
-opToCostSymbol = {'+': 'zi_add'}
 
 # trials, loopIters, intSize = (100, 1000, 32)
 trials, loopIters, intSize = (20, 20, 32)
@@ -347,14 +344,14 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
 
         # Build
         subprocess.run(
-            ["cmake", "--build", path.join(app_path, "build")],
+            ["cmake", "--build", path.join(app_path, "build"),"-j8"],
             check=True,
         )
 
         # Compile on clients end
         client_path = f"/opt/ParallelizationForMPC_upgrade/compiler/client_motion_{iters}"
         command1 = f"cmake -S {client_path} -B {path.join(client_path,'build')}"
-        command2 = f"cmake --build {path.join(client_path,'build')}"
+        command2 = f"cmake --build {path.join(client_path,'build')} -j8"
         sendCmd(f"execute sudo {command1}")
         sendCmd(f"execute sudo {command2}")
         
@@ -487,7 +484,7 @@ def runTrial(codeName,backend,protocol):
         iters = nameComponents[len(nameComponents)-1]
         app_path = f"/opt/ParallelizationForMPC_upgrade/compiler/dummy_MOTION_{iters}/build/template_code"
         client_path = f"/opt/ParallelizationForMPC_upgrade/compiler/{codeName}/build/template_code"
-        p = subprocess.Popen([app_path,"--my-id","0", "--parties", f"0,{server_address},23000",f"1,{conn_address}23001"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,)
+        p = subprocess.Popen(["sudo",app_path,"--my-id","0", "--parties", f"0,{server_address},23000",f"1,{conn_address},23001"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,)
         sendCmd(f'execute sudo {client_path} --my-id 1 --parties 0,{server_address},23000 1,{conn_address},23001')
 
         try:
@@ -747,7 +744,7 @@ def signal_handler(sig, frame):
 signal.signal(signal.SIGINT, signal_handler)
 
 s = startSocket()
-createCostTable()
-# repairCostTable('2025_02_06_15_34_29_cost_table.txt', useLastTable=False)
+# createCostTable()
+repairCostTable('9999_UPDATED_20ITER_cost_table.txt', useLastTable=False)
 sendCmd('quit')
 s.close()
