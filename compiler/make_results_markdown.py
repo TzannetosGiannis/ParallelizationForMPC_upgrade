@@ -316,7 +316,11 @@ def build_spdz_benchmark_tables() -> str:
         for test_case_dir in test_case_dirs:
             for vectorized in (True, False):
                 data = spdz_run_benchmark(
-                    test_case_dir.name, test_case_dir.path, protocol, vectorized
+                    benchmark_name=test_case_dir.name, 
+                    benchmark_path=test_case_dir.path,
+                    protocol=protocol, 
+                    vectorized=vectorized,
+                    mixed=False
                 )
 
                 table += "|"
@@ -334,20 +338,27 @@ def build_spdz_benchmark_tables() -> str:
             # [TODO] those are bypassed rue to overflow
             if protocol == 'mascot' and ( test_case_dir.name == 'psi' or  test_case_dir.name == 'minimal_points' or test_case_dir.name == 'longest_odd_10' or test_case_dir.name == 'longest_odd' or test_case_dir.name == 'count_102' or test_case_dir.name == 'longest_102' or test_case_dir.name == 'count_123' or test_case_dir.name == 'count_10s' or test_case_dir.name == 'convex_hull'):
                 continue
-            data = spdz_run_benchmark(
-                    test_case_dir.name, test_case_dir.path, protocol, True, mixed = True
+            
+            executions = [("X",False,["-X"]),("Y",False,["-Y"]),("mixed",True,[])]
+            for exec in executions:
+                data = spdz_run_benchmark(
+                        benchmark_name=test_case_dir.name, 
+                        benchmark_path=test_case_dir.path, 
+                        protocol=protocol, 
+                        vectorized=True, 
+                        mixed = exec[1],
+                        additional_flags=exec[2]
                 )
-
-            table += "|"
-            table += (
-                test_case_dir.name
-                + " mixed"
-                + "|"
-            )
-            table += str(data.time_seconds) + "|"
-            table += str(data.data_sent_mb) + "|"
-            table += str(data.communication_rounds) + "|"
-            table += "\n"
+                table += "|"
+                table += (
+                    test_case_dir.name
+                    + f" {exec[0]}"
+                    + "|"
+                )
+                table += str(data.time_seconds) + "|"
+                table += str(data.data_sent_mb) + "|"
+                table += str(data.communication_rounds) + "|"
+                table += "\n"
 
 
     return table
@@ -479,17 +490,21 @@ def main():
         md += f"```python\n{loop_linear_code}\n```\n"
 
         for backend in Backend:
-            mixed_protocols = None
             if backend is Backend.MOTION:
                 lang = "cpp"
-                mixed_protocols = {'A','B','Y'}
             elif backend is Backend.MP_SPDZ:
                 lang = "py"
-                mixed_protocols = {'A','B'}
             else:
                 lang = ""
 
-            mixed_config = compiler.mix_protocols(f"{test_case_dir.name}.py", type_env, loop_linear_code.body, dep_graph, mixed_protocols)
+            mixed_config = compiler.mix_protocols(
+                filename=f"{test_case_dir.name}.py", 
+                type_env=type_env, 
+                body=loop_linear_code.body, 
+                dep_graph=dep_graph, 
+                backend=backend,
+                costType="time", #[TODO] iterate thought the metrics and print in gh-pages
+                )
             md += f"#### {backend} mixed configuration\n"
             md += f"```{ mixed_config }\n```\n"
             
