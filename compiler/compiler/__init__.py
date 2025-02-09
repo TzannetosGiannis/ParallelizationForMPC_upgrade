@@ -30,6 +30,7 @@ def compile(
     overwrite_out_dir: bool = False,
     protocol="",
     mixing: bool = False,
+    protocolsSPDZ = [{'A', 'B'}, {'X', 'B'}, {'Y', 'B'}]
 ):
     try:
         ast_module = ast.parse(text, filename=filename)
@@ -123,7 +124,7 @@ def compile(
         print()
 
     if mixing:
-        mixed_config = mix_protocols(filename, type_env, linear.body, dep_graph, backend, costType)
+        mixed_config = mix_protocols(filename, type_env, linear.body, dep_graph, backend, costType, SPDZ_protocols=protocolsSPDZ)
         if not quiet:
             print("Protocol Mixing Assignments:")
             print(mixed_config)

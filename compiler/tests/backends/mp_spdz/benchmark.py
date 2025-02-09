@@ -102,7 +102,7 @@ def bmr_workaround() -> None:
 
 
 def set_up_spdz_compile(
-    benchmark_name: str, benchmark_path: str, vectorized: bool, mixed: bool
+    benchmark_name: str, benchmark_path: str, vectorized: bool, mixed: bool, protocolsSPDZ = [{'A', 'B'}, {'X', 'B'}, {'Y', 'B'}]
 ) -> str:
     input_fname = os.path.join(benchmark_path, "input.py")
 
@@ -122,7 +122,8 @@ def set_up_spdz_compile(
         out_dir=app_path,
         overwrite_out_dir=True,
         protocol=None,
-        mixing=mixed
+        mixing=mixed,
+        protocolsSPDZ=protocolsSPDZ
     )
     
     # Copy vectorization library so compiled programs can use it
@@ -143,15 +144,21 @@ def set_up_spdz_compile(
 
 
 def _get_compile_stats_common(
-    benchmark_name: str, benchmark_path: str, binary: Optional[int], vectorized: bool, mixed: bool
+    benchmark_name: str, benchmark_path: str, binary: Optional[int], vectorized: bool, mixed: bool,protocolsSPDZ = [{'A', 'B'}, {'X', 'B'}, {'Y', 'B'}]
 ) -> tuple[float, str]:
-    set_up_spdz_compile(benchmark_name, benchmark_path, vectorized,mixed)
+    set_up_spdz_compile(
+        benchmark_name=benchmark_name,
+        benchmark_path=benchmark_path, 
+        vectorized=vectorized,
+        mixed=mixed,
+        protocolsSPDZ=protocolsSPDZ
+    )
     mpc_file = get_mpc_file_name(benchmark_name, vectorized,mixed)
     submodule_path = Backend.MP_SPDZ.submodule_path()
 
     start_time = time()
     p = subprocess.Popen(
-        ["./compile.py", mpc_file] + ([] if binary is None else ["-B", str(binary)]),
+        ["./compile.py", mpc_file], # + ([] if binary is None else ["-B", str(binary)]) we dont need this anymore since we can produce B code
         cwd=submodule_path,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
@@ -197,7 +204,10 @@ def get_compile_stats_bin(
         benchmark_path=benchmark_path,
         binary=binary,
         vectorized=vectorized,
-        mixed=False
+        mixed=True,
+        protocolsSPDZ=[{'B'}]
+        
+
     )
     return CompileStatsBin(time=compile_time, stdout=stdout)
 
@@ -207,10 +217,12 @@ def run_benchmark(
     protocol: str,
     vectorized=True,
     timeout=60 * 60,
-    mixed=False
+    mixed=False,
+    additional_flags=[],
+    protocolsSPDZ = [{'A', 'B'}, {'X', 'B'}, {'Y', 'B'}]
 ) -> BenchmarkOutput:
 
-    set_up_spdz_compile(benchmark_name, benchmark_path, vectorized,mixed)
+    set_up_spdz_compile(benchmark_name, benchmark_path, vectorized,mixed,protocolsSPDZ)
     mpc_file = get_mpc_file_name(benchmark_name, vectorized,mixed)
     submodule_path = Backend.MP_SPDZ.submodule_path()
 
@@ -242,9 +254,9 @@ def run_benchmark(
     compile_time = end_time - start_time
     print("COMPILE TIME --- %s seconds ---" % compile_time)
     # End of compile time status
-    
+    print("tzannnn",["Scripts/compile-run.py", "-v", "-E", protocol, mpc_file," ".join(additional_flags)])
     p = subprocess.Popen(
-        ["Scripts/compile-run.py", "-v", "-E", protocol, mpc_file],
+        ["Scripts/compile-run.py", "-v", "-E", protocol, mpc_file," ".join(additional_flags)],
         cwd=submodule_path,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,

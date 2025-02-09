@@ -274,9 +274,13 @@ def build_spdz_benchmark_tables() -> str:
     table += "| Benchmark | Compile time (seconds) | # bit triples | # VM rounds |\n"
     table += "| - | - | - | - |\n"
     for test_case_dir in test_case_dirs:
-        for vectorized in (True, False):
+        # [TODO] now the we produce B code through mixer we cannot create without vectorized (binary only)
+        for vectorized in [True]:
             data = spdz_get_compile_stats_bin(
-                test_case_dir.name, test_case_dir.path, vectorized, binary
+                benchmark_name=test_case_dir.name,
+                benchmark_path=test_case_dir.path, 
+                vectorized=vectorized, 
+                binary=binary
             )
             table += "|"
             table += (
@@ -314,7 +318,7 @@ def build_spdz_benchmark_tables() -> str:
         table += "| - | - | - | - |\n"
 
         for test_case_dir in test_case_dirs:
-            for vectorized in (True, False):
+            for vectorized in (False, True):
                 data = spdz_run_benchmark(
                     benchmark_name=test_case_dir.name, 
                     benchmark_path=test_case_dir.path,
@@ -326,7 +330,7 @@ def build_spdz_benchmark_tables() -> str:
                 table += "|"
                 table += (
                     test_case_dir.name
-                    + (" (Non-Vectorized)" if not vectorized else "")
+                    + (" (Non-Vectorized) A" if not vectorized else " A")
                     + "|"
                 )
                 table += str(data.time_seconds) + "|"
@@ -339,15 +343,16 @@ def build_spdz_benchmark_tables() -> str:
             if protocol == 'mascot' and ( test_case_dir.name == 'psi' or  test_case_dir.name == 'minimal_points' or test_case_dir.name == 'longest_odd_10' or test_case_dir.name == 'longest_odd' or test_case_dir.name == 'count_102' or test_case_dir.name == 'longest_102' or test_case_dir.name == 'count_123' or test_case_dir.name == 'count_10s' or test_case_dir.name == 'convex_hull'):
                 continue
             
-            executions = [("X",False,["-X"]),("Y",False,["-Y"]),("mixed",True,[])]
+            executions = [("B",True,[],[{'B'}]),("X",False,["-X"],None),("Y",False,["-Y"],None),("mixed",True,[],[{'A', 'B'}, {'X', 'B'}, {'Y', 'B'}])]
             for exec in executions:
                 data = spdz_run_benchmark(
                         benchmark_name=test_case_dir.name, 
                         benchmark_path=test_case_dir.path, 
                         protocol=protocol, 
                         vectorized=True, 
-                        mixed = exec[1],
-                        additional_flags=exec[2]
+                        mixed=exec[1],
+                        additional_flags=exec[2],
+                        protocolsSPDZ=exec[3]
                 )
                 table += "|"
                 table += (
@@ -488,7 +493,7 @@ def main():
         )
         md += "#### Common subexpression elimination\n"
         md += f"```python\n{loop_linear_code}\n```\n"
-
+        protocolsSPDZ = [{'A', 'B'}, {'X', 'B'}, {'Y', 'B'}]
         for backend in Backend:
             if backend is Backend.MOTION:
                 lang = "cpp"
@@ -504,7 +509,8 @@ def main():
                 dep_graph=dep_graph, 
                 backend=backend,
                 costType="time", #[TODO] iterate thought the metrics and print in gh-pages
-                )
+                SPDZ_protocols=protocolsSPDZ
+            )
             md += f"#### {backend} mixed configuration\n"
             md += f"```{ mixed_config }\n```\n"
             
