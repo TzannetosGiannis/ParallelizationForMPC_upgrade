@@ -18,6 +18,7 @@ def parse(pattern: str,text: str) -> tuple[str, ...]:
 
 #backends = [Backend.MOTION, Backend.MP_SPDZ]
 backends = [Backend.MP_SPDZ]
+# backends = [Backend.MOTION]
 
 opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt',
   '*': 'zi_mul', 'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor',
@@ -34,8 +35,8 @@ opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', 
 spdzTypes = ["A","B","X","Y"]
 spdzMix = ['AB','BA','XB','BX','YB','BY']
 
-#vecSizes = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500, 800, 1000]
-#vecSizesConv = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500]
+vecSizes = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500, 800, 1000]
+vecSizesConv = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500]
 
 # trials, loopIters, intSize = (100, 1000, 32)
 trials, loopIters, intSize = (20, 20, 32)
@@ -47,8 +48,9 @@ common_prefix = f'{getcwd()}/../backend_submodules/MP-SPDZ/'
 timestamp = datetime.datetime.strftime(datetime.datetime.now(), '%Y_%m_%d_%H_%M_%S')
 
 # [TODO] test output
-# opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt', '*': 'zi_mul',
-#   'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor', '&': 'zi_&', '|': 'zi_|', '/': 'zi_div','not': 'zi_not'}
+opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt', '*': 'zi_mul',
+  'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '-': 'zi_sub', '^': 'zi_xor', '&': 'zi_&', '|': 'zi_|', '/': 'zi_div','not': 'zi_not'}
+# opToCostSymbol = {'+': 'zi_add'}
 
 # Accept them all in this section
 # '+': 'zi_add' ALL (Brandon accepts F)
@@ -81,13 +83,11 @@ timestamp = datetime.datetime.strftime(datetime.datetime.now(), '%Y_%m_%d_%H_%M_
 
 
 
-backends = [Backend.MOTION]
-
-vecSizes = [4]
-vecSizesConv = [1]
-trials, loopIters, intSize = (1, 20, 32)
-opToCostSymbol = {'mux': 'zi_mux'}
-
+# backends = [Backend.MOTION]
+# vecSizes = [4]
+# vecSizesConv = [1]
+# trials, loopIters, intSize = (1, 2, 32)
+# opToCostSymbol = {'+': 'zi_add'}
 def startSocket():
     global conn_address, server_address
     sock = socket.socket()
@@ -360,41 +360,17 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
     elif str(backend) == 'MP-SPDZ':
         
         
-
-        opToCostSymbolCategory = ['zi_add','zi_sub','zi_mul']
-        opToCostSymbolCategory3 = ['zi_rem']
-        opToCostSymbolCategory4 = ['zi_and','zi_or','zi_xor','zi_not']
-       
-        prot = protocol.split("_")[0]
+        opToCostSymbolCategoryUnary = ['zi_rem',"zi_not"]
+        opToCostSymbolCategoryLogical = ['zi_and','zi_or','zi_xor']
         spdzType = protocol.split("_")[1]
         
-        if symbol in opToCostSymbolCategory:
-            if spdzType == 'A' or spdzType == 'X' or spdzType == 'Y':
-                actualPrototype = 'protocol_arithmetic'
-            elif spdzType == 'B':
-                actualPrototype = 'protocol_binary'
-            else:
-                raise TypeError("This is a type error")
-        elif symbol in opToCostSymbolCategory3:
-            if spdzType == 'A' or spdzType == 'X' or spdzType == 'Y':
-                actualPrototype = 'protocol_3_arithmetic'
-            elif spdzType == 'B':
-                # Just letting this here , but anyways the execution will fail
-                actualPrototype = 'protocol_binary'
-            else:
-                raise TypeError("This is a type error")
+        if symbol in opToCostSymbolCategoryUnary:
+            actualPrototype = 'protocol_unary'
         else:
-            if spdzType == 'A' or spdzType == 'X' or spdzType == 'Y':
-                actualPrototype = 'protocol_2_arithmetic'
-            elif spdzType == 'B':
-                actualPrototype = 'protocol_binary'
-            else:
-                raise TypeError("This is a type error")
-    
-     
+            actualPrototype = 'protocol'
+            
         dummy_filename = f'protocol2_{iters}.mpc'
 
-        
         # retrieve the sample 
         with open(f'./mpc_samples/{backend}/{actualPrototype}.mpc','r') as f:
             code = f.read()
@@ -405,58 +381,53 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
         if spdzType == 'Y':
             Y_code = 'program.use_edabit(True)\n'
             code = Y_code + code
-        # modify the test compoenents
-        if symbol.split('_')[1] == 'not':
-            code = code.replace("b = ([sint(i+1) for i in range(_vec_size)])","")
-            code = code.replace("b = siv32([sb32(i+1) for i in range(_vec_size)])","")
-            code = code.replace("zi_prot(a, b,","zi_prot(a,")
-
+        
+        if spdzType in {'X','Y','A'}:
+            code = code.replace("_inside","")
+            code = code.replace("_outside","sint")
+        elif spdzType == 'B':
+            additional_types = "siv32 = sbitint.get_type(32)\nsb32 = sbits.get_type(32)\n"
+            code = additional_types + code
+            code = code.replace("_inside","sb32")
+            code = code.replace("_outside","siv32")
+        
+        
         code = code.replace("_iters",str(iters)).replace('_vec_size',str(vecSize))
         
 
-        if symbol in opToCostSymbolCategory:
-            basic_operation = "c = (a _operator b)"
-            basic_operation = basic_operation.replace('_operator',operator)
-            code = code.replace("_operation",basic_operation)
-        elif symbol in opToCostSymbolCategory3:
-            basic_operation = "c[i] = (a[i] _operator 2)"
+        
+        if symbol in opToCostSymbolCategoryUnary:
+            if symbol == 'zi_rem':
+                basic_operation = "c = (a _operator 2)"
+            elif symbol == "zi_not":
+                basic_operation = "c = (a.bit_not())"
+            else:
+                raise Exception("Not possible to reach this place currently")
             basic_operation = basic_operation.replace('_operator',operator)
             code = code.replace('_operation',basic_operation)
-        elif symbol in opToCostSymbolCategory4:
-            if spdzType == 'A' or spdzType == 'X' or spdzType == 'Y':
-                code = code.replace("sint.Array(len(a))","sintbit.Array(len(a))")
-                if symbol.split('_')[1] == 'or': 
-                    basic_operation = "c[i] = ((a[i].bit_not()).bit_and(b[i].bit_not())).bit_not()"
-                else: 
-                    basic_operation = "c[i] = (a[i]_operator(b[i]))" if symbol.split('_')[1] != 'not' else "c[i] = (a[i]_operator())"
-                    basic_operation = basic_operation.replace('_operator',f".bit_{symbol.split('_')[1]}")
-                code = code.replace('_operation',basic_operation)
-                code = code.replace('sint(i)',"sintbit(0)").replace("sint(i+1)","sintbit(1)")
-            else:
-                if symbol.split('_')[1] == 'or': 
-                    basic_operation = "c = ((a.bit_not()).bit_and(b.bit_not())).bit_not()"
-                else:
-                    basic_operation = "c = (a_operator(b))" if symbol.split('_')[1] != 'not' else "c = (a_operator())"
-                    basic_operation = basic_operation.replace('_operator',f".bit_{symbol.split('_')[1]}")
-                code = code.replace('_operation',basic_operation)
-                code = code.replace('sb32(i)',"sbit(0)").replace("sb32(i+1)","sbit(1)")
-                code = code.replace("sbitint.get_type(32)","sbitvec")
+        elif symbol in opToCostSymbolCategoryLogical:
+            code = code.replace('sb32(i)',"sbit(0)").replace("sb32(i+1)","sbit(1)")
+            code = code.replace("sbitint.get_type(32)","sbitvec")
+            code = code.replace('sint',"sintbit")
+            if symbol.split('_')[1] == 'or': 
+                basic_operation = "c = ((a.bit_not()).bit_and(b.bit_not())).bit_not()"
+            else: 
+                basic_operation = "c = (a_operator(b))"
+                basic_operation = basic_operation.replace('_operator',f".bit_{symbol.split('_')[1]}")
+            code = code.replace('_operation',basic_operation)
         else:
             if symbol == 'zi_mux':
+                code = code.replace('_operation',f"c = a.if_else(b,b)")
                 if spdzType == 'B':
-                    c = f'c = sb32.Array(len(a))\n       for i in range(len(a)):\n            '
-                    code = code.replace('_operation',f"{c}c[i] = sb32(0).if_else(sb32(2), sb32(3))")
+                    code = code.replace("a = siv32([sb32(i) ","a = sbitvec([sbit(0) ")
                 else:
-                    code = code.replace('_operation',"c[i] = sint(0).if_else(sint(2), sint(3))")
-            elif spdzType == 'A' or spdzType == 'X' or spdzType == 'Y':
-                basic_operation = "c[i] = (a[i] _operator b[i])"
-                basic_operation = basic_operation.replace('_operator',operator)
-                code = code.replace('_operation',basic_operation)
+                    code = code.replace("a = sint([(i) ","a = sintbit([(0) ")
+   
             else:
                 basic_operation = "c = (a _operator b)"
                 basic_operation = basic_operation.replace('_operator',operator)
                 code = code.replace("_operation",basic_operation)
-    
+
         
         # save it to tmp file
         with open(dummy_filename, "w") as file:  # Open the file in write mode
@@ -576,6 +547,7 @@ def runBenchmark(backend, protocol, operator, symbol, trials, loopIters, conv=Fa
                 if failGenCount > 5:
                     print(f"Skipping {protocol} {operator} {symbol} {vecSize} due to excessive generation errors")
                     print(e)
+                    finalStats[vecSize] = "Generation Error"
                     break
         if not success:
             continue
@@ -605,6 +577,7 @@ def runBenchmark(backend, protocol, operator, symbol, trials, loopIters, conv=Fa
                     break
         if len(statsMultiList) < trials or len(statsSingleList) < trials:
             print(f"Skipping {protocol} {operator} {symbol} {vecSize} due to excessive execution errors")
+            finalStats[vecSize] = "Execution Error"
             continue
 
         # Compute average statistics for this benchmark
@@ -744,7 +717,7 @@ def signal_handler(sig, frame):
 signal.signal(signal.SIGINT, signal_handler)
 
 s = startSocket()
-# createCostTable()
-repairCostTable('9999_UPDATED_20ITER_cost_table.txt', useLastTable=False)
+createCostTable()
+# repairCostTable('9999_20ITER_MOTION_cost_table.txt', useLastTable=False)
 sendCmd('quit')
 s.close()

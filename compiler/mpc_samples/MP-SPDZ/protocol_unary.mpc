@@ -1,0 +1,13 @@
+
+
+def zi_prot(a,iters):
+    
+    for l in range(iters):
+        _operation
+    
+      
+    return c
+
+
+a = _outside([_inside(i) for i in range(_vec_size)])
+c = zi_prot(a, _iters)
