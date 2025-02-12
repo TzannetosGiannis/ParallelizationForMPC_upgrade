@@ -17,8 +17,8 @@ def parse(pattern: str,text: str) -> tuple[str, ...]:
 
 
 #backends = [Backend.MOTION, Backend.MP_SPDZ]
-backends = [Backend.MP_SPDZ]
-# backends = [Backend.MOTION]
+# backends = [Backend.MP_SPDZ]
+backends = [Backend.MOTION]
 
 opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt',
   '*': 'zi_mul', 'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor',
@@ -84,10 +84,10 @@ opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', 
 
 
 # backends = [Backend.MOTION]
-# vecSizes = [4]
-# vecSizesConv = [1]
-# trials, loopIters, intSize = (1, 2, 32)
-# opToCostSymbol = {'+': 'zi_add'}
+vecSizes = [4]
+vecSizesConv = [1]
+trials, loopIters, intSize = (1, 2, 32)
+opToCostSymbol = {}
 def startSocket():
     global conn_address, server_address
     sock = socket.socket()
@@ -118,9 +118,107 @@ def averageStats(statsList):
 
 def genCodeConv(backend,protocol,iters,vecSize):
 
-    protocol = protocol.split('_')[1]
-    if str(backend) == 'MP-SPDZ':
+    
+    
+    if str(backend) == 'MOTION':
+        protocol_from, protocol_to = protocol = protocol.split('_')
+        # Define the source and destination directories
+        source_dir = "./mpc_samples/MOTION/templates"
+        destination_dir = f"./mixed_MOTION_{iters}"
 
+        # Delete the destination directory if it exists
+        if path.exists(destination_dir):
+            shutil.rmtree(destination_dir)
+        # Create the new directory if it doesn't exist
+        makedirs(destination_dir, exist_ok=True)
+
+         # Move all files and subdirectories from source to destination
+        for item in listdir(source_dir):
+            source_item = path.join(source_dir, item)
+            destination_item = path.join(destination_dir, item)
+            shutil.copy2(source_item, destination_item)
+
+        # Generate the build directory
+        app_path = f"/opt/ParallelizationForMPC_upgrade/compiler/mixed_MOTION_{iters}"
+    
+        with open(f'{app_path}/main.cpp','r') as f:
+            main_code = f.read()
+
+        main_code = main_code.replace('_vec_size',str(vecSize))
+        if protocol_from == "ArithmeticGmw":
+            main_code = main_code.replace("_inputA_placeHolder","A = party->In<encrypto::motion::MpcProtocol::kArithmeticGmw>(list_A,0);")
+        if protocol_from == 'BooleanGmw':
+            main_code = main_code.replace("_inputA_placeHolder","A = party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::ToInput(list_A),0);")
+        if protocol_from == "Bmr":
+            main_code = main_code.replace("_inputA_placeHolder","A = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(list_A),0);")
+        
+        main_code = main_code.replace("_inputB_placeHolder","")
+        main_code = main_code.replace("list_B.push_back(i);","")
+        main_code = main_code.replace("std::vector<std::uint32_t> list_B;","")
+        main_code = main_code.replace("encrypto::motion::SecureUnsignedInteger B;","")
+        main_code = main_code.replace("template_code(party, A, B);","template_code(party, A);")
+
+        # retrieve the sample 
+        with open(f'{app_path}/template_code.h','r') as f:
+            code = f.read()
+
+        code = code.replace("encrypto::motion::SecureUnsignedInteger list_A,","encrypto::motion::SecureUnsignedInteger list_A")
+        code = code.replace("encrypto::motion::SecureUnsignedInteger list_B","")
+        code = code.replace("_type_to_replace","encrypto::motion::SecureUnsignedInteger")
+        
+
+        code = code.replace("_operator_to_replace",f"result_C = list_A.Get().Convert<encrypto::motion::MpcProtocol::k{protocol_to}>();")
+        
+        code = code.replace("_iters",str(iters))
+        # retrieve the sample 
+        with open(f'{app_path}/template_code.h','w') as f:
+            f.write(code)
+
+
+        # save the main file to server side
+        # Open the file in write mode and write the content
+        with open(f'{app_path}/main.cpp', 'w') as f:
+            f.write(main_code)
+
+        # Tranfer the code 
+        dummy_template_filename = f'MOTION_code.cpp'
+        dummy_main_filename = f'MOTION_main.cpp'
+
+        # Build the code 
+        sendCmd('save ' + dummy_main_filename + ' ' + main_code)
+        sendCmd('save ' + dummy_template_filename + ' ' + code)
+        sendCmd(f'execute sudo mkdir -p client_motion_mixed_{iters}')
+        sendCmd(f'execute sudo rm -rf ./client_motion_mixed_{iters}/*')
+        sendCmd(f'execute sudo cp mpc_samples/MOTION/templates/CMakeLists.txt ./client_motion_mixed_{iters}/')
+        sendCmd(f'execute sudo cp mpc_samples/MOTION/templates/collect_stats.cpp ./client_motion_mixed_{iters}/')
+        sendCmd(f'execute sudo cp mpc_samples/MOTION/templates/collect_stats.h ./client_motion_mixed_{iters}/')
+        sendCmd(f'execute sudo mv {dummy_template_filename} client_motion_mixed_{iters}/template_code.h')
+        sendCmd(f'execute sudo mv {dummy_main_filename} client_motion_mixed_{iters}/main.cpp')
+        
+
+        # Compile on local version
+        subprocess.run(
+            ["cmake", "-S", app_path, "-B", path.join(app_path, "build")],
+            check=True,
+        )
+
+        # Build
+        subprocess.run(
+            ["cmake", "--build", path.join(app_path, "build"),"-j8"],
+            check=True,
+        )
+
+        # Compile on clients end
+        client_path = f"/opt/ParallelizationForMPC_upgrade/compiler/client_motion_mixed_{iters}"
+        command1 = f"cmake -S {client_path} -B {path.join(client_path,'build')}"
+        command2 = f"cmake --build {path.join(client_path,'build')} -j8"
+        sendCmd(f"execute sudo {command1}")
+        sendCmd(f"execute sudo {command2}")
+        
+        return f"client_motion_mixed_{iters}"
+
+    if str(backend) == 'MP-SPDZ':
+        protocol = protocol.split('_')[1]
         dummy_filename = f'protocol_mixed_{iters}.mpc'
 
         # retrieve the sample 
@@ -610,11 +708,6 @@ def createCostTable():
         for op, sym in opToCostSymbol.items():
             resultsDict[str(backend)][sym] = dict()
             for protocol in backend.valid_protocols():
-                # if protocol != 'semi' and str(backend) == 'MP-SPDZ':
-                #     continue
-                # if protocol == "ArithmeticGmw" or protocol == "Bmr":
-                #     print("Continue from ",protocol)
-                    # continue
                 if not sym == 'UNAVAILABLE':
                     if backend == Backend.MP_SPDZ:
                         for spdzType in spdzTypes:
@@ -632,6 +725,8 @@ def createCostTable():
             # if protocol != 'semi' and str(backend) == 'MP-SPDZ':
             #     continue
             for conv in convPossibilities:
+                if protocol == conv:
+                    continue
                 resultsDict[str(backend)][f"{protocol}_{conv}"] = runBenchmark(backend,f"{protocol}_{conv}", None, None, trials, loopIters, conv=True)
                 printOutputToJSON(resultsDict, log=False, save=True)
     printOutputToJSON(resultsDict, log=False, save=True)
