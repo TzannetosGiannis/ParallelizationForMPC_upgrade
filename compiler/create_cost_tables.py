@@ -84,10 +84,13 @@ opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', 
 
 
 # backends = [Backend.MOTION]
-vecSizes = [4]
-vecSizesConv = [1]
-trials, loopIters, intSize = (1, 2, 32)
-opToCostSymbol = {}
+# backends = [Backend.MP_SPDZ]
+# spdzMix = []
+# vecSizes = [1]
+# vecSizesConv = [1]
+# trials, loopIters, intSize = (1, 2, 32)
+# opToCostSymbol = {"*":"zi_mul"}
+# spdzTypes = ["B"]
 def startSocket():
     global conn_address, server_address
     sock = socket.socket()
@@ -488,6 +491,9 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
             code = additional_types + code
             code = code.replace("_inside","sb32")
             code = code.replace("_outside","siv32")
+
+            if symbol == 'zi_mul':
+                code = "program.options.binary = 32\n" + code 
         
         
         code = code.replace("_iters",str(iters)).replace('_vec_size',str(vecSize))
@@ -813,6 +819,6 @@ signal.signal(signal.SIGINT, signal_handler)
 
 s = startSocket()
 createCostTable()
-# repairCostTable('9999_20ITER_MOTION_cost_table.txt', useLastTable=False)
+# repairCostTable('FULL_cost_table.txt', useLastTable=False)
 sendCmd('quit')
 s.close()
