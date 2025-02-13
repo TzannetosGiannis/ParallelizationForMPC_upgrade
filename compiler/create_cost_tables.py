@@ -83,13 +83,13 @@ opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', 
 
 
 
-# backends = [Backend.MOTION]
+backends = [Backend.MOTION]
 # backends = [Backend.MP_SPDZ]
 # spdzMix = []
-# vecSizes = [1]
+vecSizes = [1]
 # vecSizesConv = [1]
-# trials, loopIters, intSize = (1, 2, 32)
-# opToCostSymbol = {"*":"zi_mul"}
+trials, loopIters, intSize = (1, 2, 32)
+opToCostSymbol = {"==":"zi_eq"}
 # spdzTypes = ["B"]
 def startSocket():
     global conn_address, server_address
@@ -268,7 +268,7 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
     if str(backend) == 'MOTION': 
 
         category1 = ["zi_add","zi_mul","zi_sub","zi_div"]
-        category2 = ["zi_gt","zi_lt","zi_ge","zi_le","zi_ne","zi_and","zi_or","zi_|","zi_&","zi_xor","zi_not","zi_mux"]
+        category2 = ["zi_gt","zi_lt","zi_eq","zi_ge","zi_le","zi_ne","zi_and","zi_or","zi_|","zi_&","zi_xor","zi_not","zi_mux"]
         
         # generate a working directory and move template files there
         
@@ -344,6 +344,10 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
             elif symbol == "zi_le":
                 code = code.replace("_type_to_replace",type2)
                 operation = "result_C = (list_B > list_A) | (list_A == list_B);"
+                code = code.replace("_operator_to_replace",operation)
+            elif symbol == "zi_eq":
+                code = code.replace("_type_to_replace",type2)
+                operation = "result_C = (list_A == list_B);"
                 code = code.replace("_operator_to_replace",operation)
             elif symbol == "zi_ne":
                 code = code.replace("_type_to_replace",type2)
