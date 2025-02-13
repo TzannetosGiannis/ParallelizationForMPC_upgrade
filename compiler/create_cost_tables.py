@@ -86,10 +86,10 @@ opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', 
 backends = [Backend.MOTION]
 # backends = [Backend.MP_SPDZ]
 # spdzMix = []
-vecSizes = [1]
+vecSizes = [5]
 # vecSizesConv = [1]
 trials, loopIters, intSize = (1, 2, 32)
-opToCostSymbol = {"==":"zi_eq"}
+opToCostSymbol = {}
 # spdzTypes = ["B"]
 def startSocket():
     global conn_address, server_address
@@ -127,7 +127,7 @@ def genCodeConv(backend,protocol,iters,vecSize):
         protocol_from, protocol_to = protocol = protocol.split('_')
         # Define the source and destination directories
         source_dir = "./mpc_samples/MOTION/templates"
-        destination_dir = f"./mixed_MOTION_{iters}"
+        destination_dir = f"./test_MOTION_{iters}"
 
         # Delete the destination directory if it exists
         if path.exists(destination_dir):
@@ -142,7 +142,7 @@ def genCodeConv(backend,protocol,iters,vecSize):
             shutil.copy2(source_item, destination_item)
 
         # Generate the build directory
-        app_path = f"/opt/ParallelizationForMPC_upgrade/compiler/mixed_MOTION_{iters}"
+        app_path = f"/opt/ParallelizationForMPC_upgrade/compiler/test_MOTION_{iters}"
     
         with open(f'{app_path}/main.cpp','r') as f:
             main_code = f.read()
@@ -186,17 +186,17 @@ def genCodeConv(backend,protocol,iters,vecSize):
         # Tranfer the code 
         dummy_template_filename = f'MOTION_code.cpp'
         dummy_main_filename = f'MOTION_main.cpp'
-
+        client_mixed_directory = f"client_motion_mixed_{iters}"
         # Build the code 
         sendCmd('save ' + dummy_main_filename + ' ' + main_code)
         sendCmd('save ' + dummy_template_filename + ' ' + code)
-        sendCmd(f'execute sudo mkdir -p client_motion_mixed_{iters}')
-        sendCmd(f'execute sudo rm -rf ./client_motion_mixed_{iters}/*')
-        sendCmd(f'execute sudo cp mpc_samples/MOTION/templates/CMakeLists.txt ./client_motion_mixed_{iters}/')
-        sendCmd(f'execute sudo cp mpc_samples/MOTION/templates/collect_stats.cpp ./client_motion_mixed_{iters}/')
-        sendCmd(f'execute sudo cp mpc_samples/MOTION/templates/collect_stats.h ./client_motion_mixed_{iters}/')
-        sendCmd(f'execute sudo mv {dummy_template_filename} client_motion_mixed_{iters}/template_code.h')
-        sendCmd(f'execute sudo mv {dummy_main_filename} client_motion_mixed_{iters}/main.cpp')
+        sendCmd(f'execute sudo mkdir -p {client_mixed_directory}')
+        sendCmd(f'execute sudo rm -rf ./{client_mixed_directory}/*')
+        sendCmd(f'execute sudo cp mpc_samples/MOTION/templates/CMakeLists.txt ./{client_mixed_directory}/')
+        sendCmd(f'execute sudo cp mpc_samples/MOTION/templates/collect_stats.cpp ./{client_mixed_directory}/')
+        sendCmd(f'execute sudo cp mpc_samples/MOTION/templates/collect_stats.h ./{client_mixed_directory}/')
+        sendCmd(f'execute sudo mv {dummy_template_filename} {client_mixed_directory}/template_code.h')
+        sendCmd(f'execute sudo mv {dummy_main_filename} {client_mixed_directory}/main.cpp')
         
 
         # Compile on local version
@@ -212,13 +212,13 @@ def genCodeConv(backend,protocol,iters,vecSize):
         )
 
         # Compile on clients end
-        client_path = f"/opt/ParallelizationForMPC_upgrade/compiler/client_motion_mixed_{iters}"
+        client_path = f"/opt/ParallelizationForMPC_upgrade/compiler/{client_mixed_directory}"
         command1 = f"cmake -S {client_path} -B {path.join(client_path,'build')}"
         command2 = f"cmake --build {path.join(client_path,'build')} -j8"
         sendCmd(f"execute sudo {command1}")
         sendCmd(f"execute sudo {command2}")
         
-        return f"client_motion_mixed_{iters}"
+        return f"{client_mixed_directory}"
 
     if str(backend) == 'MP-SPDZ':
         protocol = protocol.split('_')[1]
@@ -274,7 +274,7 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
         
         # Define the source and destination directories
         source_dir = "./mpc_samples/MOTION/templates"
-        destination_dir = f"./dummy_MOTION_{iters}"
+        destination_dir = f"./test_MOTION_{iters}"
 
         # Delete the destination directory if it exists
         if path.exists(destination_dir):
@@ -291,7 +291,7 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
         # Construct the proper template
 
         # Generate the build directory
-        app_path = f"/opt/ParallelizationForMPC_upgrade/compiler/dummy_MOTION_{iters}"
+        app_path = f"/opt/ParallelizationForMPC_upgrade/compiler/test_MOTION_{iters}"
     
         with open(f'{app_path}/main.cpp','r') as f:
             main_code = f.read()
@@ -422,7 +422,7 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
             code = code.replace("_operator_to_replace",operator_type2)
             code = code.replace("_operator",operator)
 
-        # retrieve the sample 
+        # write the sample 
         with open(f'{app_path}/template_code.h','w') as f:
             f.write(code)
 
@@ -435,17 +435,17 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
         # Tranfer the code 
         dummy_template_filename = f'MOTION_code.cpp'
         dummy_main_filename = f'MOTION_main.cpp'
-
+        client_directory = f"client_motion_{iters}"
         # Build the code 
         sendCmd('save ' + dummy_main_filename + ' ' + main_code)
         sendCmd('save ' + dummy_template_filename + ' ' + code)
-        sendCmd(f'execute sudo mkdir -p client_motion_{iters}')
-        sendCmd(f'execute sudo rm -rf ./client_motion_{iters}/*')
-        sendCmd(f'execute sudo cp mpc_samples/MOTION/templates/CMakeLists.txt ./client_motion_{iters}/')
-        sendCmd(f'execute sudo cp mpc_samples/MOTION/templates/collect_stats.cpp ./client_motion_{iters}/')
-        sendCmd(f'execute sudo cp mpc_samples/MOTION/templates/collect_stats.h ./client_motion_{iters}/')
-        sendCmd(f'execute sudo mv {dummy_template_filename} client_motion_{iters}/template_code.h')
-        sendCmd(f'execute sudo mv {dummy_main_filename} client_motion_{iters}/main.cpp')
+        sendCmd(f'execute sudo mkdir -p {client_directory}')
+        sendCmd(f'execute sudo rm -rf ./{client_directory}/*')
+        sendCmd(f'execute sudo cp mpc_samples/MOTION/templates/CMakeLists.txt ./{client_directory}/')
+        sendCmd(f'execute sudo cp mpc_samples/MOTION/templates/collect_stats.cpp ./{client_directory}/')
+        sendCmd(f'execute sudo cp mpc_samples/MOTION/templates/collect_stats.h ./{client_directory}/')
+        sendCmd(f'execute sudo mv {dummy_template_filename} {client_directory}/template_code.h')
+        sendCmd(f'execute sudo mv {dummy_main_filename} {client_directory}/main.cpp')
 
         # Compile on local version
         subprocess.run(
@@ -460,13 +460,13 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
         )
 
         # Compile on clients end
-        client_path = f"/opt/ParallelizationForMPC_upgrade/compiler/client_motion_{iters}"
+        client_path = f"/opt/ParallelizationForMPC_upgrade/compiler/{client_directory}"
         command1 = f"cmake -S {client_path} -B {path.join(client_path,'build')}"
         command2 = f"cmake --build {path.join(client_path,'build')} -j8"
         sendCmd(f"execute sudo {command1}")
         sendCmd(f"execute sudo {command2}")
         
-        return f"client_motion_{iters}"
+        return f"{client_directory}"
     
     elif str(backend) == 'MP-SPDZ':
         
@@ -567,7 +567,7 @@ def runTrial(codeName,backend,protocol):
     if str(backend) == 'MOTION':
         nameComponents = codeName.split("_")
         iters = nameComponents[len(nameComponents)-1]
-        app_path = f"/opt/ParallelizationForMPC_upgrade/compiler/dummy_MOTION_{iters}/build/template_code"
+        app_path = f"/opt/ParallelizationForMPC_upgrade/compiler/test_MOTION_{iters}/build/template_code"
         client_path = f"/opt/ParallelizationForMPC_upgrade/compiler/{codeName}/build/template_code"
         p = subprocess.Popen(["sudo",app_path,"--my-id","0", "--parties", f"0,{server_address},23000",f"1,{conn_address},23001"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,)
         sendCmd(f'execute sudo {client_path} --my-id 1 --parties 0,{server_address},23000 1,{conn_address},23001')
@@ -736,10 +736,7 @@ def createCostTable():
 
         # Compute conversion costs
         convPossibilities = spdzMix if backend == Backend.MP_SPDZ else backend.valid_protocols()
-        # above line needs to be modified for MOTION
         for protocol in backend.valid_protocols():
-            # if protocol != 'semi' and str(backend) == 'MP-SPDZ':
-            #     continue
             for conv in convPossibilities:
                 if protocol == conv:
                     continue
@@ -794,9 +791,9 @@ def repairCostTable(tableName="", useLastTable=True):
     # Compute conversion costs
         convPossibilities = spdzMix if backend == Backend.MP_SPDZ else backend.valid_protocols()
         for protocol in backend.valid_protocols():
-            # if protocol != 'semi' and str(backend) == 'MP-SPDZ':
-            #     continue
             for conv in convPossibilities:
+                if protocol == conv:
+                    continue
                 conv = f"{protocol}_{conv}"
                 if conv in resultsDict[str(backend)].keys():
                     resultsDict[str(backend)][conv] = runBenchmark(backend, conv, None, None, trials, loopIters, conv=True, finalStats=resultsDict[str(backend)][conv])
