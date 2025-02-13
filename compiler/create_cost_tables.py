@@ -347,11 +347,17 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
                 code = code.replace("_operator_to_replace",operation)
             elif symbol == "zi_eq":
                 code = code.replace("_type_to_replace",type2)
-                operation = "result_C = (list_A == list_B);"
+                if protocol == "ArithmeticGmw":
+                    operation = "result_C = ~((list_A > list_B) | (list_B > list_A));"
+                else:
+                    operation = "result_C = (list_A == list_B);"
                 code = code.replace("_operator_to_replace",operation)
             elif symbol == "zi_ne":
                 code = code.replace("_type_to_replace",type2)
-                operation = "result_C = ~(list_A == list_B);"
+                if protocol == "ArithmeticGmw":
+                    operation = "result_C = ((list_A > list_B) | (list_B > list_A));"
+                else:
+                    operation = "result_C = ~(list_A == list_B);"
                 code = code.replace("_operator_to_replace",operation)
             elif symbol == "zi_&":
                 code = code.replace("_type_to_replace",type1)
