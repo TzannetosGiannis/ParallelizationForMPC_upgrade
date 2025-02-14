@@ -1,6 +1,6 @@
 from dataclasses import dataclass
-from tests.benchmark import BenchmarkOutput
-from tests.statistics import CircuitStatistics, TimingStatistics, CommunicationStatistics, TimingDatapoint
+from tests.backends.motion.benchmark import BenchmarkOutput
+from tests.backends.motion.statistics import CircuitStatistics, TimingStatistics, CommunicationStatistics, TimingDatapoint
 
 import struct
 import json
