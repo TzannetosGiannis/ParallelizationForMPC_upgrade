@@ -15,7 +15,8 @@ import socket
 import compiler
 
 from tests import context as test_context
-from tests.benchmark import run_benchmark, compile_benchmark, run_benchmark_for_party, BenchmarkOutput
+from tests.backends.motion.benchmark import  compile_benchmark, run_benchmark_for_party, BenchmarkOutput
+from tests.backends import motion_run_benchmark
 
 from utils import json_serialize, json_deserialize, StatsForInputConfig, StatsForTask, RunBenchmarkReq
 from utils import GetAddressReq, GetAddressResp
@@ -559,7 +560,7 @@ def run_paper_benchmarks():
 
         all_args, non_vec_up_to = get_inputs(test_case_dir.name)
         if len(all_args) == 0:
-            continue;
+            continue
 
         task_stats = StatsForTask(test_case_dir.name, [])
         compile = True
@@ -571,7 +572,7 @@ def run_paper_benchmarks():
             gmw_p0 = gmw_p1 = None
             if (i < non_vec_up_to) and not non_vec_failed:
                 log.info("Running GMW Non Vectorized {} {}".format(test_case_dir.name, args.label));           
-                gmw_p0, gmw_p1 = run_benchmark(
+                gmw_p0, gmw_p1 = motion_run_benchmark(
                     test_case_dir.name, test_case_dir.path, GMW_PROTOCOL, False, None, args.args, compile,
                     continue_on_error=True
                 )
@@ -584,7 +585,7 @@ def run_paper_benchmarks():
                     non_vec_failed = True
             
             log.info("Running GMW Vectorized {} {}".format(test_case_dir.name, args.label));
-            gmw_vec_p0, gmw_vec_p1 = run_benchmark(
+            gmw_vec_p0, gmw_vec_p1 = motion_run_benchmark(
                 test_case_dir.name, test_case_dir.path, GMW_PROTOCOL, True, None, args.args, compile,
                 continue_on_error=True
             )
@@ -599,7 +600,7 @@ def run_paper_benchmarks():
             bmr_p0 = bmr_p1 = None
             if (i < non_vec_up_to) and not non_vec_failed:
                 log.info("Running BMR Non Vectorized {} {}".format(test_case_dir.name, args.label));
-                bmr_p0, bmr_p1 = run_benchmark(
+                bmr_p0, bmr_p1 = motion_run_benchmark(
                     test_case_dir.name, test_case_dir.path, BMR_PROTOCOL, False, None, args.args, compile,
                     continue_on_error=True
                 )
@@ -612,7 +613,7 @@ def run_paper_benchmarks():
                     non_vec_failed = True
             
             log.info("Running BMR Vectorized {} {}".format(test_case_dir.name, args.label));
-            bmr_vec_p0, bmr_vec_p1 = run_benchmark(
+            bmr_vec_p0, bmr_vec_p1 = motion_run_benchmark(
                 test_case_dir.name, test_case_dir.path, BMR_PROTOCOL, True, None, args.args, compile,
                 continue_on_error=True
             )
