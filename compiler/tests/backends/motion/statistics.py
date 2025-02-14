@@ -230,6 +230,7 @@ class TimingStatistics:
             gates_online=gates_online,
             circuit_evaluation=circuit_evaluation,
             communication=communication,
+            kk13_ot_extension_setup=None
         )
 
     def to_dictionary(self):
@@ -252,7 +253,9 @@ class TimingStatistics:
 
     @classmethod
     def by_accumulating_readings(cls, a, b):
+        
         return cls(
+           kk13_ot_extension_setup=None,
            num_iterations = a.num_iterations + b.num_iterations,
            mt_presetup = TimingDatapoint.by_accumulating_readings(
             a.mt_presetup, b.mt_presetup
