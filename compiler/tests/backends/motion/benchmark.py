@@ -268,15 +268,17 @@ def compile_benchmark(
     )
 
     compiler.compile(
-        f"{benchmark_name}.py",
-        input_py,
-        Backend.MOTION,
-        True,
-        vectorized,
-        app_path,
-        True,
-        protocol,
+        filename=f"{benchmark_name}.py",
+        text=input_py,
+        backend=Backend.MOTION,
+        quiet=True,
+        run_vectorization=vectorized,
+        out_dir=app_path,
+        overwrite_out_dir=True,
+        protocol=protocol,
     )
+
+    
 
     subprocess.run(
         ["cmake", "-S", app_path, "-B", os.path.join(app_path, "build")],
