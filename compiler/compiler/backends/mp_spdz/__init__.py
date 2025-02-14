@@ -481,7 +481,10 @@ def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],conve
                     convertor = 'sint' if convertion_to[0] == 'A' else "siv32"
                     convertion_key = render_var(stmt.lhs.idx_vars[0],dict())
                     if convertion_key == 'i_1':
-                        converted_mux = f"{new_key} = [{convertor}({stmt_key}[_random_iter]) for _random_iter in range(len({stmt_key}))]" 
+                        if convertor == 'sint':
+                            converted_mux = f"{new_key} = [elem for elem in {convertor}({stmt_key})]"     
+                        else:
+                            converted_mux = f"{new_key} = [{convertor}({stmt_key}[_random_iter]) for _random_iter in range(len({stmt_key}))]" 
                     else:
                         converted_mux = f"{new_key}[{convertion_key}] = {convertor}({stmt_key}[{convertion_key}])" 
 
