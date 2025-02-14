@@ -15,7 +15,11 @@ import socket
 import compiler
 
 from tests import context as test_context
-from tests.backends.motion.benchmark import  compile_benchmark, run_benchmark_for_party, BenchmarkOutput
+from tests.backends.motion.benchmark import  (
+    compile_benchmark as motion_compile_benchmark, 
+    run_benchmark_for_party as motion_run_benchmark_for_party, 
+    BenchmarkOutput as motion_BenchmarkOutput 
+)
 from tests.backends import motion_run_benchmark
 
 from utils import json_serialize, json_deserialize, StatsForInputConfig, StatsForTask, RunBenchmarkReq
@@ -655,10 +659,10 @@ def compile_all_benchmarks():
         if len(all_args) == 0:
             continue
         log.info("Compiling {} ...".format(test_case_dir.name))        
-        compile_benchmark(test_case_dir.name, test_case_dir.path, GMW_PROTOCOL, False)
-        compile_benchmark(test_case_dir.name, test_case_dir.path, GMW_PROTOCOL, True)
-        compile_benchmark(test_case_dir.name, test_case_dir.path, BMR_PROTOCOL, False)
-        compile_benchmark(test_case_dir.name, test_case_dir.path, BMR_PROTOCOL, True)
+        motion_compile_benchmark(test_case_dir.name, test_case_dir.path, GMW_PROTOCOL, False)
+        motion_compile_benchmark(test_case_dir.name, test_case_dir.path, GMW_PROTOCOL, True)
+        motion_compile_benchmark(test_case_dir.name, test_case_dir.path, BMR_PROTOCOL, False)
+        motion_compile_benchmark(test_case_dir.name, test_case_dir.path, BMR_PROTOCOL, True)
 
 def run_server_role(address):
     # log.info("Compiling All benchmarks")
@@ -689,7 +693,7 @@ def run_server_role(address):
                         test_case_dir = dir;
                         break
                 log.info("path is {}".format(test_case_dir.path))
-                resp = run_benchmark_for_party(
+                resp = motion_run_benchmark_for_party(
                         MPC_PARTY_SERVER_ID, msg.party0_mpc_addr, msg.party1_mpc_addr, test_case_dir.name,
                         test_case_dir.path, msg.protocol, msg.vectorized, None, msg.cmd_args
                     )
@@ -746,7 +750,7 @@ def run_client_role(address):
                             )
 
                         write_message(server_sock, request)          
-                        p1 = run_benchmark_for_party(
+                        p1 = motion_run_benchmark_for_party(
                             MPC_PARTY_CLIENT_ID, mpc_party_server, mpc_party_client, test_case_dir.name, 
                             test_case_dir.path, protocol, vectorized, None, args.args
                         )
@@ -765,8 +769,8 @@ def run_client_role(address):
                             accum_p0 = p0
                             accum_p1 = p1
                         else:
-                            accum_p0 = BenchmarkOutput.by_accumulating_readings(accum_p0, p0)
-                            accum_p1 = BenchmarkOutput.by_accumulating_readings(accum_p1, p1)
+                            accum_p0 = motion_BenchmarkOutput.by_accumulating_readings(accum_p0, p0)
+                            accum_p1 = motion_BenchmarkOutput.by_accumulating_readings(accum_p1, p1)
 
                     pair = (accum_p0, accum_p1)
                     outputs.append(pair)
