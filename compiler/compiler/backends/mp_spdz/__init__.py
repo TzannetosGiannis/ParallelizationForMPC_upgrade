@@ -458,7 +458,9 @@ def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],conve
                 current_declaration = stmt_details_dict[key]['declaration'].replace(key,new_key)
                 convertion = ";\n" + current_declaration + "\n"
                 convertion += f"for _random_iter in range(0,len({key})):\n"
-                convertion += f"  {new_key}[_random_iter] = {apply(convertion_tuple[1],f'{key}[_random_iter]',True)}" 
+                convertion += f"  {new_key}[_random_iter] = {apply(convertion_tuple[1],f'{key}[_random_iter]',True)}\n" 
+                if new_key.endswith("_B"):
+                    convertion += f"{new_key} = siv32({new_key})"
             
             return f"{assign1}; {assign2}{convertion}"
         elif isinstance(stmt.lhs, VectorizedAccess):
@@ -532,7 +534,9 @@ def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],conve
                     if render_key == 'i_1':
                         convertion = basic_stmt +"\n" 
                         convertion += f"for _random_iter in range(0,len({key})):\n"
-                        convertion += f"  {new_key}[_random_iter] = {apply(ordering[1],f'{key}[_random_iter]',True)}" 
+                        convertion += f"  {new_key}[_random_iter] = {apply(ordering[1],f'{key}[_random_iter]',True)}\n" 
+                        if new_key.endswith("_B"):
+                            convertion += f"{new_key} = siv32({new_key})"
                     else:
                         convertion = basic_stmt +";" 
                         convertion += f"{new_key}[{render_key}] = {apply(ordering[1],f'{key}[{render_key}]',True)}" 
@@ -634,6 +638,8 @@ def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],conve
                     convertion = basic_stmt +"\n" + current_declaration + "\n"
                     convertion += f"for _random_iter in range(0,len({key})):\n"
                     convertion += f"  {new_key}[_random_iter] = {apply(ordering[1],f'{key}[_random_iter]',True)}" 
+                    if new_key.endswith("_B"):
+                        convertion += f"{new_key} = siv32({new_key})"
                 else:
                     # no vector just Var
                     convertion = basic_stmt + "\n"

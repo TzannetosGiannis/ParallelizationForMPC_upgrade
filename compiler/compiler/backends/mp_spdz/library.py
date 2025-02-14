@@ -116,10 +116,14 @@ class VectorizationLibrary:
        
 
     def vectorized_access_simd(
-        self, array: list, shape: list[int], indices: tuple[typing.Optional[int]]
+        self, array, shape: list[int], indices: tuple[typing.Optional[int]]
     ):
-      
-        result_list = self.vectorized_access(array, shape, indices)
+        
+        if str(type(array)) == "<class 'Compiler.GC.types.sbitvec.get_type.<locals>.sbitvecn'>":
+            result_list = _unsimdify(array)
+            result_list = self.vectorized_access(result_list, shape, indices)
+        else:
+            result_list = self.vectorized_access(array, shape, indices)
         if len(result_list) == 1:
             return result_list[0]
         
@@ -296,7 +300,7 @@ class VectorizationLibrary:
         if isinstance(element,self._sintbit):
             return self._sbit(element)
         elif isinstance(element,self._sint):
-            return self._sbitintvec.get_type(32)(element)
+            return self._sbits(element)
         else:
             raise Exception(type(element))
         
@@ -306,6 +310,15 @@ class VectorizationLibrary:
                     op1: typing.Union[list,typing.Any], op2: typing.Union[list,typing.Any],
                     shape: list[int], indices: tuple[typing.Optional[int]]) -> None:
         indices_full = _expand_vectorized_indices(shape, indices)
+        if str(type(op1)) == "<class 'Compiler.GC.types.sbitvec.get_type.<locals>.sbitvecn'>":
+            op1_examine = _unsimdify(op1)
+            if str(type(op1_examine[0])) != "<class 'Compiler.GC.types.sbitvec.get_type.<locals>.sbitvecn'>":
+                op1 = op1_examine
+        if str(type(op2)) == "<class 'Compiler.GC.types.sbitvec.get_type.<locals>.sbitvecn'>":
+            op2_examine = _unsimdify(op2)
+            if str(type(op2_examine[0])) != "<class 'Compiler.GC.types.sbitvec.get_type.<locals>.sbitvecn'>":
+                op2 = op2_examine
+    
         for index in indices_full:
             flat_index = _compute_flat_index(index,shape)
             cond_value = cond[flat_index] if isinstance(cond,list) else cond
