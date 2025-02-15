@@ -73,6 +73,16 @@ VALID_PROTOCOLS = [
 # thuse we use this list to move the declaration on top of the programme
 global_declarations = []
 
+def convert_vector(key,new_key,convertion_from_with_type,default_space=""):
+    
+    if new_key.endswith("_B"):
+        convertion = f"for _random_iter in range(0,len({key})):\n"
+        convertion += f"  {default_space}{new_key}[_random_iter] = {convertion_from_with_type}\n" 
+        convertion += f"{new_key} = siv32({new_key})"
+    else:
+        convertion = f"{new_key} = [elem for elem in sint({key})]\n"
+    return convertion
+
 def render_var(var: Var, var_mappings: dict[Var, str]) -> str:
     try:
         return var_mappings[var]
@@ -457,11 +467,7 @@ def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],conve
                 modify_stmt_details_dict(stmt_details_dict,key,convertion_tuple[1],new_key)
                 current_declaration = stmt_details_dict[key]['declaration'].replace(key,new_key)
                 convertion = ";\n" + current_declaration + "\n"
-                convertion += f"for _random_iter in range(0,len({key})):\n"
-                convertion += f"  {new_key}[_random_iter] = {apply(convertion_tuple[1],f'{key}[_random_iter]',True)}\n" 
-                if new_key.endswith("_B"):
-                    convertion += f"{new_key} = siv32({new_key})"
-            
+                convertion += convert_vector(key,new_key,apply(convertion_tuple[1],f'{key}[_random_iter]',True))
             return f"{assign1}; {assign2}{convertion}"
         elif isinstance(stmt.lhs, VectorizedAccess):
             # TODO: Cludgy fix for SPDZ vectorized MUX, 2 lines
@@ -536,10 +542,7 @@ def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],conve
                     
                     if render_key == 'i_1':
                         convertion = basic_stmt +"\n" 
-                        convertion += f"for _random_iter in range(0,len({key})):\n"
-                        convertion += f"  {new_key}[_random_iter] = {apply(ordering[1],f'{key}[_random_iter]',True)}\n" 
-                        if new_key.endswith("_B"):
-                            convertion += f"{new_key} = siv32({new_key})"
+                        convertion += convert_vector(key,new_key,apply(ordering[1],f'{key}[_random_iter]',True))
                     else:
                         convertion = basic_stmt +";" 
                         convertion += f"{new_key}[{render_key}] = {apply(ordering[1],f'{key}[{render_key}]',True)}" 
@@ -639,10 +642,7 @@ def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],conve
                         raise Exception('No Var can have declaration statement , unless is a vector')
                     current_declaration = stmt_details_dict[key]['declaration'].replace(key,new_key)
                     convertion = basic_stmt +"\n" + current_declaration + "\n"
-                    convertion += f"for _random_iter in range(0,len({key})):\n"
-                    convertion += f"  {new_key}[_random_iter] = {apply(ordering[1],f'{key}[_random_iter]',True)}" 
-                    if new_key.endswith("_B"):
-                        convertion += f"{new_key} = siv32({new_key})"
+                    convertion += convert_vector(key,new_key,apply(ordering[1],f'{key}[_random_iter]',True))
                 else:
                     # no vector just Var
                     convertion = basic_stmt + "\n"
@@ -810,9 +810,9 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
             else:
                 # know we need to convert it as a list (iterate through the elements)
                 # no vectorized convetion exists
-                plaintext_convertions += f"{'' if performed_plaintext_convertion == False else '    '}for _random_iter in range(0,len({small_key})):\n"
-                plaintext_convertions += f"     {small_key}[_random_iter] = sb32({small_key}[_random_iter])"
-
+                plaintext_convertions += f"{'' if performed_plaintext_convertion == False else '    '}"
+                plaintext_convertions += convert_vector(small_key,small_key,f"sb32({small_key}[_random_iter])","     ")
+                
                 stmt_details_dict[small_key] = {
                     "A":None,
                     "B":small_key,
