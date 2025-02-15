@@ -1,4 +1,5 @@
 import os, json
+from collections import OrderedDict
 
 
 # find target input file
@@ -70,14 +71,14 @@ for b in rawJSON.keys():
                     for valStr in backendJSON[op][k].keys():
                         val = int(valStr)
                         for measType in backendJSON[op][k][valStr].keys():
-                            restructuredJSON[protocol][measType][intSize][op][shareType.lower()][valStr] = backendJSON[op][k][valStr][measType] / val * 1000
+                            restructuredJSON[protocol][measType][intSize][op][shareType.lower()][val] = backendJSON[op][k][valStr][measType] / val * 1000
             else:
                 protocol, conv = op.split('_')
                 convOp = 'zic_' + conv[0].lower() + '2' + conv[1].lower()
                 for valStr in backendJSON[op].keys():
                     val = int(valStr)
                     for measType in backendJSON[op][valStr].keys():
-                        restructuredJSON[protocol][measType][intSize][convOp][valStr] = backendJSON[op][valStr][measType] / val * 1000
+                        restructuredJSON[protocol][measType][intSize][convOp][val] = backendJSON[op][valStr][measType] / val * 1000
                 convA = conv[0]
                 convB = conv[1]
 
@@ -101,7 +102,7 @@ for b in rawJSON.keys():
                 fileName = f'Cost_Tables/MP-SPDZ/{protocol}/{measType}.json'
                 with open(fileName, 'w') as f:
                     print(f'Writing {fileName}')
-                    f.write(json.dumps(restructuredJSON[protocol][measType], indent=4, sort_keys=False))
+                    f.write(json.dumps(restructuredJSON[protocol][measType], indent=4, sort_keys=True))
 
     elif b == 'MOTION':
         # parse table to find folder structure
@@ -146,7 +147,7 @@ for b in rawJSON.keys():
                     for valStr in backendJSON[op][k].keys():
                         val = int(valStr)
                         for measType in backendJSON[op][k][valStr].keys():
-                            restructuredJSON[measType][intSize][op][k.lower()][valStr] = backendJSON[op][k][valStr][measType] / val * 1000
+                            restructuredJSON[measType][intSize][op][k.lower()][val] = backendJSON[op][k][valStr][measType] / val * 1000
             else:
                 protFrom, protTo = op.split('_')
                 protFrom = protFrom.lower()
@@ -155,7 +156,7 @@ for b in rawJSON.keys():
                 for valStr in backendJSON[op].keys():
                     val = int(valStr)
                     for measType in backendJSON[op][valStr].keys():
-                        restructuredJSON[measType][intSize][convOp][valStr] = backendJSON[op][valStr][measType] / val * 1000
+                        restructuredJSON[measType][intSize][convOp][val] = backendJSON[op][valStr][measType] / val * 1000
 
         # remove empty share types
         toRem = []
@@ -175,5 +176,5 @@ for b in rawJSON.keys():
             fileName = f'Cost_Tables/MOTION/{measType}.json'
             with open(fileName, 'w') as f:
                 print(f'Writing {fileName}')
-                f.write(json.dumps(restructuredJSON[measType], indent=4, sort_keys=False).replace('arithmeticgmw', 'a').replace('booleangmw', 'b').replace('bmr', 'y'))
+                f.write(json.dumps(restructuredJSON[measType], indent=4, sort_keys=True).replace('arithmeticgmw', 'a').replace('booleangmw', 'b').replace('bmr', 'y'))
 
