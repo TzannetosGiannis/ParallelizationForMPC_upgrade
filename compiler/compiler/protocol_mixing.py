@@ -81,7 +81,7 @@ import json
 from os.path import dirname, exists
 
 Protocol = str # Union['A', 'B', 'Y']
-protocols = {'A', 'B', 'Y'}
+protocols = set()
 protocolsMotion = [{'A', 'B', 'Y'}]
 protocolsSPDZ = [{'A', 'B'}, {'X', 'B'}, {'Y', 'B'}]
 # protocolsSPDZ = [{'A'}, {'B'}, {'X'}, {'Y'}]
@@ -1205,30 +1205,29 @@ def getInterfaceSize(c: Config) -> (int, int):
 
 
 # run the mixer
-def mix_protocols(filename: str, type_env: TypeEnv, body: list[Statement], dep_graph: DepGraph, backend: Backend, costType: str, spdzProtocol: str = 'semi',SPDZ_protocols = None ) -> Config:
+def mix_protocols(filename: str, type_env: TypeEnv, body: list[Statement], dep_graph: DepGraph, backend: Backend, costType: str, spdzProtocol: str = 'semi', protocolSets: list[set[str]] = None ) -> Config:
     global protocols, runningSpdz
     runningSpdz = True if backend == Backend.Backend.MP_SPDZ else False
-    if SPDZ_protocols != None:
-        protocolsSPDZ.clear()
-        protocolsSPDZ.extend(SPDZ_protocols)
-        
+
+    targetCostFile = '/../Cost_Tables/'
+    if not runningSpdz:
+        if protocolSets == None:
+            protocolSets = protocolsMotion
+        targetCostFile += f'MOTION/{costType}.json'
+    elif runningSpdz:
+        if protocolSets == None:
+            protocolSets = protocolsSPDZ
+        targetCostFile += f'MP-SPDZ/{spdzProtocol}/{costType}.json'
     
     if costType not in {'time', 'dataSent', 'commRounds'}:
         raise Exception('Unknown cost type provided to protocol_mixing.py')
-    targetCostFile = '/../Cost_Tables/'
-    if backend == Backend.Backend.MOTION:
-        protList = protocolsMotion
-        targetCostFile += f'MOTION/{costType}.json'
-    elif backend == Backend.Backend.MP_SPDZ:
-        protList = protocolsSPDZ
-        targetCostFile += f'MP-SPDZ/{spdzProtocol}/{costType}.json'
 
     getLoopBounds(filename)
     getOpCosts(targetCostFile)
     trackedVars, directIOVars = getTrackedVars(type_env, body, dep_graph)
     getBounds(trackedVars - directIOVars, dep_graph, body)
     mixed = []
-    for protSet in protList:
+    for protSet in protocolSets:
         protocols = protSet
         mixed += mix(body, dep_graph, trackedVars, directIOVars, debug=False)
     minCost, minInterface, minConversions = (float("inf"), float("inf"), float("inf"))

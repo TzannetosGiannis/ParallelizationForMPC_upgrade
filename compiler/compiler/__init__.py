@@ -30,8 +30,13 @@ def compile(
     overwrite_out_dir: bool = False,
     protocol="",
     mixing: bool = False,
-    protocolsSPDZ = [{'A', 'B'}, {'X', 'B'}, {'Y', 'B'}]
+    protocolSets: list[set[str]] = None
 ):
+    if protocolSets == None:
+        protocolsMotion = [{'A', 'B', 'Y'}]
+        protocolsSPDZ = [{'A', 'B'}, {'X', 'B'}, {'Y', 'B'}]
+        protocolSets = protocolsSPDZ if backend == backend.MP_SPDZ else protocolsMotion
+
     try:
         ast_module = ast.parse(text, filename=filename)
         ast_node = ast_to_restricted_ast(node=ast_module, filename=filename, text=text)
@@ -124,7 +129,7 @@ def compile(
         print()
 
     if mixing:
-        mixed_config = mix_protocols(filename, type_env, linear.body, dep_graph, backend, costType, SPDZ_protocols=protocolsSPDZ)
+        mixed_config = mix_protocols(filename, type_env, linear.body, dep_graph, backend, costType, protocolSets=protocolSets)
         if not quiet:
             print("Protocol Mixing Assignments:")
             print(mixed_config)

@@ -493,6 +493,7 @@ def main():
         )
         md += "#### Common subexpression elimination\n"
         md += f"```python\n{loop_linear_code}\n```\n"
+        protocolsMotion = [{'A', 'B', 'Y'}]
         protocolsSPDZ = [{'A', 'B'}, {'X', 'B'}, {'Y', 'B'}]
         for backend in Backend:
             if backend is Backend.MOTION:
@@ -509,7 +510,7 @@ def main():
                 dep_graph=dep_graph, 
                 backend=backend,
                 costType="time", #[TODO] iterate thought the metrics and print in gh-pages
-                SPDZ_protocols=protocolsSPDZ
+                protocolSets=protocolsSPDZ if backend == Backend.MP_SPDZ else protocolsMotion
             )
             md += f"#### {backend} mixed configuration\n"
             md += f"```{ mixed_config }\n```\n"

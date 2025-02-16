@@ -1,0 +1,722 @@
+{
+    "biometric": {
+        "MOTION": {
+            "commRounds": {
+                "mixed": 663232.0,
+                "unmixed": 5360064.0
+            },
+            "dataSent": {
+                "mixed": 94.07129824561407,
+                "unmixed": 628.0471578947366
+            },
+            "time": {
+                "mixed": 69702.85934035089,
+                "unmixed": 471904.5104561404
+            }
+        },
+        "MP-SPDZ": {
+            "commRounds": {
+                "mixed": 0.0,
+                "unmixed": 0.0
+            },
+            "dataSent": {
+                "mixed": 56.89229417543861,
+                "unmixed": 78.64590821052633
+            },
+            "time": {
+                "mixed": 1.1048551331929823,
+                "unmixed": 1.3414972581052655
+            }
+        }
+    },
+    "biometric_fast": {
+        "MOTION": {
+            "commRounds": {
+                "mixed": 848032.0,
+                "unmixed": 5736576.0
+            },
+            "dataSent": {
+                "mixed": 94.07129824561407,
+                "unmixed": 626.9945263157894
+            },
+            "time": {
+                "mixed": 69727.2650245614,
+                "unmixed": 494783.18731228076
+            }
+        },
+        "MP-SPDZ": {
+            "commRounds": {
+                "mixed": 0.0,
+                "unmixed": 0.0
+            },
+            "dataSent": {
+                "mixed": 56.89229417543861,
+                "unmixed": 78.64590821052633
+            },
+            "time": {
+                "mixed": 1.1048551331929823,
+                "unmixed": 1.3414972581052655
+            }
+        }
+    },
+    "chapterfour_figure_12": {
+        "MOTION": {
+            "commRounds": {
+                "mixed": 324000.0,
+                "unmixed": 360000.0
+            },
+            "dataSent": {
+                "mixed": 20.84210526315791,
+                "unmixed": 20.84210526315791
+            },
+            "time": {
+                "mixed": 19079.347368421037,
+                "unmixed": 19079.347368421037
+            }
+        },
+        "MP-SPDZ": {
+            "commRounds": {
+                "mixed": 0.0,
+                "unmixed": 0.0
+            },
+            "dataSent": {
+                "mixed": 1.1256842105263156,
+                "unmixed": 1.1256842105263156
+            },
+            "time": {
+                "mixed": 0.022287315789473922,
+                "unmixed": 0.022287315789473922
+            }
+        }
+    },
+    "convex_hull": {
+        "MOTION": {
+            "commRounds": {
+                "mixed": 1122480.0,
+                "unmixed": 1122480.0
+            },
+            "dataSent": {
+                "mixed": 102.45263157894738,
+                "unmixed": 102.45263157894738
+            },
+            "time": {
+                "mixed": 60957.4954736842,
+                "unmixed": 60957.4954736842
+            }
+        },
+        "MP-SPDZ": {
+            "commRounds": {
+                "mixed": 0.0,
+                "unmixed": 0.0
+            },
+            "dataSent": {
+                "mixed": 12.97246315789474,
+                "unmixed": 12.97246315789474
+            },
+            "time": {
+                "mixed": 0.37032488842105266,
+                "unmixed": 0.37032488842105266
+            }
+        }
+    },
+    "count_102": {
+        "MOTION": {
+            "commRounds": {
+                "mixed": 1798000.0,
+                "unmixed": 3428000.0
+            },
+            "dataSent": {
+                "mixed": 178.73684210526312,
+                "unmixed": 213.47368421052636
+            },
+            "time": {
+                "mixed": 238647.97368421053,
+                "unmixed": 245756.68421052626
+            }
+        },
+        "MP-SPDZ": {
+            "commRounds": {
+                "mixed": 0.0,
+                "unmixed": 0.0
+            },
+            "dataSent": {
+                "mixed": 15.952105263157893,
+                "unmixed": 15.952105263157893
+            },
+            "time": {
+                "mixed": 0.16500142105263152,
+                "unmixed": 0.16500142105263152
+            }
+        }
+    },
+    "count_10s": {
+        "MOTION": {
+            "commRounds": {
+                "mixed": 1337560.0,
+                "unmixed": 2478560.0
+            },
+            "dataSent": {
+                "mixed": 128.9621052631579,
+                "unmixed": 153.27789473684214
+            },
+            "time": {
+                "mixed": 167053.5815789474,
+                "unmixed": 172029.67894736837
+            }
+        },
+        "MP-SPDZ": {
+            "commRounds": {
+                "mixed": 0.0,
+                "unmixed": 0.0
+            },
+            "dataSent": {
+                "mixed": 11.166385263157903,
+                "unmixed": 11.166385263157903
+            },
+            "time": {
+                "mixed": 0.09784120315789488,
+                "unmixed": 0.09784120315789488
+            }
+        }
+    },
+    "count_123": {
+        "MOTION": {
+            "commRounds": {
+                "mixed": 1339800.0,
+                "unmixed": 2480800.0
+            },
+            "dataSent": {
+                "mixed": 129.92,
+                "unmixed": 154.23578947368424
+            },
+            "time": {
+                "mixed": 167053.5815789474,
+                "unmixed": 172029.67894736837
+            }
+        },
+        "MP-SPDZ": {
+            "commRounds": {
+                "mixed": 0.0,
+                "unmixed": 0.0
+            },
+            "dataSent": {
+                "mixed": 11.245581052631586,
+                "unmixed": 11.245581052631586
+            },
+            "time": {
+                "mixed": 0.08154182842105286,
+                "unmixed": 0.08154182842105286
+            }
+        }
+    },
+    "cryptonets_max_pooling": {
+        "MOTION": {
+            "commRounds": {
+                "mixed": 588000.0,
+                "unmixed": 648000.0
+            },
+            "dataSent": {
+                "mixed": 116.04210526315798,
+                "unmixed": 116.04210526315798
+            },
+            "time": {
+                "mixed": 54084.08315789472,
+                "unmixed": 54084.08315789472
+            }
+        },
+        "MP-SPDZ": {
+            "commRounds": {
+                "mixed": 0.0,
+                "unmixed": 0.0
+            },
+            "dataSent": {
+                "mixed": 31.98576842105264,
+                "unmixed": 31.98576842105264
+            },
+            "time": {
+                "mixed": 0.7355909894736845,
+                "unmixed": 0.7355909894736845
+            }
+        }
+    },
+    "db_cross_join_trivial": {
+        "MOTION": {
+            "commRounds": {
+                "mixed": 78750.0,
+                "unmixed": 78750.0
+            },
+            "dataSent": {
+                "mixed": 46.34210526315787,
+                "unmixed": 46.34210526315787
+            },
+            "time": {
+                "mixed": 6427.888815789472,
+                "unmixed": 6427.888815789472
+            }
+        },
+        "MP-SPDZ": {
+            "commRounds": {
+                "mixed": 0.0,
+                "unmixed": 0.0
+            },
+            "dataSent": {
+                "mixed": 19.511960526315793,
+                "unmixed": 19.511960526315793
+            },
+            "time": {
+                "mixed": 0.42961227631578947,
+                "unmixed": 0.42961227631578947
+            }
+        }
+    },
+    "db_variance": {
+        "MOTION": {
+            "commRounds": {
+                "mixed": 5631240.0,
+                "unmixed": 13560480.0
+            },
+            "dataSent": {
+                "mixed": 390.8231578947367,
+                "unmixed": 914.2105263157894
+            },
+            "time": {
+                "mixed": 57369.21084210527,
+                "unmixed": 654324.1397894736
+            }
+        },
+        "MP-SPDZ": {
+            "commRounds": {
+                "mixed": 0.0,
+                "unmixed": 0.0
+            },
+            "dataSent": {
+                "mixed": 118.99726315789476,
+                "unmixed": 118.99726315789476
+            },
+            "time": {
+                "mixed": 2.0920738610526306,
+                "unmixed": 2.0920738610526306
+            }
+        }
+    },
+    "floyd_warshall": {
+        "MOTION": {
+            "commRounds": {
+                "mixed": 2757369004032000.0,
+                "unmixed": 5145370820608000.0
+            },
+            "dataSent": {
+                "mixed": 343597383680.0,
+                "unmixed": 403274824003.3685
+            },
+            "time": {
+                "mixed": 476400055586514.25,
+                "unmixed": 504151941559436.0
+            }
+        },
+        "MP-SPDZ": {
+            "commRounds": {
+                "mixed": 0.0,
+                "unmixed": 0.0
+            },
+            "dataSent": {
+                "mixed": 18429478616.225693,
+                "unmixed": 18429478616.225693
+            },
+            "time": {
+                "mixed": 95723292.43141492,
+                "unmixed": 95723292.43141492
+            }
+        }
+    },
+    "histogram": {
+        "MOTION": {
+            "commRounds": {
+                "mixed": 1325440.0,
+                "unmixed": 2445600.0
+            },
+            "dataSent": {
+                "mixed": 249.40631578947372,
+                "unmixed": 249.40631578947372
+            },
+            "time": {
+                "mixed": 196966.54399999997,
+                "unmixed": 209748.08084210535
+            }
+        },
+        "MP-SPDZ": {
+            "commRounds": {
+                "mixed": 0.0,
+                "unmixed": 0.0
+            },
+            "dataSent": {
+                "mixed": 43.99230315789475,
+                "unmixed": 43.99230315789475
+            },
+            "time": {
+                "mixed": 1.1477826821052617,
+                "unmixed": 1.1477826821052617
+            }
+        }
+    },
+    "inner_product": {
+        "MOTION": {
+            "commRounds": {
+                "mixed": 2400.0,
+                "unmixed": 2400.0
+            },
+            "dataSent": {
+                "mixed": 1.9578947368421056,
+                "unmixed": 1.9578947368421056
+            },
+            "time": {
+                "mixed": 235.54736842105314,
+                "unmixed": 235.54736842105314
+            }
+        },
+        "MP-SPDZ": {
+            "commRounds": {
+                "mixed": 0.0,
+                "unmixed": 0.0
+            },
+            "dataSent": {
+                "mixed": 9.312000000000001,
+                "unmixed": 9.312000000000001
+            },
+            "time": {
+                "mixed": 0.12299143157894739,
+                "unmixed": 0.12299143157894739
+            }
+        }
+    },
+    "kmeans_iteration": {
+        "MOTION": {
+            "commRounds": {
+                "mixed": 101496000.0,
+                "unmixed": 196138000.0
+            },
+            "dataSent": {
+                "mixed": 28829.000000000004,
+                "unmixed": 62450.78947368418
+            },
+            "time": {
+                "mixed": 15835188.526315782,
+                "unmixed": 26094406.665789478
+            }
+        },
+        "MP-SPDZ": {
+            "commRounds": {
+                "mixed": 287000.0,
+                "unmixed": 516000.0
+            },
+            "dataSent": {
+                "mixed": 11930.77168421053,
+                "unmixed": 25835.986263157894
+            },
+            "time": {
+                "mixed": 212.75406431578932,
+                "unmixed": 363.9314245789474
+            }
+        }
+    },
+    "longest_102": {
+        "MOTION": {
+            "commRounds": {
+                "mixed": 3440000.0,
+                "unmixed": 5250000.0
+            },
+            "dataSent": {
+                "mixed": 286.421052631579,
+                "unmixed": 321.15789473684225
+            },
+            "time": {
+                "mixed": 326066.65789473685,
+                "unmixed": 335918.6578947368
+            }
+        },
+        "MP-SPDZ": {
+            "commRounds": {
+                "mixed": 0.0,
+                "unmixed": 0.0
+            },
+            "dataSent": {
+                "mixed": 21.693789473684213,
+                "unmixed": 21.693789473684213
+            },
+            "time": {
+                "mixed": 0.4675195263157898,
+                "unmixed": 0.4675195263157898
+            }
+        }
+    },
+    "longest_1s": {
+        "MOTION": {
+            "commRounds": {
+                "mixed": 2618960.0,
+                "unmixed": 4066960.0
+            },
+            "dataSent": {
+                "mixed": 210.60210526315794,
+                "unmixed": 238.39157894736854
+            },
+            "time": {
+                "mixed": 265041.1368421052,
+                "unmixed": 272922.73684210517
+            }
+        },
+        "MP-SPDZ": {
+            "commRounds": {
+                "mixed": 0.0,
+                "unmixed": 0.0
+            },
+            "dataSent": {
+                "mixed": 13.210968421052636,
+                "unmixed": 13.210968421052636
+            },
+            "time": {
+                "mixed": 0.13335050842105362,
+                "unmixed": 0.13335050842105362
+            }
+        }
+    },
+    "longest_even_0": {
+        "MOTION": {
+            "commRounds": {
+                "mixed": 1991960.0,
+                "unmixed": 2896960.0
+            },
+            "dataSent": {
+                "mixed": 155.14947368421053,
+                "unmixed": 172.51789473684215
+            },
+            "time": {
+                "mixed": 165650.71052631576,
+                "unmixed": 170576.71052631573
+            }
+        },
+        "MP-SPDZ": {
+            "commRounds": {
+                "mixed": 0.0,
+                "unmixed": 0.0
+            },
+            "dataSent": {
+                "mixed": 11.169084210526318,
+                "unmixed": 11.169084210526318
+            },
+            "time": {
+                "mixed": 0.1469742663157903,
+                "unmixed": 0.1469742663157903
+            }
+        }
+    },
+    "longest_odd_10": {
+        "MOTION": {
+            "commRounds": {
+                "mixed": 2796800.0,
+                "unmixed": 4244800.0
+            },
+            "dataSent": {
+                "mixed": 233.02736842105267,
+                "unmixed": 260.8168421052633
+            },
+            "time": {
+                "mixed": 267235.76842105255,
+                "unmixed": 272922.73684210517
+            }
+        },
+        "MP-SPDZ": {
+            "commRounds": {
+                "mixed": 0.0,
+                "unmixed": 0.0
+            },
+            "dataSent": {
+                "mixed": 19.46817684210527,
+                "unmixed": 19.46817684210527
+            },
+            "time": {
+                "mixed": 0.24423478315789587,
+                "unmixed": 0.24423478315789587
+            }
+        }
+    },
+    "matrix_multiply": {
+        "MOTION": {
+            "commRounds": {
+                "mixed": 6291456.0,
+                "unmixed": 6291456.0
+            },
+            "dataSent": {
+                "mixed": 1304207.7911578948,
+                "unmixed": 1304207.7911578948
+            },
+            "time": {
+                "mixed": 248550794.9578778,
+                "unmixed": 248550794.9578778
+            }
+        },
+        "MP-SPDZ": {
+            "commRounds": {
+                "mixed": 18874368.0,
+                "unmixed": 18874368.0
+            },
+            "dataSent": {
+                "mixed": 6530129.557827368,
+                "unmixed": 6530129.557827368
+            },
+            "time": {
+                "mixed": 60377.620324783165,
+                "unmixed": 60377.620324783165
+            }
+        }
+    },
+    "max_dist_between_syms": {
+        "MOTION": {
+            "commRounds": {
+                "mixed": 2621440.0,
+                "unmixed": 4069440.0
+            },
+            "dataSent": {
+                "mixed": 210.24000000000004,
+                "unmixed": 238.02947368421064
+            },
+            "time": {
+                "mixed": 265041.1368421052,
+                "unmixed": 272922.73684210517
+            }
+        },
+        "MP-SPDZ": {
+            "commRounds": {
+                "mixed": 0.0,
+                "unmixed": 0.0
+            },
+            "dataSent": {
+                "mixed": 12.946778947368424,
+                "unmixed": 12.946778947368424
+            },
+            "time": {
+                "mixed": 0.1237288757894747,
+                "unmixed": 0.1237288757894747
+            }
+        }
+    },
+    "max_sum_between_syms": {
+        "MOTION": {
+            "commRounds": {
+                "mixed": 2621440.0,
+                "unmixed": 4069440.0
+            },
+            "dataSent": {
+                "mixed": 210.24000000000004,
+                "unmixed": 238.02947368421064
+            },
+            "time": {
+                "mixed": 265041.1368421052,
+                "unmixed": 272922.73684210517
+            }
+        },
+        "MP-SPDZ": {
+            "commRounds": {
+                "mixed": 0.0,
+                "unmixed": 0.0
+            },
+            "dataSent": {
+                "mixed": 12.946778947368424,
+                "unmixed": 12.946778947368424
+            },
+            "time": {
+                "mixed": 0.1237288757894747,
+                "unmixed": 0.1237288757894747
+            }
+        }
+    },
+    "minimal_points": {
+        "MOTION": {
+            "commRounds": {
+                "mixed": 359760.0,
+                "unmixed": 398640.0
+            },
+            "dataSent": {
+                "mixed": 46.96210526315792,
+                "unmixed": 46.96210526315792
+            },
+            "time": {
+                "mixed": 27455.15557894737,
+                "unmixed": 27455.15557894737
+            }
+        },
+        "MP-SPDZ": {
+            "commRounds": {
+                "mixed": 0.0,
+                "unmixed": 0.0
+            },
+            "dataSent": {
+                "mixed": 9.772673684210531,
+                "unmixed": 9.772673684210531
+            },
+            "time": {
+                "mixed": 0.20686115368421054,
+                "unmixed": 0.20686115368421054
+            }
+        }
+    },
+    "mnist_relu": {
+        "MOTION": {
+            "commRounds": {
+                "mixed": 162000.0,
+                "unmixed": 180000.0
+            },
+            "dataSent": {
+                "mixed": 292.6842105263156,
+                "unmixed": 292.6842105263156
+            },
+            "time": {
+                "mixed": 76564.30789473683,
+                "unmixed": 76564.30789473683
+            }
+        },
+        "MP-SPDZ": {
+            "commRounds": {
+                "mixed": 2000.0,
+                "unmixed": 2000.0
+            },
+            "dataSent": {
+                "mixed": 107.05752631578946,
+                "unmixed": 107.05752631578946
+            },
+            "time": {
+                "mixed": 1.7933344473684207,
+                "unmixed": 1.7933344473684207
+            }
+        }
+    },
+    "psi": {
+        "MOTION": {
+            "commRounds": {
+                "mixed": 85440.0,
+                "unmixed": 85440.0
+            },
+            "dataSent": {
+                "mixed": 22.07999999999999,
+                "unmixed": 22.07999999999999
+            },
+            "time": {
+                "mixed": 1110.4755789473743,
+                "unmixed": 1110.4755789473743
+            }
+        },
+        "MP-SPDZ": {
+            "commRounds": {
+                "mixed": 0.0,
+                "unmixed": 0.0
+            },
+            "dataSent": {
+                "mixed": 9.142471578947369,
+                "unmixed": 9.142471578947369
+            },
+            "time": {
+                "mixed": 0.19507518210526312,
+                "unmixed": 0.19507518210526312
+            }
+        }
+    }
+}
