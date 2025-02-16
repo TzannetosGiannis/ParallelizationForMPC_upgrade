@@ -26,6 +26,7 @@ otherTestCases = ['floyd_warshall', 'inner_product', 'kmeans_iteration', 'longes
 costTypes = ['time', 'commRounds', 'dataSent']
 backends = [Backend.MP_SPDZ, Backend.MOTION]
 currentCosts = dict()
+currentMixes = dict()
 save = False
 motionMix = [{'A', 'B', 'Y'}]
 motionUnmix = [{'A'}, {'B'}, {'Y'}]
@@ -64,18 +65,23 @@ def getMixedConfig(filename, backend, costType, protocolSets):
 
 for program in importantTestCases + otherTestCases:
     currentCosts[program] = dict()
+    currentMixes[program] = dict()
     for backend in backends:
         protSetMix = spdzMix if backend == Backend.MP_SPDZ else motionMix
         protSetUnmix = spdzUnmix if backend == Backend.MP_SPDZ else motionUnmix
         strBack = str(backend)
         currentCosts[program][strBack] = dict()
+        currentMixes[program][strBack] = dict()
         for costType in costTypes:
             currentCosts[program][strBack][costType] = dict()
+            currentMixes[program][strBack][costType] = dict()
             mixed = getMixedConfig(f'../benchmarks/{program}.py', backend, costType, protSetMix)
             unmixed = getMixedConfig(f'../benchmarks/{program}.py', backend, costType, protSetUnmix)
             assert mixed.total_cost <= unmixed.total_cost
             currentCosts[program][strBack][costType]['mixed'] = mixed.total_cost
             currentCosts[program][strBack][costType]['unmixed'] = unmixed.total_cost
+            currentMixes[program][strBack][costType]['mixed'] = str(mixed)
+            currentMixes[program][strBack][costType]['unmixed'] = str(unmixed)
             print(f'{strBack} {costType} {program} output')
             print(mixed)
 
@@ -93,3 +99,7 @@ if save:
     print('\nWriting mixedCostsForComparison.json')
     with open('mixedCostsForComparison.json', 'w') as f:
         f.write(json.dumps(currentCosts, indent=4, sort_keys=True))
+
+    print('Writing previousMixResults.json')
+    with open('previousMixResults.json', 'w') as f:
+        f.write(json.dumps(currentMixes, indent=4, sort_keys=True))
