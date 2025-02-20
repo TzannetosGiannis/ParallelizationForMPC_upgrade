@@ -15,12 +15,17 @@ import socket
 import compiler
 
 from tests import context as test_context
+
+from tests.backends import motion_run_benchmark
 from tests.backends.motion.benchmark import  (
     compile_benchmark as motion_compile_benchmark, 
     run_benchmark_for_party as motion_run_benchmark_for_party, 
     BenchmarkOutput as motion_BenchmarkOutput 
 )
-from tests.backends import motion_run_benchmark
+
+from tests.backends.mp_spdz.benchmark import (
+    compile_benchmark as mp_spdz_compile_benchmark
+)
 
 from utils import json_serialize, json_deserialize, StatsForInputConfig, StatsForTask, RunBenchmarkReq
 from utils import GetAddressReq, GetAddressResp
@@ -651,7 +656,7 @@ def run_paper_benchmarks():
         log.info("task {} DONE".format(task_stats.label))
     print_benchmark_data(all_stats)
 
-def compile_all_benchmarks():
+def compile_all_benchmarks_motion():
     for test_case_dir in os.scandir(test_context.STAGES_DIR):
         if test_case_dir.name in test_context.SKIPPED_TESTS[None]:
                 continue
@@ -663,6 +668,19 @@ def compile_all_benchmarks():
         motion_compile_benchmark(test_case_dir.name, test_case_dir.path, GMW_PROTOCOL, True)
         motion_compile_benchmark(test_case_dir.name, test_case_dir.path, BMR_PROTOCOL, False)
         motion_compile_benchmark(test_case_dir.name, test_case_dir.path, BMR_PROTOCOL, True)
+
+def compile_all_benchmarks_spdz():
+    for test_case_dir in os.scandir(test_context.STAGES_DIR):
+        if test_case_dir.name in test_context.SKIPPED_TESTS[None]:
+                continue
+        all_args, non_vec_up_to = get_inputs(test_case_dir.name)
+        if len(all_args) == 0:
+            continue
+        log.info("Compiling {} ...".format(test_case_dir.name))   
+        mp_spdz_compile_benchmark(test_case_dir.name, test_case_dir.path,True)
+        mp_spdz_compile_benchmark(test_case_dir.name, test_case_dir.path,False)
+             
+        
 
 def run_server_role(address):
     # log.info("Compiling All benchmarks")
@@ -1273,7 +1291,8 @@ if __name__ == "__main__":
     if args.graphs:
         generate_graphs(args.lan, args.wan)
     elif args.compile:
-        compile_all_benchmarks()
+        compile_all_benchmarks_motion()
+        compile_all_benchmarks_spdz()
     else:
         if args.role == 'b':
             run_paper_benchmarks()

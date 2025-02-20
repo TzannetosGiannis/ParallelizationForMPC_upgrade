@@ -134,7 +134,7 @@ class StagesTestCase(unittest.TestCase):
                     self.assertEqual(party0.strip(), expected_output.strip())
                     self.assertEqual(party1.strip(), expected_output.strip())
 
-            if test_context.BACKEND == 'MOTION':
+            if str(test_context.BACKEND) == 'MOTION':
                 # read the stages testcase for the input protocol
                 # at this step assume that the input variables have the same protocol
 
@@ -168,12 +168,12 @@ class StagesTestCase(unittest.TestCase):
                 protocol = protocols[initial_value]
 
                 output = run_benchmark(
-                test_context.BACKEND,
-                name,
-                test_case_dir.path,
-                protocol,
-                True, # for vectorization
-                mixed=True
+                    test_context.BACKEND,
+                    name,
+                    test_case_dir.path,
+                    protocol,
+                    True, # for vectorization
+                    mixed=True
                 
                 )
                 assert output

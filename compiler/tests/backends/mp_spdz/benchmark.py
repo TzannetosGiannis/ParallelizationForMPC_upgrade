@@ -102,7 +102,7 @@ def bmr_workaround() -> None:
 
 
 def set_up_spdz_compile(
-    benchmark_name: str, benchmark_path: str, vectorized: bool, mixed: bool, protocolsSPDZ = [{'A', 'B'}, {'X', 'B'}, {'Y', 'B'}]
+    benchmark_name: str, benchmark_path: str, vectorized: bool, mixed: bool, protocolSets = [{'A', 'B'}, {'X', 'B'}, {'Y', 'B'}]
 ) -> str:
     input_fname = os.path.join(benchmark_path, "input.py")
 
@@ -123,7 +123,7 @@ def set_up_spdz_compile(
         overwrite_out_dir=True,
         protocol=None,
         mixing=mixed,
-        protocolsSPDZ=protocolsSPDZ
+        protocolSets=None#protocolSets
     )
     
     # Copy vectorization library so compiled programs can use it
@@ -219,10 +219,10 @@ def run_benchmark(
     timeout=60 * 60,
     mixed=False,
     additional_flags=[],
-    protocolsSPDZ = [{'A', 'B'}, {'X', 'B'}, {'Y', 'B'}]
+    protocolSets = [{'A', 'B'}, {'X', 'B'}, {'Y', 'B'}]
 ) -> BenchmarkOutput:
 
-    set_up_spdz_compile(benchmark_name, benchmark_path, vectorized,mixed,protocolsSPDZ)
+    set_up_spdz_compile(benchmark_name, benchmark_path, vectorized,mixed)#,protocolSets)
     mpc_file = get_mpc_file_name(benchmark_name, vectorized,mixed)
     submodule_path = Backend.MP_SPDZ.submodule_path()
 
@@ -266,3 +266,39 @@ def run_benchmark(
     assert p.returncode == 0, stderr
     print(stdout)
     return BenchmarkOutput(stdout)
+
+
+def compile_benchmark(
+    benchmark_name: str, benchmark_path: str, vectorized: bool, mixed: bool = False
+) -> str:
+    
+    set_up_spdz_compile(benchmark_name, benchmark_path, vectorized,mixed)#,protocolSets)
+    mpc_file = get_mpc_file_name(benchmark_name, vectorized,mixed)
+    submodule_path = Backend.MP_SPDZ.submodule_path()
+
+    print("RUNNING BENCH",benchmark_name,benchmark_path,submodule_path)    
+    # Write an indicator file when running `make setup` so it only needs to run once
+    setup_indicator_path = os.path.join(submodule_path, ".ran-make-setup")
+
+    if not os.path.exists(setup_indicator_path):
+        subprocess.run(["make", "setup"], cwd=submodule_path, check=True)
+        with open(setup_indicator_path, "w") as _:
+            pass
+
+    # Adding compile time stats
+    start_time = time()
+    p = subprocess.Popen(
+    ["./compile.py", mpc_file],
+        cwd=submodule_path,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+    )
+    
+    stdout, stderr = p.communicate(timeout=6000)
+    assert p.returncode == 0, stderr
+    end_time = time()
+    compile_time = end_time - start_time
+    print("COMPILE TIME --- %s seconds ---" % compile_time)
+
+
