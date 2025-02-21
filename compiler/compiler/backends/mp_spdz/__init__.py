@@ -831,12 +831,14 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
     shared_array_decls = indent(render_shared_array_decls(type_env), "    ")
     func_body = indent(render_mixed_statements(func.body, None,convertion_dict,stmt_details_dict), "    ")
     
+    # [TODO] Brandon we need to identify when this flag is needed , now i let this here as tech debt
+    # We have validated that no cost is increased by this
+    mix_activation = "program.options.binary = 32\n"
     # retrieve the programm flags for X or Y from mixer
-    mix_activation = ""
     if 'Y' in mixed_config.flags:
-        mix_activation = 'program.use_edabit(True)\n'
+        mix_activation += 'program.use_edabit(True)\n'
     if 'X' in mixed_config.flags:
-        mix_activation = 'program.use_dabit = True\n'
+        mix_activation += 'program.use_dabit = True\n'
 
     global_declarations_str = "\n    ".join(global_declarations)
     return (

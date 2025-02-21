@@ -701,19 +701,57 @@ def run_paper_benchmarks_spdz():
 
             gmw_p0 = gmw_p1 = None
             
-            log.info("Running Arithmetic Non Vectorized {} {}".format(test_case_dir.name, args.label));           
-            task_execution_output = mp_spdz_run_benchmark(
-                benchmark_name=test_case_dir.name, 
-                benchmark_path=test_case_dir.path, 
-                protocol="semi", 
-                vectorized=False, 
-                timeout=None, 
-                mixed=False,
-                args=parse_list(args.args)
+            # log.info("Running Arithmetic Non Vectorized {} {}".format(test_case_dir.name, args.label));           
+            # task_execution_output = mp_spdz_run_benchmark(
+            #     benchmark_name=test_case_dir.name, 
+            #     benchmark_path=test_case_dir.path, 
+            #     protocol="semi", 
+            #     vectorized=False, 
+            #     timeout=None, 
+            #     mixed=False,
+            #     args=parse_list(args.args)
                 
-            )
-        
+            # )
+
+            # log.info("Running Arithmetic Vectorized {} {}".format(test_case_dir.name, args.label));           
+            # task_execution_output = mp_spdz_run_benchmark(
+            #     benchmark_name=test_case_dir.name, 
+            #     benchmark_path=test_case_dir.path, 
+            #     protocol="semi", 
+            #     vectorized=True, 
+            #     timeout=None, 
+            #     mixed=False,
+            #     args=parse_list(args.args)
+                
+            # )
+
+            # log.info("Running Binary Vectorized {} {}".format(test_case_dir.name, args.label));           
+            # task_execution_output = mp_spdz_run_benchmark(
+            #     benchmark_name=test_case_dir.name, 
+            #     benchmark_path=test_case_dir.path, 
+            #     protocol="semi", 
+            #     vectorized=True, 
+            #     timeout=None, 
+            #     mixed=True,
+            #     args=parse_list(args.args),
+            #     protocolSets=[{'B'}]
+                
+            # )
+
+            # log.info("Running Mixed Vectorized {} {}".format(test_case_dir.name, args.label));           
+            # task_execution_output = mp_spdz_run_benchmark(
+            #     benchmark_name=test_case_dir.name, 
+            #     benchmark_path=test_case_dir.path, 
+            #     protocol="semi", 
+            #     vectorized=True, 
+            #     timeout=None, 
+            #     mixed=True,
+            #     args=parse_list(args.args),
+            #     protocolSets=[{'A', 'B'}, {'X', 'B'}, {'Y', 'B'}]
     
+            # )
+            
+        return
     
         # here run mp_spdz_run_benchmark
         # all_stats.append(task_stats)
