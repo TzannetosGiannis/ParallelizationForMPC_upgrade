@@ -17,7 +17,7 @@ from dataclasses import dataclass
 from typing import Iterable, Union, Optional, cast, TypeVar, Any
 
 import z3  # type: ignore
-
+import re
 # copy of loop_linear_code.py imports
 from dataclasses import dataclass
 from textwrap import indent
@@ -85,8 +85,6 @@ protocols = set()
 protocolsMotion = [{'A', 'B', 'Y'}]
 protocolsSPDZ = [{'A', 'B'}, {'X', 'B'}, {'Y', 'B'}]
 # protocolsSPDZ = [{'A'}, {'B'}, {'X'}, {'Y'}]
-# protocolsSPDZ = [{'A'}]
-# protocolsSPDZ = [{'B'}]
 transparent_ops = [LiftExpr, DropDim, VectorizedAccess, Constant] # CHECK IF THIS IS THE FULL LIST
 runningSpdz = None
 
@@ -362,13 +360,20 @@ def getBounds(nonZeroVars: set[Var], dep_graph: DepGraph, stmts: list[Statement]
 
 
 # get the bounds for every loop in the current test case (needed for cost computation)
-def getLoopBounds(filename: str) -> None:
+def getLoopBounds(filename: str,python_text: str) -> None:
     global loopBounds
     filename = dirname(__file__)+"/../../benchmarks/" + '.'.join(filename.split('.')[:-1]) + "_bounds.json"
     
     assert exists(filename)
-    loopBounds = json.load(open(filename))
-
+    loopBounds_translation = json.load(open(filename))
+    loopBounds = {}
+    for key,value in loopBounds_translation.items():
+        pattern = rf"^{key}\s*=\s*(\d+)$"  # Match 'VariableName = Value' at the start of the line
+        match = re.search(pattern, python_text, re.MULTILINE)
+        assert match
+        extracted_match = int(match.group(1).strip())
+        loopBounds[value] = extracted_match
+        
 
 # get the cost table
 # ASSUMPTION: EVERYTHING IS 32 BIT
@@ -1205,7 +1210,7 @@ def getInterfaceSize(c: Config) -> (int, int):
 
 
 # run the mixer
-def mix_protocols(filename: str, type_env: TypeEnv, body: list[Statement], dep_graph: DepGraph, backend: Backend, costType: str, spdzProtocol: str = 'semi', protocolSets: list[set[str]] = None ) -> Config:
+def mix_protocols(filename: str, type_env: TypeEnv, body: list[Statement], dep_graph: DepGraph, backend: Backend, costType: str, spdzProtocol: str = 'semi', protocolSets: list[set[str]] = None, python_text: str = None ) -> Config:
     global protocols, runningSpdz
     runningSpdz = True if backend == Backend.Backend.MP_SPDZ else False
 
@@ -1222,7 +1227,7 @@ def mix_protocols(filename: str, type_env: TypeEnv, body: list[Statement], dep_g
     if costType not in {'time', 'dataSent', 'commRounds'}:
         raise Exception('Unknown cost type provided to protocol_mixing.py')
 
-    getLoopBounds(filename)
+    getLoopBounds(filename,python_text)
     getOpCosts(targetCostFile)
     trackedVars, directIOVars = getTrackedVars(type_env, body, dep_graph)
     getBounds(trackedVars - directIOVars, dep_graph, body)

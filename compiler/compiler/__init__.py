@@ -35,6 +35,10 @@ def compile(
     if protocolSets == None:
         protocolsMotion = [{'A', 'B', 'Y'}]
         protocolsSPDZ = [{'A', 'B'}, {'X', 'B'}, {'Y', 'B'}]
+        # protocolsSPDZ = [{'A'}]
+        # protocolsSPDZ = [{'B'}]
+        # protocolsSPDZ = [{'X'}]
+        # protocolsSPDZ = [{'Y'}]
         protocolSets = protocolsSPDZ if backend == backend.MP_SPDZ else protocolsMotion
 
     try:
@@ -129,7 +133,7 @@ def compile(
         print()
 
     if mixing:
-        mixed_config = mix_protocols(filename, type_env, linear.body, dep_graph, backend, costType, protocolSets=protocolSets)
+        mixed_config = mix_protocols(filename, type_env, linear.body, dep_graph, backend, costType, protocolSets=protocolSets,python_text=text)
         if not quiet:
             print("Protocol Mixing Assignments:")
             print(mixed_config)

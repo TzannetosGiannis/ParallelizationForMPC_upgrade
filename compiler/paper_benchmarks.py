@@ -697,10 +697,7 @@ def run_paper_benchmarks_spdz():
         non_vec_failed = False
         for args in all_args:
             log.info("\n{} - arguments: {}".format(test_case_dir.name, args.args));
-        
-
-            gmw_p0 = gmw_p1 = None
-            
+                
             # log.info("Running Arithmetic Non Vectorized {} {}".format(test_case_dir.name, args.label));           
             # task_execution_output = mp_spdz_run_benchmark(
             #     benchmark_name=test_case_dir.name, 
@@ -738,18 +735,19 @@ def run_paper_benchmarks_spdz():
                 
             # )
 
-            # log.info("Running Mixed Vectorized {} {}".format(test_case_dir.name, args.label));           
-            # task_execution_output = mp_spdz_run_benchmark(
-            #     benchmark_name=test_case_dir.name, 
-            #     benchmark_path=test_case_dir.path, 
-            #     protocol="semi", 
-            #     vectorized=True, 
-            #     timeout=None, 
-            #     mixed=True,
-            #     args=parse_list(args.args),
-            #     protocolSets=[{'A', 'B'}, {'X', 'B'}, {'Y', 'B'}]
+            log.info("Running Mixed Vectorized {} {}".format(test_case_dir.name, args.label));           
+            task_execution_output = mp_spdz_run_benchmark(
+                benchmark_name=test_case_dir.name, 
+                benchmark_path=test_case_dir.path, 
+                protocol="semi", 
+                vectorized=True, 
+                timeout=None, 
+                mixed=True,
+                args=parse_list(args.args),
+                protocolSets=[{'A', 'B'}, {'X', 'B'}, {'Y', 'B'}]
     
-            # )
+            )
+
             
         return
     
