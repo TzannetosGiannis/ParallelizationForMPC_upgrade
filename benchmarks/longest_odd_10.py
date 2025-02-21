@@ -29,5 +29,7 @@ def longest_odd_10(
 
     return max_length
 
-
-print(longest_odd_10([0, 1, 0, 1, 0, 1, 0, 1], 8, [0, 1]))
+Seq = [0, 1, 0, 1, 0, 1, 0, 1]
+N = 8
+Syms = [0, 1]
+print(longest_odd_10(Seq, N, Syms))

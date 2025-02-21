@@ -4,10 +4,6 @@ from UTIL import shared
 # Array V is a same-size result array, contains variance
 # A = [0,2,1,0,3,4,2,3]
 # V = [0,0,0,0,0,0,0,0]
-
-A = [0, 2, 1, 0, 3, 4, 2, 3]
-V = [0, 0, 0, 0, 0, 0, 0, 0]
-len = 8
 # requires: len(A) == len(V) == len
 # V is an array of 0s
 def db_variance(A: shared[list[int]], V: shared[list[int]], len: int) -> shared[int]:

@@ -80,6 +80,16 @@ class CompileStatsBin:
         self.vm_rounds = _parse_int_pattern(r"(\d+) virtual machine rounds", stdout)
 
 
+def replace_definitions(content, replacements):
+   
+    for key, value in replacements.items():
+        pattern = rf"^{key}\s*=\s*.*"  # Matches the variable definition line
+        value_str = str(value)  # Format list properly
+        replacement_line = f"{key} = {value_str}"
+        content = re.sub(pattern, replacement_line, content, flags=re.MULTILINE)
+
+    return content
+
 def get_mpc_file_name(benchmark_name: str, vectorized: bool,mixed:bool) -> str:
     postfix = ""
     if vectorized:
@@ -102,13 +112,16 @@ def bmr_workaround() -> None:
 
 
 def set_up_spdz_compile(
-    benchmark_name: str, benchmark_path: str, vectorized: bool, mixed: bool, protocolSets = [{'A', 'B'}, {'X', 'B'}, {'Y', 'B'}]
+    benchmark_name: str, benchmark_path: str, vectorized: bool, mixed: bool, protocolSets = [{'A', 'B'}, {'X', 'B'}, {'Y', 'B'}],args=None
 ) -> str:
     input_fname = os.path.join(benchmark_path, "input.py")
 
     with open(input_fname, "r") as f:
         input_py = f.read().strip()
-
+    
+    if not args is None:
+        input_py = replace_definitions(input_py,args)
+        
     submodule_path = Backend.MP_SPDZ.submodule_path()
     mpc_file = get_mpc_file_name(benchmark_name, vectorized,mixed)
     app_path = os.path.join(submodule_path, "Programs", "Source", f"{mpc_file}.mpc")
@@ -123,7 +136,7 @@ def set_up_spdz_compile(
         overwrite_out_dir=True,
         protocol=None,
         mixing=mixed,
-        protocolSets=None#protocolSets
+        protocolSets=protocolSets
     )
     
     # Copy vectorization library so compiled programs can use it
@@ -219,13 +232,13 @@ def run_benchmark(
     timeout=60 * 60,
     mixed=False,
     additional_flags=[],
-    protocolSets = [{'A', 'B'}, {'X', 'B'}, {'Y', 'B'}]
+    protocolSets = [{'A', 'B'}, {'X', 'B'}, {'Y', 'B'}],
+    args=None
 ) -> BenchmarkOutput:
 
-    set_up_spdz_compile(benchmark_name, benchmark_path, vectorized,mixed)#,protocolSets)
+    set_up_spdz_compile(benchmark_name, benchmark_path, vectorized,mixed,protocolSets,args=args)
     mpc_file = get_mpc_file_name(benchmark_name, vectorized,mixed)
     submodule_path = Backend.MP_SPDZ.submodule_path()
-
     print("RUNNING BENCH",benchmark_name,benchmark_path,submodule_path)    
     # Write an indicator file when running `make setup` so it only needs to run once
     setup_indicator_path = os.path.join(submodule_path, ".ran-make-setup")
@@ -254,7 +267,6 @@ def run_benchmark(
     compile_time = end_time - start_time
     print("COMPILE TIME --- %s seconds ---" % compile_time)
     # End of compile time status
-    print("tzannnn",["Scripts/compile-run.py", "-v", "-E", protocol, mpc_file," ".join(additional_flags)])
     p = subprocess.Popen(
         ["Scripts/compile-run.py", "-v", "-E", protocol, mpc_file," ".join(additional_flags)],
         cwd=submodule_path,
@@ -300,5 +312,60 @@ def compile_benchmark(
     end_time = time()
     compile_time = end_time - start_time
     print("COMPILE TIME --- %s seconds ---" % compile_time)
+    return mpc_file
 
+
+# def run_benchmark_for_party(
+#     myid: str, party0_mpc_addr: str, party1_mpc_addr: str, benchmark_name: str, benchmark_path: str, protocol: str, vectorized,
+#     timeout:int, cmd_args: list[str]
+# ) -> BenchmarkOutput:
+    
+#     mpc_file = compile_benchmark(benchmark_name, benchmark_path, vectorized)
+    
+    
+#     with subprocess.Popen(
+#         [
+#             exe_name,
+#             "--parties",
+#             party0_mpc_addr,
+#             party1_mpc_addr,
+#             "--my-id",
+#             myid,
+#         ] + cmd_args,
+#         stdout=subprocess.PIPE,
+#         stderr=subprocess.PIPE,
+#         text=True,
+#         cwd=party_dir,
+#     ) as party:
+#         try:
+#             party_stdout_raw, party_stderr = party.communicate(timeout)
+#         except subprocess.TimeoutExpired:
+#             party.kill()
+#             party_stdout_raw, party_stderr = party.communicate(timeout)
+
+#         with open(os.path.join(party_dir, "stdout"), "w") as f:
+#             f.write(party_stdout_raw)
+#         with open(os.path.join(party_dir, "stderr"), "w") as f:
+#             f.write(party_stderr)
+
+#         if(party.returncode != 0):
+#             print("party.returncode: {}".format(party.returncode))
+#             return None
+
+#         party_timing_stats = statistics.parse_timing_data(
+#             party_stderr.split("\n")
+#         )
+
+#         party_stdout_lines = party_stdout_raw.split("\n")
+#         party_output = party_stdout_lines[0]
+#         party_circuit_stats = statistics.parse_circuit_data(
+#             party_stdout_lines[1:]
+#         )
+
+#         return BenchmarkOutput(
+#                 name=benchmark_name,
+#                 output=party_output,
+#                 timing_stats=party_timing_stats,
+#                 circuit_stats=party_circuit_stats,
+#             )
 

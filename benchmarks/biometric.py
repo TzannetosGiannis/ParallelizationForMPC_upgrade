@@ -24,5 +24,7 @@ def biometric(
 
 
 C = [1, 2, 3, 4]
+D = 4
 S = [4, 5, 2, 10, 2, 120, 4, 10, 99, 88, 77, 66, 55, 44, 33, 22]
-print(biometric(C, 4, S, 4))
+N = 4
+print(biometric(C, D, S, N))

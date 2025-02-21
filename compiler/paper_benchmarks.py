@@ -23,6 +23,7 @@ from tests.backends.motion.benchmark import  (
     BenchmarkOutput as motion_BenchmarkOutput 
 )
 
+from tests.backends import mp_spdz_run_benchmark
 from tests.backends.mp_spdz.benchmark import (
     compile_benchmark as mp_spdz_compile_benchmark
 )
@@ -85,6 +86,29 @@ random.seed(0) # Intentionally seeding with a known value, for reproducibility
 def get_rand_ints(n, min=1, max=100):
     return [random.randint(min, max) for i in range(n)]
 
+def parse_list(data):
+    result = {}
+    key = None
+    values = []
+
+    for item in data:
+        if item.startswith("--"):
+            if key is not None:
+                # Store as int if only one value, otherwise as a list
+                result[key] = values[0] if len(values) == 1 else values
+            key = item[2:]  # Remove '--'
+            values = []
+        else:
+            values.append(int(item))
+
+    # Add the last key-value pair
+    if key is not None:
+        result[key] = values[0] if len(values) == 1 else values
+
+    return result
+
+
+
 def get_biometric_inputs() -> tuple[list[InputArgs], int]:
     all_args = []
     non_vec_up_to = 0 #6# Only run non-vectorized benchmark upto this index
@@ -133,7 +157,7 @@ def get_biometric_fast_inputs() -> tuple[list[InputArgs], int]:
         S_sqr_sum = [sum(S[i * D + j] * S[i * D + j] for j in range(D)) for i in range(N)]
         args.append("--S_sqr_sum")
         args.extend(list(map(str, S_sqr_sum)))
-        differences = [0] * D
+        differences = [0] * N
         args.append("--differences")
         args.extend(list(map(str, differences)))
 
@@ -468,16 +492,16 @@ def get_inputs(name: str) -> tuple[list[InputArgs], int]:
         return get_biometric_inputs()
     if name == "biometric_fast":
         return get_biometric_fast_inputs()
-    # if name == "chapterfour_figure_12": # millionaire's problem, not interesting
-    #     return get_chapterfour_figure_12_inputs()
+    if name == "chapterfour_figure_12": # millionaire's problem, not interesting
+        return get_chapterfour_figure_12_inputs()
     if name == "convex_hull" or name == "minimal_points":
         return get_convex_hull_inputs()
-    if name ==  name == "count_102" or "longest_102":
+    if name == "count_102" or name == "longest_102":
         return get_count_102_inputs()
     if name == "count_10s":
         return get_count_10s_inputs()
-    # if name == "count_123":
-    #     return get_count_123_inputs()
+    if name == "count_123":
+        return get_count_123_inputs()
     if name == "cryptonets_max_pooling":
         return get_cryptonets_max_pooling_inputs()
     if name == "db_cross_join_trivial": # could only do up to 64
@@ -490,9 +514,9 @@ def get_inputs(name: str) -> tuple[list[InputArgs], int]:
         return get_inner_product_inputs()
     if name == "kmeans_iteration":
         return get_kmeans_iteration_inputs()
-    # if name == "longest_odd_10": # could not run for 4096
-    #     return get_longest_odd_10_inputs()
-    if name == "max_dist_between_syms": # or name == "max_sum_between_syms":
+    if name == "longest_odd_10": # could not run for 4096 on MOTION
+        return get_longest_odd_10_inputs()
+    if name == "max_dist_between_syms" or name == "max_sum_between_syms":
         return get_max_dist_between_syms_inputs()
     if name == "mnist_relu":
         return get_mnist_relu_inputs()
@@ -561,7 +585,7 @@ def print_benchmark_data(all_stats):
             print_protocol_stats(v.bmr_p0, v.bmr_vec_p0, v.bmr_p1, v.bmr_vec_p1)
 
 
-def run_paper_benchmarks():
+def run_paper_benchmarks_motion():
     all_stats = []
     for test_case_dir in os.scandir(test_context.STAGES_DIR):
         if test_case_dir.name in test_context.SKIPPED_TESTS[None]:
@@ -656,6 +680,47 @@ def run_paper_benchmarks():
         log.info("task {} DONE".format(task_stats.label))
     print_benchmark_data(all_stats)
 
+def run_paper_benchmarks_spdz():
+    all_stats = []
+    for test_case_dir in os.scandir(test_context.STAGES_DIR):
+        if test_case_dir.name in test_context.SKIPPED_TESTS[None]:
+                continue
+        
+        
+        all_args, non_vec_up_to = get_inputs(test_case_dir.name)
+        if len(all_args) == 0:
+            continue
+        
+        task_stats = StatsForTask(test_case_dir.name, [])
+        compile = True
+        i = 0
+        non_vec_failed = False
+        for args in all_args:
+            log.info("\n{} - arguments: {}".format(test_case_dir.name, args.args));
+        
+
+            gmw_p0 = gmw_p1 = None
+            
+            log.info("Running Arithmetic Non Vectorized {} {}".format(test_case_dir.name, args.label));           
+            task_execution_output = mp_spdz_run_benchmark(
+                benchmark_name=test_case_dir.name, 
+                benchmark_path=test_case_dir.path, 
+                protocol="semi", 
+                vectorized=False, 
+                timeout=None, 
+                mixed=False,
+                args=parse_list(args.args)
+                
+            )
+        
+    
+    
+        # here run mp_spdz_run_benchmark
+        # all_stats.append(task_stats)
+        log.info("task {} DONE".format(task_stats.label))
+    # print_benchmark_data(all_stats)
+
+
 def compile_all_benchmarks_motion():
     for test_case_dir in os.scandir(test_context.STAGES_DIR):
         if test_case_dir.name in test_context.SKIPPED_TESTS[None]:
@@ -682,7 +747,7 @@ def compile_all_benchmarks_spdz():
              
         
 
-def run_server_role(address):
+def run_server_role_motion(address):
     # log.info("Compiling All benchmarks")
     # compile_all_benchmarks()
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -717,7 +782,7 @@ def run_server_role(address):
                     )
                 write_message(conn, resp)
 
-def run_client_role(address):
+def run_client_role_motion(address):
     # log.info("Compiling All benchmarks")
     # compile_all_benchmarks()
     log.info("Client started, will connect to server at address {} port {}".format(address, SERVER_PORT))
@@ -1295,8 +1360,9 @@ if __name__ == "__main__":
         compile_all_benchmarks_spdz()
     else:
         if args.role == 'b':
-            run_paper_benchmarks()
+            # run_paper_benchmarks_motion()
+            run_paper_benchmarks_spdz()
         elif args.role == 's':
-            run_server_role(args.address)
+            run_server_role_motion(args.address)
         else:
-            run_client_role(args.address)
+            run_client_role_motion(args.address)

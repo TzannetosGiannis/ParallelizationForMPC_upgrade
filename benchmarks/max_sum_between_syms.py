@@ -17,5 +17,7 @@ def max_sum_between_syms(
     return max_sum
 
 
-seq = [1, 2, 1, 1, 2, 3, 4, 1]
-print(max_sum_between_syms(seq, 8, 1))
+Seq = [1, 2, 1, 1, 2, 3, 4, 1]
+N = 8
+Sym = 1
+print(max_sum_between_syms(Seq, N, Sym))

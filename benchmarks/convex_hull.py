@@ -34,6 +34,7 @@ def convex_hull(
 
 X_coords = [1, 2, 3]
 Y_coords = [4, 5, 6]
+N = 3
 result_X = [0 for i in range(len(X_coords))]
 result_Y = [0 for i in range(len(Y_coords))]
-print(convex_hull(X_coords, Y_coords, 3, result_X, result_Y))
+print(convex_hull(X_coords, Y_coords, N, result_X, result_Y))

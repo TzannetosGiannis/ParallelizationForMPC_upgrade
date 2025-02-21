@@ -10,5 +10,6 @@ def chapterfour_figure_12(x: shared[int], y: shared[int]) -> shared[int]:
             z = 0
     return z
 
-
-print(chapterfour_figure_12(1, 1))
+x = 1
+y = 1
+print(chapterfour_figure_12(x, y))

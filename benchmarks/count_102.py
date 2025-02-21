@@ -18,5 +18,7 @@ def count_102(Seq: shared[list[int]], N: int, Syms: shared[list[int]]) -> shared
     return c
 
 
-seq = [1, 0, 2, 1, 0, 0, 2, 1, 2, 2]
-print(count_102(seq, 10, [1, 0, 2]))
+Seq = [1, 0, 2, 1, 0, 0, 2, 1, 2, 2]
+N = 10
+Syms = [1, 0, 2]
+print(count_102(Seq, N, Syms))
