@@ -567,7 +567,7 @@ def render_mixed_stmt(
 
                 return plaintext_conversions + f"{lhs} = {val_expr}; {convertion}"
 
-            
+
             dim_sizes = (
                 "{"
                 + ", ".join(
@@ -596,7 +596,6 @@ def render_mixed_stmt(
             )
 
             mixed_convertion = f"vectorized_assign({render_expr(stmt.lhs.array, ctx)}, {dim_sizes}, {vectorized_dims}, {idxs}, {val_expr});"
-
             # assign the protocol based on the convertion dict
             if "party->In<Protocol>" in mixed_convertion:
                 mixed_convertion =  mixed_convertion.replace("party->In<Protocol>",f"party->In<{to_be_converted[0]}>")
@@ -639,12 +638,20 @@ def render_mixed_stmt(
                 modify_stmt_details_dict(stmt_details_dict,stmt_key,retrieve_ABY_tag(to_be_converted[0]),stmt_key)
                 return mixed_convertion
             else:
+               
+                for elem in stmt_details_dict:
+                    if elem in mixed_convertion and elem != render_expr(stmt.lhs.array, dc.replace(render_ctx, plaintext=False)) and  stmt_details_dict[elem][convertion_tuple[0][0]] != None:
+                        mixed_convertion = mixed_convertion.replace(elem,stmt_details_dict[elem][convertion_tuple[0][0]])
+                        
                 
                 for i in range( len(convertion_tuple) ):
                     # the from should be writen in the dictionary and shall remain
                     stmt_key = render_expr(stmt.lhs.array, dc.replace(render_ctx, plaintext=False))
                     
                     modify_stmt_details_dict(stmt_details_dict,stmt_key,convertion_tuple[i][0], stmt_key)
+
+
+                    
 
                     new_key = stmt_key + f"_{convertion_tuple[i][1]}"
                     
