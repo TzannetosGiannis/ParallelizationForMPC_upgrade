@@ -151,6 +151,64 @@ class Config:
         return "Total cost:\t{:.2f}".format(self.total_cost) + "\n" + inputs + "\n" + constants + "\n" + plaintexts + "\n" + flags + "\n" + stmts + "\n" + finalLines + "\n" + outputs + "\n"
 
 
+# Identical to Config, but every set is changed to an ordered set. This is used to make the output deterministic and
+#   comparable for changes.
+class OrderedConfig:
+    assignments: list[Any]
+    inputs: dict[Var, list[Protocol]]
+    outputs: dict[Var, list[Protocol]]
+    total_cost: float
+    protocolByVar: dict[Var, list[Protocol]]
+    finalStmts: list[Statement]
+    constants: dict[Var, list[Protocol]]
+    plaintexts: dict[Var, list[Protocol]]
+    flags: list[str]
+    lockedVarsIdx: dict[Var, int]
+    lockedVarsSets: list[list[Var]]
+
+    def __init__(self, copyConfig: Config) -> None:
+        self.inputs = dict()
+        self.outputs = dict()
+        self.assignments = []
+        self.total_cost = copyConfig.total_cost
+        self.lockedVarsIdx = deepcopy(copyConfig.lockedVarsIdx)
+        self.lockedVarsSets = deepcopy(copyConfig.lockedVarsSets)
+        self.protocolByVar = dict()
+        self.finalStmts = copyConfig.finalStmts
+        self.constants = dict()
+        self.plaintexts = dict()
+        self.flags = sorted(list(copyConfig.flags))
+
+        for v, s in copyConfig.inputs.items():
+            self.inputs[v] = sorted(list(s))
+
+        for v, s in copyConfig.outputs.items():
+            self.outputs[v] = sorted(list(s))
+
+        for stmt, prot, conv, cost, depth, nest, explicitConv in copyConfig.assignments:
+            self.assignments.append([stmt, prot, sorted(list(conv)), cost, depth, nest, explicitConv])
+
+        for v, s in copyConfig.protocolByVar.items():
+            self.protocolByVar[v] = sorted(list(s))
+
+        for v, s in copyConfig.constants.items():
+            self.constants[v] = sorted(list(s))
+
+        for v, s in copyConfig.plaintexts.items():
+            self.plaintexts[v] = sorted(list(s))
+
+
+    def __str__(self) -> str:
+        inputs = "Input vars:\t{" + ", ".join(str(var) + ": " + (str(conv) if len(conv) else '{}') for var, conv in self.inputs.items()) + "}"
+        constants = "Constants:\t{" + ", ".join(str(val) + ": " + (str(conv) if len(conv) else '{}') for val, conv in self.constants.items()) + "}"
+        plaintexts = "Plaintext vars:\t{" + ", ".join(str(var) + ": " + (str(conv) if len(conv) else '{}') for var, conv in self.plaintexts.items()) + "}"
+        flags = "Flags:\t\t{" + ", ".join(str(flag) for flag in self.flags) + "}"
+        stmts = "\n".join("\t"*count + str(stmt) + ": " + str(assign) + " -> " + (str(conv) if len(conv) else '{}') + " for " + "{:.2f}".format(cost) + " * " + str(depth) + " = " + "{:.2f}".format(cost*depth) + (" (" + (", ".join(cd[0] + "->" + cd[1] for cd in convDict) if len(conv) else "") + ")" if len(convDict) else "") for stmt, assign, conv, cost, depth, count, convDict in self.assignments)
+        finalLines = "\n".join(str(l) for l in reversed(self.finalStmts))
+        outputs = "Output vars:\t{" + ", ".join(str(var) + ": " + (str(conv) if len(conv) else '{}') for var, conv in self.outputs.items()) + "}"
+        return "Total cost:\t{:.2f}".format(self.total_cost) + "\n" + inputs + "\n" + constants + "\n" + plaintexts + "\n" + flags + "\n" + stmts + "\n" + finalLines + "\n" + outputs + "\n"
+
+
 # get any constants from the RHS of a statement
 def getRHSConstants(rhs: AssignRHS) -> list[Var]:
     if isinstance(rhs, Var):
@@ -1210,7 +1268,7 @@ def getInterfaceSize(c: Config) -> (int, int):
 
 
 # run the mixer
-def mix_protocols(filename: str, type_env: TypeEnv, body: list[Statement], dep_graph: DepGraph, backend: Backend, costType: str, spdzProtocol: str = 'semi', protocolSets: list[set[str]] = None, python_text: str = None ) -> Config:
+def mix_protocols(filename: str, type_env: TypeEnv, body: list[Statement], dep_graph: DepGraph, backend: Backend, costType: str, spdzProtocol: str = 'semi', protocolSets: list[set[str]] = None, python_text: str = None ) -> OrderedConfig:
     global protocols, runningSpdz
     runningSpdz = True if backend == Backend.Backend.MP_SPDZ else False
 
@@ -1251,4 +1309,4 @@ def mix_protocols(filename: str, type_env: TypeEnv, body: list[Statement], dep_g
     # populateConstantsAndPlaintexts(best, {var for var, t in type_env.items() if t.visibility and t.visibility.value == 'plaintext'})
     if runningSpdz:
         populateFlags(best)
-    return best
+    return OrderedConfig(best)
