@@ -1,10 +1,12 @@
+program.options.binary = 32
 def mnist_relu(input_0, OUTPUT_res_0, len_outer_0, len_inner_0):
     # Convertion functions
     siv32 = sbitintvec.get_type(32)
     sb32 = sbits.get_type(32)
-    for _random_iter in range(0,len(OUTPUT_res_0)):
-     OUTPUT_res_0[_random_iter] = siv32(OUTPUT_res_0[_random_iter])
+    OUTPUT_res_0 = [elem for elem in sint(OUTPUT_res_0)]
 
+
+    
     # Shared array declarations
     _1_3 = [None] * (len_outer_0 * len_inner_0)
     _2_0 = [None] * (len_outer_0 * len_inner_0)
@@ -12,6 +14,8 @@ def mnist_relu(input_0, OUTPUT_res_0, len_outer_0, len_inner_0):
     _4_0 = [None] * (len_outer_0 * len_inner_0)
     OUTPUT_res_3 = [None] * (len_outer_0 * len_inner_0)
     val_5 = [None] * (len_outer_0 * len_inner_0)
+    # Shared array convertion declarations
+    
     # Function body
     _2_0 = _v.lift(lambda indices: OUTPUT_res_0, [len_outer_0, len_inner_0])
     _4_0 = _v.lift(lambda indices: (input_0[((indices[0] * len_inner_0) + indices[1])]), [len_outer_0, len_inner_0])

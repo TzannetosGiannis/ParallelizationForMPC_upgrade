@@ -35,6 +35,8 @@ std::vector<encrypto::motion::SecureUnsignedInteger> db_cross_join_trivial(
     encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_1 = party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::ToInput(std::uint32_t(1)), 0);
     encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_2 = party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::ToInput(std::uint32_t(2)), 0);
 
+    // Input Protocol Convertions
+
     // Plaintext parameter assignments
 
     // Function body

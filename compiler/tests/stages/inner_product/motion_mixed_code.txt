@@ -23,6 +23,8 @@ encrypto::motion::SecureUnsignedInteger inner_product(
     // Constant initializations
     encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_0 = party->In<encrypto::motion::MpcProtocol::kArithmeticGmw>(std::uint32_t(0), 0);
 
+    // Input Protocol Convertions
+
     // Plaintext parameter assignments
 
     // Function body

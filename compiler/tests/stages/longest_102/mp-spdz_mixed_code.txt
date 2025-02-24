@@ -1,7 +1,9 @@
+program.options.binary = 32
 def longest_102(Seq_0, N_0, Syms_0):
     # Convertion functions
     siv32 = sbitintvec.get_type(32)
     sb32 = sbits.get_type(32)
+    
     
     # Shared array declarations
     _1_2 = [None] * (N_0)
@@ -26,8 +28,10 @@ def longest_102(Seq_0, N_0, Syms_0):
     s0_2 = [None] * (N_0)
     s0_3 = [None] * (N_0)
     s1_2 = [None] * (N_0)
+    # Shared array convertion declarations
+    
     # Function body
-    s0_1 = siv32(_v.sbool(False))
+    s0_1 = sbit(0)
     max_len_1 = siv32(0)
     length_1 = siv32(0)
     _12_0 = _v.lift(lambda indices: (Seq_0[indices[0]]), [N_0])

@@ -1,7 +1,9 @@
+program.options.binary = 32
 def max_dist_between_syms(Seq_0, N_0, Sym_0):
     # Convertion functions
     siv32 = sbitintvec.get_type(32)
     sb32 = sbits.get_type(32)
+    
     
     # Shared array declarations
     _1_2 = [None] * (N_0)
@@ -16,6 +18,8 @@ def max_dist_between_syms(Seq_0, N_0, Sym_0):
     current_dist_5 = [None] * (N_0)
     max_dist_2 = [None] * (N_0)
     max_dist_4 = [None] * (N_0)
+    # Shared array convertion declarations
+    
     # Function body
     max_dist_1 = siv32(0)
     current_dist_1 = siv32(0)

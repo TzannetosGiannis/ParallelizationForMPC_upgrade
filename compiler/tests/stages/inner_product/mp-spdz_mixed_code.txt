@@ -1,7 +1,10 @@
+program.options.binary = 32
+program.use_dabit = True
 def inner_product(A_0, B_0, N_0):
     # Convertion functions
     siv32 = sbitintvec.get_type(32)
     sb32 = sbits.get_type(32)
+    
     
     # Shared array declarations
     _1_0 = [None] * (N_0)
@@ -10,6 +13,8 @@ def inner_product(A_0, B_0, N_0):
     sum_2 = [None] * (N_0)
     sum_3 = [None] * (N_0)
     temp_2 = [None] * (N_0)
+    # Shared array convertion declarations
+    
     # Function body
     sum_1 = sint(0)
     _2_0 = _v.lift(lambda indices: (A_0[indices[0]]), [N_0])

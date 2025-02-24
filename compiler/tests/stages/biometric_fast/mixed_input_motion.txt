@@ -1,1 +1,1 @@
-{"two_C_0": ["A"], "S_0": ["A"], "C_sqr_sum_0": ["A"], "S_sqr_sum_0": ["A"], "differences_0": ["A"]}
+{"two_C_0": ["A"], "S_0": ["A"], "C_sqr_sum_0": ["A"], "S_sqr_sum_0": ["A"], "differences_0": ["Y"]}

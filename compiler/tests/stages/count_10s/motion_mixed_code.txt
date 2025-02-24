@@ -41,8 +41,11 @@ encrypto::motion::SecureUnsignedInteger count_10s(
 
     // Constant initializations
     encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_0 = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(std::uint32_t(0)), 0);
-    encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_1 = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(std::uint32_t(1)), 0);
-    encrypto::motion::ShareWrapper _MPC_CONSTANT_false = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::BitVector(1, false), 0);
+    encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_1 = party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::ToInput(std::uint32_t(1)), 0);
+    encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_1_Y = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(std::uint32_t(1)), 0);
+    encrypto::motion::ShareWrapper _MPC_CONSTANT_false = party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::BitVector(1, false), 0);
+
+    // Input Protocol Convertions
 
     // Plaintext parameter assignments
 
@@ -94,23 +97,27 @@ encrypto::motion::SecureUnsignedInteger count_10s(
     }
 
     vectorized_assign(_2_2, {_MPC_PLAINTEXT_N_0}, {true}, {}, (to_share_wrapper(vectorized_access(s1_2, {_MPC_PLAINTEXT_N_0}, {true}, {})) & to_share_wrapper(vectorized_access(_1_2, {_MPC_PLAINTEXT_N_0}, {true}, {}))));
+    std::vector<encrypto::motion::SecureUnsignedInteger> scount_2_B((_MPC_PLAINTEXT_N_0));
+    std::vector<encrypto::motion::SecureUnsignedInteger> scount_3_B((_MPC_PLAINTEXT_N_0));
+    std::vector<encrypto::motion::SecureUnsignedInteger> scount_4_Y((_MPC_PLAINTEXT_N_0));
 
     // Initialize loop counter
     _MPC_PLAINTEXT__17_0 = std::uint32_t(0);
     // Initialize phi values
-    scount_2[_MPC_PLAINTEXT__17_0] = _7_0[_MPC_PLAINTEXT__17_0];
+    scount_2[_MPC_PLAINTEXT__17_0] = _7_0[_MPC_PLAINTEXT__17_0]; scount_2_B[_MPC_PLAINTEXT__17_0] = scount_2[_MPC_PLAINTEXT__17_0].Get().Convert<encrypto::motion::MpcProtocol::kBooleanGmw>();
     for (; _MPC_PLAINTEXT__17_0 < _MPC_PLAINTEXT_N_0; _MPC_PLAINTEXT__17_0++) {
         // Update phi values
         if (_MPC_PLAINTEXT__17_0 != std::uint32_t(0)) {
-            scount_2[_MPC_PLAINTEXT__17_0] = scount_4[(_MPC_PLAINTEXT__17_0 - std::uint32_t(1))];
+            scount_2[_MPC_PLAINTEXT__17_0] = scount_4_Y[(_MPC_PLAINTEXT__17_0 - std::uint32_t(1))]; scount_2_B[_MPC_PLAINTEXT__17_0] = scount_2[_MPC_PLAINTEXT__17_0].Get().Convert<encrypto::motion::MpcProtocol::kBooleanGmw>();
         }
 
-        scount_3[_MPC_PLAINTEXT__17_0] = (scount_2[_MPC_PLAINTEXT__17_0] + _MPC_CONSTANT_1);
-        scount_4[_MPC_PLAINTEXT__17_0] = _2_2[_MPC_PLAINTEXT__17_0].Mux(scount_3[_MPC_PLAINTEXT__17_0].Get(), scount_2[_MPC_PLAINTEXT__17_0].Get());
+        scount_3[_MPC_PLAINTEXT__17_0] = (scount_2[_MPC_PLAINTEXT__17_0] + _MPC_CONSTANT_1_Y); scount_3_B[_MPC_PLAINTEXT__17_0] = scount_3[_MPC_PLAINTEXT__17_0].Get().Convert<encrypto::motion::MpcProtocol::kBooleanGmw>();
+        scount_4[_MPC_PLAINTEXT__17_0] = _2_2[_MPC_PLAINTEXT__17_0].Mux(scount_3_B[_MPC_PLAINTEXT__17_0].Get(), scount_2_B[_MPC_PLAINTEXT__17_0].Get()); scount_4_Y[_MPC_PLAINTEXT__17_0] = scount_4[_MPC_PLAINTEXT__17_0].Get().Convert<encrypto::motion::MpcProtocol::kBmr>();
 
     }
 
-    _14_0 = drop_dim_monoreturn(vectorized_access(scount_4, {_MPC_PLAINTEXT_N_0}, {true}, {}).Unsimdify(), {_MPC_PLAINTEXT_N_0});
+    _14_0 = drop_dim_monoreturn(vectorized_access(scount_4, {_MPC_PLAINTEXT_N_0}, {true}, {}).Unsimdify(), {_MPC_PLAINTEXT_N_0}); 
+    encrypto::motion::SecureUnsignedInteger _14_0_Y; _14_0_Y = drop_dim_monoreturn(vectorized_access(scount_4_Y, {_MPC_PLAINTEXT_N_0}, {true}, {}).Unsimdify(), {_MPC_PLAINTEXT_N_0});
     return _14_0;
 
 }

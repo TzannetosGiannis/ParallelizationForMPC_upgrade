@@ -1,7 +1,10 @@
-def biometric_fast(D_0, N_0, C_0, C_sqr_sum_0, two_C_0, S_0, S_sqr_sum_0, differences_0):
+program.options.binary = 32
+program.use_dabit = True
+def biometric_fast(D_0, N_0, C_sqr_sum_0, two_C_0, S_0, S_sqr_sum_0, differences_0):
     # Convertion functions
     siv32 = sbitintvec.get_type(32)
     sb32 = sbits.get_type(32)
+    
     
     # Shared array declarations
     _1_2 = [None] * (N_0)
@@ -26,6 +29,8 @@ def biometric_fast(D_0, N_0, C_0, C_sqr_sum_0, two_C_0, S_0, S_sqr_sum_0, differ
     tmp_3 = [None] * (N_0 * D_0)
     two_a_b_3 = [None] * (N_0 * D_0)
     two_a_b_4 = [None] * (N_0 * D_0)
+    # Shared array convertion declarations
+    differences_2_B = [None] * (N_0)
     # Function body
     min_index_1 = siv32(0)
     _4_0 = _v.lift(lambda indices: differences_0, [N_0])
@@ -61,10 +66,14 @@ def biometric_fast(D_0, N_0, C_0, C_sqr_sum_0, two_C_0, S_0, S_sqr_sum_0, differ
     _v.vectorized_assign(two_a_b_3, [N_0, D_0], [None, _14_0], _v.vectorized_access(two_a_b_4, [N_0, D_0], [None, (_14_0 - 1)]))
     _v.vectorized_assign(_10_0, [N_0], [None], _v.drop_dim(two_a_b_4, [N_0, D_0]))
     _v.vectorized_assign(this_diff_2, [N_0], [None], (_v.vectorized_access_simd(a_sqr_plus_b_sqr_2, [N_0], [None]) - _v.vectorized_access_simd(_10_0, [N_0], [None])))
-    _v.vectorized_assign(_4_0, [N_0], [None], _v.vectorized_access(this_diff_2, [N_0], [None])); _v.vectorized_assign(differences_2, [N_0], [None], _v.vectorized_access(_4_0, [N_0], [None]));
+    _v.vectorized_assign(_4_0, [N_0], [None], _v.vectorized_access(this_diff_2, [N_0], [None])); _v.vectorized_assign(differences_2, [N_0], [None], _v.vectorized_access(_4_0, [N_0], [None]))
+    for _random_iter in range(0,len(differences_2)):
+      differences_2_B[_random_iter] = _v.convertion_check(differences_2[_random_iter])
+    differences_2_B = siv32(differences_2_B);
     differences_2_B = [None] * (N_0)
-    for _random_iter in range(0,N_0):
-      differences_2_B[_random_iter] = siv32(differences_2[_random_iter])
+    for _random_iter in range(0,len(differences_2)):
+      differences_2_B[_random_iter] = _v.convertion_check(differences_2[_random_iter])
+    differences_2_B = siv32(differences_2_B)
     for _17_0 in range(0, N_0):
         # Set ϕ value
         if _17_0 == 0:

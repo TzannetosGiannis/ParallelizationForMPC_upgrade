@@ -23,6 +23,8 @@ std::vector<encrypto::motion::SecureUnsignedInteger> mnist_relu(
     // Constant initializations
     encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_1 = party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::ToInput(std::uint32_t(1)), 0);
 
+    // Input Protocol Convertions
+
     // Plaintext parameter assignments
     OUTPUT_res_0.clear();
     std::transform(_MPC_PLAINTEXT_OUTPUT_res_0.begin(), _MPC_PLAINTEXT_OUTPUT_res_0.end(), std::back_inserter(OUTPUT_res_0), [&](const auto &val) { return party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::ToInput(val), 0); });

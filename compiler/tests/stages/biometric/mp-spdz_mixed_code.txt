@@ -1,7 +1,10 @@
+program.options.binary = 32
+program.use_dabit = True
 def biometric(C_0, D_0, S_0, N_0):
     # Convertion functions
     siv32 = sbitintvec.get_type(32)
     sb32 = sbits.get_type(32)
+    
     
     # Shared array declarations
     _1_2 = [None] * (N_0)
@@ -20,6 +23,8 @@ def biometric(C_0, D_0, S_0, N_0):
     p_3 = [None] * (N_0 * D_0)
     sum_3 = [None] * (N_0 * D_0)
     sum_4 = [None] * (N_0 * D_0)
+    # Shared array convertion declarations
+    _8_0_B = [None] * (N_0)
     # Function body
     min_sum_1 = siv32(10000)
     min_index_1 = siv32(0)
@@ -42,9 +47,9 @@ def biometric(C_0, D_0, S_0, N_0):
     # Loop exit ϕ values
     _v.vectorized_assign(sum_3, [N_0, D_0], [None, _12_0], _v.vectorized_access(sum_4, [N_0, D_0], [None, (_12_0 - 1)]))
     _v.vectorized_assign(_8_0, [N_0], [None], _v.drop_dim(sum_4, [N_0, D_0]))
-    _8_0_B = [None] * (N_0)
-    for _random_iter in range(0,N_0):
-      _8_0_B[_random_iter] = siv32(_8_0[_random_iter])
+    for _random_iter in range(0,len(_8_0)):
+      _8_0_B[_random_iter] = _v.convertion_check(_8_0[_random_iter])
+    _8_0_B = siv32(_8_0_B)
     for _14_0 in range(0, N_0):
         # Set ϕ value
         if _14_0 == 0:

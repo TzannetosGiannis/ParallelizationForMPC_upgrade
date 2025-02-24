@@ -1,13 +1,13 @@
 Nodes:
     parameter A!0
-    parameter SA!0
+    parameter D!0
     parameter B!0
-    parameter SB!0
+    parameter R!0
     parameter result!0
-    for i!1 in range(0, SA!0):
+    for i!1 in range(0, D!0):
     result!1 = Φ(result!0, result!2)
     flag!2 = False
-    for j!1 in range(0, SB!0):
+    for j!1 in range(0, R!0):
         flag!3 = Φ(flag!2, flag!5)
         !1!3 = (A!0[i!1] == B!0[j!1])
         flag!4 = True
@@ -18,7 +18,7 @@ Nodes:
     result!2 = Update(result!1, i!1, val!4)
     result!1 = Φ(result!0, result!2)
     flag!2 = False
-    for j!1 in range(0, SB!0):
+    for j!1 in range(0, R!0):
     flag!3 = Φ(flag!2, flag!5)
     !1!3 = (A!0[i!1] == B!0[j!1])
     flag!4 = True
@@ -36,16 +36,16 @@ Forward edges:
     parameter A!0  →  parameter A!0
     parameter A!0  →  !1!3 = (A!0[i!1] == B!0[j!1])
     parameter A!0  →  val!3 = A!0[i!1]
-    parameter SA!0  →  parameter SA!0
+    parameter D!0  →  parameter D!0
     parameter B!0  →  parameter B!0
     parameter B!0  →  !1!3 = (A!0[i!1] == B!0[j!1])
-    parameter SB!0  →  parameter SB!0
+    parameter R!0  →  parameter R!0
     parameter result!0  →  parameter result!0
     parameter result!0  →  result!1 = Φ(result!0, result!2)
-    for i!1 in range(0, SA!0):
+    for i!1 in range(0, D!0):
     result!1 = Φ(result!0, result!2)
     flag!2 = False
-    for j!1 in range(0, SB!0):
+    for j!1 in range(0, R!0):
         flag!3 = Φ(flag!2, flag!5)
         !1!3 = (A!0[i!1] == B!0[j!1])
         flag!4 = True
@@ -54,10 +54,10 @@ Forward edges:
     val!3 = A!0[i!1]
     val!4 = MUX(flag!3, val!3, val!2)
     result!2 = Update(result!1, i!1, val!4)  →  !1!3 = (A!0[i!1] == B!0[j!1])
-    for i!1 in range(0, SA!0):
+    for i!1 in range(0, D!0):
     result!1 = Φ(result!0, result!2)
     flag!2 = False
-    for j!1 in range(0, SB!0):
+    for j!1 in range(0, R!0):
         flag!3 = Φ(flag!2, flag!5)
         !1!3 = (A!0[i!1] == B!0[j!1])
         flag!4 = True
@@ -66,10 +66,10 @@ Forward edges:
     val!3 = A!0[i!1]
     val!4 = MUX(flag!3, val!3, val!2)
     result!2 = Update(result!1, i!1, val!4)  →  val!2 = result!1[i!1]
-    for i!1 in range(0, SA!0):
+    for i!1 in range(0, D!0):
     result!1 = Φ(result!0, result!2)
     flag!2 = False
-    for j!1 in range(0, SB!0):
+    for j!1 in range(0, R!0):
         flag!3 = Φ(flag!2, flag!5)
         !1!3 = (A!0[i!1] == B!0[j!1])
         flag!4 = True
@@ -78,10 +78,10 @@ Forward edges:
     val!3 = A!0[i!1]
     val!4 = MUX(flag!3, val!3, val!2)
     result!2 = Update(result!1, i!1, val!4)  →  val!3 = A!0[i!1]
-    for i!1 in range(0, SA!0):
+    for i!1 in range(0, D!0):
     result!1 = Φ(result!0, result!2)
     flag!2 = False
-    for j!1 in range(0, SB!0):
+    for j!1 in range(0, R!0):
         flag!3 = Φ(flag!2, flag!5)
         !1!3 = (A!0[i!1] == B!0[j!1])
         flag!4 = True
@@ -94,7 +94,7 @@ Forward edges:
     result!1 = Φ(result!0, result!2)  →  result!2 = Update(result!1, i!1, val!4)
     result!1 = Φ(result!0, result!2)  →  return result!1
     flag!2 = False  →  flag!3 = Φ(flag!2, flag!5)
-    for j!1 in range(0, SB!0):
+    for j!1 in range(0, R!0):
     flag!3 = Φ(flag!2, flag!5)
     !1!3 = (A!0[i!1] == B!0[j!1])
     flag!4 = True

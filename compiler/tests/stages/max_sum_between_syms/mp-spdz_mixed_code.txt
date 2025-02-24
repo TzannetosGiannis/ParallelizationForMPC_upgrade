@@ -1,7 +1,9 @@
+program.options.binary = 32
 def max_sum_between_syms(Seq_0, N_0, Sym_0):
     # Convertion functions
     siv32 = sbitintvec.get_type(32)
     sb32 = sbits.get_type(32)
+    
     
     # Shared array declarations
     _1_2 = [None] * (N_0)
@@ -16,6 +18,8 @@ def max_sum_between_syms(Seq_0, N_0, Sym_0):
     current_sum_5 = [None] * (N_0)
     max_sum_2 = [None] * (N_0)
     max_sum_4 = [None] * (N_0)
+    # Shared array convertion declarations
+    
     # Function body
     max_sum_1 = siv32(0)
     current_sum_1 = siv32(0)

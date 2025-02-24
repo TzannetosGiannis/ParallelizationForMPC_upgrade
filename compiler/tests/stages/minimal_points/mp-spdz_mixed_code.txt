@@ -1,7 +1,9 @@
+program.options.binary = 32
 def minimal_points(X_coords_0, Y_coords_0, N_0, result_X_0, result_Y_0):
     # Convertion functions
     siv32 = sbitintvec.get_type(32)
     sb32 = sbits.get_type(32)
+    
     
     # Shared array declarations
     _10_0 = [None] * (N_0 * N_0)
@@ -24,12 +26,14 @@ def minimal_points(X_coords_0, Y_coords_0, N_0, result_X_0, result_Y_0):
     result_Y_2 = [None] * (N_0)
     val_X_4 = [None] * (N_0)
     val_Y_4 = [None] * (N_0)
+    # Shared array convertion declarations
+    
     # Function body
     _8_0 = _v.lift(lambda indices: result_X_0, [N_0])
     _9_0 = _v.lift(lambda indices: result_Y_0, [N_0])
     _16_0 = _v.lift(lambda indices: (X_coords_0[indices[0]]), [N_0])
     _17_0 = _v.lift(lambda indices: (Y_coords_0[indices[0]]), [N_0])
-    bx_2 = siv32(_v.sbool(False))
+    bx_2 = sbit(0)
     _11_0 = _v.lift(lambda indices: (X_coords_0[indices[1]]), [N_0, N_0])
     _12_0 = _v.lift(lambda indices: (X_coords_0[indices[0]]), [N_0, N_0])
     _13_0 = _v.lift(lambda indices: (Y_coords_0[indices[1]]), [N_0, N_0])

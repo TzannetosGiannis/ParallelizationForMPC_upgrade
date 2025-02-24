@@ -1100,11 +1100,7 @@ def render_mixed_stmt(
             + phi_finalizations
         )
 
-        replace_dict = {}
         identified_in_loop = {}
-
-        
-        stmt_converted = []
         for body_stmt in stmt.body:
             if not hasattr(body_stmt,"lhs"):
                 continue
@@ -1112,11 +1108,9 @@ def render_mixed_stmt(
             convertion_to = convertions_dict[str(body_stmt.lhs)]['to']
             for key in stmt_details_dict.keys():
                 if key in result_stmt:
-                    
                     # if you havent identified it yet it is already declared on the default protocol
                     if convertion_from == '_' and stmt_details_dict[key][list(convertion_to)[0]] == None:
                         modify_stmt_details_dict(stmt_details_dict,key,list(convertion_to)[0], key)
-                    
                     if convertion_from == '_' and stmt_details_dict[key][list(convertion_to)[0]] != None:
                         pass
                     else:
@@ -1124,21 +1118,12 @@ def render_mixed_stmt(
                         # if it was registered by creating the new variable , this will be used 
                         if stmt_details_dict[key][convertion_from] is None:
                             modify_stmt_details_dict(stmt_details_dict,key,convertion_from, key)
-                        if len(convertion_to) == 0:
-                            replace_dict[key] = stmt_details_dict[key][convertion_from]
-                        else:
-                            replace_dict[key] = stmt_details_dict[key][convertion_from]
-                            if hasattr(body_stmt.lhs,"array"):
-                                identified_in_loop[body_stmt.lhs.array] = list(convertion_to)[0]
+
+                        # if we find something from explicit convertion we store it to initialize it later
+                        if len(convertion_to) != 0 and hasattr(body_stmt.lhs,"array"):
+                            identified_in_loop[body_stmt.lhs.array] = list(convertion_to)[0]
 
         global_declarations = ""
-        # make the replacements all in one
-        # [TODO] make this on each stmt of the body not in all result
-        for key in replace_dict:
-            if key in result_stmt and not f"{key}_" in result_stmt and not key.startswith("_MPC_CONSTANT"):
-                result_stmt = result_stmt.replace(key,replace_dict[key])
-               
-
         for variable_in_loop in identified_in_loop:
             
             loop_key = render_expr(
@@ -1154,17 +1139,7 @@ def render_mixed_stmt(
                             }
             )[0]
 
-    
-            # # [TODO] consider if more that one dimentions do exists
-            # dimention_bound = "{" + stmt_details_dict[loop_key]['declaration'].split(loop_key+"(")[1][1:-3] +"}"
-            # convertion_vectorized_access = f"(vectorized_access({loop_key}, {dimention_bound}, {{true}}, {{}}).Get().Convert<{identified_pr}>()))"
-            # convertion_stmt = f"vectorized_assign({new_key}, {dimention_bound}, {{true}}, {{}}, {convertion_vectorized_access};\n"
-            
             global_declarations += (f"{stmt_details_dict[loop_key]['declaration'].replace(loop_key,new_key)}\n")
-            # result_stmt += (
-            #     f"{convertion_stmt}"
-            # )   
-                       
         return f"{global_declarations}{result_stmt}"
 
     elif isinstance(stmt, Return):

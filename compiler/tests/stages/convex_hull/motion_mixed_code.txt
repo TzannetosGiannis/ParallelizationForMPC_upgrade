@@ -46,15 +46,17 @@ std::tuple<std::vector<encrypto::motion::SecureUnsignedInteger>, std::vector<enc
     bool _MPC_PLAINTEXT_is_hull_4;
 
     // Constant initializations
-    encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_0 = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(std::uint32_t(0)), 0);
-    encrypto::motion::ShareWrapper _MPC_CONSTANT_false = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::BitVector(1, false), 0);
-    encrypto::motion::ShareWrapper _MPC_CONSTANT_true = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::BitVector(1, true), 0);
+    encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_0 = party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::ToInput(std::uint32_t(0)), 0);
+    encrypto::motion::ShareWrapper _MPC_CONSTANT_false = party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::BitVector(1, false), 0);
+    encrypto::motion::ShareWrapper _MPC_CONSTANT_true = party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::BitVector(1, true), 0);
+
+    // Input Protocol Convertions
 
     // Plaintext parameter assignments
     result_X_0.clear();
-    std::transform(_MPC_PLAINTEXT_result_X_0.begin(), _MPC_PLAINTEXT_result_X_0.end(), std::back_inserter(result_X_0), [&](const auto &val) { return party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(val), 0); });
+    std::transform(_MPC_PLAINTEXT_result_X_0.begin(), _MPC_PLAINTEXT_result_X_0.end(), std::back_inserter(result_X_0), [&](const auto &val) { return party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::ToInput(val), 0); });
     result_Y_0.clear();
-    std::transform(_MPC_PLAINTEXT_result_Y_0.begin(), _MPC_PLAINTEXT_result_Y_0.end(), std::back_inserter(result_Y_0), [&](const auto &val) { return party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(val), 0); });
+    std::transform(_MPC_PLAINTEXT_result_Y_0.begin(), _MPC_PLAINTEXT_result_Y_0.end(), std::back_inserter(result_Y_0), [&](const auto &val) { return party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::ToInput(val), 0); });
 
     // Function body
     vectorized_assign(_11_0, {_MPC_PLAINTEXT_N_0}, {true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return result_X_0;}), {_MPC_PLAINTEXT_N_0}));

@@ -1,7 +1,7 @@
-def psi(A: shared[list[int; ?]], SA: plaintext[int], B: shared[list[int; ?]], SB: plaintext[int], result: shared[list[int; ?]]) -> shared[list[int; ?]]:
-    for i: plaintext[int] in range(0, SA):
+def psi(A: shared[list[int; ?]], D: plaintext[int], B: shared[list[int; ?]], R: plaintext[int], result: shared[list[int; ?]]) -> shared[list[int; ?]]:
+    for i: plaintext[int] in range(0, D):
         flag = False
-        for j: plaintext[int] in range(0, SB):
+        for j: plaintext[int] in range(0, R):
             if (A[i] == B[j]):
                 flag = True
         val = result[i]

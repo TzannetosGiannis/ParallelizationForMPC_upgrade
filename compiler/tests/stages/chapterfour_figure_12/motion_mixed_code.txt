@@ -18,8 +18,10 @@ encrypto::motion::SecureUnsignedInteger chapterfour_figure_12(
     std::uint32_t _MPC_PLAINTEXT_z_3;
 
     // Constant initializations
-    encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_0 = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(std::uint32_t(0)), 0);
-    encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_1 = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(std::uint32_t(1)), 0);
+    encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_0 = party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::ToInput(std::uint32_t(0)), 0);
+    encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_1 = party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::ToInput(std::uint32_t(1)), 0);
+
+    // Input Protocol Convertions
 
     // Plaintext parameter assignments
 

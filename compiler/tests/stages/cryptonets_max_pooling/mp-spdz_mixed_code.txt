@@ -1,10 +1,12 @@
+program.options.binary = 32
 def cryptonets_max_pooling(vals_0, cols_0, rows_0, cols_res_0, rows_res_0, OUTPUT_res_0):
     # Convertion functions
     siv32 = sbitintvec.get_type(32)
     sb32 = sbits.get_type(32)
-    for _random_iter in range(0,len(OUTPUT_res_0)):
-     OUTPUT_res_0[_random_iter] = siv32(OUTPUT_res_0[_random_iter])
+    OUTPUT_res_0 = [elem for elem in sint(OUTPUT_res_0)]
 
+
+    
     # Shared array declarations
     _1_3 = [None] * (rows_res_0 * cols_res_0)
     _11_0 = [None] * (rows_res_0 * cols_res_0)
@@ -19,6 +21,8 @@ def cryptonets_max_pooling(vals_0, cols_0, rows_0, cols_res_0, rows_res_0, OUTPU
     max_5 = [None] * (rows_res_0 * cols_res_0)
     max_7 = [None] * (rows_res_0 * cols_res_0)
     max_9 = [None] * (rows_res_0 * cols_res_0)
+    # Shared array convertion declarations
+    
     # Function body
     _4_0 = _v.lift(lambda indices: OUTPUT_res_0, [rows_res_0, cols_res_0])
     _6_0 = _v.lift(lambda indices: (vals_0[(((indices[0] * 2) * cols_0) + (indices[1] * 2))]), [rows_res_0, cols_res_0])
