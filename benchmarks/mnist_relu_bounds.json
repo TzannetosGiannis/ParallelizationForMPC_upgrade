@@ -1,4 +1,4 @@
 {
-  "len_outer!0": 20,
-  "len_inner!0": 10
+  "len_outer":"len_outer!0",
+  "len_inner":"len_inner!0"
 }

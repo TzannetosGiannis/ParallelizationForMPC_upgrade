@@ -184,6 +184,16 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
             }
             
 
+    # phi nodes will create problems so  we will iterate here to fill stmt_details_dict
+    # the problem is that if access variables that are not registered yet
+
+    for key in convertion_dict:
+        convertion_tuple = convertion_dict[key]['convertion_tuple']
+        if len(convertion_tuple) > 0:
+            small_key = key.split("{")[0].replace("!","_")
+            stmt_details_dict[small_key][convertion_tuple[0][0]] = small_key
+            stmt_details_dict[small_key][convertion_tuple[0][1]] = f"{small_key}_{convertion_tuple[0][1]}"
+
     plaintext_var_definitions = (
         "// Plaintext variable declarations\n"
         + "\n".join(
@@ -257,12 +267,20 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
     # handle the input variables , for now allow one protocol only
     # [TODO] allow inputs of {"var": {A,B}} 
     for key , value in mixed_config.inputs.items():
+        if len(value) > 1:
+            raise NotImplementedError("input supported only in one protocol")
         dict_key = render_expr(key, dt.replace(render_ctx, plaintext=False))
         if dict_key not in plaintext_dict:
             plaintext_dict[dict_key] = list(value)
-        if len(value) > 1:
-            raise NotImplementedError("input supported only in one protocol")
-    
+            stmt_details_dict[dict_key] = {
+                "declaration":"None",
+                        "A":None,
+                        "B":None,
+                        "Y":None,
+            }
+            stmt_details_dict[dict_key][plaintext_dict[dict_key][0]] = dict_key
+
+        
     # handle parameters both as scalar and vectors with respect to protocol assignment
     for i, param in enumerate(sorted(func.parameters, key=str)):
         
@@ -316,7 +334,6 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
     func_body = "// Function body\n"
     for i, stmt in enumerate(func.body):
         if not isinstance(stmt, Phi):
-            # rendered_stmt = render_mixed_stmt(stmt, type_env, ran_vectorization,convertion_dict)
             rendered_stmt = render_mixed_stmt(stmt, type_env,render_ctx, ran_vectorization,convertion_dict,stmt_details_dict)
             func_body += rendered_stmt + "\n"
             
