@@ -47,6 +47,13 @@ class RenderContext:
     enclosing_loops: list[For] = dc.field(default_factory=list)
 
 
+# safe modify dictionary that keeps variables and allocated protocol
+def modify_stmt_details_dict(stmt_details_dict,key,field,value):
+    if stmt_details_dict[key][field] is None:
+        stmt_details_dict[key][field] = value
+
+    assert value.startswith(key)
+
 def render_type(var_type: VarType, plaintext: Optional[bool] = None) -> str:
     assert var_type.visibility is not None
     assert var_type.datatype is not None
@@ -532,8 +539,8 @@ def render_mixed_stmt(
                     convertion_tuple = convertion_tuple[0]
                     stmt_key = render_expr(stmt.lhs.array, dc.replace(render_ctx, plaintext=False))
                     new_key = stmt_key+f"_{convertion_tuple[1]}"
-                    stmt_details_dict[stmt_key][convertion_tuple[0]] = stmt_key
-                    stmt_details_dict[stmt_key][convertion_tuple[1]] = new_key
+                    modify_stmt_details_dict(stmt_details_dict,stmt_key,convertion_tuple[0],stmt_key)
+                    modify_stmt_details_dict(stmt_details_dict,stmt_key,convertion_tuple[1],new_key)
                     identified_pr = identify_protocols(
                             {
                                 "to": set(convertion_tuple[1])
@@ -541,12 +548,11 @@ def render_mixed_stmt(
                     )[0]
                     convertion = f"{lhs.replace(stmt_key,new_key)} = {lhs}.Get().Convert<{identified_pr}>();"
                     # check if the keys are in the correct protocol
-                    current_stmt = f"{lhs} = {val_expr}"
+                    current_stmt = f"{lhs} = {val_expr}"     
                     for key in stmt_details_dict:
                         if key in current_stmt:
                             if stmt_details_dict[key][convertion_tuple[0]] != None:
                                 current_stmt = current_stmt.replace(key,stmt_details_dict[key][convertion_tuple[0]])
-                            
                     return plaintext_conversions + f"{current_stmt}; {convertion}"
                 elif convertion_from != '_' and len(convertion_to) == 0:
                     current_stmt = f"{lhs} = {val_expr}"
@@ -607,11 +613,12 @@ def render_mixed_stmt(
                     new_declaration = ""
                     for prot in list(convertions_dict[str(stmt.lhs)]['to']):
                         if first_time == True:
-                            stmt_details_dict[current_key][prot] = current_key
+                            modify_stmt_details_dict(stmt_details_dict,current_key,prot,current_key)
                             first_time = False
                             new_declaration = ""
                         else:
-                            stmt_details_dict[current_key][prot] = f"{current_key}_{prot}"
+
+                            modify_stmt_details_dict(stmt_details_dict,current_key,prot,f"{current_key}_{prot}")
                             new_declaration = stmt_details_dict[current_key]["declaration"].replace(current_key,f"{current_key}_{prot}") + "\n"
                         temp_convertion = mixed_convertion
                         if raise_key in temp_convertion and not f"{raise_key}_" in temp_convertion:
@@ -629,7 +636,7 @@ def render_mixed_stmt(
                     mixed_convertion = initial_convertion
                        
                 
-                stmt_details_dict[stmt_key][retrieve_ABY_tag(to_be_converted[0])] = stmt_key
+                modify_stmt_details_dict(stmt_details_dict,stmt_key,retrieve_ABY_tag(to_be_converted[0]),stmt_key)
                 return mixed_convertion
             else:
                 
@@ -637,7 +644,7 @@ def render_mixed_stmt(
                     # the from should be writen in the dictionary and shall remain
                     stmt_key = render_expr(stmt.lhs.array, dc.replace(render_ctx, plaintext=False))
                     
-                    stmt_details_dict[stmt_key][convertion_tuple[i][0]] = stmt_key
+                    modify_stmt_details_dict(stmt_details_dict,stmt_key,convertion_tuple[i][0], stmt_key)
 
                     new_key = stmt_key + f"_{convertion_tuple[i][1]}"
                     
@@ -663,7 +670,7 @@ def render_mixed_stmt(
                     mixed_convertion += convertion_stmt
                 
                     # store for future reference
-                    stmt_details_dict[stmt_key][convertion_tuple[i][1]] = new_key
+                    modify_stmt_details_dict(stmt_details_dict,stmt_key,convertion_tuple[i][1], new_key)
                     return mixed_convertion
 
             # validate that the used variables are correspoding to the mixed ones
@@ -679,7 +686,7 @@ def render_mixed_stmt(
                     
                     # if you havent identified it yet it is already declared on the default protocol
                     if convertion_from == '_' and stmt_details_dict[key][list(convertion_to)[0]] == None:
-                        stmt_details_dict[key][list(convertion_to)[0]] = key
+                        modify_stmt_details_dict(stmt_details_dict,key,list(convertion_to)[0], key)
                     
                     if convertion_from == '_' and stmt_details_dict[key][list(convertion_to)[0]] != None:
                         pass
@@ -808,7 +815,7 @@ def render_mixed_stmt(
             if search_key in stmt_details_dict:
                 for elem in stmt_details_dict[search_key]:
                     if stmt_details_dict[search_key][elem] == search_key:
-                        stmt_details_dict[finders_key][elem] = finders_key
+                        modify_stmt_details_dict(stmt_details_dict,finders_key,elem, finders_key)
             
             plaintext_assignment = (
                 render_expr(
@@ -878,7 +885,7 @@ def render_mixed_stmt(
                     
                     mixed_convertion = initial_convertion + f"{lhs_key}_{list(convertion_to)[0]} = {lhs_key}.Get().Convert<{identified_pr}>();" 
     
-                    stmt_details_dict[lhs_key][convertion_from] = lhs_key
+                    modify_stmt_details_dict(stmt_details_dict,lhs_key,convertion_from,lhs_key)
 
                 elif convertion_from == '_' and len(convertion_to) > 1:
                     
@@ -888,7 +895,7 @@ def render_mixed_stmt(
                     
                     current_key = render_expr(stmt.lhs, dc.replace(render_ctx, plaintext=False))
                     if len(convertion_tuple) > 0:
-                        stmt_details_dict[current_key][convertion_tuple[0][0]] = current_key
+                        modify_stmt_details_dict(stmt_details_dict,current_key,convertion_tuple[0][0], current_key)
                         mixed_convertion += "\n"
                         
                         for explicit_convertion in convertion_tuple:
@@ -903,7 +910,7 @@ def render_mixed_stmt(
                             new_key = f"{current_key}_{explicit_to}"
                             mixed_convertion += f"{stmt_details_dict[current_key]['declaration'].replace(current_key,new_key)}\n"
                             mixed_convertion += f"{new_key} = {stmt_details_dict[current_key][explicit_from]}.Get().Convert<{identified_pr}>();\n"
-                            stmt_details_dict[current_key][explicit_to] = new_key    
+                            modify_stmt_details_dict(stmt_details_dict,current_key,explicit_to, new_key)
                     
                     else:
                         # _ {Y,B} _ 
@@ -925,14 +932,14 @@ def render_mixed_stmt(
                                 # here we should find the key that matches
                                 chosen_prot = next((prot for prot in ['A', 'B', 'Y'] if stmt_details_dict[chosen_key][prot] == chosen_key), None)
                             
-                        stmt_details_dict[current_key][chosen_prot] = current_key
+                        modify_stmt_details_dict(stmt_details_dict,current_key,chosen_prot, current_key)
                         convertion = ""
                         for prot in convertion_to:
                             if prot == chosen_prot:
                                 continue
                             new_key = f"{current_key}_{prot}"
                             convertion += "\n" + ( stmt_details_dict[current_key]["declaration"].replace(current_key,new_key) + " "  + mixed_convertion.replace(current_key,new_key).replace(stmt_details_dict[chosen_key][chosen_prot],stmt_details_dict[chosen_key][prot]))
-                            stmt_details_dict[current_key][prot] = new_key
+                            modify_stmt_details_dict(stmt_details_dict,current_key,prot, new_key)
                         mixed_convertion+=f" {convertion}"
 
                 elif len(convertion_to) == 0:
@@ -941,11 +948,11 @@ def render_mixed_stmt(
                        if key in rhs_key:
                             mixed_convertion = mixed_convertion.replace(key,stmt_details_dict[key][convertion_from])
                     
-                    stmt_details_dict[lhs_key][convertion_from] = lhs_key
+                    modify_stmt_details_dict(stmt_details_dict,lhs_key,convertion_from, lhs_key)
 
                 elif convertion_from == '_' and len(convertion_to) == 1:
                     
-                    stmt_details_dict[lhs_key][list(convertion_to)[0]] = lhs_key
+                    modify_stmt_details_dict(stmt_details_dict,lhs_key,list(convertion_to)[0], lhs_key)
                 else:
                     # print(stmt,convertion_from,convertion_to)
                     raise NotImplementedError("Not implemented convertion")
@@ -1091,7 +1098,7 @@ def render_mixed_stmt(
         identified_in_loop = {}
 
         
-
+        stmt_converted = []
         for body_stmt in stmt.body:
             if not hasattr(body_stmt,"lhs"):
                 continue
@@ -1102,7 +1109,7 @@ def render_mixed_stmt(
                     
                     # if you havent identified it yet it is already declared on the default protocol
                     if convertion_from == '_' and stmt_details_dict[key][list(convertion_to)[0]] == None:
-                        stmt_details_dict[key][list(convertion_to)[0]] = key
+                        modify_stmt_details_dict(stmt_details_dict,key,list(convertion_to)[0], key)
                     
                     if convertion_from == '_' and stmt_details_dict[key][list(convertion_to)[0]] != None:
                         pass
@@ -1111,22 +1118,21 @@ def render_mixed_stmt(
                         # if it was registered by creating the new variable , this will be used 
                         # print(key,stmt_details_dict[key],stmt_details_dict[key])
                         if stmt_details_dict[key][convertion_from] is None:
-                            stmt_details_dict[key][convertion_from] = key
+                            modify_stmt_details_dict(stmt_details_dict,key,convertion_from, key)
                         if len(convertion_to) == 0:
                             replace_dict[key] = stmt_details_dict[key][convertion_from]
                         else:
                             replace_dict[key] = stmt_details_dict[key][convertion_from]
                             if hasattr(body_stmt.lhs,"array"):
                                 identified_in_loop[body_stmt.lhs.array] = list(convertion_to)[0]
-        
+                                
         global_declarations = ""
         # make the replacements all in one
+        # [TODO] make this on each stmt of the body not in all result
         for key in replace_dict:
             if key in result_stmt and not f"{key}_" in result_stmt and not key.startswith("_MPC_CONSTANT"):
-               
                 result_stmt = result_stmt.replace(key,replace_dict[key])
                
-
 
         for variable_in_loop in identified_in_loop:
             
@@ -1137,7 +1143,8 @@ def render_mixed_stmt(
                     ),
             )
             new_key = f"{loop_key}_{identified_in_loop[variable_in_loop]}"
-            stmt_details_dict[key][identified_in_loop[variable_in_loop]] = new_key
+            # print("hereee",key,identified_in_loop[variable_in_loop], new_key)
+            # modify_stmt_details_dict(stmt_details_dict,key,identified_in_loop[variable_in_loop], new_key)
             identified_pr = identify_protocols(
                             {
                                 "to": set(identified_in_loop[variable_in_loop])
