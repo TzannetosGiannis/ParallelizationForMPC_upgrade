@@ -603,27 +603,32 @@ def render_mixed_stmt(
                     initial_convertion = ""
                     current_key = str(stmt.lhs).split("{")[0].replace("!","_")
                     raise_key = str(stmt.rhs.expr).split("{")[0].replace("!","_").split("[")[0]
-                    for prot in convertions_dict[str(stmt.lhs)]['to']:
-                       
+                    first_time = True
+                    new_declaration = ""
+                    for prot in list(convertions_dict[str(stmt.lhs)]['to']):
+                        if first_time == True:
+                            stmt_details_dict[current_key][prot] = current_key
+                            first_time = False
+                            new_declaration = ""
+                        else:
+                            stmt_details_dict[current_key][prot] = f"{current_key}_{prot}"
+                            new_declaration = stmt_details_dict[current_key]["declaration"].replace(current_key,f"{current_key}_{prot}") + "\n"
                         temp_convertion = mixed_convertion
                         if raise_key in temp_convertion and not f"{raise_key}_" in temp_convertion:
-                           
-                           stmt_details_dict[current_key][prot] = current_key
-                           
-                           for key in stmt_details_dict.keys():
-                             if key in temp_convertion and not f"{key}_" in temp_convertion and stmt_details_dict[key][prot] != None:
-                                 
-                                 temp_convertion = temp_convertion.replace(key,stmt_details_dict[key][prot])
+                            
+
+                            for key in stmt_details_dict.keys():
+                                if key in temp_convertion and not f"{key}_" in temp_convertion and stmt_details_dict[key][prot] != None:
+                                    temp_convertion = temp_convertion.replace(key,stmt_details_dict[key][prot])
                         
                         else:
                             temp_convertion = mixed_convertion
-                        initial_convertion += temp_convertion
+                        initial_convertion += (new_declaration + temp_convertion)
                         
                         
                     mixed_convertion = initial_convertion
-                   
                        
-                    
+                
                 stmt_details_dict[stmt_key][retrieve_ABY_tag(to_be_converted[0])] = stmt_key
                 return mixed_convertion
             else:

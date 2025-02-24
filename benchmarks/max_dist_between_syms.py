@@ -18,6 +18,6 @@ def max_dist_between_syms(
 
 
 Seq = [1, 2, 1, 1, 2, 3, 4, 1]
-N = 8 
+N = 8
 Sym = 1
 print(max_dist_between_syms(Seq, N, Sym))

@@ -140,10 +140,13 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
             "to":mixed_config.assignments[i][2],
             "convertion_tuple":mixed_config.assignments[i][-1]
         }
-            
+
+    
     func_header = f"{_render_prototype(func, type_env)} {{"
+    
     # remove template line 
     func_header = "\n".join(func_header.split("\n")[1:])
+
     
     # Initialize an empty string to store the shared variable declarations
     var_definitions = "// Shared variable declarations\n"
@@ -265,20 +268,44 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
         plaintext_dict[render_expr(key, dt.replace(render_ctx, plaintext=False))] = list(value)
 
     # handle the input variables , for now allow one protocol only
-    # [TODO] allow inputs of {"var": {A,B}} 
+    # [TODO] revisit inputs of {"var": {A,B}} 
+    func_header_declrations = [elem.replace(",","").lstrip() for elem in func_header.split("\n")][2:]
+    parameter_input_convertions_initialization = "// Input Protocol Convertions\n"
     for key , value in mixed_config.inputs.items():
+        
+        dict_key = render_expr(key, dt.replace(render_ctx, plaintext=False)) 
         if len(value) > 1:
-            raise NotImplementedError("input supported only in one protocol")
-        dict_key = render_expr(key, dt.replace(render_ctx, plaintext=False))
-        if dict_key not in plaintext_dict:
-            plaintext_dict[dict_key] = list(value)
-            stmt_details_dict[dict_key] = {
-                "declaration":"None",
-                        "A":None,
-                        "B":None,
-                        "Y":None,
-            }
-            stmt_details_dict[dict_key][plaintext_dict[dict_key][0]] = dict_key
+            if dict_key not in plaintext_dict:
+                plaintext_dict[dict_key] = list(value)
+                stmt_details_dict[dict_key] = {
+                    "declaration":next((x for x in func_header_declrations if x.endswith(dict_key)), None),
+                            "A":None,
+                            "B":None,
+                            "Y":None,
+                }
+                l = sorted(list(value))
+                for i in range(len(l)):
+                    if i ==0:
+                        stmt_details_dict[dict_key][l[i]] = dict_key
+                    else:
+                        stmt_details_dict[dict_key][l[i]] = f"{dict_key}_{l[i]}"
+                        # is it a vector ?
+                        if  "vector" in stmt_details_dict[dict_key]['declaration']:
+                            convertion = stmt_details_dict[dict_key]['declaration'].replace(dict_key, f"{dict_key}_{l[i]}") +f"({dict_key}.size());;\n"
+                            convertion += f"vectorized_assign(Seq_0_Y, {{{dict_key}.size()}}, {{true}}, {{}}, (vectorized_access({dict_key}, {{{dict_key}.size()}}, {{true}}, {{}}).Get().Convert<{PROTOCOL_CONVERTIONS[l[i]]}>()));\n"
+                            parameter_input_convertions_initialization += convertion
+                        else:
+                            raise NotImplemented("Only vectors are supported as multiple protocols input")
+        else:
+            if dict_key not in plaintext_dict:
+                plaintext_dict[dict_key] = list(value)
+                stmt_details_dict[dict_key] = {
+                    "declaration":next((x for x in func_header_declrations if x.endswith(dict_key)), None),
+                            "A":None,
+                            "B":None,
+                            "Y":None,
+                }
+                stmt_details_dict[dict_key][plaintext_dict[dict_key][0]] = dict_key
 
         
     # handle parameters both as scalar and vectors with respect to protocol assignment
@@ -345,6 +372,8 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
         + indent(plaintext_var_definitions, "    ")
         + "\n"
         + indent(constant_initialization, "    ")
+        + "\n"
+        + indent(parameter_input_convertions_initialization, "    ")
         + "\n"
         + indent(plaintext_param_assignments, "    ")
         + "\n"
