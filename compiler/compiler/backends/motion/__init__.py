@@ -543,6 +543,7 @@ def render_application(
     assert isinstance(func.body[-1], Return)
     return_type = type_env[func.body[-1].value]
 
+
     rendered_main = main_template.render(
         header_fname=f"{func.name}.h",
         params=[
@@ -561,7 +562,7 @@ def render_application(
             }
             for param in func.parameters
         ],
-        protocol=f"encrypto::motion::MpcProtocol::k{params['protocol']}",
+        protocol=f"encrypto::motion::MpcProtocol::k{params['protocol']}" if "protocol" in params else "",
         num_returns=type_env[func.body[-1].value].dims,
         outputs=[render_type(return_type, plaintext=True)]
         if return_type.datatype != DataType.TUPLE
@@ -590,6 +591,20 @@ def render_application(
     
     os.makedirs(output_dir, exist_ok=params["overwrite"])
     
+    
+    if mixing:
+        # Regex to match the full string and replace
+        rendered_main = re.sub(rf"auto output = {func.name}<>", f"auto output = {func.name}", rendered_main)
+
+    for key,value in mixed_config.inputs.items():
+        pattern = rf"({key.name}.*?party->In<)(>.*$)"  # Capturing groups to modify content inside <>
+        match = re.search(pattern, rendered_main, re.MULTILINE)
+        if match:
+            rendered_main = re.sub(pattern, rf"\1{PROTOCOL_CONVERTIONS[value[0]]}\2", rendered_main, flags=re.MULTILINE)
+        else:
+            print("No match found",pattern)
+            # raise NotImplementedError("This part should not be explored, dark times require dark measures")
+
     # Define the pattern and the replacement
     pattern = r"party->In<encrypto::motion::MpcProtocol::kArithmeticGmw>\(encrypto::motion::ToInput\((.*?)\), (.*?)\)\)"
     replacement = r"party->In<encrypto::motion::MpcProtocol::kArithmeticGmw>(\1, \2))"
@@ -601,11 +616,7 @@ def render_application(
         if new_script == rendered_main:
             break  # Stop when no further replacements are made
         rendered_main = new_script  # Update the string for the next iteration
-
-    if mixing:
-        # Regex to match the full string and replace
-        rendered_main = re.sub(rf"auto output = {func.name}<encrypto::motion::MpcProtocol::[a-zA-Z_]+>", f"auto output = {func.name}", rendered_main)
-
+   
     with open(os.path.join(output_dir, "main.cpp"), "w") as main_file:
         main_file.write(rendered_main)
     

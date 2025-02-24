@@ -10,7 +10,7 @@ def run_benchmark(
     backend: Backend,
     benchmark_name: str,
     benchmark_path: str,
-    protocol: str,
+    protocol: Optional[str],
     vectorized=True,
     mixed=False
 ) -> Optional[tuple[str, str]]:

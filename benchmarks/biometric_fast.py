@@ -4,7 +4,6 @@ from UTIL import shared
 def biometric_fast(
     D: int,
     N: int,
-    C: shared[list[int]],
     C_sqr_sum: shared[int],
     two_C: shared[list[int]],
     S: shared[list[int]],
@@ -64,4 +63,4 @@ S_sqr_sum = [sum(S[i * D + j] * S[i * D + j] for j in range(D)) for i in range(N
 
 differences = [0] * D
 
-print(biometric_fast(D, N, C, C_sqr_sum, two_C, S, S_sqr_sum, differences))
+print(biometric_fast(D, N, C_sqr_sum, two_C, S, S_sqr_sum, differences))

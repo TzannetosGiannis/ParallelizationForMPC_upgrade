@@ -954,7 +954,6 @@ def render_mixed_stmt(
                     
                     modify_stmt_details_dict(stmt_details_dict,lhs_key,list(convertion_to)[0], lhs_key)
                 else:
-                    # print(stmt,convertion_from,convertion_to)
                     raise NotImplementedError("Not implemented convertion")
             
             return mixed_convertion
@@ -1116,7 +1115,6 @@ def render_mixed_stmt(
                     else:
                         # if it is default it will stay the same
                         # if it was registered by creating the new variable , this will be used 
-                        # print(key,stmt_details_dict[key],stmt_details_dict[key])
                         if stmt_details_dict[key][convertion_from] is None:
                             modify_stmt_details_dict(stmt_details_dict,key,convertion_from, key)
                         if len(convertion_to) == 0:
@@ -1125,7 +1123,7 @@ def render_mixed_stmt(
                             replace_dict[key] = stmt_details_dict[key][convertion_from]
                             if hasattr(body_stmt.lhs,"array"):
                                 identified_in_loop[body_stmt.lhs.array] = list(convertion_to)[0]
-                                
+
         global_declarations = ""
         # make the replacements all in one
         # [TODO] make this on each stmt of the body not in all result
@@ -1143,8 +1141,6 @@ def render_mixed_stmt(
                     ),
             )
             new_key = f"{loop_key}_{identified_in_loop[variable_in_loop]}"
-            # print("hereee",key,identified_in_loop[variable_in_loop], new_key)
-            # modify_stmt_details_dict(stmt_details_dict,key,identified_in_loop[variable_in_loop], new_key)
             identified_pr = identify_protocols(
                             {
                                 "to": set(identified_in_loop[variable_in_loop])
