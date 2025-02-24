@@ -23,4 +23,5 @@ def longest_1s(Seq: shared[list[int]], N: int, Sym: shared[int]) -> shared[int]:
 
 
 seq = [0, 0, 1, 1, 1, 1, 0, 1, 0]
-print(longest_1s(seq, 9, 1))
+N = 9
+print(longest_1s(seq, N, 1))

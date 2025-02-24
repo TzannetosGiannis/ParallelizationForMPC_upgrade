@@ -418,7 +418,7 @@ def getBounds(nonZeroVars: set[Var], dep_graph: DepGraph, stmts: list[Statement]
 
 
 # get the bounds for every loop in the current test case (needed for cost computation)
-def getLoopBounds(filename: str,python_text: str) -> None:
+def getLoopBounds(filename: str, python_text: str) -> None:
     global loopBounds
     filename = dirname(__file__)+"/../../benchmarks/" + '.'.join(filename.split('.')[:-1]) + "_bounds.json"
     
@@ -1285,7 +1285,7 @@ def mix_protocols(filename: str, type_env: TypeEnv, body: list[Statement], dep_g
     if costType not in {'time', 'dataSent', 'commRounds'}:
         raise Exception('Unknown cost type provided to protocol_mixing.py')
 
-    getLoopBounds(filename,python_text)
+    getLoopBounds(filename, python_text)
     getOpCosts(targetCostFile)
     trackedVars, directIOVars = getTrackedVars(type_env, body, dep_graph)
     getBounds(trackedVars - directIOVars, dep_graph, body)

@@ -20,9 +20,9 @@ from compiler.protocol_mixing import mix_protocols
 
 importantTestCases = ['biometric', 'biometric_fast', 'chapterfour_figure_12', 'convex_hull', 'count_10s',
                       'count_102', 'count_123', 'cryptonets_max_pooling', 'db_cross_join_trivial', 'db_variance',
-                      'histogram', 'inner_product', 'longest_102', 'longest_odd_10', 'max_dist_between_syms',
+                      'inner_product', 'longest_102', 'longest_odd_10', 'max_dist_between_syms',
                       'max_sum_between_syms', 'minimal_points', 'mnist_relu', 'psi']
-otherTestCases = ['floyd_warshall', 'inner_product', 'kmeans_iteration', 'longest_1s', 'longest_even_0', 'matrix_multiply']
+otherTestCases = ['histogram', 'floyd_warshall', 'inner_product', 'kmeans_iteration', 'longest_1s', 'longest_even_0', 'matrix_multiply']
 costTypes = ['time', 'commRounds', 'dataSent']
 backends = [Backend.MP_SPDZ, Backend.MOTION]
 currentCosts = dict()
@@ -59,7 +59,7 @@ def getMixedConfig(filename, backend, costType, protocolSets):
     (linear, type_env) = type_check(linear, dep_graph)
     (linear, dep_graph, type_env) = copy_propagation(linear, dep_graph, type_env)
     (linear, dep_graph, type_env) = common_subexpression_elimination(linear, dep_graph, type_env)
-    mixed_config = mix_protocols(filename=filename, type_env=type_env, body=linear.body, dep_graph=dep_graph, backend=backend, costType=costType, protocolSets=protocolSets)
+    mixed_config = mix_protocols(filename=filename, type_env=type_env, body=linear.body, dep_graph=dep_graph, backend=backend, costType=costType, protocolSets=protocolSets, python_text=text)
     return mixed_config
 
 
@@ -88,12 +88,21 @@ for program in importantTestCases + otherTestCases:
 # compare this json with the stored json
 with open('mixedCostsForComparison.json', 'r') as f:
     savedCosts = json.load(f)
-diff = jsondiff.diff(savedCosts, currentCosts)
-if diff == dict():
+diffCost = jsondiff.diff(savedCosts, currentCosts)
+with open('previousMixResults.json', 'r') as f:
+    savedMixes = json.load(f)
+diffMix = jsondiff.diff(savedMixes, currentMixes)
+if diffCost == dict():
     print("Tested costs are identical to saved costs")
 else:
     print("DIFFERENT COSTS DETECTED:")
-    print(diff)
+    print(json.dumps(diffCost, indent=4, sort_keys=True))
+print()
+if diffMix == dict():
+    print("Tested mixes are identical to saved mixes")
+else:
+    print("DIFFERENT MIXES DETECTED:")
+    print(json.dumps(diffMix, indent=4, sort_keys=True))
 
 if save:
     print('\nWriting mixedCostsForComparison.json')

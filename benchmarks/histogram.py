@@ -30,7 +30,8 @@ def histogram(
 
 A = [0, 2, 1, 0, 3, 4, 2, 3]
 B = [10, 1, 5, 2, 15, 0, 10, 1000]
-N = 8  # len(A)
+N = 8
 #R = [12, 5, 11, 1015, 0]
 R = [0, 0, 0, 0, 0]
-print(histogram(A, B, N, 5, R))
+num_bins = 5
+print(histogram(A, B, N, num_bins, R))
