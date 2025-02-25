@@ -27,6 +27,7 @@ costTypes = ['time', 'commRounds', 'dataSent']
 backends = [Backend.MP_SPDZ, Backend.MOTION]
 currentCosts = dict()
 currentMixes = dict()
+currentBackendMixes = dict()
 save = False
 motionMix = [{'A', 'B', 'Y'}]
 motionUnmix = [{'A'}, {'B'}, {'Y'}]
@@ -60,30 +61,41 @@ def getMixedConfig(filename, backend, costType, protocolSets):
     (linear, dep_graph, type_env) = copy_propagation(linear, dep_graph, type_env)
     (linear, dep_graph, type_env) = common_subexpression_elimination(linear, dep_graph, type_env)
     mixed_config = mix_protocols(filename=filename, type_env=type_env, body=linear.body, dep_graph=dep_graph, backend=backend, costType=costType, protocolSets=protocolSets, python_text=text)
-    return mixed_config
+    try:
+        backend_code = backend.render_mixed_function(linear, type_env, True, mixed_config)
+    except Exception as e:
+        print("ERROR IN VECTORIZATION", e)
+        backend_code = f"ERROR: {e}"
+    return mixed_config, backend_code
 
 
 for program in importantTestCases + otherTestCases:
     currentCosts[program] = dict()
     currentMixes[program] = dict()
+    currentBackendMixes[program] = dict()
     for backend in backends:
         protSetMix = spdzMix if backend == Backend.MP_SPDZ else motionMix
         protSetUnmix = spdzUnmix if backend == Backend.MP_SPDZ else motionUnmix
         strBack = str(backend)
         currentCosts[program][strBack] = dict()
         currentMixes[program][strBack] = dict()
+        currentBackendMixes[program][strBack] = dict()
         for costType in costTypes:
             currentCosts[program][strBack][costType] = dict()
             currentMixes[program][strBack][costType] = dict()
-            mixed = getMixedConfig(f'../benchmarks/{program}.py', backend, costType, protSetMix)
-            unmixed = getMixedConfig(f'../benchmarks/{program}.py', backend, costType, protSetUnmix)
+            currentBackendMixes[program][strBack][costType] = dict()
+            mixed, mixedBackend = getMixedConfig(f'../benchmarks/{program}.py', backend, costType, protSetMix)
+            unmixed, unmixedBackend = getMixedConfig(f'../benchmarks/{program}.py', backend, costType, protSetUnmix)
             assert mixed.total_cost <= unmixed.total_cost
             currentCosts[program][strBack][costType]['mixed'] = mixed.total_cost
             currentCosts[program][strBack][costType]['unmixed'] = unmixed.total_cost
             currentMixes[program][strBack][costType]['mixed'] = str(mixed)
             currentMixes[program][strBack][costType]['unmixed'] = str(unmixed)
+            currentBackendMixes[program][strBack][costType]['mixed'] = str(mixedBackend)
+            currentBackendMixes[program][strBack][costType]['unmixed'] = str(unmixedBackend)
             print(f'{strBack} {costType} {program} output')
             print(mixed)
+            # print(mixedBackend)
 
 # compare this json with the stored json
 with open('mixedCostsForComparison.json', 'r') as f:
@@ -92,17 +104,47 @@ diffCost = jsondiff.diff(savedCosts, currentCosts)
 with open('previousMixResults.json', 'r') as f:
     savedMixes = json.load(f)
 diffMix = jsondiff.diff(savedMixes, currentMixes)
+with open('previousBackendResults.json', 'r') as f:
+    savedBackends = json.load(f)
+diffBackend = jsondiff.diff(savedBackends, currentBackendMixes)
 if diffCost == dict():
     print("Tested costs are identical to saved costs")
 else:
     print("DIFFERENT COSTS DETECTED:")
+    toRem = []
+    for k, v in diffCost.items():
+        if type(toRem) != str:
+            toRem.append((k, v))
+    for k, v in toRem:
+        del diffCost[k]
+        diffCost[str(k).replace('$', '')] = v
     print(json.dumps(diffCost, indent=4, sort_keys=True))
 print()
 if diffMix == dict():
     print("Tested mixes are identical to saved mixes")
 else:
     print("DIFFERENT MIXES DETECTED:")
+    toRem = []
+    for k, v in diffMix.items():
+        if type(toRem) != str:
+            toRem.append((k, v))
+    for k, v in toRem:
+        del diffMix[k]
+        diffMix[str(k).replace('$', '')] = v
     print(json.dumps(diffMix, indent=4, sort_keys=True))
+print()
+if diffBackend == dict():
+    print("Tested mixes are identical to saved mixes")
+else:
+    print("DIFFERENT BACKENDS DETECTED:")
+    toRem = []
+    for k, v in diffBackend.items():
+        if type(toRem) != str:
+            toRem.append((k, v))
+    for k, v in toRem:
+        del diffBackend[k]
+        diffBackend[str(k).replace('$', '')] = v
+    print(json.dumps(diffBackend, indent=4, sort_keys=True))
 
 if save:
     print('\nWriting mixedCostsForComparison.json')
@@ -112,3 +154,7 @@ if save:
     print('Writing previousMixResults.json')
     with open('previousMixResults.json', 'w') as f:
         f.write(json.dumps(currentMixes, indent=4, sort_keys=True))
+
+    print('Writing previousBackendResults.json')
+    with open('previousBackendResults.json', 'w') as f:
+        f.write(json.dumps(currentBackendMixes, indent=4, sort_keys=True))
