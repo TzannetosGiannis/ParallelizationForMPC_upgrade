@@ -292,7 +292,7 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
                         # is it a vector ?
                         if  "vector" in stmt_details_dict[dict_key]['declaration']:
                             convertion = stmt_details_dict[dict_key]['declaration'].replace(dict_key, f"{dict_key}_{l[i]}") +f"({dict_key}.size());;\n"
-                            convertion += f"vectorized_assign(Seq_0_Y, {{{dict_key}.size()}}, {{true}}, {{}}, (vectorized_access({dict_key}, {{{dict_key}.size()}}, {{true}}, {{}}).Get().Convert<{PROTOCOL_CONVERTIONS[l[i]]}>()));\n"
+                            convertion += f"vectorized_assign({dict_key}_Y, {{{dict_key}.size()}}, {{true}}, {{}}, (vectorized_access({dict_key}, {{{dict_key}.size()}}, {{true}}, {{}}).Get().Convert<{PROTOCOL_CONVERTIONS[l[i]]}>()));\n"
                             parameter_input_convertions_initialization += convertion
                         else:
                             raise NotImplemented("Only vectors are supported as multiple protocols input")
