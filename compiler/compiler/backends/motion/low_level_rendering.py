@@ -648,10 +648,10 @@ def render_mixed_stmt(
                     )[0]
                     
 
-                    true_stmt = ",".join(['true'] * len(dim_sizes.split(",")))
+                    
                     extraction = '.Get()' if not "encrypto::motion::ShareWrapper" in stmt_details_dict[stmt_key]['declaration'] else ""
-                    convertion_vectorized_access = f"(vectorized_access({stmt_key}, {dim_sizes}, {{{true_stmt}}}, {{}}){extraction}.Convert<{identified_pr}>()))"
-                    convertion_stmt = f"vectorized_assign({new_key}, {dim_sizes}, {{{true_stmt}}}, {{}}, {convertion_vectorized_access};\n"            
+                    convertion_vectorized_access = f"(vectorized_access({stmt_key}, {dim_sizes}, {vectorized_dims}, {idxs}){extraction}.Convert<{identified_pr}>()))"
+                    convertion_stmt = f"vectorized_assign({new_key}, {dim_sizes}, {vectorized_dims}, {idxs}, {convertion_vectorized_access};\n"            
                     mixed_convertion = mixed_convertion + "\n"
                     mixed_convertion += convertion_stmt
                 
@@ -1124,9 +1124,12 @@ def render_mixed_stmt(
                             }
             )[0]
 
-            
+            decl = stmt_details_dict[loop_key]['declaration'].replace(loop_key,new_key)
+            # remove it from the loop
+            if  decl in result_stmt:
+                result_stmt = result_stmt.replace(f"{decl}\n","")
+            # declare it on top
             global_declarations += (f"{stmt_details_dict[loop_key]['declaration'].replace(loop_key,new_key)}\n")
-        
         return f"{global_declarations}{result_stmt}"
 
     elif isinstance(stmt, Return):
