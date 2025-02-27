@@ -493,30 +493,6 @@ def render_mixed_stmt(
     if isinstance(stmt, Assign):
         # Convert any plaintext assignments
         
-        vars_needing_conversions = collect_counter_uses(stmt.rhs, enclosing_loops)
-        plaintext_conversions = "\n".join(
-            render_expr(
-                var,
-                RenderContext(
-                    type_env, plaintext=False, enclosing_loops=enclosing_loops
-                ),
-            )
-            + " = party->In<Protocol>("
-            + render_expr(
-                var,
-                RenderContext(
-                    type_env,
-                    as_motion_input=True,
-                    enclosing_loops=enclosing_loops,
-                ),
-            )
-            + ", 0);"
-            for var in vars_needing_conversions
-        )
-
-        if plaintext_conversions:
-            plaintext_conversions += "\n"
-
         # If we're assigning to a vectorized value, use a specialized function for this.
         if isinstance(stmt.lhs, VectorizedAccess):
             to_be_converted = identify_protocols(convertions_dict[str(stmt.lhs)])
@@ -556,7 +532,7 @@ def render_mixed_stmt(
                             if stmt_details_dict[key][convertion_tuple[0]] != None:
                                 current_stmt = current_stmt.replace(key,stmt_details_dict[key][convertion_tuple[0]])
 
-                    return plaintext_conversions + f"{current_stmt}; {convertion}"
+                    return  f"{current_stmt}; {convertion}"
                 elif convertion_from != '_' and len(convertion_to) == 0:
                     current_stmt = f"{lhs} = {val_expr}"
                     for key in stmt_details_dict:
@@ -564,11 +540,11 @@ def render_mixed_stmt(
                             if stmt_details_dict[key][convertion_from] != None:
                                 current_stmt = current_stmt.replace(key,stmt_details_dict[key][convertion_from])
 
-                    return plaintext_conversions + f"{current_stmt};"
+                    return  f"{current_stmt};"
                            
                     
 
-                return plaintext_conversions + f"{lhs} = {val_expr}; {convertion}"
+                return  f"{lhs} = {val_expr}; {convertion}"
 
 
             dim_sizes = (
@@ -636,12 +612,16 @@ def render_mixed_stmt(
                         
                         
                     mixed_convertion = initial_convertion
-                       
-                
+                else:
+
+                     for elem in stmt_details_dict:
+                        if elem in mixed_convertion and elem != render_expr(stmt.lhs.array, dc.replace(render_ctx, plaintext=False))  and  convertions_dict[str(stmt.lhs)]['from'] != "_" and stmt_details_dict[elem][convertions_dict[str(stmt.lhs)]['from']] !=None:
+                            mixed_convertion = mixed_convertion.replace(elem,stmt_details_dict[elem][convertions_dict[str(stmt.lhs)]['from']])
+                        
                 modify_stmt_details_dict(stmt_details_dict,stmt_key,retrieve_ABY_tag(to_be_converted[0]),stmt_key)
                 return mixed_convertion
             else:
-               
+            
                 for elem in stmt_details_dict:
                     if elem in mixed_convertion and elem != render_expr(stmt.lhs.array, dc.replace(render_ctx, plaintext=False)) and  stmt_details_dict[elem][convertion_tuple[0][0]] != None:
                         mixed_convertion = mixed_convertion.replace(elem,stmt_details_dict[elem][convertion_tuple[0][0]])
@@ -667,9 +647,11 @@ def render_mixed_stmt(
                             }
                     )[0]
                     
+
+                    true_stmt = ",".join(['true'] * len(dim_sizes.split(",")))
                     extraction = '.Get()' if not "encrypto::motion::ShareWrapper" in stmt_details_dict[stmt_key]['declaration'] else ""
-                    convertion_vectorized_access = f"(vectorized_access({stmt_key}, {dim_sizes}, {{true}}, {{}}){extraction}.Convert<{identified_pr}>()))"
-                    convertion_stmt = f"vectorized_assign({new_key}, {dim_sizes}, {{true}}, {{}}, {convertion_vectorized_access};\n"            
+                    convertion_vectorized_access = f"(vectorized_access({stmt_key}, {dim_sizes}, {{{true_stmt}}}, {{}}){extraction}.Convert<{identified_pr}>()))"
+                    convertion_stmt = f"vectorized_assign({new_key}, {dim_sizes}, {{{true_stmt}}}, {{}}, {convertion_vectorized_access};\n"            
                     mixed_convertion = mixed_convertion + "\n"
                     mixed_convertion += convertion_stmt
                 
@@ -701,10 +683,7 @@ def render_mixed_stmt(
                             mixed_convertion = mixed_convertion.replace(key,stmt_details_dict[key][convertion_from])
                   
 
-            return (
-                plaintext_conversions
-                + mixed_convertion
-            )
+            return mixed_convertion
 
         if isinstance(stmt.rhs, Update):
             
@@ -779,8 +758,7 @@ def render_mixed_stmt(
                     + " = "
                     + f"{stmt_details_dict[rendered_expr][retrieve_ABY_tag(to_be_converted[0])]}"
                     + ";"
-                )
-                
+                )    
             else:
                 shared_assignment = (
                 render_expr(
@@ -813,14 +791,6 @@ def render_mixed_stmt(
                     ),
             )
             
-            # store all the information that you didnt have till now
-            # if the mixer hasnt identified a convertion and a var is used
-            # it means that it is already in the correct protocol
-            if search_key in stmt_details_dict:
-                for elem in stmt_details_dict[search_key]:
-                    if stmt_details_dict[search_key][elem] == search_key:
-                        modify_stmt_details_dict(stmt_details_dict,finders_key,elem, finders_key)
-            
             plaintext_assignment = (
                 render_expr(
                     stmt.lhs,
@@ -837,26 +807,28 @@ def render_mixed_stmt(
                 )
                 + ";"
             )
-        
-        if (
-            type_env[stmt.lhs].is_shared()
-            or type_env[stmt.lhs].datatype == DataType.TUPLE
-        ):
-            mixed_convertion = plaintext_conversions + shared_assignment
 
-            lhs_key = render_expr(
+        lhs_key = render_expr(
                                 stmt.lhs,
                                 RenderContext(
                                     type_env, plaintext=False, enclosing_loops=enclosing_loops
                                 ),
                             )
 
-            rhs_key = render_expr(
+        rhs_key = render_expr(
                                 stmt.rhs,
                                 RenderContext(
-                                    type_env, plaintext=True, enclosing_loops=enclosing_loops
+                                    type_env, plaintext=False, enclosing_loops=enclosing_loops
                                 ),
                             )
+
+        if (
+            type_env[stmt.lhs].is_shared()
+            or type_env[stmt.lhs].datatype == DataType.TUPLE
+        ):
+            mixed_convertion = shared_assignment
+
+            
 
             if type_env[stmt.lhs].datatype != DataType.TUPLE:
                 convertion_from = convertions_dict[str(stmt.lhs)]['from']
@@ -963,8 +935,23 @@ def render_mixed_stmt(
             
             return mixed_convertion
         else:    
+            # [TODO] identify why the declaration of constants has wrong context inside , it shouldnt
+            # to enter here it should be a constant
+            convertion_assignment = ""
+            initial_assignment = shared_assignment
+            for prot in convertions_dict[str(stmt.lhs)]['to']:
+                if stmt_details_dict[lhs_key]['A'] == None and stmt_details_dict[lhs_key]['B'] == None and stmt_details_dict[lhs_key]['Y'] == None:
+                    modify_stmt_details_dict(stmt_details_dict,lhs_key,prot,lhs_key)
+                    convertion_assignment += initial_assignment + "\n"
+                elif stmt_details_dict[lhs_key][prot] != None:
+                    convertion_assignment += initial_assignment + "\n"
+                else:
+                    new_key = f"{lhs_key}_{prot}"
+                    modify_stmt_details_dict(stmt_details_dict,lhs_key,prot,new_key)
+                    convertion_assignment += stmt_details_dict[lhs_key]["declaration"].replace(lhs_key,new_key) + "\n" + initial_assignment.replace(lhs_key,new_key).replace(rhs_key,stmt_details_dict[rhs_key][prot]) + "\n"
+
             return (
-                plaintext_conversions + shared_assignment + "\n" + plaintext_assignment
+                convertion_assignment + plaintext_assignment
             )
 
     elif isinstance(stmt, For):
@@ -1139,6 +1126,7 @@ def render_mixed_stmt(
 
             
             global_declarations += (f"{stmt_details_dict[loop_key]['declaration'].replace(loop_key,new_key)}\n")
+        
         return f"{global_declarations}{result_stmt}"
 
     elif isinstance(stmt, Return):
