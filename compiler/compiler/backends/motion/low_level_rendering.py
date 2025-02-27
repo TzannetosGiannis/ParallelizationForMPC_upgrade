@@ -546,13 +546,16 @@ def render_mixed_stmt(
                                 "to": set(convertion_tuple[1])
                             }
                     )[0]
-                    convertion = f"{lhs.replace(stmt_key,new_key)} = {lhs}.Get().Convert<{identified_pr}>();"
+
+                    extraction = '.Get()' if not "encrypto::motion::ShareWrapper" in stmt_details_dict[stmt_key]['declaration'] else ""
+                    convertion = f"{lhs.replace(stmt_key,new_key)} = {lhs}{extraction}.Convert<{identified_pr}>();"
                     # check if the keys are in the correct protocol
                     current_stmt = f"{lhs} = {val_expr}"     
                     for key in stmt_details_dict:
-                        if key in current_stmt:
+                        if key in current_stmt and key != f"{lhs}" and f"{key}_" not in current_stmt:
                             if stmt_details_dict[key][convertion_tuple[0]] != None:
                                 current_stmt = current_stmt.replace(key,stmt_details_dict[key][convertion_tuple[0]])
+
                     return plaintext_conversions + f"{current_stmt}; {convertion}"
                 elif convertion_from != '_' and len(convertion_to) == 0:
                     current_stmt = f"{lhs} = {val_expr}"
@@ -664,13 +667,7 @@ def render_mixed_stmt(
                             }
                     )[0]
                     
-                    # try to identify if need to extract the share with .Get() or already in that format 
-                    extraction = ".Get()"
-                    # this means that casting has already take place
-                    # so we don't need to do more actions
-                    if "to_share_wrapper(" in mixed_convertion:
-                        extraction = ""
-
+                    extraction = '.Get()' if not "encrypto::motion::ShareWrapper" in stmt_details_dict[stmt_key]['declaration'] else ""
                     convertion_vectorized_access = f"(vectorized_access({stmt_key}, {dim_sizes}, {{true}}, {{}}){extraction}.Convert<{identified_pr}>()))"
                     convertion_stmt = f"vectorized_assign({new_key}, {dim_sizes}, {{true}}, {{}}, {convertion_vectorized_access};\n"            
                     mixed_convertion = mixed_convertion + "\n"
@@ -888,9 +885,9 @@ def render_mixed_stmt(
                                 "to": convertion_to
                             }
                     )[0]
-                    # store from
-                    
-                    mixed_convertion = initial_convertion + f"{lhs_key}_{list(convertion_to)[0]} = {lhs_key}.Get().Convert<{identified_pr}>();" 
+            
+                    extraction = '.Get()' if not "encrypto::motion::ShareWrapper" in stmt_details_dict[lhs_key]['declaration'] else ""
+                    mixed_convertion = initial_convertion + f"{lhs_key}_{list(convertion_to)[0]} = {lhs_key}{extraction}.Convert<{identified_pr}>();" 
     
                     modify_stmt_details_dict(stmt_details_dict,lhs_key,convertion_from,lhs_key)
 
@@ -916,7 +913,8 @@ def render_mixed_stmt(
                             )[0]
                             new_key = f"{current_key}_{explicit_to}"
                             mixed_convertion += f"{stmt_details_dict[current_key]['declaration'].replace(current_key,new_key)}\n"
-                            mixed_convertion += f"{new_key} = {stmt_details_dict[current_key][explicit_from]}.Get().Convert<{identified_pr}>();\n"
+                            extraction = '.Get()' if not "encrypto::motion::ShareWrapper" in stmt_details_dict[current_key]['declaration'] else ""
+                            mixed_convertion += f"{new_key} = {stmt_details_dict[current_key][explicit_from]}{extraction}.Convert<{identified_pr}>();\n"
                             modify_stmt_details_dict(stmt_details_dict,current_key,explicit_to, new_key)
                     
                     else:
@@ -1139,6 +1137,7 @@ def render_mixed_stmt(
                             }
             )[0]
 
+            
             global_declarations += (f"{stmt_details_dict[loop_key]['declaration'].replace(loop_key,new_key)}\n")
         return f"{global_declarations}{result_stmt}"
 
