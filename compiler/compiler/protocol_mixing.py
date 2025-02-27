@@ -163,7 +163,6 @@ def sortConv(conv: list[tuple[Protocol, Protocol]]) -> list[tuple[Protocol, Prot
         rhsProts.add(rhs)
 
     headProtocols = lhsProts-rhsProts
-    print(lhsProts, rhsProts)
     assert len(headProtocols) == 1
     remainingConvs = set(conv)
     toRet = []
