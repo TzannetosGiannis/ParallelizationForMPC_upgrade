@@ -947,7 +947,6 @@ def clean_locked_stmts(config: Config) -> None:
                     if var in config.protocolByVar.keys() or var in config.inputs.keys():
                         config.protocolByVar[lhsVar] = config.protocolByVar[var] if var in config.protocolByVar.keys() else config.inputs[var]
                         item[2] |= config.protocolByVar[lhsVar]
-                        break
                 if lhsVar in config.outputs.keys() and len(item[2]) > 0:
                     config.outputs[lhsVar] = item[2]
             if '_' in item[2]:
@@ -1271,7 +1270,6 @@ def getInterfaceSize(c: Config) -> (int, int):
 def mix_protocols(filename: str, type_env: TypeEnv, body: list[Statement], dep_graph: DepGraph, backend: Backend, costType: str, spdzProtocol: str = 'semi', protocolSets: list[set[str]] = None, python_text: str = None ) -> OrderedConfig:
     global protocols, runningSpdz
     runningSpdz = True if backend == Backend.Backend.MP_SPDZ else False
-
     targetCostFile = '/../Cost_Tables/'
     if not runningSpdz:
         if protocolSets == None:
@@ -1300,8 +1298,10 @@ def mix_protocols(filename: str, type_env: TypeEnv, body: list[Statement], dep_g
         populateConstantsAndPlaintexts(c, {var for var, t in type_env.items() if
                                               t.visibility and t.visibility.value == 'plaintext'})
         interface, conversions = getInterfaceSize(c)
-        if (c.total_cost < minCost or (c.total_cost == minCost and interface < minInterface) or
-                (c.total_cost == minCost and interface == minInterface and conversions < minConversions)):
+        if (c.total_cost < minCost or
+                (c.total_cost == minCost and (interface < minInterface or
+                                              (interface == minInterface and (conversions < minConversions or
+                                                                              (conversions == minConversions and str(c) < str(best))))))):
             best = c
             minCost = c.total_cost
             minInterface = interface

@@ -22,7 +22,9 @@ importantTestCases = ['biometric', 'biometric_fast', 'chapterfour_figure_12', 'c
                       'count_102', 'count_123', 'cryptonets_max_pooling', 'db_cross_join_trivial', 'db_variance',
                       'inner_product', 'longest_102', 'longest_odd_10', 'max_dist_between_syms',
                       'max_sum_between_syms', 'minimal_points', 'mnist_relu', 'psi']
-otherTestCases = ['histogram', 'floyd_warshall', 'inner_product', 'kmeans_iteration', 'longest_1s', 'longest_even_0', 'matrix_multiply']
+otherTestCases = ['histogram', 'inner_product', 'kmeans_iteration', 'longest_1s', 'longest_even_0', 'matrix_multiply']
+# 'floyd_warshall' does not fit restrictions for arrays
+# 'histogram' may not run correctly in spdz
 costTypes = ['time', 'commRounds', 'dataSent']
 backends = [Backend.MP_SPDZ, Backend.MOTION]
 currentCosts = dict()

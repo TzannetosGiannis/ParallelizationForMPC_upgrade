@@ -299,36 +299,6 @@
             }
         }
     },
-    "floyd_warshall": {
-        "MOTION": {
-            "commRounds": {
-                "mixed": 20544000.0,
-                "unmixed": 38336000.0
-            },
-            "dataSent": {
-                "mixed": 2560.0,
-                "unmixed": 3004.6315789473692
-            },
-            "time": {
-                "mixed": 3549457.0105263162,
-                "unmixed": 3756224.6736842096
-            }
-        },
-        "MP-SPDZ": {
-            "commRounds": {
-                "mixed": 0.0,
-                "unmixed": 0.0
-            },
-            "dataSent": {
-                "mixed": 137.31031578947375,
-                "unmixed": 137.31031578947375
-            },
-            "time": {
-                "mixed": 0.7131941052631655,
-                "unmixed": 0.7131941052631655
-            }
-        }
-    },
     "histogram": {
         "MOTION": {
             "commRounds": {
