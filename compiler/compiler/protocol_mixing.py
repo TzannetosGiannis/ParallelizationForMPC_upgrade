@@ -151,6 +151,37 @@ class Config:
         return "Total cost:\t{:.2f}".format(self.total_cost) + "\n" + inputs + "\n" + constants + "\n" + plaintexts + "\n" + flags + "\n" + stmts + "\n" + finalLines + "\n" + outputs + "\n"
 
 
+# helper function to sort conversion lists. This is used to make mixer output deterministic
+def sortConv(conv: list[tuple[Protocol, Protocol]]) -> list[tuple[Protocol, Protocol]]:
+    if len(conv) < 2:
+        return conv
+
+    lhsProts = set()
+    rhsProts = set()
+    for lhs, rhs in conv:
+        lhsProts.add(lhs)
+        rhsProts.add(rhs)
+
+    headProtocols = lhsProts-rhsProts
+    print(lhsProts, rhsProts)
+    assert len(headProtocols) == 1
+    remainingConvs = set(conv)
+    toRet = []
+
+    while remainingConvs:
+        minConv = None
+        for c in remainingConvs:
+            if not minConv:
+                minConv = c
+            else:
+                if c[0] in headProtocols and c[0] < minConv[0] or (c[0] == minConv[0] and c[1] < minConv[1]):
+                    minConv = c
+        toRet.append(minConv)
+        remainingConvs.remove(minConv)
+        headProtocols.add(minConv[1])
+    return toRet
+
+
 # Identical to Config, but every set is changed to an ordered set. This is used to make the output deterministic and
 #   comparable for changes.
 class OrderedConfig:
@@ -186,7 +217,7 @@ class OrderedConfig:
             self.outputs[v] = sorted(list(s))
 
         for stmt, prot, conv, cost, depth, nest, explicitConv in copyConfig.assignments:
-            self.assignments.append([stmt, prot, sorted(list(conv)), cost, depth, nest, explicitConv])
+            self.assignments.append([stmt, prot, sorted(list(conv)), cost, depth, nest, sortConv(explicitConv)])
 
         for v, s in copyConfig.protocolByVar.items():
             self.protocolByVar[v] = sorted(list(s))
