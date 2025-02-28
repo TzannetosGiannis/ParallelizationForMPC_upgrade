@@ -25,7 +25,8 @@ from tests.backends.motion.benchmark import  (
 
 from tests.backends import mp_spdz_run_benchmark
 from tests.backends.mp_spdz.benchmark import (
-    compile_benchmark as mp_spdz_compile_benchmark
+    compile_benchmark as mp_spdz_compile_benchmark,
+    run_benchmark_for_party as run_benchmark_for_party_spdz
 )
 
 from utils import json_serialize, json_deserialize, StatsForInputConfig, StatsForTask, RunBenchmarkReq
@@ -765,10 +766,7 @@ def compile_all_benchmarks_motion():
         if len(all_args) == 0:
             continue
         log.info("Compiling {} ...".format(test_case_dir.name))        
-        motion_compile_benchmark(test_case_dir.name, test_case_dir.path, GMW_PROTOCOL, False)
-        motion_compile_benchmark(test_case_dir.name, test_case_dir.path, GMW_PROTOCOL, True)
-        motion_compile_benchmark(test_case_dir.name, test_case_dir.path, BMR_PROTOCOL, False)
-        motion_compile_benchmark(test_case_dir.name, test_case_dir.path, BMR_PROTOCOL, True)
+        motion_compile_benchmark(benchmark_name=test_case_dir.name, benchmark_path=test_case_dir.path, protocol=None, vectorized=True,mixed=True,costType="time")
 
 def compile_all_benchmarks_spdz():
     for test_case_dir in os.scandir(test_context.STAGES_DIR):
@@ -818,7 +816,48 @@ def run_server_role_motion(address):
                     )
                 write_message(conn, resp)
 
-def run_client_role_motion(address):
+
+def run_server_role_spdz(address):
+    # log.info("Compiling All benchmarks")
+    # compile_all_benchmarks()
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.bind((address, int(SERVER_PORT)))
+    s.listen()
+    log.info("Server started at address {} port {}".format(address, SERVER_PORT))
+    while True:
+        conn, addr = s.accept()
+        conn.settimeout(CONNECTION_TIMEOUT)
+        while True:
+            msg = read_message(conn)
+            if not msg:
+                log.error("Unable to read message from the client.")
+                conn.close()
+                break
+
+            if isinstance(msg, GetAddressReq):
+                log.info("Message is to get address")
+                resp = GetAddressResp(addr)
+                log.info("address is {}".format(addr))
+                write_message(conn, resp)
+            elif isinstance(msg, RunBenchmarkReq):
+                log.info("Request to run: {} {} {}".format(msg.benchmark_name, msg.protocol, msg.vectorized))
+                for dir in os.scandir(test_context.STAGES_DIR):
+                    if dir.name == msg.benchmark_name:
+                        test_case_dir = dir;
+                        break
+                log.info("path is {}".format(test_case_dir.path))
+                print((
+                        MPC_PARTY_SERVER_ID, msg.party0_mpc_addr, msg.party1_mpc_addr, test_case_dir.name,
+                        test_case_dir.path, msg.protocol, msg.vectorized, None, msg.cmd_args
+                    ))
+                exit()
+                resp = run_benchmark_for_party_spdz(
+                        MPC_PARTY_SERVER_ID, msg.party0_mpc_addr, msg.party1_mpc_addr, test_case_dir.name,
+                        test_case_dir.path, msg.protocol, msg.vectorized, None, msg.cmd_args
+                    )
+                write_message(conn, resp)
+
+def run_client_role_spdz(address):
     # log.info("Compiling All benchmarks")
     # compile_all_benchmarks()
     log.info("Client started, will connect to server at address {} port {}".format(address, SERVER_PORT))
@@ -894,6 +933,114 @@ def run_client_role_motion(address):
                     pair = (accum_p0, accum_p1)
                     outputs.append(pair)
 
+            gmw = outputs[0]
+            gmw_vec = outputs[1]
+            bmr = outputs[2]
+            bmr_vec = outputs[3]
+
+            if gmw[0] is None and gmw_vec[0] is None and bmr[0] is None and bmr_vec[0] is None:
+                log.warning("{}, {} No version ran on this iteration.".format(test_case_dir.name, 
+                    args.label))
+            else:
+                input_stats = StatsForInputConfig(args.label, gmw[0], gmw[1], gmw_vec[0], gmw_vec[1],
+                    bmr[0], bmr[1], bmr_vec[0], bmr_vec[1])
+                task_stats.input_configs.append(input_stats)
+                log.info("task {} input config {} DONE".format(task_stats.label, input_stats.label))
+
+                file_path = os.path.join(FILE_DIR, "{}.json".format(task_stats.label))
+                with open(file_path, "w", encoding='utf-8') as f:
+                    json_str = json_serialize(task_stats)
+                    f.write(json_str)
+            
+            i += 1
+
+        all_stats.append(task_stats)
+        log.info("task {} DONE".format(task_stats.label))
+    print_benchmark_data(all_stats)
+
+
+
+def run_client_role_motion(address):
+    # log.info("Compiling All benchmarks")
+    # compile_all_benchmarks()
+    log.info("Client started, will connect to server at address {} port {}".format(address, SERVER_PORT))
+    server_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server_sock.connect((address, SERVER_PORT))
+    server_sock.settimeout(CONNECTION_TIMEOUT)
+    write_message(server_sock, GetAddressReq())
+    msg = read_message(server_sock)
+    my_ip = msg.client_address[0]
+    # my_ip = '127.0.0.1'
+    mpc_party_server = "0,{},23000".format(address)
+    mpc_party_client = "1,{},23001".format(my_ip)
+    
+    all_stats = []
+    for test_case_dir in os.scandir(test_context.STAGES_DIR):
+        if test_case_dir.name in test_context.SKIPPED_TESTS[None]:
+                continue
+
+        all_args, non_vec_up_to = get_inputs(test_case_dir.name)
+        if len(all_args) == 0:
+            continue;
+
+        task_stats = StatsForTask(test_case_dir.name, [])
+
+        i = 0
+        for args in all_args:
+            log.info("\n{} - arguments: {}".format(test_case_dir.name, args.args));
+
+            outputs = [];
+            # GMW_PROTOCOL, BMR_PROTOCOL
+            for protocol in [None]:
+                # [False,True]
+                for vectorized in [True]:
+                    if i > non_vec_up_to and vectorized is False:
+                        pair = (None, None)
+                        outputs.append(pair)
+                        continue
+
+                    accum_p0 = accum_p1 = None
+                    for j in range(NUM_ITERS):
+                        log.info("Running Iteration {} {} {} {} {}".format(j+1, test_case_dir.name, protocol,
+                            ("vec" if vectorized else "non-vec"), args.label)); 
+                        
+                        mixed = True if protocol == None else False
+                        request = RunBenchmarkReq(
+                            party0_mpc_addr=mpc_party_server,
+                            party1_mpc_addr=mpc_party_client,
+                            cmd_args=args.args,
+                            benchmark_name=test_case_dir.name,
+                            protocol=protocol,
+                            vectorized=vectorized
+                            )
+
+                        write_message(server_sock, request)          
+                        p1 = motion_run_benchmark_for_party(
+                            MPC_PARTY_CLIENT_ID, mpc_party_server, mpc_party_client, test_case_dir.name, 
+                            test_case_dir.path, protocol, vectorized, None, args.args,mixed=mixed
+                        )
+
+                        p0 = read_message(server_sock)
+
+                        if p0 is None or p1 is None:
+                            log.error("Run Failed! p0 is None: {} - p1 is None: {}".format(p0 is None, p1 is None))
+                            continue
+
+                        log.info("Output {}".format(p0.output.strip()))
+                        assert p0.output.strip() == p1.output.strip(), \
+                            (p0.output.strip(), p1.output.strip())
+
+                        if accum_p0 is None:
+                            accum_p0 = p0
+                            accum_p1 = p1
+                        else:
+                            accum_p0 = motion_BenchmarkOutput.by_accumulating_readings(accum_p0, p0)
+                            accum_p1 = motion_BenchmarkOutput.by_accumulating_readings(accum_p1, p1)
+
+                    pair = (accum_p0, accum_p1)
+                    outputs.append(pair)
+
+            # [TODO]
             gmw = outputs[0]
             gmw_vec = outputs[1]
             bmr = outputs[2]
@@ -1393,11 +1540,11 @@ if __name__ == "__main__":
         generate_graphs(args.lan, args.wan)
     elif args.compile:
         compile_all_benchmarks_motion()
-        compile_all_benchmarks_spdz()
+        # compile_all_benchmarks_spdz()
     else:
         if args.role == 'b':
-            # run_paper_benchmarks_motion()
-            run_paper_benchmarks_spdz()
+            run_paper_benchmarks_motion()
+            # run_paper_benchmarks_spdz()
         elif args.role == 's':
             run_server_role_motion(args.address)
         else:
