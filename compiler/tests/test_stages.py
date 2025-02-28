@@ -300,7 +300,7 @@ def regenerate_stages(mixing = False,vectorization = True,costType = 'time'):
             
             code_name = str(backend)
             if mixing:
-                code_name += "_mixed"
+                code_name += f"_mixed_{costType}"
             
             if not vectorization:
                 code_name += "_scallar"

@@ -35,10 +35,6 @@ def compile(
     if protocolSets == None:
         protocolsMotion = [{'A', 'B', 'Y'}]
         protocolsSPDZ = [{'A', 'B'}, {'X', 'B'}, {'Y', 'B'}]
-        # protocolsSPDZ = [{'A'}]
-        # protocolsSPDZ = [{'B'}]
-        # protocolsSPDZ = [{'X'}]
-        # protocolsSPDZ = [{'Y'}]
         protocolSets = protocolsSPDZ if backend == backend.MP_SPDZ else protocolsMotion
 
     try:
