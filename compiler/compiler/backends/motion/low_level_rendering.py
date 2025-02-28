@@ -546,7 +546,6 @@ def render_mixed_stmt(
 
                 return  f"{lhs} = {val_expr}; {convertion}"
 
-
             dim_sizes = (
                 "{"
                 + ", ".join(
@@ -613,11 +612,10 @@ def render_mixed_stmt(
                         
                     mixed_convertion = initial_convertion
                 else:
-
-                     for elem in stmt_details_dict:
-                        if elem in mixed_convertion and elem != render_expr(stmt.lhs.array, dc.replace(render_ctx, plaintext=False))  and  convertions_dict[str(stmt.lhs)]['from'] != "_" and stmt_details_dict[elem][convertions_dict[str(stmt.lhs)]['from']] !=None:
+                    for elem in stmt_details_dict:
+                        if elem in mixed_convertion and not f"_{elem}" in mixed_convertion and elem != render_expr(stmt.lhs.array, dc.replace(render_ctx, plaintext=False))  and  convertions_dict[str(stmt.lhs)]['from'] != "_" and stmt_details_dict[elem][convertions_dict[str(stmt.lhs)]['from']] !=None:
                             mixed_convertion = mixed_convertion.replace(elem,stmt_details_dict[elem][convertions_dict[str(stmt.lhs)]['from']])
-                        
+
                 modify_stmt_details_dict(stmt_details_dict,stmt_key,retrieve_ABY_tag(to_be_converted[0]),stmt_key)
                 return mixed_convertion
             else:
