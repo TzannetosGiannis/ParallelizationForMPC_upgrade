@@ -67,6 +67,7 @@ def fragmentCostTable(fileName):
                             for shareType in shareTypes:
                                 restructuredJSON[protocol][measType][intSize][op][shareType] = dict()
 
+            
             # populate split tables
             for op in backendJSON.keys():
                 if 'zi_' in op:
@@ -75,14 +76,16 @@ def fragmentCostTable(fileName):
                         for valStr in backendJSON[op][k].keys():
                             val = int(valStr)
                             for measType in backendJSON[op][k][valStr].keys():
-                                restructuredJSON[protocol][measType][intSize][op][shareType.lower()][val] = backendJSON[op][k][valStr][measType] / val * 1000
+                                # [TODO] maybe we need the dataSent in MB ? Only god knows
+                                scale_factor = 1
+                                restructuredJSON[protocol][measType][intSize][op][shareType.lower()][val] = backendJSON[op][k][valStr][measType] / val * scale_factor
                 else:
                     protocol, conv = op.split('_')
                     convOp = 'zic_' + conv[0].lower() + '2' + conv[1].lower()
                     for valStr in backendJSON[op].keys():
                         val = int(valStr)
                         for measType in backendJSON[op][valStr].keys():
-                            restructuredJSON[protocol][measType][intSize][convOp][val] = backendJSON[op][valStr][measType] / val * 1000
+                            restructuredJSON[protocol][measType][intSize][convOp][val] = backendJSON[op][valStr][measType] / val * scale_factor
                     convA = conv[0]
                     convB = conv[1]
 
@@ -151,7 +154,8 @@ def fragmentCostTable(fileName):
                         for valStr in backendJSON[op][k].keys():
                             val = int(valStr)
                             for measType in backendJSON[op][k][valStr].keys():
-                                restructuredJSON[measType][intSize][op][k.lower()][val] = backendJSON[op][k][valStr][measType] / val * 1000
+                                scale_factor = 1
+                                restructuredJSON[measType][intSize][op][k.lower()][val] = backendJSON[op][k][valStr][measType] / val * scale_factor
                 else:
                     protFrom, protTo = op.split('_')
                     protFrom = protFrom.lower()
@@ -160,7 +164,8 @@ def fragmentCostTable(fileName):
                     for valStr in backendJSON[op].keys():
                         val = int(valStr)
                         for measType in backendJSON[op][valStr].keys():
-                            restructuredJSON[measType][intSize][convOp][val] = backendJSON[op][valStr][measType] / val * 1000
+                            scale_factor = 1
+                            restructuredJSON[measType][intSize][convOp][val] = backendJSON[op][valStr][measType] / val * scale_factor
 
             # remove empty share types
             toRem = []

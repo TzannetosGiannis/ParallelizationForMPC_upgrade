@@ -54,7 +54,7 @@ for backend,metric in execution_list:
             else:
                 obj.set_title(f"Convertion from {keys[i].split('_')[1].replace('2',' to ')}")
             obj.set_xlabel("Vector size")
-            obj.set_ylabel("cost per operation")
+            obj.set_ylabel("Cost per element")
         
         # Save the plot as an image
         plot_filename = f"./Cost_Tables/images/{section}_{backend}_{metric}_plot.png"

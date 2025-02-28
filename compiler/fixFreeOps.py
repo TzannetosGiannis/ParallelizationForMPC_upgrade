@@ -1,6 +1,6 @@
 import os, json
 from math import ceil
-threshold = 1e-5
+threshold = 1e-8
 
 
 # replace small numbers and negative numbers with 0
