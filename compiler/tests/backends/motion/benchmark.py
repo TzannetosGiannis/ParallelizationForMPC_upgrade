@@ -62,6 +62,7 @@ def run_benchmark(
     compile=True,
     continue_on_error=False,
     mixed=False,
+    costType=None
 ) -> Optional[tuple[BenchmarkOutput, BenchmarkOutput]]:
     input_fname = os.path.join(benchmark_path, "input.py")
     with open(input_fname, "r") as f:
@@ -82,7 +83,8 @@ def run_benchmark(
             out_dir=app_path,
             overwrite_out_dir=True,
             protocol=protocol,
-            mixing=mixed
+            mixing=mixed,
+            costType=costType
         )
        
         subprocess.run(

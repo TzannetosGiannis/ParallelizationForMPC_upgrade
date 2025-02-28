@@ -100,7 +100,6 @@ class StagesTestCase(unittest.TestCase):
                 )
 
     def test_example_apps(self):
-
         if test_context.BACKEND is None:
             self.skipTest("Skipping example application compilation")
 
@@ -115,7 +114,6 @@ class StagesTestCase(unittest.TestCase):
             expected_output = get_test_case_expected_output(test_case_dir.path)
             
             for protocol in test_context.BACKEND.valid_protocols():
-
                 if protocol == "ArithmeticGmw" :
                     continue
                 print(f"    Protocol {protocol}...")
@@ -134,46 +132,19 @@ class StagesTestCase(unittest.TestCase):
                     self.assertEqual(party0.strip(), expected_output.strip())
                     self.assertEqual(party1.strip(), expected_output.strip())
 
-            if str(test_context.BACKEND) == 'MOTION':
+            if str(test_context.BACKEND) == 'MOTION' and "--mixing" in sys.argv:
                 # read the stages testcase for the input protocol
                 # at this step assume that the input variables have the same protocol
 
-                mixed_input_path = test_case_dir.path+"/mixed_input_motion.txt" 
-                protocols = {
-                    "A":"ArithmeticGmw",
-                    "B":"BooleanGmw",
-                    "Y":"Bmr"
-                }
-                if os.path.exists(mixed_input_path):
-                    
-                    with open(mixed_input_path, 'r') as file:
-                        content = json.loads(file.read())
-                        initial_value = None
-                        for key, value in content.items():
-                            implemented = True
-                            if len(value) > 1:
-                                implemented = False
-                                break
-                            if initial_value == None:
-                                initial_value = value[0]
-                            elif initial_value != value[0]:
-                                
-                                implemented = False
-                                break
-                else:
-                    raise FileNotFoundError("mixed_input doesnt exist , please generate with --mixing")
-                if implemented == False:
-                    raise NotImplementedError("Unsupported mixed input")
-
-                protocol = protocols[initial_value]
-
+                costType = sys.argv.index('--costType') + 1
                 output = run_benchmark(
                     test_context.BACKEND,
                     name,
                     test_case_dir.path,
-                    protocol,
+                    None,
                     True, # for vectorization
-                    mixed=True
+                    mixed=True,
+                    costType=sys.argv[costType]
                 
                 )
                 assert output
@@ -181,10 +152,10 @@ class StagesTestCase(unittest.TestCase):
                 self.assertEqual(party0.strip(), party1.strip())
                 self.assertEqual(party0.strip(), expected_output.strip())
                 self.assertEqual(party1.strip(), expected_output.strip())
-            else:
+            elif str(test_context.BACKEND) == 'MP-SPDZ' and "--mixing" in sys.argv:
                 # In case of mpsdz we dont need to specify protocol input as it is part
                 # of compilation steps
-
+                costType = sys.argv.index('--costType') + 1
                 for protocol in test_context.BACKEND.valid_protocols():
                     print(f"Testing {name}... {protocol} mixed")
                     output = run_benchmark(
@@ -193,7 +164,8 @@ class StagesTestCase(unittest.TestCase):
                         test_case_dir.path,
                         protocol,
                         True, # for vectorization
-                        mixed=True    
+                        mixed=True,
+                        costType=sys.argv[costType]    
                     )
                     assert output
                     party0, party1 = output
@@ -220,7 +192,7 @@ def get_test_case_expected_output(test_case_dir: str) -> str:
     return proc.stdout
 
 
-def regenerate_stages(mixing = False,vectorization = True):
+def regenerate_stages(mixing = False,vectorization = True,costType = 'time'):
     for test_case_dir in os.scandir(test_context.STAGES_DIR):
         if test_case_dir.name in test_context.SKIPPED_TESTS[None]:
             continue
@@ -311,7 +283,7 @@ def regenerate_stages(mixing = False,vectorization = True):
             
             if mixing:
                 
-                mixed_config = compiler.mix_protocols(f"{test_case_dir.name}.py", type_env, loop_linear.body, dep_graph,  backend, "time")
+                mixed_config = compiler.mix_protocols(f"{test_case_dir.name}.py", type_env, loop_linear.body, dep_graph,  backend,costType,python_text=input_text)
                 
                 # Convert the dictionary to the desired format
                 result = {}
@@ -321,9 +293,6 @@ def regenerate_stages(mixing = False,vectorization = True):
                     # Convert the set of values to a list
                     result[key] = list(values)
 
-                if backend.name == 'MOTION':
-                    with open(os.path.join(test_case_dir, "mixed_input_motion.txt"), "w") as f:
-                        f.write(json.dumps(result))
                 
                 backend_code = backend.render_mixed_function(loop_linear, type_env, True,mixed_config)
             else:

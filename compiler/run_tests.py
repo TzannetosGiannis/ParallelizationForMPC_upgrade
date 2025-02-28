@@ -30,11 +30,23 @@ if __name__ == "__main__":
         choices=list(Backend),
         help="Test that the example apps compile and run with the given backend",
     )
+
+    parser.add_argument(
+        "--costType",
+        choices=["time", "dataSent", "commRounds"],
+        help="Specifies the type of cost when mixing is enabled. Required if --mixing is used.",
+    )
+
+
     args = parser.parse_args()
 
     test_context.BACKEND = args.test_backend
 
+    # Ensure that --costType is explicitly provided if --mixing is used
+    if args.mixing and args.costType is None:
+        parser.error("--costType must be specified when using --mixing")
+
     if args.regenerate:
-        regenerate_stages(args.mixing,args.scallar)
+        regenerate_stages(args.mixing,args.scallar,args.costType)
     else:
         run_tests()

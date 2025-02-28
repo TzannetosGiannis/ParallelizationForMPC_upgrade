@@ -112,7 +112,7 @@ def bmr_workaround() -> None:
 
 
 def set_up_spdz_compile(
-    benchmark_name: str, benchmark_path: str, vectorized: bool, mixed: bool, protocolSets = [{'A', 'B'}, {'X', 'B'}, {'Y', 'B'}],args=None
+    benchmark_name: str, benchmark_path: str, vectorized: bool, mixed: bool, protocolSets = [{'A', 'B'}, {'X', 'B'}, {'Y', 'B'}],args=None,costType=None
 ) -> str:
     input_fname = os.path.join(benchmark_path, "input.py")
 
@@ -136,7 +136,8 @@ def set_up_spdz_compile(
         overwrite_out_dir=True,
         protocol=None,
         mixing=mixed,
-        protocolSets=protocolSets
+        protocolSets=protocolSets,
+        costType=costType
     )
     
     # Copy vectorization library so compiled programs can use it
@@ -233,10 +234,11 @@ def run_benchmark(
     mixed=False,
     additional_flags=[],
     protocolSets = [{'A', 'B'}, {'X', 'B'}, {'Y', 'B'}],
-    args=None
+    args=None,
+    costType=None
 ) -> BenchmarkOutput:
 
-    set_up_spdz_compile(benchmark_name, benchmark_path, vectorized,mixed,protocolSets,args=args)
+    set_up_spdz_compile(benchmark_name, benchmark_path, vectorized,mixed,protocolSets,args=args,costType=costType)
     mpc_file = get_mpc_file_name(benchmark_name, vectorized,mixed)
     submodule_path = Backend.MP_SPDZ.submodule_path()
     print("RUNNING BENCH",benchmark_name,benchmark_path,submodule_path)    
@@ -315,57 +317,57 @@ def compile_benchmark(
     return mpc_file
 
 
-# def run_benchmark_for_party(
-#     myid: str, party0_mpc_addr: str, party1_mpc_addr: str, benchmark_name: str, benchmark_path: str, protocol: str, vectorized,
-#     timeout:int, cmd_args: list[str]
-# ) -> BenchmarkOutput:
+def run_benchmark_for_party(
+    myid: str, party0_mpc_addr: str, party1_mpc_addr: str, benchmark_name: str, benchmark_path: str, protocol: str, vectorized,
+    timeout:int, cmd_args: list[str]
+) -> BenchmarkOutput:
     
-#     mpc_file = compile_benchmark(benchmark_name, benchmark_path, vectorized)
+    mpc_file = compile_benchmark(benchmark_name, benchmark_path, vectorized)
     
     
-#     with subprocess.Popen(
-#         [
-#             exe_name,
-#             "--parties",
-#             party0_mpc_addr,
-#             party1_mpc_addr,
-#             "--my-id",
-#             myid,
-#         ] + cmd_args,
-#         stdout=subprocess.PIPE,
-#         stderr=subprocess.PIPE,
-#         text=True,
-#         cwd=party_dir,
-#     ) as party:
-#         try:
-#             party_stdout_raw, party_stderr = party.communicate(timeout)
-#         except subprocess.TimeoutExpired:
-#             party.kill()
-#             party_stdout_raw, party_stderr = party.communicate(timeout)
+    with subprocess.Popen(
+        [
+            exe_name,
+            "--parties",
+            party0_mpc_addr,
+            party1_mpc_addr,
+            "--my-id",
+            myid,
+        ] + cmd_args,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+        cwd=party_dir,
+    ) as party:
+        try:
+            party_stdout_raw, party_stderr = party.communicate(timeout)
+        except subprocess.TimeoutExpired:
+            party.kill()
+            party_stdout_raw, party_stderr = party.communicate(timeout)
 
-#         with open(os.path.join(party_dir, "stdout"), "w") as f:
-#             f.write(party_stdout_raw)
-#         with open(os.path.join(party_dir, "stderr"), "w") as f:
-#             f.write(party_stderr)
+        with open(os.path.join(party_dir, "stdout"), "w") as f:
+            f.write(party_stdout_raw)
+        with open(os.path.join(party_dir, "stderr"), "w") as f:
+            f.write(party_stderr)
 
-#         if(party.returncode != 0):
-#             print("party.returncode: {}".format(party.returncode))
-#             return None
+        if(party.returncode != 0):
+            print("party.returncode: {}".format(party.returncode))
+            return None
 
-#         party_timing_stats = statistics.parse_timing_data(
-#             party_stderr.split("\n")
-#         )
+        party_timing_stats = statistics.parse_timing_data(
+            party_stderr.split("\n")
+        )
 
-#         party_stdout_lines = party_stdout_raw.split("\n")
-#         party_output = party_stdout_lines[0]
-#         party_circuit_stats = statistics.parse_circuit_data(
-#             party_stdout_lines[1:]
-#         )
+        party_stdout_lines = party_stdout_raw.split("\n")
+        party_output = party_stdout_lines[0]
+        party_circuit_stats = statistics.parse_circuit_data(
+            party_stdout_lines[1:]
+        )
 
-#         return BenchmarkOutput(
-#                 name=benchmark_name,
-#                 output=party_output,
-#                 timing_stats=party_timing_stats,
-#                 circuit_stats=party_circuit_stats,
-#             )
+        return BenchmarkOutput(
+                name=benchmark_name,
+                output=party_output,
+                timing_stats=party_timing_stats,
+                circuit_stats=party_circuit_stats,
+            )
 
