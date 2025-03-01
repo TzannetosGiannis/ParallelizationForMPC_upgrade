@@ -16,7 +16,6 @@ class BenchmarkOutput:
     communication_rounds:str
 
     def __init__(self, stdout: str) -> None:
-        
         def parse(pattern: str) -> tuple[str, ...]:
             m = re.search(rf"^\s*{pattern}\s*$", stdout, re.MULTILINE)
             assert m is not None, repr(stdout)
@@ -26,7 +25,13 @@ class BenchmarkOutput:
         self.time_seconds = float(parse(r"Time = (.+) seconds")[0])
         self.data_sent_mb = float(parse(r"Data sent = (.+) MB.*")[0])
         self.communication_rounds = parse(r"Data sent = .*~(\d+)\s*rounds.*")[0]
-
+    def extract_dict(self):
+        return {
+            "result": self.result,
+            "time_seconds": self.time_seconds,
+            "data_sent_mb": self.data_sent_mb,
+            "communication_rounds": self.communication_rounds
+        }
 def _parse_int_pattern(pattern: str, stdout: str, mixed:bool = False) -> int:
     m = re.search(rf"^\s*{pattern}\s*$", stdout, re.MULTILINE)
     # if we compile in mixed this means that if the protocol schosen
@@ -121,7 +126,7 @@ def set_up_spdz_compile(
     
     if not args is None:
         input_py = replace_definitions(input_py,args)
-        
+
     submodule_path = Backend.MP_SPDZ.submodule_path()
     mpc_file = get_mpc_file_name(benchmark_name, vectorized,mixed)
     app_path = os.path.join(submodule_path, "Programs", "Source", f"{mpc_file}.mpc")
@@ -283,10 +288,10 @@ def run_benchmark(
 
 
 def compile_benchmark(
-    benchmark_name: str, benchmark_path: str, vectorized: bool, mixed: bool = False
+    benchmark_name: str, benchmark_path: str, vectorized: bool, mixed: bool = False,costType:str = None,args=None
 ) -> str:
     
-    set_up_spdz_compile(benchmark_name, benchmark_path, vectorized,mixed)#,protocolSets)
+    set_up_spdz_compile(benchmark_name, benchmark_path, vectorized,mixed,costType=costType,args=args)#,protocolSets)
     mpc_file = get_mpc_file_name(benchmark_name, vectorized,mixed)
     submodule_path = Backend.MP_SPDZ.submodule_path()
 
@@ -319,25 +324,24 @@ def compile_benchmark(
 
 def run_benchmark_for_party(
     myid: str, party0_mpc_addr: str, party1_mpc_addr: str, benchmark_name: str, benchmark_path: str, protocol: str, vectorized,
-    timeout:int, cmd_args: list[str]
+    timeout:int, cmd_args= None
 ) -> BenchmarkOutput:
     
-    mpc_file = compile_benchmark(benchmark_name, benchmark_path, vectorized)
-    
-    
+    mixed = True if protocol is None else False
+    mpc_file = compile_benchmark(benchmark_name, benchmark_path, vectorized,mixed=mixed,costType='time',args=cmd_args)
+    submodule_path = Backend.MP_SPDZ.submodule_path()
+    exe_name = f"{os.path.dirname(os.path.abspath(__file__))}/../../../../backend_submodules/MP-SPDZ/Scripts/../semi-party.x"
     with subprocess.Popen(
         [
             exe_name,
-            "--parties",
-            party0_mpc_addr,
-            party1_mpc_addr,
-            "--my-id",
-            myid,
-        ] + cmd_args,
+            str(myid),
+            mpc_file,
+            "-I"
+        ]+ (party0_mpc_addr.split()),
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         text=True,
-        cwd=party_dir,
+        cwd=submodule_path
     ) as party:
         try:
             party_stdout_raw, party_stderr = party.communicate(timeout)
@@ -345,29 +349,9 @@ def run_benchmark_for_party(
             party.kill()
             party_stdout_raw, party_stderr = party.communicate(timeout)
 
-        with open(os.path.join(party_dir, "stdout"), "w") as f:
-            f.write(party_stdout_raw)
-        with open(os.path.join(party_dir, "stderr"), "w") as f:
-            f.write(party_stderr)
-
         if(party.returncode != 0):
             print("party.returncode: {}".format(party.returncode))
             return None
 
-        party_timing_stats = statistics.parse_timing_data(
-            party_stderr.split("\n")
-        )
-
-        party_stdout_lines = party_stdout_raw.split("\n")
-        party_output = party_stdout_lines[0]
-        party_circuit_stats = statistics.parse_circuit_data(
-            party_stdout_lines[1:]
-        )
-
-        return BenchmarkOutput(
-                name=benchmark_name,
-                output=party_output,
-                timing_stats=party_timing_stats,
-                circuit_stats=party_circuit_stats,
-            )
+        return BenchmarkOutput(stdout=party_stdout_raw + party_stderr)
 

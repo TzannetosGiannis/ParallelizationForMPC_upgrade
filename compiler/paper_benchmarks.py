@@ -846,16 +846,12 @@ def run_server_role_spdz(address):
                         test_case_dir = dir;
                         break
                 log.info("path is {}".format(test_case_dir.path))
-                print((
-                        MPC_PARTY_SERVER_ID, msg.party0_mpc_addr, msg.party1_mpc_addr, test_case_dir.name,
-                        test_case_dir.path, msg.protocol, msg.vectorized, None, msg.cmd_args
-                    ))
-                exit()
                 resp = run_benchmark_for_party_spdz(
                         MPC_PARTY_SERVER_ID, msg.party0_mpc_addr, msg.party1_mpc_addr, test_case_dir.name,
                         test_case_dir.path, msg.protocol, msg.vectorized, None, msg.cmd_args
                     )
-                write_message(conn, resp)
+                
+                write_message(conn, resp.extract_dict())
 
 def run_client_role_spdz(address):
     # log.info("Compiling All benchmarks")
@@ -868,8 +864,9 @@ def run_client_role_spdz(address):
     msg = read_message(server_sock)
     my_ip = msg.client_address[0]
     # my_ip = '127.0.0.1'
-    mpc_party_server = "0,{},23000".format(address)
-    mpc_party_client = "1,{},23001".format(my_ip)
+    # f'execute {common_prefix}Scripts/../{prot}-party.x 1 {codeName.split(".mpc")[0]} -pn 13110 -h {server_address} -N 2'
+    mpc_party_server = "-pn 13110 -h {} -N 2".format(address)
+    mpc_party_client = "-pn 13110 -h {} -N 2".format(address)
     
     all_stats = []
     for test_case_dir in os.scandir(test_context.STAGES_DIR):
@@ -882,79 +879,43 @@ def run_client_role_spdz(address):
 
         task_stats = StatsForTask(test_case_dir.name, [])
 
-        i = 0
         for args in all_args:
             log.info("\n{} - arguments: {}".format(test_case_dir.name, args.args));
 
             outputs = [];
-            for protocol in [GMW_PROTOCOL, BMR_PROTOCOL]:
-                for vectorized in [False, True]:
-                    if i > non_vec_up_to and vectorized is False:
-                        pair = (None, None)
-                        outputs.append(pair)
-                        continue
-
-                    accum_p0 = accum_p1 = None
-                    for j in range(NUM_ITERS):
-                        log.info("Running Iteration {} {} {} {} {}".format(j+1, test_case_dir.name, protocol,
-                            ("vec" if vectorized else "non-vec"), args.label)); 
-                        request = RunBenchmarkReq(
-                            party0_mpc_addr=mpc_party_server,
-                            party1_mpc_addr=mpc_party_client,
-                            cmd_args=args.args,
-                            benchmark_name=test_case_dir.name,
-                            protocol=protocol,
-                            vectorized=vectorized
-                            )
-
-                        write_message(server_sock, request)          
-                        p1 = motion_run_benchmark_for_party(
-                            MPC_PARTY_CLIENT_ID, mpc_party_server, mpc_party_client, test_case_dir.name, 
-                            test_case_dir.path, protocol, vectorized, None, args.args
-                        )
-
-                        p0 = read_message(server_sock)
-
-                        if p0 is None or p1 is None:
-                            log.error("Run Failed! p0 is None: {} - p1 is None: {}".format(p0 is None, p1 is None))
-                            continue
-
-                        log.info("Output {}".format(p0.output.strip()))
-                        assert p0.output.strip() == p1.output.strip(), \
-                            (p0.output.strip(), p1.output.strip())
-
-                        if accum_p0 is None:
-                            accum_p0 = p0
-                            accum_p1 = p1
-                        else:
-                            accum_p0 = motion_BenchmarkOutput.by_accumulating_readings(accum_p0, p0)
-                            accum_p1 = motion_BenchmarkOutput.by_accumulating_readings(accum_p1, p1)
-
-                    pair = (accum_p0, accum_p1)
-                    outputs.append(pair)
-
-            gmw = outputs[0]
-            gmw_vec = outputs[1]
-            bmr = outputs[2]
-            bmr_vec = outputs[3]
-
-            if gmw[0] is None and gmw_vec[0] is None and bmr[0] is None and bmr_vec[0] is None:
-                log.warning("{}, {} No version ran on this iteration.".format(test_case_dir.name, 
-                    args.label))
-            else:
-                input_stats = StatsForInputConfig(args.label, gmw[0], gmw[1], gmw_vec[0], gmw_vec[1],
-                    bmr[0], bmr[1], bmr_vec[0], bmr_vec[1])
-                task_stats.input_configs.append(input_stats)
-                log.info("task {} input config {} DONE".format(task_stats.label, input_stats.label))
-
-                file_path = os.path.join(FILE_DIR, "{}.json".format(task_stats.label))
-                with open(file_path, "w", encoding='utf-8') as f:
-                    json_str = json_serialize(task_stats)
-                    f.write(json_str)
+            protocol = None
+            vectorized = True
             
-            i += 1
+            accum_p0 = accum_p1 = None
+            for j in range(NUM_ITERS):
+                log.info("Running Iteration {} {} {} {} {}".format(j+1, test_case_dir.name, protocol,"vec", args.label)); 
+                
+                request = RunBenchmarkReq(
+                    party0_mpc_addr=mpc_party_server,
+                    party1_mpc_addr=mpc_party_client,
+                    cmd_args=parse_list(args.args),
+                    benchmark_name=test_case_dir.name,
+                    protocol=protocol,
+                    vectorized=vectorized
+                    )
 
-        all_stats.append(task_stats)
+                write_message(server_sock, request)          
+                p1 = run_benchmark_for_party_spdz(
+                    MPC_PARTY_CLIENT_ID, mpc_party_server, mpc_party_client, test_case_dir.name, 
+                    test_case_dir.path, protocol, vectorized, None, cmd_args=parse_list(args.args)
+                )
+                
+                p0 = read_message(server_sock)
+
+                if p0 is None or p1 is None:
+                    log.error("Run Failed! p0 is None: {} - p1 is None: {}".format(p0 is None, p1 is None))
+                    continue
+
+                log.info("Output {}".format(p0["result"].strip()))
+                assert p0["result"].strip() == p1.result.strip(), \
+                    (p0["result"].strip(), p1.result.strip())
+
+        # all_stats.append(task_stats)
         log.info("task {} DONE".format(task_stats.label))
     print_benchmark_data(all_stats)
 
@@ -1546,6 +1507,8 @@ if __name__ == "__main__":
             run_paper_benchmarks_motion()
             # run_paper_benchmarks_spdz()
         elif args.role == 's':
-            run_server_role_motion(args.address)
+            # run_server_role_motion(args.address)
+            run_server_role_spdz(args.address)
         else:
-            run_client_role_motion(args.address)
+            # run_client_role_motion(args.address)
+            run_client_role_spdz(args.address)

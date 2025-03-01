@@ -198,11 +198,12 @@ def run_benchmark(
 
 def run_benchmark_for_party(
     myid: str, party0_mpc_addr: str, party1_mpc_addr: str, benchmark_name: str, benchmark_path: str, protocol: str, vectorized,
-    timeout:int, cmd_args: list[str]
+    timeout:int, cmd_args: list[str],mixed=False
 ) -> BenchmarkOutput:
     # Create directories for output and MOTION logs
     app_path = os.path.join(
-        benchmark_path, "motion_app" + "-" + protocol + ("-vectorized" if vectorized else "")
+        benchmark_path,
+        "motion_app" + "-" + (protocol if (mixed == False and protocol is not None) else "mixed") + ("-vectorized" if vectorized else ""),
     )
     party_dir = os.path.join(app_path, "party" + myid)
     if os.path.exists(party_dir):
@@ -258,7 +259,7 @@ def run_benchmark_for_party(
 
 
 def compile_benchmark(
-    benchmark_name: str, benchmark_path: str, protocol: str, vectorized: bool
+    benchmark_name: str, benchmark_path: str, protocol: str, vectorized: bool,mixed:bool = False,costType:str = "time"
 ) -> str:
     input_fname = os.path.join(benchmark_path, "input.py")
 
@@ -266,7 +267,8 @@ def compile_benchmark(
         input_py = f.read().strip()
 
     app_path = os.path.join(
-        benchmark_path, "motion_app" + "-" + protocol + ("-vectorized" if vectorized else "")
+        benchmark_path,
+        "motion_app" + "-" + (protocol if mixed == False else "mixed") + ("-vectorized" if vectorized else ""),
     )
 
     compiler.compile(
@@ -278,6 +280,8 @@ def compile_benchmark(
         out_dir=app_path,
         overwrite_out_dir=True,
         protocol=protocol,
+        mixing=mixed,
+        costType=costType
     )
 
     
