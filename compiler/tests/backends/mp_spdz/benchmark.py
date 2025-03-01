@@ -323,12 +323,15 @@ def compile_benchmark(
 
 
 def run_benchmark_for_party(
-    myid: str, party0_mpc_addr: str, party1_mpc_addr: str, benchmark_name: str, benchmark_path: str, protocol: str, vectorized,
-    timeout:int, cmd_args= None
+    myid: str, party0_mpc_addr: str, benchmark_name: str, benchmark_path: str, protocol: str, vectorized,
+    timeout:int, cmd_args= None,compile_again=True
 ) -> BenchmarkOutput:
     
     mixed = True if protocol is None else False
-    mpc_file = compile_benchmark(benchmark_name, benchmark_path, vectorized,mixed=mixed,costType='time',args=cmd_args)
+    if compile_again == True:
+        mpc_file = compile_benchmark(benchmark_name, benchmark_path, vectorized,mixed=mixed,costType='time',args=cmd_args)
+    else:
+        mpc_file = get_mpc_file_name(benchmark_name,vectorized,mixed)
     submodule_path = Backend.MP_SPDZ.submodule_path()
     exe_name = f"{os.path.dirname(os.path.abspath(__file__))}/../../../../backend_submodules/MP-SPDZ/Scripts/../semi-party.x"
     with subprocess.Popen(

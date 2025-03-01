@@ -598,12 +598,7 @@ def render_mixed_stmt(
                             new_declaration = stmt_details_dict[current_key]["declaration"].replace(current_key,f"{current_key}_{prot}") + "\n"
                         temp_convertion = mixed_convertion
                         if raise_key in temp_convertion and not f"{raise_key}_" in temp_convertion:
-                            
-
-                            for key in stmt_details_dict.keys():
-                                if key in temp_convertion and not f"{key}_" in temp_convertion and stmt_details_dict[key][prot] != None:
-                                    temp_convertion = temp_convertion.replace(key,stmt_details_dict[key][prot])
-                        
+                            temp_convertion = replace_variables_in_protocol(stmt_details_dict,temp_convertion,prot)
                         else:
                             temp_convertion = mixed_convertion
                         initial_convertion += (new_declaration + temp_convertion)
@@ -632,8 +627,6 @@ def render_mixed_stmt(
                             }
                     )[0]
                     
-
-                    
                     extraction = '.Get()' if not "encrypto::motion::ShareWrapper" in stmt_details_dict[stmt_key]['declaration'] else ""
                     convertion_vectorized_access = f"(vectorized_access({stmt_key}, {dim_sizes}, {vectorized_dims}, {idxs}){extraction}.Convert<{identified_pr}>()))"
                     convertion_stmt = f"vectorized_assign({new_key}, {dim_sizes}, {vectorized_dims}, {idxs}, {convertion_vectorized_access};\n"            
@@ -650,13 +643,10 @@ def render_mixed_stmt(
 
             _, convertion_from, convertion_to = extract_convertion_dict(convertions_dict,str(stmt.lhs))          
             for key in stmt_details_dict.keys():
-
                 if key in mixed_convertion:
-                    
                     # if you havent identified it yet it is already declared on the default protocol
                     if convertion_from == '_' and stmt_details_dict[key][list(convertion_to)[0]] == None:
                         modify_stmt_details_dict(stmt_details_dict,key,list(convertion_to)[0], key)
-                    
                     if convertion_from == '_' and stmt_details_dict[key][list(convertion_to)[0]] != None:
                         pass
                     else:
@@ -665,7 +655,6 @@ def render_mixed_stmt(
                         if not stmt_details_dict[key][convertion_from] is None:
                             mixed_convertion = mixed_convertion.replace(key,stmt_details_dict[key][convertion_from])
                   
-
             return mixed_convertion
 
         if isinstance(stmt.rhs, Update):
@@ -823,15 +812,12 @@ def render_mixed_stmt(
             
                     extraction = '.Get()' if not "encrypto::motion::ShareWrapper" in stmt_details_dict[lhs_key]['declaration'] else ""
                     mixed_convertion = initial_convertion + f"{lhs_key}_{list(convertion_to)[0]} = {lhs_key}{extraction}.Convert<{identified_pr}>();" 
-    
                     modify_stmt_details_dict(stmt_details_dict,lhs_key,convertion_from,lhs_key)
 
                 elif convertion_from == '_' and len(convertion_to) > 1:
                     
                     # the first is in the protocol as declared and then we follow
-                    # the convertions based on the hint by mixer
-                    
-                    
+                    # the convertions based on the hint by mixer 
                     current_key = render_expr(stmt.lhs, dc.replace(render_ctx, plaintext=False))
                     if len(convertion_tuple) > 0:
                         modify_stmt_details_dict(stmt_details_dict,current_key,convertion_tuple[0][0], current_key)
@@ -887,19 +873,15 @@ def render_mixed_stmt(
                     for key in stmt_details_dict:
                        if key in rhs_key:
                             mixed_convertion = mixed_convertion.replace(key,stmt_details_dict[key][convertion_from])
-                    
                     modify_stmt_details_dict(stmt_details_dict,lhs_key,convertion_from, lhs_key)
 
-                elif convertion_from == '_' and len(convertion_to) == 1:
-                    
+                elif convertion_from == '_' and len(convertion_to) == 1:  
                     modify_stmt_details_dict(stmt_details_dict,lhs_key,list(convertion_to)[0], lhs_key)
                 else:
                     raise NotImplementedError("Not implemented convertion")
-            
+        
             return mixed_convertion
         else:    
-            # [TODO] identify why the declaration of constants has wrong context inside , it shouldnt
-            # to enter here it should be a constant
             convertion_assignment = ""
             initial_assignment = shared_assignment
             for prot in convertions_dict[str(stmt.lhs)]['to']:
@@ -912,7 +894,6 @@ def render_mixed_stmt(
                     new_key = f"{lhs_key}_{prot}"
                     modify_stmt_details_dict(stmt_details_dict,lhs_key,prot,new_key)
                     convertion_assignment += stmt_details_dict[lhs_key]["declaration"].replace(lhs_key,new_key) + "\n" + initial_assignment.replace(lhs_key,new_key).replace(rhs_key,stmt_details_dict[rhs_key][prot]) + "\n"
-
             return (
                 convertion_assignment + plaintext_assignment
             )
@@ -947,8 +928,6 @@ def render_mixed_stmt(
             for phi in stmt.body
             if isinstance(phi, Phi)
         )
-
-        
 
         header = (
             "for (; "
@@ -1032,7 +1011,6 @@ def render_mixed_stmt(
         else:
             phi_finalizations = ""
 
-        
         result_stmt =  (
             "\n"
             + ctr_initializer
