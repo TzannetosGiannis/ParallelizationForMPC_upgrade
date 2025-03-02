@@ -264,15 +264,19 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
     plaintext_replace_dict = {}
 
     # plaintext need to be in specific protocol
-    for key , value in mixed_config.plaintexts.items():
-        plaintext_dict[str(key).replace("!","_")] = value
+    for var_key in mixed_config.plaintexts:  # Get keys only
+        key_str = str(var_key)  # Convert Var to string
+        plaintext_dict[key_str.replace("!", "_")] = mixed_config.plaintexts[var_key]
+
 
     # handle the input variables , for now allow one protocol only
     # [TODO] revisit inputs of {"var": {A,B}} 
     func_header_declrations = [elem.replace(",","").lstrip() for elem in func_header.split("\n")][2:]
     parameter_input_convertions_initialization = "// Input Protocol Convertions\n"
-    for key , value in mixed_config.inputs.items():  
-        dict_key = str(key).replace("!","_") 
+    for var_key in mixed_config.inputs:  
+        key = str(var_key)  # Ensure key is a string
+        value = mixed_config.inputs[var_key]
+        dict_key = str(key).replace("!","_")
         if len(value) > 1:
             if dict_key not in plaintext_dict:
                 plaintext_dict[dict_key] = list(value)
@@ -288,8 +292,8 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
                         stmt_details_dict[dict_key][l[i]] = dict_key
                     else:
                         stmt_details_dict[dict_key][l[i]] = f"{dict_key}_{l[i]}"
-                        if  "vector" in stmt_details_dict[dict_key]['declaration']:
-                            convertion = stmt_details_dict[dict_key]['declaration'].replace(dict_key, f"{dict_key}_{l[i]}") + f"({dict_key}.size());\n"
+                        if  "vector" in str(stmt_details_dict[dict_key]['declaration']):
+                            convertion = str(stmt_details_dict[dict_key]['declaration']).replace(dict_key, f"{dict_key}_{l[i]}") + f"({dict_key}.size());\n"
                             convertion += f"vectorized_assign({dict_key}_{l[i]}, {{{dict_key}.size()}}, {{true}}, {{}}, (vectorized_access({dict_key}, {{{dict_key}.size()}}, {{true}}, {{}}).Get().Convert<{PROTOCOL_CONVERTIONS[l[i]]}>()));\n"
                             parameter_input_convertions_initialization += convertion
                         else:
