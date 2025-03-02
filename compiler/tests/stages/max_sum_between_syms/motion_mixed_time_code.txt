@@ -37,7 +37,7 @@ encrypto::motion::SecureUnsignedInteger max_sum_between_syms(
     encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_0_Y = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(std::uint32_t(0)), 0);
 
     // Input Protocol Convertions
-    std::vector<encrypto::motion::SecureUnsignedInteger> Seq_0_Y(Seq_0.size());;
+    std::vector<encrypto::motion::SecureUnsignedInteger> Seq_0_Y(Seq_0.size());
     vectorized_assign(Seq_0_Y, {Seq_0.size()}, {true}, {}, (vectorized_access(Seq_0, {Seq_0.size()}, {true}, {}).Get().Convert<encrypto::motion::MpcProtocol::kBmr>()));
 
     // Plaintext parameter assignments

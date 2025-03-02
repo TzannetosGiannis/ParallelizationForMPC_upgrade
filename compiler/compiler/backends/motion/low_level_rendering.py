@@ -856,7 +856,7 @@ def render_mixed_stmt(
                                 chosen_prot = 'Y'
                             else:
                                 # here we should find the key that matches
-                                chosen_prot = next((prot for prot in ['A', 'B', 'Y'] if stmt_details_dict[chosen_key][prot] == chosen_key), None)
+                                chosen_prot = next((prot for prot in ['A', 'B', 'Y'] if stmt_details_dict[chosen_key][prot] == chosen_key), "None")
                             
                         modify_stmt_details_dict(stmt_details_dict,current_key,chosen_prot, current_key)
                         convertion = ""
@@ -990,10 +990,10 @@ def render_mixed_stmt(
             )
             + "\n}\n"
         )
-        body = []
+        body_list = []
         for substmt in stmt.body:
             if not isinstance(substmt, Phi):
-                body.append(render_mixed_stmt(
+                body_list.append(render_mixed_stmt(
                     stmt=substmt, 
                     type_env=type_env, 
                     ran_vectorization=ran_vectorization, 
@@ -1004,7 +1004,7 @@ def render_mixed_stmt(
                     )
                 )
 
-        body = "\n".join(body) + "\n"
+        body = "\n".join(body_list) + "\n"
 
         if not ran_vectorization:
             phi_finalizations = "// Assign final phi values\n" + phi_assignments + "\n"

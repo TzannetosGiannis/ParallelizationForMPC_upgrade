@@ -13,7 +13,7 @@ from ...util import assert_never
 from ...loop_linear_code import Function, Statement, Phi, Assign, For, Return
 from ...type_analysis import TypeEnv, VarVisibility, Constant, DataType
 from ... import tac_cfg, ast_shared
-from ...protocol_mixing import Config
+from ...protocol_mixing import OrderedConfig,Config
 
 from .low_level_rendering import (
     RenderContext,
@@ -127,7 +127,7 @@ def _collect_constants(stmts: list[Statement]) -> list[Constant]:
 
 
 
-def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: bool, mixed_config: Config) -> str:
+def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: bool, mixed_config: OrderedConfig) -> str:
     
     render_ctx = RenderContext(type_env)
     convertion_dict = {}
@@ -265,23 +265,22 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
 
     # plaintext need to be in specific protocol
     for key , value in mixed_config.plaintexts.items():
-        plaintext_dict[render_expr(key, dt.replace(render_ctx, plaintext=False))] = list(value)
+        plaintext_dict[str(key).replace("!","_")] = value
 
     # handle the input variables , for now allow one protocol only
     # [TODO] revisit inputs of {"var": {A,B}} 
     func_header_declrations = [elem.replace(",","").lstrip() for elem in func_header.split("\n")][2:]
     parameter_input_convertions_initialization = "// Input Protocol Convertions\n"
-    for key , value in mixed_config.inputs.items():
-        
-        dict_key = render_expr(key, dt.replace(render_ctx, plaintext=False)) 
+    for key , value in mixed_config.inputs.items():  
+        dict_key = str(key).replace("!","_") 
         if len(value) > 1:
             if dict_key not in plaintext_dict:
                 plaintext_dict[dict_key] = list(value)
                 stmt_details_dict[dict_key] = {
-                    "declaration":next((x for x in func_header_declrations if x.endswith(dict_key)), None),
-                            "A":None,
-                            "B":None,
-                            "Y":None,
+                    "declaration":next((x for x in func_header_declrations if x.endswith(dict_key)), "None"),
+                    "A":None,
+                    "B":None,
+                    "Y":None,
                 }
                 l = sorted(list(value))
                 for i in range(len(l)):
@@ -289,13 +288,12 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
                         stmt_details_dict[dict_key][l[i]] = dict_key
                     else:
                         stmt_details_dict[dict_key][l[i]] = f"{dict_key}_{l[i]}"
-                        # is it a vector ?
                         if  "vector" in stmt_details_dict[dict_key]['declaration']:
-                            convertion = stmt_details_dict[dict_key]['declaration'].replace(dict_key, f"{dict_key}_{l[i]}") +f"({dict_key}.size());;\n"
+                            convertion = stmt_details_dict[dict_key]['declaration'].replace(dict_key, f"{dict_key}_{l[i]}") + f"({dict_key}.size());\n"
                             convertion += f"vectorized_assign({dict_key}_{l[i]}, {{{dict_key}.size()}}, {{true}}, {{}}, (vectorized_access({dict_key}, {{{dict_key}.size()}}, {{true}}, {{}}).Get().Convert<{PROTOCOL_CONVERTIONS[l[i]]}>()));\n"
                             parameter_input_convertions_initialization += convertion
                         else:
-                            raise NotImplemented("Only vectors are supported as multiple protocols input")
+                            raise NotImplementedError("Only vectors are supported as multiple protocols input")
         else:
             if dict_key not in plaintext_dict:
                 plaintext_dict[dict_key] = list(value)
@@ -525,7 +523,7 @@ def render_function(func: Function, type_env: TypeEnv, ran_vectorization: bool) 
 
 
 def render_application(
-    func: Function, type_env: TypeEnv, params: dict[str, Any], ran_vectorization: bool,mixing=False,mixed_config:Config = Config()
+    func: Function, type_env: TypeEnv, params: dict[str, Any], ran_vectorization: bool,mixing=False,mixed_config:OrderedConfig = OrderedConfig(Config())
 ) -> None:
 
     

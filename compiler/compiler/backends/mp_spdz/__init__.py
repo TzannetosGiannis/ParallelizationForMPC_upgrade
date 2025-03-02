@@ -33,7 +33,7 @@ from ...loop_linear_code import (
     LoopBound,
 )
 from ...type_analysis import TypeEnv, Constant, DataType
-from ...protocol_mixing import Config
+from ...protocol_mixing import OrderedConfig,Config
 
 UpdatelessAssignRHS = Union[
     Atom, Subscript, BinOp, UnaryOp, List, Tuple, Mux, LiftExpr, DropDim
@@ -558,6 +558,14 @@ def render_mixed_statement(stmt: Statement, containing_loop: Optional[For],conve
                     
                     # identify if it is a lift
                     if isinstance(stmt.rhs,LiftExpr):
+                        assert not isinstance(stmt.rhs.expr,Var)
+                        assert not isinstance(stmt.rhs.expr,Constant)
+                        assert not isinstance(stmt.rhs.expr,BinOp)
+                        assert not isinstance(stmt.rhs.expr,UnaryOp)
+                        assert not isinstance(stmt.rhs.expr,Tuple)
+                        assert not isinstance(stmt.rhs.expr,List)
+                        assert not isinstance(stmt.rhs.expr,Mux)
+                        assert not isinstance(stmt.rhs.expr,LiftExpr)
                         lift_key = render_var(stmt.rhs.expr.array,dict())
                         # identify either A or B
                         # store both the actual and converted
@@ -757,8 +765,7 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
     # example convertion tuple (B-> A) means that the result will be available directly on B
     # and then a convertion will be applied and stored on A
     for co in convertion_dict:
-        key = render_var(co,dict()).split("{")[0]
-        
+        key = str(co).replace("!", "_").split("{")[0]
         convertion_tuple = convertion_dict[co]['convertion_tuple']
         if len(convertion_tuple) > 0:
             key_from = key
@@ -794,17 +801,17 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
     # handle variables that are passed as plaintext inside the programme and the mixer requests them to have a protocol assigned
     for plain in plaintext_dict:
         small_key = render_var(plain,dict())
-        new_key = None
+        new_key_plaintext = None
         
         if len(list(plaintext_dict[plain])) == 1 and list(plaintext_dict[plain])[0] == 'B':
             
             # simple types means simple convertion based on type
             if "list" not in func_args[small_key]:
                 plaintext_convertions += f"{small_key}_B = sb32({small_key})\n"
-                new_key = f"{small_key}_B"
+                new_key_plaintext = f"{small_key}_B"
                 stmt_details_dict[small_key] = {
                     "A":small_key,
-                    "B":new_key,
+                    "B":new_key_plaintext,
                 }
                 performed_plaintext_convertion = True
             else:
@@ -870,7 +877,7 @@ def render_function(func: Function, type_env: TypeEnv, ran_vectorization: bool) 
     )
 
 
-def render_load_args(func: Function,mixing: bool = False,mixed_config:Config = Config()) -> str:
+def render_load_args(func: Function,mixing: bool = False,mixed_config:OrderedConfig = OrderedConfig(Config())) -> str:
     ret = []
     program_args_index = 1
     for arg in func.parameters:
@@ -908,7 +915,7 @@ def render_load_args(func: Function,mixing: bool = False,mixed_config:Config = C
     return "\n".join(ret)
 
 
-def render_default_arg(arg: Parameter,mixing: bool = False,mixed_config:Config = Config()) -> str:
+def render_default_arg(arg: Parameter,mixing: bool = False,mixed_config:OrderedConfig = OrderedConfig(Config())) -> str:
     var = render_var(arg.var, dict())
     actual_type = 'sint'
     protocol = 'A'
@@ -942,11 +949,11 @@ def render_default_arg(arg: Parameter,mixing: bool = False,mixed_config:Config =
         return input_vec
 
 
-def render_default_args(func: Function,mixing: bool = False,mixed_config:Config = Config()) -> str:
+def render_default_args(func: Function,mixing: bool = False,mixed_config:OrderedConfig = OrderedConfig(Config())) -> str:
     return "\n".join(render_default_arg(arg,mixing,mixed_config) for arg in func.parameters)
 
 
-def render_set_args(func: Function,mixing: bool = False,mixed_config:Config = Config()) -> str:
+def render_set_args(func: Function,mixing: bool = False,mixed_config:OrderedConfig = OrderedConfig(Config())) -> str:
 
     has_defaults = all(len(arg.default_values) >= 1 for arg in func.parameters)
     
@@ -972,7 +979,7 @@ def render_args(func: Function) -> str:
 
 
 def render_application(
-    func: Function, type_env: TypeEnv, params: dict[str, Any], ran_vectorization: bool,mixing=False,mixed_config:Config = Config()
+    func: Function, type_env: TypeEnv, params: dict[str, Any], ran_vectorization: bool,mixing=False,mixed_config:OrderedConfig = OrderedConfig(Config())
 ) -> None:
 
     if mixing == True:

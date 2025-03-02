@@ -25,7 +25,7 @@ std::vector<encrypto::motion::SecureUnsignedInteger> mnist_relu(
     encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_1_Y = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(std::uint32_t(1)), 0);
 
     // Input Protocol Convertions
-    std::vector<encrypto::motion::SecureUnsignedInteger> input_0_Y(input_0.size());;
+    std::vector<encrypto::motion::SecureUnsignedInteger> input_0_Y(input_0.size());
     vectorized_assign(input_0_Y, {input_0.size()}, {true}, {}, (vectorized_access(input_0, {input_0.size()}, {true}, {}).Get().Convert<encrypto::motion::MpcProtocol::kBmr>()));
 
     // Plaintext parameter assignments

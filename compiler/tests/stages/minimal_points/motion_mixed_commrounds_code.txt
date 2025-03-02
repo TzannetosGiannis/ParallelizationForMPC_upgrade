@@ -41,9 +41,9 @@ std::tuple<std::vector<encrypto::motion::SecureUnsignedInteger>, std::vector<enc
     encrypto::motion::ShareWrapper _MPC_CONSTANT_false = party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::BitVector(1, false), 0);
 
     // Input Protocol Convertions
-    std::vector<encrypto::motion::SecureUnsignedInteger> Y_coords_0_Y(Y_coords_0.size());;
+    std::vector<encrypto::motion::SecureUnsignedInteger> Y_coords_0_Y(Y_coords_0.size());
     vectorized_assign(Y_coords_0_Y, {Y_coords_0.size()}, {true}, {}, (vectorized_access(Y_coords_0, {Y_coords_0.size()}, {true}, {}).Get().Convert<encrypto::motion::MpcProtocol::kBmr>()));
-    std::vector<encrypto::motion::SecureUnsignedInteger> X_coords_0_Y(X_coords_0.size());;
+    std::vector<encrypto::motion::SecureUnsignedInteger> X_coords_0_Y(X_coords_0.size());
     vectorized_assign(X_coords_0_Y, {X_coords_0.size()}, {true}, {}, (vectorized_access(X_coords_0, {X_coords_0.size()}, {true}, {}).Get().Convert<encrypto::motion::MpcProtocol::kBmr>()));
 
     // Plaintext parameter assignments

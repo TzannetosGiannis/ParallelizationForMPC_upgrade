@@ -33,7 +33,7 @@ std::vector<encrypto::motion::SecureUnsignedInteger> cryptonets_max_pooling(
     // Constant initializations
 
     // Input Protocol Convertions
-    std::vector<encrypto::motion::SecureUnsignedInteger> vals_0_Y(vals_0.size());;
+    std::vector<encrypto::motion::SecureUnsignedInteger> vals_0_Y(vals_0.size());
     vectorized_assign(vals_0_Y, {vals_0.size()}, {true}, {}, (vectorized_access(vals_0, {vals_0.size()}, {true}, {}).Get().Convert<encrypto::motion::MpcProtocol::kBmr>()));
 
     // Plaintext parameter assignments
