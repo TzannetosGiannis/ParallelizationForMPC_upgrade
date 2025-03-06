@@ -116,7 +116,8 @@ def get_biometric_inputs() -> tuple[list[InputArgs], int]:
     all_args = []
     non_vec_up_to = 0 #6# Only run non-vectorized benchmark upto this index
     # for config in [[4, 4], [4, 8], [4, 16], [4, 32], [4, 64], [4, 128], [4, 256], [4, 512], [4, 1024], [4, 2048], [4, 4096]]:
-    for config in [[4, 128], [4, 4096]]:
+    # for config in [[4, 128], [4, 4096]]:
+    for config in [[4,4]]:
         D = config[0]
         N = config[1]
         args = [
@@ -648,46 +649,50 @@ def run_client_role_spdz(address):
 
         for args in all_args:
             log.info("\n{} - arguments: {}".format(test_case_dir.name, args.args));
-            protocol = None
-            vectorized = True
-            for j in range(NUM_ITERS):
-                log.info("Running Iteration {} {} {} {} {}".format(j+1, test_case_dir.name, protocol,"vec", args.label)); 
-                
-                request = RunBenchmarkReq(
-                    party0_mpc_addr=mpc_party_server,
-                    party1_mpc_addr=None, # we use j to signal not to compile again
-                    cmd_args=parse_list(args.args),
-                    benchmark_name=test_case_dir.name,
-                    protocol=protocol,
-                    vectorized=vectorized
-                )
+            for protocol in [None, 'A', 'B', 'X', 'Y']:
+                vectorized = True
+                for j in range(NUM_ITERS):
+                    log.info("Running Iteration {} {} {} {} {}".format(j+1, test_case_dir.name, protocol,"vec", args.label));
 
-                write_message(server_sock, request)          
-                p1 = run_benchmark_for_party_spdz(
-                    myid=MPC_PARTY_CLIENT_ID, 
-                    party0_mpc_addr=mpc_party_server, 
-                    benchmark_name=test_case_dir.name, 
-                    benchmark_path=test_case_dir.path, 
-                    protocol=protocol, 
-                    vectorized=vectorized, 
-                    timeout=None, 
-                    cmd_args=parse_list(args.args),
-                    compile_again= (True if j == 0 else False)
-                )
-                
-                p0 = read_message(server_sock)
+                    request = RunBenchmarkReq(
+                        party0_mpc_addr=mpc_party_server,
+                        party1_mpc_addr=None, # we use j to signal not to compile again
+                        cmd_args=parse_list(args.args),
+                        benchmark_name=test_case_dir.name,
+                        protocol=protocol,
+                        vectorized=vectorized
+                    )
 
-                if p0 is None or p1 is None:
-                    log.error("Run Failed! p0 is None: {} - p1 is None: {}".format(p0 is None, p1 is None))
-                    continue
+                    write_message(server_sock, request)
+                    p1 = run_benchmark_for_party_spdz(
+                        myid=MPC_PARTY_CLIENT_ID,
+                        party0_mpc_addr=mpc_party_server,
+                        benchmark_name=test_case_dir.name,
+                        benchmark_path=test_case_dir.path,
+                        protocol=protocol,
+                        vectorized=vectorized,
+                        timeout=None,
+                        cmd_args=parse_list(args.args),
+                        compile_again= (True if j == 0 else False),
+                    )
 
-                log.info("Output {}".format(p0["result"].strip()))
-                assert p0["result"].strip() == p1.result.strip(), \
-                    (p0["result"].strip(), p1.result.strip())
+                    p0 = read_message(server_sock)
+
+                    if p0 is None or p1 is None:
+                        log.error("Run Failed! p0 is None: {} - p1 is None: {}".format(p0 is None, p1 is None))
+                        continue
+
+                    log.info("Output {}".format(p0["result"].strip()))
+                    assert p0["result"].strip() == p1.result.strip(), \
+                        (p0["result"].strip(), p1.result.strip())
+
+                    print("HERE---", p1.time_seconds)
 
         # all_stats.append(task_stats)
         log.info("task {} DONE".format(task_stats.label))
     # [TODO] Brandon understand the function and what needs to be done
+    print("HERE")
+    print(all_stats)
     print_benchmark_data(all_stats)
 
 def run_client_role_motion(address):

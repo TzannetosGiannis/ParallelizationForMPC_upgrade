@@ -288,10 +288,11 @@ def run_benchmark(
 
 
 def compile_benchmark(
-    benchmark_name: str, benchmark_path: str, vectorized: bool, mixed: bool = False,costType:str = None,args=None
+    benchmark_name: str, benchmark_path: str, vectorized: bool, mixed: bool = False,costType:str = None,args=None, protocol:str=None
 ) -> str:
-    
-    set_up_spdz_compile(benchmark_name, benchmark_path, vectorized,mixed,costType=costType,args=args)#,protocolSets)
+    protocolSets = [{protocol}] if protocol else [{'A', 'B'}, {'X', 'B'}, {'Y', 'B'}]
+
+    set_up_spdz_compile(benchmark_name, benchmark_path, vectorized,mixed,costType=costType,args=args,protocolSets=protocolSets)
     mpc_file = get_mpc_file_name(benchmark_name, vectorized,mixed)
     submodule_path = Backend.MP_SPDZ.submodule_path()
 
@@ -327,11 +328,10 @@ def run_benchmark_for_party(
     timeout:int, cmd_args= None,compile_again=True
 ) -> BenchmarkOutput:
     
-    mixed = True if protocol is None else False
     if compile_again == True:
-        mpc_file = compile_benchmark(benchmark_name, benchmark_path, vectorized,mixed=mixed,costType='time',args=cmd_args)
+        mpc_file = compile_benchmark(benchmark_name, benchmark_path, vectorized,mixed=True,costType='time',args=cmd_args, protocol=protocol)
     else:
-        mpc_file = get_mpc_file_name(benchmark_name,vectorized,mixed)
+        mpc_file = get_mpc_file_name(benchmark_name,vectorized,mixed=True)
     submodule_path = Backend.MP_SPDZ.submodule_path()
     exe_name = f"{os.path.dirname(os.path.abspath(__file__))}/../../../../backend_submodules/MP-SPDZ/Scripts/../semi-party.x"
     with subprocess.Popen(
