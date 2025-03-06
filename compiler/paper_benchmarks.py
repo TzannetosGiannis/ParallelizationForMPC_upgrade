@@ -588,6 +588,7 @@ def run_server_role_spdz(address):
     s.listen()
     log.info("Server started at address {} port {}".format(address, SERVER_PORT))
     current_message = ""
+    current_protocol = None
     while True:
         conn, addr = s.accept()
         conn.settimeout(CONNECTION_TIMEOUT)
@@ -605,9 +606,10 @@ def run_server_role_spdz(address):
                 write_message(conn, resp)
             elif isinstance(msg, RunBenchmarkReq):
                 compile_again = True
-                if json.dumps(msg.cmd_args) == current_message:
+                if json.dumps(msg.cmd_args) == current_message and current_protocol == msg.protocol:
                     compile_again = False
                 current_message = json.dumps(msg.cmd_args)
+                current_protocol = msg.protocol
                 log.info("Request to run: {} {} {}".format(msg.benchmark_name, msg.protocol, msg.vectorized))
                 for dir in os.scandir(test_context.STAGES_DIR):
                     if dir.name == msg.benchmark_name:
