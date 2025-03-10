@@ -12,22 +12,20 @@ import logging.handlers
 import random
 import json
 import socket
-
+from os.path import isfile
+import datetime
 
 import compiler
 
 from tests import context as test_context
 
-from tests.backends import motion_run_benchmark
 from tests.backends.motion.benchmark import  (
     compile_benchmark as motion_compile_benchmark, 
     run_benchmark_for_party as motion_run_benchmark_for_party, 
     BenchmarkOutput as motion_BenchmarkOutput 
 )
 
-from tests.backends import mp_spdz_run_benchmark
 from tests.backends.mp_spdz.benchmark import (
-    compile_benchmark as mp_spdz_compile_benchmark,
     run_benchmark_for_party as run_benchmark_for_party_spdz
 )
 
@@ -117,6 +115,7 @@ def get_biometric_inputs() -> tuple[list[InputArgs], int]:
     non_vec_up_to = 0 #6# Only run non-vectorized benchmark upto this index
     # for config in [[4, 4], [4, 8], [4, 16], [4, 32], [4, 64], [4, 128], [4, 256], [4, 512], [4, 1024], [4, 2048], [4, 4096]]:
     # for config in [[4, 128], [4, 4096]]:
+    # for config in [[4,512], [4,1024]]:
     for config in [[4,4]]:
         D = config[0]
         N = config[1]
@@ -138,7 +137,8 @@ def get_biometric_fast_inputs() -> tuple[list[InputArgs], int]:
     all_args = []
     non_vec_up_to = 0 #6 # Only run non-vectorized benchmark upto this index
     # for config in [[4, 4], [4, 8], [4, 16], [4, 32], [4, 64], [4, 128], [4, 256], [4, 512], [4, 1024], [4, 2048], [4, 4096]]:
-    for config in [[4, 128], [4, 4096]]:
+    # for config in [[4, 128], [4, 4096]]:
+    for config in [[4, 512], [4,1024]]:
         D = config[0]
         N = config[1]
         args = [
@@ -186,7 +186,8 @@ def get_convex_hull_inputs():
     all_args = []
     non_vec_up_to = 0
     #for N in [4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096]:
-    for N in [32, 256]:
+    # for N in [32, 256]:
+    for N in [32, 64, 128]:
         args = [
         "--N", "{}".format(N),
         ]
@@ -210,7 +211,8 @@ def get_count_102_inputs():
     all_args = []
     non_vec_up_to = 0
     #for N in [8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096]:
-    for N in [1024, 4096]:
+    # for N in [1024, 4096]:
+    for N in [1024]:
         args = [
         "--N", "{}".format(N),
         ]
@@ -228,7 +230,8 @@ def get_count_10s_inputs():
     all_args = []
     non_vec_up_to = 0
     #for N in [8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096]:
-    for N in [1024, 4096]:
+    # for N in [1024, 4096]:
+    for N in [1024]:
         args = [
         "--N", "{}".format(N),
         ]
@@ -246,7 +249,8 @@ def get_count_123_inputs():
     all_args = []
     non_vec_up_to = 0
     #for N in [8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096]:
-    for N in [1024, 4096]:
+    # for N in [1024, 4096]:
+    for N in [1024]:
         args = [
         "--N", "{}".format(N),
         ]
@@ -264,7 +268,8 @@ def get_cryptonets_max_pooling_inputs():
     all_args = []
     non_vec_up_to = 0
     #for config in [[4, 4], [8, 8], [16, 16], [32, 32], [64, 64]]:
-    for config in [[64, 64]]:
+    # for config in [[64, 64]]:
+    for config in [[16, 16], [32,32]]:
         rows = config[0]
         cols = config[1]
         rows_res = rows // 2
@@ -291,7 +296,8 @@ def get_db_cross_join_trivial_inputs():
     all_args = []
     non_vec_up_to = 0
     #for N in [4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048]:
-    for N in [32, 64]:
+    # for N in [32, 64]:
+    for N in [32]:
         Len_A = N
         Len_B = N
         args = [
@@ -315,7 +321,8 @@ def get_db_variance_inputs():
     all_args = []
     non_vec_up_to = 0
     #for N in [8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096]:
-    for N in [512, 4096]:
+    # for N in [512, 4096]:
+    for N in [512]:
         args = [
         "--len", "{}".format(N),
         ]
@@ -334,7 +341,8 @@ def get_histogram_inputs():
     num_bins = 5
     non_vec_up_to = 0
     #for N in [8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096]:
-    for N in [512, 4096]:
+    # for N in [512, 4096]:
+    for N in [512]:
         args = [
         "--num_bins", "{}".format(num_bins),
         "--N", "{}".format(N),
@@ -356,7 +364,9 @@ def get_inner_product_inputs()-> tuple[list[InputArgs], int]:
     all_args = []
     non_vec_up_to = 0#8
     #for N in [4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096]:
-    for N in [512, 4096]:
+    # for N in [512, 4096]:
+    # for N in [512]:
+    for N in [4]:
         args = [
         "--N", "{}".format(N),
         ]
@@ -375,7 +385,8 @@ def get_kmeans_iteration_inputs():
     num_bins = 5
     non_vec_up_to = 0
     #for config in [[32, 5], [32, 8], [64, 8], [128, 8], [200, 5], [256, 8]]:
-    for config in [[32, 5], [256, 8]]:
+    # for config in [[32, 5], [256, 8]]:
+    for config in [[32, 5]]:
         len = config[0]
         num_cluster = config[1]
         data_x = [i for i in range(len)]
@@ -413,7 +424,8 @@ def get_longest_odd_10_inputs():
     all_args = []
     non_vec_up_to = 0
     #for N in [8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096]:
-    for N in [2048]:
+    # for N in [2048]:
+    for N in [512]:
         args = [
         "--N", str(N),
         ]
@@ -431,7 +443,8 @@ def get_max_dist_between_syms_inputs():
     all_args = []
     non_vec_up_to = 0
     # for N in [8, 16, 32, 64, 128, 256, 512, 1024, 4096]:
-    for N in [1024, 2048]:
+    # for N in [1024, 2048]:
+    for N in [512]:
         args = [
         "--N", "{}".format(N),
         ]
@@ -450,7 +463,8 @@ def get_mnist_relu_inputs()-> tuple[list[InputArgs], int]:
     all_args = []
     non_vec_up_to = 0
     #for config in [[16, 16], [16, 32], [16, 64], [16, 128], [16, 256], [16, 512], [16, 1024]]:
-    for config in [[16, 512], [16, 2048]]:
+    # for config in [[16, 512], [16, 2048]]:
+    for config in [[16, 512]]:
         len_inner = config[0]
         len_outer = config[1]
         args = [
@@ -471,7 +485,8 @@ def get_psi_inputs()-> tuple[list[InputArgs], int]:
     all_args = []
     non_vec_up_to = 0
     #for config in [[16, 16], [32, 32], [64, 64], [128, 128], [256, 256], [512, 512], [1024, 1024]]:#[2048, 2084], [4096, 4096]]:
-    for config in [[128, 128], [1024, 1024]]:
+    # for config in [[128, 128], [1024, 1024]]:
+    for config in [[128, 128], [256,256]]:
         SA = config[0]
         SB = config[1]
         args = [
@@ -545,6 +560,17 @@ def compile_all_benchmarks_motion():
             costType="time"
         )
 
+def compile_benchmark_motion(benchmark_name,benchmark_path,protocol,costType):
+   
+        log.info("Compiling {} {}...".format(benchmark_name,str(protocol)))
+        motion_compile_benchmark(
+            benchmark_name=benchmark_name, 
+            benchmark_path=benchmark_path, 
+            protocol=protocol, 
+            vectorized=True,
+            mixed=True,
+            costType=costType
+        )
         
 def run_server_role_motion(address):
     # log.info("Compiling All benchmarks")
@@ -553,6 +579,8 @@ def run_server_role_motion(address):
     s.bind((address, int(SERVER_PORT)))
     s.listen()
     log.info("Server started at address {} port {}".format(address, SERVER_PORT))
+    current_message = ""
+    current_protocol = None
     while True:
         conn, addr = s.accept()
         conn.settimeout(CONNECTION_TIMEOUT)
@@ -569,15 +597,32 @@ def run_server_role_motion(address):
                 log.info("address is {}".format(addr))
                 write_message(conn, resp)
             elif isinstance(msg, RunBenchmarkReq):
+                compile_again = True
+                if json.dumps(msg.cmd_args) == current_message and current_protocol == msg.protocol:
+                    compile_again = False
+                current_message = json.dumps(msg.cmd_args)
+                current_protocol = msg.protocol
                 log.info("Request to run: {} {} {}".format(msg.benchmark_name, msg.protocol, msg.vectorized))
                 for dir in os.scandir(test_context.STAGES_DIR):
                     if dir.name == msg.benchmark_name:
                         test_case_dir = dir;
                         break
                 log.info("path is {}".format(test_case_dir.path))
+                if compile_again:
+                    compile_benchmark_motion(test_case_dir.name,test_case_dir.path,msg.protocol,'time')
+                    pass
+
                 resp = motion_run_benchmark_for_party(
-                        MPC_PARTY_SERVER_ID, msg.party0_mpc_addr, msg.party1_mpc_addr, test_case_dir.name,
-                        test_case_dir.path, msg.protocol, msg.vectorized, None, msg.cmd_args
+                        myid=MPC_PARTY_SERVER_ID, 
+                        party0_mpc_addr=msg.party0_mpc_addr, 
+                        party1_mpc_addr=msg.party1_mpc_addr, 
+                        benchmark_name=test_case_dir.name,
+                        benchmark_path=test_case_dir.path, 
+                        protocol=msg.protocol, 
+                        vectorized=msg.vectorized, 
+                        timeout=None, 
+                        cmd_args=msg.cmd_args,
+                        mixed=True
                     )
                 write_message(conn, resp)
 
@@ -629,7 +674,37 @@ def run_server_role_spdz(address):
                     )
                 write_message(conn, resp.extract_dict())
 
-def run_client_role_spdz(address):
+
+def getSummaryStats(stats, backend):
+    n = len(stats)
+    totalTime = 0.0
+    totalDataSent = 0.0
+    totalCommRounds = 0
+    for stat in stats:
+        if backend == 'MP-SPDZ':
+            totalTime += float(stat.time_seconds)
+            totalDataSent += float(stat.data_sent_mb)
+            totalCommRounds += int(stat.communication_rounds)
+        elif backend == 'MOTION':
+            assert len(stats[0].timing_stats.circuit_evaluation.readings) == 1
+            totalTime += float(stat.timing_stats.circuit_evaluation.readings[0]/1000)
+            totalDataSent += float(stat.timing_stats.communication.send_size)
+            totalCommRounds += int(stat.timing_stats.communication.send_num_msgs)
+        else:
+            raise Exception("BACKEND NOT IMPLEMENTED")
+    return {'time': totalTime/n, 'dataSent': totalDataSent/n, 'commRounds': totalCommRounds/n}
+
+
+def saveToJSON(results):
+    fileName = timestamp + '_benchmarkResults.json'
+    results = json.dumps(results, sort_keys=True, indent=4)
+    print(f'Writing {fileName}')
+    with open(fileName, 'w') as f:
+        f.write(results)
+
+
+def run_client_role_spdz(address, resultsDict):
+    spdzDict = resultsDict['MP-SPDZ']
     log.info("Client started, will connect to server at address {} port {}".format(address, SERVER_PORT))
     server_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_sock.connect((address, SERVER_PORT))
@@ -641,65 +716,79 @@ def run_client_role_spdz(address):
     all_stats = []
     for test_case_dir in os.scandir(test_context.STAGES_DIR):
         if test_case_dir.name in test_context.SKIPPED_TESTS[None]:
-                continue
+            continue
+
+        if test_case_dir.name not in spdzDict.keys():
+            spdzDict[test_case_dir.name] = dict()
 
         all_args, _ = get_inputs(test_case_dir.name)
         if len(all_args) == 0:
-            continue;
+            continue
 
         task_stats = StatsForTask(test_case_dir.name, [])
 
         for args in all_args:
+            argStr = str(args.label).replace(':', ' =')
+            if argStr not in spdzDict[test_case_dir.name].keys():
+                spdzDict[test_case_dir.name][argStr] = dict()
+
             log.info("\n{} - arguments: {}".format(test_case_dir.name, args.args));
             for protocol in [None, 'A', 'B', 'X', 'Y']:
-                vectorized = True
-                for j in range(NUM_ITERS):
-                    log.info("Running Iteration {} {} {} {} {}".format(j+1, test_case_dir.name, protocol,"vec", args.label));
+                pName = protocol if protocol else 'mixed'
+                if pName in spdzDict[test_case_dir.name][argStr].keys():
+                    continue
+                try:
+                    curList = []
+                    vectorized = True
+                    for j in range(NUM_ITERS):
+                        log.info("Running Iteration {} {} {} {} {}".format(j+1, test_case_dir.name, protocol,"vec", args.label));
 
-                    request = RunBenchmarkReq(
-                        party0_mpc_addr=mpc_party_server,
-                        party1_mpc_addr=None, # we use j to signal not to compile again
-                        cmd_args=parse_list(args.args),
-                        benchmark_name=test_case_dir.name,
-                        protocol=protocol,
-                        vectorized=vectorized
-                    )
+                        request = RunBenchmarkReq(
+                            party0_mpc_addr=mpc_party_server,
+                            party1_mpc_addr=None, # we use j to signal not to compile again
+                            cmd_args=parse_list(args.args),
+                            benchmark_name=test_case_dir.name,
+                            protocol=protocol,
+                            vectorized=vectorized
+                        )
 
-                    write_message(server_sock, request)
-                    p1 = run_benchmark_for_party_spdz(
-                        myid=MPC_PARTY_CLIENT_ID,
-                        party0_mpc_addr=mpc_party_server,
-                        benchmark_name=test_case_dir.name,
-                        benchmark_path=test_case_dir.path,
-                        protocol=protocol,
-                        vectorized=vectorized,
-                        timeout=None,
-                        cmd_args=parse_list(args.args),
-                        compile_again= (True if j == 0 else False),
-                    )
+                        write_message(server_sock, request)
+                        p1 = run_benchmark_for_party_spdz(
+                            myid=MPC_PARTY_CLIENT_ID,
+                            party0_mpc_addr=mpc_party_server,
+                            benchmark_name=test_case_dir.name,
+                            benchmark_path=test_case_dir.path,
+                            protocol=protocol,
+                            vectorized=vectorized,
+                            timeout=None,
+                            cmd_args=parse_list(args.args),
+                            compile_again= (True if j == 0 else False),
+                        )
 
-                    p0 = read_message(server_sock)
+                        p0 = read_message(server_sock)
 
-                    if p0 is None or p1 is None:
-                        log.error("Run Failed! p0 is None: {} - p1 is None: {}".format(p0 is None, p1 is None))
-                        continue
+                        if p0 is None or p1 is None:
+                            log.error("Run Failed! p0 is None: {} - p1 is None: {}".format(p0 is None, p1 is None))
+                            continue
 
-                    log.info("Output {}".format(p0["result"].strip()))
-                    assert p0["result"].strip() == p1.result.strip(), \
-                        (p0["result"].strip(), p1.result.strip())
+                        log.info("Output {}".format(p0["result"].strip()))
+                        assert p0["result"].strip() == p1.result.strip(), \
+                            (p0["result"].strip(), p1.result.strip())
 
-                    print("HERE---", p1.time_seconds)
+                        curList.append(p1)
+                    spdzDict[test_case_dir.name][argStr][pName] = getSummaryStats(curList, 'MP-SPDZ')
+                    saveToJSON(resultsDict)
+                except Exception as e:
+                    spdzDict[test_case_dir.name][argStr][pName] = f'ERROR: {e}'
 
         # all_stats.append(task_stats)
         log.info("task {} DONE".format(task_stats.label))
-    # [TODO] Brandon understand the function and what needs to be done
-    print("HERE")
-    print(all_stats)
-    print_benchmark_data(all_stats)
 
-def run_client_role_motion(address):
+
+def run_client_role_motion(address, resultsDict):
     # log.info("Compiling All benchmarks")
     # compile_all_benchmarks()
+    motionDict = resultsDict['MOTION']
     log.info("Client started, will connect to server at address {} port {}".format(address, SERVER_PORT))
     server_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_sock.connect((address, SERVER_PORT))
@@ -714,70 +803,86 @@ def run_client_role_motion(address):
     all_stats = []
     for test_case_dir in os.scandir(test_context.STAGES_DIR):
         if test_case_dir.name in test_context.SKIPPED_TESTS[None]:
-                continue
+            continue
+
+        if test_case_dir.name not in motionDict.keys():
+            motionDict[test_case_dir.name] = dict()
 
         all_args, _ = get_inputs(test_case_dir.name)
         if len(all_args) == 0:
-            continue;
+            continue
 
         task_stats = StatsForTask(test_case_dir.name, [])
 
         for args in all_args:
+            argStr = str(args.label).replace(':', ' =')
+            if argStr not in motionDict[test_case_dir.name].keys():
+                motionDict[test_case_dir.name][argStr] = dict()
+
             log.info("\n{} - arguments: {}".format(test_case_dir.name, args.args));
 
-            outputs = [];
-            protocol = None
-            vectorized = True
-            mixed = True
-          
-            accum_p0 = accum_p1 = None
-            for j in range(NUM_ITERS):
-                log.info("Running Iteration {} {} {} {} {}".format(j+1, test_case_dir.name, protocol,
-                    "vec", args.label)); 
-    
-                request = RunBenchmarkReq(
-                    party0_mpc_addr=mpc_party_server,
-                    party1_mpc_addr=mpc_party_client,
-                    cmd_args=args.args,
-                    benchmark_name=test_case_dir.name,
-                    protocol=protocol,
-                    vectorized=vectorized
-                )
-
-                write_message(server_sock, request)         
-                p1 = motion_run_benchmark_for_party(
-                    myid=MPC_PARTY_CLIENT_ID, 
-                    party0_mpc_addr=mpc_party_server, 
-                    party1_mpc_addr=mpc_party_client, 
-                    benchmark_name=test_case_dir.name, 
-                    benchmark_path=test_case_dir.path, 
-                    protocol=protocol, 
-                    vectorized=vectorized, 
-                    timeout=None, 
-                    cmd_args=args.args,
-                    mixed=mixed
-                )
-
-                p0 = read_message(server_sock)
-
-                if p0 is None or p1 is None:
-                    log.error("Run Failed! p0 is None: {} - p1 is None: {}".format(p0 is None, p1 is None))
+            for protocol in [None, 'ArithmeticGmw', 'BooleanGmw', 'Bmr']:
+                pName = protocol if protocol else 'mixed'
+                if pName in motionDict[test_case_dir.name][argStr].keys():
                     continue
+                try:
+                    curList = []
+                    vectorized = True
+                    mixed = True
 
-                log.info("Output {}".format(p0.output.strip()))
-                assert p0.output.strip() == p1.output.strip(), \
-                    (p0.output.strip(), p1.output.strip())
+                    for j in range(NUM_ITERS):
+                        log.info("Running Iteration {} {} {} {} {}".format(j+1, test_case_dir.name, protocol,
+                            "vec", args.label));
 
-                if accum_p0 is None:
-                    accum_p0 = p0
-                    accum_p1 = p1
-                else:
-                    accum_p0 = motion_BenchmarkOutput.by_accumulating_readings(accum_p0, p0)
-                    accum_p1 = motion_BenchmarkOutput.by_accumulating_readings(accum_p1, p1)
+                        request = RunBenchmarkReq(
+                            party0_mpc_addr=mpc_party_server,
+                            party1_mpc_addr=mpc_party_client,
+                            cmd_args=args.args,
+                            benchmark_name=test_case_dir.name,
+                            protocol=protocol,
+                            vectorized=vectorized
+                        )
+                        
+                        if j == 0:
+                            compile_benchmark_motion(
+                                benchmark_name=test_case_dir.name,
+                                benchmark_path=test_case_dir.path,
+                                protocol=protocol,
+                                costType='time'
+                            )
 
-                    pair = (accum_p0, accum_p1)
-                    outputs.append(pair)
+                        write_message(server_sock, request)
+                        p1 = motion_run_benchmark_for_party(
+                            myid=MPC_PARTY_CLIENT_ID,
+                            party0_mpc_addr=mpc_party_server,
+                            party1_mpc_addr=mpc_party_client,
+                            benchmark_name=test_case_dir.name,
+                            benchmark_path=test_case_dir.path,
+                            protocol=protocol,
+                            vectorized=vectorized,
+                            timeout=None,
+                            cmd_args=args.args,
+                            mixed=mixed
+                        )
+
+                        p0 = read_message(server_sock)
+
+                        if p0 is None or p1 is None:
+                            log.error("Run Failed! p0 is None: {} - p1 is None: {}".format(p0 is None, p1 is None))
+                            continue
+
+                        log.info("Output {}".format(p0.output.strip()))
+                        assert p0.output.strip() == p1.output.strip(), (p0.output.strip(), p1.output.strip())
+
+                        curList.append(p1)
+
+                    motionDict[test_case_dir.name][argStr][pName] = getSummaryStats(curList, 'MOTION')
+                    saveToJSON(resultsDict)
+                except Exception as e:
+                    motionDict[test_case_dir.name][argStr][pName] = f'ERROR: {e}'
+
         log.info("task {} DONE".format(task_stats.label))
+
 
 if __name__ == "__main__":
     parser = ArgumentParser(
@@ -792,26 +897,44 @@ if __name__ == "__main__":
         default="127.0.0.1",
     )
 
-    parser.add_argument('-c', '--compile', 
-        action="store_true",
-        help="compile all benchmarks", 
-    )
-
     parser.add_argument('-b', '--backend', 
         help="choices for backend", 
         choices=['MOTION','MP-SPDZ'],
         required=True
     )
 
+    parser.add_argument('-f', '--file',
+        help='file storing a partial table - this file will NOT be overwritten',
+        required=False
+    )
+
     args = parser.parse_args()
 
-    if args.compile and args.backend == 'MOTION':
-        compile_all_benchmarks_motion()
-    elif args.role == 's' and args.backend =='MOTION':
-        run_server_role_motion(args.address)
-    elif args.role == 's' and args.backend =='MP-SPDZ':
-        run_server_role_spdz(args.address)
-    elif args.role == 'c' and args.backend =='MOTION':
-        run_client_role_motion(args.address)
-    elif args.role == 'c' and args.backend =='MP-SPDZ':
-        run_client_role_spdz(args.address)
+    
+    if args.role == 's':
+        if args.backend == 'MOTION':
+            run_server_role_motion(args.address)
+        elif args.backend == 'MP-SPDZ':
+            run_server_role_spdz(args.address)
+        else:
+            raise Exception("BACKEND NOT IMPLEMENTED")
+    elif args.role == 'c':
+        # read previous results (if supplied)
+        timestamp = datetime.datetime.strftime(datetime.datetime.now(), '%Y_%m_%d_%H_%M_%S')
+        resultsDict = dict()
+        if args.file:
+            assert (isfile(args.file))
+            resultsDict = json.load(open(args.file))
+        if args.backend not in resultsDict.keys():
+            resultsDict[args.backend] = dict()
+
+        if args.backend == 'MOTION':
+            run_client_role_motion(args.address, resultsDict)
+        elif args.backend == 'MP-SPDZ':
+            run_client_role_spdz(args.address, resultsDict)
+        else:
+            raise Exception("BACKEND NOT IMPLEMENTED")
+
+        # write results to output file
+        saveToJSON(resultsDict)
+        print(json.dumps(resultsDict, sort_keys=True, indent=4))

@@ -34,6 +34,17 @@ def compile(
 ):
     if protocolSets == None:
         protocolsMotion = [{'A', 'B', 'Y'}]
+
+        if protocol == 'ArithmeticGmw':
+            protocolsMotion = [{'A'}]
+            protocol = None
+        if protocol == 'BooleanGmw':
+            protocolsMotion = [{'B'}]
+            protocol = None
+        if protocol == 'Bmr':
+            protocol = None
+            protocolsMotion = [{'Y'}]
+        
         protocolsSPDZ = [{'A', 'B'}, {'X', 'B'}, {'Y', 'B'}]
         protocolSets = protocolsSPDZ if  not (backend  is None) and backend == backend.MP_SPDZ else protocolsMotion
 

@@ -1,0 +1,212 @@
+{
+    "biometric_fast": {
+        "D = 4, N = 1024": {
+            "A": {
+                "commRounds": 17826.0,
+                "dataSent": 406.66399999999993,
+                "time": 4.829531
+            },
+            "B": {
+                "commRounds": 17193.0,
+                "dataSent": 32.1171,
+                "time": 1.3857950000000003
+            },
+            "X": {
+                "commRounds": 19034.0,
+                "dataSent": 22.1232,
+                "time": 1.53695
+            },
+            "Y": {
+                "commRounds": 18758.0,
+                "dataSent": 21.205199999999998,
+                "time": 1.2373560000000001
+            },
+            "mixed": "ERROR: timed out"
+        },
+        "D = 4, N = 512": {
+            "A": {
+                "commRounds": 8919.0,
+                "dataSent": 203.34099999999998,
+                "time": 2.431583
+            },
+            "B": {
+                "commRounds": 8806.0,
+                "dataSent": 16.078200000000002,
+                "time": 0.7220373
+            },
+            "X": {
+                "commRounds": 9525.0,
+                "dataSent": 11.063500000000001,
+                "time": 0.7829146
+            },
+            "Y": {
+                "commRounds": 9509.0,
+                "dataSent": 10.6241,
+                "time": 0.6636877999999999
+            },
+            "mixed": {
+                "commRounds": 7735.0,
+                "dataSent": 10.608100000000002,
+                "time": 0.6266999
+            }
+        }
+    },
+    "db_variance": {
+        "len = 512": {
+            "A": {
+                "commRounds": 434.0,
+                "dataSent": 28.0601,
+                "time": 0.2746842
+            },
+            "B": "ERROR: No valid mix found",
+            "X": {
+                "commRounds": 475.0,
+                "dataSent": 3.49343,
+                "time": 0.09179721999999998
+            },
+            "Y": {
+                "commRounds": 2768.0,
+                "dataSent": 4.161450000000001,
+                "time": 0.23630869999999998
+            },
+            "mixed": {
+                "commRounds": 2768.0,
+                "dataSent": 4.161450000000001,
+                "time": 0.2436888
+            }
+        }
+    },
+    "longest_102": {
+        "N = 1024": {
+            "A": {
+                "commRounds": 28949.0,
+                "dataSent": 1016.4100000000001,
+                "time": 11.16459
+            },
+            "B": {
+                "commRounds": 20549.0,
+                "dataSent": 2.8413499999999994,
+                "time": 1.134455
+            },
+            "X": {
+                "commRounds": 28844.0,
+                "dataSent": 32.6551,
+                "time": 2.479202
+            },
+            "Y": {
+                "commRounds": 27729.0,
+                "dataSent": 28.9852,
+                "time": 1.734879
+            },
+            "mixed": {
+                "commRounds": 20549.0,
+                "dataSent": 2.8413499999999994,
+                "time": 1.169955
+            }
+        }
+    },
+    "longest_odd_10": {
+        "N = 512": {
+            "A": "ERROR: No valid mix found",
+            "B": {
+                "commRounds": 10353.0,
+                "dataSent": 1.6918099999999998,
+                "time": 0.6262466
+            },
+            "X": "ERROR: No valid mix found",
+            "Y": "ERROR: No valid mix found",
+            "mixed": {
+                "commRounds": 10353.0,
+                "dataSent": 1.6918099999999998,
+                "time": 0.6159667
+            }
+        }
+    },
+    "max_dist_between_syms": {
+        "N = 512": {
+            "A": {
+                "commRounds": 10424.0,
+                "dataSent": 297.703,
+                "time": 3.3930769999999995
+            },
+            "B": {
+                "commRounds": 7224.0,
+                "dataSent": 1.13336,
+                "time": 0.4216052
+            },
+            "X": {
+                "commRounds": 10820.0,
+                "dataSent": 5.926029999999999,
+                "time": 0.8631014
+            },
+            "Y": {
+                "commRounds": 10641.0,
+                "dataSent": 5.0234000000000005,
+                "time": 0.6609574000000001
+            },
+            "mixed": {
+                "commRounds": 7224.0,
+                "dataSent": 1.13336,
+                "time": 0.41681730000000006
+            }
+        }
+    },
+    "max_sum_between_syms": {
+        "N = 512": {
+            "A": {
+                "commRounds": 10424.0,
+                "dataSent": 297.703,
+                "time": 3.4070440000000004
+            },
+            "B": {
+                "commRounds": 7224.0,
+                "dataSent": 1.13336,
+                "time": 0.40372449999999993
+            },
+            "X": {
+                "commRounds": 10820.0,
+                "dataSent": 5.926029999999999,
+                "time": 0.8567907
+            },
+            "Y": {
+                "commRounds": 10641.0,
+                "dataSent": 5.0234000000000005,
+                "time": 0.6640048999999999
+            },
+            "mixed": {
+                "commRounds": 7224.0,
+                "dataSent": 1.13336,
+                "time": 0.40379440000000005
+            }
+        }
+    },
+    "mnist_relu": {
+        "16, 512": {
+            "A": {
+                "commRounds": 11164.0,
+                "dataSent": 3104.2099999999996,
+                "time": 29.349389999999993
+            },
+            "B": {
+                "commRounds": 88.0,
+                "dataSent": 5.10373,
+                "time": 0.11037970000000001
+            },
+            "X": {
+                "commRounds": 4439.0,
+                "dataSent": 49.73930000000001,
+                "time": 1.8393070000000002
+            },
+            "Y": {
+                "commRounds": 2178.0,
+                "dataSent": 42.31759999999999,
+                "time": 0.6488145000000001
+            },
+            "mixed": {
+                "commRounds": 88.0,
+                "dataSent": 5.10373,
+                "time": 0.1138128
+            }
+        }
+    }
+}

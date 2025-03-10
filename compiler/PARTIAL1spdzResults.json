@@ -1,0 +1,340 @@
+{
+    "biometric": {
+        "D = 4, N = 512": {
+            "A": {
+                "commRounds": 8919.0,
+                "dataSent": 203.34099999999998,
+                "time": 2.394564
+            },
+            "B": {
+                "commRounds": 8830.0,
+                "dataSent": 19.348800000000004,
+                "time": 0.7593086
+            },
+            "X": {
+                "commRounds": 9525.0,
+                "dataSent": 11.063500000000001,
+                "time": 0.8058510999999999
+            },
+            "Y": {
+                "commRounds": 9509.0,
+                "dataSent": 10.6241,
+                "time": 0.6654251
+            },
+            "mixed": {
+                "commRounds": 7489.0,
+                "dataSent": 8.79025,
+                "time": 0.5829967999999999
+            }
+        }
+    },
+    "chapterfour_figure_12": {
+        "x=99, y=81": {
+            "A": {
+                "commRounds": 34.0,
+                "dataSent": 0.7728539999999999,
+                "time": 0.018900999999999998
+            },
+            "B": {
+                "commRounds": 28.0,
+                "dataSent": 0.010942999999999998,
+                "time": 0.0061103369999999995
+            },
+            "X": {
+                "commRounds": 45.0,
+                "dataSent": 0.03988400000000001,
+                "time": 0.010906775
+            },
+            "Y": {
+                "commRounds": 285.0,
+                "dataSent": 0.12512900000000002,
+                "time": 0.03405028
+            },
+            "mixed": {
+                "commRounds": 28.0,
+                "dataSent": 0.010942999999999998,
+                "time": 0.005884617
+            }
+        }
+    },
+    "convex_hull": {
+        "N = 128": {
+            "A": {
+                "commRounds": 45194.0,
+                "dataSent": 12507.199999999999,
+                "time": 117.8634
+            },
+            "B": {
+                "commRounds": 787.0,
+                "dataSent": 19.072200000000002,
+                "time": 0.31283320000000003
+            },
+            "X": {
+                "commRounds": 18051.0,
+                "dataSent": 201.569,
+                "time": 7.224222999999999
+            },
+            "Y": {
+                "commRounds": 9110.0,
+                "dataSent": 172.37200000000004,
+                "time": 2.4342369999999995
+            },
+            "mixed": {
+                "commRounds": 787.0,
+                "dataSent": 19.072200000000002,
+                "time": 0.3200049
+            }
+        },
+        "N = 32": {
+            "A": {
+                "commRounds": 2965.0,
+                "dataSent": 801.0510000000002,
+                "time": 7.602932
+            },
+            "B": {
+                "commRounds": 378.0,
+                "dataSent": 1.4489199999999998,
+                "time": 0.06715813
+            },
+            "X": {
+                "commRounds": 1236.0,
+                "dataSent": 12.916300000000003,
+                "time": 0.49912609999999996
+            },
+            "Y": {
+                "commRounds": 885.0,
+                "dataSent": 11.903400000000001,
+                "time": 0.2308903
+            },
+            "mixed": {
+                "commRounds": 378.0,
+                "dataSent": 1.4489199999999998,
+                "time": 0.06786523
+            }
+        },
+        "N = 64": {
+            "A": {
+                "commRounds": 11471.0,
+                "dataSent": 3151.0600000000004,
+                "time": 29.84286
+            },
+            "B": {
+                "commRounds": 484.0,
+                "dataSent": 5.078789999999999,
+                "time": 0.12245629999999999
+            },
+            "X": {
+                "commRounds": 4641.0,
+                "dataSent": 50.6497,
+                "time": 1.87328
+            },
+            "Y": {
+                "commRounds": 2557.0,
+                "dataSent": 43.9511,
+                "time": 0.6797713
+            },
+            "mixed": {
+                "commRounds": 484.0,
+                "dataSent": 5.078789999999999,
+                "time": 0.1260083
+            }
+        }
+    },
+    "count_10s": {
+        "N = 1024": {
+            "A": {
+                "commRounds": 9106.0,
+                "dataSent": 622.169,
+                "time": 6.419213999999999
+            },
+            "B": {
+                "commRounds": 8299.0,
+                "dataSent": 1.98833,
+                "time": 0.4586403
+            },
+            "X": {
+                "commRounds": 7802.0,
+                "dataSent": 20.1371,
+                "time": 0.9658756999999998
+            },
+            "Y": {
+                "commRounds": 6970.0,
+                "dataSent": 17.391799999999996,
+                "time": 0.5258913999999999
+            },
+            "mixed": {
+                "commRounds": 8299.0,
+                "dataSent": 1.98833,
+                "time": 0.469198
+            }
+        }
+    },
+    "cryptonets_max_pooling": {
+        "rows = 16, cols = 16": {
+            "A": {
+                "commRounds": 320.0,
+                "dataSent": 75.0698,
+                "time": 0.7562845
+            },
+            "B": {
+                "commRounds": 60.0,
+                "dataSent": 0.17343,
+                "time": 0.01299757
+            },
+            "X": {
+                "commRounds": 174.0,
+                "dataSent": 1.17159,
+                "time": 0.057499569999999986
+            },
+            "Y": {
+                "commRounds": 324.0,
+                "dataSent": 1.0362100000000003,
+                "time": 0.0473461
+            },
+            "mixed": {
+                "commRounds": 60.0,
+                "dataSent": 0.17343,
+                "time": 0.012892120000000002
+            }
+        },
+        "rows = 32, cols = 32": {
+            "A": {
+                "commRounds": 1098.0,
+                "dataSent": 291.016,
+                "time": 2.795594
+            },
+            "B": {
+                "commRounds": 67.0,
+                "dataSent": 0.6486850000000001,
+                "time": 0.02355758
+            },
+            "X": {
+                "commRounds": 481.0,
+                "dataSent": 4.637120000000001,
+                "time": 0.2029934
+            },
+            "Y": {
+                "commRounds": 331.0,
+                "dataSent": 3.9446199999999996,
+                "time": 0.10121756
+            },
+            "mixed": {
+                "commRounds": 67.0,
+                "dataSent": 0.6486850000000001,
+                "time": 0.022168570000000002
+            }
+        }
+    },
+    "db_cross_join_trivial": {
+        "32, 32": {
+            "A": {
+                "commRounds": 11780.0,
+                "dataSent": 2473.2099999999996,
+                "time": 24.35272
+            },
+            "B": {
+                "commRounds": 71.0,
+                "dataSent": 3.505119999999999,
+                "time": 0.1195044
+            },
+            "X": {
+                "commRounds": 6517.0,
+                "dataSent": 70.4113,
+                "time": 2.6556240000000004
+            },
+            "Y": {
+                "commRounds": 3400.0,
+                "dataSent": 60.3389,
+                "time": 0.8989578999999999
+            },
+            "mixed": {
+                "commRounds": 71.0,
+                "dataSent": 3.505119999999999,
+                "time": 0.11790039999999999
+            }
+        }
+    },
+    "minimal_points": {
+        "N = 128": {
+            "A": {
+                "commRounds": 44840.0,
+                "dataSent": 12410.100000000002,
+                "time": 117.15809999999999
+            },
+            "B": {
+                "commRounds": 514.0,
+                "dataSent": 18.0239,
+                "time": 0.2565975
+            },
+            "X": {
+                "commRounds": 17914.0,
+                "dataSent": 201.06400000000002,
+                "time": 7.269635000000001
+            },
+            "Y": {
+                "commRounds": 8861.0,
+                "dataSent": 171.37799999999996,
+                "time": 2.405075
+            },
+            "mixed": {
+                "commRounds": 514.0,
+                "dataSent": 18.0239,
+                "time": 0.2611704
+            }
+        },
+        "N = 32": {
+            "A": {
+                "commRounds": 2872.0,
+                "dataSent": 776.022,
+                "time": 7.415226000000001
+            },
+            "B": {
+                "commRounds": 112.0,
+                "dataSent": 1.15569,
+                "time": 0.03171602
+            },
+            "X": {
+                "commRounds": 1199.0,
+                "dataSent": 12.5206,
+                "time": 0.47943869999999994
+            },
+            "Y": {
+                "commRounds": 641.0,
+                "dataSent": 10.676999999999998,
+                "time": 0.1926644
+            },
+            "mixed": {
+                "commRounds": 112.0,
+                "dataSent": 1.15569,
+                "time": 0.03102032
+            }
+        },
+        "N = 64": {
+            "A": {
+                "commRounds": 11294.0,
+                "dataSent": 3104.0800000000004,
+                "time": 29.577930000000002
+            },
+            "B": {
+                "commRounds": 218.0,
+                "dataSent": 4.528489999999999,
+                "time": 0.08175634000000001
+            },
+            "X": {
+                "commRounds": 4569.0,
+                "dataSent": 50.0014,
+                "time": 1.8746910000000003
+            },
+            "Y": {
+                "commRounds": 2308.0,
+                "dataSent": 42.57979999999999,
+                "time": 0.6471476999999999
+            },
+            "mixed": {
+                "commRounds": 218.0,
+                "dataSent": 4.528489999999999,
+                "time": 0.08324688
+            }
+        }
+    }
+}
