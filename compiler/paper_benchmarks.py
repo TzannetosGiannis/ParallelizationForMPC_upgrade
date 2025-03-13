@@ -116,7 +116,7 @@ def get_biometric_inputs() -> tuple[list[InputArgs], int]:
     # for config in [[4, 4], [4, 8], [4, 16], [4, 32], [4, 64], [4, 128], [4, 256], [4, 512], [4, 1024], [4, 2048], [4, 4096]]:
     # for config in [[4, 128], [4, 4096]]:
     # for config in [[4,512], [4,1024]]:
-    for config in [[4,4]]:
+    for config in [[4,16]]:
         D = config[0]
         N = config[1]
         args = [
@@ -365,8 +365,7 @@ def get_inner_product_inputs()-> tuple[list[InputArgs], int]:
     non_vec_up_to = 0#8
     #for N in [4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096]:
     # for N in [512, 4096]:
-    # for N in [512]:
-    for N in [4]:
+    for N in [512]:
         args = [
         "--N", "{}".format(N),
         ]
@@ -560,7 +559,7 @@ def compile_all_benchmarks_motion():
             costType="time"
         )
 
-def compile_benchmark_motion(benchmark_name,benchmark_path,protocol,costType):
+def compile_benchmark_motion(benchmark_name,benchmark_path,protocol,costType,args):
    
         log.info("Compiling {} {}...".format(benchmark_name,str(protocol)))
         motion_compile_benchmark(
@@ -569,7 +568,8 @@ def compile_benchmark_motion(benchmark_name,benchmark_path,protocol,costType):
             protocol=protocol, 
             vectorized=True,
             mixed=True,
-            costType=costType
+            costType=costType,
+            args=args
         )
         
 def run_server_role_motion(address):
@@ -609,7 +609,7 @@ def run_server_role_motion(address):
                         break
                 log.info("path is {}".format(test_case_dir.path))
                 if compile_again:
-                    compile_benchmark_motion(test_case_dir.name,test_case_dir.path,msg.protocol,'time')
+                    compile_benchmark_motion(test_case_dir.name,test_case_dir.path,msg.protocol,'time',parse_list(msg.cmd_args))
                     pass
 
                 resp = motion_run_benchmark_for_party(
@@ -686,8 +686,12 @@ def getSummaryStats(stats, backend):
             totalDataSent += float(stat.data_sent_mb)
             totalCommRounds += int(stat.communication_rounds)
         elif backend == 'MOTION':
-            assert len(stats[0].timing_stats.circuit_evaluation.readings) == 1
-            totalTime += float(stat.timing_stats.circuit_evaluation.readings[0]/1000)
+            # assert len(stat.timing_stats.gates_setup.readings) == 1
+            # totalTime += float(stat.timing_stats.gates_setup.readings[0] / 1000)
+            # assert len(stat.timing_stats.gates_online.readings) == 1
+            # totalTime += float(stat.timing_stats.gates_online.readings[0] / 1000)
+            assert len(stat.timing_stats.circuit_evaluation.readings) == 1
+            totalTime += float(stat.timing_stats.circuit_evaluation.readings[0] / 1000)
             totalDataSent += float(stat.timing_stats.communication.send_size)
             totalCommRounds += int(stat.timing_stats.communication.send_num_msgs)
         else:
@@ -830,7 +834,7 @@ def run_client_role_motion(address, resultsDict):
                     vectorized = True
                     mixed = True
 
-                    for j in range(NUM_ITERS):
+                    for j in range(2):#NUM_ITERS):
                         log.info("Running Iteration {} {} {} {} {}".format(j+1, test_case_dir.name, protocol,
                             "vec", args.label));
 
@@ -848,7 +852,8 @@ def run_client_role_motion(address, resultsDict):
                                 benchmark_name=test_case_dir.name,
                                 benchmark_path=test_case_dir.path,
                                 protocol=protocol,
-                                costType='time'
+                                costType='time',
+                                args=parse_list(args.args)
                             )
 
                         write_message(server_sock, request)
