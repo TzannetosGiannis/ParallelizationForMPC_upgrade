@@ -3,10 +3,20 @@ import os
 import shutil
 import subprocess
 from typing import Optional
-
+import re
 import compiler
 from compiler.backends import Backend
 from . import statistics
+
+def replace_definitions(content, replacements):
+   
+    for key, value in replacements.items():
+        pattern = rf"^{key}\s*=\s*.*"  # Matches the variable definition line
+        value_str = str(value)  # Format list properly
+        replacement_line = f"{key} = {value_str}"
+        content = re.sub(pattern, replacement_line, content, flags=re.MULTILINE)
+
+    return content
 
 
 @dataclass
@@ -259,12 +269,15 @@ def run_benchmark_for_party(
 
 
 def compile_benchmark(
-    benchmark_name: str, benchmark_path: str, protocol: str, vectorized: bool,mixed:bool = False,costType:str = "time"
+    benchmark_name: str, benchmark_path: str, protocol: str, vectorized: bool,mixed:bool = False,costType:str = "time", args=None
 ) -> str:
     input_fname = os.path.join(benchmark_path, "input.py")
 
     with open(input_fname, "r") as f:
         input_py = f.read().strip()
+
+    if not args is None:
+        input_py = replace_definitions(input_py,args)
 
     app_path = os.path.join(
         benchmark_path,
