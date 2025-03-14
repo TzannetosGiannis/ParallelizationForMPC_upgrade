@@ -32,7 +32,7 @@ def compile(
     mixing: bool = False,
     protocolSets: Optional[list[set[str]]] = None
 ):
-    if protocolSets == None:
+    if protocolSets == None and mixing == True:
         protocolsMotion = [{'A', 'B', 'Y'}]
 
         if protocol == 'ArithmeticGmw':
