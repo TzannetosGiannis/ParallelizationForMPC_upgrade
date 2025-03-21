@@ -86,10 +86,10 @@ opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', 
 backends = [Backend.MOTION]
 # backends = [Backend.MP_SPDZ]
 # spdzMix = []
-vecSizes = [5]
+# vecSizes = [5]
 # vecSizesConv = [1]
-trials, loopIters, intSize = (1, 2, 32)
-opToCostSymbol = {}
+# trials, loopIters, intSize = (1, 2, 32)
+# opToCostSymbol = {}
 # spdzTypes = ["B"]
 def startSocket():
     global conn_address, server_address
@@ -171,7 +171,7 @@ def genCodeConv(backend,protocol,iters,vecSize):
         
 
         code = code.replace("_operator_to_replace",f"result_C = list_A.Get().Convert<encrypto::motion::MpcProtocol::k{protocol_to}>();")
-        
+        code = code.replace("_loop_dependency","")
         code = code.replace("_iters",str(iters))
         # retrieve the sample 
         with open(f'{app_path}/template_code.h','w') as f:
@@ -322,57 +322,68 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
         type2 = "encrypto::motion::ShareWrapper"
 
         operator_type1 = "result_C = list_A _operator list_B;"
-        operator_type2 = "result_C = encrypto::motion::ShareWrapper(list_A.Get()) _operator encrypto::motion::ShareWrapper(list_B.Get());"
        
         if symbol in category1:
             code = code.replace("_type_to_replace",type1)
             code = code.replace("_operator_to_replace",operator_type1)
             code = code.replace("_operator",operator)
+            code = code.replace("_loop_dependency","list_A = result_C;")
         elif symbol in category2:
 
             if symbol == "zi_gt":
                 code = code.replace("_type_to_replace",type2)
                 code = code.replace("_operator_to_replace",operator_type1)
                 code = code.replace("_operator",operator)
+                code = code.replace("_loop_dependency","list_A = result_C.Mux(list_A.Get(),list_B.Get());")
             elif symbol == "zi_lt":
                 code = code.replace("_type_to_replace",type2)
                 code = code.replace("_operator_to_replace","result_C = list_B > list_A;")
+                code = code.replace("_loop_dependency","list_A = result_C.Mux(list_A.Get(),list_B.Get());")
             elif symbol == "zi_ge":
                 code = code.replace("_type_to_replace",type2)
                 operation = "result_C = (list_A > list_B) | (list_A == list_B);"
                 code = code.replace("_operator_to_replace",operation)
+                code = code.replace("_loop_dependency","list_A = result_C.Mux(list_A.Get(),list_B.Get());")
             elif symbol == "zi_le":
                 code = code.replace("_type_to_replace",type2)
                 operation = "result_C = (list_B > list_A) | (list_A == list_B);"
                 code = code.replace("_operator_to_replace",operation)
+                code = code.replace("_loop_dependency","list_A = result_C.Mux(list_A.Get(),list_B.Get());")
             elif symbol == "zi_eq":
                 code = code.replace("_type_to_replace",type2)
                 if protocol == "ArithmeticGmw":
                     operation = "result_C = ~((list_A > list_B) | (list_B > list_A));"
+                    code = code.replace("_loop_dependency","list_A = result_C.Mux(list_A.Get(),list_B.Get());")
                 else:
                     operation = "result_C = (list_A == list_B);"
+                    code = code.replace("_loop_dependency","list_A = result_C.Mux(list_A.Get(),list_B.Get());")
                 code = code.replace("_operator_to_replace",operation)
             elif symbol == "zi_ne":
                 code = code.replace("_type_to_replace",type2)
                 if protocol == "ArithmeticGmw":
                     operation = "result_C = ((list_A > list_B) | (list_B > list_A));"
+                    code = code.replace("_loop_dependency","list_A = result_C.Mux(list_A.Get(),list_B.Get());")
                 else:
                     operation = "result_C = ~(list_A == list_B);"
+                    code = code.replace("_loop_dependency","list_A = result_C.Mux(list_A.Get(),list_B.Get());")
                 code = code.replace("_operator_to_replace",operation)
             elif symbol == "zi_&":
                 code = code.replace("_type_to_replace",type1)
                 operation = "result_C = (list_A.Get() & list_B.Get());"
                 code = code.replace("_operator_to_replace",operation)
+                code = code.replace("_loop_dependency","list_A = result_C.Mux(list_A.Get(),list_B.Get());")
             elif symbol == "zi_|":
                 code = code.replace("_type_to_replace",type1)
                 operation = "result_C = (list_A.Get() | list_B.Get());"
                 code = code.replace("_operator_to_replace",operation)
+                code = code.replace("_loop_dependency","list_A = result_C.Mux(list_A.Get(),list_B.Get());")
             elif symbol == "zi_and" or symbol == "zi_or" or symbol == "zi_xor":
                 replace_symbols = {"zi_and":"&", "zi_or":"|","zi_xor":"^"}
                 code = code.replace("_type_to_replace",type1)
                 code = code.replace("encrypto::motion::SecureUnsignedInteger","encrypto::motion::ShareWrapper")
                 operation = f"result_C = (list_A {replace_symbols[symbol]} list_B);"
                 code = code.replace("_operator_to_replace",operation)
+                code = code.replace("_loop_dependency","list_A = result_C.Mux(list_A.Get(),list_B.Get());")
 
                 # declarations on main
                 main_code = main_code.replace("encrypto::motion::SecureUnsignedInteger A;","encrypto::motion::ShareWrapper A;")
@@ -390,6 +401,7 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
                 code = code.replace("encrypto::motion::SecureUnsignedInteger","encrypto::motion::ShareWrapper")
 
                 operation = f"result_C = ~(list_A);"
+                code = code.replace("_loop_dependency","list_A = result_C;")
                 code = code.replace("_operator_to_replace",operation)
                 code = code.replace("encrypto::motion::ShareWrapper list_B","").replace("encrypto::motion::ShareWrapper list_A,","encrypto::motion::ShareWrapper list_A")
 
@@ -412,15 +424,12 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
             elif symbol == "zi_mux":
                 code = code.replace("_type_to_replace",type1)
                 code = code.replace("encrypto::motion::SecureUnsignedInteger result_C;","encrypto::motion::SecureUnsignedInteger result_C; encrypto::motion::ShareWrapper comp = (list_A > list_B);")
-                operation = f"result_C = comp.Mux(list_A.Get(),list_B.Get());"
+                operation = f"list_A = comp.Mux(list_A.Get(),list_B.Get());"
+                code = code.replace("_loop_dependency","")
                 code = code.replace("_operator_to_replace",operation)
     
-        
         else:
             raise Exception("Dont go here")
-            code = code.replace("_type_to_replace",type2)
-            code = code.replace("_operator_to_replace",operator_type2)
-            code = code.replace("_operator",operator)
 
         # write the sample 
         with open(f'{app_path}/template_code.h','w') as f:
