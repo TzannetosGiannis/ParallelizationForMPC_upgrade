@@ -116,7 +116,7 @@ def get_biometric_inputs() -> tuple[list[InputArgs], int]:
     # for config in [[4, 4], [4, 8], [4, 16], [4, 32], [4, 64], [4, 128], [4, 256], [4, 512], [4, 1024], [4, 2048], [4, 4096]]:
     # for config in [[4, 128], [4, 4096]]:
     # for config in [[4,512], [4,1024]]:
-    for config in [[4,16]]:
+    for config in [[4,128]]:
         D = config[0]
         N = config[1]
         args = [
@@ -686,6 +686,9 @@ def getSummaryStats(stats, backend):
             totalDataSent += float(stat.data_sent_mb)
             totalCommRounds += int(stat.communication_rounds)
         elif backend == 'MOTION':
+            print(stat.timing_stats)
+            # assert len(stat.timing_stats.preprocess_total.readings) == 1
+            # totalTime += float(stat.timing_stats.preprocess_total.readings[0] / 1000)
             # assert len(stat.timing_stats.gates_setup.readings) == 1
             # totalTime += float(stat.timing_stats.gates_setup.readings[0] / 1000)
             # assert len(stat.timing_stats.gates_online.readings) == 1

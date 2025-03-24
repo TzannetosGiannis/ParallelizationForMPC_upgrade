@@ -2,6 +2,7 @@ import sys, os
 from fixFreeOps import fixFreeOps
 from showMissingOps import showMissingOps
 from fragmentCostTable import fragmentCostTable
+from fixMotionCosts import fixMotionOps
 
 
 if len(sys.argv) > 1:
@@ -16,5 +17,6 @@ else:
 
 print(f'Processing cost table: {fileName}\n')
 fixFreeOps(fileName)
+fixMotionOps(fileName)
 showMissingOps(fileName)
 fragmentCostTable(fileName)

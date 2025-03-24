@@ -5,19 +5,22 @@ threshold = 1e-8
 
 # replace small numbers and negative numbers with 0
 # round comm rounds up
-def clean(costs):
+def clean(costs, backend):
     if costs.keys():
         toRem = set()
         for i in costs.keys():
             if 'Error' in costs[i]:
                 toRem.add(i)
                 continue
+            if backend == 'MOTION':
+                costs[i]['time'] /= 1000
             for j in costs[i].keys():
                 if costs[i][j] < threshold:
                     costs[i][j] = 0.0
             costs[i]['commRounds'] = ceil(costs[i]['commRounds'])
         for r in toRem:
             del costs[r]
+
 
 def fixFreeOps(fileName):
     print(f'Fixing free operators and removing unavailable operators in {fileName}')
@@ -37,6 +40,7 @@ def fixFreeOps(fileName):
     for b in rawJSON.keys():
         if b == 'params':
             continue
+
         backendJSON = rawJSON[b]
         if 'UNAVAILABLE' in backendJSON.keys():
             del backendJSON['UNAVAILABLE']
@@ -51,10 +55,10 @@ def fixFreeOps(fileName):
         toRem = []
         for op in backendJSON.keys():
             if op in conversions:
-                clean(backendJSON[op])
+                clean(backendJSON[op], b)
             else:
                 for protocol in backendJSON[op].keys():
-                    clean(backendJSON[op][protocol])
+                    clean(backendJSON[op][protocol], b)
                     if backendJSON[op][protocol] == dict():
                         toRem.append((op, protocol))
         for op, protocol in toRem:

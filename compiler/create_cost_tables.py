@@ -22,21 +22,24 @@ backends = [Backend.MOTION]
 
 opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt',
   '*': 'zi_mul', 'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor',
-  '>>': 'zi_shr', '-UNARY': 'UNAVAILABLE', '&': 'zi_&', '|': 'zi_|', 'Var': 'UNAVAILABLE', '/': 'zi_div','not': 'zi_not'}
+  '>>': 'zi_shr', '-UNARY': 'UNAVAILABLE', '&': 'zi_&', '|': 'zi_|', 'Var': 'UNAVAILABLE', '/': 'zi_div', 'not': 'zi_not'}
 
 # MP_SPDZ ==> '*': 'zi_mul' -> too slow in B. Looks like it runs out of memory during runtime
 # MP_SPDZ ==> '>>': 'zi_shr' -> too slow in A. Looks like it runs out of memory during compiletime
 testedOps = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt',
-  'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor', '&': 'zi_&', '|': 'zi_|', '/': 'zi_div','not': 'zi_not'}
+  'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor', '&': 'zi_&', '|': 'zi_|', '/': 'zi_div', 'not': 'zi_not'}
 opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt', '*': 'zi_mul',
-  'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor', '&': 'zi_&', '|': 'zi_|', '/': 'zi_div','not': 'zi_not'}
-#opToCostSymbol = {'*': 'zi_mul', 'and': 'zi_and', 'or': 'zi_or', '^': 'zi_xor','not': 'zi_not'}
+  'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor', '&': 'zi_&', '|': 'zi_|', '/': 'zi_div', 'not': 'zi_not'}
+# opToCostSymbol = {'+': 'zi_add', '*': 'zi_mul', '-': 'zi_sub', '<': 'zi_lt', 'Mux': 'zi_mux'}
 
 spdzTypes = ["A","B","X","Y"]
 spdzMix = ['AB','BA','XB','BX','YB','BY']
+spdzMix = []
 
 vecSizes = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500, 800, 1000]
+vecSizes = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500]
 vecSizesConv = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500]
+vecSizesConv = [1]
 
 # trials, loopIters, intSize = (100, 1000, 32)
 trials, loopIters, intSize = (20, 20, 32)
@@ -48,8 +51,8 @@ common_prefix = f'{getcwd()}/../backend_submodules/MP-SPDZ/'
 timestamp = datetime.datetime.strftime(datetime.datetime.now(), '%Y_%m_%d_%H_%M_%S')
 
 # [TODO] test output
-opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt', '*': 'zi_mul',
-  'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '-': 'zi_sub', '^': 'zi_xor', '&': 'zi_&', '|': 'zi_|', '/': 'zi_div','not': 'zi_not'}
+# opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt', '*': 'zi_mul',
+#   'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '-': 'zi_sub', '^': 'zi_xor', '&': 'zi_&', '|': 'zi_|', '/': 'zi_div','not': 'zi_not'}
 # opToCostSymbol = {'+': 'zi_add'}
 
 # Accept them all in this section
@@ -83,14 +86,16 @@ opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', 
 
 
 
-backends = [Backend.MOTION]
+# backends = [Backend.MOTION]
 # backends = [Backend.MP_SPDZ]
 # spdzMix = []
 # vecSizes = [5]
 # vecSizesConv = [1]
 # trials, loopIters, intSize = (1, 2, 32)
-# opToCostSymbol = {}
+# opToCostSymbol = {'+': 'zi_add'}
 # spdzTypes = ["B"]
+
+
 def startSocket():
     global conn_address, server_address
     sock = socket.socket()
@@ -725,7 +730,7 @@ def printOutputToJSON(outputDict, log=False, save=True):
 
 def createCostTable():
 
-    resultsDict = {"params": {"trials": trials, "loopIters": loopIters, "intSize": intSize}}
+    resultsDict = {"params": {"trials": trials, "loopIters": loopIters, "intSize": intSize, "MUX_IN_ALL_MOTION_OPS": True}}
     for backend in backends:
         resultsDict[str(backend)] = dict()
 
@@ -834,7 +839,7 @@ def signal_handler(sig, frame):
 signal.signal(signal.SIGINT, signal_handler)
 
 s = startSocket()
-createCostTable()
-# repairCostTable('FULL_cost_table.txt', useLastTable=False)
+# createCostTable()
+repairCostTable('partialMOTIONREDOTable.txt', useLastTable=False)
 sendCmd('quit')
 s.close()
