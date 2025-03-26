@@ -37,7 +37,7 @@ spdzMix = ['AB','BA','XB','BX','YB','BY']
 spdzMix = []
 
 vecSizes = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500, 800, 1000]
-vecSizes = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500]
+vecSizes = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500, 800, 1000]
 vecSizesConv = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500]
 vecSizesConv = [1]
 
@@ -374,22 +374,19 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
                 code = code.replace("_operator_to_replace",operation)
             elif symbol == "zi_&":
                 code = code.replace("_type_to_replace",type1)
-                operation = "result_C = (list_A.Get() & list_B.Get());"
+                operation = "list_A = (list_A.Get() & list_B.Get());"
                 code = code.replace("_operator_to_replace",operation)
-                code = code.replace("_loop_dependency","list_A = result_C.Mux(list_A.Get(),list_B.Get());")
             elif symbol == "zi_|":
                 code = code.replace("_type_to_replace",type1)
-                operation = "result_C = (list_A.Get() | list_B.Get());"
+                operation = "list_A = (list_A.Get() | list_B.Get());"
                 code = code.replace("_operator_to_replace",operation)
-                code = code.replace("_loop_dependency","list_A = result_C.Mux(list_A.Get(),list_B.Get());")
             elif symbol == "zi_and" or symbol == "zi_or" or symbol == "zi_xor":
                 replace_symbols = {"zi_and":"&", "zi_or":"|","zi_xor":"^"}
                 code = code.replace("_type_to_replace",type1)
                 code = code.replace("encrypto::motion::SecureUnsignedInteger","encrypto::motion::ShareWrapper")
-                operation = f"result_C = (list_A {replace_symbols[symbol]} list_B);"
+                operation = f"list_A = (list_A {replace_symbols[symbol]} list_B);"
                 code = code.replace("_operator_to_replace",operation)
-                code = code.replace("_loop_dependency","list_A = result_C.Mux(list_A.Get(),list_B.Get());")
-
+            
                 # declarations on main
                 main_code = main_code.replace("encrypto::motion::SecureUnsignedInteger A;","encrypto::motion::ShareWrapper A;")
                 main_code = main_code.replace("std::vector<std::uint32_t> list_A","std::vector<std::uint8_t> list_A")
