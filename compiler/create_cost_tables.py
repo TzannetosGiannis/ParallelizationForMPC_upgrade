@@ -39,7 +39,7 @@ spdzMix = ['AB','BA','XB','BX','YB','BY']
 spdzMix = []
 
 vecSizes = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500, 800, 1000]
-vecSizes = [1, 2]#, 5, 10, 25, 50, 100, 200, 300, 500, 800, 1000]
+vecSizes = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500, 800, 1000]
 vecSizesConv = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500]
 vecSizesConv = [1]
 
@@ -341,11 +341,17 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
                 code = code.replace("_type_to_replace",type2)
                 code = code.replace("_operator_to_replace",operator_type1)
                 code = code.replace("_operator",operator)
-                code = code.replace("_loop_dependency","list_A = result_C.Mux(list_A.Get(),list_B.Get());")
+                if protocol == "ArithmeticGmw":
+                    code = code.replace("_loop_dependency","list_A = list_A + list_B;")
+                else:
+                    code = code.replace("_loop_dependency","list_A = result_C.Mux(list_A.Get(),list_B.Get());")
             elif symbol == "zi_lt":
                 code = code.replace("_type_to_replace",type2)
                 code = code.replace("_operator_to_replace","result_C = list_B > list_A;")
-                code = code.replace("_loop_dependency","list_A = result_C.Mux(list_A.Get(),list_B.Get());")
+                if protocol == "ArithmeticGmw":
+                    code = code.replace("_loop_dependency","list_A = list_A + list_B;")
+                else:
+                    code = code.replace("_loop_dependency","list_A = result_C.Mux(list_A.Get(),list_B.Get());")
             elif symbol == "zi_ge":
                 code = code.replace("_type_to_replace",type2)
                 operation = "result_C = (list_A > list_B) | (list_A == list_B);"
@@ -360,7 +366,7 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
                 code = code.replace("_type_to_replace",type2)
                 if protocol == "ArithmeticGmw":
                     operation = "result_C = ~((list_A > list_B) | (list_B > list_A));"
-                    code = code.replace("_loop_dependency","list_A = result_C.Mux(list_A.Get(),list_B.Get());")
+                    code = code.replace("_loop_dependency","list_A = list_A + list_B;")
                 else:
                     operation = "result_C = (list_A == list_B);"
                     code = code.replace("_loop_dependency","list_A = result_C.Mux(list_A.Get(),list_B.Get());")
@@ -369,7 +375,7 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
                 code = code.replace("_type_to_replace",type2)
                 if protocol == "ArithmeticGmw":
                     operation = "result_C = ((list_A > list_B) | (list_B > list_A));"
-                    code = code.replace("_loop_dependency","list_A = result_C.Mux(list_A.Get(),list_B.Get());")
+                    code = code.replace("_loop_dependency","list_A = list_A + list_B;")
                 else:
                     operation = "result_C = ~(list_A == list_B);"
                     code = code.replace("_loop_dependency","list_A = result_C.Mux(list_A.Get(),list_B.Get());")
