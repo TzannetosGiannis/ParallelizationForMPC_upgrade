@@ -57,6 +57,16 @@
           "time": -0.00962894736842105,
           "dataSent": 0.0,
           "commRounds": 0.0
+        },
+        "800": {
+          "time": -0.019471052631578913,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "1000": {
+          "time": -0.02450526315789475,
+          "dataSent": 0.0,
+          "commRounds": 0.0
         }
       },
       "BooleanGmw": {
@@ -108,6 +118,16 @@
         "500": {
           "time": 324.5953131578948,
           "dataSent": 1.267263157894737,
+          "commRounds": 318.0
+        },
+        "800": {
+          "time": 497.8198894736842,
+          "dataSent": 2.0161578947368426,
+          "commRounds": 318.0
+        },
+        "1000": {
+          "time": 616.6454789473686,
+          "dataSent": 2.5186315789473674,
           "commRounds": 318.0
         }
       },
@@ -161,6 +181,16 @@
           "time": 215.8613,
           "dataSent": 3.5645789473684206,
           "commRounds": 155.0
+        },
+        "800": {
+          "time": 330.40941842105264,
+          "dataSent": 5.698368421052631,
+          "commRounds": 155.0
+        },
+        "1000": {
+          "time": 409.7626131578948,
+          "dataSent": 7.121736842105264,
+          "commRounds": 155.0
         }
       }
     },
@@ -175,45 +205,197 @@
         "100": "Execution Error",
         "200": "Execution Error",
         "300": "Execution Error",
-        "500": "Execution Error"
+        "500": "Execution Error",
+        "800": "Execution Error",
+        "1000": "Execution Error"
       },
       "BooleanGmw": {
-        "1": "Execution Error",
-        "2": "Execution Error",
-        "5": "Execution Error",
-        "10": "Execution Error",
-        "25": "Execution Error",
-        "50": "Execution Error",
-        "100": "Execution Error",
-        "200": "Execution Error",
-        "300": "Execution Error",
-        "500": "Execution Error"
+        "1": {
+          "time": 31.853955263157893,
+          "dataSent": 0.00021052631578947386,
+          "commRounds": 2.0
+        },
+        "2": {
+          "time": 32.011686842105256,
+          "dataSent": 0.00036842105263157907,
+          "commRounds": 2.0
+        },
+        "5": {
+          "time": 31.631705263157894,
+          "dataSent": 0.0006842105263157892,
+          "commRounds": 2.0
+        },
+        "10": {
+          "time": 26.752268421052637,
+          "dataSent": 0.0013684210526315795,
+          "commRounds": 2.0
+        },
+        "25": {
+          "time": 20.622176315789474,
+          "dataSent": 0.003263157894736843,
+          "commRounds": 2.0
+        },
+        "50": {
+          "time": 27.70122631578948,
+          "dataSent": 0.006421052631578944,
+          "commRounds": 2.0
+        },
+        "100": {
+          "time": 0.5587842105263151,
+          "dataSent": 0.01273684210526316,
+          "commRounds": 2.0
+        },
+        "200": {
+          "time": 2.358923684210529,
+          "dataSent": 0.025263157894736845,
+          "commRounds": 2.0
+        },
+        "300": {
+          "time": 6.711444736842108,
+          "dataSent": 0.03784210526315791,
+          "commRounds": 2.0
+        },
+        "500": {
+          "time": 13.334076315789469,
+          "dataSent": 0.06305263157894736,
+          "commRounds": 2.0
+        },
+        "800": {
+          "time": 22.128323684210518,
+          "dataSent": 0.1007894736842105,
+          "commRounds": 2.0
+        },
+        "1000": {
+          "time": 27.956402631578946,
+          "dataSent": 0.12599999999999997,
+          "commRounds": 2.0
+        }
       },
       "Bmr": {
-        "1": "Execution Error",
-        "2": "Execution Error",
-        "5": "Execution Error",
-        "10": "Execution Error",
-        "25": "Execution Error",
-        "50": "Execution Error",
-        "100": "Execution Error",
-        "200": "Execution Error",
-        "300": "Execution Error",
-        "500": "Execution Error"
+        "1": {
+          "time": 2.446613157894732,
+          "dataSent": 0.0034736842105263146,
+          "commRounds": 33.0
+        },
+        "2": {
+          "time": 0.8689078947368396,
+          "dataSent": 0.005315789473684207,
+          "commRounds": 33.0
+        },
+        "5": {
+          "time": 1.106855263157896,
+          "dataSent": 0.010789473684210519,
+          "commRounds": 33.0
+        },
+        "10": {
+          "time": 2.688323684210523,
+          "dataSent": 0.019947368421052637,
+          "commRounds": 33.0
+        },
+        "25": {
+          "time": 2.839007894736839,
+          "dataSent": 0.047526315789473694,
+          "commRounds": 33.0
+        },
+        "50": {
+          "time": 5.791455263157891,
+          "dataSent": 0.09342105263157897,
+          "commRounds": 33.0
+        },
+        "100": {
+          "time": 11.342865789473683,
+          "dataSent": 0.18531578947368424,
+          "commRounds": 33.0
+        },
+        "200": {
+          "time": 21.134515789473696,
+          "dataSent": 0.3687894736842105,
+          "commRounds": 33.0
+        },
+        "300": {
+          "time": 32.356863157894736,
+          "dataSent": 0.5524210526315789,
+          "commRounds": 33.0
+        },
+        "500": {
+          "time": 53.47384999999999,
+          "dataSent": 0.9195789473684212,
+          "commRounds": 33.0
+        },
+        "800": {
+          "time": 84.96229473684211,
+          "dataSent": 1.470157894736842,
+          "commRounds": 33.0
+        },
+        "1000": {
+          "time": 105.9637105263158,
+          "dataSent": 1.8375263157894743,
+          "commRounds": 33.0
+        }
       }
     },
     "zi_eq": {
       "ArithmeticGmw": {
-        "1": "Execution Error",
-        "2": "Execution Error",
-        "5": "Execution Error",
-        "10": "Execution Error",
-        "25": "Execution Error",
-        "50": "Execution Error",
-        "100": "Execution Error",
-        "200": "Execution Error",
-        "300": "Execution Error",
-        "500": "Execution Error"
+        "1": {
+          "time": 1.67747368421053,
+          "dataSent": 0.0008947368421052617,
+          "commRounds": 12.0
+        },
+        "2": {
+          "time": 3.9134605263157867,
+          "dataSent": 0.0012631578947368426,
+          "commRounds": 12.0
+        },
+        "5": {
+          "time": 8.973705263157889,
+          "dataSent": 0.0023157894736842125,
+          "commRounds": 12.0
+        },
+        "10": {
+          "time": 17.53735526315788,
+          "dataSent": 0.003789473684210524,
+          "commRounds": 12.0
+        },
+        "25": {
+          "time": 45.75163947368419,
+          "dataSent": 0.008842105263157894,
+          "commRounds": 12.0
+        },
+        "50": {
+          "time": 91.28435526315789,
+          "dataSent": 0.017052631578947364,
+          "commRounds": 12.0
+        },
+        "100": {
+          "time": 184.04856578947374,
+          "dataSent": 0.03347368421052632,
+          "commRounds": 12.0
+        },
+        "200": {
+          "time": 360.8047868421052,
+          "dataSent": 0.06668421052631582,
+          "commRounds": 12.0
+        },
+        "300": {
+          "time": 540.8519105263158,
+          "dataSent": 0.09963157894736836,
+          "commRounds": 12.0
+        },
+        "500": {
+          "time": 903.310060526316,
+          "dataSent": 0.16568421052631585,
+          "commRounds": 12.0
+        },
+        "800": {
+          "time": 1471.9953210526314,
+          "dataSent": 0.26499999999999996,
+          "commRounds": 12.0
+        },
+        "1000": {
+          "time": 1841.1535184210527,
+          "dataSent": 0.3309999999999998,
+          "commRounds": 12.0
+        }
       },
       "BooleanGmw": {
         "1": {
@@ -264,6 +446,16 @@
         "500": {
           "time": 146.07047368421055,
           "dataSent": 0.25678947368421046,
+          "commRounds": 64.0
+        },
+        "800": {
+          "time": 161.6764894736842,
+          "dataSent": 0.4085263157894739,
+          "commRounds": 64.0
+        },
+        "1000": {
+          "time": 183.98858684210526,
+          "dataSent": 0.5103157894736843,
           "commRounds": 64.0
         }
       },
@@ -317,6 +509,16 @@
           "time": 429.2821736842104,
           "dataSent": 7.242631578947366,
           "commRounds": 284.0
+        },
+        "800": {
+          "time": 683.6041447368422,
+          "dataSent": 11.579052631578946,
+          "commRounds": 284.0
+        },
+        "1000": {
+          "time": 850.3592,
+          "dataSent": 14.471631578947367,
+          "commRounds": 284.0
         }
       }
     },
@@ -331,7 +533,9 @@
         "100": "Execution Error",
         "200": "Execution Error",
         "300": "Execution Error",
-        "500": "Execution Error"
+        "500": "Execution Error",
+        "800": "Execution Error",
+        "1000": "Execution Error"
       },
       "BooleanGmw": {
         "1": {
@@ -382,6 +586,16 @@
         "500": {
           "time": 333.2448184210527,
           "dataSent": 0.9740526315789471,
+          "commRounds": 244.0
+        },
+        "800": {
+          "time": 444.0340868421054,
+          "dataSent": 1.5497368421052633,
+          "commRounds": 244.0
+        },
+        "1000": {
+          "time": 530.9196736842105,
+          "dataSent": 1.9359999999999995,
           "commRounds": 244.0
         }
       },
@@ -435,21 +649,81 @@
           "time": 650.647344736842,
           "dataSent": 11.037157894736843,
           "commRounds": 449.0
+        },
+        "800": {
+          "time": 1020.0693552631576,
+          "dataSent": 17.645052631578945,
+          "commRounds": 449.0
+        },
+        "1000": {
+          "time": 1265.0662894736845,
+          "dataSent": 22.05278947368421,
+          "commRounds": 449.0
         }
       }
     },
     "zi_gt": {
       "ArithmeticGmw": {
-        "1": "Execution Error",
-        "2": "Execution Error",
-        "5": "Execution Error",
-        "10": "Execution Error",
-        "25": "Execution Error",
-        "50": "Execution Error",
-        "100": "Execution Error",
-        "200": "Execution Error",
-        "300": "Execution Error",
-        "500": "Execution Error"
+        "1": {
+          "time": 2.7605210526315767,
+          "dataSent": 0.00047368421052631295,
+          "commRounds": 5.0
+        },
+        "2": {
+          "time": 2.4842394736842057,
+          "dataSent": 0.0005789473684210499,
+          "commRounds": 5.0
+        },
+        "5": {
+          "time": 5.272268421052637,
+          "dataSent": 0.0011052631578947346,
+          "commRounds": 5.0
+        },
+        "10": {
+          "time": 9.74965526315789,
+          "dataSent": 0.0018421052631578923,
+          "commRounds": 5.0
+        },
+        "25": {
+          "time": 23.45712894736843,
+          "dataSent": 0.004157894736842104,
+          "commRounds": 5.0
+        },
+        "50": {
+          "time": 46.726555263157906,
+          "dataSent": 0.00810526315789474,
+          "commRounds": 5.0
+        },
+        "100": {
+          "time": 91.83069736842106,
+          "dataSent": 0.015947368421052634,
+          "commRounds": 5.0
+        },
+        "200": {
+          "time": 181.83235263157894,
+          "dataSent": 0.031631578947368406,
+          "commRounds": 5.0
+        },
+        "300": {
+          "time": 275.77299473684207,
+          "dataSent": 0.047473684210526314,
+          "commRounds": 5.0
+        },
+        "500": {
+          "time": 462.226344736842,
+          "dataSent": 0.07889473684210531,
+          "commRounds": 5.0
+        },
+        "800": {
+          "time": 738.4504289473683,
+          "dataSent": 0.12621052631578944,
+          "commRounds": 5.0
+        },
+        "1000": {
+          "time": 920.094052631579,
+          "dataSent": 0.157578947368421,
+          "commRounds": 5.0
+        }
       },
       "BooleanGmw": {
         "1": {
@@ -500,6 +774,16 @@
         "500": {
           "time": 247.08450526315792,
           "dataSent": 0.7190000000000001,
+          "commRounds": 180.0
+        },
+        "800": {
+          "time": 337.1608184210525,
+          "dataSent": 1.144,
+          "commRounds": 180.0
+        },
+        "1000": {
+          "time": 397.6623078947369,
+          "dataSent": 1.4291052631578947,
           "commRounds": 180.0
         }
       },
@@ -553,6 +837,16 @@
           "time": 468.5090236842105,
           "dataSent": 7.35757894736842,
           "commRounds": 289.0
+        },
+        "800": {
+          "time": 738.5440368421051,
+          "dataSent": 11.762894736842107,
+          "commRounds": 289.0
+        },
+        "1000": {
+          "time": 911.4426342105264,
+          "dataSent": 14.70136842105263,
+          "commRounds": 289.0
         }
       }
     },
@@ -567,7 +861,9 @@
         "100": "Execution Error",
         "200": "Execution Error",
         "300": "Execution Error",
-        "500": "Execution Error"
+        "500": "Execution Error",
+        "800": "Execution Error",
+        "1000": "Execution Error"
       },
       "BooleanGmw": {
         "1": {
@@ -618,6 +914,16 @@
         "500": {
           "time": 335.01869999999997,
           "dataSent": 0.9740526315789471,
+          "commRounds": 244.0
+        },
+        "800": {
+          "time": 445.6292973684211,
+          "dataSent": 1.5497368421052633,
+          "commRounds": 244.0
+        },
+        "1000": {
+          "time": 524.1520552631579,
+          "dataSent": 1.9359999999999995,
           "commRounds": 244.0
         }
       },
@@ -671,21 +977,81 @@
           "time": 650.7847421052631,
           "dataSent": 11.037157894736843,
           "commRounds": 449.0
+        },
+        "800": {
+          "time": 1019.6102394736841,
+          "dataSent": 17.645052631578945,
+          "commRounds": 449.0
+        },
+        "1000": {
+          "time": 1265.9293473684213,
+          "dataSent": 22.05278947368421,
+          "commRounds": 449.0
         }
       }
     },
     "zi_lt": {
       "ArithmeticGmw": {
-        "1": "Execution Error",
-        "2": "Execution Error",
-        "5": "Execution Error",
-        "10": "Execution Error",
-        "25": "Execution Error",
-        "50": "Execution Error",
-        "100": "Execution Error",
-        "200": "Execution Error",
-        "300": "Execution Error",
-        "500": "Execution Error"
+        "1": {
+          "time": 2.756384210526317,
+          "dataSent": 0.00047368421052631295,
+          "commRounds": 5.0
+        },
+        "2": {
+          "time": 3.3356815789473653,
+          "dataSent": 0.0005789473684210499,
+          "commRounds": 5.0
+        },
+        "5": {
+          "time": 5.58493684210528,
+          "dataSent": 0.0011052631578947346,
+          "commRounds": 5.0
+        },
+        "10": {
+          "time": 9.462415789473688,
+          "dataSent": 0.0018421052631578923,
+          "commRounds": 5.0
+        },
+        "25": {
+          "time": 23.259905263157908,
+          "dataSent": 0.004157894736842104,
+          "commRounds": 5.0
+        },
+        "50": {
+          "time": 47.160581578947365,
+          "dataSent": 0.00810526315789474,
+          "commRounds": 5.0
+        },
+        "100": {
+          "time": 91.96177105263156,
+          "dataSent": 0.015947368421052634,
+          "commRounds": 5.0
+        },
+        "200": {
+          "time": 180.86553157894735,
+          "dataSent": 0.031631578947368406,
+          "commRounds": 5.0
+        },
+        "300": {
+          "time": 272.2075868421052,
+          "dataSent": 0.047473684210526314,
+          "commRounds": 5.0
+        },
+        "500": {
+          "time": 454.492202631579,
+          "dataSent": 0.07889473684210531,
+          "commRounds": 5.0
+        },
+        "800": {
+          "time": 731.1375473684211,
+          "dataSent": 0.12621052631578944,
+          "commRounds": 5.0
+        },
+        "1000": {
+          "time": 906.8797605263156,
+          "dataSent": 0.157578947368421,
+          "commRounds": 5.0
+        }
       },
       "BooleanGmw": {
         "1": {
@@ -736,6 +1102,16 @@
         "500": {
           "time": 249.93380263157897,
           "dataSent": 0.7190000000000001,
+          "commRounds": 180.0
+        },
+        "800": {
+          "time": 339.3978210526315,
+          "dataSent": 1.144,
+          "commRounds": 180.0
+        },
+        "1000": {
+          "time": 400.28347368421055,
+          "dataSent": 1.4291052631578947,
           "commRounds": 180.0
         }
       },
@@ -788,6 +1164,16 @@
         "500": {
           "time": 468.9910289473684,
           "dataSent": 7.35757894736842,
+          "commRounds": 289.0
+        },
+        "800": {
+          "time": 737.0763236842106,
+          "dataSent": 11.762894736842107,
+          "commRounds": 289.0
+        },
+        "1000": {
+          "time": 916.642634210526,
+          "dataSent": 14.70136842105263,
           "commRounds": 289.0
         }
       }
@@ -1155,6 +1541,16 @@
           "time": 57.56278684210527,
           "dataSent": 0.311,
           "commRounds": 2.0
+        },
+        "800": {
+          "time": 92.07061842105263,
+          "dataSent": 0.49752631578947376,
+          "commRounds": 2.0
+        },
+        "1000": {
+          "time": 115.4682105263158,
+          "dataSent": 0.6218947368421053,
+          "commRounds": 2.1052631578947367
         }
       },
       "BooleanGmw": {
@@ -1207,6 +1603,16 @@
           "time": 2260.4482394736833,
           "dataSent": 8.910315789473687,
           "commRounds": 2236.0
+        },
+        "800": {
+          "time": 3479.510139473684,
+          "dataSent": 14.176263157894732,
+          "commRounds": 2236.0
+        },
+        "1000": {
+          "time": 4305.148178947368,
+          "dataSent": 17.709736842105254,
+          "commRounds": 2236.0
         }
       },
       "Bmr": {
@@ -1258,6 +1664,16 @@
         "500": {
           "time": 6665.168194736843,
           "dataSent": 114.1815263157895,
+          "commRounds": 4965.0
+        },
+        "800": {
+          "time": 10453.400286842103,
+          "dataSent": 182.53205263157895,
+          "commRounds": 4965.0
+        },
+        "1000": {
+          "time": 12907.917928947367,
+          "dataSent": 228.12436842105265,
           "commRounds": 4965.0
         }
       }
@@ -1313,6 +1729,16 @@
           "time": -0.21172894736842116,
           "dataSent": 0.0,
           "commRounds": 0.0
+        },
+        "800": {
+          "time": -0.0611342105263157,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "1000": {
+          "time": -0.23606315789473706,
+          "dataSent": 0.0,
+          "commRounds": 0.0
         }
       },
       "BooleanGmw": {
@@ -1364,6 +1790,16 @@
         "500": {
           "time": 324.6305289473684,
           "dataSent": 1.267263157894737,
+          "commRounds": 318.0
+        },
+        "800": {
+          "time": 501.64604736842085,
+          "dataSent": 2.0161578947368426,
+          "commRounds": 318.0
+        },
+        "1000": {
+          "time": 617.352794736842,
+          "dataSent": 2.5186315789473674,
           "commRounds": 318.0
         }
       },
@@ -1417,6 +1853,16 @@
           "time": 219.9359315789474,
           "dataSent": 3.5645789473684206,
           "commRounds": 155.0
+        },
+        "800": {
+          "time": 335.88137894736843,
+          "dataSent": 5.698368421052631,
+          "commRounds": 155.0
+        },
+        "1000": {
+          "time": 412.9896789473684,
+          "dataSent": 7.121736842105264,
+          "commRounds": 155.0
         }
       }
     },
@@ -1431,7 +1877,9 @@
         "100": "Execution Error",
         "200": "Execution Error",
         "300": "Execution Error",
-        "500": "Execution Error"
+        "500": "Execution Error",
+        "800": "Execution Error",
+        "1000": "Execution Error"
       },
       "BooleanGmw": {
         "1": {
@@ -1482,6 +1930,16 @@
         "500": {
           "time": 8.102123684210518,
           "dataSent": 0.009736842105263177,
+          "commRounds": 2.0
+        },
+        "800": {
+          "time": 12.054197368421054,
+          "dataSent": 0.015421052631578933,
+          "commRounds": 2.0
+        },
+        "1000": {
+          "time": 14.620973684210526,
+          "dataSent": 0.01931578947368422,
           "commRounds": 2.0
         }
       },
@@ -1535,21 +1993,81 @@
           "time": 221.7876157894737,
           "dataSent": 3.678052631578948,
           "commRounds": 129.0
+        },
+        "800": {
+          "time": 352.56716052631583,
+          "dataSent": 5.880684210526314,
+          "commRounds": 129.0
+        },
+        "1000": {
+          "time": 439.32507631578943,
+          "dataSent": 7.3498947368421055,
+          "commRounds": 129.0
         }
       }
     },
     "zi_ne": {
       "ArithmeticGmw": {
-        "1": "Execution Error",
-        "2": "Execution Error",
-        "5": "Execution Error",
-        "10": "Execution Error",
-        "25": "Execution Error",
-        "50": "Execution Error",
-        "100": "Execution Error",
-        "200": "Execution Error",
-        "300": "Execution Error",
-        "500": "Execution Error"
+        "1": {
+          "time": 1.6258394736842092,
+          "dataSent": 0.0008947368421052617,
+          "commRounds": 12.0
+        },
+        "2": {
+          "time": 4.2464657894736915,
+          "dataSent": 0.0012631578947368426,
+          "commRounds": 12.0
+        },
+        "5": {
+          "time": 8.302089473684209,
+          "dataSent": 0.0023157894736842125,
+          "commRounds": 12.0
+        },
+        "10": {
+          "time": 17.221523684210513,
+          "dataSent": 0.003789473684210524,
+          "commRounds": 12.0
+        },
+        "25": {
+          "time": 45.850626315789484,
+          "dataSent": 0.008842105263157894,
+          "commRounds": 12.0
+        },
+        "50": {
+          "time": 89.5046842105263,
+          "dataSent": 0.017052631578947364,
+          "commRounds": 12.0
+        },
+        "100": {
+          "time": 180.81746315789474,
+          "dataSent": 0.03347368421052632,
+          "commRounds": 12.0
+        },
+        "200": {
+          "time": 359.1641657894737,
+          "dataSent": 0.06668421052631582,
+          "commRounds": 12.0
+        },
+        "300": {
+          "time": 536.9950973684212,
+          "dataSent": 0.09963157894736836,
+          "commRounds": 12.0
+        },
+        "500": {
+          "time": 899.8931000000002,
+          "dataSent": 0.16568421052631585,
+          "commRounds": 12.0
+        },
+        "800": {
+          "time": 1471.5792263157898,
+          "dataSent": 0.26499999999999996,
+          "commRounds": 12.0
+        },
+        "1000": {
+          "time": 1825.7370236842107,
+          "dataSent": 0.3309999999999998,
+          "commRounds": 12.0
+        }
       },
       "BooleanGmw": {
         "1": {
@@ -1600,6 +2118,16 @@
         "500": {
           "time": 149.59136315789473,
           "dataSent": 0.25678947368421046,
+          "commRounds": 64.0
+        },
+        "800": {
+          "time": 168.04559210526313,
+          "dataSent": 0.4085263157894739,
+          "commRounds": 64.0
+        },
+        "1000": {
+          "time": 187.34822105263154,
+          "dataSent": 0.5103157894736843,
           "commRounds": 64.0
         }
       },
@@ -1653,6 +2181,16 @@
           "time": 417.9471421052631,
           "dataSent": 7.242631578947366,
           "commRounds": 284.0
+        },
+        "800": {
+          "time": 662.9553868421052,
+          "dataSent": 11.579052631578946,
+          "commRounds": 284.0
+        },
+        "1000": {
+          "time": 825.4882921052631,
+          "dataSent": 14.471631578947367,
+          "commRounds": 284.0
         }
       }
     },
@@ -1667,107 +2205,133 @@
         "100": "Execution Error",
         "200": "Execution Error",
         "300": "Execution Error",
-        "500": "Execution Error"
+        "500": "Execution Error",
+        "800": "Execution Error",
+        "1000": "Execution Error"
       },
       "BooleanGmw": {
-        "1": "Execution Error",
-        "2": "Execution Error",
-        "5": "Execution Error",
-        "10": "Execution Error",
-        "25": "Execution Error",
-        "50": "Execution Error",
-        "100": "Execution Error",
-        "200": "Execution Error",
-        "300": "Execution Error",
-        "500": "Execution Error"
+        "1": {
+          "time": 41.92754210526314,
+          "dataSent": 0.00021052631578947386,
+          "commRounds": 2.0
+        },
+        "2": {
+          "time": 34.31091315789474,
+          "dataSent": 0.00036842105263157907,
+          "commRounds": 2.0
+        },
+        "5": {
+          "time": 30.261421052631583,
+          "dataSent": 0.0006842105263157892,
+          "commRounds": 2.0
+        },
+        "10": {
+          "time": 25.331542105263157,
+          "dataSent": 0.0013684210526315795,
+          "commRounds": 2.0
+        },
+        "25": {
+          "time": 9.079331578947361,
+          "dataSent": 0.003263157894736843,
+          "commRounds": 2.0
+        },
+        "50": {
+          "time": 24.343007894736843,
+          "dataSent": 0.006421052631578944,
+          "commRounds": 2.0
+        },
+        "100": {
+          "time": -0.6270289473684203,
+          "dataSent": 0.01273684210526316,
+          "commRounds": 2.0
+        },
+        "200": {
+          "time": 4.013576315789476,
+          "dataSent": 0.025263157894736845,
+          "commRounds": 2.0
+        },
+        "300": {
+          "time": 6.544452631578948,
+          "dataSent": 0.03784210526315791,
+          "commRounds": 2.0
+        },
+        "500": {
+          "time": 14.30657631578948,
+          "dataSent": 0.06305263157894736,
+          "commRounds": 2.0
+        },
+        "800": {
+          "time": 22.263076315789466,
+          "dataSent": 0.1007894736842105,
+          "commRounds": 2.0
+        },
+        "1000": {
+          "time": 30.135371052631584,
+          "dataSent": 0.12599999999999997,
+          "commRounds": 2.0
+        }
       },
       "Bmr": {
-        "1": "Execution Error",
-        "2": "Execution Error",
-        "5": "Execution Error",
-        "10": "Execution Error",
-        "25": "Execution Error",
-        "50": "Execution Error",
-        "100": "Execution Error",
-        "200": "Execution Error",
-        "300": "Execution Error",
-        "500": "Execution Error"
-      }
-    },
-    "zi_rem": {
-      "ArithmeticGmw": {
-        "1": "Generation Error",
-        "2": "Generation Error",
-        "5": "Generation Error",
-        "10": "Generation Error",
-        "25": "Generation Error",
-        "50": "Generation Error",
-        "100": "Generation Error",
-        "200": "Generation Error",
-        "300": "Generation Error",
-        "500": "Generation Error"
-      },
-      "BooleanGmw": {
-        "1": "Generation Error",
-        "2": "Generation Error",
-        "5": "Generation Error",
-        "10": "Generation Error",
-        "25": "Generation Error",
-        "50": "Generation Error",
-        "100": "Generation Error",
-        "200": "Generation Error",
-        "300": "Generation Error",
-        "500": "Generation Error"
-      },
-      "Bmr": {
-        "1": "Generation Error",
-        "2": "Generation Error",
-        "5": "Generation Error",
-        "10": "Generation Error",
-        "25": "Generation Error",
-        "50": "Generation Error",
-        "100": "Generation Error",
-        "200": "Generation Error",
-        "300": "Generation Error",
-        "500": "Generation Error"
-      }
-    },
-    "zi_shl": {
-      "ArithmeticGmw": {
-        "1": "Generation Error",
-        "2": "Generation Error",
-        "5": "Generation Error",
-        "10": "Generation Error",
-        "25": "Generation Error",
-        "50": "Generation Error",
-        "100": "Generation Error",
-        "200": "Generation Error",
-        "300": "Generation Error",
-        "500": "Generation Error"
-      },
-      "BooleanGmw": {
-        "1": "Generation Error",
-        "2": "Generation Error",
-        "5": "Generation Error",
-        "10": "Generation Error",
-        "25": "Generation Error",
-        "50": "Generation Error",
-        "100": "Generation Error",
-        "200": "Generation Error",
-        "300": "Generation Error",
-        "500": "Generation Error"
-      },
-      "Bmr": {
-        "1": "Generation Error",
-        "2": "Generation Error",
-        "5": "Generation Error",
-        "10": "Generation Error",
-        "25": "Generation Error",
-        "50": "Generation Error",
-        "100": "Generation Error",
-        "200": "Generation Error",
-        "300": "Generation Error",
-        "500": "Generation Error"
+        "1": {
+          "time": 2.8242394736842074,
+          "dataSent": 0.0034736842105263146,
+          "commRounds": 33.0
+        },
+        "2": {
+          "time": 1.7473184210526316,
+          "dataSent": 0.005315789473684207,
+          "commRounds": 33.0
+        },
+        "5": {
+          "time": 1.7914157894736844,
+          "dataSent": 0.010789473684210519,
+          "commRounds": 33.0
+        },
+        "10": {
+          "time": 2.513418421052635,
+          "dataSent": 0.019947368421052637,
+          "commRounds": 33.0
+        },
+        "25": {
+          "time": 3.507473684210529,
+          "dataSent": 0.047526315789473694,
+          "commRounds": 33.0
+        },
+        "50": {
+          "time": 6.017965789473686,
+          "dataSent": 0.09342105263157897,
+          "commRounds": 33.0
+        },
+        "100": {
+          "time": 11.723055263157898,
+          "dataSent": 0.18531578947368424,
+          "commRounds": 33.0
+        },
+        "200": {
+          "time": 21.49231052631578,
+          "dataSent": 0.3687894736842105,
+          "commRounds": 33.0
+        },
+        "300": {
+          "time": 32.978852631578945,
+          "dataSent": 0.5524210526315789,
+          "commRounds": 33.0
+        },
+        "500": {
+          "time": 53.97084736842105,
+          "dataSent": 0.9195789473684212,
+          "commRounds": 33.0
+        },
+        "800": {
+          "time": 85.11341052631576,
+          "dataSent": 1.470157894736842,
+          "commRounds": 33.0
+        },
+        "1000": {
+          "time": 106.87497368421053,
+          "dataSent": 1.8375263157894743,
+          "commRounds": 33.0
+        }
       }
     },
     "zi_xor": {
@@ -1781,107 +2345,413 @@
         "100": "Execution Error",
         "200": "Execution Error",
         "300": "Execution Error",
-        "500": "Execution Error"
+        "500": "Execution Error",
+        "800": "Execution Error",
+        "1000": "Execution Error"
       },
       "BooleanGmw": {
-        "1": "Execution Error",
-        "2": "Execution Error",
-        "5": "Execution Error",
-        "10": "Execution Error",
-        "25": "Execution Error",
-        "50": "Execution Error",
-        "100": "Execution Error",
-        "200": "Execution Error",
-        "300": "Execution Error",
-        "500": "Execution Error"
+        "1": {
+          "time": -0.04286052631578943,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "2": {
+          "time": -0.3839552631578947,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "5": {
+          "time": 0.21520789473684204,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "10": {
+          "time": -0.2319921052631578,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "25": {
+          "time": 0.2699289473684214,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "50": {
+          "time": 0.10389210526315781,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "100": {
+          "time": 0.2247315789473685,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "200": {
+          "time": 0.046681578947368546,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "300": {
+          "time": -0.2990526315789473,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "500": {
+          "time": -0.1253447368421056,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "800": {
+          "time": -0.35337894736842096,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "1000": {
+          "time": -0.21071578947368425,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        }
       },
       "Bmr": {
-        "1": "Execution Error",
-        "2": "Execution Error",
-        "5": "Execution Error",
-        "10": "Execution Error",
-        "25": "Execution Error",
-        "50": "Execution Error",
-        "100": "Execution Error",
-        "200": "Execution Error",
-        "300": "Execution Error",
-        "500": "Execution Error"
+        "1": {
+          "time": 0.8342578947368419,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "2": {
+          "time": 0.9903947368421065,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "5": {
+          "time": 1.5844052631578942,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "10": {
+          "time": 0.774228947368421,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "25": {
+          "time": 0.3814210526315788,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "50": {
+          "time": -0.2573499999999996,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "100": {
+          "time": 0.2587578947368419,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "200": {
+          "time": 0.7538894736842107,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "300": {
+          "time": 0.7233763157894737,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "500": {
+          "time": 0.8480500000000009,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "800": {
+          "time": 1.4764526315789477,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "1000": {
+          "time": 1.8579736842105266,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        }
       }
     },
     "zi_&": {
       "ArithmeticGmw": {
-        "1": "Generation Error",
-        "2": "Generation Error",
-        "5": "Generation Error",
-        "10": "Generation Error",
-        "25": "Generation Error",
-        "50": "Generation Error",
-        "100": "Generation Error",
-        "200": "Generation Error",
-        "300": "Generation Error",
-        "500": "Generation Error"
+        "1": "Execution Error",
+        "2": "Execution Error",
+        "5": "Execution Error",
+        "10": "Execution Error",
+        "25": "Execution Error",
+        "50": "Execution Error",
+        "100": "Execution Error",
+        "200": "Execution Error",
+        "300": "Execution Error",
+        "500": "Execution Error",
+        "800": "Execution Error",
+        "1000": "Execution Error"
       },
       "BooleanGmw": {
-        "1": "Generation Error",
-        "2": "Generation Error",
-        "5": "Generation Error",
-        "10": "Generation Error",
-        "25": "Generation Error",
-        "50": "Generation Error",
-        "100": "Generation Error",
-        "200": "Generation Error",
-        "300": "Generation Error",
-        "500": "Generation Error"
+        "1": {
+          "time": 36.5236105263158,
+          "dataSent": 0.0006315789473684207,
+          "commRounds": 2.0
+        },
+        "2": {
+          "time": 22.471105263157895,
+          "dataSent": 0.001105263157894737,
+          "commRounds": 2.0
+        },
+        "5": {
+          "time": 27.32821315789474,
+          "dataSent": 0.0026315789473684197,
+          "commRounds": 2.0
+        },
+        "10": {
+          "time": 29.24645263157894,
+          "dataSent": 0.005157894736842102,
+          "commRounds": 2.0
+        },
+        "25": {
+          "time": -0.1899894736842079,
+          "dataSent": 0.01273684210526316,
+          "commRounds": 2.0
+        },
+        "50": {
+          "time": 3.578042105263161,
+          "dataSent": 0.025263157894736845,
+          "commRounds": 2.0
+        },
+        "100": {
+          "time": 9.39703421052631,
+          "dataSent": 0.05042105263157894,
+          "commRounds": 2.0
+        },
+        "200": {
+          "time": 23.305636842105258,
+          "dataSent": 0.1007894736842105,
+          "commRounds": 2.0
+        },
+        "300": {
+          "time": 34.32488421052632,
+          "dataSent": 0.15115789473684205,
+          "commRounds": 2.0
+        },
+        "500": {
+          "time": 58.26851578947368,
+          "dataSent": 0.2518947368421052,
+          "commRounds": 2.0
+        },
+        "800": {
+          "time": 92.64783421052631,
+          "dataSent": 0.4029473684210528,
+          "commRounds": 2.0
+        },
+        "1000": {
+          "time": 117.31770000000002,
+          "dataSent": 0.5036315789473683,
+          "commRounds": 2.0
+        }
       },
       "Bmr": {
-        "1": "Generation Error",
-        "2": "Generation Error",
-        "5": "Generation Error",
-        "10": "Generation Error",
-        "25": "Generation Error",
-        "50": "Generation Error",
-        "100": "Generation Error",
-        "200": "Generation Error",
-        "300": "Generation Error",
-        "500": "Generation Error"
+        "1": {
+          "time": 7.378534210526317,
+          "dataSent": 0.013736842105263158,
+          "commRounds": 129.0
+        },
+        "2": {
+          "time": 7.2573868421052605,
+          "dataSent": 0.021052631578947368,
+          "commRounds": 129.0
+        },
+        "5": {
+          "time": 8.214471052631575,
+          "dataSent": 0.04305263157894739,
+          "commRounds": 129.0
+        },
+        "10": {
+          "time": 10.372781578947368,
+          "dataSent": 0.07963157894736839,
+          "commRounds": 129.0
+        },
+        "25": {
+          "time": 16.399615789473682,
+          "dataSent": 0.18973684210526315,
+          "commRounds": 129.0
+        },
+        "50": {
+          "time": 26.701434210526326,
+          "dataSent": 0.37357894736842107,
+          "commRounds": 129.0
+        },
+        "100": {
+          "time": 48.32299210526316,
+          "dataSent": 0.7410526315789475,
+          "commRounds": 129.0
+        },
+        "200": {
+          "time": 89.92587894736845,
+          "dataSent": 1.474894736842105,
+          "commRounds": 129.0
+        },
+        "300": {
+          "time": 132.48336842105263,
+          "dataSent": 2.2095263157894727,
+          "commRounds": 129.0
+        },
+        "500": {
+          "time": 216.16281052631578,
+          "dataSent": 3.678052631578947,
+          "commRounds": 129.0
+        },
+        "800": {
+          "time": 342.31368947368424,
+          "dataSent": 5.880684210526315,
+          "commRounds": 129.0
+        },
+        "1000": {
+          "time": 428.5649684210526,
+          "dataSent": 7.349894736842104,
+          "commRounds": 129.0
+        }
       }
     },
     "zi_|": {
       "ArithmeticGmw": {
-        "1": "Generation Error",
-        "2": "Generation Error",
-        "5": "Generation Error",
-        "10": "Generation Error",
-        "25": "Generation Error",
-        "50": "Generation Error",
-        "100": "Generation Error",
-        "200": "Generation Error",
-        "300": "Generation Error",
-        "500": "Generation Error"
+        "1": "Execution Error",
+        "2": "Execution Error",
+        "5": "Execution Error",
+        "10": "Execution Error",
+        "25": "Execution Error",
+        "50": "Execution Error",
+        "100": "Execution Error",
+        "200": "Execution Error",
+        "300": "Execution Error",
+        "500": "Execution Error",
+        "800": "Execution Error",
+        "1000": "Execution Error"
       },
       "BooleanGmw": {
-        "1": "Generation Error",
-        "2": "Generation Error",
-        "5": "Generation Error",
-        "10": "Generation Error",
-        "25": "Generation Error",
-        "50": "Generation Error",
-        "100": "Generation Error",
-        "200": "Generation Error",
-        "300": "Generation Error",
-        "500": "Generation Error"
+        "1": {
+          "time": 29.486481578947352,
+          "dataSent": 0.0006315789473684207,
+          "commRounds": 2.0
+        },
+        "2": {
+          "time": 33.425057894736845,
+          "dataSent": 0.001105263157894737,
+          "commRounds": 2.0
+        },
+        "5": {
+          "time": 36.6927447368421,
+          "dataSent": 0.0026315789473684197,
+          "commRounds": 2.0
+        },
+        "10": {
+          "time": 18.238431578947374,
+          "dataSent": 0.005157894736842102,
+          "commRounds": 2.0
+        },
+        "25": {
+          "time": -0.4730315789473677,
+          "dataSent": 0.01273684210526316,
+          "commRounds": 2.0
+        },
+        "50": {
+          "time": 3.603686842105267,
+          "dataSent": 0.025263157894736845,
+          "commRounds": 2.0
+        },
+        "100": {
+          "time": 9.770986842105266,
+          "dataSent": 0.05042105263157894,
+          "commRounds": 2.0
+        },
+        "200": {
+          "time": 23.362710526315794,
+          "dataSent": 0.1007894736842105,
+          "commRounds": 2.0
+        },
+        "300": {
+          "time": 34.724147368421065,
+          "dataSent": 0.15115789473684205,
+          "commRounds": 2.0
+        },
+        "500": {
+          "time": 58.414955263157886,
+          "dataSent": 0.2518947368421052,
+          "commRounds": 2.0
+        },
+        "800": {
+          "time": 92.62496578947365,
+          "dataSent": 0.4029473684210528,
+          "commRounds": 2.0
+        },
+        "1000": {
+          "time": 116.0656394736842,
+          "dataSent": 0.5036315789473683,
+          "commRounds": 2.0
+        }
       },
       "Bmr": {
-        "1": "Generation Error",
-        "2": "Generation Error",
-        "5": "Generation Error",
-        "10": "Generation Error",
-        "25": "Generation Error",
-        "50": "Generation Error",
-        "100": "Generation Error",
-        "200": "Generation Error",
-        "300": "Generation Error",
-        "500": "Generation Error"
+        "1": {
+          "time": 6.267142105263154,
+          "dataSent": 0.013736842105263158,
+          "commRounds": 129.0
+        },
+        "2": {
+          "time": 7.27920526315789,
+          "dataSent": 0.021052631578947368,
+          "commRounds": 129.0
+        },
+        "5": {
+          "time": 8.366471052631582,
+          "dataSent": 0.04305263157894739,
+          "commRounds": 129.0
+        },
+        "10": {
+          "time": 10.36707105263158,
+          "dataSent": 0.07963157894736839,
+          "commRounds": 129.0
+        },
+        "25": {
+          "time": 16.811965789473682,
+          "dataSent": 0.18973684210526315,
+          "commRounds": 129.0
+        },
+        "50": {
+          "time": 27.13642894736842,
+          "dataSent": 0.37357894736842107,
+          "commRounds": 129.0
+        },
+        "100": {
+          "time": 48.93510789473685,
+          "dataSent": 0.7410526315789475,
+          "commRounds": 129.0
+        },
+        "200": {
+          "time": 90.49225263157895,
+          "dataSent": 1.474894736842105,
+          "commRounds": 129.0
+        },
+        "300": {
+          "time": 133.16314210526315,
+          "dataSent": 2.2095263157894727,
+          "commRounds": 129.0
+        },
+        "500": {
+          "time": 217.4450815789473,
+          "dataSent": 3.678052631578947,
+          "commRounds": 129.0
+        },
+        "800": {
+          "time": 344.94168947368416,
+          "dataSent": 5.880684210526315,
+          "commRounds": 129.0
+        },
+        "1000": {
+          "time": 430.56415526315794,
+          "dataSent": 7.349894736842104,
+          "commRounds": 129.0
+        }
       }
     },
     "zi_div": {
@@ -1895,7 +2765,9 @@
         "100": "Execution Error",
         "200": "Execution Error",
         "300": "Execution Error",
-        "500": "Execution Error"
+        "500": "Execution Error",
+        "800": "Execution Error",
+        "1000": "Execution Error"
       },
       "BooleanGmw": {
         "1": {
@@ -1946,6 +2818,16 @@
         "500": {
           "time": 16705.970555263157,
           "dataSent": 11.181736842105261,
+          "commRounds": 2806.0
+        },
+        "800": {
+          "time": 18368.120689473682,
+          "dataSent": 17.79015789473684,
+          "commRounds": 2806.0
+        },
+        "1000": {
+          "time": 18871.617039473687,
+          "dataSent": 22.22421052631579,
           "commRounds": 2806.0
         }
       },
@@ -1999,45 +2881,157 @@
           "time": 8874.892192105262,
           "dataSent": 145.80278947368413,
           "commRounds": 6340.0
+        },
+        "800": {
+          "time": 13814.416486842107,
+          "dataSent": 233.08226315789474,
+          "commRounds": 6340.0
+        },
+        "1000": {
+          "time": 17214.722063157897,
+          "dataSent": 291.3008421052632,
+          "commRounds": 6340.0
         }
       }
     },
     "zi_not": {
       "ArithmeticGmw": {
-        "1": "Generation Error",
-        "2": "Generation Error",
-        "5": "Generation Error",
-        "10": "Generation Error",
-        "25": "Generation Error",
-        "50": "Generation Error",
-        "100": "Generation Error",
-        "200": "Generation Error",
-        "300": "Generation Error",
-        "500": "Generation Error"
+        "1": "Execution Error",
+        "2": "Execution Error",
+        "5": "Execution Error",
+        "10": "Execution Error",
+        "25": "Execution Error",
+        "50": "Execution Error",
+        "100": "Execution Error",
+        "200": "Execution Error",
+        "300": "Execution Error",
+        "500": "Execution Error",
+        "800": "Execution Error",
+        "1000": "Execution Error"
       },
       "BooleanGmw": {
-        "1": "Generation Error",
-        "2": "Generation Error",
-        "5": "Generation Error",
-        "10": "Generation Error",
-        "25": "Generation Error",
-        "50": "Generation Error",
-        "100": "Generation Error",
-        "200": "Generation Error",
-        "300": "Generation Error",
-        "500": "Generation Error"
+        "1": {
+          "time": -0.09162368421052641,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "2": {
+          "time": 0.22773157894736834,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "5": {
+          "time": -0.260836842105263,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "10": {
+          "time": 0.01505263157894744,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "25": {
+          "time": -0.5382999999999998,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "50": {
+          "time": -0.13149210526315755,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "100": {
+          "time": -0.20384210526315777,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "200": {
+          "time": 0.20598947368421044,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "300": {
+          "time": -0.05737894736842121,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "500": {
+          "time": -0.2064605263157896,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "800": {
+          "time": 0.026992105263157908,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "1000": {
+          "time": -0.12997631578947358,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        }
       },
       "Bmr": {
-        "1": "Generation Error",
-        "2": "Generation Error",
-        "5": "Generation Error",
-        "10": "Generation Error",
-        "25": "Generation Error",
-        "50": "Generation Error",
-        "100": "Generation Error",
-        "200": "Generation Error",
-        "300": "Generation Error",
-        "500": "Generation Error"
+        "1": {
+          "time": -0.007468421052631936,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "2": {
+          "time": -0.015684210526317008,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "5": {
+          "time": -0.026397368421053096,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "10": {
+          "time": 0.14466315789473683,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "25": {
+          "time": 0.39730526315789494,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "50": {
+          "time": 0.0871473684210524,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "100": {
+          "time": 0.07154736842105268,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "200": {
+          "time": -0.029121052631578954,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "300": {
+          "time": 0.17955526315789483,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "500": {
+          "time": 0.1375526315789473,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "800": {
+          "time": 0.3399552631578948,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        },
+        "1000": {
+          "time": 0.47136842105263155,
+          "dataSent": 0.0,
+          "commRounds": 0.0
+        }
       }
     }
   }
