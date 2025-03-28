@@ -1,19 +1,25 @@
 import os, json
 from math import ceil
-muxDepOps = {"zi_gt", "zi_lt", "zi_eq", "zi_ge", "zi_le", "zi_ne", "zi_and", "zi_or", "zi_|", "zi_&", "zi_xor", "zi_not"}
+muxDepOps = {"zi_gt", "zi_lt", "zi_eq", "zi_ge", "zi_le", "zi_ne"}
 
 
-def fixMuxDepCosts(costs, muxCosts):
+def fixDepCosts(costs, muxCosts, addCosts):
     for op in costs.keys():
-        if op not in muxDepOps:
-            continue
+        if not op.startswith('zi_'):
+            protocol = op.split('_')[0]
+            for vecSize in costs[op].keys():
+                for costType in costs[op][vecSize].keys():
+                    costs[op][vecSize][costType] -= addCosts[protocol][vecSize][costType]
+                    if costs[op][vecSize][costType] < 0:
+                        costs[op][vecSize][costType] = 0.0
 
-        for protocol in costs[op].keys():
-            for vecSize in costs[op][protocol].keys():
-                for costType in costs[op][protocol][vecSize].keys():
-                    costs[op][protocol][vecSize][costType] -= muxCosts[protocol][vecSize][costType]
-                    if costs[op][protocol][vecSize][costType] < 0:
-                        costs[op][protocol][vecSize][costType] = 0.0
+        elif op in muxDepOps:
+            for protocol in costs[op].keys():
+                for vecSize in costs[op][protocol].keys():
+                    for costType in costs[op][protocol][vecSize].keys():
+                        costs[op][protocol][vecSize][costType] -= addCosts[protocol][vecSize][costType] if protocol == 'ArithmeticGmw' else muxCosts[protocol][vecSize][costType]
+                        if costs[op][protocol][vecSize][costType] < 0:
+                            costs[op][protocol][vecSize][costType] = 0.0
 
 
 def fixMotionOps(fileName):
@@ -27,7 +33,7 @@ def fixMotionOps(fileName):
 
     backendJSON = rawJSON['MOTION']
 
-    fixMuxDepCosts(backendJSON, backendJSON['zi_mux'])
+    fixDepCosts(backendJSON, backendJSON['zi_mux'], backendJSON['zi_add'])
 
     # print to output file
     with open(fileName, 'w') as f:
