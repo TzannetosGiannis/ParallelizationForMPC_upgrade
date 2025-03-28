@@ -178,12 +178,11 @@ def genCodeConv(backend,protocol,iters,vecSize):
         
 
         code = code.replace("_operator_to_replace",f"result_C = list_A.Get().Convert<encrypto::motion::MpcProtocol::k{protocol_to}>();")
-        code = code.replace("_loop_dependency","")
+        code = code.replace("_loop_dependency","list_A = list_A + list_A;")
         code = code.replace("_iters",str(iters))
         # retrieve the sample 
         with open(f'{app_path}/template_code.h','w') as f:
             f.write(code)
-
 
         # save the main file to server side
         # Open the file in write mode and write the content
