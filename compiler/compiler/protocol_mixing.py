@@ -727,6 +727,7 @@ def createNewConfig(conversions: set[Protocol], p: Protocol, prevConfig: Config,
                     assignment[3] += minC
                     assert (minPr, p) not in assignment[6]
                     assignment[6].append((minPr, p))
+                    newConfig.total_cost += assignment[4] * minC
                 break
         if not found:
             assert getLHSVar(targetStmt) not in newConfig.inputs.keys()
@@ -756,6 +757,21 @@ def lockSet(vars: list[Var], config: Config) -> None:
         if not v in config.lockedVarsIdx.keys():
             config.lockedVarsIdx[v] = idxs[0]
             config.lockedVarsSets[idxs[0]].add(v)
+
+
+# check that the total cost of this block was correctly computed
+def verifyCosts(cfg: Config):
+    runningTotal = 0
+    infCost = True if cfg.total_cost == float('inf') else False
+    for _, _, _, c, d, _, _ in cfg.assignments:
+        runningTotal += c*d
+        if c == float('inf'):
+            if infCost:
+                return
+            assert False
+    if abs(runningTotal - cfg.total_cost) >= 0.01:
+        print(cfg)
+    assert abs(runningTotal - cfg.total_cost) < 0.01
 
         
 # find all possible mixes for the given sequence of statements
@@ -822,6 +838,7 @@ def assign_seq(seq: list[Statement], dep_graph: DepGraph, trackedVars: set[Var],
         # create a new config for each possible protocol
         for p in ps:
             newC = createNewConfig(conversions, p, config, trackedVars, useCount < len(uses) or isinstance(head, llc.Return), head, requiredInputVars, loop_depth, loopNestCount, dep_graph)
+            verifyCosts(newC)
             if newC.total_cost < float("inf"):
                 newConfigs.append(newC)
     return newConfigs
@@ -1191,7 +1208,7 @@ def merge(c1: Config, c2: Config, dep_graph: DepGraph, trackedVars: set[Var]) ->
                     assignment[6].append((availP, p))
                     # TODO MAKE SURE IT IS CORRECT TO MULTIPLY BY LOOP DEPTH HERE
                     newConfig.total_cost += assignment[4] * minC
-                assignment[2] |= newProtocols#HEREHERE
+                assignment[2] |= newProtocols
                 v = getLHSVar(assignment[0])
                 if v in newConfig.inputs.keys():
                     newConfig.inputs[v] -= ps
@@ -1299,6 +1316,9 @@ def getInterfaceSize(c: Config) -> (int, int):
 # run the mixer
 def mix_protocols(filename: str, type_env: TypeEnv, body: list[Statement], dep_graph: DepGraph, backend: Backend, costType: str, spdzProtocol: str = 'semi', protocolSets: list[set[str]] = None, python_text: str = None ) -> OrderedConfig:
     global protocols, runningSpdz
+    print(python_text)
+    # protocolSets = [{'A', 'B', 'Y'}]
+    # protocolSets = [{'Y'}]
     runningSpdz = True if backend == Backend.Backend.MP_SPDZ else False
     targetCostFile = '/../Cost_Tables/'
     if not runningSpdz:
@@ -1312,7 +1332,7 @@ def mix_protocols(filename: str, type_env: TypeEnv, body: list[Statement], dep_g
     
     if costType not in {'time', 'dataSent', 'commRounds'}:
         raise Exception('Unknown cost type provided to protocol_mixing.py')
-
+    print(protocolsMotion)
     getLoopBounds(filename, python_text)
     getOpCosts(targetCostFile)
     trackedVars, directIOVars = getTrackedVars(type_env, body, dep_graph)
@@ -1339,4 +1359,6 @@ def mix_protocols(filename: str, type_env: TypeEnv, body: list[Statement], dep_g
     # populateConstantsAndPlaintexts(best, {var for var, t in type_env.items() if t.visibility and t.visibility.value == 'plaintext'})
     if runningSpdz:
         populateFlags(best)
+    print(best)
+    verifyCosts(best)
     return OrderedConfig(best)
