@@ -138,7 +138,8 @@ def get_biometric_fast_inputs() -> tuple[list[InputArgs], int]:
     non_vec_up_to = 0 #6 # Only run non-vectorized benchmark upto this index
     # for config in [[4, 4], [4, 8], [4, 16], [4, 32], [4, 64], [4, 128], [4, 256], [4, 512], [4, 1024], [4, 2048], [4, 4096]]:
     # for config in [[4, 128], [4, 4096]]:
-    for config in [[4, 512], [4,1024]]:
+    # for config in [[4, 512], [4,1024]]:
+    for config in [[4, 128]]:
         D = config[0]
         N = config[1]
         args = [
@@ -187,7 +188,8 @@ def get_convex_hull_inputs():
     non_vec_up_to = 0
     #for N in [4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096]:
     # for N in [32, 256]:
-    for N in [32, 64, 128]:
+    # for N in [32, 64, 128]:
+    for N in [32]:
         args = [
         "--N", "{}".format(N),
         ]
@@ -269,7 +271,7 @@ def get_cryptonets_max_pooling_inputs():
     non_vec_up_to = 0
     #for config in [[4, 4], [8, 8], [16, 16], [32, 32], [64, 64]]:
     # for config in [[64, 64]]:
-    for config in [[16, 16], [32,32]]:
+    for config in [[16, 16]]:
         rows = config[0]
         cols = config[1]
         rows_res = rows // 2
