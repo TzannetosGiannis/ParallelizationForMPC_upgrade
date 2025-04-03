@@ -115,8 +115,7 @@ def get_biometric_inputs() -> tuple[list[InputArgs], int]:
     non_vec_up_to = 0 #6# Only run non-vectorized benchmark upto this index
     # for config in [[4, 4], [4, 8], [4, 16], [4, 32], [4, 64], [4, 128], [4, 256], [4, 512], [4, 1024], [4, 2048], [4, 4096]]:
     # for config in [[4, 128], [4, 4096]]:
-    # for config in [[4,512], [4,1024]]:
-    for config in [[4,128]]:
+    for config in [[4,512], [4,1024]]:
         D = config[0]
         N = config[1]
         args = [
@@ -188,8 +187,7 @@ def get_convex_hull_inputs():
     non_vec_up_to = 0
     #for N in [4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096]:
     # for N in [32, 256]:
-    # for N in [32, 64, 128]:
-    for N in [32]:
+    for N in [32, 64, 128]:
         args = [
         "--N", "{}".format(N),
         ]
@@ -213,8 +211,7 @@ def get_count_102_inputs():
     all_args = []
     non_vec_up_to = 0
     #for N in [8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096]:
-    # for N in [1024, 4096]:
-    for N in [1024]:
+    for N in [1024, 4096]:
         args = [
         "--N", "{}".format(N),
         ]
@@ -232,8 +229,7 @@ def get_count_10s_inputs():
     all_args = []
     non_vec_up_to = 0
     #for N in [8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096]:
-    # for N in [1024, 4096]:
-    for N in [1024]:
+    for N in [1024, 4096]:
         args = [
         "--N", "{}".format(N),
         ]
@@ -251,8 +247,7 @@ def get_count_123_inputs():
     all_args = []
     non_vec_up_to = 0
     #for N in [8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096]:
-    # for N in [1024, 4096]:
-    for N in [1024]:
+    for N in [1024, 4096]:
         args = [
         "--N", "{}".format(N),
         ]
@@ -298,8 +293,7 @@ def get_db_cross_join_trivial_inputs():
     all_args = []
     non_vec_up_to = 0
     #for N in [4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048]:
-    # for N in [32, 64]:
-    for N in [32]:
+    for N in [32, 64]:
         Len_A = N
         Len_B = N
         args = [
@@ -323,8 +317,7 @@ def get_db_variance_inputs():
     all_args = []
     non_vec_up_to = 0
     #for N in [8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096]:
-    # for N in [512, 4096]:
-    for N in [512]:
+    for N in [512, 4096]:
         args = [
         "--len", "{}".format(N),
         ]
@@ -343,8 +336,7 @@ def get_histogram_inputs():
     num_bins = 5
     non_vec_up_to = 0
     #for N in [8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096]:
-    # for N in [512, 4096]:
-    for N in [512]:
+    for N in [512, 4096]:
         args = [
         "--num_bins", "{}".format(num_bins),
         "--N", "{}".format(N),
@@ -366,8 +358,7 @@ def get_inner_product_inputs()-> tuple[list[InputArgs], int]:
     all_args = []
     non_vec_up_to = 0#8
     #for N in [4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096]:
-    # for N in [512, 4096]:
-    for N in [512]:
+    for N in [512, 4096]:
         args = [
         "--N", "{}".format(N),
         ]
@@ -386,8 +377,7 @@ def get_kmeans_iteration_inputs():
     num_bins = 5
     non_vec_up_to = 0
     #for config in [[32, 5], [32, 8], [64, 8], [128, 8], [200, 5], [256, 8]]:
-    # for config in [[32, 5], [256, 8]]:
-    for config in [[32, 5]]:
+    for config in [[32, 5], [256, 8]]:
         len = config[0]
         num_cluster = config[1]
         data_x = [i for i in range(len)]
@@ -425,8 +415,7 @@ def get_longest_odd_10_inputs():
     all_args = []
     non_vec_up_to = 0
     #for N in [8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096]:
-    # for N in [2048]:
-    for N in [512]:
+    for N in [2048]:
         args = [
         "--N", str(N),
         ]
@@ -444,8 +433,7 @@ def get_max_dist_between_syms_inputs():
     all_args = []
     non_vec_up_to = 0
     # for N in [8, 16, 32, 64, 128, 256, 512, 1024, 4096]:
-    # for N in [1024, 2048]:
-    for N in [512]:
+    for N in [1024, 2048]:
         args = [
         "--N", "{}".format(N),
         ]
@@ -464,8 +452,7 @@ def get_mnist_relu_inputs()-> tuple[list[InputArgs], int]:
     all_args = []
     non_vec_up_to = 0
     #for config in [[16, 16], [16, 32], [16, 64], [16, 128], [16, 256], [16, 512], [16, 1024]]:
-    # for config in [[16, 512], [16, 2048]]:
-    for config in [[16, 512]]:
+    for config in [[16, 512], [16, 2048]]:
         len_inner = config[0]
         len_outer = config[1]
         args = [
@@ -486,8 +473,7 @@ def get_psi_inputs()-> tuple[list[InputArgs], int]:
     all_args = []
     non_vec_up_to = 0
     #for config in [[16, 16], [32, 32], [64, 64], [128, 128], [256, 256], [512, 512], [1024, 1024]]:#[2048, 2084], [4096, 4096]]:
-    # for config in [[128, 128], [1024, 1024]]:
-    for config in [[128, 128], [256,256]]:
+    for config in [[128, 128], [1024, 1024]]:
         SA = config[0]
         SB = config[1]
         args = [

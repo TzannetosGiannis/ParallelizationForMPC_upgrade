@@ -1359,6 +1359,6 @@ def mix_protocols(filename: str, type_env: TypeEnv, body: list[Statement], dep_g
     # populateConstantsAndPlaintexts(best, {var for var, t in type_env.items() if t.visibility and t.visibility.value == 'plaintext'})
     if runningSpdz:
         populateFlags(best)
-    print(best)
+    print(OrderedConfig(best))
     verifyCosts(best)
     return OrderedConfig(best)
