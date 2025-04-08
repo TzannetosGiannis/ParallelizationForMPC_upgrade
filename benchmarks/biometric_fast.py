@@ -56,11 +56,8 @@ D = 4
 N = 4
 C = [1, 2, 3, 4]
 S = [4, 5, 2, 10, 2, 120, 4, 10, 99, 88, 77, 66, 55, 44, 33, 22]
-S_sqr_sum = [0] * N
 two_C = [2 * C[i] for i in range(D)]
 C_sqr_sum = sum(val * val for val in C)
 S_sqr_sum = [sum(S[i * D + j] * S[i * D + j] for j in range(D)) for i in range(N)]
-
 differences = [0] * D
-
 print(biometric_fast(D, N, C_sqr_sum, two_C, S, S_sqr_sum, differences))

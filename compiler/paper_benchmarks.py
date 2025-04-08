@@ -14,6 +14,7 @@ import json
 import socket
 from os.path import isfile
 import datetime
+import time
 
 import compiler
 
@@ -187,14 +188,14 @@ def get_convex_hull_inputs():
     non_vec_up_to = 0
     #for N in [4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096]:
     # for N in [32, 256]:
-    for N in [32, 64, 128]:
+    for N in [32, 64, 128, 256]:
         args = [
         "--N", "{}".format(N),
         ]
         X_coords = get_rand_ints(N)
         Y_coords = get_rand_ints(N)
-        result_X = get_rand_ints(N)
-        result_Y = get_rand_ints(N)
+        result_X = [0]*N
+        result_Y = [0]*N
         args.append("--X_coords")
         args.extend(list(map(str, X_coords)))
         args.append("--Y_coords")
@@ -477,8 +478,8 @@ def get_psi_inputs()-> tuple[list[InputArgs], int]:
         SA = config[0]
         SB = config[1]
         args = [
-        "--SA", "{}".format(SA),
-        "--SB", "{}".format(SB),
+        "--D", "{}".format(SA),
+        "--R", "{}".format(SB),
         ]
         A = get_rand_ints(SA)
         B = get_rand_ints(SB)
@@ -665,6 +666,8 @@ def run_server_role_spdz(address):
 
 def getSummaryStats(stats, backend):
     n = len(stats)
+    if n == 0:
+        return {'NO RESULTS RECEIVED': -1}
     totalTime = 0.0
     totalDataSent = 0.0
     totalCommRounds = 0
@@ -730,7 +733,7 @@ def run_client_role_spdz(address, resultsDict):
             log.info("\n{} - arguments: {}".format(test_case_dir.name, args.args));
             for protocol in [None, 'A', 'B', 'X', 'Y']:
                 pName = protocol if protocol else 'mixed'
-                if pName in spdzDict[test_case_dir.name][argStr].keys():
+                if pName in spdzDict[test_case_dir.name][argStr].keys() and spdzDict[test_case_dir.name][argStr][pName] != dict():
                     continue
                 try:
                     curList = []
@@ -818,7 +821,7 @@ def run_client_role_motion(address, resultsDict):
 
             for protocol in [None, 'ArithmeticGmw', 'BooleanGmw', 'Bmr']:
                 pName = protocol if protocol else 'mixed'
-                if pName in motionDict[test_case_dir.name][argStr].keys():
+                if pName in motionDict[test_case_dir.name][argStr].keys() and motionDict[test_case_dir.name][argStr][pName] != dict():
                     continue
                 try:
                     curList = []
@@ -837,7 +840,7 @@ def run_client_role_motion(address, resultsDict):
                             protocol=protocol,
                             vectorized=vectorized
                         )
-                        
+
                         if j == 0:
                             compile_benchmark_motion(
                                 benchmark_name=test_case_dir.name,
@@ -848,6 +851,7 @@ def run_client_role_motion(address, resultsDict):
                             )
 
                         write_message(server_sock, request)
+                        time.sleep(20)
                         p1 = motion_run_benchmark_for_party(
                             myid=MPC_PARTY_CLIENT_ID,
                             party0_mpc_addr=mpc_party_server,
@@ -923,7 +927,6 @@ if __name__ == "__main__":
             resultsDict = json.load(open(args.file))
         if args.backend not in resultsDict.keys():
             resultsDict[args.backend] = dict()
-
         if args.backend == 'MOTION':
             run_client_role_motion(args.address, resultsDict)
         elif args.backend == 'MP-SPDZ':
