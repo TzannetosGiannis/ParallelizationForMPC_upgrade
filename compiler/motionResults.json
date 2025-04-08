@@ -640,5 +640,701 @@
                 "mixed": "ERROR: float division by zero"
             }
         }
+    },
+    "MP-SPDZ": {
+        "biometric": {
+            "D = 4, N = 1024": {
+                "A": "ERROR: [Errno 32] Broken pipe",
+                "B": "ERROR: [Errno 32] Broken pipe",
+                "X": "ERROR: [Errno 32] Broken pipe",
+                "Y": "ERROR: [Errno 32] Broken pipe",
+                "mixed": "ERROR: [Errno 32] Broken pipe"
+            },
+            "D = 4, N = 512": {
+                "A": {
+                    "commRounds": 8919.0,
+                    "dataSent": 203.34099999999998,
+                    "time": 2.4288119999999997
+                },
+                "B": {
+                    "commRounds": 8830.0,
+                    "dataSent": 19.348800000000004,
+                    "time": 0.7635681999999999
+                },
+                "X": {
+                    "commRounds": 9525.0,
+                    "dataSent": 11.063500000000001,
+                    "time": 0.8028563
+                },
+                "Y": {
+                    "commRounds": 9509.0,
+                    "dataSent": 10.6241,
+                    "time": 0.6744062999999999
+                },
+                "mixed": {
+                    "commRounds": 7489.0,
+                    "dataSent": 8.79025,
+                    "time": 0.5720246
+                }
+            }
+        },
+        "biometric_fast": {
+            "D = 4, N = 128": {
+                "A": {
+                    "commRounds": 2244.0,
+                    "dataSent": 53.1601,
+                    "time": 0.6517801999999999
+                },
+                "B": {
+                    "commRounds": 2522.0,
+                    "dataSent": 4.18882,
+                    "time": 0.23068199999999997
+                },
+                "X": {
+                    "commRounds": 2397.0,
+                    "dataSent": 2.7867500000000005,
+                    "time": 0.22171730000000003
+                },
+                "Y": {
+                    "commRounds": 2576.0,
+                    "dataSent": 2.70018,
+                    "time": 0.2047092
+                },
+                "mixed": {
+                    "commRounds": 2085.0,
+                    "dataSent": 2.4605199999999994,
+                    "time": 0.17418570000000005
+                }
+            }
+        },
+        "chapterfour_figure_12": {
+            "x=99, y=81": {
+                "A": {
+                    "commRounds": 34.0,
+                    "dataSent": 0.7728539999999999,
+                    "time": 0.01862451
+                },
+                "B": {
+                    "commRounds": 28.0,
+                    "dataSent": 0.010942999999999998,
+                    "time": 0.005937212999999999
+                },
+                "X": {
+                    "commRounds": 45.0,
+                    "dataSent": 0.03988400000000001,
+                    "time": 0.011232524
+                },
+                "Y": {
+                    "commRounds": 285.0,
+                    "dataSent": 0.12512900000000002,
+                    "time": 0.03010235
+                },
+                "mixed": {
+                    "commRounds": 28.0,
+                    "dataSent": 0.010942999999999998,
+                    "time": 0.005786142
+                }
+            }
+        },
+        "count_102": {
+            "N = 1024": {
+                "A": {
+                    "commRounds": 9106.0,
+                    "dataSent": 622.169,
+                    "time": 6.4820139999999995
+                },
+                "B": {
+                    "commRounds": 8301.0,
+                    "dataSent": 1.98833,
+                    "time": 0.4632746
+                },
+                "X": {
+                    "commRounds": 7802.0,
+                    "dataSent": 20.1371,
+                    "time": 0.973685
+                },
+                "Y": {
+                    "commRounds": 6970.0,
+                    "dataSent": 17.391799999999996,
+                    "time": 0.525218
+                },
+                "mixed": {
+                    "commRounds": 8301.0,
+                    "dataSent": 1.98833,
+                    "time": 0.46582920000000005
+                }
+            },
+            "N = 4096": {
+                "A": "ERROR: [Errno 32] Broken pipe",
+                "B": "ERROR: [Errno 32] Broken pipe",
+                "X": "ERROR: [Errno 32] Broken pipe",
+                "Y": "ERROR: [Errno 32] Broken pipe",
+                "mixed": "ERROR: [Errno 32] Broken pipe"
+            }
+        },
+        "count_10s": {
+            "N = 1024": {
+                "A": {
+                    "commRounds": 9106.0,
+                    "dataSent": 622.169,
+                    "time": 6.430421999999998
+                },
+                "B": {
+                    "commRounds": 8299.0,
+                    "dataSent": 1.98833,
+                    "time": 0.47017870000000006
+                },
+                "X": {
+                    "commRounds": 7802.0,
+                    "dataSent": 20.1371,
+                    "time": 0.9911135
+                },
+                "Y": {
+                    "commRounds": 6970.0,
+                    "dataSent": 17.391799999999996,
+                    "time": 0.5253497
+                },
+                "mixed": {
+                    "commRounds": 8299.0,
+                    "dataSent": 1.98833,
+                    "time": 0.47384190000000004
+                }
+            },
+            "N = 4096": {
+                "A": {
+                    "commRounds": 36369.0,
+                    "dataSent": 2485.5999999999995,
+                    "time": 25.591469999999997
+                },
+                "B": {
+                    "commRounds": 32952.0,
+                    "dataSent": 8.188819999999998,
+                    "time": 1.798244
+                },
+                "X": {
+                    "commRounds": 31106.0,
+                    "dataSent": 82.80240000000002,
+                    "time": 3.7199189999999995
+                },
+                "Y": {
+                    "commRounds": 27749.0,
+                    "dataSent": 71.78229999999999,
+                    "time": 1.9597849999999997
+                },
+                "mixed": {
+                    "commRounds": 32952.0,
+                    "dataSent": 8.188819999999998,
+                    "time": 1.6917449999999998
+                }
+            }
+        },
+        "count_123": {
+            "N = 1024": {
+                "A": {
+                    "commRounds": 9115.0,
+                    "dataSent": 625.2839999999999,
+                    "time": 6.444485
+                },
+                "B": {
+                    "commRounds": 8301.0,
+                    "dataSent": 1.9969100000000002,
+                    "time": 0.4647545
+                },
+                "X": {
+                    "commRounds": 7811.0,
+                    "dataSent": 23.3254,
+                    "time": 1.0028001
+                },
+                "Y": {
+                    "commRounds": 6979.0,
+                    "dataSent": 20.580100000000005,
+                    "time": 0.5643081
+                },
+                "mixed": {
+                    "commRounds": 8301.0,
+                    "dataSent": 1.9969100000000002,
+                    "time": 0.46302809999999994
+                }
+            },
+            "N = 4096": {
+                "A": "ERROR: [Errno 32] Broken pipe",
+                "B": "ERROR: [Errno 32] Broken pipe",
+                "X": "ERROR: [Errno 32] Broken pipe",
+                "Y": "ERROR: [Errno 32] Broken pipe",
+                "mixed": "ERROR: [Errno 32] Broken pipe"
+            }
+        },
+        "db_cross_join_trivial": {
+            "32, 32": {
+                "A": {
+                    "commRounds": 11780.0,
+                    "dataSent": 2473.2099999999996,
+                    "time": 24.459200000000003
+                },
+                "B": {
+                    "commRounds": 71.0,
+                    "dataSent": 3.505119999999999,
+                    "time": 0.12194329999999998
+                },
+                "X": {
+                    "commRounds": 6517.0,
+                    "dataSent": 70.4113,
+                    "time": 2.650826
+                },
+                "Y": {
+                    "commRounds": 3400.0,
+                    "dataSent": 60.3389,
+                    "time": 0.9025917000000001
+                },
+                "mixed": {
+                    "commRounds": 71.0,
+                    "dataSent": 3.505119999999999,
+                    "time": 0.116807
+                }
+            },
+            "64, 64": {
+                "A": "ERROR: [Errno 32] Broken pipe",
+                "B": "ERROR: [Errno 32] Broken pipe",
+                "X": "ERROR: [Errno 32] Broken pipe",
+                "Y": "ERROR: [Errno 32] Broken pipe",
+                "mixed": "ERROR: [Errno 32] Broken pipe"
+            }
+        },
+        "db_variance": {
+            "len = 4096": {
+                "A": "ERROR: [Errno 32] Broken pipe",
+                "B": "ERROR: [Errno 32] Broken pipe",
+                "X": "ERROR: [Errno 32] Broken pipe",
+                "Y": "ERROR: [Errno 32] Broken pipe",
+                "mixed": "ERROR: [Errno 32] Broken pipe"
+            },
+            "len = 512": {
+                "A": {
+                    "commRounds": 434.0,
+                    "dataSent": 28.0601,
+                    "time": 0.2722397
+                },
+                "B": "ERROR: [Errno 32] Broken pipe",
+                "X": "ERROR: [Errno 32] Broken pipe",
+                "Y": "ERROR: [Errno 32] Broken pipe",
+                "mixed": {
+                    "commRounds": 2768.0,
+                    "dataSent": 4.161450000000001,
+                    "time": 0.2378569
+                }
+            }
+        },
+        "inner_product": {
+            "N = 4096": {
+                "A": {
+                    "commRounds": 42.0,
+                    "dataSent": 12.775400000000001,
+                    "time": 0.14411630000000003
+                },
+                "B": {
+                    "commRounds": 8634.0,
+                    "dataSent": 26.223400000000005,
+                    "time": 0.783895
+                },
+                "X": {
+                    "commRounds": 42.0,
+                    "dataSent": 12.775400000000001,
+                    "time": 0.1414261
+                },
+                "Y": {
+                    "commRounds": 42.0,
+                    "dataSent": 12.775400000000001,
+                    "time": 0.14269780000000004
+                },
+                "mixed": {
+                    "commRounds": 42.0,
+                    "dataSent": 12.775400000000001,
+                    "time": 0.1427294
+                }
+            },
+            "N = 512": {
+                "A": {
+                    "commRounds": 14.0,
+                    "dataSent": 1.5991,
+                    "time": 0.028815159999999996
+                },
+                "B": {
+                    "commRounds": 1187.0,
+                    "dataSent": 3.4154100000000005,
+                    "time": 0.1226035
+                },
+                "X": {
+                    "commRounds": 14.0,
+                    "dataSent": 1.5991,
+                    "time": 0.028852120000000002
+                },
+                "Y": {
+                    "commRounds": 14.0,
+                    "dataSent": 1.5991,
+                    "time": 0.028854519999999995
+                },
+                "mixed": {
+                    "commRounds": 14.0,
+                    "dataSent": 1.5991,
+                    "time": 0.028843919999999995
+                }
+            }
+        },
+        "longest_102": {
+            "N = 1024": {
+                "A": {
+                    "commRounds": 28949.0,
+                    "dataSent": 1016.4100000000001,
+                    "time": 11.1047
+                },
+                "B": {
+                    "commRounds": 20549.0,
+                    "dataSent": 2.8413499999999994,
+                    "time": 1.1566670000000001
+                },
+                "X": {
+                    "commRounds": 28844.0,
+                    "dataSent": 32.6551,
+                    "time": 2.462558
+                },
+                "Y": {
+                    "commRounds": 27729.0,
+                    "dataSent": 28.9852,
+                    "time": 1.7642529999999996
+                },
+                "mixed": {
+                    "commRounds": 20549.0,
+                    "dataSent": 2.8413499999999994,
+                    "time": 1.145078
+                }
+            },
+            "N = 4096": {
+                "A": "ERROR: [Errno 32] Broken pipe",
+                "B": "ERROR: [Errno 32] Broken pipe",
+                "X": "ERROR: [Errno 32] Broken pipe",
+                "Y": "ERROR: [Errno 32] Broken pipe",
+                "mixed": "ERROR: [Errno 32] Broken pipe"
+            }
+        },
+        "longest_odd_10": {
+            "N = 2048": {
+                "A": "ERROR: [Errno 32] Broken pipe",
+                "B": "ERROR: [Errno 32] Broken pipe",
+                "X": "ERROR: [Errno 32] Broken pipe",
+                "Y": "ERROR: [Errno 32] Broken pipe",
+                "mixed": {
+                    "commRounds": 41136.0,
+                    "dataSent": 7.09131,
+                    "time": 2.2708130000000004
+                }
+            }
+        },
+        "max_dist_between_syms": {
+            "N = 1024": {
+                "A": {
+                    "commRounds": 20825.0,
+                    "dataSent": 595.388,
+                    "time": 6.735538000000001
+                },
+                "B": {
+                    "commRounds": 14406.0,
+                    "dataSent": 2.2537999999999996,
+                    "time": 0.8040395
+                },
+                "X": {
+                    "commRounds": 21599.0,
+                    "dataSent": 11.817499999999999,
+                    "time": 1.7214690000000001
+                },
+                "Y": {
+                    "commRounds": 21044.0,
+                    "dataSent": 9.983270000000001,
+                    "time": 1.24768
+                },
+                "mixed": {
+                    "commRounds": 14406.0,
+                    "dataSent": 2.2537999999999996,
+                    "time": 0.8055565999999998
+                }
+            },
+            "N = 2048": {
+                "A": {
+                    "commRounds": 41625.0,
+                    "dataSent": 1187.6900000000003,
+                    "time": 13.39822
+                },
+                "B": {
+                    "commRounds": 28770.0,
+                    "dataSent": 4.50078,
+                    "time": 1.5743940000000003
+                },
+                "X": {
+                    "commRounds": 43169.0,
+                    "dataSent": 23.631300000000003,
+                    "time": 3.3668880000000003
+                },
+                "Y": {
+                    "commRounds": 42051.0,
+                    "dataSent": 19.952,
+                    "time": 2.50937
+                },
+                "mixed": {
+                    "commRounds": 28770.0,
+                    "dataSent": 4.50078,
+                    "time": 1.531849
+                }
+            }
+        },
+        "max_sum_between_syms": {
+            "N = 1024": {
+                "A": {
+                    "commRounds": 20825.0,
+                    "dataSent": 595.388,
+                    "time": 6.730625000000001
+                },
+                "B": {
+                    "commRounds": 14406.0,
+                    "dataSent": 2.2537999999999996,
+                    "time": 0.7909421999999999
+                },
+                "X": {
+                    "commRounds": 21599.0,
+                    "dataSent": 11.817499999999999,
+                    "time": 1.697007
+                },
+                "Y": {
+                    "commRounds": 21044.0,
+                    "dataSent": 9.983270000000001,
+                    "time": 1.2467679999999999
+                },
+                "mixed": {
+                    "commRounds": 14406.0,
+                    "dataSent": 2.2537999999999996,
+                    "time": 0.8344643999999999
+                }
+            },
+            "N = 2048": {
+                "A": {
+                    "commRounds": 41625.0,
+                    "dataSent": 1187.6900000000003,
+                    "time": 13.4388
+                },
+                "B": {
+                    "commRounds": 28770.0,
+                    "dataSent": 4.50078,
+                    "time": 1.591258
+                },
+                "X": {
+                    "commRounds": 43169.0,
+                    "dataSent": 23.631300000000003,
+                    "time": 3.402136
+                },
+                "Y": {
+                    "commRounds": 42051.0,
+                    "dataSent": 19.952,
+                    "time": 2.433808
+                },
+                "mixed": {
+                    "commRounds": 28770.0,
+                    "dataSent": 4.50078,
+                    "time": 1.5858349999999999
+                }
+            }
+        },
+        "minimal_points": {
+            "N = 128": {
+                "A": {
+                    "commRounds": 44840.0,
+                    "dataSent": 12410.100000000002,
+                    "time": 117.7378
+                },
+                "B": {
+                    "commRounds": 514.0,
+                    "dataSent": 18.0239,
+                    "time": 0.2716167
+                },
+                "X": {
+                    "commRounds": 17914.0,
+                    "dataSent": 201.06400000000002,
+                    "time": 7.298497
+                },
+                "Y": {
+                    "commRounds": 8861.0,
+                    "dataSent": 171.37799999999996,
+                    "time": 2.4274440000000004
+                },
+                "mixed": {
+                    "commRounds": 514.0,
+                    "dataSent": 18.0239,
+                    "time": 0.2624406
+                }
+            },
+            "N = 32": {
+                "A": {
+                    "commRounds": 2872.0,
+                    "dataSent": 776.022,
+                    "time": 7.410961
+                },
+                "B": {
+                    "commRounds": 112.0,
+                    "dataSent": 1.15569,
+                    "time": 0.03268021
+                },
+                "X": {
+                    "commRounds": 1199.0,
+                    "dataSent": 12.5206,
+                    "time": 0.496061
+                },
+                "Y": {
+                    "commRounds": 641.0,
+                    "dataSent": 10.676999999999998,
+                    "time": 0.19620110000000002
+                },
+                "mixed": {
+                    "commRounds": 112.0,
+                    "dataSent": 1.15569,
+                    "time": 0.0347394
+                }
+            },
+            "N = 64": {
+                "A": {
+                    "commRounds": 11294.0,
+                    "dataSent": 3104.0800000000004,
+                    "time": 29.446559999999998
+                },
+                "B": {
+                    "commRounds": 218.0,
+                    "dataSent": 4.528489999999999,
+                    "time": 0.08353223
+                },
+                "X": {
+                    "commRounds": 4569.0,
+                    "dataSent": 50.0014,
+                    "time": 1.8848419999999997
+                },
+                "Y": {
+                    "commRounds": 2308.0,
+                    "dataSent": 42.57979999999999,
+                    "time": 0.6469916
+                },
+                "mixed": {
+                    "commRounds": 218.0,
+                    "dataSent": 4.528489999999999,
+                    "time": 0.08576215000000001
+                }
+            }
+        },
+        "mnist_relu": {
+            "16, 2048": {
+                "A": {
+                    "commRounds": 44575.0,
+                    "dataSent": 12407.600000000002,
+                    "time": 117.05059999999999
+                },
+                "B": {
+                    "commRounds": 256.0,
+                    "dataSent": 18.795999999999996,
+                    "time": 0.35324079999999997
+                },
+                "X": {
+                    "commRounds": 17649.0,
+                    "dataSent": 198.49499999999998,
+                    "time": 7.240077000000001
+                },
+                "Y": {
+                    "commRounds": 8596.0,
+                    "dataSent": 168.808,
+                    "time": 2.4398540000000004
+                },
+                "mixed": {
+                    "commRounds": 256.0,
+                    "dataSent": 18.795999999999996,
+                    "time": 0.3597585
+                }
+            },
+            "16, 512": {
+                "A": {
+                    "commRounds": 11164.0,
+                    "dataSent": 3104.2099999999996,
+                    "time": 29.48508
+                },
+                "B": {
+                    "commRounds": 88.0,
+                    "dataSent": 5.10373,
+                    "time": 0.11327469999999999
+                },
+                "X": {
+                    "commRounds": 4439.0,
+                    "dataSent": 49.73930000000001,
+                    "time": 1.847765
+                },
+                "Y": {
+                    "commRounds": 2178.0,
+                    "dataSent": 42.31759999999999,
+                    "time": 0.6680370000000001
+                },
+                "mixed": {
+                    "commRounds": 88.0,
+                    "dataSent": 5.10373,
+                    "time": 0.11171689999999998
+                }
+            }
+        },
+        "psi": {
+            "SA = 1024, SB = 1024": {
+                "A": {
+                    "commRounds": 75.0,
+                    "dataSent": 7.07649,
+                    "time": 0.0966774
+                },
+                "B": {
+                    "commRounds": 44.0,
+                    "dataSent": 0.030445999999999994,
+                    "time": 0.009554572999999998
+                },
+                "X": {
+                    "commRounds": 72.0,
+                    "dataSent": 0.23457600000000006,
+                    "time": 0.01877294
+                },
+                "Y": {
+                    "commRounds": 295.0,
+                    "dataSent": 0.259824,
+                    "time": 0.034276320000000006
+                },
+                "mixed": {
+                    "commRounds": 44.0,
+                    "dataSent": 0.030445999999999994,
+                    "time": 0.009255468
+                }
+            },
+            "SA = 128, SB = 128": {
+                "A": {
+                    "commRounds": 75.0,
+                    "dataSent": 7.07649,
+                    "time": 0.09523736000000002
+                },
+                "B": {
+                    "commRounds": 44.0,
+                    "dataSent": 0.030445999999999994,
+                    "time": 0.009010854
+                },
+                "X": {
+                    "commRounds": 72.0,
+                    "dataSent": 0.23457600000000006,
+                    "time": 0.01902645
+                },
+                "Y": {
+                    "commRounds": 295.0,
+                    "dataSent": 0.259824,
+                    "time": 0.03345315
+                },
+                "mixed": {
+                    "commRounds": 44.0,
+                    "dataSent": 0.030445999999999994,
+                    "time": 0.008848103
+                }
+            }
+        }
     }
 }
