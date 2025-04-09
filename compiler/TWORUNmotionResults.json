@@ -83,6 +83,24 @@
                     "time": 0.8013735
                 }
             },
+            "x=69, y=14": {
+                "ArithmeticGmw": "ERROR: No valid mix found",
+                "Bmr": {
+                    "commRounds": 972.0,
+                    "dataSent": 0.087,
+                    "time": 0.4503905
+                },
+                "BooleanGmw": {
+                    "commRounds": 751.0,
+                    "dataSent": 0.048,
+                    "time": 0.52627
+                },
+                "mixed": {
+                    "commRounds": 1176.0,
+                    "dataSent": 0.098,
+                    "time": 0.8504594999999999
+                }
+            },
             "x=99, y=81": {
                 "ArithmeticGmw": "ERROR: No valid mix found",
                 "Bmr": {
@@ -99,6 +117,80 @@
                     "commRounds": 1176.0,
                     "dataSent": 0.098,
                     "time": 0.8070744999999999
+                }
+            }
+        },
+        "convex_hull": {
+            "N = 128": {
+                "ArithmeticGmw": "ERROR: No valid mix found",
+                "Bmr": {
+                    "commRounds": 3480.0,
+                    "dataSent": 494.899,
+                    "time": 29.9494015
+                },
+                "BooleanGmw": {
+                    "commRounds": 1880.0,
+                    "dataSent": 63.5,
+                    "time": 16.0684245
+                },
+                "mixed": {
+                    "commRounds": 2041.0,
+                    "dataSent": 66.907,
+                    "time": 15.999461499999999
+                }
+            },
+            "N = 256": {
+                "ArithmeticGmw": "ERROR: No valid mix found",
+                "Bmr": {
+                    "commRounds": 5016.0,
+                    "dataSent": 1967.232,
+                    "time": 125.32658800000002
+                },
+                "BooleanGmw": {
+                    "commRounds": 2392.0,
+                    "dataSent": 252.728,
+                    "time": 64.4405415
+                },
+                "mixed": {
+                    "commRounds": 2553.0,
+                    "dataSent": 259.534,
+                    "time": 62.697435999999996
+                }
+            },
+            "N = 32": {
+                "ArithmeticGmw": "ERROR: No valid mix found",
+                "Bmr": {
+                    "commRounds": 2328.0,
+                    "dataSent": 32.156,
+                    "time": 2.4629659999999998
+                },
+                "BooleanGmw": {
+                    "commRounds": 1496.0,
+                    "dataSent": 4.135,
+                    "time": 2.8591485
+                },
+                "mixed": {
+                    "commRounds": 2081.0,
+                    "dataSent": 5.763,
+                    "time": 1.551819
+                }
+            },
+            "N = 64": {
+                "ArithmeticGmw": "ERROR: No valid mix found",
+                "Bmr": {
+                    "commRounds": 2712.0,
+                    "dataSent": 125.309,
+                    "time": 7.784369999999999
+                },
+                "BooleanGmw": {
+                    "commRounds": 1624.0,
+                    "dataSent": 16.062,
+                    "time": 4.148922
+                },
+                "mixed": {
+                    "commRounds": 2369.0,
+                    "dataSent": 19.766,
+                    "time": 4.4789645
                 }
             }
         },
@@ -213,6 +305,26 @@
                     "commRounds": 1221195.0,
                     "dataSent": 127.881,
                     "time": 139.7929425
+                }
+            }
+        },
+        "cryptonets_max_pooling": {
+            "rows = 16, cols = 16": {
+                "ArithmeticGmw": "ERROR: No valid mix found",
+                "Bmr": {
+                    "commRounds": 1639.0,
+                    "dataSent": 3.065,
+                    "time": 0.658022
+                },
+                "BooleanGmw": {
+                    "commRounds": 994.0,
+                    "dataSent": 0.33,
+                    "time": 0.8800574999999999
+                },
+                "mixed": {
+                    "commRounds": 1639.0,
+                    "dataSent": 3.065,
+                    "time": 0.6860165
                 }
             }
         },
@@ -545,6 +657,24 @@
                     "time": 11.318535
                 }
             },
+            "N = 256": {
+                "ArithmeticGmw": "ERROR: No valid mix found",
+                "Bmr": {
+                    "commRounds": 4300.0,
+                    "dataSent": 997.059,
+                    "time": 61.110089
+                },
+                "BooleanGmw": {
+                    "commRounds": 1776.0,
+                    "dataSent": 185.731,
+                    "time": 44.217090999999996
+                },
+                "mixed": {
+                    "commRounds": 1776.0,
+                    "dataSent": 185.731,
+                    "time": 43.4322625
+                }
+            },
             "N = 32": {
                 "ArithmeticGmw": "ERROR: No valid mix found",
                 "Bmr": {
@@ -623,21 +753,39 @@
         "psi": {
             "SA = 1024, SB = 1024": {
                 "ArithmeticGmw": "ERROR: No valid mix found",
-                "Bmr": "ERROR: float division by zero",
-                "BooleanGmw": "ERROR: float division by zero",
-                "mixed": "ERROR: float division by zero"
+                "Bmr": {
+                    "commRounds": 10914.0,
+                    "dataSent": 7709.569,
+                    "time": 527.9364255
+                },
+                "BooleanGmw": {
+                    "commRounds": 3526.0,
+                    "dataSent": 527.952,
+                    "time": 170.56827149999998
+                },
+                "mixed": {
+                    "commRounds": 3526.0,
+                    "dataSent": 527.952,
+                    "time": 195.615697
+                }
             },
             "SA = 128, SB = 128": {
                 "ArithmeticGmw": "ERROR: No valid mix found",
-                "Bmr": "ERROR: float division by zero",
-                "BooleanGmw": "ERROR: float division by zero",
-                "mixed": "ERROR: float division by zero"
-            },
-            "SA = 256, SB = 256": {
-                "ArithmeticGmw": "ERROR: No valid mix found",
-                "Bmr": "ERROR: float division by zero",
-                "BooleanGmw": "ERROR: float division by zero",
-                "mixed": "ERROR: float division by zero"
+                "Bmr": {
+                    "commRounds": 1954.0,
+                    "dataSent": 121.545,
+                    "time": 8.360017500000001
+                },
+                "BooleanGmw": {
+                    "commRounds": 838.0,
+                    "dataSent": 8.298,
+                    "time": 2.7703075000000004
+                },
+                "mixed": {
+                    "commRounds": 838.0,
+                    "dataSent": 8.298,
+                    "time": 2.8170865000000003
+                }
             }
         }
     },

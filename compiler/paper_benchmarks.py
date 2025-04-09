@@ -693,16 +693,48 @@ def getSummaryStats(stats, backend):
     return {'time': totalTime/n, 'dataSent': totalDataSent/n, 'commRounds': totalCommRounds/n}
 
 
-def saveToJSON(results):
-    fileName = timestamp + '_benchmarkResults.json'
-    results = json.dumps(results, sort_keys=True, indent=4)
-    print(f'Writing {fileName}')
-    with open(fileName, 'w') as f:
-        f.write(results)
+def getIndividualStats(stats, backend):
+    n = len(stats)
+    if n == 0:
+        return {'NO RESULTS RECEIVED': -1}
+    timeList = []
+    # dataSentList = []
+    # commRoundsList = []
+    for stat in stats:
+        if backend == 'MP-SPDZ':
+            timeList.append(float(stat.time_seconds))
+            # dataSentList.append(float(stat.data_sent_mb))
+            # commRoundsList.append(int(stat.communication_rounds))
+        elif backend == 'MOTION':
+            print(stat.timing_stats)
+            # assert len(stat.timing_stats.preprocess_total.readings) == 1
+            # totalTime += float(stat.timing_stats.preprocess_total.readings[0] / 1000)
+            # assert len(stat.timing_stats.gates_setup.readings) == 1
+            # totalTime += float(stat.timing_stats.gates_setup.readings[0] / 1000)
+            # assert len(stat.timing_stats.gates_online.readings) == 1
+            # totalTime += float(stat.timing_stats.gates_online.readings[0] / 1000)
+            assert len(stat.timing_stats.circuit_evaluation.readings) == 1
+            timeList.append(float(stat.timing_stats.circuit_evaluation.readings[0] / 1000))
+            # dataSentList.append(float(stat.timing_stats.communication.send_size))
+            # commRoundsList.append(int(stat.timing_stats.communication.send_num_msgs))
+        else:
+            raise Exception("BACKEND NOT IMPLEMENTED")
+    # return {'time': timeList, 'dataSent': dataSentList, 'commRounds': commRoundsList}
+    return {'time': timeList}
 
 
-def run_client_role_spdz(address, resultsDict):
+def saveToJSON(results, resultsDetailed):
+    fileNames = [timestamp + '_benchmarkResults.json', timestamp + '_DETAILED_benchmarkResults.json']
+    for fileName in fileNames:
+        results = json.dumps(resultsDetailed if '_DETAILED_' in fileName else results, sort_keys=True, indent=4)
+        print(f'Writing {fileName}')
+        with open(fileName, 'w') as f:
+            f.write(results)
+
+
+def run_client_role_spdz(address, resultsDict, resultsDetailedDict):
     spdzDict = resultsDict['MP-SPDZ']
+    spdzDetailedDict = resultsDetailedDict['MP-SPDZ']
     log.info("Client started, will connect to server at address {} port {}".format(address, SERVER_PORT))
     server_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_sock.connect((address, SERVER_PORT))
@@ -718,6 +750,7 @@ def run_client_role_spdz(address, resultsDict):
 
         if test_case_dir.name not in spdzDict.keys():
             spdzDict[test_case_dir.name] = dict()
+            resultsDetailedDict[test_case_dir.name] = dict()
 
         all_args, _ = get_inputs(test_case_dir.name)
         if len(all_args) == 0:
@@ -729,6 +762,7 @@ def run_client_role_spdz(address, resultsDict):
             argStr = str(args.label).replace(':', ' =')
             if argStr not in spdzDict[test_case_dir.name].keys():
                 spdzDict[test_case_dir.name][argStr] = dict()
+                resultsDetailedDict[test_case_dir.name][argStr] = dict()
 
             log.info("\n{} - arguments: {}".format(test_case_dir.name, args.args));
             for protocol in [None, 'A', 'B', 'X', 'Y']:
@@ -775,7 +809,8 @@ def run_client_role_spdz(address, resultsDict):
 
                         curList.append(p1)
                     spdzDict[test_case_dir.name][argStr][pName] = getSummaryStats(curList, 'MP-SPDZ')
-                    saveToJSON(resultsDict)
+                    resultsDetailedDict[test_case_dir.name][argStr][pName] = getIndividualStats(curList, 'MOTION')
+                    saveToJSON(resultsDict, resultsDetailedDict)
                 except Exception as e:
                     spdzDict[test_case_dir.name][argStr][pName] = f'ERROR: {e}'
 
@@ -783,10 +818,11 @@ def run_client_role_spdz(address, resultsDict):
         log.info("task {} DONE".format(task_stats.label))
 
 
-def run_client_role_motion(address, resultsDict):
+def run_client_role_motion(address, resultsDict, resultsDetailedDict):
     # log.info("Compiling All benchmarks")
     # compile_all_benchmarks()
     motionDict = resultsDict['MOTION']
+    motionDetailedDict = resultsDetailedDict['MOTION']
     log.info("Client started, will connect to server at address {} port {}".format(address, SERVER_PORT))
     server_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_sock.connect((address, SERVER_PORT))
@@ -805,6 +841,7 @@ def run_client_role_motion(address, resultsDict):
 
         if test_case_dir.name not in motionDict.keys():
             motionDict[test_case_dir.name] = dict()
+            motionDetailedDict[test_case_dir.name] = dict()
 
         all_args, _ = get_inputs(test_case_dir.name)
         if len(all_args) == 0:
@@ -816,6 +853,7 @@ def run_client_role_motion(address, resultsDict):
             argStr = str(args.label).replace(':', ' =')
             if argStr not in motionDict[test_case_dir.name].keys():
                 motionDict[test_case_dir.name][argStr] = dict()
+                motionDetailedDict[test_case_dir.name][argStr] = dict()
 
             log.info("\n{} - arguments: {}".format(test_case_dir.name, args.args));
 
@@ -828,7 +866,7 @@ def run_client_role_motion(address, resultsDict):
                     vectorized = True
                     mixed = True
 
-                    for j in range(2):#NUM_ITERS):
+                    for j in range(NUM_ITERS):
                         log.info("Running Iteration {} {} {} {} {}".format(j+1, test_case_dir.name, protocol,
                             "vec", args.label));
 
@@ -877,7 +915,8 @@ def run_client_role_motion(address, resultsDict):
                         curList.append(p1)
 
                     motionDict[test_case_dir.name][argStr][pName] = getSummaryStats(curList, 'MOTION')
-                    saveToJSON(resultsDict)
+                    motionDetailedDict[test_case_dir.name][argStr][pName] = getIndividualStats(curList, 'MOTION')
+                    saveToJSON(resultsDict, resultsDetailedDict)
                 except Exception as e:
                     motionDict[test_case_dir.name][argStr][pName] = f'ERROR: {e}'
 
@@ -922,18 +961,23 @@ if __name__ == "__main__":
         # read previous results (if supplied)
         timestamp = datetime.datetime.strftime(datetime.datetime.now(), '%Y_%m_%d_%H_%M_%S')
         resultsDict = dict()
+        resultsDetailedDict = dict()
         if args.file:
             assert (isfile(args.file))
+            assert (isfile("DETAILED_" + args.file))
             resultsDict = json.load(open(args.file))
+            resultsDetailedDict = json.load(open("DETAILED_" + args.file))
         if args.backend not in resultsDict.keys():
             resultsDict[args.backend] = dict()
+            resultsDetailedDict[args.backend] = dict()
         if args.backend == 'MOTION':
-            run_client_role_motion(args.address, resultsDict)
+            run_client_role_motion(args.address, resultsDict, resultsDetailedDict)
         elif args.backend == 'MP-SPDZ':
-            run_client_role_spdz(args.address, resultsDict)
+            run_client_role_spdz(args.address, resultsDict, resultsDetailedDict)
         else:
             raise Exception("BACKEND NOT IMPLEMENTED")
 
         # write results to output file
-        saveToJSON(resultsDict)
+        saveToJSON(resultsDict, resultsDetailedDict)
         print(json.dumps(resultsDict, sort_keys=True, indent=4))
+        print(json.dumps(resultsDetailedDict, sort_keys=True, indent=4))
