@@ -27,7 +27,8 @@ from tests.backends.motion.benchmark import  (
 )
 
 from tests.backends.mp_spdz.benchmark import (
-    run_benchmark_for_party as run_benchmark_for_party_spdz
+    run_benchmark_for_party as run_benchmark_for_party_spdz,
+    compile_benchmark as spdz_compile
 )
 
 from utils import json_serialize, json_deserialize, StatsForInputConfig, StatsForTask, RunBenchmarkReq
@@ -677,7 +678,6 @@ def getSummaryStats(stats, backend):
             totalDataSent += float(stat.data_sent_mb)
             totalCommRounds += int(stat.communication_rounds)
         elif backend == 'MOTION':
-            print(stat.timing_stats)
             # assert len(stat.timing_stats.preprocess_total.readings) == 1
             # totalTime += float(stat.timing_stats.preprocess_total.readings[0] / 1000)
             # assert len(stat.timing_stats.gates_setup.readings) == 1
@@ -706,7 +706,6 @@ def getIndividualStats(stats, backend):
             # dataSentList.append(float(stat.data_sent_mb))
             # commRoundsList.append(int(stat.communication_rounds))
         elif backend == 'MOTION':
-            print(stat.timing_stats)
             # assert len(stat.timing_stats.preprocess_total.readings) == 1
             # totalTime += float(stat.timing_stats.preprocess_total.readings[0] / 1000)
             # assert len(stat.timing_stats.gates_setup.readings) == 1
@@ -783,8 +782,19 @@ def run_client_role_spdz(address, resultsDict, resultsDetailedDict):
                             protocol=protocol,
                             vectorized=vectorized
                         )
-
                         write_message(server_sock, request)
+                        if j == 0:
+                            time.sleep(20)
+                            spdz_compile(
+                                benchmark_name=test_case_dir.name,
+                                benchmark_path=test_case_dir.path,
+                                vectorized=vectorized,
+                                mixed=True,
+                                costType='time',
+                                args=parse_list(args.args),
+                                protocol=protocol
+                            )
+                            
                         p1 = run_benchmark_for_party_spdz(
                             myid=MPC_PARTY_CLIENT_ID,
                             party0_mpc_addr=mpc_party_server,
@@ -794,7 +804,7 @@ def run_client_role_spdz(address, resultsDict, resultsDetailedDict):
                             vectorized=vectorized,
                             timeout=None,
                             cmd_args=parse_list(args.args),
-                            compile_again= (True if j == 0 else False),
+                            compile_again=False,
                         )
 
                         p0 = read_message(server_sock)
@@ -809,7 +819,7 @@ def run_client_role_spdz(address, resultsDict, resultsDetailedDict):
 
                         curList.append(p1)
                     spdzDict[test_case_dir.name][argStr][pName] = getSummaryStats(curList, 'MP-SPDZ')
-                    resultsDetailedDict[test_case_dir.name][argStr][pName] = getIndividualStats(curList, 'MOTION')
+                    resultsDetailedDict[test_case_dir.name][argStr][pName] = getIndividualStats(curList, 'MP-SPDZ')
                     saveToJSON(resultsDict, resultsDetailedDict)
                 except Exception as e:
                     spdzDict[test_case_dir.name][argStr][pName] = f'ERROR: {e}'
@@ -979,5 +989,5 @@ if __name__ == "__main__":
 
         # write results to output file
         saveToJSON(resultsDict, resultsDetailedDict)
-        print(json.dumps(resultsDict, sort_keys=True, indent=4))
-        print(json.dumps(resultsDetailedDict, sort_keys=True, indent=4))
+        # print(json.dumps(resultsDict, sort_keys=True, indent=4))
+        # print(json.dumps(resultsDetailedDict, sort_keys=True, indent=4))
