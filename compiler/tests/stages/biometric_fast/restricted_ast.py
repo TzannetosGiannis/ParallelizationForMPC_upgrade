@@ -1,4 +1,4 @@
-def biometric_fast(D: plaintext[int], N: plaintext[int], C: shared[list[int; ?]], C_sqr_sum: shared[int], two_C: shared[list[int; ?]], S: shared[list[int; ?]], S_sqr_sum: shared[list[int; ?]], differences: shared[list[int; ?]]) -> tuple[shared[int], shared[int]]:
+def biometric_fast(D: plaintext[int], N: plaintext[int], C_sqr_sum: shared[int], two_C: shared[list[int; ?]], S: shared[list[int; ?]], S_sqr_sum: shared[list[int; ?]], differences: shared[list[int; ?]]) -> tuple[shared[int], shared[int]]:
     min_index = 0
     for i: plaintext[int] in range(0, N):
         a_sqr_plus_b_sqr = (S_sqr_sum[i] + C_sqr_sum)

@@ -20,6 +20,7 @@ void template_code(
     
     for (int i = 0; i < _iters; i++) {
         _operator_to_replace
+        _loop_dependency
     }
 
 

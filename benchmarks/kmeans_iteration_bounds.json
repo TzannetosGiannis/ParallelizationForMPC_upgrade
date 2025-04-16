@@ -1,4 +1,4 @@
 {
-  "len!0": 200,
-  "num_cluster!0": 5
+  "len": "len!0",
+  "num_cluster": "num_cluster!0"
 }

@@ -1,0 +1,21 @@
+program.options.binary = 32
+program.use_dabit = True
+def chapterfour_figure_12(x_0, y_0):
+    # Convertion functions
+    siv32 = sbitintvec.get_type(32)
+    sb32 = sbits.get_type(32)
+    
+    
+    # Shared array declarations
+
+    # Shared array convertion declarations
+    
+    # Function body
+    z_1 = siv32(0)
+    _1_1 = (x_0 > siv32(0))
+    _2_1 = (y_0 > siv32(0))
+    z_3 = siv32(0)
+    z_2 = siv32(1)
+    z_4 = _2_1.if_else(z_2, z_3)
+    z_5 = _1_1.if_else(z_4, z_1)
+    return z_5

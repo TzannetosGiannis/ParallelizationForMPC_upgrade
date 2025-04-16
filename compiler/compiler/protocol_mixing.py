@@ -17,7 +17,7 @@ from dataclasses import dataclass
 from typing import Iterable, Union, Optional, cast, TypeVar, Any
 
 import z3  # type: ignore
-
+import re
 # copy of loop_linear_code.py imports
 from dataclasses import dataclass
 from textwrap import indent
@@ -81,11 +81,12 @@ import json
 from os.path import dirname, exists
 
 Protocol = str # Union['A', 'B', 'Y']
-protocols = {'A', 'B', 'Y'}
+protocols = set()
 protocolsMotion = [{'A', 'B', 'Y'}]
 protocolsSPDZ = [{'A', 'B'}, {'X', 'B'}, {'Y', 'B'}]
 # protocolsSPDZ = [{'A'}, {'B'}, {'X'}, {'Y'}]
 transparent_ops = [LiftExpr, DropDim, VectorizedAccess, Constant] # CHECK IF THIS IS THE FULL LIST
+runningSpdz = None
 
 # conversionSymbols = {'A': {'B': 'zic_a2b', 'Y': 'zic_a2y'}, 'B': {'A': 'zic_b2a', 'Y': 'zic_b2y'}, 'Y': {'A': 'zic_y2a', 'B': 'zic_y2b'}}
 # TODO CHECK IF THESE ARE ALL ZERO COST. ESPECIALLY CONSTANT and VectorizedAccess
@@ -144,10 +145,98 @@ class Config:
         constants = "Constants:\t{" + ", ".join(str(val) + ": " + (str(conv) if len(conv) else '{}') for val, conv in self.constants.items()) + "}"
         plaintexts = "Plaintext vars:\t{" + ", ".join(str(var) + ": " + (str(conv) if len(conv) else '{}') for var, conv in self.plaintexts.items()) + "}"
         flags = "Flags:\t\t{" + ", ".join(str(flag) for flag in self.flags) + "}"
-        stmts = "\n".join("\t"*count + str(stmt) + ": " + str(assign) + " -> " + (str(conv) if len(conv) else '{}') + " for " + "{:.2f}".format(cost) + " * " + str(depth) + " = " + "{:.2f}".format(cost*depth) + (" (" + (", ".join(cd[0] + "->" + cd[1] for cd in convDict) if len(conv) else "") + ")" if len(convDict) else "") for stmt, assign, conv, cost, depth, count, convDict in self.assignments)
+        stmts = "\n".join("\t"*count + str(stmt) + ": " + str(assign) + " -> " + (str(conv) if len(conv) else '{}') + " for " + "{:.5f}".format(cost) + " * " + str(depth) + " = " + "{:.2f}".format(cost*depth) + (" (" + (", ".join(cd[0] + "->" + cd[1] for cd in convDict) if len(conv) else "") + ")" if len(convDict) else "") for stmt, assign, conv, cost, depth, count, convDict in self.assignments)
         finalLines = "\n".join(str(l) for l in reversed(self.finalStmts))
         outputs = "Output vars:\t{" + ", ".join(str(var) + ": " + (str(conv) if len(conv) else '{}') for var, conv in self.outputs.items()) + "}"
-        return "Total cost:\t{:.2f}".format(self.total_cost) + "\n" + inputs + "\n" + constants + "\n" + plaintexts + "\n" + flags + "\n" + stmts + "\n" + finalLines + "\n" + outputs + "\n"
+        return "Total cost:\t{:.5f}".format(self.total_cost) + "\n" + inputs + "\n" + constants + "\n" + plaintexts + "\n" + flags + "\n" + stmts + "\n" + finalLines + "\n" + outputs + "\n"
+
+
+# helper function to sort conversion lists. This is used to make mixer output deterministic
+def sortConv(conv: list[tuple[Protocol, Protocol]]) -> list[tuple[Protocol, Protocol]]:
+    if len(conv) < 2:
+        return conv
+
+    lhsProts = set()
+    rhsProts = set()
+    for lhs, rhs in conv:
+        lhsProts.add(lhs)
+        rhsProts.add(rhs)
+
+    headProtocols = lhsProts-rhsProts
+    assert len(headProtocols) == 1
+    remainingConvs = set(conv)
+    toRet = []
+
+    while remainingConvs:
+        minConv = None
+        for c in remainingConvs:
+            if not minConv:
+                minConv = c
+            else:
+                if c[0] in headProtocols and c[0] < minConv[0] or (c[0] == minConv[0] and c[1] < minConv[1]):
+                    minConv = c
+        toRet.append(minConv)
+        remainingConvs.remove(minConv)
+        headProtocols.add(minConv[1])
+    return toRet
+
+
+# Identical to Config, but every set is changed to an ordered set. This is used to make the output deterministic and
+#   comparable for changes.
+class OrderedConfig:
+    assignments: list[Any]
+    inputs: dict[Var, list[Protocol]]
+    outputs: dict[Var, list[Protocol]]
+    total_cost: float
+    protocolByVar: dict[Var, list[Protocol]]
+    finalStmts: list[Statement]
+    constants: dict[Var, list[Protocol]]
+    plaintexts: dict[Var, list[Protocol]]
+    flags: list[str]
+    lockedVarsIdx: dict[Var, int]
+    lockedVarsSets: list[list[Var]]
+
+    def __init__(self, copyConfig: Config) -> None:
+        self.inputs = dict()
+        self.outputs = dict()
+        self.assignments = []
+        self.total_cost = copyConfig.total_cost
+        self.lockedVarsIdx = deepcopy(copyConfig.lockedVarsIdx)
+        self.lockedVarsSets = deepcopy(copyConfig.lockedVarsSets)
+        self.protocolByVar = dict()
+        self.finalStmts = copyConfig.finalStmts
+        self.constants = dict()
+        self.plaintexts = dict()
+        self.flags = sorted(list(copyConfig.flags))
+
+        for v, s in copyConfig.inputs.items():
+            self.inputs[v] = sorted(list(s))
+
+        for v, s in copyConfig.outputs.items():
+            self.outputs[v] = sorted(list(s))
+
+        for stmt, prot, conv, cost, depth, nest, explicitConv in copyConfig.assignments:
+            self.assignments.append([stmt, prot, sorted(list(conv)), cost, depth, nest, sortConv(explicitConv)])
+
+        for v, s in copyConfig.protocolByVar.items():
+            self.protocolByVar[v] = sorted(list(s))
+
+        for v, s in copyConfig.constants.items():
+            self.constants[v] = sorted(list(s))
+
+        for v, s in copyConfig.plaintexts.items():
+            self.plaintexts[v] = sorted(list(s))
+
+
+    def __str__(self) -> str:
+        inputs = "Input vars:\t{" + ", ".join(str(var) + ": " + (str(conv) if len(conv) else '{}') for var, conv in self.inputs.items()) + "}"
+        constants = "Constants:\t{" + ", ".join(str(val) + ": " + (str(conv) if len(conv) else '{}') for val, conv in self.constants.items()) + "}"
+        plaintexts = "Plaintext vars:\t{" + ", ".join(str(var) + ": " + (str(conv) if len(conv) else '{}') for var, conv in self.plaintexts.items()) + "}"
+        flags = "Flags:\t\t{" + ", ".join(str(flag) for flag in self.flags) + "}"
+        stmts = "\n".join("\t"*count + str(stmt) + ": " + str(assign) + " -> " + (str(conv) if len(conv) else '{}') + " for " + "{:.5f}".format(cost) + " * " + str(depth) + " = " + "{:.2f}".format(cost*depth) + (" (" + (", ".join(cd[0] + "->" + cd[1] for cd in convDict) if len(conv) else "") + ")" if len(convDict) else "") for stmt, assign, conv, cost, depth, count, convDict in self.assignments)
+        finalLines = "\n".join(str(l) for l in reversed(self.finalStmts))
+        outputs = "Output vars:\t{" + ", ".join(str(var) + ": " + (str(conv) if len(conv) else '{}') for var, conv in self.outputs.items()) + "}"
+        return "Total cost:\t{:.5f}".format(self.total_cost) + "\n" + inputs + "\n" + constants + "\n" + plaintexts + "\n" + flags + "\n" + stmts + "\n" + finalLines + "\n" + outputs + "\n"
 
 
 # get any constants from the RHS of a statement
@@ -231,6 +320,13 @@ def populateFlags(config: Config) -> None:
             if k in config.plaintexts[key]:
                 config.plaintexts[key].add(v)
                 config.plaintexts[key].remove(k)
+
+    # correct output variables
+    for key in config.outputs.keys():
+        for k, v in replace.items():
+            if k in config.outputs[key]:
+                config.outputs[key].add(v)
+                config.outputs[key].remove(k)
 
 
 
@@ -352,13 +448,20 @@ def getBounds(nonZeroVars: set[Var], dep_graph: DepGraph, stmts: list[Statement]
 
 
 # get the bounds for every loop in the current test case (needed for cost computation)
-def getLoopBounds(filename: str) -> None:
+def getLoopBounds(filename: str, python_text: str) -> None:
     global loopBounds
     filename = dirname(__file__)+"/../../benchmarks/" + '.'.join(filename.split('.')[:-1]) + "_bounds.json"
     
     assert exists(filename)
-    loopBounds = json.load(open(filename))
-
+    loopBounds_translation = json.load(open(filename))
+    loopBounds = {}
+    for key,value in loopBounds_translation.items():
+        pattern = rf"^{key}\s*=\s*(\d+)$"  # Match 'VariableName = Value' at the start of the line
+        match = re.search(pattern, python_text, re.MULTILINE)
+        assert match
+        extracted_match = int(match.group(1).strip())
+        loopBounds[value] = extracted_match
+        
 
 # get the cost table
 # ASSUMPTION: EVERYTHING IS 32 BIT
@@ -624,6 +727,7 @@ def createNewConfig(conversions: set[Protocol], p: Protocol, prevConfig: Config,
                     assignment[3] += minC
                     assert (minPr, p) not in assignment[6]
                     assignment[6].append((minPr, p))
+                    newConfig.total_cost += assignment[4] * minC
                 break
         if not found:
             assert getLHSVar(targetStmt) not in newConfig.inputs.keys()
@@ -654,6 +758,21 @@ def lockSet(vars: list[Var], config: Config) -> None:
             config.lockedVarsIdx[v] = idxs[0]
             config.lockedVarsSets[idxs[0]].add(v)
 
+
+# check that the total cost of this block was correctly computed
+def verifyCosts(cfg: Config):
+    runningTotal = 0
+    infCost = True if cfg.total_cost == float('inf') else False
+    for _, _, _, c, d, _, _ in cfg.assignments:
+        runningTotal += c*d
+        if c == float('inf'):
+            if infCost:
+                return
+            assert False
+    if abs(runningTotal - cfg.total_cost) >= 0.01:
+        print(cfg)
+    assert abs(runningTotal - cfg.total_cost) < 0.01
+
         
 # find all possible mixes for the given sequence of statements
 # for lift, the requested protocol(s) are converted BEFORE executing the lift operation because the lift operation has no cost and pre-converting is guaranteed to be less expensive
@@ -664,7 +783,9 @@ def assign_seq(seq: list[Statement], dep_graph: DepGraph, trackedVars: set[Var],
 
     # base case
     if len(seq) == 0:
-        return [Config('X' if 'X' in protocols else ('Y' if 'Y' in protocols else None))]
+        if runningSpdz:
+            return [Config('X' if 'X' in protocols else ('Y' if 'Y' in protocols else None))]
+        return [Config()]
 
     # tail recursion
     tail = assign_seq(seq[1:], dep_graph, trackedVars, loop_depth, loopNestCount)
@@ -717,6 +838,7 @@ def assign_seq(seq: list[Statement], dep_graph: DepGraph, trackedVars: set[Var],
         # create a new config for each possible protocol
         for p in ps:
             newC = createNewConfig(conversions, p, config, trackedVars, useCount < len(uses) or isinstance(head, llc.Return), head, requiredInputVars, loop_depth, loopNestCount, dep_graph)
+            verifyCosts(newC)
             if newC.total_cost < float("inf"):
                 newConfigs.append(newC)
     return newConfigs
@@ -733,7 +855,7 @@ def subsumes(a: Config, b: Config, loop_depth: int, dep_graph: DepGraph, freeCon
     
     # can't subsume if a is already more expensive than b
     costComparison = b.total_cost - a.total_cost
-    if costComparison < 0:
+    if costComparison <= 0:
         return False
 
     # input conversion cost (b -> a)
@@ -818,7 +940,7 @@ def subsumes(a: Config, b: Config, loop_depth: int, dep_graph: DepGraph, freeCon
                     if costComparison < 0:
                         return False
 
-    if costComparison < 0:
+    if costComparison <= 0:
         return False
     return True
 
@@ -872,7 +994,6 @@ def clean_locked_stmts(config: Config) -> None:
                     if var in config.protocolByVar.keys() or var in config.inputs.keys():
                         config.protocolByVar[lhsVar] = config.protocolByVar[var] if var in config.protocolByVar.keys() else config.inputs[var]
                         item[2] |= config.protocolByVar[lhsVar]
-                        break
                 if lhsVar in config.outputs.keys() and len(item[2]) > 0:
                     config.outputs[lhsVar] = item[2]
             if '_' in item[2]:
@@ -1087,7 +1208,7 @@ def merge(c1: Config, c2: Config, dep_graph: DepGraph, trackedVars: set[Var]) ->
                     assignment[6].append((availP, p))
                     # TODO MAKE SURE IT IS CORRECT TO MULTIPLY BY LOOP DEPTH HERE
                     newConfig.total_cost += assignment[4] * minC
-                assignment[2] |= newProtocols#HEREHERE
+                assignment[2] |= newProtocols
                 v = getLHSVar(assignment[0])
                 if v in newConfig.inputs.keys():
                     newConfig.inputs[v] -= ps
@@ -1175,32 +1296,69 @@ def mix(body: list[Statement], dep_graph: DepGraph, trackedVars: set[Var], freeC
     return finalConfigs
 
 
+# return the number of i/o protocols in the given config and the number of conversions
+def getInterfaceSize(c: Config) -> (int, int):
+    i = 0
+    for _, v in c.inputs.items():
+        i += len(v)
+    for _, v in c.constants.items():
+        i += len(v)
+    for _, v in c.plaintexts.items():
+        i += len(v)
+    for _, v in c.outputs.items():
+        i += len(v)
+    conv = 0
+    for _, _, _, _, _, _, v in c.assignments:
+        conv += len(v)
+    return i, conv
+
+
 # run the mixer
-def mix_protocols(filename: str, type_env: TypeEnv, body: list[Statement], dep_graph: DepGraph, backend: Backend, costType: str, spdzProtocol: str = 'semi') -> Config:
-    global protocols
+def mix_protocols(filename: str, type_env: TypeEnv, body: list[Statement], dep_graph: DepGraph, backend: Backend, costType: str, spdzProtocol: str = 'semi', protocolSets: list[set[str]] = None, python_text: str = None ) -> OrderedConfig:
+    global protocols, runningSpdz
+    print(python_text)
+    # protocolSets = [{'A', 'B', 'Y'}]
+    # protocolSets = [{'Y'}]
+    runningSpdz = True if backend == Backend.Backend.MP_SPDZ else False
+    targetCostFile = '/../Cost_Tables/'
+    if not runningSpdz:
+        if protocolSets == None:
+            protocolSets = protocolsMotion
+        targetCostFile += f'MOTION/{costType}.json'
+    elif runningSpdz:
+        if protocolSets == None:
+            protocolSets = protocolsSPDZ
+        targetCostFile += f'MP-SPDZ/{spdzProtocol}/{costType}.json'
+    
     if costType not in {'time', 'dataSent', 'commRounds'}:
         raise Exception('Unknown cost type provided to protocol_mixing.py')
-    targetCostFile = '/../Cost_Tables/'
-    if backend == Backend.Backend.MOTION:
-        protList = protocolsMotion
-        targetCostFile += f'MOTION/{costType}.json'
-    elif backend == Backend.Backend.MP_SPDZ:
-        protList = protocolsSPDZ
-        targetCostFile += f'MP-SPDZ/{spdzProtocol}/{costType}.json'
-
-    getLoopBounds(filename)
+    print(protocolsMotion)
+    getLoopBounds(filename, python_text)
     getOpCosts(targetCostFile)
     trackedVars, directIOVars = getTrackedVars(type_env, body, dep_graph)
     getBounds(trackedVars - directIOVars, dep_graph, body)
     mixed = []
-    for protSet in protList:
+    for protSet in protocolSets:
         protocols = protSet
         mixed += mix(body, dep_graph, trackedVars, directIOVars, debug=False)
-    minCost = float("inf")
+    minCost, minInterface, minConversions = (float("inf"), float("inf"), float("inf"))
+    if len(mixed) == 0:
+        raise Exception("No valid mix found")
     for c in mixed:
-        if c.total_cost < minCost:
+        populateConstantsAndPlaintexts(c, {var for var, t in type_env.items() if
+                                              t.visibility and t.visibility.value == 'plaintext'})
+        interface, conversions = getInterfaceSize(c)
+        if (c.total_cost < minCost or
+                (c.total_cost == minCost and (interface < minInterface or
+                                              (interface == minInterface and (conversions < minConversions or
+                                                                              (conversions == minConversions and str(c) < str(best))))))):
             best = c
             minCost = c.total_cost
-    populateConstantsAndPlaintexts(best, {var for var, t in type_env.items() if t.visibility and t.visibility.value == 'plaintext'})
-    populateFlags(best)
-    return best
+            minInterface = interface
+            minConversions = conversions
+    # populateConstantsAndPlaintexts(best, {var for var, t in type_env.items() if t.visibility and t.visibility.value == 'plaintext'})
+    if runningSpdz:
+        populateFlags(best)
+    print(OrderedConfig(best))
+    verifyCosts(best)
+    return OrderedConfig(best)

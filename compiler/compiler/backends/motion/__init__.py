@@ -13,7 +13,7 @@ from ...util import assert_never
 from ...loop_linear_code import Function, Statement, Phi, Assign, For, Return
 from ...type_analysis import TypeEnv, VarVisibility, Constant, DataType
 from ... import tac_cfg, ast_shared
-from ...protocol_mixing import Config
+from ...protocol_mixing import OrderedConfig,Config
 
 from .low_level_rendering import (
     RenderContext,
@@ -127,7 +127,7 @@ def _collect_constants(stmts: list[Statement]) -> list[Constant]:
 
 
 
-def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: bool, mixed_config: Config) -> str:
+def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: bool, mixed_config: OrderedConfig) -> str:
     
     render_ctx = RenderContext(type_env)
     convertion_dict = {}
@@ -140,10 +140,13 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
             "to":mixed_config.assignments[i][2],
             "convertion_tuple":mixed_config.assignments[i][-1]
         }
-            
+
+    
     func_header = f"{_render_prototype(func, type_env)} {{"
+    
     # remove template line 
     func_header = "\n".join(func_header.split("\n")[1:])
+
     
     # Initialize an empty string to store the shared variable declarations
     var_definitions = "// Shared variable declarations\n"
@@ -184,6 +187,16 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
             }
             
 
+    # phi nodes will create problems so  we will iterate here to fill stmt_details_dict
+    # the problem is that if access variables that are not registered yet
+
+    for key in convertion_dict:
+        convertion_tuple = convertion_dict[key]['convertion_tuple']
+        if len(convertion_tuple) > 0:
+            small_key = key.split("{")[0].replace("!","_")
+            stmt_details_dict[small_key][convertion_tuple[0][0]] = small_key
+            stmt_details_dict[small_key][convertion_tuple[0][1]] = f"{small_key}_{convertion_tuple[0][1]}"
+
     plaintext_var_definitions = (
         "// Plaintext variable declarations\n"
         + "\n".join(
@@ -220,30 +233,30 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
     for i, const in enumerate(sorted(plaintext_constants, key=lambda c: str(c.value))):
         
         render_key = render_expr(const, render_ctx)
-        
         # Convert keys of mixed_config.constants to str if they are int
         string_constants_keys = {str(k): v for k, v in mixed_config.constants.items()}
 
         # constants in motion need to be in specific protocol
-        for elem in string_constants_keys[str(const.value)]:
-            retrieved_protocol = PROTOCOL_CONVERTIONS[elem]
-            const_declaration = f"{render_datatype(const.datatype, plaintext=False)} {render_key} = party->In<Protocol>({render_expr(const, dt.replace(render_ctx, as_motion_input=True))}, 0);\n"
-            
-            # first time we see this variable
-            if render_key not in stmt_details_dict:
-                stmt_details_dict[render_key] = {
-                    "declaration":var_declaration,
-                    "A":None,
-                    "B":None,
-                    "Y":None,
-                }
-                stmt_details_dict[render_key][elem] = render_key
-            else:
-                new_render_key = render_key+f"_{elem}"
-                stmt_details_dict[render_key][elem] = new_render_key
-                const_declaration = const_declaration.replace(render_key,new_render_key)
-            
-            constant_initialization += const_declaration.replace('Protocol',retrieved_protocol)
+        if str(const.value) in string_constants_keys:
+            for elem in string_constants_keys[str(const.value)]:
+                retrieved_protocol = PROTOCOL_CONVERTIONS[elem]
+                const_declaration = f"{render_datatype(const.datatype, plaintext=False)} {render_key} = party->In<Protocol>({render_expr(const, dt.replace(render_ctx, as_motion_input=True))}, 0);\n"
+                
+                # first time we see this variable
+                if render_key not in stmt_details_dict:
+                    stmt_details_dict[render_key] = {
+                        "declaration":var_declaration,
+                        "A":None,
+                        "B":None,
+                        "Y":None,
+                    }
+                    stmt_details_dict[render_key][elem] = render_key
+                else:
+                    new_render_key = render_key+f"_{elem}"
+                    stmt_details_dict[render_key][elem] = new_render_key
+                    const_declaration = const_declaration.replace(render_key,new_render_key)
+                
+                constant_initialization += const_declaration.replace('Protocol',retrieved_protocol)
 
     plaintext_param_assignments = "// Plaintext parameter assignments\n"
 
@@ -251,18 +264,52 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
     plaintext_replace_dict = {}
 
     # plaintext need to be in specific protocol
-    for key , value in mixed_config.plaintexts.items():
-        plaintext_dict[render_expr(key, dt.replace(render_ctx, plaintext=False))] = list(value)
+    for var_key in mixed_config.plaintexts:  # Get keys only
+        key_str = str(var_key)  # Convert Var to string
+        plaintext_dict[key_str.replace("!", "_")] = mixed_config.plaintexts[var_key]
+
 
     # handle the input variables , for now allow one protocol only
-    # [TODO] allow inputs of {"var": {A,B}} 
-    for key , value in mixed_config.inputs.items():
-        dict_key = render_expr(key, dt.replace(render_ctx, plaintext=False))
-        if dict_key not in plaintext_dict:
-            plaintext_dict[dict_key] = list(value)
+    # [TODO] revisit inputs of {"var": {A,B}} 
+    func_header_declrations = [elem.replace(",","").lstrip() for elem in func_header.split("\n")][2:]
+    parameter_input_convertions_initialization = "// Input Protocol Convertions\n"
+    for var_key in mixed_config.inputs:  
+        key = str(var_key)  # Ensure key is a string
+        value = mixed_config.inputs[var_key]
+        dict_key = str(key).replace("!","_")
         if len(value) > 1:
-            raise NotImplementedError("input supported only in one protocol")
-    
+            if dict_key not in plaintext_dict:
+                plaintext_dict[dict_key] = list(value)
+                stmt_details_dict[dict_key] = {
+                    "declaration":next((x for x in func_header_declrations if x.endswith(dict_key)), "None"),
+                    "A":None,
+                    "B":None,
+                    "Y":None,
+                }
+                l = sorted(list(value))
+                for i in range(len(l)):
+                    if i ==0:
+                        stmt_details_dict[dict_key][l[i]] = dict_key
+                    else:
+                        stmt_details_dict[dict_key][l[i]] = f"{dict_key}_{l[i]}"
+                        if  "vector" in str(stmt_details_dict[dict_key]['declaration']):
+                            convertion = str(stmt_details_dict[dict_key]['declaration']).replace(dict_key, f"{dict_key}_{l[i]}") + f"({dict_key}.size());\n"
+                            convertion += f"vectorized_assign({dict_key}_{l[i]}, {{{dict_key}.size()}}, {{true}}, {{}}, (vectorized_access({dict_key}, {{{dict_key}.size()}}, {{true}}, {{}}).Get().Convert<{PROTOCOL_CONVERTIONS[l[i]]}>()));\n"
+                            parameter_input_convertions_initialization += convertion
+                        else:
+                            raise NotImplementedError("Only vectors are supported as multiple protocols input")
+        else:
+            if dict_key not in plaintext_dict:
+                plaintext_dict[dict_key] = list(value)
+                stmt_details_dict[dict_key] = {
+                    "declaration":next((x for x in func_header_declrations if x.endswith(dict_key)), None),
+                            "A":None,
+                            "B":None,
+                            "Y":None,
+                }
+                stmt_details_dict[dict_key][plaintext_dict[dict_key][0]] = dict_key
+
+        
     # handle parameters both as scalar and vectors with respect to protocol assignment
     for i, param in enumerate(sorted(func.parameters, key=str)):
         
@@ -316,7 +363,6 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
     func_body = "// Function body\n"
     for i, stmt in enumerate(func.body):
         if not isinstance(stmt, Phi):
-            # rendered_stmt = render_mixed_stmt(stmt, type_env, ran_vectorization,convertion_dict)
             rendered_stmt = render_mixed_stmt(stmt, type_env,render_ctx, ran_vectorization,convertion_dict,stmt_details_dict)
             func_body += rendered_stmt + "\n"
             
@@ -328,6 +374,8 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
         + indent(plaintext_var_definitions, "    ")
         + "\n"
         + indent(constant_initialization, "    ")
+        + "\n"
+        + indent(parameter_input_convertions_initialization, "    ")
         + "\n"
         + indent(plaintext_param_assignments, "    ")
         + "\n"
@@ -479,7 +527,7 @@ def render_function(func: Function, type_env: TypeEnv, ran_vectorization: bool) 
 
 
 def render_application(
-    func: Function, type_env: TypeEnv, params: dict[str, Any], ran_vectorization: bool,mixing=False,mixed_config:Config = Config()
+    func: Function, type_env: TypeEnv, params: dict[str, Any], ran_vectorization: bool,mixing=False,mixed_config:OrderedConfig = OrderedConfig(Config())
 ) -> None:
 
     
@@ -496,6 +544,7 @@ def render_application(
 
     assert isinstance(func.body[-1], Return)
     return_type = type_env[func.body[-1].value]
+
 
     rendered_main = main_template.render(
         header_fname=f"{func.name}.h",
@@ -515,7 +564,7 @@ def render_application(
             }
             for param in func.parameters
         ],
-        protocol=f"encrypto::motion::MpcProtocol::k{params['protocol']}",
+        protocol=f"encrypto::motion::MpcProtocol::k{params['protocol']}" if "protocol" in params else "",
         num_returns=type_env[func.body[-1].value].dims,
         outputs=[render_type(return_type, plaintext=True)]
         if return_type.datatype != DataType.TUPLE
@@ -544,6 +593,20 @@ def render_application(
     
     os.makedirs(output_dir, exist_ok=params["overwrite"])
     
+    
+    if mixing:
+        # Regex to match the full string and replace
+        rendered_main = re.sub(rf"auto output = {func.name}<>", f"auto output = {func.name}", rendered_main)
+
+    for key,value in mixed_config.inputs.items():
+        pattern = rf"({key.name}.*?party->In<)(>.*$)"  # Capturing groups to modify content inside <>
+        match = re.search(pattern, rendered_main, re.MULTILINE)
+        if match:
+            rendered_main = re.sub(pattern, rf"\1{PROTOCOL_CONVERTIONS[value[0]]}\2", rendered_main, flags=re.MULTILINE)
+        else:
+            print("No match found",pattern)
+            # raise NotImplementedError("This part should not be explored, dark times require dark measures")
+
     # Define the pattern and the replacement
     pattern = r"party->In<encrypto::motion::MpcProtocol::kArithmeticGmw>\(encrypto::motion::ToInput\((.*?)\), (.*?)\)\)"
     replacement = r"party->In<encrypto::motion::MpcProtocol::kArithmeticGmw>(\1, \2))"
@@ -555,11 +618,7 @@ def render_application(
         if new_script == rendered_main:
             break  # Stop when no further replacements are made
         rendered_main = new_script  # Update the string for the next iteration
-
-    if mixing:
-        # Regex to match the full string and replace
-        rendered_main = re.sub(rf"auto output = {func.name}<encrypto::motion::MpcProtocol::[a-zA-Z_]+>", f"auto output = {func.name}", rendered_main)
-
+   
     with open(os.path.join(output_dir, "main.cpp"), "w") as main_file:
         main_file.write(rendered_main)
     

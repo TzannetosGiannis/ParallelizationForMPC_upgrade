@@ -21,5 +21,7 @@ def count_123(Seq: shared[list[int]], N: int, Syms: shared[list[int]]) -> shared
     return c
 
 
-seq = [1, 2, 3, 1, 3, 3, 4]
-print(count_123(seq, 7, [1, 2, 3]))
+Seq = [1, 2, 3, 1, 3, 3, 4]
+N = 7
+Syms = [1, 2, 3]
+print(count_123(Seq, N, Syms))

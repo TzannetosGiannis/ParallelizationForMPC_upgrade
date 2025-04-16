@@ -3,10 +3,20 @@ import os
 import shutil
 import subprocess
 from typing import Optional
-
+import re
 import compiler
 from compiler.backends import Backend
 from . import statistics
+
+def replace_definitions(content, replacements):
+   
+    for key, value in replacements.items():
+        pattern = rf"^{key}\s*=\s*.*"  # Matches the variable definition line
+        value_str = str(value)  # Format list properly
+        replacement_line = f"{key} = {value_str}"
+        content = re.sub(pattern, replacement_line, content, flags=re.MULTILINE)
+
+    return content
 
 
 @dataclass
@@ -62,6 +72,7 @@ def run_benchmark(
     compile=True,
     continue_on_error=False,
     mixed=False,
+    costType=None
 ) -> Optional[tuple[BenchmarkOutput, BenchmarkOutput]]:
     input_fname = os.path.join(benchmark_path, "input.py")
     with open(input_fname, "r") as f:
@@ -74,24 +85,25 @@ def run_benchmark(
 
     if compile:
         compiler.compile(
-            f"{benchmark_name}.py",
-            input_py,
-            Backend.MOTION,
-            True,
-            vectorized,
-            app_path,
-            True,
-            protocol,
-            mixing=mixed
+            filename=f"{benchmark_name}.py",
+            text=input_py,
+            backend=Backend.MOTION,
+            quiet=True,
+            run_vectorization=vectorized,
+            out_dir=app_path,
+            overwrite_out_dir=True,
+            protocol=protocol,
+            mixing=mixed,
+            costType=costType
         )
-        
+       
         subprocess.run(
             ["cmake", "-S", app_path, "-B", os.path.join(app_path, "build")],
             check=True,
         )
 
         subprocess.run(
-            ["cmake", "--build", os.path.join(app_path, "build")],
+            ["cmake", "--build", os.path.join(app_path, "build"),"-j8"],
             check=True,
         )
 
@@ -196,11 +208,12 @@ def run_benchmark(
 
 def run_benchmark_for_party(
     myid: str, party0_mpc_addr: str, party1_mpc_addr: str, benchmark_name: str, benchmark_path: str, protocol: str, vectorized,
-    timeout:int, cmd_args: list[str]
+    timeout:int, cmd_args: list[str],mixed=False
 ) -> BenchmarkOutput:
     # Create directories for output and MOTION logs
     app_path = os.path.join(
-        benchmark_path, "motion_app" + "-" + protocol + ("-vectorized" if vectorized else "")
+        benchmark_path,
+        "motion_app" + "-" + (protocol if (mixed == False and protocol is not None) else "mixed") + ("-vectorized" if vectorized else ""),
     )
     party_dir = os.path.join(app_path, "party" + myid)
     if os.path.exists(party_dir):
@@ -256,27 +269,35 @@ def run_benchmark_for_party(
 
 
 def compile_benchmark(
-    benchmark_name: str, benchmark_path: str, protocol: str, vectorized: bool
+    benchmark_name: str, benchmark_path: str, protocol: str, vectorized: bool,mixed:bool = False,costType:str = "time", args=None
 ) -> str:
     input_fname = os.path.join(benchmark_path, "input.py")
 
     with open(input_fname, "r") as f:
         input_py = f.read().strip()
 
+    if not args is None:
+        input_py = replace_definitions(input_py,args)
+
     app_path = os.path.join(
-        benchmark_path, "motion_app" + "-" + protocol + ("-vectorized" if vectorized else "")
+        benchmark_path,
+        "motion_app" + "-" + (protocol if mixed == False else "mixed") + ("-vectorized" if vectorized else ""),
     )
 
     compiler.compile(
-        f"{benchmark_name}.py",
-        input_py,
-        Backend.MOTION,
-        True,
-        vectorized,
-        app_path,
-        True,
-        protocol,
+        filename=f"{benchmark_name}.py",
+        text=input_py,
+        backend=Backend.MOTION,
+        quiet=True,
+        run_vectorization=vectorized,
+        out_dir=app_path,
+        overwrite_out_dir=True,
+        protocol=protocol,
+        mixing=mixed,
+        costType=costType
     )
+
+    
 
     subprocess.run(
         ["cmake", "-S", app_path, "-B", os.path.join(app_path, "build")],
@@ -284,7 +305,7 @@ def compile_benchmark(
     )
 
     subprocess.run(
-        ["cmake", "--build", os.path.join(app_path, "build")],
+        ["cmake", "--build", os.path.join(app_path, "build"), "-j8"],
         check=True,
     )
 

@@ -1,40 +1,11 @@
-if(_activateY):
-    program.use_edabit(True)
-if(_activateX):
-    program.use_dabit = True
 
-def print_array_securely(a):
-    revealed_values = [a[i].reveal() for i in range(len(a))]
-    print_ln('%s',revealed_values)
-
-
-siv32 = sbitint.get_type(32)
-sb32 = sbits.get_type(32)
-
-def zi_prot(a,b,iters,printer):
+def zi_prot(a, b,iters):
     
     for l in range(iters):
-       _operation1
-       _convertion1
+       _operation
       
-    if (printer):
-        return c
-    else:
-        return c.elements()
+    return c
 
-
-if (_isArithmetic):
-    a = sint.Array(_vec_size)
-    b = sint.Array(_vec_size)
-
-    a.assign([sint(i) for i in range(_vec_size)])
-    b.assign([sint(i) for i in range(_vec_size)])
-    printer = True
-
-else:
-    a = siv32([sb32(i) for i in range(_vec_size)])
-    b = siv32([sb32(i) for i in range(_vec_size)])  
-    printer = False
-
-c = zi_prot(a, b, _iters,printer)
-print_array_securely(c)  
+a = _outside([_inside(i) for i in range(_vec_size)])
+b = _outside([_inside(i+1) for i in range(_vec_size)])  
+c = zi_prot(a, b, _iters)

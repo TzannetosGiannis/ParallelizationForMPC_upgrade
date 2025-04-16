@@ -17,25 +17,30 @@ def parse(pattern: str,text: str) -> tuple[str, ...]:
 
 
 #backends = [Backend.MOTION, Backend.MP_SPDZ]
-backends = [Backend.MP_SPDZ]
+# backends = [Backend.MP_SPDZ]
+backends = [Backend.MOTION]
 
 opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt',
   '*': 'zi_mul', 'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor',
-  '>>': 'zi_shr', '-UNARY': 'UNAVAILABLE', '&': 'zi_&', '|': 'zi_|', 'Var': 'UNAVAILABLE', '/': 'zi_div'}
+  '>>': 'zi_shr', '-UNARY': 'UNAVAILABLE', '&': 'zi_&', '|': 'zi_|', 'Var': 'UNAVAILABLE', '/': 'zi_div', 'not': 'zi_not'}
 
 # MP_SPDZ ==> '*': 'zi_mul' -> too slow in B. Looks like it runs out of memory during runtime
 # MP_SPDZ ==> '>>': 'zi_shr' -> too slow in A. Looks like it runs out of memory during compiletime
 testedOps = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt',
-  'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor', '&': 'zi_&', '|': 'zi_|', '/': 'zi_div'}
-opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt',
-  'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor', '&': 'zi_&', '|': 'zi_|', '/': 'zi_div'}
-opToCostSymbol = {'*': 'zi_mul', 'and': 'zi_and', 'or': 'zi_or', '^': 'zi_xor'}
+  'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor', '&': 'zi_&', '|': 'zi_|', '/': 'zi_div', 'not': 'zi_not'}
+opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt', '*': 'zi_mul',
+  'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '%': 'zi_rem', '<<': 'zi_shl', '-': 'zi_sub', '^': 'zi_xor', '&': 'zi_&', '|': 'zi_|', '/': 'zi_div', 'not': 'zi_not'}
+opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt', '*': 'zi_mul',
+  'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '-': 'zi_sub', '^': 'zi_xor', '&': 'zi_&', '|': 'zi_|', '/': 'zi_div', 'not': 'zi_not'}
+# opToCostSymbol = {'+': 'zi_add', '*': 'zi_mul', '-': 'zi_sub', '<': 'zi_lt', 'Mux': 'zi_mux'}
 
 spdzTypes = ["A","B","X","Y"]
 spdzMix = ['AB','BA','XB','BX','YB','BY']
+spdzMix = []
 
 vecSizes = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500, 800, 1000]
-vecSizesConv = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500]
+vecSizesConv = [1, 2, 5, 10, 25, 50, 100, 200, 300, 500, 800, 1000]
+
 # trials, loopIters, intSize = (100, 1000, 32)
 trials, loopIters, intSize = (20, 20, 32)
 port = 12345
@@ -45,35 +50,51 @@ server_address = '10.10.1.1'
 common_prefix = f'{getcwd()}/../backend_submodules/MP-SPDZ/'
 timestamp = datetime.datetime.strftime(datetime.datetime.now(), '%Y_%m_%d_%H_%M_%S')
 
+# [TODO] test output
+# opToCostSymbol = {'+': 'zi_add', 'and': 'zi_and', '==': 'zi_eq', '>=': 'zi_ge', '>': 'zi_gt', '<=': 'zi_le', '<': 'zi_lt', '*': 'zi_mul',
+#   'Mux': 'zi_mux', '!=': 'zi_ne', 'or': 'zi_or', '-': 'zi_sub', '^': 'zi_xor', '&': 'zi_&', '|': 'zi_|', '/': 'zi_div','not': 'zi_not'}
+# opToCostSymbol = {'+': 'zi_add'}
 
-backends = [Backend.MOTION]
-opToCostSymbol = { 'and': 'zi_and',  'Mux': 'zi_mux', 'or': 'zi_or' }
+# Accept them all in this section
+# '+': 'zi_add' ALL (Brandon accepts F)
+# '==': 'zi_eq' NOT ARITHMETIC (Brandon accepts F)
+# '>': 'zi_gt'  ALL (Brandon accepts and is happy F)
+# '>=': 'zi_ge' NOT ARITHMETIC (Brandon accepts F)
+# '<': 'zi_lt'  ALL (Brandon accepts and is happy F) # maybe use it ???
+# '<=': 'zi_le' NOT ARITHMETIC (Brandon accepts F)
+# '*': 'zi_mul' ALL (Brandon accepts F)
+# '-': 'zi_sub' ALL (Brandon accepts F)
+# '!=':'zi_ne'  NOT ARITHMETIC (Brandon accepts F)
+# '^': 'zi_xor' NOT ARITHMETIC (Brandon accepts F)
+# '&': 'zi_&' NOT ARITHMETIC (Brandon accepts F)
+# '|': 'zi_|' NOT ARITHMETIC (Brandon accepts F)
+# 'not': 'zi_not' NOT ARITHMETIC (Brandon accepts F)
 
-# '+': 'zi_add' ALL
-# '==': 'zi_eq' NOT ARITHMETIC
-# '&': 'zi_&' NOT ARITHMETIC
-# '|': 'zi_|' NOT ARITHMETIC
-# '/': 'zi_div' NOT AT ALL
-# '>=': 'zi_ge' NOT AT ALL ==>  error: no match for ‘operator>=’ (operand types are ‘encrypto::motion::ShareWrapper’ and ‘encrypto::motion::ShareWrapper’)
-# '<=': 'zi_le' NOT AT ALL ==>  error: no match for ‘operator<=’ (operand types are ‘encrypto::motion::ShareWrapper’ and ‘encrypto::motion::ShareWrapper’)
-# '>': 'zi_gt'  NOT BOOLEAN AND BMR ==> what():  GreaterThan operation is only supported for arithmetic GMW shares
-# '<': 'zi_lt'  NOT AT ALL ==>  error: no match for ‘operator<’ (operand types are ‘encrypto::motion::ShareWrapper’ and ‘encrypto::motion::ShareWrapper’)
-# '*': 'zi_mul' ALL
-# '-': 'zi_sub' ALL
-# '!=': 'zi_ne' NOT AT ALL ==> error: return type of ‘encrypto::motion::ShareWrapper encrypto::motion::ShareWrapper::operator==(const encrypto::motion::ShareWrapper&) const’ is not ‘bool’
-#  '%': 'zi_rem' NOT AT ALL
-# '<<': 'zi_shl' NOT AT ALL ==>  error: no match for ‘operator<<’ (operand types are ‘encrypto::motion::SecureUnsignedInteger’ and ‘encrypto::motion::SecureUnsignedInteger’)
-# '^': 'zi_xor' NOT ARITHMETIC
-# ,'>>': 'zi_shr' NOT AT ALL ==>  error: no match for ‘operator>>’ (operand types are ‘encrypto::motion::ShareWrapper’ and ‘encrypto::motion::ShareWrapper’)
-opToCostSymbol = {} 
-vecSizes = [4]
-trials, loopIters, intSize = (1, 2, 32)
+# '/': 'zi_div' NOT ARITHMETIC (Brandon accepts ) ==> still need to print results
 
+#  '%': 'zi_rem' NOT USED AND NOT IMPLEMENTED IN MOTION ?? (NEED TO CHECK) 
+# '<<': 'zi_shl' NOT USED AND NOT IMPLEMENTED IN MOTION ?? (NEED TO CHECK) 
+# '>>': 'zi_shr' NOT USED AND NOT IMPLEMENTED IN MOTION ?? (NEED TO CHECK) 
+
+
+# STOP HERE TO REFLECT
+# WE NEED TO MODIFY THOSE OR CHECK
+
+
+#[TODO] NEED TO PRINT THE RESULT for the benchmarks
+
+
+
+
+# backends = [Backend.MOTION]
 # backends = [Backend.MP_SPDZ]
-# opToCostSymbol = {'*': 'zi_mul'}
-# vecSizes = [4]
+# spdzMix = []
+# vecSizes = [5]
+# vecSizesConv = [1]
 # trials, loopIters, intSize = (1, 2, 32)
-# spdzTypes = ["A"]
+# opToCostSymbol = {'+': 'zi_add'}
+# spdzTypes = ["B"]
+
 
 def startSocket():
     global conn_address, server_address
@@ -105,9 +126,106 @@ def averageStats(statsList):
 
 def genCodeConv(backend,protocol,iters,vecSize):
 
-    protocol = protocol.split('_')[1]
-    if str(backend) == 'MP-SPDZ':
+    
+    
+    if str(backend) == 'MOTION':
+        protocol_from, protocol_to = protocol = protocol.split('_')
+        # Define the source and destination directories
+        source_dir = "./mpc_samples/MOTION/templates"
+        destination_dir = f"./test_MOTION_{iters}"
 
+        # Delete the destination directory if it exists
+        if path.exists(destination_dir):
+            shutil.rmtree(destination_dir)
+        # Create the new directory if it doesn't exist
+        makedirs(destination_dir, exist_ok=True)
+
+         # Move all files and subdirectories from source to destination
+        for item in listdir(source_dir):
+            source_item = path.join(source_dir, item)
+            destination_item = path.join(destination_dir, item)
+            shutil.copy2(source_item, destination_item)
+
+        # Generate the build directory
+        app_path = f"/opt/ParallelizationForMPC_upgrade/compiler/test_MOTION_{iters}"
+    
+        with open(f'{app_path}/main.cpp','r') as f:
+            main_code = f.read()
+
+        main_code = main_code.replace('_vec_size',str(vecSize))
+        if protocol_from == "ArithmeticGmw":
+            main_code = main_code.replace("_inputA_placeHolder","A = party->In<encrypto::motion::MpcProtocol::kArithmeticGmw>(list_A,0);")
+        if protocol_from == 'BooleanGmw':
+            main_code = main_code.replace("_inputA_placeHolder","A = party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::ToInput(list_A),0);")
+        if protocol_from == "Bmr":
+            main_code = main_code.replace("_inputA_placeHolder","A = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(list_A),0);")
+        
+        main_code = main_code.replace("_inputB_placeHolder","")
+        main_code = main_code.replace("list_B.push_back(i);","")
+        main_code = main_code.replace("std::vector<std::uint32_t> list_B;","")
+        main_code = main_code.replace("encrypto::motion::SecureUnsignedInteger B;","")
+        main_code = main_code.replace("template_code(party, A, B);","template_code(party, A);")
+
+        # retrieve the sample 
+        with open(f'{app_path}/template_code.h','r') as f:
+            code = f.read()
+
+        code = code.replace("encrypto::motion::SecureUnsignedInteger list_A,","encrypto::motion::SecureUnsignedInteger list_A")
+        code = code.replace("encrypto::motion::SecureUnsignedInteger list_B","")
+        code = code.replace("_type_to_replace","encrypto::motion::SecureUnsignedInteger")
+        
+
+        code = code.replace("_operator_to_replace",f"result_C = list_A.Get().Convert<encrypto::motion::MpcProtocol::k{protocol_to}>();")
+        code = code.replace("_loop_dependency","list_A = list_A + list_A;")
+        code = code.replace("_iters",str(iters))
+        # retrieve the sample 
+        with open(f'{app_path}/template_code.h','w') as f:
+            f.write(code)
+
+        # save the main file to server side
+        # Open the file in write mode and write the content
+        with open(f'{app_path}/main.cpp', 'w') as f:
+            f.write(main_code)
+
+        # Tranfer the code 
+        dummy_template_filename = f'MOTION_code.cpp'
+        dummy_main_filename = f'MOTION_main.cpp'
+        client_mixed_directory = f"client_motion_mixed_{iters}"
+        # Build the code 
+        sendCmd('save ' + dummy_main_filename + ' ' + main_code)
+        sendCmd('save ' + dummy_template_filename + ' ' + code)
+        sendCmd(f'execute sudo mkdir -p {client_mixed_directory}')
+        sendCmd(f'execute sudo rm -rf ./{client_mixed_directory}/*')
+        sendCmd(f'execute sudo cp mpc_samples/MOTION/templates/CMakeLists.txt ./{client_mixed_directory}/')
+        sendCmd(f'execute sudo cp mpc_samples/MOTION/templates/collect_stats.cpp ./{client_mixed_directory}/')
+        sendCmd(f'execute sudo cp mpc_samples/MOTION/templates/collect_stats.h ./{client_mixed_directory}/')
+        sendCmd(f'execute sudo mv {dummy_template_filename} {client_mixed_directory}/template_code.h')
+        sendCmd(f'execute sudo mv {dummy_main_filename} {client_mixed_directory}/main.cpp')
+        
+
+        # Compile on local version
+        subprocess.run(
+            ["cmake", "-S", app_path, "-B", path.join(app_path, "build")],
+            check=True,
+        )
+
+        # Build
+        subprocess.run(
+            ["cmake", "--build", path.join(app_path, "build"),"-j8"],
+            check=True,
+        )
+
+        # Compile on clients end
+        client_path = f"/opt/ParallelizationForMPC_upgrade/compiler/{client_mixed_directory}"
+        command1 = f"cmake -S {client_path} -B {path.join(client_path,'build')}"
+        command2 = f"cmake --build {path.join(client_path,'build')} -j8"
+        sendCmd(f"execute sudo {command1}")
+        sendCmd(f"execute sudo {command2}")
+        
+        return f"{client_mixed_directory}"
+
+    if str(backend) == 'MP-SPDZ':
+        protocol = protocol.split('_')[1]
         dummy_filename = f'protocol_mixed_{iters}.mpc'
 
         # retrieve the sample 
@@ -153,13 +271,14 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
     val = iters * vecSize
     if str(backend) == 'MOTION': 
 
-        category1 = ["zi_add","zi_mul","zi_sub"]
+        category1 = ["zi_add","zi_mul","zi_sub","zi_div"]
+        category2 = ["zi_gt","zi_lt","zi_eq","zi_ge","zi_le","zi_ne","zi_and","zi_or","zi_|","zi_&","zi_xor","zi_not","zi_mux"]
         
         # generate a working directory and move template files there
         
         # Define the source and destination directories
         source_dir = "./mpc_samples/MOTION/templates"
-        destination_dir = f"./dummy_MOTION_{iters}"
+        destination_dir = f"./test_MOTION_{iters}"
 
         # Delete the destination directory if it exists
         if path.exists(destination_dir):
@@ -176,7 +295,7 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
         # Construct the proper template
 
         # Generate the build directory
-        app_path = f"/opt/ParallelizationForMPC_upgrade/compiler/dummy_MOTION_{iters}"
+        app_path = f"/opt/ParallelizationForMPC_upgrade/compiler/test_MOTION_{iters}"
     
         with open(f'{app_path}/main.cpp','r') as f:
             main_code = f.read()
@@ -196,11 +315,7 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
             main_code = main_code.replace("_output_type",".As<std::uint32_t>()")
         else:
             main_code = main_code.replace("_output_type","")
-        # save the main file to server side
-        # Open the file in write mode and write the content
-        with open(f'{app_path}/main.cpp', 'w') as f:
-            f.write(main_code)
-
+        
         # retrieve the sample 
         with open(f'{app_path}/template_code.h','r') as f:
             code = f.read()
@@ -211,36 +326,145 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
         type2 = "encrypto::motion::ShareWrapper"
 
         operator_type1 = "result_C = list_A _operator list_B;"
-        operator_type2 = "result_C = encrypto::motion::ShareWrapper(list_A.Get()) _operator encrypto::motion::ShareWrapper(list_B.Get());"
        
         if symbol in category1:
             code = code.replace("_type_to_replace",type1)
             code = code.replace("_operator_to_replace",operator_type1)
             code = code.replace("_operator",operator)
-        else:
-            code = code.replace("_type_to_replace",type2)
-            code = code.replace("_operator_to_replace",operator_type2)
-            code = code.replace("_operator",operator)
+            code = code.replace("_loop_dependency","list_A = result_C;")
+        elif symbol in category2:
 
-        # retrieve the sample 
+            if symbol == "zi_gt":
+                code = code.replace("_type_to_replace",type2)
+                code = code.replace("_operator_to_replace",operator_type1)
+                code = code.replace("_operator",operator)
+                if protocol == "ArithmeticGmw":
+                    code = code.replace("_loop_dependency","list_A = list_A + list_B;")
+                else:
+                    code = code.replace("_loop_dependency","list_A = result_C.Mux(list_A.Get(),list_B.Get());")
+            elif symbol == "zi_lt":
+                code = code.replace("_type_to_replace",type2)
+                code = code.replace("_operator_to_replace","result_C = list_B > list_A;")
+                if protocol == "ArithmeticGmw":
+                    code = code.replace("_loop_dependency","list_A = list_A + list_B;")
+                else:
+                    code = code.replace("_loop_dependency","list_A = result_C.Mux(list_A.Get(),list_B.Get());")
+            elif symbol == "zi_ge":
+                code = code.replace("_type_to_replace",type2)
+                operation = "result_C = (list_A > list_B) | (list_A == list_B);"
+                code = code.replace("_operator_to_replace",operation)
+                code = code.replace("_loop_dependency","list_A = result_C.Mux(list_A.Get(),list_B.Get());")
+            elif symbol == "zi_le":
+                code = code.replace("_type_to_replace",type2)
+                operation = "result_C = (list_B > list_A) | (list_A == list_B);"
+                code = code.replace("_operator_to_replace",operation)
+                code = code.replace("_loop_dependency","list_A = result_C.Mux(list_A.Get(),list_B.Get());")
+            elif symbol == "zi_eq":
+                code = code.replace("_type_to_replace",type2)
+                if protocol == "ArithmeticGmw":
+                    operation = "result_C = ~((list_A > list_B) | (list_B > list_A));"
+                    code = code.replace("_loop_dependency","list_A = list_A + list_B;")
+                else:
+                    operation = "result_C = (list_A == list_B);"
+                    code = code.replace("_loop_dependency","list_A = result_C.Mux(list_A.Get(),list_B.Get());")
+                code = code.replace("_operator_to_replace",operation)
+            elif symbol == "zi_ne":
+                code = code.replace("_type_to_replace",type2)
+                if protocol == "ArithmeticGmw":
+                    operation = "result_C = ((list_A > list_B) | (list_B > list_A));"
+                    code = code.replace("_loop_dependency","list_A = list_A + list_B;")
+                else:
+                    operation = "result_C = ~(list_A == list_B);"
+                    code = code.replace("_loop_dependency","list_A = result_C.Mux(list_A.Get(),list_B.Get());")
+                code = code.replace("_operator_to_replace",operation)
+            elif symbol == "zi_&":
+                code = code.replace("_type_to_replace",type1)
+                operation = "list_A = (list_A.Get() & list_B.Get());"
+                code = code.replace("_operator_to_replace",operation)
+                code = code.replace("_loop_dependency", "")
+            elif symbol == "zi_|":
+                code = code.replace("_type_to_replace",type1)
+                operation = "list_A = (list_A.Get() | list_B.Get());"
+                code = code.replace("_operator_to_replace",operation)
+                code = code.replace("_loop_dependency", "")
+            elif symbol == "zi_and" or symbol == "zi_or" or symbol == "zi_xor":
+                replace_symbols = {"zi_and":"&", "zi_or":"|","zi_xor":"^"}
+                code = code.replace("_type_to_replace",type1)
+                code = code.replace("encrypto::motion::SecureUnsignedInteger","encrypto::motion::ShareWrapper")
+                operation = f"list_A = (list_A {replace_symbols[symbol]} list_B);"
+                code = code.replace("_operator_to_replace",operation)
+                code = code.replace("_loop_dependency", "")
+            
+                # declarations on main
+                main_code = main_code.replace("encrypto::motion::SecureUnsignedInteger A;","encrypto::motion::ShareWrapper A;")
+                main_code = main_code.replace("std::vector<std::uint32_t> list_A","std::vector<std::uint8_t> list_A")
+                main_code = main_code.replace("encrypto::motion::SecureUnsignedInteger B;","encrypto::motion::ShareWrapper B;")
+                main_code = main_code.replace("std::vector<std::uint32_t> list_B","std::vector<std::uint8_t> list_B")
+
+                # input in 0 1
+                main_code = main_code.replace("list_A.push_back(i);","list_A.push_back(0);")
+                main_code = main_code.replace("list_B.push_back(i);","list_B.push_back(1);")
+            
+            elif symbol == "zi_not":
+            
+                code = code.replace("_type_to_replace",type1)
+                code = code.replace("encrypto::motion::SecureUnsignedInteger","encrypto::motion::ShareWrapper")
+
+                operation = f"result_C = ~(list_A);"
+                code = code.replace("_loop_dependency","list_A = result_C;")
+                code = code.replace("_operator_to_replace",operation)
+                code = code.replace("encrypto::motion::ShareWrapper list_B","").replace("encrypto::motion::ShareWrapper list_A,","encrypto::motion::ShareWrapper list_A")
+
+
+                # declarations on main
+                main_code = main_code.replace("encrypto::motion::SecureUnsignedInteger A;","encrypto::motion::ShareWrapper A;")
+                main_code = main_code.replace("std::vector<std::uint32_t> list_A","std::vector<std::uint8_t> list_A")
+                main_code = main_code.replace("encrypto::motion::SecureUnsignedInteger B;","")
+                main_code = main_code.replace("std::vector<std::uint32_t> list_B;","")
+                main_code = main_code.replace("B = party->In<encrypto::motion::MpcProtocol::kArithmeticGmw>(list_B,1);","")
+                main_code = main_code.replace("B = party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::ToInput(list_B),1);","")
+                main_code = main_code.replace("B = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(list_B),1);","")
+                main_code = main_code.replace("template_code(party, A, B);","template_code(party, A);")
+
+
+                # input in 0 1
+                main_code = main_code.replace("list_A.push_back(i);","list_A.push_back(0);")
+                main_code = main_code.replace("list_B.push_back(i);","")
+
+            elif symbol == "zi_mux":
+                code = code.replace("_type_to_replace",type1)
+                code = code.replace("encrypto::motion::SecureUnsignedInteger result_C;","encrypto::motion::SecureUnsignedInteger result_C; encrypto::motion::ShareWrapper comp = (list_A > list_B);")
+                operation = f"list_A = comp.Mux(list_A.Get(),list_B.Get());"
+                code = code.replace("_loop_dependency","")
+                code = code.replace("_operator_to_replace",operation)
+    
+        else:
+            raise Exception("Dont go here")
+
+        # write the sample 
         with open(f'{app_path}/template_code.h','w') as f:
             f.write(code)
 
 
+        # save the main file to server side
+        # Open the file in write mode and write the content
+        with open(f'{app_path}/main.cpp', 'w') as f:
+            f.write(main_code)
+
         # Tranfer the code 
         dummy_template_filename = f'MOTION_code.cpp'
         dummy_main_filename = f'MOTION_main.cpp'
-
+        client_directory = f"client_motion_{iters}"
         # Build the code 
         sendCmd('save ' + dummy_main_filename + ' ' + main_code)
         sendCmd('save ' + dummy_template_filename + ' ' + code)
-        sendCmd(f'execute sudo mkdir -p client_motion_{iters}')
-        sendCmd(f'execute sudo rm -rf ./client_motion_{iters}/*')
-        sendCmd(f'execute sudo cp mpc_samples/MOTION/templates/CMakeLists.txt ./client_motion_{iters}/')
-        sendCmd(f'execute sudo cp mpc_samples/MOTION/templates/collect_stats.cpp ./client_motion_{iters}/')
-        sendCmd(f'execute sudo cp mpc_samples/MOTION/templates/collect_stats.h ./client_motion_{iters}/')
-        sendCmd(f'execute sudo mv {dummy_template_filename} client_motion_{iters}/template_code.h')
-        sendCmd(f'execute sudo mv {dummy_main_filename} client_motion_{iters}/main.cpp')
+        sendCmd(f'execute sudo mkdir -p {client_directory}')
+        sendCmd(f'execute sudo rm -rf ./{client_directory}/*')
+        sendCmd(f'execute sudo cp mpc_samples/MOTION/templates/CMakeLists.txt ./{client_directory}/')
+        sendCmd(f'execute sudo cp mpc_samples/MOTION/templates/collect_stats.cpp ./{client_directory}/')
+        sendCmd(f'execute sudo cp mpc_samples/MOTION/templates/collect_stats.h ./{client_directory}/')
+        sendCmd(f'execute sudo mv {dummy_template_filename} {client_directory}/template_code.h')
+        sendCmd(f'execute sudo mv {dummy_main_filename} {client_directory}/main.cpp')
 
         # Compile on local version
         subprocess.run(
@@ -250,57 +474,33 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
 
         # Build
         subprocess.run(
-            ["cmake", "--build", path.join(app_path, "build")],
+            ["cmake", "--build", path.join(app_path, "build"),"-j8"],
             check=True,
         )
 
         # Compile on clients end
-        client_path = f"/opt/ParallelizationForMPC_upgrade/compiler/client_motion_{iters}"
+        client_path = f"/opt/ParallelizationForMPC_upgrade/compiler/{client_directory}"
         command1 = f"cmake -S {client_path} -B {path.join(client_path,'build')}"
-        command2 = f"cmake --build {path.join(client_path,'build')}"
+        command2 = f"cmake --build {path.join(client_path,'build')} -j8"
         sendCmd(f"execute sudo {command1}")
         sendCmd(f"execute sudo {command2}")
         
-        return f"client_motion_{iters}"
+        return f"{client_directory}"
     
     elif str(backend) == 'MP-SPDZ':
         
         
-
-        opToCostSymbolCategory = ['zi_add','zi_sub','zi_mul']
-        opToCostSymbolCategory3 = ['zi_rem']
-        opToCostSymbolCategory4 = ['zi_and','zi_or','zi_xor']
-       
-        prot = protocol.split("_")[0]
+        opToCostSymbolCategoryUnary = ['zi_rem',"zi_not"]
+        opToCostSymbolCategoryLogical = ['zi_and','zi_or','zi_xor']
         spdzType = protocol.split("_")[1]
         
-        if symbol in opToCostSymbolCategory:
-            if spdzType == 'A' or spdzType == 'X' or spdzType == 'Y':
-                actualPrototype = 'protocol_arithmetic'
-            elif spdzType == 'B':
-                actualPrototype = 'protocol_binary'
-            else:
-                raise TypeError("This is a type error")
-        elif symbol in opToCostSymbolCategory3:
-            if spdzType == 'A' or spdzType == 'X' or spdzType == 'Y':
-                actualPrototype = 'protocol_3_arithmetic'
-            elif spdzType == 'B':
-                # Just letting this here , but anyways the execution will fail
-                actualPrototype = 'protocol_binary'
-            else:
-                raise TypeError("This is a type error")
+        if symbol in opToCostSymbolCategoryUnary:
+            actualPrototype = 'protocol_unary'
         else:
-            if spdzType == 'A' or spdzType == 'X' or spdzType == 'Y':
-                actualPrototype = 'protocol_2_arithmetic'
-            elif spdzType == 'B':
-                actualPrototype = 'protocol_binary'
-            else:
-                raise TypeError("This is a type error")
-    
-     
+            actualPrototype = 'protocol'
+            
         dummy_filename = f'protocol2_{iters}.mpc'
 
-        
         # retrieve the sample 
         with open(f'./mpc_samples/{backend}/{actualPrototype}.mpc','r') as f:
             code = f.read()
@@ -311,45 +511,56 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
         if spdzType == 'Y':
             Y_code = 'program.use_edabit(True)\n'
             code = Y_code + code
-        # modify the test compoenents
+        
+        if spdzType in {'X','Y','A'}:
+            code = code.replace("_inside","")
+            code = code.replace("_outside","sint")
+        elif spdzType == 'B':
+            additional_types = "siv32 = sbitint.get_type(32)\nsb32 = sbits.get_type(32)\n"
+            code = additional_types + code
+            code = code.replace("_inside","sb32")
+            code = code.replace("_outside","siv32")
+
+            if symbol == 'zi_mul':
+                code = "program.options.binary = 32\n" + code 
+        
+        
         code = code.replace("_iters",str(iters)).replace('_vec_size',str(vecSize))
         
 
-        if symbol in opToCostSymbolCategory:
-            basic_operation = "c = (a _operator b)"
-            basic_operation = basic_operation.replace('_operator',operator)
-            code = code.replace("_operation",basic_operation)
-        elif symbol in opToCostSymbolCategory3:
-            basic_operation = "c[i] = (a[i] _operator 2)"
+        
+        if symbol in opToCostSymbolCategoryUnary:
+            if symbol == 'zi_rem':
+                basic_operation = "c = (a _operator 2)"
+            elif symbol == "zi_not":
+                basic_operation = "c = (a.bit_not())"
+            else:
+                raise Exception("Not possible to reach this place currently")
             basic_operation = basic_operation.replace('_operator',operator)
             code = code.replace('_operation',basic_operation)
-        elif symbol in opToCostSymbolCategory4:
-            if spdzType == 'A' or spdzType == 'X' or spdzType == 'Y':
-                basic_operation = "c[i] = (a[i]_operator(b[i]))"
-                basic_operation = basic_operation.replace('_operator',f".bit_{symbol.split('_')[1]}")
-                code = code.replace('_operation',basic_operation)
-            else:
+        elif symbol in opToCostSymbolCategoryLogical:
+            code = code.replace('sb32(i)',"sbit(0)").replace("sb32(i+1)","sbit(1)")
+            code = code.replace("sbitint.get_type(32)","sbitvec")
+            code = code.replace('sint',"sintbit")
+            if symbol.split('_')[1] == 'or': 
+                basic_operation = "c = ((a.bit_not()).bit_and(b.bit_not())).bit_not()"
+            else: 
                 basic_operation = "c = (a_operator(b))"
                 basic_operation = basic_operation.replace('_operator',f".bit_{symbol.split('_')[1]}")
-                code = code.replace('_operation',basic_operation)
-                
-
+            code = code.replace('_operation',basic_operation)
         else:
             if symbol == 'zi_mux':
+                code = code.replace('_operation',f"c = a.if_else(b,b)")
                 if spdzType == 'B':
-                    c = f'c = sb32.Array(len(a))\n       for i in range(len(a)):\n            '
-                    code = code.replace('_operation',f"{c}c[i] = sb32(0).if_else(sb32(2), sb32(3))")
+                    code = code.replace("a = siv32([sb32(i) ","a = sbitvec([sbit(0) ")
                 else:
-                    code = code.replace('_operation',"c[i] = sint(0).if_else(sint(2), sint(3))")
-            elif spdzType == 'A' or spdzType == 'X' or spdzType == 'Y':
-                basic_operation = "c[i] = (a[i] _operator b[i])"
-                basic_operation = basic_operation.replace('_operator',operator)
-                code = code.replace('_operation',basic_operation)
+                    code = code.replace("a = sint([(i) ","a = sintbit([(0) ")
+   
             else:
                 basic_operation = "c = (a _operator b)"
                 basic_operation = basic_operation.replace('_operator',operator)
                 code = code.replace("_operation",basic_operation)
-    
+
         
         # save it to tmp file
         with open(dummy_filename, "w") as file:  # Open the file in write mode
@@ -375,10 +586,10 @@ def runTrial(codeName,backend,protocol):
     if str(backend) == 'MOTION':
         nameComponents = codeName.split("_")
         iters = nameComponents[len(nameComponents)-1]
-        app_path = f"/opt/ParallelizationForMPC_upgrade/compiler/dummy_MOTION_{iters}/build/template_code"
+        app_path = f"/opt/ParallelizationForMPC_upgrade/compiler/test_MOTION_{iters}/build/template_code"
         client_path = f"/opt/ParallelizationForMPC_upgrade/compiler/{codeName}/build/template_code"
-        p = subprocess.Popen([app_path,"--my-id","0", "--parties", "0,127.0.0.1,23000","1,127.0.0.1,23001"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,)
-        sendCmd(f'execute sudo {client_path} --my-id 1 --parties 0,127.0.0.1,23000 1,127.0.0.1,23001')
+        p = subprocess.Popen(["sudo",app_path,"--my-id","0", "--parties", f"0,{server_address},23000",f"1,{conn_address},23001"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,)
+        sendCmd(f'execute sudo {client_path} --my-id 1 --parties 0,{server_address},23000 1,{conn_address},23001')
 
         try:
             stdout, stderr = p.communicate(timeout=1000)
@@ -469,6 +680,7 @@ def runBenchmark(backend, protocol, operator, symbol, trials, loopIters, conv=Fa
                 if failGenCount > 5:
                     print(f"Skipping {protocol} {operator} {symbol} {vecSize} due to excessive generation errors")
                     print(e)
+                    finalStats[vecSize] = "Generation Error"
                     break
         if not success:
             continue
@@ -481,7 +693,8 @@ def runBenchmark(backend, protocol, operator, symbol, trials, loopIters, conv=Fa
                 statsMultiList.append(runTrial(codeMultiIter,backend,protocol))
             except SystemExit:
                 sys.exit(1)
-            except:
+            except Exception as e:
+                print(e)
                 totalFails += 1
                 if totalFails > 10:
                     break
@@ -497,6 +710,7 @@ def runBenchmark(backend, protocol, operator, symbol, trials, loopIters, conv=Fa
                     break
         if len(statsMultiList) < trials or len(statsSingleList) < trials:
             print(f"Skipping {protocol} {operator} {symbol} {vecSize} due to excessive execution errors")
+            finalStats[vecSize] = "Execution Error"
             continue
 
         # Compute average statistics for this benchmark
@@ -521,7 +735,7 @@ def printOutputToJSON(outputDict, log=False, save=True):
 
 def createCostTable():
 
-    resultsDict = {"params": {"trials": trials, "loopIters": loopIters, "intSize": intSize}}
+    resultsDict = {"params": {"trials": trials, "loopIters": loopIters, "intSize": intSize, "MUX_IN_ALL_MOTION_OPS": True}}
     for backend in backends:
         resultsDict[str(backend)] = dict()
 
@@ -529,11 +743,6 @@ def createCostTable():
         for op, sym in opToCostSymbol.items():
             resultsDict[str(backend)][sym] = dict()
             for protocol in backend.valid_protocols():
-                if protocol != 'semi' and str(backend) == 'MP-SPDZ':
-                    continue
-                # if protocol == "ArithmeticGmw" or protocol == "Bmr":
-                #     print("Continue from ",protocol)
-                    # continue
                 if not sym == 'UNAVAILABLE':
                     if backend == Backend.MP_SPDZ:
                         for spdzType in spdzTypes:
@@ -546,11 +755,10 @@ def createCostTable():
 
         # Compute conversion costs
         convPossibilities = spdzMix if backend == Backend.MP_SPDZ else backend.valid_protocols()
-        # above line needs to be modified for MOTION
         for protocol in backend.valid_protocols():
-            if protocol != 'semi' and str(backend) == 'MP-SPDZ':
-                continue
             for conv in convPossibilities:
+                if protocol == conv:
+                    continue
                 resultsDict[str(backend)][f"{protocol}_{conv}"] = runBenchmark(backend,f"{protocol}_{conv}", None, None, trials, loopIters, conv=True)
                 printOutputToJSON(resultsDict, log=False, save=True)
     printOutputToJSON(resultsDict, log=False, save=True)
@@ -576,8 +784,8 @@ def repairCostTable(tableName="", useLastTable=True):
             if sym not in resultsDict[str(backend)].keys():
                 resultsDict[str(backend)][sym] = dict()
             for protocol in backend.valid_protocols():
-                if protocol != 'semi' and str(backend) == 'MP-SPDZ':
-                    continue
+                # if protocol != 'semi' and str(backend) == 'MP-SPDZ':
+                #     continue
                 if not sym == 'UNAVAILABLE':
                     if backend == Backend.MP_SPDZ:
                         for spdzType in spdzTypes:
@@ -602,9 +810,9 @@ def repairCostTable(tableName="", useLastTable=True):
     # Compute conversion costs
         convPossibilities = spdzMix if backend == Backend.MP_SPDZ else backend.valid_protocols()
         for protocol in backend.valid_protocols():
-            if protocol != 'semi' and str(backend) == 'MP-SPDZ':
-                continue
             for conv in convPossibilities:
+                if protocol == conv:
+                    continue
                 conv = f"{protocol}_{conv}"
                 if conv in resultsDict[str(backend)].keys():
                     resultsDict[str(backend)][conv] = runBenchmark(backend, conv, None, None, trials, loopIters, conv=True, finalStats=resultsDict[str(backend)][conv])
@@ -636,7 +844,7 @@ def signal_handler(sig, frame):
 signal.signal(signal.SIGINT, signal_handler)
 
 s = startSocket()
-createCostTable()
-# repairCostTable()
+# createCostTable()
+repairCostTable('partialMOTIONREDOTable.txt', useLastTable=False)
 sendCmd('quit')
 s.close()

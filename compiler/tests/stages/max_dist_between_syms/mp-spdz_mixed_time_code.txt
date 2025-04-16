@@ -1,0 +1,55 @@
+program.options.binary = 32
+program.use_dabit = True
+def max_dist_between_syms(Seq_0, N_0, Sym_0):
+    # Convertion functions
+    siv32 = sbitintvec.get_type(32)
+    sb32 = sbits.get_type(32)
+    
+    
+    # Shared array declarations
+    _1_2 = [None] * (N_0)
+    _2_2 = [None] * (N_0)
+    _3_2 = [None] * (N_0)
+    _4_0 = [None] * (N_0)
+    _5_0 = [None] * (N_0)
+    _6_0 = [None] * (N_0)
+    _7_0 = [None] * (N_0)
+    current_dist_2 = [None] * (N_0)
+    current_dist_3 = [None] * (N_0)
+    current_dist_5 = [None] * (N_0)
+    max_dist_2 = [None] * (N_0)
+    max_dist_4 = [None] * (N_0)
+    # Shared array convertion declarations
+    
+    # Function body
+    max_dist_1 = siv32(0)
+    current_dist_1 = siv32(0)
+    _6_0 = _v.lift(lambda indices: (Seq_0[indices[0]]), [N_0])
+    _7_0 = _v.lift(lambda indices: Sym_0, [N_0])
+    current_dist_4 = siv32(0)
+    _4_0 = _v.lift(lambda indices: max_dist_1, [N_0])
+    _5_0 = _v.lift(lambda indices: current_dist_1, [N_0])
+    _v.vectorized_assign(_1_2, [N_0], [None], (_v.vectorized_access_simd(_6_0, [N_0], [None]) == _v.vectorized_access_simd(_7_0, [N_0], [None])))
+    _v.vectorized_assign(_2_2, [N_0], [None], (_v.vectorized_access_simd(_1_2, [N_0], [None]).bit_not()))
+    for _9_0 in range(0, N_0):
+        # Set ϕ value
+        if _9_0 == 0:
+            _v.vectorized_assign(current_dist_2, [N_0], [_9_0], _v.vectorized_access(_5_0, [N_0], [_9_0]))
+        else:
+            _v.vectorized_assign(current_dist_2, [N_0], [_9_0], _v.vectorized_access(current_dist_5, [N_0], [(_9_0 - 1)]))
+        _v.vectorized_assign(current_dist_3, [N_0], [_9_0], (_v.vectorized_access_simd(current_dist_2, [N_0], [_9_0]) + siv32(1)))
+        _v.iterative_mux(current_dist_5,_2_2,current_dist_3,current_dist_4,[N_0],[_9_0])
+    # Loop exit ϕ values
+    _v.vectorized_assign(current_dist_2, [N_0], [_9_0], _v.vectorized_access(current_dist_5, [N_0], [(_9_0 - 1)]))
+    for _10_0 in range(0, N_0):
+        # Set ϕ value
+        if _10_0 == 0:
+            _v.vectorized_assign(max_dist_2, [N_0], [_10_0], _v.vectorized_access(_4_0, [N_0], [_10_0]))
+        else:
+            _v.vectorized_assign(max_dist_2, [N_0], [_10_0], _v.vectorized_access(max_dist_4, [N_0], [(_10_0 - 1)]))
+        _v.vectorized_assign(_3_2, [N_0], [_10_0], (_v.vectorized_access_simd(current_dist_5, [N_0], [_10_0]) > _v.vectorized_access_simd(max_dist_2, [N_0], [_10_0])))
+        _v.iterative_mux(max_dist_4,_3_2,current_dist_5,max_dist_2,[N_0],[_10_0])
+    # Loop exit ϕ values
+    _v.vectorized_assign(max_dist_2, [N_0], [_10_0], _v.vectorized_access(max_dist_4, [N_0], [(_10_0 - 1)]))
+    _8_0 = _v.drop_dim(max_dist_4, [N_0])
+    return _8_0

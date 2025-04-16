@@ -16,7 +16,6 @@
 !7!0: shared[list[list[int; (N!0)]; (D!0)]]
 !8!0: shared[list[list[int; (N!0)]; (D!0)]]
 !9!0: shared[list[list[int; (N!0)]; (D!0)]]
-C!0: shared[list[int; ?]]
 C_sqr_sum!0: shared[int]
 D!0: plaintext[int]
 N!0: plaintext[int]

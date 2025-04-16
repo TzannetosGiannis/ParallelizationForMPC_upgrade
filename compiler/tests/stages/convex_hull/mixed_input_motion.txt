@@ -1,1 +1,0 @@
-{"Y_coords_0": ["Y"], "X_coords_0": ["Y"]}

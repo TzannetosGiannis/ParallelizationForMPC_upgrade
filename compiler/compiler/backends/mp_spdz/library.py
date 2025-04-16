@@ -24,6 +24,7 @@ def _expand_vectorized_indices(
     return list(itertools.product(*dim_idx_iters))
 
 
+# [TODO] evalueate the type casting
 def _index_register_vector(vector, index):
     try:
         return type(vector)(vector.elements()[index])
@@ -32,13 +33,14 @@ def _index_register_vector(vector, index):
 
 
 def _unsimdify(vector):
+    
     if isinstance(vector, list):
         return vector
     elif vector.size == 1:
         return [vector]
     else:
         try:
-            return [type(vector)(value) for value in vector.elements()]
+            return [(value) for value in vector.elements()]
         except AttributeError:
             return [vector[i] for i in range(vector.size)]
 
@@ -74,10 +76,13 @@ class _SimdifyInput:
 
 class VectorizationLibrary:
     def __init__(self, globals):
+        
         self._print_str = globals["print_str"]
         self._sint = globals["sint"]
+        self._sintbit = globals["sintbit"]
         self._sbits = globals["sbits"].get_type(_BIT_LENGTH)
-        self._sbitvecn = globals["sbitvec"]
+        self._sbit = globals["sbit"]
+        self._sbitvec = globals["sbitvec"]
         self._sbitintvec = globals["sbitintvec"]
 
         try:
@@ -89,34 +94,39 @@ class VectorizationLibrary:
     def _simdify(self, input: _SimdifyInput):
         values = input.values
         first = values[0]
+
         if len(values) == 1:
-            return first
-        try:
-
-            if isinstance(first, self.sbool):
-                element_type = self.sbool
-                return element_type(values)
-            if isinstance(first, int):
-                element_type = self._sint
-                return element_type(values)
-            if isinstance(first, self._sint):
-                element_type = self._sint
-                return element_type(values)
-            if isinstance(first, self._sbits):
-                element_type = self._sbits
-                return element_type(values)
-            if isinstance(first, self._sbitvecn):
-                element_type = self._sbitintvec
-                return element_type([self._sbitintvec(value) for value in values])
-
-            # element_type = self.sbool if isinstance(first, self.sbool) else self._sint
-        except Exception as ex:
-                return element_type([self._sbits(value) for value in values])
+            return values[0]
+        
+        if isinstance(first, self._sint):
+            return self._sint(values)
+        if isinstance(first, self._sbits):
+            return self._sbitintvec(values)
+        
+        if isinstance(first, self._sintbit):
+            return self._sintbit(values)
+        
+        if isinstance(first, self._sbit):
+            return self._sbitvec(values)
+        
+        if isinstance(first,self._sbitvec):
+             return self._sbitintvec([ self._sbits(value) for value in values])
+        
+        raise Exception(type(first))
+       
 
     def vectorized_access_simd(
-        self, array: list, shape: list[int], indices: tuple[typing.Optional[int]]
+        self, array, shape: list[int], indices: tuple[typing.Optional[int]]
     ):
-        result_list = self.vectorized_access(array, shape, indices)
+        
+        if str(type(array)) == "<class 'Compiler.GC.types.sbitvec.get_type.<locals>.sbitvecn'>":
+            result_list = _unsimdify(array)
+            result_list = self.vectorized_access(result_list, shape, indices)
+        else:
+            result_list = self.vectorized_access(array, shape, indices)
+        if len(result_list) == 1:
+            return result_list[0]
+        
         return self._simdify(_SimdifyInput(result_list))
 
     def vectorized_access(
@@ -133,11 +143,21 @@ class VectorizationLibrary:
     ) -> None:
         assert value is not None
         indices_full = _expand_vectorized_indices(shape, indices)
+        
+        # if value per in index is sbitvecn of size 1 then cast to sbit
+        if isinstance(value,self._sbitvec) and value.size == 1:
+            local_bit_length = str(value.elements()[0])[-3:]
+            if local_bit_length == "(1)":
+                value = self._sbit(value)
+            
         value = _unsimdify(value)
+      
         assert len(indices_full) == len(value)
         for value_index, tensor_index in enumerate(indices_full):
+            
             value_elem = value[value_index]
             self.assign_tensor(array, tensor_index, shape, value_elem)
+        
 
     def access_tensor(
         self, array: list, index: typing.Union[tuple[int], list[int]], shape: list[int]
@@ -170,55 +190,41 @@ class VectorizationLibrary:
 
         zero_index = tuple(0 for _ in dim_sizes)
         first_value = expr(zero_index)
-        if isinstance(first_value, int) or (
-            isinstance(first_value, (self._sint, self.sbool,self._sbits,self._sbitvecn)) and first_value.size == 1
+        if isinstance(first_value, (int,self._sbit,self._sbits)) or (
+            isinstance(first_value, (self._sint,self._sintbit,self._sbitintvec,self._sbitvec)) and first_value.size == 1
         ):
-            if isinstance(first_value, self.sbool):
-                value_type = self.sbool
+            
             if isinstance(first_value, int):
                 value_type = self._sint
-            if isinstance(first_value, self._sint):
-                value_type = self._sint
-            if isinstance(first_value, self._sbits):
-                value_type = self._sbits
-            if isinstance(first_value, self._sbitvecn):
-                 value_type = (
-                    type(first_value[0])
-                    if isinstance(first_value, list)
-                    else type(first_value)
-                )
-
-            if isinstance(first_value, self._sbitintvec):
-                value_type = (
-                    type(first_value[0])
-                    if isinstance(first_value, list)
-                    else type(first_value)
-                )
+            else:
+                value_type = type(first_value)
                 
             a = [None] * math.prod(dim_sizes)
             all_indices = [range(size) for size in dim_sizes]
+            # [TODO] evalueate the type casting
             for index in itertools.product(*all_indices):
                 value = value_type(expr(index))
                 self.assign_tensor(a, index, dim_sizes, value)
             return a
         else:
+            # [TODO] evalueate the type casting
             assert isinstance(first_value, list) or (
-                isinstance(first_value, (self._sint, self.sbool,self._sbits))
+                isinstance(first_value, (self._sint,self._sbitintvec,self._sbitvec,self._sintbit))
                 and first_value.size > 1
-            ), type(first_value)
-            source_array = first_value
+            )
+            
+            if isinstance(first_value, (self._sbitintvec,self._sbitvec)):
+                source_array = first_value.elements()
+            else:
+                source_array = first_value
             source_array_len = (
                 len(source_array)
                 if isinstance(first_value, list)
                 else source_array.size
             )
-            assert dim_sizes[0] <= source_array_len, source_array
-            
-            value_type = (
-                type(first_value[0])
-                if isinstance(first_value, list)
-                else type(first_value)
-            )
+
+            assert dim_sizes[0] <= source_array_len
+
             lifted_array = [None] * math.prod(dim_sizes)
             all_indices = [range(size) for size in dim_sizes]
             for index in itertools.product(*all_indices):
@@ -289,15 +295,35 @@ class VectorizationLibrary:
         sa = self._sint(a) if isinstance(a, int) else a
         sb = self._sint(b) if isinstance(b, int) else b
         return sa.int_div(sb, bit_length=_BIT_LENGTH)
+    
+    def convertion_check(self,element):
+        if isinstance(element,self._sintbit):
+            return self._sbit(element)
+        elif isinstance(element,self._sint):
+            return self._sbits(element)
+        else:
+            raise Exception(type(element))
+        
 
     # TODO: Cludgy fix for SPDZ Mux (binary)
     def iterative_mux(self, dest_array: list, cond: typing.Union[list,typing.Any],
                     op1: typing.Union[list,typing.Any], op2: typing.Union[list,typing.Any],
                     shape: list[int], indices: tuple[typing.Optional[int]]) -> None:
         indices_full = _expand_vectorized_indices(shape, indices)
+        if str(type(op1)) == "<class 'Compiler.GC.types.sbitvec.get_type.<locals>.sbitvecn'>":
+            op1_examine = _unsimdify(op1)
+            if str(type(op1_examine[0])) != "<class 'Compiler.GC.types.sbitvec.get_type.<locals>.sbitvecn'>":
+                op1 = op1_examine
+        if str(type(op2)) == "<class 'Compiler.GC.types.sbitvec.get_type.<locals>.sbitvecn'>":
+            op2_examine = _unsimdify(op2)
+            if str(type(op2_examine[0])) != "<class 'Compiler.GC.types.sbitvec.get_type.<locals>.sbitvecn'>":
+                op2 = op2_examine
+    
         for index in indices_full:
             flat_index = _compute_flat_index(index,shape)
             cond_value = cond[flat_index] if isinstance(cond,list) else cond
             op1_value = op1[flat_index] if isinstance(op1,list) else op1
             op2_value = op2[flat_index] if isinstance(op2,list) else op2
+            if str(type(cond_value)) == "<class 'Compiler.GC.types.sbitint.get_type.<locals>._'>":
+                cond_value = self._sbit(cond_value)
             dest_array[flat_index] = cond_value.if_else(op1_value,op2_value)

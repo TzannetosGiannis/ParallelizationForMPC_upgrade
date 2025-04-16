@@ -26,5 +26,7 @@ def longest_102(Seq: shared[list[int]], N: int, Syms: shared[list[int]]) -> shar
     return max_len
 
 
-seq = [1, 0, 2, 1, 0, 0, 2, 1, 2, 2]
-print(longest_102(seq, 10, [1, 0, 2]))
+Seq = [1, 0, 2, 1, 0, 0, 2, 1, 2, 2]
+N = 10
+Syms = [1, 0, 2]
+print(longest_102(Seq, N, Syms))

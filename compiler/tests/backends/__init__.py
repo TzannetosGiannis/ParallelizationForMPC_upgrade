@@ -10,13 +10,14 @@ def run_benchmark(
     backend: Backend,
     benchmark_name: str,
     benchmark_path: str,
-    protocol: str,
+    protocol: Optional[str],
     vectorized=True,
-    mixed=False
+    mixed=False,
+    costType=None
 ) -> Optional[tuple[str, str]]:
     if backend is Backend.MOTION:
         result = motion_run_benchmark(
-            benchmark_name, benchmark_path, protocol, vectorized,mixed=mixed
+            benchmark_name, benchmark_path, protocol, vectorized,mixed=mixed,costType=costType
         )
         if result is None:
             return None
@@ -25,7 +26,7 @@ def run_benchmark(
             return (party0.output, party1.output)
     elif backend is Backend.MP_SPDZ:
         result = mp_spdz_run_benchmark(
-            benchmark_name, benchmark_path, protocol, vectorized,mixed=mixed
+            benchmark_name, benchmark_path, protocol, vectorized,mixed=mixed,costType=costType
         ).result
         return (result, result)
     else:

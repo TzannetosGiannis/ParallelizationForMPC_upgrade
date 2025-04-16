@@ -1,7 +1,6 @@
 Nodes:
     parameter D!0
     parameter N!0
-    parameter C!0
     parameter C_sqr_sum!0
     parameter two_C!0
     parameter S!0
@@ -54,7 +53,6 @@ Forward edges:
     parameter D!0  →  parameter D!0
     parameter D!0  →  !8!0{N!0, D!0}[] = lift(S!0[((i!1 * D!0) + j!1)], (i!1:N!0, j!1:D!0))
     parameter N!0  →  parameter N!0
-    parameter C!0  →  parameter C!0
     parameter C_sqr_sum!0  →  parameter C_sqr_sum!0
     parameter C_sqr_sum!0  →  !6!0{N!0}[] = lift(C_sqr_sum!0, (i!1:N!0))
     parameter two_C!0  →  parameter two_C!0

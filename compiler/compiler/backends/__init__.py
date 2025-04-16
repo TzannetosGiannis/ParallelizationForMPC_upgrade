@@ -6,7 +6,7 @@ from . import motion, mp_spdz
 from ..loop_linear_code import Function
 from ..type_analysis import TypeEnv
 from ..util import assert_never
-from ..protocol_mixing import Config
+from ..protocol_mixing import OrderedConfig,Config
 
 
 class Backend(Enum):
@@ -27,7 +27,7 @@ class Backend(Enum):
             assert_never(self)
 
     def render_mixed_function(
-        self, func: Function, type_env: TypeEnv, ran_vectorization: bool,mixed_config:Config
+        self, func: Function, type_env: TypeEnv, ran_vectorization: bool,mixed_config:OrderedConfig
     ) -> str:
         if self is Backend.MOTION:
             return motion.render_mixed_function(func, type_env, ran_vectorization,mixed_config)
@@ -44,7 +44,7 @@ class Backend(Enum):
         params: dict[str, Any],
         ran_vectorization: bool,
         mixing=False,
-        mixed_config:Config = Config()
+        mixed_config:OrderedConfig = OrderedConfig(Config())
     ) -> None:
         if self is Backend.MOTION:
             return motion.render_application(func, type_env, params, ran_vectorization,mixing,mixed_config)

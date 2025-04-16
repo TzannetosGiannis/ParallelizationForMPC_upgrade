@@ -1,0 +1,96 @@
+encrypto::motion::SecureUnsignedInteger max_sum_between_syms(
+    encrypto::motion::PartyPointer &party,
+    std::vector<encrypto::motion::SecureUnsignedInteger> Seq_0,
+    std::uint32_t _MPC_PLAINTEXT_N_0,
+    encrypto::motion::SecureUnsignedInteger Sym_0
+) {
+    // Shared variable declarations
+    std::vector<encrypto::motion::ShareWrapper> _1_2((_MPC_PLAINTEXT_N_0));
+    encrypto::motion::SecureUnsignedInteger _10_0;
+    encrypto::motion::SecureUnsignedInteger _11_0;
+    std::vector<encrypto::motion::ShareWrapper> _2_2((_MPC_PLAINTEXT_N_0));
+    std::vector<encrypto::motion::ShareWrapper> _3_2((_MPC_PLAINTEXT_N_0));
+    std::vector<encrypto::motion::SecureUnsignedInteger> _4_0((_MPC_PLAINTEXT_N_0));
+    std::vector<encrypto::motion::SecureUnsignedInteger> _5_0((_MPC_PLAINTEXT_N_0));
+    std::vector<encrypto::motion::SecureUnsignedInteger> _6_0((_MPC_PLAINTEXT_N_0));
+    std::vector<encrypto::motion::SecureUnsignedInteger> _7_0((_MPC_PLAINTEXT_N_0));
+    encrypto::motion::SecureUnsignedInteger _9_0;
+    encrypto::motion::SecureUnsignedInteger N_0;
+    encrypto::motion::SecureUnsignedInteger current_sum_1;
+    std::vector<encrypto::motion::SecureUnsignedInteger> current_sum_2((_MPC_PLAINTEXT_N_0));
+    std::vector<encrypto::motion::SecureUnsignedInteger> current_sum_3((_MPC_PLAINTEXT_N_0));
+    encrypto::motion::SecureUnsignedInteger current_sum_4;
+    std::vector<encrypto::motion::SecureUnsignedInteger> current_sum_5((_MPC_PLAINTEXT_N_0));
+    encrypto::motion::SecureUnsignedInteger max_sum_1;
+    std::vector<encrypto::motion::SecureUnsignedInteger> max_sum_2((_MPC_PLAINTEXT_N_0));
+    std::vector<encrypto::motion::SecureUnsignedInteger> max_sum_4((_MPC_PLAINTEXT_N_0));
+
+    // Plaintext variable declarations
+    std::uint32_t _MPC_PLAINTEXT__10_0;
+    std::uint32_t _MPC_PLAINTEXT__11_0;
+    std::uint32_t _MPC_PLAINTEXT_current_sum_1;
+    std::uint32_t _MPC_PLAINTEXT_current_sum_4;
+    std::uint32_t _MPC_PLAINTEXT_max_sum_1;
+
+    // Constant initializations
+    encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_0 = party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::ToInput(std::uint32_t(0)), 0);
+    encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_0_Y = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(std::uint32_t(0)), 0);
+
+    // Input Protocol Convertions
+    std::vector<encrypto::motion::SecureUnsignedInteger> Seq_0_Y(Seq_0.size());
+    vectorized_assign(Seq_0_Y, {Seq_0.size()}, {true}, {}, (vectorized_access(Seq_0, {Seq_0.size()}, {true}, {}).Get().Convert<encrypto::motion::MpcProtocol::kBmr>()));
+
+    // Plaintext parameter assignments
+
+    // Function body
+    max_sum_1 = _MPC_CONSTANT_0;
+    _MPC_PLAINTEXT_max_sum_1 = std::uint32_t(0);
+    current_sum_1 = _MPC_CONSTANT_0_Y;
+    _MPC_PLAINTEXT_current_sum_1 = std::uint32_t(0);
+    vectorized_assign(_6_0, {_MPC_PLAINTEXT_N_0}, {true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return Seq_0[indices[0]];}), {_MPC_PLAINTEXT_N_0}));std::vector<encrypto::motion::SecureUnsignedInteger> _6_0_Y((_MPC_PLAINTEXT_N_0));
+    vectorized_assign(_6_0_Y, {_MPC_PLAINTEXT_N_0}, {true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return Seq_0_Y[indices[0]];}), {_MPC_PLAINTEXT_N_0}));
+    vectorized_assign(_7_0, {_MPC_PLAINTEXT_N_0}, {true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return Sym_0;}), {_MPC_PLAINTEXT_N_0}));
+    current_sum_4 = _MPC_CONSTANT_0;
+    _MPC_PLAINTEXT_current_sum_4 = std::uint32_t(0);
+    vectorized_assign(_4_0, {_MPC_PLAINTEXT_N_0}, {true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return max_sum_1;}), {_MPC_PLAINTEXT_N_0}));
+    vectorized_assign(_5_0, {_MPC_PLAINTEXT_N_0}, {true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return current_sum_1;}), {_MPC_PLAINTEXT_N_0}));
+    vectorized_assign(_1_2, {_MPC_PLAINTEXT_N_0}, {true}, {}, (to_share_wrapper(vectorized_access(_6_0, {_MPC_PLAINTEXT_N_0}, {true}, {})) == to_share_wrapper(vectorized_access(_7_0, {_MPC_PLAINTEXT_N_0}, {true}, {}))));
+    vectorized_assign(_2_2, {_MPC_PLAINTEXT_N_0}, {true}, {}, (~vectorized_access(_1_2, {_MPC_PLAINTEXT_N_0}, {true}, {})));
+    std::vector<encrypto::motion::SecureUnsignedInteger> current_sum_3_B((_MPC_PLAINTEXT_N_0));
+    std::vector<encrypto::motion::SecureUnsignedInteger> current_sum_5_Y((_MPC_PLAINTEXT_N_0));
+
+    // Initialize loop counter
+    _MPC_PLAINTEXT__10_0 = std::uint32_t(0);
+    // Initialize phi values
+    current_sum_2[_MPC_PLAINTEXT__10_0] = _5_0[_MPC_PLAINTEXT__10_0];
+    for (; _MPC_PLAINTEXT__10_0 < _MPC_PLAINTEXT_N_0; _MPC_PLAINTEXT__10_0++) {
+        // Update phi values
+        if (_MPC_PLAINTEXT__10_0 != std::uint32_t(0)) {
+            current_sum_2[_MPC_PLAINTEXT__10_0] = current_sum_5_Y[(_MPC_PLAINTEXT__10_0 - std::uint32_t(1))];
+        }
+
+        current_sum_3[_MPC_PLAINTEXT__10_0] = (current_sum_2[_MPC_PLAINTEXT__10_0] + _6_0_Y[_MPC_PLAINTEXT__10_0]); current_sum_3_B[_MPC_PLAINTEXT__10_0] = current_sum_3[_MPC_PLAINTEXT__10_0].Get().Convert<encrypto::motion::MpcProtocol::kBooleanGmw>();
+        current_sum_5[_MPC_PLAINTEXT__10_0] = _2_2[_MPC_PLAINTEXT__10_0].Mux(current_sum_3_B[_MPC_PLAINTEXT__10_0].Get(), current_sum_4.Get()); current_sum_5_Y[_MPC_PLAINTEXT__10_0] = current_sum_5[_MPC_PLAINTEXT__10_0].Get().Convert<encrypto::motion::MpcProtocol::kBmr>();
+
+    }
+
+
+    // Initialize loop counter
+    _MPC_PLAINTEXT__11_0 = std::uint32_t(0);
+    // Initialize phi values
+    max_sum_2[_MPC_PLAINTEXT__11_0] = _4_0[_MPC_PLAINTEXT__11_0];
+    for (; _MPC_PLAINTEXT__11_0 < _MPC_PLAINTEXT_N_0; _MPC_PLAINTEXT__11_0++) {
+        // Update phi values
+        if (_MPC_PLAINTEXT__11_0 != std::uint32_t(0)) {
+            max_sum_2[_MPC_PLAINTEXT__11_0] = max_sum_4[(_MPC_PLAINTEXT__11_0 - std::uint32_t(1))];
+        }
+
+        _3_2[_MPC_PLAINTEXT__11_0] = (current_sum_5[_MPC_PLAINTEXT__11_0] > max_sum_2[_MPC_PLAINTEXT__11_0]);
+        max_sum_4[_MPC_PLAINTEXT__11_0] = _3_2[_MPC_PLAINTEXT__11_0].Mux(current_sum_5[_MPC_PLAINTEXT__11_0].Get(), max_sum_2[_MPC_PLAINTEXT__11_0].Get());
+
+    }
+
+    _9_0 = drop_dim_monoreturn(vectorized_access(max_sum_4, {_MPC_PLAINTEXT_N_0}, {true}, {}).Unsimdify(), {_MPC_PLAINTEXT_N_0});
+    return _9_0;
+
+}

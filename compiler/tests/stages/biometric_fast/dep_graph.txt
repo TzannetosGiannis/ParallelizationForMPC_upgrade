@@ -1,7 +1,6 @@
 Nodes:
     parameter D!0
     parameter N!0
-    parameter C!0
     parameter C_sqr_sum!0
     parameter two_C!0
     parameter S!0
@@ -56,7 +55,6 @@ Forward edges:
     parameter D!0  →  parameter D!0
     parameter D!0  →  tmp!3 = (S!0[((i!1 * D!0) + j!1)] * two_C!0[j!1])
     parameter N!0  →  parameter N!0
-    parameter C!0  →  parameter C!0
     parameter C_sqr_sum!0  →  parameter C_sqr_sum!0
     parameter C_sqr_sum!0  →  a_sqr_plus_b_sqr!2 = (S_sqr_sum!0[i!1] + C_sqr_sum!0)
     parameter two_C!0  →  parameter two_C!0

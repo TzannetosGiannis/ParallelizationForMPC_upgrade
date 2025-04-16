@@ -42,7 +42,14 @@ def parse_args():
         choices=['time', 'dataSent', 'commRounds'],
         help="Type of cost model to use for mixing",
     )
-    return parser.parse_args()
+
+
+    args = parser.parse_args()
+     # Ensure that --costType is explicitly provided if --mixing is used
+    if args.mixing and args.costType is None:
+        parser.error("--costType must be specified when using --mixing")
+
+    return args
 
 
 if __name__ == "__main__":
