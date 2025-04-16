@@ -665,11 +665,31 @@
     "MP-SPDZ": {
         "biometric": {
             "D = 4, N = 1024": {
-                "A": "ERROR: [Errno 32] Broken pipe",
-                "B": "ERROR: [Errno 32] Broken pipe",
-                "X": "ERROR: [Errno 32] Broken pipe",
-                "Y": "ERROR: [Errno 32] Broken pipe",
-                "mixed": "ERROR: [Errno 32] Broken pipe"
+                "A": {
+                    "commRounds": 17826.0,
+                    "dataSent": 406.66399999999993,
+                    "time": 4.774104
+                },
+                "B": {
+                    "commRounds": 17259.0,
+                    "dataSent": 38.6583,
+                    "time": 1.4997310000000001
+                },
+                "X": {
+                    "commRounds": 19034.0,
+                    "dataSent": 22.1232,
+                    "time": 1.53162
+                },
+                "Y": {
+                    "commRounds": 18758.0,
+                    "dataSent": 21.205199999999998,
+                    "time": 1.255231
+                },
+                "mixed": {
+                    "commRounds": 14932.0,
+                    "dataSent": 17.5669,
+                    "time": 1.1191011999999998
+                }
             },
             "D = 4, N = 512": {
                 "A": {
@@ -696,6 +716,35 @@
                     "commRounds": 7489.0,
                     "dataSent": 8.79025,
                     "time": 0.5619943000000001
+                }
+            }
+        },
+        "biometric_fast": {
+            "D = 4, N = 128": {
+                "A": {
+                    "commRounds": 2244.0,
+                    "dataSent": 53.1601,
+                    "time": 0.6604141000000001
+                },
+                "B": {
+                    "commRounds": 2522.0,
+                    "dataSent": 4.18882,
+                    "time": 0.22253249999999997
+                },
+                "X": {
+                    "commRounds": 2397.0,
+                    "dataSent": 2.7867500000000005,
+                    "time": 0.20827169999999998
+                },
+                "Y": {
+                    "commRounds": 2576.0,
+                    "dataSent": 2.70018,
+                    "time": 0.1928588
+                },
+                "mixed": {
+                    "commRounds": 2085.0,
+                    "dataSent": 2.4605199999999994,
+                    "time": 0.1788629
                 }
             }
         },
@@ -867,11 +916,31 @@
                 }
             },
             "N = 4096": {
-                "A": "ERROR: [Errno 32] Broken pipe",
-                "B": "ERROR: [Errno 32] Broken pipe",
-                "X": "ERROR: [Errno 32] Broken pipe",
-                "Y": "ERROR: [Errno 32] Broken pipe",
-                "mixed": "ERROR: [Errno 32] Broken pipe"
+                "A": {
+                    "commRounds": 36369.0,
+                    "dataSent": 2485.5999999999995,
+                    "time": 25.380399999999998
+                },
+                "B": {
+                    "commRounds": 32954.0,
+                    "dataSent": 8.188819999999998,
+                    "time": 1.789896
+                },
+                "X": {
+                    "commRounds": 31106.0,
+                    "dataSent": 82.80240000000002,
+                    "time": 3.76809
+                },
+                "Y": {
+                    "commRounds": 27749.0,
+                    "dataSent": 71.78229999999999,
+                    "time": 1.9567679999999998
+                },
+                "mixed": {
+                    "commRounds": 32954.0,
+                    "dataSent": 8.188819999999998,
+                    "time": 1.859019
+                }
             }
         },
         "count_10s": {
@@ -903,11 +972,31 @@
                 }
             },
             "N = 4096": {
-                "A": "ERROR: [Errno 32] Broken pipe",
-                "B": "ERROR: [Errno 32] Broken pipe",
-                "X": "ERROR: [Errno 32] Broken pipe",
-                "Y": "ERROR: [Errno 32] Broken pipe",
-                "mixed": "ERROR: [Errno 32] Broken pipe"
+                "A": {
+                    "commRounds": 36369.0,
+                    "dataSent": 2485.5999999999995,
+                    "time": 25.46048
+                },
+                "B": {
+                    "commRounds": 32952.0,
+                    "dataSent": 8.188819999999998,
+                    "time": 1.7600379999999998
+                },
+                "X": {
+                    "commRounds": 31106.0,
+                    "dataSent": 82.80240000000002,
+                    "time": 3.7146320000000004
+                },
+                "Y": {
+                    "commRounds": 27749.0,
+                    "dataSent": 71.78229999999999,
+                    "time": 1.9977850000000004
+                },
+                "mixed": {
+                    "commRounds": 32952.0,
+                    "dataSent": 8.188819999999998,
+                    "time": 1.7383210000000002
+                }
             }
         },
         "count_123": {
@@ -939,11 +1028,31 @@
                 }
             },
             "N = 4096": {
-                "A": "ERROR: [Errno 32] Broken pipe",
-                "B": "ERROR: [Errno 32] Broken pipe",
-                "X": "ERROR: [Errno 32] Broken pipe",
-                "Y": "ERROR: [Errno 32] Broken pipe",
-                "mixed": "ERROR: [Errno 32] Broken pipe"
+                "A": {
+                    "commRounds": 36399.0,
+                    "dataSent": 2498.0499999999997,
+                    "time": 25.62518
+                },
+                "B": {
+                    "commRounds": 32954.0,
+                    "dataSent": 8.189840000000002,
+                    "time": 1.8084820000000001
+                },
+                "X": {
+                    "commRounds": 31136.0,
+                    "dataSent": 95.26070000000001,
+                    "time": 3.869111
+                },
+                "Y": {
+                    "commRounds": 27779.0,
+                    "dataSent": 84.24059999999999,
+                    "time": 2.0846899999999997
+                },
+                "mixed": {
+                    "commRounds": 32954.0,
+                    "dataSent": 8.189840000000002,
+                    "time": 1.7351300000000003
+                }
             }
         },
         "cryptonets_max_pooling": {
@@ -1004,11 +1113,62 @@
                 }
             },
             "64, 64": {
+                "A": {
+                    "commRounds": 47013.0,
+                    "dataSent": 9886.61,
+                    "time": 97.07661
+                },
+                "B": {
+                    "commRounds": 197.0,
+                    "dataSent": 13.9909,
+                    "time": 0.4230541
+                },
+                "X": {
+                    "commRounds": 25928.0,
+                    "dataSent": 273.8380000000001,
+                    "time": 10.420559999999998
+                },
+                "Y": {
+                    "commRounds": 12731.0,
+                    "dataSent": 230.70499999999998,
+                    "time": 3.2674639999999995
+                },
+                "mixed": {
+                    "commRounds": 197.0,
+                    "dataSent": 13.9909,
+                    "time": 0.4250128999999999
+                }
+            }
+        },
+        "db_variance": {
+            "len = 1024": {
                 "A": "ERROR: [Errno 32] Broken pipe",
                 "B": "ERROR: [Errno 32] Broken pipe",
                 "X": "ERROR: [Errno 32] Broken pipe",
                 "Y": "ERROR: [Errno 32] Broken pipe",
                 "mixed": "ERROR: [Errno 32] Broken pipe"
+            },
+            "len = 2048": {
+                "A": "ERROR: [Errno 32] Broken pipe",
+                "B": "ERROR: [Errno 32] Broken pipe",
+                "X": "ERROR: [Errno 32] Broken pipe",
+                "Y": "ERROR: [Errno 32] Broken pipe",
+                "mixed": "ERROR: [Errno 32] Broken pipe"
+            },
+            "len = 512": {
+                "A": {
+                    "commRounds": 434.0,
+                    "dataSent": 28.0601,
+                    "time": 0.27548169999999994
+                },
+                "B": "ERROR: No valid mix found",
+                "X": "ERROR: [Errno 32] Broken pipe",
+                "Y": "ERROR: [Errno 32] Broken pipe",
+                "mixed": {
+                    "commRounds": 2768.0,
+                    "dataSent": 4.161450000000001,
+                    "time": 0.2359763
+                }
             }
         },
         "inner_product": {
@@ -1096,11 +1256,31 @@
                 }
             },
             "N = 4096": {
-                "A": "ERROR: [Errno 32] Broken pipe",
-                "B": "ERROR: [Errno 32] Broken pipe",
-                "X": "ERROR: [Errno 32] Broken pipe",
-                "Y": "ERROR: [Errno 32] Broken pipe",
-                "mixed": "ERROR: [Errno 32] Broken pipe"
+                "A": {
+                    "commRounds": 115729.0,
+                    "dataSent": 4062.55,
+                    "time": 44.22950999999999
+                },
+                "B": {
+                    "commRounds": 82094.0,
+                    "dataSent": 11.4731,
+                    "time": 4.592472
+                },
+                "X": {
+                    "commRounds": 115283.0,
+                    "dataSent": 131.72299999999998,
+                    "time": 9.757352000000001
+                },
+                "Y": {
+                    "commRounds": 110794.0,
+                    "dataSent": 116.99199999999999,
+                    "time": 6.813922
+                },
+                "mixed": {
+                    "commRounds": 82094.0,
+                    "dataSent": 11.4731,
+                    "time": 4.482957000000001
+                }
             }
         },
         "longest_odd_10": {
@@ -1149,11 +1329,31 @@
                 }
             },
             "N = 2048": {
-                "A": "ERROR: [Errno 32] Broken pipe",
-                "B": "ERROR: [Errno 32] Broken pipe",
-                "X": "ERROR: [Errno 32] Broken pipe",
-                "Y": "ERROR: [Errno 32] Broken pipe",
-                "mixed": "ERROR: [Errno 104] Connection reset by peer"
+                "A": {
+                    "commRounds": 41625.0,
+                    "dataSent": 1187.6900000000003,
+                    "time": 13.42035
+                },
+                "B": {
+                    "commRounds": 28770.0,
+                    "dataSent": 4.50078,
+                    "time": 1.555321
+                },
+                "X": {
+                    "commRounds": 43169.0,
+                    "dataSent": 23.631300000000003,
+                    "time": 3.3894219999999997
+                },
+                "Y": {
+                    "commRounds": 42051.0,
+                    "dataSent": 19.952,
+                    "time": 2.4833010000000004
+                },
+                "mixed": {
+                    "commRounds": 28770.0,
+                    "dataSent": 4.50078,
+                    "time": 1.5383419999999999
+                }
             }
         },
         "max_sum_between_syms": {
@@ -1185,11 +1385,31 @@
                 }
             },
             "N = 2048": {
-                "A": "ERROR: [Errno 32] Broken pipe",
-                "B": "ERROR: [Errno 32] Broken pipe",
-                "X": "ERROR: [Errno 32] Broken pipe",
-                "Y": "ERROR: [Errno 32] Broken pipe",
-                "mixed": "ERROR: [Errno 32] Broken pipe"
+                "A": {
+                    "commRounds": 41625.0,
+                    "dataSent": 1187.6900000000003,
+                    "time": 13.441790000000001
+                },
+                "B": {
+                    "commRounds": 28770.0,
+                    "dataSent": 4.50078,
+                    "time": 1.6084709999999998
+                },
+                "X": {
+                    "commRounds": 43169.0,
+                    "dataSent": 23.631300000000003,
+                    "time": 3.412296
+                },
+                "Y": {
+                    "commRounds": 42051.0,
+                    "dataSent": 19.952,
+                    "time": 2.478168
+                },
+                "mixed": {
+                    "commRounds": 28770.0,
+                    "dataSent": 4.50078,
+                    "time": 1.583989
+                }
             }
         },
         "minimal_points": {
@@ -1304,11 +1524,31 @@
         },
         "mnist_relu": {
             "16, 2048": {
-                "A": "ERROR: [Errno 32] Broken pipe",
-                "B": "ERROR: [Errno 32] Broken pipe",
-                "X": "ERROR: [Errno 32] Broken pipe",
-                "Y": "ERROR: [Errno 32] Broken pipe",
-                "mixed": "ERROR: [Errno 32] Broken pipe"
+                "A": {
+                    "commRounds": 44575.0,
+                    "dataSent": 12407.600000000002,
+                    "time": 117.08130000000001
+                },
+                "B": {
+                    "commRounds": 256.0,
+                    "dataSent": 18.795999999999996,
+                    "time": 0.35398739999999995
+                },
+                "X": {
+                    "commRounds": 17649.0,
+                    "dataSent": 198.49499999999998,
+                    "time": 7.254096
+                },
+                "Y": {
+                    "commRounds": 8596.0,
+                    "dataSent": 168.808,
+                    "time": 2.4546959999999998
+                },
+                "mixed": {
+                    "commRounds": 256.0,
+                    "dataSent": 18.795999999999996,
+                    "time": 0.35527230000000004
+                }
             },
             "16, 512": {
                 "A": {
@@ -1340,11 +1580,15 @@
         },
         "psi": {
             "SA = 1024, SB = 1024": {
-                "A": "ERROR: [Errno 32] Broken pipe",
+
                 "B": "ERROR: [Errno 32] Broken pipe",
                 "X": "ERROR: [Errno 32] Broken pipe",
                 "Y": "ERROR: [Errno 32] Broken pipe",
-                "mixed": "ERROR: [Errno 32] Broken pipe"
+                "mixed": {
+                    "commRounds": 5746.0,
+                    "dataSent": 286.57200000000006,
+                    "time": 3.8509119999999997
+                }
             },
             "SA = 128, SB = 128": {
                 "A": {

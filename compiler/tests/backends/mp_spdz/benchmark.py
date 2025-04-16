@@ -315,7 +315,7 @@ def compile_benchmark(
         text=True,
     )
     
-    stdout, stderr = p.communicate(timeout=6000)
+    stdout, stderr = p.communicate()
     assert p.returncode == 0, stderr
     end_time = time()
     compile_time = end_time - start_time
