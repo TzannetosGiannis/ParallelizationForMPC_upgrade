@@ -305,11 +305,40 @@
             }
         },
         "db_variance": {
-            "len = 4096": {
+            "len = 1024": {
+                "ArithmeticGmw": "ERROR: No valid mix found",
+                "Bmr": {
+                    "commRounds": 338703.0,
+                    "dataSent": 273.542,
+                    "time": 70.3544897
+                },
+                "BooleanGmw": {
+                    "commRounds": 659821.0,
+                    "dataSent": 58.396,
+                    "time": 97.0667959
+                },
                 "mixed": {
                     "commRounds": 13394.0,
-                    "dataSent": 3.832,
-                    "time": 3.0632466000000003
+                    "dataSent": 1.9220000000000002,
+                    "time": 2.1953576000000004
+                }
+            },
+            "len = 2048": {
+                "ArithmeticGmw": "ERROR: No valid mix found",
+                "Bmr": {
+                    "commRounds": 659215.0,
+                    "dataSent": 545.5919999999999,
+                    "time": 140.0409864
+                },
+                "BooleanGmw": {
+                    "commRounds": 1311085.0,
+                    "dataSent": 116.316,
+                    "time": 156.4217267
+                },
+                "mixed": {
+                    "commRounds": 13394.0,
+                    "dataSent": 2.558,
+                    "time": 2.4825428
                 }
             },
             "len = 512": {
@@ -1142,18 +1171,73 @@
         },
         "db_variance": {
             "len = 1024": {
-                "A": "ERROR: [Errno 32] Broken pipe",
-                "B": "ERROR: [Errno 32] Broken pipe",
-                "X": "ERROR: [Errno 32] Broken pipe",
-                "Y": "ERROR: [Errno 32] Broken pipe",
-                "mixed": "ERROR: [Errno 32] Broken pipe"
+                "A": {
+                    "commRounds": 441.0,
+                    "dataSent": 31.237100000000005,
+                    "time": 0.2961144
+                },
+                "B": "ERROR: No valid mix found",
+                "X": {
+                    "commRounds": 482.0,
+                    "dataSent": 6.6725200000000005,
+                    "time": 0.11831989999999999
+                },
+                "Y": {
+                    "commRounds": 2775.0,
+                    "dataSent": 7.340529999999999,
+                    "time": 0.2739076
+                },
+                "mixed": {
+                    "commRounds": 2775.0,
+                    "dataSent": 7.340529999999999,
+                    "time": 0.27431040000000007
+                }
             },
             "len = 2048": {
-                "A": "ERROR: [Errno 32] Broken pipe",
-                "B": "ERROR: [Errno 32] Broken pipe",
-                "X": "ERROR: [Errno 32] Broken pipe",
-                "Y": "ERROR: [Errno 32] Broken pipe",
-                "mixed": "ERROR: [Errno 32] Broken pipe"
+                "A": {
+                    "commRounds": 448.0,
+                    "dataSent": 37.60289999999999,
+                    "time": 0.34174380000000004
+                },
+                "B": "ERROR: No valid mix found",
+                "X": {
+                    "commRounds": 489.0,
+                    "dataSent": 13.0286,
+                    "time": 0.1726395
+                },
+                "Y": {
+                    "commRounds": 2782.0,
+                    "dataSent": 13.6966,
+                    "time": 0.318476
+                },
+                "mixed": {
+                    "commRounds": 2782.0,
+                    "dataSent": 13.6966,
+                    "time": 0.3251141
+                }
+            },
+            "len = 4096": {
+                "A": {
+                    "commRounds": 462.0,
+                    "dataSent": 50.26839999999999,
+                    "time": 0.43471399999999993
+                },
+                "B": "ERROR: No valid mix found",
+                "X": {
+                    "commRounds": 503.0,
+                    "dataSent": 25.7494,
+                    "time": 0.26860090000000003
+                },
+                "Y": {
+                    "commRounds": 2796.0,
+                    "dataSent": 26.417399999999994,
+                    "time": 0.4175757
+                },
+                "mixed": {
+                    "commRounds": 2796.0,
+                    "dataSent": 26.417399999999994,
+                    "time": 0.4207129
+                }
             },
             "len = 512": {
                 "A": {
@@ -1162,12 +1246,20 @@
                     "time": 0.27548169999999994
                 },
                 "B": "ERROR: No valid mix found",
-                "X": "ERROR: [Errno 32] Broken pipe",
-                "Y": "ERROR: [Errno 32] Broken pipe",
+                "X": {
+                    "commRounds": 475.0,
+                    "dataSent": 3.49343,
+                    "time": 0.08785841
+                },
+                "Y": {
+                    "commRounds": 2768.0,
+                    "dataSent": 4.161450000000001,
+                    "time": 0.2419117
+                },
                 "mixed": {
                     "commRounds": 2768.0,
                     "dataSent": 4.161450000000001,
-                    "time": 0.2359763
+                    "time": 0.23393000000000003
                 }
             }
         },
@@ -1580,10 +1672,7 @@
         },
         "psi": {
             "SA = 1024, SB = 1024": {
-
                 "B": "ERROR: [Errno 32] Broken pipe",
-                "X": "ERROR: [Errno 32] Broken pipe",
-                "Y": "ERROR: [Errno 32] Broken pipe",
                 "mixed": {
                     "commRounds": 5746.0,
                     "dataSent": 286.57200000000006,
