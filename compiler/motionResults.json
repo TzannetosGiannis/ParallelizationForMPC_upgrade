@@ -1672,7 +1672,22 @@
         },
         "psi": {
             "SA = 1024, SB = 1024": {
-                "B": "ERROR: [Errno 32] Broken pipe",
+                "A": {
+                    "commRounds": 1004318.0,
+                    "dataSent": 210895.0,
+                    "time": 2069.4939999999997
+                },
+                
+                "X": {
+                    "commRounds": 554253.0,
+                    "dataSent": 5779.449999999999,
+                    "time": 215.993
+                },
+                "Y": {
+                    "commRounds": 267536.0,
+                    "dataSent": 4839.0599999999995,
+                    "time": 67.30488999999999
+                },
                 "mixed": {
                     "commRounds": 5746.0,
                     "dataSent": 286.57200000000006,
