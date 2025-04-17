@@ -319,7 +319,7 @@ def get_db_variance_inputs():
     all_args = []
     non_vec_up_to = 0
     #for N in [8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096]:
-    for N in [512, 4096]:
+    for N in [512, 1024, 2048]:
         args = [
         "--len", "{}".format(N),
         ]
