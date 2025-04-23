@@ -321,7 +321,7 @@ def get_db_variance_inputs():
     all_args = []
     non_vec_up_to = 0
     #for N in [8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096]:
-    for N in [512, 1024, 2048]:
+    for N in [512, 1024, 2048, 4096]:
         args = [
         "--len", "{}".format(N),
         ]
@@ -768,6 +768,49 @@ def run_client_role_spdz(address, resultsDict, resultsDetailedDict):
             log.info("\n{} - arguments: {}".format(test_case_dir.name, args.args));
             for protocol in [None, 'A', 'B', 'X', 'Y']:
                 pName = protocol if protocol else 'mixed'
+
+                if pName not in spdzDict[test_case_dir.name][argStr].keys():
+                    spdzDict[test_case_dir.name][argStr][pName] = dict()
+                if type(spdzDict[test_case_dir.name][argStr][pName]) == dict and 'mixType' not in spdzDict[test_case_dir.name][argStr][pName].keys():
+                    with open(os.path.join(test_case_dir.path, 'input.py'), 'r') as f:
+                        input_py = f.read().strip()
+                    argsList = parse_list(args.args)
+                    if not args is None:
+                        input_py = motion_replace_definitions(input_py, argsList)
+                    cfg = compiler.compile(
+                        filename=f"{test_case_dir.name}.py",
+                        text=input_py,
+                        backend=Backend.MP_SPDZ,
+                        quiet=True,
+                        run_vectorization=True,
+                        protocolSets=[{protocol}] if protocol else None,
+                        mixing=True,
+                        costType='time',
+                        mixOnly=True)
+                    pSet = set()
+                    for _, ps in cfg.inputs.items():
+                        pSet |= set(ps)
+                    for _, ps in cfg.outputs.items():
+                        pSet |= set(ps)
+                    for _, ps in cfg.constants.items():
+                        pSet |= set(ps)
+                    for _, ps in cfg.plaintexts.items():
+                        pSet |= set(ps)
+                    for _, p, ps, _, _, _, _ in cfg.assignments:
+                        if p != '_':
+                            pSet.add(p)
+                        pSet |= set(ps)
+                    assert '_' not in pSet
+                    if len(cfg.flags) and 'A' in pSet:
+                        pSet.remove('A')
+                        if 'X' in cfg.flags:
+                            pSet.add('X')
+                        elif 'Y' in cfg.flags:
+                            pSet.add('Y')
+                        else:
+                            assert False
+                    spdzDict[test_case_dir.name][argStr][pName]['mixType'] = str(sorted(list(pSet)))
+
                 if pName in spdzDict[test_case_dir.name][argStr].keys() and spdzDict[test_case_dir.name][argStr][pName] != dict():
                     continue
                 try:
@@ -880,8 +923,6 @@ def run_client_role_motion(address, resultsDict, resultsDetailedDict):
                     argsList = parse_list(args.args)
                     if not args is None:
                         input_py = motion_replace_definitions(input_py, argsList)
-                    print("ARGS")
-                    print(argsList)
                     cfg = compiler.compile(
                         filename=f"{test_case_dir.name}.py",
                         text=input_py,
