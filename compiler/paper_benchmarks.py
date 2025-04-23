@@ -23,7 +23,8 @@ from tests import context as test_context
 from tests.backends.motion.benchmark import  (
     compile_benchmark as motion_compile_benchmark, 
     run_benchmark_for_party as motion_run_benchmark_for_party, 
-    BenchmarkOutput as motion_BenchmarkOutput 
+    BenchmarkOutput as motion_BenchmarkOutput ,
+    replace_definitions as motion_replace_definitions
 )
 
 from tests.backends.mp_spdz.benchmark import (
@@ -34,6 +35,7 @@ from tests.backends.mp_spdz.benchmark import (
 from utils import json_serialize, json_deserialize, StatsForInputConfig, StatsForTask, RunBenchmarkReq
 from utils import GetAddressReq, GetAddressResp
 from utils import read_message, write_message
+from compiler.backends import Backend
 
 SERVER_PORT = 42142
 CONNECTION_TIMEOUT = 3000
@@ -869,8 +871,34 @@ def run_client_role_motion(address, resultsDict, resultsDetailedDict):
 
             for protocol in [None, 'ArithmeticGmw', 'BooleanGmw', 'Bmr']:
                 pName = protocol if protocol else 'mixed'
+
+                if type(motionDict[test_case_dir.name][argStr][pName]) == dict and 'mixType' not in motionDict[test_case_dir.name][argStr][pName].keys():
+                    print("HERE")
+                    # motionDict[test_case_dir.name][argStr][pName]['mixType'] = 'TBD'
+                    with open(os.path.join(test_case_dir.path, 'input.py'), 'r') as f:
+                        input_py = f.read().strip()
+                    print(input_py)
+                    args = parse_list(args.args)
+                    print(args)
+                    if not args is None:
+                        input_py = motion_replace_definitions(input_py, args)
+                    print(input_py)
+                    cfg = compiler.compile(
+                        filename=f"{test_case_dir.name}.py",
+                        text=input_py,
+                        backend=Backend.MOTION,
+                        quiet=True,
+                        run_vectorization=True,
+                        protocol=protocol,
+                        mixing=True,
+                        costType='time',
+                        mixOnly=True)
+                    print(cfg)
+                    exit()
+
                 if pName in motionDict[test_case_dir.name][argStr].keys() and motionDict[test_case_dir.name][argStr][pName] != dict():
                     continue
+
                 try:
                     curList = []
                     vectorized = True

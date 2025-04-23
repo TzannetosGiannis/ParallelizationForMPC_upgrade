@@ -30,7 +30,8 @@ def compile(
     overwrite_out_dir: bool = False,
     protocol="",
     mixing: bool = False,
-    protocolSets: Optional[list[set[str]]] = None
+    protocolSets: Optional[list[set[str]]] = None,
+    mixOnly = False
 ):
     if protocolSets == None and mixing == True:
         protocolsMotion = [{'A', 'B', 'Y'}]
@@ -146,6 +147,8 @@ def compile(
             print("Protocol Mixing Assignments:")
             print(mixed_config)
             print()
+        if mixOnly:
+            return mixed_config
 
     if backend:
         if mixing:
