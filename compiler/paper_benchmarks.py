@@ -872,17 +872,16 @@ def run_client_role_motion(address, resultsDict, resultsDetailedDict):
             for protocol in [None, 'ArithmeticGmw', 'BooleanGmw', 'Bmr']:
                 pName = protocol if protocol else 'mixed'
 
+                if pName not in motionDict[test_case_dir.name][argStr].keys():
+                    motionDict[test_case_dir.name][argStr][pName] = dict()
                 if type(motionDict[test_case_dir.name][argStr][pName]) == dict and 'mixType' not in motionDict[test_case_dir.name][argStr][pName].keys():
-                    print("HERE")
-                    # motionDict[test_case_dir.name][argStr][pName]['mixType'] = 'TBD'
                     with open(os.path.join(test_case_dir.path, 'input.py'), 'r') as f:
                         input_py = f.read().strip()
-                    print(input_py)
-                    args = parse_list(args.args)
-                    print(args)
+                    argsList = parse_list(args.args)
                     if not args is None:
-                        input_py = motion_replace_definitions(input_py, args)
-                    print(input_py)
+                        input_py = motion_replace_definitions(input_py, argsList)
+                    print("ARGS")
+                    print(argsList)
                     cfg = compiler.compile(
                         filename=f"{test_case_dir.name}.py",
                         text=input_py,
@@ -893,8 +892,22 @@ def run_client_role_motion(address, resultsDict, resultsDetailedDict):
                         mixing=True,
                         costType='time',
                         mixOnly=True)
-                    print(cfg)
-                    exit()
+                    pSet = set()
+                    for _, ps in cfg.inputs.items():
+                        pSet |= set(ps)
+                    for _, ps in cfg.outputs.items():
+                        pSet |= set(ps)
+                    for _, ps in cfg.constants.items():
+                        pSet |= set(ps)
+                    for _, ps in cfg.plaintexts.items():
+                        pSet |= set(ps)
+                    for _, p, ps, _, _, _, _ in cfg.assignments:
+                        if p != '_':
+                            pSet.add(p)
+                        pSet |= set(ps)
+                    assert '_' not in pSet
+                    assert cfg.flags == []
+                    motionDict[test_case_dir.name][argStr][pName]['mixType'] = str(sorted(list(pSet)))
 
                 if pName in motionDict[test_case_dir.name][argStr].keys() and motionDict[test_case_dir.name][argStr][pName] != dict():
                     continue

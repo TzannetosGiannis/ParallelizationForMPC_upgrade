@@ -6,16 +6,19 @@
                 "Bmr": {
                     "commRounds": 443384.0,
                     "dataSent": 1038.6370000000002,
+                    "mixType": "['Y']",
                     "time": 105.77719280000001
                 },
                 "BooleanGmw": {
                     "commRounds": 190586.0,
                     "dataSent": 103.457,
+                    "mixType": "['B']",
                     "time": 200.4244073
                 },
                 "mixed": {
                     "commRounds": 429610.0,
                     "dataSent": 55.149,
+                    "mixType": "['A', 'Y']",
                     "time": 48.2741941
                 }
             },
@@ -24,16 +27,19 @@
                 "Bmr": {
                     "commRounds": 224760.0,
                     "dataSent": 519.4759999999999,
+                    "mixType": "['Y']",
                     "time": 54.44749610000001
                 },
                 "BooleanGmw": {
                     "commRounds": 97402.0,
                     "dataSent": 51.837,
+                    "mixType": "['B']",
                     "time": 100.6563993
                 },
                 "mixed": {
                     "commRounds": 215082.0,
                     "dataSent": 27.592999999999996,
+                    "mixType": "['A', 'Y']",
                     "time": 24.2352987
                 }
             }
@@ -44,16 +50,19 @@
                 "Bmr": {
                     "commRounds": 972.0,
                     "dataSent": 0.08699999999999998,
+                    "mixType": "['Y']",
                     "time": 0.40054069999999997
                 },
                 "BooleanGmw": {
                     "commRounds": 751.0,
                     "dataSent": 0.047999999999999994,
+                    "mixType": "['B']",
                     "time": 0.5311927
                 },
                 "mixed": {
                     "commRounds": 1176.0,
                     "dataSent": 0.09799999999999999,
+                    "mixType": "['A', 'Y']",
                     "time": 0.8396579000000001
                 }
             }
@@ -64,16 +73,19 @@
                 "Bmr": {
                     "commRounds": 3480.0,
                     "dataSent": 494.899,
+                    "mixType": "['Y']",
                     "time": 30.8567771
                 },
                 "BooleanGmw": {
                     "commRounds": 1880.0,
                     "dataSent": 63.5,
+                    "mixType": "['B']",
                     "time": 15.7764857
                 },
                 "mixed": {
                     "commRounds": 2041.0,
                     "dataSent": 66.90700000000001,
+                    "mixType": "['B', 'Y']",
                     "time": 16.042728399999998
                 }
             },
@@ -82,16 +94,19 @@
                 "Bmr": {
                     "commRounds": 5016.0,
                     "dataSent": 1967.232,
+                    "mixType": "['Y']",
                     "time": 124.1641781
                 },
                 "BooleanGmw": {
                     "commRounds": 2392.0,
                     "dataSent": 252.728,
+                    "mixType": "['B']",
                     "time": 64.17771869999999
                 },
                 "mixed": {
                     "commRounds": 2553.0,
                     "dataSent": 259.53400000000005,
+                    "mixType": "['B', 'Y']",
                     "time": 61.6396093
                 }
             },
@@ -100,16 +115,19 @@
                 "Bmr": {
                     "commRounds": 2328.0,
                     "dataSent": 32.156,
+                    "mixType": "['Y']",
                     "time": 2.4145273000000005
                 },
                 "BooleanGmw": {
                     "commRounds": 1496.0,
                     "dataSent": 4.134999999999999,
+                    "mixType": "['B']",
                     "time": 2.5714874
                 },
                 "mixed": {
                     "commRounds": 2081.0,
                     "dataSent": 5.762999999999999,
+                    "mixType": "['B', 'Y']",
                     "time": 1.5890106000000002
                 }
             },
@@ -118,16 +136,19 @@
                 "Bmr": {
                     "commRounds": 2712.0,
                     "dataSent": 125.309,
+                    "mixType": "['Y']",
                     "time": 7.8184309999999995
                 },
                 "BooleanGmw": {
                     "commRounds": 1624.0,
                     "dataSent": 16.062000000000005,
+                    "mixType": "['B']",
                     "time": 5.585846399999999
                 },
                 "mixed": {
                     "commRounds": 2369.0,
                     "dataSent": 19.765999999999995,
+                    "mixType": "['B', 'Y']",
                     "time": 4.480995699999999
                 }
             }
@@ -138,16 +159,19 @@
                 "Bmr": {
                     "commRounds": 302948.0,
                     "dataSent": 52.856999999999985,
+                    "mixType": "['Y']",
                     "time": 36.7378724
                 },
                 "BooleanGmw": {
                     "commRounds": 332355.0,
                     "dataSent": 20.574999999999996,
+                    "mixType": "['B']",
                     "time": 118.80220320000001
                 },
                 "mixed": {
                     "commRounds": 303691.0,
                     "dataSent": 31.880999999999993,
+                    "mixType": "['B', 'Y']",
                     "time": 36.267346100000005
                 }
             },
@@ -156,16 +180,19 @@
                 "Bmr": {
                     "commRounds": 1209188.0,
                     "dataSent": 211.267,
+                    "mixType": "['Y']",
                     "time": 154.0719923
                 },
                 "BooleanGmw": {
                     "commRounds": 1327683.0,
                     "dataSent": 82.19000000000001,
+                    "mixType": "['B']",
                     "time": 435.6868316
                 },
                 "mixed": {
                     "commRounds": 1213003.0,
                     "dataSent": 127.41,
+                    "mixType": "['B', 'Y']",
                     "time": 158.30316499999998
                 }
             }
@@ -176,16 +203,19 @@
                 "Bmr": {
                     "commRounds": 302946.0,
                     "dataSent": 52.85600000000001,
+                    "mixType": "['Y']",
                     "time": 37.3695698
                 },
                 "BooleanGmw": {
                     "commRounds": 332355.0,
                     "dataSent": 20.574999999999996,
+                    "mixType": "['B']",
                     "time": 118.45230319999999
                 },
                 "mixed": {
                     "commRounds": 305737.0,
                     "dataSent": 31.981999999999992,
+                    "mixType": "['B', 'Y']",
                     "time": 36.81972370000001
                 }
             },
@@ -194,16 +224,19 @@
                 "Bmr": {
                     "commRounds": 1209186.0,
                     "dataSent": 211.267,
+                    "mixType": "['Y']",
                     "time": 155.3601385
                 },
                 "BooleanGmw": {
                     "commRounds": 1327683.0,
                     "dataSent": 82.19000000000001,
+                    "mixType": "['B']",
                     "time": 470.39028389999993
                 },
                 "mixed": {
                     "commRounds": 1221193.0,
                     "dataSent": 127.816,
+                    "mixType": "['B', 'Y']",
                     "time": 152.21214760000004
                 }
             }
@@ -214,16 +247,19 @@
                 "Bmr": {
                     "commRounds": 302953.0,
                     "dataSent": 53.092,
+                    "mixType": "['Y']",
                     "time": 36.7558246
                 },
                 "BooleanGmw": {
                     "commRounds": 332357.0,
                     "dataSent": 20.591000000000005,
+                    "mixType": "['B']",
                     "time": 133.2152627
                 },
                 "mixed": {
                     "commRounds": 305739.0,
                     "dataSent": 31.999000000000002,
+                    "mixType": "['B', 'Y']",
                     "time": 36.474736199999995
                 }
             },
@@ -232,16 +268,19 @@
                 "Bmr": {
                     "commRounds": 1209193.0,
                     "dataSent": 212.20699999999994,
+                    "mixType": "['Y']",
                     "time": 159.72065920000003
                 },
                 "BooleanGmw": {
                     "commRounds": 1327685.0,
                     "dataSent": 82.254,
+                    "mixType": "['B']",
                     "time": 440.07878769999996
                 },
                 "mixed": {
                     "commRounds": 1221195.0,
                     "dataSent": 127.881,
+                    "mixType": "['B', 'Y']",
                     "time": 153.29314630000002
                 }
             }
@@ -252,16 +291,19 @@
                 "Bmr": {
                     "commRounds": 1639.0,
                     "dataSent": 3.0650000000000004,
+                    "mixType": "['Y']",
                     "time": 0.6479176
                 },
                 "BooleanGmw": {
                     "commRounds": 994.0,
                     "dataSent": 0.33,
+                    "mixType": "['B']",
                     "time": 0.8247324
                 },
                 "mixed": {
                     "commRounds": 1639.0,
                     "dataSent": 3.0650000000000004,
+                    "mixType": "['Y']",
                     "time": 0.6762265999999999
                 }
             }
@@ -272,16 +314,19 @@
                 "Bmr": {
                     "commRounds": 1445094.0,
                     "dataSent": 255.214,
+                    "mixType": "['Y']",
                     "time": 107.56137330000001
                 },
                 "BooleanGmw": {
                     "commRounds": 574924.0,
                     "dataSent": 34.68099999999999,
+                    "mixType": "['B']",
                     "time": 49.4610114
                 },
                 "mixed": {
                     "commRounds": 574924.0,
                     "dataSent": 34.68099999999999,
+                    "mixType": "['B']",
                     "time": 49.489136099999996
                 }
             },
@@ -290,16 +335,19 @@
                 "Bmr": {
                     "commRounds": 5776806.0,
                     "dataSent": 1020.527,
+                    "mixType": "['Y']",
                     "time": 449.60805409999995
                 },
                 "BooleanGmw": {
                     "commRounds": 2298316.0,
                     "dataSent": 138.63100000000003,
+                    "mixType": "['B']",
                     "time": 191.80332629999998
                 },
                 "mixed": {
                     "commRounds": 2298316.0,
                     "dataSent": 138.63100000000003,
+                    "mixType": "['B']",
                     "time": 191.75581219999998
                 }
             }
@@ -310,16 +358,19 @@
                 "Bmr": {
                     "commRounds": 338703.0,
                     "dataSent": 273.542,
+                    "mixType": "['Y']",
                     "time": 70.3544897
                 },
                 "BooleanGmw": {
                     "commRounds": 659821.0,
                     "dataSent": 58.396,
+                    "mixType": "['B']",
                     "time": 97.0667959
                 },
                 "mixed": {
                     "commRounds": 13394.0,
                     "dataSent": 1.9220000000000002,
+                    "mixType": "['A', 'Y']",
                     "time": 2.1953576000000004
                 }
             },
@@ -328,16 +379,19 @@
                 "Bmr": {
                     "commRounds": 659215.0,
                     "dataSent": 545.5919999999999,
+                    "mixType": "['Y']",
                     "time": 140.0409864
                 },
                 "BooleanGmw": {
                     "commRounds": 1311085.0,
                     "dataSent": 116.316,
+                    "mixType": "['B']",
                     "time": 156.4217267
                 },
                 "mixed": {
                     "commRounds": 13394.0,
                     "dataSent": 2.558,
+                    "mixType": "['A', 'Y']",
                     "time": 2.4825428
                 }
             },
@@ -346,16 +400,19 @@
                 "Bmr": {
                     "commRounds": 178447.0,
                     "dataSent": 137.51600000000002,
+                    "mixType": "['Y']",
                     "time": 36.71280900000001
                 },
                 "BooleanGmw": {
                     "commRounds": 334189.0,
                     "dataSent": 29.436,
+                    "mixType": "['B']",
                     "time": 65.81132039999999
                 },
                 "mixed": {
                     "commRounds": 13394.0,
                     "dataSent": 1.6030000000000002,
+                    "mixType": "['A', 'Y']",
                     "time": 2.0503043
                 }
             }
@@ -365,21 +422,25 @@
                 "ArithmeticGmw": {
                     "commRounds": 393.0,
                     "dataSent": 2.5739999999999994,
+                    "mixType": "['A']",
                     "time": 1.2989882000000001
                 },
                 "Bmr": {
                     "commRounds": 652523.0,
                     "dataSent": 998.792,
+                    "mixType": "['Y']",
                     "time": 165.36837789999998
                 },
                 "BooleanGmw": {
                     "commRounds": 1305155.0,
                     "dataSent": 146.883,
+                    "mixType": "['B']",
                     "time": 130.927931
                 },
                 "mixed": {
                     "commRounds": 393.0,
                     "dataSent": 2.5739999999999994,
+                    "mixType": "['A']",
                     "time": 1.2973339
                 }
             },
@@ -387,21 +448,25 @@
                 "ArithmeticGmw": {
                     "commRounds": 393.0,
                     "dataSent": 0.34600000000000003,
+                    "mixType": "['A']",
                     "time": 0.3947805
                 },
                 "Bmr": {
                     "commRounds": 86251.0,
                     "dataSent": 125.08899999999997,
+                    "mixType": "['Y']",
                     "time": 22.869871800000002
                 },
                 "BooleanGmw": {
                     "commRounds": 165443.0,
                     "dataSent": 18.480999999999998,
+                    "mixType": "['B']",
                     "time": 16.9682387
                 },
                 "mixed": {
                     "commRounds": 393.0,
                     "dataSent": 0.34600000000000003,
+                    "mixType": "['A']",
                     "time": 0.3972666000000001
                 }
             }
@@ -412,16 +477,19 @@
                 "Bmr": {
                     "commRounds": 604009.0,
                     "dataSent": 83.25599999999999,
+                    "mixType": "['Y']",
                     "time": 81.44412
                 },
                 "BooleanGmw": {
                     "commRounds": 518725.0,
                     "dataSent": 31.276999999999994,
+                    "mixType": "['B']",
                     "time": 170.8204181
                 },
                 "mixed": {
                     "commRounds": 604751.0,
                     "dataSent": 62.077,
+                    "mixType": "['B', 'Y']",
                     "time": 75.53334000000001
                 }
             },
@@ -430,16 +498,19 @@
                 "Bmr": {
                     "commRounds": 2413417.0,
                     "dataSent": 332.864,
+                    "mixType": "['Y']",
                     "time": 335.76383539999995
                 },
                 "BooleanGmw": {
                     "commRounds": 2073157.0,
                     "dataSent": 124.999,
+                    "mixType": "['B']",
                     "time": 542.0679254
                 },
                 "mixed": {
                     "commRounds": 2417231.0,
                     "dataSent": 248.19400000000002,
+                    "mixType": "['B', 'Y']",
                     "time": 329.40163670000004
                 }
             }
@@ -450,16 +521,19 @@
                 "Bmr": {
                     "commRounds": 1450979.0,
                     "dataSent": 207.18199999999996,
+                    "mixType": "['Y']",
                     "time": 183.1547403
                 },
                 "BooleanGmw": {
                     "commRounds": 1032773.0,
                     "dataSent": 63.28099999999999,
+                    "mixType": "['B']",
                     "time": 574.5461394
                 },
                 "mixed": {
                     "commRounds": 1456715.0,
                     "dataSent": 152.404,
+                    "mixType": "['B', 'Y']",
                     "time": 180.63211950000002
                 }
             }
@@ -470,16 +544,19 @@
                 "Bmr": {
                     "commRounds": 588324.0,
                     "dataSent": 66.735,
+                    "mixType": "['Y']",
                     "time": 79.38541080000002
                 },
                 "BooleanGmw": {
                     "commRounds": 512453.0,
                     "dataSent": 29.887,
+                    "mixType": "['B']",
                     "time": 92.21603259999999
                 },
                 "mixed": {
                     "commRounds": 587209.0,
                     "dataSent": 59.40999999999998,
+                    "mixType": "['B', 'Y']",
                     "time": 71.924678
                 }
             },
@@ -488,16 +565,19 @@
                 "Bmr": {
                     "commRounds": 1176100.0,
                     "dataSent": 133.434,
+                    "mixType": "['Y']",
                     "time": 158.3724791
                 },
                 "BooleanGmw": {
                     "commRounds": 1024453.0,
                     "dataSent": 59.744000000000014,
+                    "mixType": "['B']",
                     "time": 183.9121623
                 },
                 "mixed": {
                     "commRounds": 1173961.0,
                     "dataSent": 118.78900000000002,
+                    "mixType": "['B', 'Y']",
                     "time": 159.4818214
                 }
             }
@@ -508,16 +588,19 @@
                 "Bmr": {
                     "commRounds": 588323.0,
                     "dataSent": 66.735,
+                    "mixType": "['Y']",
                     "time": 74.4816543
                 },
                 "BooleanGmw": {
                     "commRounds": 512453.0,
                     "dataSent": 29.887,
+                    "mixType": "['B']",
                     "time": 91.792961
                 },
                 "mixed": {
                     "commRounds": 587210.0,
                     "dataSent": 59.913,
+                    "mixType": "['B', 'Y']",
                     "time": 74.5783589
                 }
             },
@@ -526,16 +609,19 @@
                 "Bmr": {
                     "commRounds": 1176099.0,
                     "dataSent": 133.433,
+                    "mixType": "['Y']",
                     "time": 160.5167054
                 },
                 "BooleanGmw": {
                     "commRounds": 1024453.0,
                     "dataSent": 59.744000000000014,
+                    "mixType": "['B']",
                     "time": 182.57127540000002
                 },
                 "mixed": {
                     "commRounds": 1173962.0,
                     "dataSent": 119.79600000000002,
+                    "mixType": "['B', 'Y']",
                     "time": 158.7331271
                 }
             }
@@ -546,16 +632,19 @@
                 "Bmr": {
                     "commRounds": 2636.0,
                     "dataSent": 250.413,
+                    "mixType": "['Y']",
                     "time": 15.5733014
                 },
                 "BooleanGmw": {
                     "commRounds": 1264.0,
                     "dataSent": 46.48199999999999,
+                    "mixType": "['B']",
                     "time": 11.398625599999999
                 },
                 "mixed": {
                     "commRounds": 1264.0,
                     "dataSent": 46.48199999999999,
+                    "mixType": "['B']",
                     "time": 11.468999599999998
                 }
             },
@@ -564,16 +653,19 @@
                 "Bmr": {
                     "commRounds": 4300.0,
                     "dataSent": 997.059,
+                    "mixType": "['Y']",
                     "time": 60.2239739
                 },
                 "BooleanGmw": {
                     "commRounds": 1776.0,
                     "dataSent": 185.731,
+                    "mixType": "['B']",
                     "time": 49.1217262
                 },
                 "mixed": {
                     "commRounds": 1776.0,
                     "dataSent": 185.731,
+                    "mixType": "['B']",
                     "time": 45.1080661
                 }
             },
@@ -582,16 +674,19 @@
                 "Bmr": {
                     "commRounds": 1388.0,
                     "dataSent": 16.116999999999997,
+                    "mixType": "['Y']",
                     "time": 1.3659838
                 },
                 "BooleanGmw": {
                     "commRounds": 880.0,
                     "dataSent": 2.953,
+                    "mixType": "['B']",
                     "time": 2.3871386
                 },
                 "mixed": {
                     "commRounds": 1333.0,
                     "dataSent": 3.7410000000000005,
+                    "mixType": "['B', 'Y']",
                     "time": 1.1912136
                 }
             },
@@ -600,16 +695,19 @@
                 "Bmr": {
                     "commRounds": 1804.0,
                     "dataSent": 63.19799999999999,
+                    "mixType": "['Y']",
                     "time": 4.3032375
                 },
                 "BooleanGmw": {
                     "commRounds": 1008.0,
                     "dataSent": 11.662000000000003,
+                    "mixType": "['B']",
                     "time": 3.9691743
                 },
                 "mixed": {
                     "commRounds": 1653.0,
                     "dataSent": 13.694999999999997,
+                    "mixType": "['B', 'Y']",
                     "time": 3.3309918000000005
                 }
             }
@@ -620,16 +718,19 @@
                 "Bmr": {
                     "commRounds": 98982.0,
                     "dataSent": 518.1670000000001,
+                    "mixType": "['Y']",
                     "time": 54.8770346
                 },
                 "BooleanGmw": {
                     "commRounds": 33338.0,
                     "dataSent": 48.18099999999999,
+                    "mixType": "['B']",
                     "time": 24.913049199999996
                 },
                 "mixed": {
                     "commRounds": 33338.0,
                     "dataSent": 48.18099999999999,
+                    "mixType": "['B']",
                     "time": 24.796952500000003
                 }
             },
@@ -638,16 +739,19 @@
                 "Bmr": {
                     "commRounds": 25254.0,
                     "dataSent": 129.57300000000004,
+                    "mixType": "['Y']",
                     "time": 14.082968399999999
                 },
                 "BooleanGmw": {
                     "commRounds": 8762.0,
                     "dataSent": 12.072000000000001,
+                    "mixType": "['B']",
                     "time": 6.264715499999999
                 },
                 "mixed": {
                     "commRounds": 8762.0,
                     "dataSent": 12.072000000000001,
+                    "mixType": "['B']",
                     "time": 6.234764799999999
                 }
             }
@@ -658,16 +762,19 @@
                 "Bmr": {
                     "commRounds": 10914.0,
                     "dataSent": 7709.569000000001,
+                    "mixType": "['Y']",
                     "time": 520.2656898
                 },
                 "BooleanGmw": {
                     "commRounds": 3526.0,
                     "dataSent": 527.9520000000001,
+                    "mixType": "['B']",
                     "time": 164.72981439999998
                 },
                 "mixed": {
                     "commRounds": 3526.0,
                     "dataSent": 527.9520000000001,
+                    "mixType": "['B']",
                     "time": 168.5097877
                 }
             },
@@ -676,16 +783,19 @@
                 "Bmr": {
                     "commRounds": 1954.0,
                     "dataSent": 121.545,
+                    "mixType": "['Y']",
                     "time": 8.2260335
                 },
                 "BooleanGmw": {
                     "commRounds": 838.0,
                     "dataSent": 8.298,
+                    "mixType": "['B']",
                     "time": 2.7019416
                 },
                 "mixed": {
                     "commRounds": 838.0,
                     "dataSent": 8.298,
+                    "mixType": "['B']",
                     "time": 2.7369224
                 }
             }
