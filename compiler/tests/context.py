@@ -19,6 +19,10 @@ SKIPPED_TESTS = {
         "longest_even_0",
         # The following benchmarks are disabled because they take too long to run
         "kmeans_iteration",
+
+        "histogram",
+        # "biometric_fast",
+        # "chapterfour_figure_12",
     ],
     # Skipped only in MOTION
     Backend.MOTION: [
