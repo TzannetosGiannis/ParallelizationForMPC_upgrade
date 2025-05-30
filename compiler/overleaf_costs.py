@@ -39,15 +39,26 @@ KEY_MAPPING = {
     'zi_&': 'bitwise and',
     'zi_|': 'bitwise or',
     'zi_div': 'division',
-    'zi_not': 'bitwise not'
+    'zi_not': 'bitwise not',
+    "ArithmeticGmw_BooleanGmw": f'$ArithmeticGmw \\rightarrow BooleanGmw$',
+    "ArithmeticGmw_Bmr": f'$ArithmeticGmw \\rightarrow Bmr$',
+    "BooleanGmw_ArithmeticGmw": f'$BooleanGmw \\rightarrow ArithmeticGmw$',
+    "BooleanGmw_Bmr": f'$BooleanGmw \\rightarrow Bmr$',
+    "Bmr_ArithmeticGmw": f'$Bmr \\rightarrow ArithmeticGmw$',
+    "Bmr_BooleanGmw": f'$Bmr \\rightarrow BooleanGmw$',
+    "semi_AB": f'$A \\rightarrow B$',
+    "semi_AX": f'$A \\rightarrow X$',
+    "semi_AY": f'$A \\rightarrow Y$',
+    "semi_BA": f'$B \\rightarrow A$',
+    "semi_BX": f'$B \\rightarrow X$',
+    "semi_BY": f'$B \\rightarrow Y$',
+    "semi_XA": f'$X \\rightarrow A$',
+    "semi_XB": f'$X \\rightarrow B$',
+    "semi_XY": f'$X \\rightarrow Y$',
+    "semi_YA": f'$Y \\rightarrow A$',
+    "semi_YB": f'$Y \\rightarrow B$',
+    "semi_YX": f'$Y \\rightarrow $X'
 }
-
-
-
-for key in MOTION.keys():
-    print(f"Key: {key}")
-    for subkey in MOTION[key].keys():
-        print(f"  Subkey: {subkey} - Value: {MOTION[key][subkey]}")
 
 
 def generateLatexRows(tableData):
@@ -181,9 +192,55 @@ for key in MP_SPDZ.keys():
 
 
 
-print(generateLatexRows(rowsMP_SPDZ_2))
+# print(generateLatexRows(rowsMP_SPDZ_2))
 print('-----------------------------------------------------')
 print('-----------------------------------------------------')
 print('-----------------------------------------------------')
 print('-----------------------------------------------------')
 print('-----------------------------------------------------')
+
+MOTIONrowsComvertion = []
+
+for key in MOTION.keys():
+    if key  in TOTAL_AVAIL_KEYS:
+        continue
+    for size in TOTAL_AVAIL_SIZES:
+        MOTIONrowsComvertion.append([KEY_MAPPING[key],size])
+        time = format_metric(MOTION[key][size].get('time', 'N/A'))
+        dataSent = format_metric(MOTION[key][size].get('dataSent', 'N/A'))
+        commRounds = format_metric(MOTION[key][size].get('commRounds', 'N/A'))
+        
+        MOTIONrowsComvertion[-1].extend([
+            time,
+            dataSent,
+            commRounds
+        ])        
+
+# print(generateLatexRows(MOTIONrowsComvertion))
+print('-----------------------------------------------------')
+print('-----------------------------------------------------')
+print('-----------------------------------------------------')
+print('-----------------------------------------------------')
+print('-----------------------------------------------------')
+
+
+
+MP_SPDZrowsConvertion = []
+
+for key in MP_SPDZ.keys():
+    if key  in TOTAL_AVAIL_KEYS:
+        continue
+    for size in TOTAL_AVAIL_SIZES:
+        if size in MP_SPDZ[key]:
+            MP_SPDZrowsConvertion.append([KEY_MAPPING[key],size])
+            time = format_metric(MP_SPDZ[key][size].get('time', 'N/A'))
+            dataSent = format_metric(MP_SPDZ[key][size].get('dataSent', 'N/A'))
+            commRounds = format_metric(MP_SPDZ[key][size].get('commRounds', 'N/A'))
+        
+            MP_SPDZrowsConvertion[-1].extend([
+                time,
+                dataSent,
+                commRounds
+            ])        
+
+# print(generateLatexRows(MP_SPDZrowsConvertion))
