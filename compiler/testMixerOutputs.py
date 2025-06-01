@@ -530,92 +530,6 @@ def get_inputs(name: str) -> tuple[list[InputArgs], int]:
         return get_psi_inputs()
     return [[], 0]
 
-def compile_all_benchmarks_motion():
-    for test_case_dir in os.scandir(test_context.STAGES_DIR):
-        if test_case_dir.name in test_context.SKIPPED_TESTS[None]:
-                continue
-        all_args, non_vec_up_to = get_inputs(test_case_dir.name)
-        if len(all_args) == 0:
-            continue
-        log.info("Compiling {} ...".format(test_case_dir.name))
-        motion_compile_benchmark(
-            benchmark_name=test_case_dir.name,
-            benchmark_path=test_case_dir.path,
-            protocol=None,
-            vectorized=True,
-            mixed=True,
-            costType="time"
-        )
-
-def compile_benchmark_motion(benchmark_name,benchmark_path,protocol,costType,args):
-   
-        log.info("Compiling {} {}...".format(benchmark_name,str(protocol)))
-        motion_compile_benchmark(
-            benchmark_name=benchmark_name, 
-            benchmark_path=benchmark_path, 
-            protocol=protocol, 
-            vectorized=True,
-            mixed=True,
-            costType=costType,
-            args=args
-        )
-        
-def getSummaryStats(stats, backend):
-    n = len(stats)
-    if n == 0:
-        return {'NO RESULTS RECEIVED': -1}
-    totalTime = 0.0
-    totalDataSent = 0.0
-    totalCommRounds = 0
-    for stat in stats:
-        if backend == 'MP-SPDZ':
-            totalTime += float(stat.time_seconds)
-            totalDataSent += float(stat.data_sent_mb)
-            totalCommRounds += int(stat.communication_rounds)
-        elif backend == 'MOTION':
-            # assert len(stat.timing_stats.preprocess_total.readings) == 1
-            # totalTime += float(stat.timing_stats.preprocess_total.readings[0] / 1000)
-            # assert len(stat.timing_stats.gates_setup.readings) == 1
-            # totalTime += float(stat.timing_stats.gates_setup.readings[0] / 1000)
-            # assert len(stat.timing_stats.gates_online.readings) == 1
-            # totalTime += float(stat.timing_stats.gates_online.readings[0] / 1000)
-            assert len(stat.timing_stats.circuit_evaluation.readings) == 1
-            totalTime += float(stat.timing_stats.circuit_evaluation.readings[0] / 1000)
-            totalDataSent += float(stat.timing_stats.communication.send_size)
-            totalCommRounds += int(stat.timing_stats.communication.send_num_msgs)
-        else:
-            raise Exception("BACKEND NOT IMPLEMENTED")
-    return {'time': totalTime/n, 'dataSent': totalDataSent/n, 'commRounds': totalCommRounds/n}
-
-
-def getIndividualStats(stats, backend):
-    n = len(stats)
-    if n == 0:
-        return {'NO RESULTS RECEIVED': -1}
-    timeList = []
-    # dataSentList = []
-    # commRoundsList = []
-    for stat in stats:
-        if backend == 'MP-SPDZ':
-            timeList.append(float(stat.time_seconds))
-            # dataSentList.append(float(stat.data_sent_mb))
-            # commRoundsList.append(int(stat.communication_rounds))
-        elif backend == 'MOTION':
-            # assert len(stat.timing_stats.preprocess_total.readings) == 1
-            # totalTime += float(stat.timing_stats.preprocess_total.readings[0] / 1000)
-            # assert len(stat.timing_stats.gates_setup.readings) == 1
-            # totalTime += float(stat.timing_stats.gates_setup.readings[0] / 1000)
-            # assert len(stat.timing_stats.gates_online.readings) == 1
-            # totalTime += float(stat.timing_stats.gates_online.readings[0] / 1000)
-            assert len(stat.timing_stats.circuit_evaluation.readings) == 1
-            timeList.append(float(stat.timing_stats.circuit_evaluation.readings[0] / 1000))
-            # dataSentList.append(float(stat.timing_stats.communication.send_size))
-            # commRoundsList.append(int(stat.timing_stats.communication.send_num_msgs))
-        else:
-            raise Exception("BACKEND NOT IMPLEMENTED")
-    # return {'time': timeList, 'dataSent': dataSentList, 'commRounds': commRoundsList}
-    return {'time': timeList}
-
 
 def saveToJSON(results, resultsDetailed):
     fileNames = [timestamp + '_mixerOutputs.json', timestamp + '_DETAILED_mixerOutputs.json']
@@ -637,7 +551,7 @@ def run_client_role_spdz(resultsDict, resultsDetailedDict):
 
         if test_case_dir.name not in spdzDict.keys():
             spdzDict[test_case_dir.name] = dict()
-            resultsDetailedDict[test_case_dir.name] = dict()
+            spdzDetailedDict[test_case_dir.name] = dict()
 
         all_args, _ = get_inputs(test_case_dir.name)
         if len(all_args) == 0:
@@ -649,7 +563,7 @@ def run_client_role_spdz(resultsDict, resultsDetailedDict):
             argStr = str(args.label).replace(':', ' =')
             if argStr not in spdzDict[test_case_dir.name].keys():
                 spdzDict[test_case_dir.name][argStr] = dict()
-                resultsDetailedDict[test_case_dir.name][argStr] = dict()
+                spdzDetailedDict[test_case_dir.name][argStr] = dict()
 
             log.info("\n{} - arguments: {}".format(test_case_dir.name, args.args));
             for protocol in [None, 'A', 'B', 'X', 'Y']:
@@ -657,79 +571,51 @@ def run_client_role_spdz(resultsDict, resultsDetailedDict):
 
                 if pName not in spdzDict[test_case_dir.name][argStr].keys():
                     spdzDict[test_case_dir.name][argStr][pName] = dict()
-                if type(spdzDict[test_case_dir.name][argStr][pName]) == dict and 'mixType' not in spdzDict[test_case_dir.name][argStr][pName].keys():
+                    spdzDetailedDict[test_case_dir.name][argStr][pName] = dict()
+                if type(spdzDict[test_case_dir.name][argStr][pName]) == dict and 'compileTime' not in spdzDict[test_case_dir.name][argStr][pName].keys():
                     with open(os.path.join(test_case_dir.path, 'input.py'), 'r') as f:
                         input_py = f.read().strip()
                     argsList = parse_list(args.args)
                     if not args is None:
                         input_py = motion_replace_definitions(input_py, argsList)
-                    # for j in range(NUM_ITERS):---------------------------------------------------------------------
-                    cfg = compiler.compile(
-                        filename=f"{test_case_dir.name}.py",
-                        text=input_py,
-                        backend=Backend.MP_SPDZ,
-                        quiet=True,
-                        run_vectorization=True,
-                        protocolSets=[{protocol}] if protocol else None,
-                        mixing=True,
-                        costType='time',
-                        mixOnly=True)
-                    pSet = set()
-                    for _, ps in cfg.inputs.items():
-                        pSet |= set(ps)
-                    for _, ps in cfg.outputs.items():
-                        pSet |= set(ps)
-                    for _, ps in cfg.constants.items():
-                        pSet |= set(ps)
-                    for _, ps in cfg.plaintexts.items():
-                        pSet |= set(ps)
-                    for _, p, ps, _, _, _, _ in cfg.assignments:
-                        if p != '_':
-                            pSet.add(p)
-                        pSet |= set(ps)
-                    assert '_' not in pSet
-                    if len(cfg.flags) and 'A' in pSet:
-                        pSet.remove('A')
-                        if 'X' in cfg.flags:
-                            pSet.add('X')
-                        elif 'Y' in cfg.flags:
-                            pSet.add('Y')
+                    totalTime = 0
+                    timeList = []
+                    try:
+                        for j in range(NUM_ITERS):
+                            startTime = time.perf_counter()
+                            cfg = compiler.compile(
+                                filename=f"{test_case_dir.name}.py",
+                                text=input_py,
+                                backend=Backend.MP_SPDZ,
+                                quiet=True,
+                                run_vectorization=True,
+                                protocolSets=[{protocol}] if protocol else None,
+                                mixing=True,
+                                costType='time',
+                                mixOnly=True)
+                            endTime = time.perf_counter()
+                            timeList.append(endTime - startTime)
+                            totalTime += endTime - startTime
+                        avgTime = totalTime / NUM_ITERS
+                        spdzDict[test_case_dir.name][argStr][pName]['compileTime'] = avgTime
+                        spdzDict[test_case_dir.name][argStr][pName]['predTime'] = cfg.total_cost
+                        spdzDetailedDict[test_case_dir.name][argStr][pName]['compileTime'] = timeList
+                    except Exception as e:
+                        if str(e) == 'No valid mix found':
+                            spdzDict[test_case_dir.name][argStr][pName]['compileTime'] = 'N/A'
+                            spdzDict[test_case_dir.name][argStr][pName]['predTime'] = 'N/A'
+                            spdzDetailedDict[test_case_dir.name][argStr][pName]['compileTime'] = ['N/A']
                         else:
-                            assert False
-                    spdzDict[test_case_dir.name][argStr][pName]['mixType'] = str(sorted(list(pSet)))
+                            print(e)
+                            sys.exit(1)
+                    saveToJSON(resultsDict, resultsDetailedDict)
 
-                if pName in spdzDict[test_case_dir.name][argStr].keys() and spdzDict[test_case_dir.name][argStr][pName] != dict():
-                    continue
-                # try:
-                #     curList = []
-                #     vectorized = True
-                #
-                #     spdzDict[test_case_dir.name][argStr][pName] = getSummaryStats(curList, 'MP-SPDZ')
-                #     resultsDetailedDict[test_case_dir.name][argStr][pName] = getIndividualStats(curList, 'MP-SPDZ')
-                #     saveToJSON(resultsDict, resultsDetailedDict)
-                # except Exception as e:
-                #     spdzDict[test_case_dir.name][argStr][pName] = f'ERROR: {e}'
-
-        # all_stats.append(task_stats)
         log.info("task {} DONE".format(task_stats.label))
 
 
-def run_client_role_motion(address, resultsDict, resultsDetailedDict):
-    # log.info("Compiling All benchmarks")
-    # compile_all_benchmarks()
+def run_client_role_motion(resultsDict, resultsDetailedDict):
     motionDict = resultsDict['MOTION']
     motionDetailedDict = resultsDetailedDict['MOTION']
-    log.info("Client started, will connect to server at address {} port {}".format(address, SERVER_PORT))
-    server_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server_sock.connect((address, SERVER_PORT))
-    server_sock.settimeout(CONNECTION_TIMEOUT)
-    write_message(server_sock, GetAddressReq())
-    msg = read_message(server_sock)
-    my_ip = msg.client_address[0]
-    # my_ip = '127.0.0.1'
-    mpc_party_server = "0,{},23000".format(address)
-    mpc_party_client = "1,{},23001".format(my_ip)
-    
     all_stats = []
     for test_case_dir in os.scandir(test_context.STAGES_DIR):
         if test_case_dir.name in test_context.SKIPPED_TESTS[None]:
@@ -758,101 +644,47 @@ def run_client_role_motion(address, resultsDict, resultsDetailedDict):
 
                 if pName not in motionDict[test_case_dir.name][argStr].keys():
                     motionDict[test_case_dir.name][argStr][pName] = dict()
-                if type(motionDict[test_case_dir.name][argStr][pName]) == dict and 'mixType' not in motionDict[test_case_dir.name][argStr][pName].keys():
+                    motionDetailedDict[test_case_dir.name][argStr][pName] = dict()
+                if type(motionDict[test_case_dir.name][argStr][pName]) == dict and 'compileTime' not in motionDict[test_case_dir.name][argStr][pName].keys():
                     with open(os.path.join(test_case_dir.path, 'input.py'), 'r') as f:
                         input_py = f.read().strip()
                     argsList = parse_list(args.args)
                     if not args is None:
                         input_py = motion_replace_definitions(input_py, argsList)
-                    cfg = compiler.compile(
-                        filename=f"{test_case_dir.name}.py",
-                        text=input_py,
-                        backend=Backend.MOTION,
-                        quiet=True,
-                        run_vectorization=True,
-                        protocol=protocol,
-                        mixing=True,
-                        costType='time',
-                        mixOnly=True)
-                    pSet = set()
-                    for _, ps in cfg.inputs.items():
-                        pSet |= set(ps)
-                    for _, ps in cfg.outputs.items():
-                        pSet |= set(ps)
-                    for _, ps in cfg.constants.items():
-                        pSet |= set(ps)
-                    for _, ps in cfg.plaintexts.items():
-                        pSet |= set(ps)
-                    for _, p, ps, _, _, _, _ in cfg.assignments:
-                        if p != '_':
-                            pSet.add(p)
-                        pSet |= set(ps)
-                    assert '_' not in pSet
-                    assert cfg.flags == []
-                    motionDict[test_case_dir.name][argStr][pName]['mixType'] = str(sorted(list(pSet)))
-
-                if pName in motionDict[test_case_dir.name][argStr].keys() and motionDict[test_case_dir.name][argStr][pName] != dict():
-                    continue
-
-                try:
-                    curList = []
-                    vectorized = True
-                    mixed = True
-
-                    for j in range(NUM_ITERS):
-                        log.info("Running Iteration {} {} {} {} {}".format(j+1, test_case_dir.name, protocol,
-                            "vec", args.label));
-
-                        request = RunBenchmarkReq(
-                            party0_mpc_addr=mpc_party_server,
-                            party1_mpc_addr=mpc_party_client,
-                            cmd_args=args.args,
-                            benchmark_name=test_case_dir.name,
-                            protocol=protocol,
-                            vectorized=vectorized
-                        )
-
-                        if j == 0:
-                            compile_benchmark_motion(
-                                benchmark_name=test_case_dir.name,
-                                benchmark_path=test_case_dir.path,
+                    totalTime = 0
+                    timeList = []
+                    try:
+                        for j in range(NUM_ITERS):
+                            startTime = time.perf_counter()
+                            cfg = compiler.compile(
+                                filename=f"{test_case_dir.name}.py",
+                                text=input_py,
+                                backend=Backend.MOTION,
+                                quiet=True,
+                                run_vectorization=True,
                                 protocol=protocol,
+                                mixing=True,
                                 costType='time',
-                                args=parse_list(args.args)
-                            )
-
-                        write_message(server_sock, request)
-                        time.sleep(20)
-                        p1 = motion_run_benchmark_for_party(
-                            myid=MPC_PARTY_CLIENT_ID,
-                            party0_mpc_addr=mpc_party_server,
-                            party1_mpc_addr=mpc_party_client,
-                            benchmark_name=test_case_dir.name,
-                            benchmark_path=test_case_dir.path,
-                            protocol=protocol,
-                            vectorized=vectorized,
-                            timeout=None,
-                            cmd_args=args.args,
-                            mixed=mixed
-                        )
-
-                        p0 = read_message(server_sock)
-
-                        if p0 is None or p1 is None:
-                            log.error("Run Failed! p0 is None: {} - p1 is None: {}".format(p0 is None, p1 is None))
-                            continue
-
-                        log.info("Output {}".format(p0.output.strip()))
-                        assert p0.output.strip() == p1.output.strip(), (p0.output.strip(), p1.output.strip())
-
-                        curList.append(p1)
-
-                    motionDict[test_case_dir.name][argStr][pName] = getSummaryStats(curList, 'MOTION')
-                    motionDetailedDict[test_case_dir.name][argStr][pName] = getIndividualStats(curList, 'MOTION')
+                                mixOnly=True)
+                            endTime = time.perf_counter()
+                            timeList.append(endTime - startTime)
+                            totalTime += endTime - startTime
+                        avgTime = totalTime / NUM_ITERS
+                        motionDict[test_case_dir.name][argStr][pName]['compileTime'] = avgTime
+                        motionDict[test_case_dir.name][argStr][pName]['predTime'] = cfg.total_cost
+                        motionDetailedDict[test_case_dir.name][argStr][pName]['compileTime'] = timeList
+                    except Exception as e:
+                        if str(e) == 'No valid mix found':
+                            motionDict[test_case_dir.name][argStr][pName]['compileTime'] = 'N/A'
+                            motionDict[test_case_dir.name][argStr][pName]['predTime'] = 'N/A'
+                            motionDetailedDict[test_case_dir.name][argStr][pName]['compileTime'] = ['N/A']
+                        else:
+                            print(e)
+                            sys.exit(1)
+                    
                     saveToJSON(resultsDict, resultsDetailedDict)
-                except Exception as e:
-                    motionDict[test_case_dir.name][argStr][pName] = f'ERROR: {e}'
 
+                
         log.info("task {} DONE".format(task_stats.label))
 
 

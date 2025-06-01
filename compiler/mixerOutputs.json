@@ -1,0 +1,1598 @@
+{
+    "MOTION": {
+        "biometric": {
+            "D = 4, N = 1024": {
+                "ArithmeticGmw": {
+                    "compileTime": "N/A",
+                    "predTime": "N/A"
+                },
+                "Bmr": {
+                    "compileTime": 0.05531281507574022,
+                    "predTime": 98.9832211833263
+                },
+                "BooleanGmw": {
+                    "compileTime": 0.05969496197067201,
+                    "predTime": 234.76880871208425
+                },
+                "mixed": {
+                    "compileTime": 0.1563438249984756,
+                    "predTime": 43.632460015831555
+                }
+            },
+            "D = 4, N = 512": {
+                "ArithmeticGmw": {
+                    "compileTime": "N/A",
+                    "predTime": "N/A"
+                },
+                "Bmr": {
+                    "compileTime": 0.04793762636836618,
+                    "predTime": 49.535051853770085
+                },
+                "BooleanGmw": {
+                    "compileTime": 0.04891288976650685,
+                    "predTime": 117.44885187842698
+                },
+                "mixed": {
+                    "compileTime": 0.14594261343590914,
+                    "predTime": 21.83051413215662
+                }
+            }
+        },
+        "biometric_fast": {
+            "D = 4, N = 128": {
+                "ArithmeticGmw": {
+                    "compileTime": "N/A",
+                    "predTime": "N/A"
+                },
+                "Bmr": {
+                    "compileTime": 0.06619566318113357,
+                    "predTime": 12.626544912545683
+                },
+                "BooleanGmw": {
+                    "compileTime": 0.07150406269356609,
+                    "predTime": 29.483795655235376
+                },
+                "mixed": {
+                    "compileTime": 0.40702115814201534,
+                    "predTime": 5.478400345505682
+                }
+            }
+        },
+        "chapterfour_figure_12": {
+            "x=25, y=16": {
+                "ArithmeticGmw": {
+                    "compileTime": "N/A",
+                    "predTime": "N/A"
+                },
+                "Bmr": {
+                    "compileTime": 0.006388352974317968,
+                    "predTime": 0.07435117368421051
+                },
+                "BooleanGmw": {
+                    "compileTime": 0.005798163707368076,
+                    "predTime": 0.3085682578947368
+                },
+                "mixed": {
+                    "compileTime": 0.03427742756903172,
+                    "predTime": 0.0637798684210526
+                }
+            }
+        },
+        "convex_hull": {
+            "N = 128": {
+                "ArithmeticGmw": {
+                    "compileTime": "N/A",
+                    "predTime": "N/A"
+                },
+                "Bmr": {
+                    "compileTime": 0.08403120897710323,
+                    "predTime": 37.30226637682527
+                },
+                "BooleanGmw": {
+                    "compileTime": 0.08551539168693126,
+                    "predTime": 23.01308493978947
+                },
+                "mixed": {
+                    "compileTime": 3.466404125187546,
+                    "predTime": 22.91691640245894
+                }
+            },
+            "N = 256": {
+                "ArithmeticGmw": {
+                    "compileTime": "N/A",
+                    "predTime": "N/A"
+                },
+                "Bmr": {
+                    "compileTime": 0.08628005622886122,
+                    "predTime": 145.98017896344706
+                },
+                "BooleanGmw": {
+                    "compileTime": 0.08572123667690904,
+                    "predTime": 71.66728165057123
+                },
+                "mixed": {
+                    "compileTime": 3.424616784765385,
+                    "predTime": 71.61420820241963
+                }
+            },
+            "N = 32": {
+                "ArithmeticGmw": {
+                    "compileTime": "N/A",
+                    "predTime": "N/A"
+                },
+                "Bmr": {
+                    "compileTime": 0.08900418870616704,
+                    "predTime": 2.665840019200001
+                },
+                "BooleanGmw": {
+                    "compileTime": 0.0871844073291868,
+                    "predTime": 2.8765750961852636
+                },
+                "mixed": {
+                    "compileTime": 3.4108370883157475,
+                    "predTime": 1.952943439831579
+                }
+            },
+            "N = 64": {
+                "ArithmeticGmw": {
+                    "compileTime": "N/A",
+                    "predTime": "N/A"
+                },
+                "Bmr": {
+                    "compileTime": 0.08626302885822952,
+                    "predTime": 9.743402756917897
+                },
+                "BooleanGmw": {
+                    "compileTime": 0.08512530599255115,
+                    "predTime": 7.521650200387367
+                },
+                "mixed": {
+                    "compileTime": 3.4290094314143063,
+                    "predTime": 6.89181643944421
+                }
+            }
+        },
+        "count_102": {
+            "N = 1024": {
+                "ArithmeticGmw": {
+                    "compileTime": "N/A",
+                    "predTime": "N/A"
+                },
+                "Bmr": {
+                    "compileTime": 0.03245704038999975,
+                    "predTime": 36.95807895174736
+                },
+                "BooleanGmw": {
+                    "compileTime": 0.03375764761585742,
+                    "predTime": 147.57033367444208
+                },
+                "mixed": {
+                    "compileTime": 0.1969114179024473,
+                    "predTime": 36.15751050778947
+                }
+            },
+            "N = 4096": {
+                "ArithmeticGmw": {
+                    "compileTime": "N/A",
+                    "predTime": "N/A"
+                },
+                "Bmr": {
+                    "compileTime": 0.04452757721301168,
+                    "predTime": 147.83231580698944
+                },
+                "BooleanGmw": {
+                    "compileTime": 0.04296347084455192,
+                    "predTime": 590.2813346977683
+                },
+                "mixed": {
+                    "compileTime": 0.20624441208783537,
+                    "predTime": 144.63004203115787
+                }
+            }
+        },
+        "count_10s": {
+            "N = 1024": {
+                "ArithmeticGmw": {
+                    "compileTime": "N/A",
+                    "predTime": "N/A"
+                },
+                "Bmr": {
+                    "compileTime": 0.03562346922699362,
+                    "predTime": 36.93261114206315
+                },
+                "BooleanGmw": {
+                    "compileTime": 0.03755620617885143,
+                    "predTime": 147.57377393987366
+                },
+                "mixed": {
+                    "compileTime": 0.25068494889419524,
+                    "predTime": 36.153713919999994
+                }
+            },
+            "N = 4096": {
+                "ArithmeticGmw": {
+                    "compileTime": "N/A",
+                    "predTime": "N/A"
+                },
+                "Bmr": {
+                    "compileTime": 0.048469981062226,
+                    "predTime": 147.7304445682526
+                },
+                "BooleanGmw": {
+                    "compileTime": 0.04662892061751336,
+                    "predTime": 590.2950957594946
+                },
+                "mixed": {
+                    "compileTime": 0.2586503389058635,
+                    "predTime": 144.61485567999998
+                }
+            }
+        },
+        "count_123": {
+            "N = 1024": {
+                "ArithmeticGmw": {
+                    "compileTime": "N/A",
+                    "predTime": "N/A"
+                },
+                "Bmr": {
+                    "compileTime": 0.04100175516214222,
+                    "predTime": 37.06751892479999
+                },
+                "BooleanGmw": {
+                    "compileTime": 0.04095875637140125,
+                    "predTime": 147.6011922944
+                },
+                "mixed": {
+                    "compileTime": 0.27498741636518387,
+                    "predTime": 36.181132274526306
+                }
+            },
+            "N = 4096": {
+                "ArithmeticGmw": {
+                    "compileTime": "N/A",
+                    "predTime": "N/A"
+                },
+                "Bmr": {
+                    "compileTime": 0.05186373461037874,
+                    "predTime": 148.27007569919996
+                },
+                "BooleanGmw": {
+                    "compileTime": 0.052397643914446235,
+                    "predTime": 590.4047691776
+                },
+                "mixed": {
+                    "compileTime": 0.29223134932108225,
+                    "predTime": 144.72452909810522
+                }
+            }
+        },
+        "cryptonets_max_pooling": {
+            "rows = 16, cols = 16": {
+                "ArithmeticGmw": {
+                    "compileTime": "N/A",
+                    "predTime": "N/A"
+                },
+                "Bmr": {
+                    "compileTime": 0.04777803451288491,
+                    "predTime": 0.29207510137263154
+                },
+                "BooleanGmw": {
+                    "compileTime": 0.04674468571320176,
+                    "predTime": 0.5434902119747367
+                },
+                "mixed": {
+                    "compileTime": 6.693743061483838,
+                    "predTime": 0.29207510137263154
+                }
+            }
+        },
+        "db_cross_join_trivial": {
+            "32, 32": {
+                "ArithmeticGmw": {
+                    "compileTime": "N/A",
+                    "predTime": "N/A"
+                },
+                "Bmr": {
+                    "compileTime": 0.07543717701919377,
+                    "predTime": 6.661123365726315
+                },
+                "BooleanGmw": {
+                    "compileTime": 0.07410545884631574,
+                    "predTime": 0.6999598322526316
+                },
+                "mixed": {
+                    "compileTime": 2.9897304065991195,
+                    "predTime": 0.6999598322526316
+                }
+            },
+            "64, 64": {
+                "ArithmeticGmw": {
+                    "compileTime": "N/A",
+                    "predTime": "N/A"
+                },
+                "Bmr": {
+                    "compileTime": 0.10038107801228761,
+                    "predTime": 26.64449346290526
+                },
+                "BooleanGmw": {
+                    "compileTime": 0.09919372559525072,
+                    "predTime": 2.7998393290105263
+                },
+                "mixed": {
+                    "compileTime": 3.0302857230883093,
+                    "predTime": 2.7998393290105263
+                }
+            }
+        },
+        "db_variance": {
+            "len = 1024": {
+                "ArithmeticGmw": {
+                    "compileTime": "N/A",
+                    "predTime": "N/A"
+                },
+                "Bmr": {
+                    "compileTime": 0.03197017128113657,
+                    "predTime": 63.312938990484206
+                },
+                "BooleanGmw": {
+                    "compileTime": 0.03258218655828386,
+                    "predTime": 108.22233666547368
+                },
+                "mixed": {
+                    "compileTime": 0.1193120872369036,
+                    "predTime": 1.700195576526316
+                }
+            },
+            "len = 2048": {
+                "ArithmeticGmw": {
+                    "compileTime": "N/A",
+                    "predTime": "N/A"
+                },
+                "Bmr": {
+                    "compileTime": 0.0402873094426468,
+                    "predTime": 125.09908572833685
+                },
+                "BooleanGmw": {
+                    "compileTime": 0.04035090235993266,
+                    "predTime": 183.12031155726314
+                },
+                "mixed": {
+                    "compileTime": 0.12627483145333826,
+                    "predTime": 1.8184350241052634
+                }
+            },
+            "len = 4096": {
+                "ArithmeticGmw": {
+                    "compileTime": "N/A",
+                    "predTime": "N/A"
+                },
+                "Bmr": {
+                    "compileTime": 0.056399900908581914,
+                    "predTime": 248.67137920404213
+                },
+                "BooleanGmw": {
+                    "compileTime": 0.05842740824446082,
+                    "predTime": 332.91626134084214
+                },
+                "mixed": {
+                    "compileTime": 0.1471423450158909,
+                    "predTime": 2.0549139192631576
+                }
+            },
+            "len = 512": {
+                "ArithmeticGmw": {
+                    "compileTime": "N/A",
+                    "predTime": "N/A"
+                },
+                "Bmr": {
+                    "compileTime": 0.02881282870657742,
+                    "predTime": 32.64409929729348
+                },
+                "BooleanGmw": {
+                    "compileTime": 0.029154129745438694,
+                    "predTime": 70.8961821519444
+                },
+                "mixed": {
+                    "compileTime": 0.12517077238298951,
+                    "predTime": 1.6408996587562108
+                }
+            }
+        },
+        "inner_product": {
+            "N = 4096": {
+                "ArithmeticGmw": {
+                    "compileTime": 0.04291019446682185,
+                    "predTime": 0.4729577903157895
+                },
+                "Bmr": {
+                    "compileTime": 0.040353375393897294,
+                    "predTime": 149.16190653170526
+                },
+                "BooleanGmw": {
+                    "compileTime": 0.04052656115964055,
+                    "predTime": 157.3485547304421
+                },
+                "mixed": {
+                    "compileTime": 0.04696544564794749,
+                    "predTime": 0.4729577903157895
+                }
+            },
+            "N = 512": {
+                "ArithmeticGmw": {
+                    "compileTime": 0.012458705226890743,
+                    "predTime": 0.05894352980884211
+                },
+                "Bmr": {
+                    "compileTime": 0.012058540363796055,
+                    "predTime": 18.85611832633937
+                },
+                "BooleanGmw": {
+                    "compileTime": 0.01402123540174216,
+                    "predTime": 19.775519970586945
+                },
+                "mixed": {
+                    "compileTime": 0.018350224243476987,
+                    "predTime": 0.05894352980884211
+                }
+            }
+        },
+        "longest_102": {
+            "N = 1024": {
+                "ArithmeticGmw": {
+                    "compileTime": "N/A",
+                    "predTime": "N/A"
+                },
+                "Bmr": {
+                    "compileTime": 0.050521915405988695,
+                    "predTime": 76.19849324058944
+                },
+                "BooleanGmw": {
+                    "compileTime": 0.04994542554486543,
+                    "predTime": 355.7596185680843
+                },
+                "mixed": {
+                    "compileTime": 0.31792414041701705,
+                    "predTime": 75.32658029675787
+                }
+            },
+            "N = 4096": {
+                "ArithmeticGmw": {
+                    "compileTime": "N/A",
+                    "predTime": "N/A"
+                },
+                "Bmr": {
+                    "compileTime": 0.06338283335790038,
+                    "predTime": 304.79397296235777
+                },
+                "BooleanGmw": {
+                    "compileTime": 0.06145258892793208,
+                    "predTime": 1423.0384742723372
+                },
+                "mixed": {
+                    "compileTime": 0.33425442220177504,
+                    "predTime": 301.3063211870315
+                }
+            }
+        },
+        "longest_odd_10": {
+            "N = 2048": {
+                "ArithmeticGmw": {
+                    "compileTime": "N/A",
+                    "predTime": "N/A"
+                },
+                "Bmr": {
+                    "compileTime": 0.04970965797547251,
+                    "predTime": 157.37892540092628
+                },
+                "BooleanGmw": {
+                    "compileTime": 0.04936793453525752,
+                    "predTime": 598.5682013669052
+                },
+                "mixed": {
+                    "compileTime": 0.17325740037485957,
+                    "predTime": 155.1258804008421
+                }
+            }
+        },
+        "max_dist_between_syms": {
+            "N = 1024": {
+                "ArithmeticGmw": {
+                    "compileTime": "N/A",
+                    "predTime": "N/A"
+                },
+                "Bmr": {
+                    "compileTime": 0.02068735593929887,
+                    "predTime": 68.6782220584421
+                },
+                "BooleanGmw": {
+                    "compileTime": 0.02184973459225148,
+                    "predTime": 229.62953618324207
+                },
+                "mixed": {
+                    "compileTime": 0.06332471712958068,
+                    "predTime": 68.4379924048842
+                }
+            },
+            "N = 2048": {
+                "ArithmeticGmw": {
+                    "compileTime": "N/A",
+                    "predTime": "N/A"
+                },
+                "Bmr": {
+                    "compileTime": 0.026291634957306086,
+                    "predTime": 137.3564441168842
+                },
+                "BooleanGmw": {
+                    "compileTime": 0.023326000105589627,
+                    "predTime": 459.25907236648413
+                },
+                "mixed": {
+                    "compileTime": 0.06938890819437801,
+                    "predTime": 136.8759848097684
+                }
+            }
+        },
+        "max_sum_between_syms": {
+            "N = 1024": {
+                "ArithmeticGmw": {
+                    "compileTime": "N/A",
+                    "predTime": "N/A"
+                },
+                "Bmr": {
+                    "compileTime": 0.0268461347091943,
+                    "predTime": 68.6782220584421
+                },
+                "BooleanGmw": {
+                    "compileTime": 0.0235700590768829,
+                    "predTime": 229.62953618324207
+                },
+                "mixed": {
+                    "compileTime": 0.06968912961892784,
+                    "predTime": 68.4379924048842
+                }
+            },
+            "N = 2048": {
+                "ArithmeticGmw": {
+                    "compileTime": "N/A",
+                    "predTime": "N/A"
+                },
+                "Bmr": {
+                    "compileTime": 0.0272080700378865,
+                    "predTime": 137.3564441168842
+                },
+                "BooleanGmw": {
+                    "compileTime": 0.028326461790129542,
+                    "predTime": 459.25907236648413
+                },
+                "mixed": {
+                    "compileTime": 0.0746072520967573,
+                    "predTime": 136.8759848097684
+                }
+            }
+        },
+        "minimal_points": {
+            "N = 128": {
+                "ArithmeticGmw": {
+                    "compileTime": "N/A",
+                    "predTime": "N/A"
+                },
+                "Bmr": {
+                    "compileTime": 0.06338006171863526,
+                    "predTime": 19.377164223191574
+                },
+                "BooleanGmw": {
+                    "compileTime": 0.0653137469664216,
+                    "predTime": 13.26834311033263
+                },
+                "mixed": {
+                    "compileTime": 0.7937452369835227,
+                    "predTime": 13.26834311033263
+                }
+            },
+            "N = 256": {
+                "ArithmeticGmw": {
+                    "compileTime": "N/A",
+                    "predTime": "N/A"
+                },
+                "Bmr": {
+                    "compileTime": 0.06688917209394277,
+                    "predTime": 76.87351186207435
+                },
+                "BooleanGmw": {
+                    "compileTime": 0.06750554244499654,
+                    "predTime": 53.77573059835508
+                },
+                "mixed": {
+                    "compileTime": 0.7972853092709556,
+                    "predTime": 53.77573059835508
+                }
+            },
+            "N = 32": {
+                "ArithmeticGmw": {
+                    "compileTime": "N/A",
+                    "predTime": "N/A"
+                },
+                "Bmr": {
+                    "compileTime": 0.06420387851539999,
+                    "predTime": 1.2644250614568417
+                },
+                "BooleanGmw": {
+                    "compileTime": 0.06257633187342435,
+                    "predTime": 1.3064656506610524
+                },
+                "mixed": {
+                    "compileTime": 0.7380642530275509,
+                    "predTime": 1.0040728728252633
+                }
+            },
+            "N = 64": {
+                "ArithmeticGmw": {
+                    "compileTime": "N/A",
+                    "predTime": "N/A"
+                },
+                "Bmr": {
+                    "compileTime": 0.06518270671367646,
+                    "predTime": 4.902883449936841
+                },
+                "BooleanGmw": {
+                    "compileTime": 0.06447813971899449,
+                    "predTime": 4.793164065549473
+                },
+                "mixed": {
+                    "compileTime": 0.7529771802714095,
+                    "predTime": 3.861474695410526
+                }
+            }
+        },
+        "mnist_relu": {
+            "16, 2048": {
+                "ArithmeticGmw": {
+                    "compileTime": "N/A",
+                    "predTime": "N/A"
+                },
+                "Bmr": {
+                    "compileTime": 0.23577603790909052,
+                    "predTime": 29.866152237810528
+                },
+                "BooleanGmw": {
+                    "compileTime": 0.2354344880208373,
+                    "predTime": 13.030598505094739
+                },
+                "mixed": {
+                    "compileTime": 0.29051552205346526,
+                    "predTime": 13.030598505094739
+                }
+            },
+            "16, 512": {
+                "ArithmeticGmw": {
+                    "compileTime": "N/A",
+                    "predTime": "N/A"
+                },
+                "Bmr": {
+                    "compileTime": 0.07168419177178294,
+                    "predTime": 7.466538059452632
+                },
+                "BooleanGmw": {
+                    "compileTime": 0.07001989085692913,
+                    "predTime": 3.2576496262736847
+                },
+                "mixed": {
+                    "compileTime": 0.12335639020893722,
+                    "predTime": 3.2576496262736847
+                }
+            }
+        },
+        "psi": {
+            "SA = 1024, SB = 1024": {
+                "ArithmeticGmw": {
+                    "compileTime": "N/A",
+                    "predTime": "N/A"
+                },
+                "Bmr": {
+                    "compileTime": 0.04338589594699442,
+                    "predTime": 892.1161173773475
+                },
+                "BooleanGmw": {
+                    "compileTime": 0.044287423300556836,
+                    "predTime": 192.9409883136
+                },
+                "mixed": {
+                    "compileTime": 0.05651436725165695,
+                    "predTime": 192.9409883136
+                }
+            },
+            "SA = 128, SB = 128": {
+                "ArithmeticGmw": {
+                    "compileTime": "N/A",
+                    "predTime": "N/A"
+                },
+                "Bmr": {
+                    "compileTime": 0.032224655128084125,
+                    "predTime": 14.759676992606316
+                },
+                "BooleanGmw": {
+                    "compileTime": 0.033998868870548905,
+                    "predTime": 7.990053671747368
+                },
+                "mixed": {
+                    "compileTime": 0.04641193740535528,
+                    "predTime": 7.990053671747368
+                }
+            }
+        }
+    },
+    "MP-SPDZ": {
+        "biometric": {
+            "D = 4, N = 1024": {
+                "A": {
+                    "compileTime": 0.05511842125561088,
+                    "predTime": 4.869442471515623
+                },
+                "B": {
+                    "compileTime": 0.054459876078180966,
+                    "predTime": 0.48525675358315784
+                },
+                "X": {
+                    "compileTime": 0.05501215981785208,
+                    "predTime": 0.46632408154543165
+                },
+                "Y": {
+                    "compileTime": 0.0538476217770949,
+                    "predTime": 0.27529682350080054
+                },
+                "mixed": {
+                    "compileTime": 0.1691093324450776,
+                    "predTime": 0.2109218372338527
+                }
+            },
+            "D = 4, N = 512": {
+                "A": {
+                    "compileTime": 0.04567273047287017,
+                    "predTime": 2.4347185324386103
+                },
+                "B": {
+                    "compileTime": 0.046656598802655935,
+                    "predTime": 0.24407761159006314
+                },
+                "X": {
+                    "compileTime": 0.04615503957029432,
+                    "predTime": 0.23316500649752256
+                },
+                "Y": {
+                    "compileTime": 0.048186743003316226,
+                    "predTime": 0.13765692356343942
+                },
+                "mixed": {
+                    "compileTime": 0.16201783856377006,
+                    "predTime": 0.10546388434173308
+                }
+            }
+        },
+        "biometric_fast": {
+            "D = 4, N = 128": {
+                "A": {
+                    "compileTime": 0.06796857216395438,
+                    "predTime": 0.6095468943736593
+                },
+                "B": {
+                    "compileTime": 0.06781114807818085,
+                    "predTime": 0.05337361933136844
+                },
+                "X": {
+                    "compileTime": 0.07117099955212325,
+                    "predTime": 0.05893957581406317
+                },
+                "Y": {
+                    "compileTime": 0.07113783503882587,
+                    "predTime": 0.03491604920286323
+                },
+                "mixed": {
+                    "compileTime": 0.47463927494827657,
+                    "predTime": 0.026361725888336844
+                }
+            }
+        },
+        "chapterfour_figure_12": {
+            "x=25, y=16": {
+                "A": {
+                    "compileTime": 0.005403283610939979,
+                    "predTime": 0.009208333842105263
+                },
+                "B": {
+                    "compileTime": 0.0062628760235384105,
+                    "predTime": 2.2598089473684463e-05
+                },
+                "X": {
+                    "compileTime": 0.006031575752422214,
+                    "predTime": 0.0005257482105263153
+                },
+                "Y": {
+                    "compileTime": 0.005320042604580522,
+                    "predTime": 0.00011976247368421078
+                },
+                "mixed": {
+                    "compileTime": 0.04722231072373688,
+                    "predTime": 2.2598089473684463e-05
+                }
+            }
+        },
+        "convex_hull": {
+            "N = 128": {
+                "A": {
+                    "compileTime": 0.0855745323933661,
+                    "predTime": 118.74473519354069
+                },
+                "B": {
+                    "compileTime": 0.08450969459954649,
+                    "predTime": 0.23448069355176418
+                },
+                "X": {
+                    "compileTime": 0.08398837740533054,
+                    "predTime": 7.434727228576335
+                },
+                "Y": {
+                    "compileTime": 0.08323365410324186,
+                    "predTime": 2.552210100637642
+                },
+                "mixed": {
+                    "compileTime": 5.93600396795664,
+                    "predTime": 0.23448069355176418
+                }
+            },
+            "N = 256": {
+                "A": {
+                    "compileTime": 0.08652652171440423,
+                    "predTime": 472.8131549792291
+                },
+                "B": {
+                    "compileTime": 0.08475511902943253,
+                    "predTime": 0.9320277923870091
+                },
+                "X": {
+                    "compileTime": 0.08434947691857815,
+                    "predTime": 29.32333419457572
+                },
+                "Y": {
+                    "compileTime": 0.08582518112380058,
+                    "predTime": 9.858624561794246
+                },
+                "mixed": {
+                    "compileTime": 5.938181442092173,
+                    "predTime": 0.9320277923870091
+                }
+            },
+            "N = 32": {
+                "A": {
+                    "compileTime": 0.07803095437120647,
+                    "predTime": 7.607701370754693
+                },
+                "B": {
+                    "compileTime": 0.07885296640451997,
+                    "predTime": 0.015316278609852631
+                },
+                "X": {
+                    "compileTime": 0.07693771636113525,
+                    "predTime": 0.48932558590922093
+                },
+                "Y": {
+                    "compileTime": 0.07675185075495392,
+                    "predTime": 0.17623042027048422
+                },
+                "mixed": {
+                    "compileTime": 6.10184746091254,
+                    "predTime": 0.015316278609852631
+                }
+            },
+            "N = 64": {
+                "A": {
+                    "compileTime": 0.08576393630355597,
+                    "predTime": 29.95330283044244
+                },
+                "B": {
+                    "compileTime": 0.08173972710501402,
+                    "predTime": 0.05961686752700631
+                },
+                "X": {
+                    "compileTime": 0.08332297697197646,
+                    "predTime": 1.9125904729357475
+                },
+                "Y": {
+                    "compileTime": 0.0831457479391247,
+                    "predTime": 0.6798629973874526
+                },
+                "mixed": {
+                    "compileTime": 6.04139324487187,
+                    "predTime": 0.05961686752700631
+                }
+            }
+        },
+        "count_102": {
+            "N = 1024": {
+                "A": {
+                    "compileTime": 0.032785193994641304,
+                    "predTime": 6.222764512741053
+                },
+                "B": {
+                    "compileTime": 0.03220662868116051,
+                    "predTime": 0.021836803287579032
+                },
+                "X": {
+                    "compileTime": 0.03459246116690338,
+                    "predTime": 0.7132184939789475
+                },
+                "Y": {
+                    "compileTime": 0.03211673500481993,
+                    "predTime": 0.30539830784000005
+                },
+                "mixed": {
+                    "compileTime": 0.20844182427972555,
+                    "predTime": 0.021836803287579032
+                }
+            },
+            "N = 4096": {
+                "A": {
+                    "compileTime": 0.04365942247677594,
+                    "predTime": 24.89105805096421
+                },
+                "B": {
+                    "compileTime": 0.04439837546087801,
+                    "predTime": 0.08734721315031613
+                },
+                "X": {
+                    "compileTime": 0.044216444413177666,
+                    "predTime": 2.85287397591579
+                },
+                "Y": {
+                    "compileTime": 0.043917857599444686,
+                    "predTime": 1.2215932313600002
+                },
+                "mixed": {
+                    "compileTime": 0.22375905527733267,
+                    "predTime": 0.08734721315031613
+                }
+            }
+        },
+        "count_10s": {
+            "N = 1024": {
+                "A": {
+                    "compileTime": 0.03818229038733989,
+                    "predTime": 6.220939475267368
+                },
+                "B": {
+                    "compileTime": 0.03899049488827586,
+                    "predTime": 0.022036616946526397
+                },
+                "X": {
+                    "compileTime": 0.035080292937345804,
+                    "predTime": 0.7151638514526317
+                },
+                "Y": {
+                    "compileTime": 0.037278094119392334,
+                    "predTime": 0.3057085332210527
+                },
+                "mixed": {
+                    "compileTime": 0.26261795992031695,
+                    "predTime": 0.022036616946526397
+                }
+            },
+            "N = 4096": {
+                "A": {
+                    "compileTime": 0.046643702476285395,
+                    "predTime": 24.883757901069472
+                },
+                "B": {
+                    "compileTime": 0.04674894611816853,
+                    "predTime": 0.08814646778610559
+                },
+                "X": {
+                    "compileTime": 0.048621514509432015,
+                    "predTime": 2.860655405810527
+                },
+                "Y": {
+                    "compileTime": 0.045681501482613386,
+                    "predTime": 1.2228341328842107
+                },
+                "mixed": {
+                    "compileTime": 0.2702226176392287,
+                    "predTime": 0.08814646778610559
+                }
+            }
+        },
+        "count_123": {
+            "N = 1024": {
+                "A": {
+                    "compileTime": 0.040395093616098166,
+                    "predTime": 6.252545220446316
+                },
+                "B": {
+                    "compileTime": 0.04098022105172276,
+                    "predTime": 0.022019434496000086
+                },
+                "X": {
+                    "compileTime": 0.041673973738215866,
+                    "predTime": 0.7428684853894738
+                },
+                "Y": {
+                    "compileTime": 0.041524094971828164,
+                    "predTime": 0.33515803971368424
+                },
+                "mixed": {
+                    "compileTime": 0.29535943903028966,
+                    "predTime": 0.022019434496000086
+                }
+            },
+            "N = 4096": {
+                "A": {
+                    "compileTime": 0.052172032999806106,
+                    "predTime": 25.010180881785264
+                },
+                "B": {
+                    "compileTime": 0.05329878400079906,
+                    "predTime": 0.08807773798400034
+                },
+                "X": {
+                    "compileTime": 0.051219340926036236,
+                    "predTime": 2.9714739415578952
+                },
+                "Y": {
+                    "compileTime": 0.05175592231098562,
+                    "predTime": 1.340632158854737
+                },
+                "mixed": {
+                    "compileTime": 0.311662985640578,
+                    "predTime": 0.08807773798400034
+                }
+            }
+        },
+        "cryptonets_max_pooling": {
+            "rows = 16, cols = 16": {
+                "A": {
+                    "compileTime": 0.04681475053075701,
+                    "predTime": 0.6925689035843369
+                },
+                "B": {
+                    "compileTime": 0.04826932938303798,
+                    "predTime": 0.0023135005363199993
+                },
+                "X": {
+                    "compileTime": 0.04830755058210343,
+                    "predTime": 0.04634119797018947
+                },
+                "Y": {
+                    "compileTime": 0.048551058513112366,
+                    "predTime": 0.01640321271511579
+                },
+                "mixed": {
+                    "compileTime": 3.9388514972059054,
+                    "predTime": 0.0023135005363199993
+                }
+            }
+        },
+        "db_cross_join_trivial": {
+            "32, 32": {
+                "A": {
+                    "compileTime": 0.07583580585196614,
+                    "predTime": 6.3696404081178954
+                },
+                "B": {
+                    "compileTime": 0.07784621720202267,
+                    "predTime": 0.011433214771199999
+                },
+                "X": {
+                    "compileTime": 0.07687496736180037,
+                    "predTime": 0.9224809542063159
+                },
+                "Y": {
+                    "compileTime": 0.07651256721001118,
+                    "predTime": 0.470458490071579
+                },
+                "mixed": {
+                    "compileTime": 4.117799646197819,
+                    "predTime": 0.011433214771199999
+                }
+            },
+            "64, 64": {
+                "A": {
+                    "compileTime": 0.1063740020385012,
+                    "predTime": 25.478561632471582
+                },
+                "B": {
+                    "compileTime": 0.10492499240208417,
+                    "predTime": 0.045732859084799994
+                },
+                "X": {
+                    "compileTime": 0.10693280899431556,
+                    "predTime": 3.6899238168252637
+                },
+                "Y": {
+                    "compileTime": 0.10454265864100307,
+                    "predTime": 1.881833960286316
+                },
+                "mixed": {
+                    "compileTime": 4.084637669869698,
+                    "predTime": 0.045732859084799994
+                }
+            }
+        },
+        "db_variance": {
+            "len = 1024": {
+                "A": {
+                    "compileTime": 0.03291759251151234,
+                    "predTime": 0.0568888371264
+                },
+                "B": {
+                    "compileTime": "N/A",
+                    "predTime": "N/A"
+                },
+                "X": {
+                    "compileTime": 0.031175762694329024,
+                    "predTime": 0.03545414465482106
+                },
+                "Y": {
+                    "compileTime": 0.03240560560952872,
+                    "predTime": 0.031444127809515776
+                },
+                "mixed": {
+                    "compileTime": 0.1076319838874042,
+                    "predTime": 0.031444127809515776
+                }
+            },
+            "len = 2048": {
+                "A": {
+                    "compileTime": 0.039219371997751294,
+                    "predTime": 0.09228563320016842
+                },
+                "B": {
+                    "compileTime": "N/A",
+                    "predTime": "N/A"
+                },
+                "X": {
+                    "compileTime": 0.042597091384232046,
+                    "predTime": 0.0660578050991158
+                },
+                "Y": {
+                    "compileTime": 0.04065817790105939,
+                    "predTime": 0.06117416667166314
+                },
+                "mixed": {
+                    "compileTime": 0.11400685557164252,
+                    "predTime": 0.06117416667166314
+                }
+            },
+            "len = 4096": {
+                "A": {
+                    "compileTime": 0.05428641871549189,
+                    "predTime": 0.16307922534770525
+                },
+                "B": {
+                    "compileTime": "N/A",
+                    "predTime": "N/A"
+                },
+                "X": {
+                    "compileTime": 0.05595474727451801,
+                    "predTime": 0.12726512598770529
+                },
+                "Y": {
+                    "compileTime": 0.05691514541395008,
+                    "predTime": 0.12063424439595784
+                },
+                "mixed": {
+                    "compileTime": 0.13181097900960595,
+                    "predTime": 0.12063424439595784
+                }
+            },
+            "len = 512": {
+                "A": {
+                    "compileTime": 0.02868057459127158,
+                    "predTime": 0.04004186972254316
+                },
+                "B": {
+                    "compileTime": "N/A",
+                    "predTime": "N/A"
+                },
+                "X": {
+                    "compileTime": 0.029059157893061637,
+                    "predTime": 0.020794492857667376
+                },
+                "Y": {
+                    "compileTime": 0.030146780097857116,
+                    "predTime": 0.01708187973373979
+                },
+                "mixed": {
+                    "compileTime": 0.1041787137510255,
+                    "predTime": 0.01708187973373979
+                }
+            }
+        },
+        "inner_product": {
+            "N = 4096": {
+                "A": {
+                    "compileTime": 0.04328436818905175,
+                    "predTime": 0.12975423380210527
+                },
+                "B": {
+                    "compileTime": 0.04220669684000313,
+                    "predTime": 0.3337176613726318
+                },
+                "X": {
+                    "compileTime": 0.04025858920067549,
+                    "predTime": 0.12021520384
+                },
+                "Y": {
+                    "compileTime": 0.039003109489567575,
+                    "predTime": 0.11891632127999996
+                },
+                "mixed": {
+                    "compileTime": 0.056862057722173634,
+                    "predTime": 0.11891632127999996
+                }
+            },
+            "N = 512": {
+                "A": {
+                    "compileTime": 0.01169945818837732,
+                    "predTime": 0.017070704013473676
+                },
+                "B": {
+                    "compileTime": 0.012628046609461308,
+                    "predTime": 0.041247293130105306
+                },
+                "X": {
+                    "compileTime": 0.01214909756090492,
+                    "predTime": 0.015668674297263166
+                },
+                "Y": {
+                    "compileTime": 0.012367385206744075,
+                    "predTime": 0.01536706704976842
+                },
+                "mixed": {
+                    "compileTime": 0.029809084883891047,
+                    "predTime": 0.01536706704976842
+                }
+            }
+        },
+        "longest_102": {
+            "N = 1024": {
+                "A": {
+                    "compileTime": 0.0492453362327069,
+                    "predTime": 11.020600516446319
+                },
+                "B": {
+                    "compileTime": 0.05093252086080611,
+                    "predTime": 0.052009853359158024
+                },
+                "X": {
+                    "compileTime": 0.05193441957235336,
+                    "predTime": 1.093173199494737
+                },
+                "Y": {
+                    "compileTime": 0.0507302806712687,
+                    "predTime": 0.4974144506610531
+                },
+                "mixed": {
+                    "compileTime": 0.34993520195130257,
+                    "predTime": 0.052009853359158024
+                }
+            },
+            "N = 4096": {
+                "A": {
+                    "compileTime": 0.06348639677744358,
+                    "predTime": 44.082402065785274
+                },
+                "B": {
+                    "compileTime": 0.06277058634441346,
+                    "predTime": 0.2080394134366321
+                },
+                "X": {
+                    "compileTime": 0.06086881174705923,
+                    "predTime": 4.372692797978948
+                },
+                "Y": {
+                    "compileTime": 0.06456543281674385,
+                    "predTime": 1.9896578026442124
+                },
+                "mixed": {
+                    "compileTime": 0.35936449624132366,
+                    "predTime": 0.2080394134366321
+                }
+            }
+        },
+        "longest_odd_10": {
+            "N = 2048": {
+                "A": {
+                    "compileTime": "N/A",
+                    "predTime": "N/A"
+                },
+                "B": {
+                    "compileTime": 0.051024836883880195,
+                    "predTime": 0.07484875571200043
+                },
+                "X": {
+                    "compileTime": "N/A",
+                    "predTime": "N/A"
+                },
+                "Y": {
+                    "compileTime": "N/A",
+                    "predTime": "N/A"
+                },
+                "mixed": {
+                    "compileTime": 0.2366703418083489,
+                    "predTime": 0.07484875571200043
+                }
+            }
+        },
+        "max_dist_between_syms": {
+            "N = 1024": {
+                "A": {
+                    "compileTime": 0.023370570852421224,
+                    "predTime": 6.775037749894738
+                },
+                "B": {
+                    "compileTime": 0.02372263444121927,
+                    "predTime": 0.025609570088421265
+                },
+                "X": {
+                    "compileTime": 0.023051760531961916,
+                    "predTime": 0.4963214794105261
+                },
+                "Y": {
+                    "compileTime": 0.02510979401413351,
+                    "predTime": 0.14900955216842127
+                },
+                "mixed": {
+                    "compileTime": 0.0882742548827082,
+                    "predTime": 0.025609570088421265
+                }
+            },
+            "N = 2048": {
+                "A": {
+                    "compileTime": 0.026920080184936523,
+                    "predTime": 13.550075499789475
+                },
+                "B": {
+                    "compileTime": 0.027512489701621234,
+                    "predTime": 0.05121914017684253
+                },
+                "X": {
+                    "compileTime": 0.027061534603126346,
+                    "predTime": 0.9926429588210522
+                },
+                "Y": {
+                    "compileTime": 0.028721256996504962,
+                    "predTime": 0.29801910433684253
+                },
+                "mixed": {
+                    "compileTime": 0.09360003541223705,
+                    "predTime": 0.05121914017684253
+                }
+            }
+        },
+        "max_sum_between_syms": {
+            "N = 1024": {
+                "A": {
+                    "compileTime": 0.026055421819910406,
+                    "predTime": 6.775037749894738
+                },
+                "B": {
+                    "compileTime": 0.026192301092669366,
+                    "predTime": 0.025609570088421265
+                },
+                "X": {
+                    "compileTime": 0.02710131579078734,
+                    "predTime": 0.4963214794105261
+                },
+                "Y": {
+                    "compileTime": 0.026546770590357482,
+                    "predTime": 0.14900955216842127
+                },
+                "mixed": {
+                    "compileTime": 0.09022549139335752,
+                    "predTime": 0.025609570088421265
+                }
+            },
+            "N = 2048": {
+                "A": {
+                    "compileTime": 0.030852792621590196,
+                    "predTime": 13.550075499789475
+                },
+                "B": {
+                    "compileTime": 0.03046167709399015,
+                    "predTime": 0.05121914017684253
+                },
+                "X": {
+                    "compileTime": 0.030663076927885412,
+                    "predTime": 0.9926429588210522
+                },
+                "Y": {
+                    "compileTime": 0.03113499467726797,
+                    "predTime": 0.29801910433684253
+                },
+                "mixed": {
+                    "compileTime": 0.09480668380856513,
+                    "predTime": 0.05121914017684253
+                }
+            }
+        },
+        "minimal_points": {
+            "N = 128": {
+                "A": {
+                    "compileTime": 0.06482845460996031,
+                    "predTime": 118.15158754196752
+                },
+                "B": {
+                    "compileTime": 0.06521457231137902,
+                    "predTime": 0.24157913071279158
+                },
+                "X": {
+                    "compileTime": 0.06387576267588883,
+                    "predTime": 7.363401449868126
+                },
+                "Y": {
+                    "compileTime": 0.06401642172131687,
+                    "predTime": 2.53676925347301
+                },
+                "mixed": {
+                    "compileTime": 0.5966621030820534,
+                    "predTime": 0.24157913071279158
+                }
+            },
+            "N = 256": {
+                "A": {
+                    "compileTime": 0.066507455566898,
+                    "predTime": 472.303415227428
+                },
+                "B": {
+                    "compileTime": 0.06527712845709174,
+                    "predTime": 0.9635926477691957
+                },
+                "X": {
+                    "compileTime": 0.06477265940047801,
+                    "predTime": 29.136064298999017
+                },
+                "Y": {
+                    "compileTime": 0.06529049666132777,
+                    "predTime": 9.835369859323507
+                },
+                "mixed": {
+                    "compileTime": 0.6062754302285611,
+                    "predTime": 0.9635926477691957
+                }
+            },
+            "N = 32": {
+                "A": {
+                    "compileTime": 0.06356096221134067,
+                    "predTime": 7.397008657352759
+                },
+                "B": {
+                    "compileTime": 0.06272342840675264,
+                    "predTime": 0.015090454657751579
+                },
+                "X": {
+                    "compileTime": 0.06457325357478112,
+                    "predTime": 0.47174880026004207
+                },
+                "Y": {
+                    "compileTime": 0.0627266282448545,
+                    "predTime": 0.17130576311511578
+                },
+                "mixed": {
+                    "compileTime": 0.5972183806123212,
+                    "predTime": 0.015090454657751579
+                }
+            },
+            "N = 64": {
+                "A": {
+                    "compileTime": 0.0636296346085146,
+                    "predTime": 29.57410435695832
+                },
+                "B": {
+                    "compileTime": 0.06389920385554433,
+                    "predTime": 0.06059599941955368
+                },
+                "X": {
+                    "compileTime": 0.0638821074506268,
+                    "predTime": 1.8763427061881264
+                },
+                "Y": {
+                    "compileTime": 0.0635013977997005,
+                    "predTime": 0.6706145007993263
+                },
+                "mixed": {
+                    "compileTime": 0.605267686303705,
+                    "predTime": 0.06059599941955368
+                }
+            }
+        },
+        "mnist_relu": {
+            "16, 2048": {
+                "A": {
+                    "compileTime": 0.2365529565140605,
+                    "predTime": 118.04428349224422
+                },
+                "B": {
+                    "compileTime": 0.23930270429700612,
+                    "predTime": 0.22747810865583162
+                },
+                "X": {
+                    "compileTime": 0.23817280689254403,
+                    "predTime": 7.2519082673852635
+                },
+                "Y": {
+                    "compileTime": 0.23682044064626098,
+                    "predTime": 2.3939446072589474
+                },
+                "mixed": {
+                    "compileTime": 0.3145764307817444,
+                    "predTime": 0.22747810865583162
+                }
+            },
+            "16, 512": {
+                "A": {
+                    "compileTime": 0.07124956359621137,
+                    "predTime": 29.511070873061055
+                },
+                "B": {
+                    "compileTime": 0.06995547495316715,
+                    "predTime": 0.056869527163957906
+                },
+                "X": {
+                    "compileTime": 0.07216912002768368,
+                    "predTime": 1.8129770668463159
+                },
+                "Y": {
+                    "compileTime": 0.07010901051107794,
+                    "predTime": 0.5984861518147369
+                },
+                "mixed": {
+                    "compileTime": 0.1414625875186175,
+                    "predTime": 0.056869527163957906
+                }
+            }
+        },
+        "psi": {
+            "SA = 1024, SB = 1024": {
+                "A": {
+                    "compileTime": 0.04273604375775904,
+                    "predTime": 2083.335862285474
+                },
+                "B": {
+                    "compileTime": 0.044259964907541874,
+                    "predTime": 3.9010323028884204
+                },
+                "X": {
+                    "compileTime": 0.04405978748109192,
+                    "predTime": 223.43613002240002
+                },
+                "Y": {
+                    "compileTime": 0.043669721903279425,
+                    "predTime": 69.39075893625264
+                },
+                "mixed": {
+                    "compileTime": 0.0834395747166127,
+                    "predTime": 3.9010323028884204
+                }
+            },
+            "SA = 128, SB = 128": {
+                "A": {
+                    "compileTime": 0.03378036520443857,
+                    "predTime": 32.690554514197565
+                },
+                "B": {
+                    "compileTime": 0.032380062900483605,
+                    "predTime": 0.06095594851105683
+                },
+                "X": {
+                    "compileTime": 0.03361748375464231,
+                    "predTime": 3.620722900672674
+                },
+                "Y": {
+                    "compileTime": 0.03218660790007562,
+                    "predTime": 1.2191244134346104
+                },
+                "mixed": {
+                    "compileTime": 0.06785708463285119,
+                    "predTime": 0.06095594851105683
+                }
+            }
+        }
+    }
+}
