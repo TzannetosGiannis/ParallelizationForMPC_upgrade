@@ -3,6 +3,7 @@ import sys
 import json
 import traceback
 import jsondiff
+import time
 
 from compiler.ast_to_restricted_ast import ast_to_restricted_ast
 from compiler.restricted_ast_to_tac_cfg import restricted_ast_to_tac_cfg
@@ -41,6 +42,8 @@ if len(sys.argv) > 1:
 
 
 def getMixedConfig(filename, backend, costType, protocolSets):
+    startTime = time.perf_counter()
+
     with open(filename) as f:
         text = f.read()
     try:
@@ -68,7 +71,9 @@ def getMixedConfig(filename, backend, costType, protocolSets):
     except Exception as e:
         print("ERROR IN VECTORIZATION", e)
         backend_code = f"ERROR: {e}"
-    return mixed_config, backend_code
+    endTime = time.perf_counter()
+    print("COMPILE TIME:", endTime - startTime)
+    return mixed_config, backend_code, endTime - startTime
 
 
 for program in importantTestCases + otherTestCases:
@@ -86,15 +91,26 @@ for program in importantTestCases + otherTestCases:
             currentCosts[program][strBack][costType] = dict()
             currentMixes[program][strBack][costType] = dict()
             currentBackendMixes[program][strBack][costType] = dict()
-            mixed, mixedBackend = getMixedConfig(f'../benchmarks/{program}.py', backend, costType, protSetMix)
-            unmixed, unmixedBackend = getMixedConfig(f'../benchmarks/{program}.py', backend, costType, protSetUnmix)
-            assert mixed.total_cost <= unmixed.total_cost
+            mixed, mixedBackend, compileMixedTime = getMixedConfig(f'../benchmarks/{program}.py', backend, costType, protSetMix)
+            for prot in protSetUnmix:
+                assert len(prot) == 1
+                protStr = list(prot)[0]
+                try:
+                    unmixed, unmixedBackend, compileProtTime = getMixedConfig(f'../benchmarks/{program}.py', backend, costType, [prot])
+                    assert mixed.total_cost <= unmixed.total_cost
+                    currentCosts[program][strBack][costType][protStr] = unmixed.total_cost
+                    currentMixes[program][strBack][costType][protStr] = str(unmixed)
+                    currentBackendMixes[program][strBack][costType][protStr] = str(unmixedBackend)
+                except Exception as e:
+                    if str(e) == "No valid mix found":
+                        currentCosts[program][strBack][costType][protStr] = 'N/A'
+                        currentMixes[program][strBack][costType][protStr] = 'N/A'
+                        currentBackendMixes[program][strBack][costType][protStr] = 'N/A'
+                    else:
+                        sys.exit()
             currentCosts[program][strBack][costType]['mixed'] = mixed.total_cost
-            currentCosts[program][strBack][costType]['unmixed'] = unmixed.total_cost
             currentMixes[program][strBack][costType]['mixed'] = str(mixed)
-            currentMixes[program][strBack][costType]['unmixed'] = str(unmixed)
             currentBackendMixes[program][strBack][costType]['mixed'] = str(mixedBackend)
-            currentBackendMixes[program][strBack][costType]['unmixed'] = str(unmixedBackend)
             print(f'{strBack} {costType} {program} output')
             print(mixed)
             # print(mixedBackend)
