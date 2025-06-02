@@ -3,6 +3,9 @@ import ast
 with open('FULLResults.json', 'r') as f:
     contents = json.loads(f.read())
 
+with open('mixerOutputs.json', 'r') as f:
+    contents2 = json.loads(f.read())
+
 def format_mix_type_subscript(s):
     elems = ast.literal_eval(s)  # safely parse string list to Python list
     joined = ','.join(elems)
@@ -82,6 +85,59 @@ for elem in keyList:
 
 
 print('----------------------------------------------------')
+for elem in keyList:
+    multi_line_key = generate_multirow_line(elem)
+    lines = [[]]
+    for dim in elem['dims']:
+        lines[-1].append(",".join([str(x) for x in dim['label']]))
+
+        subkey = contents2['MOTION'][elem['key']][dim['key']]
+        ArithmeticGMW = not (type(subkey['ArithmeticGmw']['compileTime']) == str)
+        lines[-1].append(f"{subkey['ArithmeticGmw']['compileTime']:.2f}" if ArithmeticGMW else "N/A")
+        lines[-1].append(f"{subkey['BooleanGmw']['compileTime']:.2f}")
+        lines[-1].append(f"{subkey['Bmr']['compileTime']:.2f}")
+        lines[-1].append(f"{subkey['mixed']['compileTime']:.2f}")
+        lines.append([])
+    lines.pop()
+    assigned_Benchmark = False
+
+    for line in lines:
+        if not assigned_Benchmark:
+            print(f"{multi_line_key} & ", end='')
+            assigned_Benchmark = True
+        else:
+            print(f" & ", end='')
+        print(" & ".join(line) + r' \\')
+    print("\cline{1-6}")
+
+print('----------------------------------------------------')
+
+for elem in keyList:
+    multi_line_key = generate_multirow_line(elem)
+    lines = [[]]
+    for dim in elem['dims']:
+        lines[-1].append(",".join([str(x) for x in dim['label']]))
+
+        subkey = contents2['MOTION'][elem['key']][dim['key']]
+        ArithmeticGMW = not (type(subkey['ArithmeticGmw']['predTime']) == str)
+        lines[-1].append(f"{subkey['ArithmeticGmw']['predTime']:.2f}" if ArithmeticGMW else "N/A")
+        lines[-1].append(f"{subkey['BooleanGmw']['predTime']:.2f}")
+        lines[-1].append(f"{subkey['Bmr']['predTime']:.2f}")
+        lines[-1].append(f"{subkey['mixed']['predTime']:.2f}")
+        lines.append([])
+    lines.pop()
+    assigned_Benchmark = False
+
+    for line in lines:
+        if not assigned_Benchmark:
+            print(f"{multi_line_key} & ", end='')
+            assigned_Benchmark = True
+        else:
+            print(f" & ", end='')
+        print(" & ".join(line) + r' \\')
+    print("\cline{1-6}")
+
+print('----------------------------------------------------')
 
 
 keyList = [
@@ -98,7 +154,7 @@ keyList = [
     {"key":'minimal_points',"label":'Minimal Points', 'dims': []},
     {"key":'mnist_relu',"label":'MNIST ReLU', 'dims': []},
     {"key":'psi',"label":'Private Set Intersection', 'dims': []},
-    
+
 ]
 
 for i in range(len(keyList)):
@@ -129,7 +185,7 @@ for elem in keyList:
         lines.append([])
     lines.pop()
     assigned_Benchmark = False
-    
+
     for line in lines:
         if not assigned_Benchmark:
             print(f"{multi_line_key} & ", end='')
@@ -139,6 +195,62 @@ for elem in keyList:
         print(" & ".join(line) + r' \\')
     print("\cline{1-9}")
 
+
+print('----------------------------------------------------')
+
+for elem in keyList:
+    multi_line_key = generate_multirow_line(elem)
+    lines = [[]]
+    for dim in elem['dims']:
+        lines[-1].append(",".join([str(x) for x in dim['label']]))
+
+        subkey = contents2['MP-SPDZ'][elem['key']][dim['key']]
+        B = not (type(subkey['B']['compileTime']) == str)
+        lines[-1].append(f"{subkey['A']['compileTime']:.2f}")
+        lines[-1].append(f"{subkey['B']['compileTime']:.2f}" if B else "N/A")
+        lines[-1].append(f"{subkey['X']['compileTime']:.2f}")
+        lines[-1].append(f"{subkey['Y']['compileTime']:.2f}")
+        lines[-1].append(f"{subkey['mixed']['compileTime']:.2f}")
+        lines.append([])
+    lines.pop()
+    assigned_Benchmark = False
+
+    for line in lines:
+        if not assigned_Benchmark:
+            print(f"{multi_line_key} & ", end='')
+            assigned_Benchmark = True
+        else:
+            print(f" & ", end='')
+        print(" & ".join(line) + r' \\')
+    print("\cline{1-7}")
+
+print('----------------------------------------------------')
+
+for elem in keyList:
+    multi_line_key = generate_multirow_line(elem)
+    lines = [[]]
+    for dim in elem['dims']:
+        lines[-1].append(",".join([str(x) for x in dim['label']]))
+
+        subkey = contents2['MP-SPDZ'][elem['key']][dim['key']]
+        B = not (type(subkey['B']['predTime']) == str)
+        lines[-1].append(f"{subkey['A']['predTime']:.2f}")
+        lines[-1].append(f"{subkey['B']['predTime']:.2f}" if B else "N/A")
+        lines[-1].append(f"{subkey['X']['predTime']:.2f}")
+        lines[-1].append(f"{subkey['Y']['predTime']:.2f}")
+        lines[-1].append(f"{subkey['mixed']['predTime']:.2f}")
+        lines.append([])
+    lines.pop()
+    assigned_Benchmark = False
+
+    for line in lines:
+        if not assigned_Benchmark:
+            print(f"{multi_line_key} & ", end='')
+            assigned_Benchmark = True
+        else:
+            print(f" & ", end='')
+        print(" & ".join(line) + r' \\')
+    print("\cline{1-7}")
 
 print('----------------------------------------------------')
 
