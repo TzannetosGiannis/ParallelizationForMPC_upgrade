@@ -70,6 +70,11 @@ for elem in keyList:
         lines[-1].append(isMixed)
         lines[-1].append((',').join(mixedElems))
         lines[-1].append(f"{contents['MOTION'][elem['key']][dim['key']]['mixed']['time']:.2f}")
+
+        # Add the time for the compiling
+        lines[-1].append(f"{contents2['MOTION'][elem['key']][dim['key']]['mixed']['compileTime']:.2f}")
+        # Add the time for the prediction
+        lines[-1].append(f"{contents2['MOTION'][elem['key']][dim['key']]['mixed']['predTime']:.2f}")
         lines.append([])
     lines.pop()
     assigned_Benchmark = False
@@ -81,7 +86,7 @@ for elem in keyList:
         else:
             print(f" & ", end='')
         print(" & ".join(line) + r' \\')
-    print("\cline{1-8}")
+    print("\cline{1-10}")
 
 
 print('----------------------------------------------------')
@@ -182,6 +187,11 @@ for elem in keyList:
         lines[-1].append(isMixed)
         lines[-1].append((',').join(mixedElems))
         lines[-1].append(f"{contents['MP-SPDZ'][elem['key']][dim['key']]['mixed']['time']:.2f}")
+
+         # Add the time for the compiling
+        lines[-1].append(f"{contents2['MP-SPDZ'][elem['key']][dim['key']]['mixed']['compileTime']:.2f}")
+        # Add the time for the prediction
+        lines[-1].append(f"{contents2['MP-SPDZ'][elem['key']][dim['key']]['mixed']['predTime']:.2f}")
         lines.append([])
     lines.pop()
     assigned_Benchmark = False
@@ -193,7 +203,7 @@ for elem in keyList:
         else:
             print(f" & ", end='')
         print(" & ".join(line) + r' \\')
-    print("\cline{1-9}")
+    print("\cline{1-11}")
 
 
 print('----------------------------------------------------')
