@@ -3,7 +3,6 @@ std::tuple<encrypto::motion::SecureUnsignedInteger, encrypto::motion::SecureUnsi
     encrypto::motion::PartyPointer &party,
     std::uint32_t _MPC_PLAINTEXT_D_0,
     std::uint32_t _MPC_PLAINTEXT_N_0,
-    std::vector<encrypto::motion::SecureUnsignedInteger> C_0,
     encrypto::motion::SecureUnsignedInteger C_sqr_sum_0,
     std::vector<encrypto::motion::SecureUnsignedInteger> two_C_0,
     std::vector<encrypto::motion::SecureUnsignedInteger> S_0,

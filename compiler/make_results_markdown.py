@@ -133,7 +133,7 @@ def build_motion_benchmark_tables(circuits_path: str) -> str:
             ):
                 continue
 
-            for vectorized in (True, False):
+            for vectorized in [True]:
                 try:
                     maybe_data = motion_run_benchmark(
                         test_case_dir.name, test_case_dir.path, protocol, vectorized
@@ -239,7 +239,6 @@ def build_motion_benchmark_tables(circuits_path: str) -> str:
 
 def build_spdz_benchmark_tables() -> str:
     table = "## MP-SPDZ Benchmark Data\n"
-
     test_case_dirs = [
         test_case_dir
         for test_case_dir in sorted(
@@ -268,7 +267,6 @@ def build_spdz_benchmark_tables() -> str:
             table += str(data.int_opens) + "|"
             table += str(data.vm_rounds) + "|"
             table += "\n"
-
     binary = 32
     table += f"### Binary protocol compilation ({binary} bit default)\n"
     table += "| Benchmark | Compile time (seconds) | # bit triples | # VM rounds |\n"
@@ -276,22 +274,26 @@ def build_spdz_benchmark_tables() -> str:
     for test_case_dir in test_case_dirs:
         # [TODO] now the we produce B code through mixer we cannot create without vectorized (binary only)
         for vectorized in [True]:
-            data = spdz_get_compile_stats_bin(
-                benchmark_name=test_case_dir.name,
-                benchmark_path=test_case_dir.path, 
-                vectorized=vectorized, 
-                binary=binary
-            )
-            table += "|"
-            table += (
-                test_case_dir.name
-                + (" (Non-Vectorized)" if not vectorized else "")
-                + "|"
-            )
-            table += str(round(data.time, ndigits=3)) + "|"
-            table += str(data.bit_triples) + "|"
-            table += str(data.vm_rounds) + "|"
-            table += "\n"
+            try: 
+                data = spdz_get_compile_stats_bin(
+                        benchmark_name=test_case_dir.name,
+                        benchmark_path=test_case_dir.path, 
+                        vectorized=vectorized, 
+                        binary=binary
+                    )
+                table += "|"
+                table += (
+                    test_case_dir.name
+                    + (" (Non-Vectorized)" if not vectorized else "")
+                    + "|"
+                )
+                table += str(round(data.time, ndigits=3)) + "|"
+                table += str(data.bit_triples) + "|"
+                table += str(data.vm_rounds) + "|"
+                table += "\n"
+            except Exception as e:
+                print(f"Error during protocol mixing: {e} {test_case_dir.name} only [B]")
+    
 
     table += "### Mixed protocols compilation\n"
     table += "| Benchmark | Compile time (seconds) | # int triples | # int opens | # bit triples | # VM rounds |\n"
@@ -311,14 +313,14 @@ def build_spdz_benchmark_tables() -> str:
         table += str(data.vm_rounds) + "|"
         table += "\n"
         
-    for protocol in compiler.backends.mp_spdz.VALID_PROTOCOLS:
+    for protocol in ["semi"]: #compiler.backends.mp_spdz.VALID_PROTOCOLS:
         table += f"\n### {protocol.title()} protocol\n"
 
         table += "| Benchmark | Time (seconds) | Data sent (MB) | Communication rounds |\n"
         table += "| - | - | - | - |\n"
 
         for test_case_dir in test_case_dirs:
-            for vectorized in (False, True):
+            for vectorized in [True]:
                 data = spdz_run_benchmark(
                     benchmark_name=test_case_dir.name, 
                     benchmark_path=test_case_dir.path,
@@ -337,33 +339,32 @@ def build_spdz_benchmark_tables() -> str:
                 table += str(data.data_sent_mb) + "|"
                 table += str(data.communication_rounds) + "|"
                 table += "\n"
-
-            # also add a line for mixed
-            # [TODO] those are bypassed rue to overflow
-            if protocol == 'mascot' and ( test_case_dir.name == 'psi' or  test_case_dir.name == 'minimal_points' or test_case_dir.name == 'longest_odd_10' or test_case_dir.name == 'longest_odd' or test_case_dir.name == 'count_102' or test_case_dir.name == 'longest_102' or test_case_dir.name == 'count_123' or test_case_dir.name == 'count_10s' or test_case_dir.name == 'convex_hull'):
-                continue
-            
+ 
             executions = [("B",True,[],[{'B'}]),("X",False,["-X"],None),("Y",False,["-Y"],None),("mixed",True,[],[{'A', 'B'}, {'X', 'B'}, {'Y', 'B'}])]
-            for exec in executions:
-                data = spdz_run_benchmark(
-                        benchmark_name=test_case_dir.name, 
-                        benchmark_path=test_case_dir.path, 
-                        protocol=protocol, 
-                        vectorized=True, 
-                        mixed=exec[1],
-                        additional_flags=exec[2],
-                        protocolsSPDZ=exec[3]
-                )
-                table += "|"
-                table += (
-                    test_case_dir.name
-                    + f" {exec[0]}"
-                    + "|"
-                )
-                table += str(data.time_seconds) + "|"
-                table += str(data.data_sent_mb) + "|"
-                table += str(data.communication_rounds) + "|"
-                table += "\n"
+            for _exec in executions:
+                try:
+                    data = spdz_run_benchmark(
+                            benchmark_name=test_case_dir.name, 
+                            benchmark_path=test_case_dir.path, 
+                            protocol=protocol, 
+                            vectorized=True, 
+                            mixed=_exec[1],
+                            additional_flags=_exec[2],
+                            protocolSets=_exec[3],
+                            costType="time"
+                    )
+                    table += "|"
+                    table += (
+                        test_case_dir.name
+                        + f" {_exec[0]}"
+                        + "|"
+                    )
+                    table += str(data.time_seconds) + "|"
+                    table += str(data.data_sent_mb) + "|"
+                    table += str(data.communication_rounds) + "|"
+                    table += "\n"
+                except  Exception as e:
+                    print(f"Error during protocol mixing: {e} {test_case_dir.name} {_exec}")
 
 
     return table
@@ -381,7 +382,6 @@ def main():
     os.makedirs(circuits_path, exist_ok=True)
 
     md = "# Compiler results data\n"
-
     md += build_motion_benchmark_tables(circuits_path) + "\n"
     md += build_spdz_benchmark_tables() + "\n"
 
@@ -510,7 +510,8 @@ def main():
                 dep_graph=dep_graph, 
                 backend=backend,
                 costType="time", #[TODO] iterate thought the metrics and print in gh-pages
-                protocolSets=protocolsSPDZ if backend == Backend.MP_SPDZ else protocolsMotion
+                protocolSets=protocolsSPDZ if backend == Backend.MP_SPDZ else protocolsMotion,
+                python_text=input_text
             )
             md += f"#### {backend} mixed configuration\n"
             md += f"```{ mixed_config }\n```\n"

@@ -117,7 +117,7 @@ def bmr_workaround() -> None:
 
 
 def set_up_spdz_compile(
-    benchmark_name: str, benchmark_path: str, vectorized: bool, mixed: bool, protocolSets = [{'A', 'B'}, {'X', 'B'}, {'Y', 'B'}],args=None,costType=None
+    benchmark_name: str, benchmark_path: str, vectorized: bool, mixed: bool, protocolSets = [{'A', 'B'}, {'X', 'B'}, {'Y', 'B'}],args=None,costType="time"
 ) -> str:
     input_fname = os.path.join(benchmark_path, "input.py")
 
@@ -170,7 +170,7 @@ def _get_compile_stats_common(
         benchmark_path=benchmark_path, 
         vectorized=vectorized,
         mixed=mixed,
-        protocolsSPDZ=protocolsSPDZ
+        protocolSets=protocolsSPDZ
     )
     mpc_file = get_mpc_file_name(benchmark_name, vectorized,mixed)
     submodule_path = Backend.MP_SPDZ.submodule_path()

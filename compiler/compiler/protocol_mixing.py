@@ -1316,7 +1316,6 @@ def getInterfaceSize(c: Config) -> (int, int):
 # run the mixer
 def mix_protocols(filename: str, type_env: TypeEnv, body: list[Statement], dep_graph: DepGraph, backend: Backend, costType: str, spdzProtocol: str = 'semi', protocolSets: list[set[str]] = None, python_text: str = None ) -> OrderedConfig:
     global protocols, runningSpdz
-    print(python_text)
     # protocolSets = [{'A', 'B', 'Y'}]
     # protocolSets = [{'Y'}]
     runningSpdz = True if backend == Backend.Backend.MP_SPDZ else False
@@ -1332,7 +1331,6 @@ def mix_protocols(filename: str, type_env: TypeEnv, body: list[Statement], dep_g
     
     if costType not in {'time', 'dataSent', 'commRounds'}:
         raise Exception('Unknown cost type provided to protocol_mixing.py')
-    print(protocolsMotion)
     getLoopBounds(filename, python_text)
     getOpCosts(targetCostFile)
     trackedVars, directIOVars = getTrackedVars(type_env, body, dep_graph)

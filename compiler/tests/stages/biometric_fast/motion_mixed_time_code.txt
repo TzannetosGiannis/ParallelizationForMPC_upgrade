@@ -58,15 +58,15 @@ std::tuple<encrypto::motion::SecureUnsignedInteger, encrypto::motion::SecureUnsi
 
     // Constant initializations
     encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_0 = party->In<encrypto::motion::MpcProtocol::kArithmeticGmw>(std::uint32_t(0), 0);
-    encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_0_B = party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::ToInput(std::uint32_t(0)), 0);
-    encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_99999 = party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::ToInput(std::uint32_t(99999)), 0);
+    encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_0_Y = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(std::uint32_t(0)), 0);
+    encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_99999 = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(std::uint32_t(99999)), 0);
 
     // Input Protocol Convertions
 
     // Plaintext parameter assignments
 
     // Function body
-    min_index_1 = _MPC_CONSTANT_0_B;
+    min_index_1 = _MPC_CONSTANT_0_Y;
     _MPC_PLAINTEXT_min_index_1 = std::uint32_t(0);
     vectorized_assign(_4_0, {_MPC_PLAINTEXT_N_0}, {true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return differences_0;}), {_MPC_PLAINTEXT_N_0}));
     vectorized_assign(_5_0, {_MPC_PLAINTEXT_N_0}, {true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return S_sqr_sum_0[indices[0]];}), {_MPC_PLAINTEXT_N_0}));
@@ -75,11 +75,11 @@ std::tuple<encrypto::motion::SecureUnsignedInteger, encrypto::motion::SecureUnsi
     _MPC_PLAINTEXT_two_a_b_2 = std::uint32_t(0);
     vectorized_assign(_8_0, {_MPC_PLAINTEXT_N_0, _MPC_PLAINTEXT_D_0}, {true, true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return S_0[((indices[0] * _MPC_PLAINTEXT_D_0) + indices[1])];}), {_MPC_PLAINTEXT_N_0, _MPC_PLAINTEXT_D_0}));
     vectorized_assign(_9_0, {_MPC_PLAINTEXT_N_0, _MPC_PLAINTEXT_D_0}, {true, true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return two_C_0[indices[1]];}), {_MPC_PLAINTEXT_N_0, _MPC_PLAINTEXT_D_0}));
-    min_index_3 = _MPC_CONSTANT_0_B;
+    min_index_3 = _MPC_CONSTANT_0_Y;
     _MPC_PLAINTEXT_min_index_3 = std::uint32_t(0);
     min_diff_1 = _MPC_CONSTANT_99999;
     _MPC_PLAINTEXT_min_diff_1 = std::uint32_t(99999);
-    vectorized_assign(_16_0, {_MPC_PLAINTEXT_N_0}, {true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return encrypto::motion::SecureUnsignedInteger(party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::ToInput(indices[0]), 0));}), {_MPC_PLAINTEXT_N_0}));
+    vectorized_assign(_16_0, {_MPC_PLAINTEXT_N_0}, {true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return encrypto::motion::SecureUnsignedInteger(party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(indices[0]), 0));}), {_MPC_PLAINTEXT_N_0}));
     vectorized_assign(_3_0, {_MPC_PLAINTEXT_N_0}, {true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return min_index_1;}), {_MPC_PLAINTEXT_N_0}));
     vectorized_assign(a_sqr_plus_b_sqr_2, {_MPC_PLAINTEXT_N_0}, {true}, {}, (vectorized_access(_5_0, {_MPC_PLAINTEXT_N_0}, {true}, {}) + vectorized_access(_6_0, {_MPC_PLAINTEXT_N_0}, {true}, {})));
     vectorized_assign(_7_0, {_MPC_PLAINTEXT_N_0, _MPC_PLAINTEXT_D_0}, {true, true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return two_a_b_2;}), {_MPC_PLAINTEXT_N_0, _MPC_PLAINTEXT_D_0}));
@@ -117,12 +117,9 @@ std::tuple<encrypto::motion::SecureUnsignedInteger, encrypto::motion::SecureUnsi
 
     vectorized_assign(_10_0, {_MPC_PLAINTEXT_N_0}, {true}, {}, drop_dim(vectorized_access(two_a_b_4, {_MPC_PLAINTEXT_N_0, _MPC_PLAINTEXT_D_0}, {true, true}, {}).Unsimdify(), {_MPC_PLAINTEXT_N_0, _MPC_PLAINTEXT_D_0}));
     vectorized_assign(this_diff_2, {_MPC_PLAINTEXT_N_0}, {true}, {}, (vectorized_access(a_sqr_plus_b_sqr_2, {_MPC_PLAINTEXT_N_0}, {true}, {}) - vectorized_access(_10_0, {_MPC_PLAINTEXT_N_0}, {true}, {})));
-    std::vector<encrypto::motion::SecureUnsignedInteger> this_diff_2_Y((_MPC_PLAINTEXT_N_0));
-    vectorized_assign(this_diff_2_Y, {_MPC_PLAINTEXT_N_0}, {true}, {}, (vectorized_access(this_diff_2, {_MPC_PLAINTEXT_N_0}, {true}, {}).Get().Convert<encrypto::motion::MpcProtocol::kBmr>()));
-
-    vectorized_assign(differences_2, {_MPC_PLAINTEXT_N_0}, {true}, {}, vectorized_update(_4_0, {_MPC_PLAINTEXT_N_0}, {true}, {}, vectorized_access(this_diff_2_Y, {_MPC_PLAINTEXT_N_0}, {true}, {})));
-    std::vector<encrypto::motion::SecureUnsignedInteger> differences_2_B((_MPC_PLAINTEXT_N_0));
-    vectorized_assign(differences_2_B, {_MPC_PLAINTEXT_N_0}, {true}, {}, (vectorized_access(differences_2, {_MPC_PLAINTEXT_N_0}, {true}, {}).Get().Convert<encrypto::motion::MpcProtocol::kBooleanGmw>()));
+    vectorized_assign(differences_2, {_MPC_PLAINTEXT_N_0}, {true}, {}, vectorized_update(_4_0, {_MPC_PLAINTEXT_N_0}, {true}, {}, vectorized_access(this_diff_2, {_MPC_PLAINTEXT_N_0}, {true}, {})));
+    std::vector<encrypto::motion::SecureUnsignedInteger> differences_2_Y((_MPC_PLAINTEXT_N_0));
+    vectorized_assign(differences_2_Y, {_MPC_PLAINTEXT_N_0}, {true}, {}, (vectorized_access(differences_2, {_MPC_PLAINTEXT_N_0}, {true}, {}).Get().Convert<encrypto::motion::MpcProtocol::kBmr>()));
 
 
     // Initialize loop counter
@@ -135,8 +132,8 @@ std::tuple<encrypto::motion::SecureUnsignedInteger, encrypto::motion::SecureUnsi
             min_diff_2[_MPC_PLAINTEXT__17_0] = min_diff_4[(_MPC_PLAINTEXT__17_0 - std::uint32_t(1))];
         }
 
-        _1_2[_MPC_PLAINTEXT__17_0] = (min_diff_2[_MPC_PLAINTEXT__17_0] > differences_2_B[_MPC_PLAINTEXT__17_0]);
-        min_diff_4[_MPC_PLAINTEXT__17_0] = _1_2[_MPC_PLAINTEXT__17_0].Mux(differences_2_B[_MPC_PLAINTEXT__17_0].Get(), min_diff_2[_MPC_PLAINTEXT__17_0].Get());
+        _1_2[_MPC_PLAINTEXT__17_0] = (min_diff_2[_MPC_PLAINTEXT__17_0] > differences_2_Y[_MPC_PLAINTEXT__17_0]);
+        min_diff_4[_MPC_PLAINTEXT__17_0] = _1_2[_MPC_PLAINTEXT__17_0].Mux(differences_2_Y[_MPC_PLAINTEXT__17_0].Get(), min_diff_2[_MPC_PLAINTEXT__17_0].Get());
 
     }
 

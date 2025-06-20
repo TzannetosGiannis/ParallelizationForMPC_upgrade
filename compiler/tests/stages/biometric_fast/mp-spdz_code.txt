@@ -1,4 +1,4 @@
-def biometric_fast(D_0, N_0, C_0, C_sqr_sum_0, two_C_0, S_0, S_sqr_sum_0, differences_0):
+def biometric_fast(D_0, N_0, C_sqr_sum_0, two_C_0, S_0, S_sqr_sum_0, differences_0):
     # Shared array declarations
     _1_2 = [None] * (N_0)
     _10_0 = [None] * (N_0)
