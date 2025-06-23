@@ -71,7 +71,7 @@ jobs:
           sudo bash -c "cd ../backend_submodules && ./change_registy_boost.sh"
       - name: Build example applications
         working-directory: compiler
-        run: ./run_tests.py --test-backend ${{ matrix.mpc-backend }}
+        run: ./run_tests.py --test-backend ${{ matrix.mpc-backend }} --mixing --costType time
 
   results-page:
     runs-on: ubuntu-latest

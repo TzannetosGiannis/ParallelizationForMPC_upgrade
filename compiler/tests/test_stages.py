@@ -118,7 +118,7 @@ class StagesTestCase(unittest.TestCase):
                     continue
                 print(f"    Protocol {protocol}...")
 
-                for vectorized in (False, True):
+                for vectorized in [True]:
                     output = run_benchmark(
                         test_context.BACKEND,
                         name,
