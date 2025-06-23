@@ -4,608 +4,189 @@
 ### BooleanGmw
 | Benchmark | Total # Gates | # SIMD gates | # Non-SIMD gates | # messages sent (party 0) | Sent size (party 0) | # messages received (party 0) | Received Size (party 0) | Runtime | Circuit Generation Time |
 | - | - | - | - | - | - | - | - | - | - |
-|biometric|9999|8352|1647|4947|0.615 MiB |4946|0.615 MiB |3437.71 ms |611.0 ms |
-|biometric (Non-Vectorized)|105250|0|105250|47073|2.704 MiB |47072|2.704 MiB |14898.984 ms |6688.0 ms |
-|biometric_fast|10636|8974|1662|5265|0.611 MiB |5264|0.611 MiB |3847.315 ms |648.0 ms |
-|biometric_fast (Non-Vectorized)|99903|0|99903|44529|2.558 MiB |44528|2.558 MiB |14787.741 ms |6174.0 ms |
-|chapterfour_figure_12|805|0|805|752|0.048 MiB |751|0.048 MiB |407.249 ms |50.0 ms |
-|chapterfour_figure_12 (Non-Vectorized)|805|0|805|752|0.048 MiB |751|0.048 MiB |355.503 ms |50.0 ms |
-|convex_hull|2106|2063|43|1381|0.122 MiB |1380|0.122 MiB |835.406 ms |126.0 ms |
-|convex_hull (Non-Vectorized)|12112|0|12112|6265|0.364 MiB |6264|0.364 MiB |2301.735 ms |742.0 ms |
-|count_102|6610|297|6313|3820|0.237 MiB |3819|0.237 MiB |3740.972 ms |399.0 ms |
-|count_102 (Non-Vectorized)|9188|0|9188|5512|0.321 MiB |5511|0.321 MiB |3293.326 ms |580.0 ms |
-|count_10s|4720|298|4422|2848|0.177 MiB |2847|0.177 MiB |2634.602 ms |289.0 ms |
-|count_10s (Non-Vectorized)|6440|0|6440|3976|0.233 MiB |3975|0.233 MiB |2129.712 ms |394.0 ms |
-|count_123|4729|305|4424|2850|0.177 MiB |2849|0.177 MiB |2566.009 ms |289.0 ms |
-|count_123 (Non-Vectorized)|6476|0|6476|3990|0.234 MiB |3989|0.233 MiB |2068.286 ms |389.0 ms |
-|cryptonets_max_pooling|1349|1217|132|951|0.139 MiB |950|0.138 MiB |995.738 ms |85.0 ms |
-|cryptonets_max_pooling (Non-Vectorized)|24124|0|24124|11211|0.647 MiB |11210|0.647 MiB |4098.823 ms |1481.0 ms |
-|db_cross_join_trivial|21900|116|21784|14486|0.877 MiB |14485|0.876 MiB |4131.819 ms |1366.0 ms |
-|db_cross_join_trivial (Non-Vectorized)|29201|0|29201|19666|1.132 MiB |19665|1.132 MiB |5371.757 ms |1817.0 ms |
-|db_variance|29520|5864|23656|13646|0.926 MiB |13645|0.926 MiB |55393.032 ms |1785.0 ms |
-|db_variance (Non-Vectorized)|70507|0|70507|31524|1.812 MiB |31523|1.812 MiB |60096.531 ms |4293.0 ms |
-|histogram|5234|5123|111|3018|0.276 MiB |3017|0.276 MiB |2341.135 ms |337.0 ms |
-|histogram (Non-Vectorized)|28668|0|28668|15676|0.903 MiB |15675|0.903 MiB |5674.454 ms |1796.0 ms |
-|inner_product|7075|5207|1868|3582|0.245 MiB |3581|0.245 MiB |1827.927 ms |429.0 ms |
-|inner_product (Non-Vectorized)|17478|0|17478|8054|0.467 MiB |8053|0.467 MiB |2541.467 ms |1044.0 ms |
-|longest_102|10649|305|10344|5642|0.341 MiB |5641|0.341 MiB |4901.764 ms |665.0 ms |
-|longest_102 (Non-Vectorized)|13278|0|13278|7352|0.426 MiB |7351|0.426 MiB |4525.96 ms |799.0 ms |
-|longest_odd_10|8518|304|8214|4614|0.283 MiB |4613|0.283 MiB |5215.907 ms |520.0 ms |
-|longest_odd_10 (Non-Vectorized)|10543|0|10543|5944|0.349 MiB |5943|0.349 MiB |3587.4 ms |649.0 ms |
-|max_dist_between_syms|8276|100|8176|4454|0.263 MiB |4453|0.263 MiB |2902.564 ms |539.0 ms |
-|max_dist_between_syms (Non-Vectorized)|8941|0|8941|4888|0.285 MiB |4887|0.285 MiB |3006.652 ms |545.0 ms |
-|max_sum_between_syms|8275|100|8175|4454|0.263 MiB |4453|0.263 MiB |3057.814 ms |506.0 ms |
-|max_sum_between_syms (Non-Vectorized)|8940|0|8940|4888|0.285 MiB |4887|0.285 MiB |2959.062 ms |548.0 ms |
-|minimal_points|882|847|35|765|0.071 MiB |764|0.071 MiB |562.165 ms |52.0 ms |
-|minimal_points (Non-Vectorized)|7292|0|7292|3649|0.214 MiB |3648|0.214 MiB |1486.671 ms |444.0 ms |
-|mnist_relu|1014|407|607|771|0.33 MiB |770|0.33 MiB |522.154 ms |87.0 ms |
-|mnist_relu (Non-Vectorized)|80603|0|80603|36591|2.101 MiB |36590|2.101 MiB |10758.926 ms |5741.0 ms |
-|psi|182|138|44|474|0.05 MiB |473|0.05 MiB |616.708 ms |10.0 ms |
-|psi (Non-Vectorized)|3391|0|3391|2646|0.157 MiB |2645|0.157 MiB |1124.748 ms |208.0 ms |
 
 ### Bmr
 | Benchmark | Total # Gates | # SIMD gates | # Non-SIMD gates | # messages sent (party 0) | Sent size (party 0) | # messages received (party 0) | Received Size (party 0) | Runtime | Circuit Generation Time |
 | - | - | - | - | - | - | - | - | - | - |
-|biometric|4486|3645|841|7843|4.37 MiB |7846|4.37 MiB |786.991 ms |708.0 ms |
-|biometric (Non-Vectorized)|51452|0|51452|86503|8.263 MiB |86506|8.263 MiB |7026.165 ms |7487.0 ms |
-|biometric_fast|4658|3802|856|8019|4.327 MiB |8019|4.327 MiB |752.958 ms |727.0 ms |
-|biometric_fast (Non-Vectorized)|49849|0|49849|85284|8.151 MiB |85284|8.151 MiB |7227.177 ms |7245.0 ms |
-|chapterfour_figure_12|398|0|398|975|0.087 MiB |972|0.087 MiB |58.16 ms |56.0 ms |
-|chapterfour_figure_12 (Non-Vectorized)|398|0|398|975|0.087 MiB |972|0.087 MiB |43.088 ms |54.0 ms |
-|convex_hull|1040|991|49|1992|0.514 MiB |1981|0.513 MiB |144.939 ms |146.0 ms |
-|convex_hull (Non-Vectorized)|5650|0|5650|8998|0.861 MiB |8987|0.861 MiB |783.661 ms |772.0 ms |
-|count_102|1753|109|1644|3831|0.569 MiB |3819|0.569 MiB |293.886 ms |280.0 ms |
-|count_102 (Non-Vectorized)|2639|0|2639|8061|0.779 MiB |8049|0.778 MiB |417.539 ms |519.0 ms |
-|count_10s|1264|110|1154|2942|0.415 MiB |2932|0.414 MiB |196.091 ms |203.0 ms |
-|count_10s (Non-Vectorized)|1856|0|1856|5762|0.555 MiB |5752|0.554 MiB |283.424 ms |366.0 ms |
-|count_123|1271|115|1156|2948|0.417 MiB |2939|0.416 MiB |220.87 ms |207.0 ms |
-|count_123 (Non-Vectorized)|1878|0|1878|5798|0.558 MiB |5789|0.558 MiB |320.468 ms |367.0 ms |
-|cryptonets_max_pooling|757|605|152|1484|1.013 MiB |1379|1.007 MiB |139.857 ms |109.0 ms |
-|cryptonets_max_pooling (Non-Vectorized)|11904|0|11904|17957|1.828 MiB |17852|1.823 MiB |1997.32 ms |1623.0 ms |
-|db_cross_join_trivial|7971|62|7909|36652|6.318 MiB |36345|6.302 MiB |1392.541 ms |2237.0 ms |
-|db_cross_join_trivial (Non-Vectorized)|11276|0|11276|86306|8.773 MiB |85999|8.757 MiB |1344.876 ms |4753.0 ms |
-|db_variance|13352|3017|10335|20698|3.612 MiB |20695|3.611 MiB |2121.094 ms |1881.0 ms |
-|db_variance (Non-Vectorized)|34410|0|34410|56538|5.389 MiB |56535|5.389 MiB |4948.793 ms |4825.0 ms |
-|histogram|1473|1357|116|2939|1.046 MiB |2891|1.043 MiB |331.831 ms |253.0 ms |
-|histogram (Non-Vectorized)|7673|0|7673|18072|1.795 MiB |18024|1.793 MiB |1539.881 ms |1330.0 ms |
-|inner_product|3301|2827|474|5833|1.004 MiB |5830|1.004 MiB |453.905 ms |485.0 ms |
-|inner_product (Non-Vectorized)|8944|0|8944|15763|1.497 MiB |15760|1.496 MiB |1330.278 ms |1282.0 ms |
-|longest_102|3730|115|3615|6776|0.867 MiB |6764|0.866 MiB |629.248 ms |553.0 ms |
-|longest_102 (Non-Vectorized)|4649|0|4649|11051|1.079 MiB |11039|1.078 MiB |654.747 ms |802.0 ms |
-|longest_odd_10|2993|114|2879|6671|0.869 MiB |6660|0.868 MiB |458.497 ms |502.0 ms |
-|longest_odd_10 (Non-Vectorized)|3688|0|3688|10864|1.077 MiB |10853|1.076 MiB |560.911 ms |740.0 ms |
-|max_dist_between_syms|2879|38|2841|5152|0.559 MiB |5141|0.558 MiB |457.68 ms |420.0 ms |
-|max_dist_between_syms (Non-Vectorized)|3110|0|3110|6237|0.612 MiB |6226|0.612 MiB |438.487 ms |482.0 ms |
-|max_sum_between_syms|2878|38|2840|5150|0.558 MiB |5140|0.557 MiB |429.643 ms |421.0 ms |
-|max_sum_between_syms (Non-Vectorized)|3109|0|3109|6235|0.612 MiB |6225|0.611 MiB |437.513 ms |485.0 ms |
-|minimal_points|472|431|41|1015|0.244 MiB |1012|0.244 MiB |58.533 ms |61.0 ms |
-|minimal_points (Non-Vectorized)|3566|0|3566|4161|0.4 MiB |4158|0.4 MiB |603.733 ms |417.0 ms |
-|mnist_relu|1010|203|807|1684|3.225 MiB |1280|3.205 MiB |403.065 ms |158.0 ms |
-|mnist_relu (Non-Vectorized)|40003|0|40003|59195|6.07 MiB |58791|6.05 MiB |6591.476 ms |5478.0 ms |
-|psi|141|92|49|748|0.348 MiB |740|0.348 MiB |69.499 ms |27.0 ms |
-|psi (Non-Vectorized)|1306|0|1306|6674|0.641 MiB |6666|0.641 MiB |183.165 ms |360.0 ms |
 
 ### mixed
 | Benchmark | Total # Gates | # SIMD gates | # Non-SIMD gates | # messages sent (party 0) | Sent size (party 0) | # messages received (party 0) | Received Size (party 0) | Runtime | Circuit Generation Time |
 | - | - | - | - | - | - | - | - | - | - |
-|biometric|1026|185|841|2237|0.252 MiB |2230|0.252 MiB |154.377 ms |156.0 ms |
-|biometric_fast|1045|189|856|2237|0.252 MiB |2230|0.252 MiB |186.601 ms |154.0 ms |
-|chapterfour_figure_12|398|0|398|975|0.087 MiB |972|0.087 MiB |88.029 ms |54.0 ms |
-|convex_hull|1039|991|48|1990|0.513 MiB |1980|0.513 MiB |174.939 ms |149.0 ms |
-|count_102|1752|109|1643|3829|0.569 MiB |3818|0.568 MiB |293.274 ms |281.0 ms |
-|count_10s|1263|110|1153|2940|0.414 MiB |2931|0.414 MiB |213.494 ms |206.0 ms |
-|count_123|1270|115|1155|2946|0.416 MiB |2938|0.416 MiB |194.563 ms |206.0 ms |
-|cryptonets_max_pooling|753|605|148|1476|1.01 MiB |1375|1.005 MiB |168.717 ms |108.0 ms |
-|db_cross_join_trivial|21897|116|21781|14486|0.877 MiB |14485|0.876 MiB |4221.342 ms |1378.0 ms |
-|db_variance|8215|11|8204|13396|1.306 MiB |13394|1.29 MiB |1151.119 ms |1134.0 ms |
-|histogram|1471|1357|114|2935|1.045 MiB |2889|1.042 MiB |273.263 ms |254.0 ms |
-|inner_product|19|6|13|394|0.029 MiB |393|0.029 MiB |87.467 ms |0.0 ms |
-|longest_102|3729|115|3614|6774|0.866 MiB |6763|0.866 MiB |636.559 ms |559.0 ms |
-|longest_odd_10|2992|114|2878|6669|0.868 MiB |6659|0.868 MiB |476.195 ms |500.0 ms |
-|max_dist_between_syms|2878|38|2840|5150|0.558 MiB |5140|0.557 MiB |404.386 ms |417.0 ms |
-|max_sum_between_syms|2877|38|2839|5148|0.557 MiB |5139|0.557 MiB |488.857 ms |422.0 ms |
-|minimal_points|471|431|40|1013|0.244 MiB |1011|0.244 MiB |128.266 ms |61.0 ms |
-|mnist_relu|1012|407|605|771|0.33 MiB |770|0.33 MiB |451.649 ms |88.0 ms |
-|psi|180|138|42|474|0.05 MiB |473|0.05 MiB |620.256 ms |10.0 ms |
 
 ## MP-SPDZ Benchmark Data
 ### Arithmetic protocol compilation
 | Benchmark | Compile time (seconds) | # int triples | # int opens | # VM rounds |
 | - | - | - | - | - |
-|biometric|0.424|504|6|34|
-|biometric (Non-Vectorized)|0.235|504|6|34|
-|biometric_fast|0.248|504|6|34|
-|biometric_fast (Non-Vectorized)|0.231|504|6|34|
-|chapterfour_figure_12|0.149|242|3|10|
-|chapterfour_figure_12 (Non-Vectorized)|0.146|242|3|10|
-|convex_hull|0.161|2910|30|14|
-|convex_hull (Non-Vectorized)|0.162|2910|30|14|
-|count_102|0.161|1930|31|39|
-|count_102 (Non-Vectorized)|0.157|1930|31|28|
-|count_10s|0.153|1351|22|30|
-|count_10s (Non-Vectorized)|0.15|1351|22|22|
-|count_123|0.153|1358|22|31|
-|count_123 (Non-Vectorized)|0.151|1358|22|23|
-|cryptonets_max_pooling|0.234|7260|80|25|
-|cryptonets_max_pooling (Non-Vectorized)|0.232|7260|80|25|
-|db_cross_join_trivial|0.343|19389|378|12|
-|db_cross_join_trivial (Non-Vectorized)|0.309|19200|375|12|
-|db_variance|2.133|4000|29|184|
-|db_variance (Non-Vectorized)|2.135|4000|29|184|
-|inner_product|0.083|3|1|2|
+|biometric|0.389|504|6|38|
+|biometric (Non-Vectorized)|0.177|504|6|38|
+|biometric_fast|0.19|504|6|38|
+|biometric_fast (Non-Vectorized)|0.175|504|6|38|
+|chapterfour_figure_12|0.171|242|3|11|
+|chapterfour_figure_12 (Non-Vectorized)|0.168|242|3|11|
+|convex_hull|0.186|2910|30|15|
+|convex_hull (Non-Vectorized)|0.186|2910|30|15|
+|count_102|0.18|1930|31|38|
+|count_102 (Non-Vectorized)|0.177|1930|31|29|
+|count_10s|0.175|1351|22|29|
+|count_10s (Non-Vectorized)|0.174|1351|22|23|
+|count_123|0.183|1358|22|30|
+|count_123 (Non-Vectorized)|0.176|1358|22|24|
+|cryptonets_max_pooling|0.202|7260|80|28|
+|cryptonets_max_pooling (Non-Vectorized)|0.201|7260|80|28|
+|db_cross_join_trivial|0.36|19389|378|13|
+|db_cross_join_trivial (Non-Vectorized)|0.347|19200|375|13|
+|db_variance|1.889|4002|29|190|
+|db_variance (Non-Vectorized)|1.914|4002|29|190|
+|inner_product|0.082|3|1|2|
 |inner_product (Non-Vectorized)|0.077|3|1|2|
-|longest_102|0.516|3160|41|130|
-|longest_102 (Non-Vectorized)|0.481|3160|41|102|
-|longest_odd_10|0.441|2520|33|105|
-|longest_odd_10 (Non-Vectorized)|0.643|2520|33|139|
-|max_dist_between_syms|0.41|1480|17|80|
-|max_dist_between_syms (Non-Vectorized)|0.408|1480|17|73|
-|max_sum_between_syms|0.413|1480|17|80|
-|max_sum_between_syms (Non-Vectorized)|0.419|1480|17|73|
-|minimal_points|0.161|2184|24|13|
-|minimal_points (Non-Vectorized)|0.159|2184|24|13|
-|mnist_relu|0.265|24200|400|9|
-|mnist_relu (Non-Vectorized)|0.291|24200|400|9|
-|psi|0.16|2245|40|16|
-|psi (Non-Vectorized)|0.161|2245|40|16|
+|longest_102|0.277|3160|41|140|
+|longest_102 (Non-Vectorized)|0.281|3160|41|113|
+|longest_odd_10|0.319|2520|33|114|
+|longest_odd_10 (Non-Vectorized)|0.319|2520|33|156|
+|max_dist_between_syms|0.264|1480|17|89|
+|max_dist_between_syms (Non-Vectorized)|0.265|1480|17|82|
+|max_sum_between_syms|0.265|1480|17|89|
+|max_sum_between_syms (Non-Vectorized)|0.261|1480|17|82|
+|minimal_points|0.189|2184|24|14|
+|minimal_points (Non-Vectorized)|0.181|2184|24|14|
+|mnist_relu|0.296|24200|400|10|
+|mnist_relu (Non-Vectorized)|0.313|24200|400|10|
+|psi|0.189|2245|40|17|
+|psi (Non-Vectorized)|0.185|2245|40|17|
 ### Binary protocol compilation (32 bit default)
 | Benchmark | Compile time (seconds) | # bit triples | # VM rounds |
 | - | - | - | - |
-|biometric|0.813|25788|95|
-|biometric (Non-Vectorized)|7.084|25788|72|
-|biometric_fast|0.878|22920|104|
-|biometric_fast (Non-Vectorized)|6.785|22920|74|
-|chapterfour_figure_12|0.135|190|9|
-|chapterfour_figure_12 (Non-Vectorized)|0.13|190|9|
-|convex_hull|0.399|5439|30|
-|convex_hull (Non-Vectorized)|0.532|1755|13|
-|count_102|0.691|2300|79|
-|count_102 (Non-Vectorized)|0.718|2300|61|
-|count_10s|0.481|1610|66|
-|count_10s (Non-Vectorized)|0.525|1610|55|
-|count_123|0.515|1638|67|
-|count_123 (Non-Vectorized)|0.538|1638|55|
-|cryptonets_max_pooling|0.914|5700|22|
-|cryptonets_max_pooling (Non-Vectorized)|1.689|5700|22|
-|db_cross_join_trivial|4.855|18993|10|
-|db_cross_join_trivial (Non-Vectorized)|4.733|18900|10|
-|db_variance|120.178|396834|642|
-|db_variance (Non-Vectorized)|124.817|396834|611|
-|inner_product|0.427|3924|46|
-|inner_product (Non-Vectorized)|0.895|3924|39|
-|longest_102|0.979|3300|112|
-|longest_102 (Non-Vectorized)|1.02|3300|94|
-|longest_odd_10|0.831|3080|121|
-|longest_odd_10 (Non-Vectorized)|0.93|3080|77|
-|max_dist_between_syms|0.714|2056|72|
-|max_dist_between_syms (Non-Vectorized)|0.695|2056|72|
-|max_sum_between_syms|0.71|2056|72|
-|max_sum_between_syms (Non-Vectorized)|0.684|2056|72|
-|minimal_points|0.299|1650|12|
-|minimal_points (Non-Vectorized)|0.404|1371|12|
-|mnist_relu|2.789|19000|8|
-|mnist_relu (Non-Vectorized)|6.609|19000|8|
-|psi|0.304|1280|14|
-|psi (Non-Vectorized)|0.348|1280|14|
+|biometric|0.885|24824|91|
+|biometric_fast|0.984|21956|100|
+|chapterfour_figure_12|0.134|190|9|
+|convex_hull|0.665|2916|23|
+|count_102|0.576|2270|79|
+|count_10s|0.426|1589|66|
+|count_123|0.433|1596|67|
+|cryptonets_max_pooling|0.176|5700|22|
+|db_cross_join_trivial|1.765|18993|10|
+|inner_product|0.46|3669|28|
+|longest_102|0.893|3240|112|
+|longest_odd_10|0.848|3080|121|
+|max_dist_between_syms|0.709|2056|72|
+|max_sum_between_syms|0.682|2056|72|
+|minimal_points|0.122|1344|12|
+|mnist_relu|0.501|19000|8|
+|psi|0.108|1280|14|
 ### Mixed protocols compilation
 | Benchmark | Compile time (seconds) | # int triples | # int opens | # bit triples | # VM rounds |
 | - | - | - | - | - | - |
-|biometric mixed|0.52|16|8|1300|40|
-|biometric_fast mixed|0.52|16|8|1300|40|
-|chapterfour_figure_12 mixed|0.132|0|0|190|9|
-|convex_hull mixed|0.75|2|8|6405|33|
-|count_102 mixed|0.726|1|1|2610|81|
-|count_10s mixed|0.608|2|2|2226|68|
-|count_123 mixed|0.707|2|2|5047|86|
-|cryptonets_max_pooling mixed|1.942|0|20|7680|23|
-|db_cross_join_trivial mixed|118.771|0|453|396864|86|
-|db_variance mixed|62.916|23|17|194050|455|
-|inner_product mixed|0.078|3|1|0|2|
-|longest_102 mixed|1.116|1|1|7600|131|
-|longest_odd_10 mixed|0.916|1|1|3328|123|
-|max_dist_between_syms mixed|0.758|0|0|2056|72|
-|max_sum_between_syms mixed|0.746|0|0|2056|72|
-|minimal_points mixed|0.578|1|1|5241|65|
-|mnist_relu mixed|14.935|0|200|38800|11|
-|psi mixed|0.633|2|2|2365|16|
-
-### Mascot protocol
-| Benchmark | Time (seconds) | Data sent (MB) | Communication rounds |
-| - | - | - | - |
-|biometric|0.228512|19.7196|187|
-|biometric (Non-Vectorized)|0.233152|19.7196|187|
-|biometric mixed|10.4267|849.978|5493|
-|biometric_fast|0.227109|19.7196|187|
-|biometric_fast (Non-Vectorized)|0.226621|19.7196|187|
-|biometric_fast mixed|9.49912|849.978|5493|
-|chapterfour_figure_12|0.119155|8.87755|121|
-|chapterfour_figure_12 (Non-Vectorized)|0.121734|8.87755|121|
-|chapterfour_figure_12 mixed|0.130096|9.56406|97|
-|convex_hull|1.10716|106.009|227|
-|convex_hull (Non-Vectorized)|1.11234|106.009|227|
-|count_102|1.04263|98.5974|281|
-|count_102 (Non-Vectorized)|1.06339|98.5974|259|
-|count_10s|0.721158|69.0582|237|
-|count_10s (Non-Vectorized)|0.719515|69.0582|221|
-|count_123|0.726574|69.1752|239|
-|count_123 (Non-Vectorized)|0.743664|69.1752|223|
-|cryptonets_max_pooling|2.67807|264.745|481|
-|cryptonets_max_pooling (Non-Vectorized)|2.68309|264.745|481|
-|cryptonets_max_pooling mixed|9.58151|849.658|5439|
-|db_cross_join_trivial|10.128|1014.76|1353|
-|db_cross_join_trivial (Non-Vectorized)|10.1542|1014.75|1353|
-|db_cross_join_trivial mixed|22.764|2069.43|12021|
-|db_variance|2.72672|349.936|753|
-|db_variance (Non-Vectorized)|2.66943|349.936|753|
-|db_variance mixed|100.676|11822.0|49943|
-|inner_product|0.0065919|0.110123|69|
-|inner_product (Non-Vectorized)|0.0067613|0.110123|69|
-|inner_product mixed|0.00716216|0.110123|69|
-|longest_102|1.45674|143.098|593|
-|longest_102 (Non-Vectorized)|1.4602|143.098|537|
-|longest_odd_10|1.21117|114.329|489|
-|longest_odd_10 (Non-Vectorized)|1.21019|114.33|599|
-|max_dist_between_syms|0.656914|61.5599|357|
-|max_dist_between_syms (Non-Vectorized)|0.649579|61.5599|343|
-|max_dist_between_syms mixed|0.135668|9.56455|223|
-|max_sum_between_syms|0.653077|61.5599|357|
-|max_sum_between_syms (Non-Vectorized)|0.656691|61.5599|343|
-|max_sum_between_syms mixed|0.139986|9.56455|223|
-|minimal_points|0.851613|79.5515|199|
-|minimal_points (Non-Vectorized)|0.820795|79.5515|199|
-|mnist_relu|8.94006|897.666|1171|
-|mnist_relu (Non-Vectorized)|8.90501|897.666|1171|
-|mnist_relu mixed|9.88842|878.237|5505|
-|psi|1.18937|114.932|257|
-|psi (Non-Vectorized)|1.18982|114.932|257|
-
-### Semi-Bmr protocol
-| Benchmark | Time (seconds) | Data sent (MB) | Communication rounds |
-| - | - | - | - |
-|biometric|3.75543|728.81|2783|
-|biometric (Non-Vectorized)|3.7864|728.81|2789|
-|biometric mixed|3.76675|728.81|2783|
-|biometric_fast|3.32336|647.489|2479|
-|biometric_fast (Non-Vectorized)|3.30418|647.489|2485|
-|biometric_fast mixed|3.3514|647.489|2479|
-|chapterfour_figure_12|0.0544109|6.25733|106|
-|chapterfour_figure_12 (Non-Vectorized)|0.054829|6.25733|106|
-|chapterfour_figure_12 mixed|0.054093|6.25733|106|
-|convex_hull|0.813547|153.29|967|
-|convex_hull (Non-Vectorized)|0.29116|50.0566|586|
-|convex_hull mixed|0.806256|153.29|967|
-|count_102|0.359919|65.6899|327|
-|count_102 (Non-Vectorized)|0.363614|65.6899|327|
-|count_102 mixed|0.403275|75.0643|360|
-|count_10s|0.265321|46.9119|255|
-|count_10s (Non-Vectorized)|0.263682|46.9119|255|
-|count_10s mixed|0.29815|53.1666|277|
-|count_123|0.265548|46.9235|255|
-|count_123 (Non-Vectorized)|0.2603|46.9235|255|
-|count_123 mixed|0.694988|131.386|570|
-|cryptonets_max_pooling|0.889609|162.651|1896|
-|cryptonets_max_pooling (Non-Vectorized)|0.873559|162.651|1896|
-|cryptonets_max_pooling mixed|0.894009|162.651|1896|
-|db_cross_join_trivial|2.90025|534.947|6743|
-|db_cross_join_trivial (Non-Vectorized)|2.95109|534.908|6743|
-|db_cross_join_trivial mixed|2.91942|534.947|6743|
-|db_variance|57.6943|11173.4|40714|
-|db_variance (Non-Vectorized)|57.154|11173.4|40732|
-|db_variance mixed|56.7175|11173.4|40714|
-|inner_product|0.603709|112.593|492|
-|inner_product (Non-Vectorized)|0.592735|112.593|498|
-|inner_product mixed|0.593295|112.593|492|
-|longest_102|0.513607|93.8424|432|
-|longest_102 (Non-Vectorized)|0.506734|93.8424|432|
-|longest_102 mixed|1.15591|215.823|885|
-|longest_odd_10|0.484086|87.5872|404|
-|longest_odd_10 (Non-Vectorized)|0.475823|87.5872|410|
-|longest_odd_10 mixed|0.527152|93.854|432|
-|max_dist_between_syms|0.319071|59.4247|305|
-|max_dist_between_syms (Non-Vectorized)|0.326389|59.4247|305|
-|max_dist_between_syms mixed|0.328798|59.4247|305|
-|max_sum_between_syms|0.330669|59.4247|305|
-|max_sum_between_syms (Non-Vectorized)|0.326038|59.4247|305|
-|max_sum_between_syms mixed|0.326077|59.4247|305|
-|minimal_points|0.273224|46.9311|575|
-|minimal_points (Non-Vectorized)|0.236548|40.6513|553|
-|minimal_points mixed|0.794873|150.125|962|
-|mnist_relu|3.14829|535.014|14731|
-|mnist_relu (Non-Vectorized)|3.1257|535.014|14731|
-|mnist_relu mixed|3.17266|535.014|14731|
-|psi|0.223056|37.5311|478|
-|psi (Non-Vectorized)|0.22642|37.5311|478|
-|psi mixed|0.224551|37.5311|478|
+|biometric mixed|0.53|16|8|1300|41|
+|biometric_fast mixed|0.693|16|12|1696|41|
+|chapterfour_figure_12 mixed|0.129|0|0|190|9|
+|convex_hull mixed|0.64|0|12|2916|23|
+|count_102 mixed|0.551|0|0|2270|79|
+|count_10s mixed|0.444|0|0|1589|66|
+|count_123 mixed|0.422|0|0|1596|67|
+|cryptonets_max_pooling mixed|0.175|0|0|5700|22|
+|db_cross_join_trivial mixed|1.729|0|0|18993|10|
+|db_variance mixed|0.955|38|29|4106|6|
+|inner_product mixed|0.081|3|1|0|2|
+|longest_102 mixed|0.928|0|0|3240|112|
+|longest_odd_10 mixed|0.867|0|0|3080|121|
+|max_dist_between_syms mixed|0.719|0|0|2056|72|
+|max_sum_between_syms mixed|0.689|0|0|2056|72|
+|minimal_points mixed|0.125|0|0|1344|12|
+|mnist_relu mixed|0.496|0|0|19000|8|
+|psi mixed|0.11|0|0|1280|14|
 
 ### Semi protocol
 | Benchmark | Time (seconds) | Data sent (MB) | Communication rounds |
 | - | - | - | - |
-|biometric|0.0315445|1.61202|111|
-|biometric (Non-Vectorized)|0.0324161|1.61202|111|
-|biometric mixed|0.0605821|0.290945|482|
-|biometric_fast|0.0315362|1.61202|111|
-|biometric_fast (Non-Vectorized)|0.0307077|1.61202|111|
-|biometric_fast mixed|0.0637665|0.290945|482|
-|chapterfour_figure_12|0.0174658|0.794624|63|
-|chapterfour_figure_12 (Non-Vectorized)|0.0171767|0.794624|63|
-|chapterfour_figure_12 mixed|0.00494631|0.040584|59|
-|convex_hull|0.11778|9.1351|97|
-|convex_hull (Non-Vectorized)|0.117185|9.1351|97|
-|convex_hull mixed|0.0683578|0.315532|492|
-|count_102|0.0867391|6.0977|138|
-|count_102 (Non-Vectorized)|0.0864141|6.0977|116|
-|count_102 mixed|0.019054|0.099038|238|
-|count_10s|0.0616707|4.28294|118|
-|count_10s (Non-Vectorized)|0.0623515|4.28294|102|
-|count_10s mixed|0.0191221|0.098448|212|
-|count_123|0.062433|4.30159|120|
-|count_123 (Non-Vectorized)|0.0652514|4.30159|104|
-|count_123 mixed|0.0318267|0.156395|281|
-|cryptonets_max_pooling|0.26393|22.7714|182|
-|cryptonets_max_pooling (Non-Vectorized)|0.263642|22.7714|182|
-|cryptonets_max_pooling mixed|0.0668478|0.31509|470|
-|db_cross_join_trivial|0.688048|62.8005|336|
-|db_cross_join_trivial (Non-Vectorized)|0.689218|62.7944|336|
-|db_cross_join_trivial mixed|1.81076|8.56166|6767|
-|db_variance|0.234249|24.9527|452|
-|db_variance (Non-Vectorized)|0.237121|24.9527|452|
-|db_variance mixed|1.06376|5.15715|5936|
-|inner_product|0.0047877|0.04864|45|
-|inner_product (Non-Vectorized)|0.00499826|0.04864|45|
-|inner_product mixed|0.0045051|0.04864|45|
-|longest_102|0.132248|9.94978|344|
-|longest_102 (Non-Vectorized)|0.130158|9.94978|288|
-|longest_102 mixed|0.0400443|0.190888|393|
-|longest_odd_10|0.1741|7.93893|281|
-|longest_odd_10 (Non-Vectorized)|0.110742|7.93893|349|
-|longest_odd_10 mixed|0.024282|0.112583|333|
-|max_dist_between_syms|0.0702854|4.67201|216|
-|max_dist_between_syms (Non-Vectorized)|0.0700257|4.67201|202|
-|max_dist_between_syms mixed|0.0147828|0.076991|207|
-|max_sum_between_syms|0.070026|4.67201|216|
-|max_sum_between_syms (Non-Vectorized)|0.0700235|4.67201|202|
-|max_sum_between_syms mixed|0.0146676|0.076991|207|
-|minimal_points|0.0886814|6.87126|93|
-|minimal_points (Non-Vectorized)|0.0930756|6.87126|93|
-|minimal_points mixed|0.0288684|0.154996|239|
-|mnist_relu|0.842046|78.2001|365|
-|mnist_relu (Non-Vectorized)|0.842994|78.2001|365|
-|mnist_relu mixed|0.265812|1.288|1623|
-|psi|0.0927848|7.09977|103|
-|psi (Non-Vectorized)|0.0933991|7.09977|103|
-|psi mixed|0.01576|0.098691|108|
-
-### Hemi protocol
-| Benchmark | Time (seconds) | Data sent (MB) | Communication rounds |
-| - | - | - | - |
-|biometric|0.170463|1.61721|92|
-|biometric (Non-Vectorized)|0.170807|1.61721|92|
-|biometric mixed|0.223472|1.79528|463|
-|biometric_fast|0.171759|1.61721|92|
-|biometric_fast (Non-Vectorized)|0.171197|1.61721|92|
-|biometric_fast mixed|0.221567|1.79528|463|
-|chapterfour_figure_12|0.169984|1.60469|44|
-|chapterfour_figure_12 (Non-Vectorized)|0.172782|1.60469|44|
-|chapterfour_figure_12 mixed|0.0051414|0.02093|39|
-|convex_hull|0.172218|1.72941|56|
-|convex_hull (Non-Vectorized)|0.171615|1.72941|56|
-|convex_hull mixed|0.230423|1.86287|473|
-|count_102|0.176086|1.7124|108|
-|count_102 (Non-Vectorized)|0.173637|1.7124|86|
-|count_102 mixed|0.184241|1.64945|219|
-|count_10s|0.176508|1.67325|88|
-|count_10s (Non-Vectorized)|0.173076|1.67325|72|
-|count_10s mixed|0.183775|1.64579|193|
-|count_123|0.172714|1.67347|90|
-|count_123 (Non-Vectorized)|0.178607|1.67347|74|
-|count_123 mixed|0.207058|1.70374|262|
-|cryptonets_max_pooling|0.176893|1.94109|86|
-|cryptonets_max_pooling (Non-Vectorized)|0.175707|1.94109|86|
-|cryptonets_max_pooling mixed|0.0694498|0.305263|460|
-|db_cross_join_trivial|0.449775|5.87349|112|
-|db_cross_join_trivial (Non-Vectorized)|0.448609|5.86739|112|
-|db_cross_join_trivial mixed|1.71348|8.55183|6761|
-|db_variance|0.251662|2.42505|400|
-|db_variance (Non-Vectorized)|0.252458|2.42505|400|
-|db_variance mixed|1.2642|7.09419|5917|
-|inner_product|0.163351|1.58308|16|
-|inner_product (Non-Vectorized)|0.163497|1.58308|16|
-|inner_product mixed|0.165724|1.58308|16|
-|longest_102|0.180285|1.76625|292|
-|longest_102 (Non-Vectorized)|0.179156|1.76625|236|
-|longest_102 mixed|0.207602|1.7413|374|
-|longest_odd_10|0.176967|1.73131|240|
-|longest_odd_10 (Non-Vectorized)|0.179639|1.73131|308|
-|longest_odd_10 mixed|0.190377|1.663|314|
-|max_dist_between_syms|0.177011|1.6691|186|
-|max_dist_between_syms (Non-Vectorized)|0.177914|1.6691|172|
-|max_dist_between_syms mixed|0.0156347|0.057337|187|
-|max_sum_between_syms|0.175438|1.6691|186|
-|max_sum_between_syms (Non-Vectorized)|0.175627|1.6691|172|
-|max_sum_between_syms mixed|0.0158344|0.057337|187|
-|minimal_points|0.173812|1.69584|52|
-|minimal_points (Non-Vectorized)|0.171933|1.69584|52|
-|minimal_points mixed|0.19557|1.70541|220|
-|mnist_relu|0.459226|5.86395|86|
-|mnist_relu (Non-Vectorized)|0.445138|5.86395|86|
-|mnist_relu mixed|0.263322|1.27817|1613|
-|psi|0.174947|1.73081|62|
-|psi (Non-Vectorized)|0.17384|1.73081|62|
-|psi mixed|0.179275|1.64603|89|
-
-### Temi protocol
-| Benchmark | Time (seconds) | Data sent (MB) | Communication rounds |
-| - | - | - | - |
-|biometric|0.126326|2.00179|88|
-|biometric (Non-Vectorized)|0.12655|2.00168|88|
-|biometric mixed|0.17636|2.20452|457|
-|biometric_fast|0.125174|2.00166|88|
-|biometric_fast (Non-Vectorized)|0.125159|2.00172|88|
-|biometric_fast mixed|0.178058|2.20443|457|
-|chapterfour_figure_12|0.12149|1.98655|40|
-|chapterfour_figure_12 (Non-Vectorized)|0.121406|1.98656|40|
-|chapterfour_figure_12 mixed|0.00576419|0.02093|39|
-|convex_hull|0.140195|2.14626|56|
-|convex_hull (Non-Vectorized)|0.142434|2.14624|56|
-|convex_hull mixed|0.186727|2.24219|593|
-|count_102|0.147276|2.13407|110|
-|count_102 (Non-Vectorized)|0.147402|2.13409|88|
-|count_102 mixed|0.138638|2.03646|224|
-|count_10s|0.138545|2.0855|88|
-|count_10s (Non-Vectorized)|0.139693|2.08555|72|
-|count_10s mixed|0.138988|2.03296|198|
-|count_123|0.140691|2.08575|90|
-|count_123 (Non-Vectorized)|0.138728|2.08577|74|
-|count_123 mixed|0.149151|2.09086|267|
-|cryptonets_max_pooling|0.28511|4.36942|100|
-|cryptonets_max_pooling (Non-Vectorized)|0.286218|4.36937|100|
-|cryptonets_max_pooling mixed|0.185734|2.28751|456|
-|db_cross_join_trivial|1.04083|15.3957|204|
-|db_cross_join_trivial (Non-Vectorized)|1.03538|15.3895|204|
-|db_cross_join_trivial mixed|1.88325|10.5275|6761|
-|db_variance|0.400086|5.64991|410|
-|db_variance (Non-Vectorized)|0.401576|5.64988|410|
-|db_variance mixed|1.20615|7.62505|6031|
-|inner_product|0.119221|1.97212|20|
-|inner_product (Non-Vectorized)|0.120531|1.97219|20|
-|inner_product mixed|0.118637|1.97218|20|
-|longest_102|0.161934|2.2072|296|
-|longest_102 (Non-Vectorized)|0.158584|2.20724|240|
-|longest_102 mixed|0.158731|2.12833|379|
-|longest_odd_10|0.155259|2.15995|242|
-|longest_odd_10 (Non-Vectorized)|0.156083|2.15991|310|
-|longest_odd_10 mixed|0.144722|2.05003|319|
-|max_dist_between_syms|0.141756|2.07306|184|
-|max_dist_between_syms (Non-Vectorized)|0.13712|2.07312|170|
-|max_dist_between_syms mixed|0.0156843|0.057337|187|
-|max_sum_between_syms|0.138|2.07315|184|
-|max_sum_between_syms (Non-Vectorized)|0.137176|2.07314|170|
-|max_sum_between_syms mixed|0.0158906|0.057337|187|
-|minimal_points|0.134926|2.10278|50|
-|minimal_points (Non-Vectorized)|0.135566|2.1027|50|
-|minimal_points mixed|0.148178|2.09248|225|
-|mnist_relu|0.841704|13.2357|148|
-|mnist_relu (Non-Vectorized)|0.843619|13.2358|148|
-|mnist_relu mixed|0.382155|3.25444|1607|
-|psi|0.149247|2.16089|64|
-|psi (Non-Vectorized)|0.151666|2.16096|64|
-|psi mixed|0.134524|2.03311|94|
-
-### Soho protocol
-| Benchmark | Time (seconds) | Data sent (MB) | Communication rounds |
-| - | - | - | - |
-|biometric|1.11802|8.63487|86|
-|biometric (Non-Vectorized)|1.10693|8.63497|86|
-|biometric mixed|0.68586|5.72307|454|
-|biometric_fast|1.16679|8.63477|86|
-|biometric_fast (Non-Vectorized)|1.10988|8.63504|86|
-|biometric_fast mixed|0.682426|5.72312|454|
-|chapterfour_figure_12|1.10727|8.62301|38|
-|chapterfour_figure_12 (Non-Vectorized)|1.11071|8.62306|38|
-|chapterfour_figure_12 mixed|0.004539|0.02093|39|
-|convex_hull|1.13065|8.74586|50|
-|convex_hull (Non-Vectorized)|1.1329|8.74592|50|
-|convex_hull mixed|0.694687|5.76079|590|
-|count_102|1.13481|8.72405|102|
-|count_102 (Non-Vectorized)|1.13804|8.72412|80|
-|count_102 mixed|0.652611|5.55508|221|
-|count_10s|1.13473|8.69051|82|
-|count_10s (Non-Vectorized)|1.12236|8.69063|66|
-|count_10s mixed|0.644373|5.55152|195|
-|count_123|1.12786|8.6908|84|
-|count_123 (Non-Vectorized)|1.12121|8.6909|68|
-|count_123 mixed|0.657706|5.60951|264|
-|cryptonets_max_pooling|1.14932|8.94639|80|
-|cryptonets_max_pooling (Non-Vectorized)|1.1511|8.94642|80|
-|cryptonets_max_pooling mixed|0.692965|5.80625|453|
-|db_cross_join_trivial|2.95249|18.3523|110|
-|db_cross_join_trivial (Non-Vectorized)|2.43253|18.3467|110|
-|db_cross_join_trivial mixed|2.37373|14.0461|6752|
-|db_variance|1.62386|11.7944|394|
-|db_variance (Non-Vectorized)|1.61737|11.7945|394|
-|db_variance mixed|1.89992|12.3234|6028|
-|inner_product|0.634685|5.49071|17|
-|inner_product (Non-Vectorized)|0.630333|5.49075|17|
-|inner_product mixed|0.629315|5.49077|17|
-|longest_102|1.14866|8.78057|286|
-|longest_102 (Non-Vectorized)|1.13814|8.78058|230|
-|longest_102 mixed|0.67054|5.64708|376|
-|longest_odd_10|1.13551|8.74657|234|
-|longest_odd_10 (Non-Vectorized)|1.13897|8.74652|302|
-|longest_odd_10 mixed|0.651822|5.5687|316|
-|max_dist_between_syms|1.12873|8.68623|180|
-|max_dist_between_syms (Non-Vectorized)|1.12721|8.68628|166|
-|max_dist_between_syms mixed|0.015168|0.057337|187|
-|max_sum_between_syms|1.12487|8.68633|180|
-|max_sum_between_syms (Non-Vectorized)|1.12234|8.68623|166|
-|max_sum_between_syms mixed|0.0142078|0.057337|187|
-|minimal_points|1.12047|8.7124|46|
-|minimal_points (Non-Vectorized)|1.11644|8.71248|46|
-|minimal_points mixed|0.657245|5.61112|222|
-|mnist_relu|2.33908|18.3307|82|
-|mnist_relu (Non-Vectorized)|2.33741|18.3309|82|
-|mnist_relu mixed|0.895134|6.77293|1604|
-|psi|1.13322|8.74279|56|
-|psi (Non-Vectorized)|1.13045|8.7425|56|
-|psi mixed|0.648334|5.55173|91|
-
-### Semi-Bin protocol
-| Benchmark | Time (seconds) | Data sent (MB) | Communication rounds |
-| - | - | - | - |
-|biometric|0.0445795|0.476873|226|
-|biometric (Non-Vectorized)|0.0422727|0.319821|190|
-|biometric mixed|0.0380061|0.476873|226|
-|biometric_fast|0.0388758|0.476527|244|
-|biometric_fast (Non-Vectorized)|0.0429837|0.319105|194|
-|biometric_fast mixed|0.0373245|0.476527|244|
-|chapterfour_figure_12|0.0271763|0.113894|42|
-|chapterfour_figure_12 (Non-Vectorized)|0.0272999|0.113894|42|
-|chapterfour_figure_12 mixed|0.0274629|0.113894|42|
-|convex_hull|0.0291181|0.11637|84|
-|convex_hull (Non-Vectorized)|0.0259046|0.114326|50|
-|convex_hull mixed|0.0271315|0.11637|84|
-|count_102|0.0298085|0.114587|182|
-|count_102 (Non-Vectorized)|0.0287627|0.114445|146|
-|count_102 mixed|0.0290122|0.114711|182|
-|count_10s|0.0260161|0.114296|156|
-|count_10s (Non-Vectorized)|0.0286898|0.114268|134|
-|count_10s mixed|0.0295362|0.114358|156|
-|count_123|0.0290695|0.114304|158|
-|count_123 (Non-Vectorized)|0.0289467|0.114274|134|
-|count_123 mixed|0.0276919|0.115164|192|
-|cryptonets_max_pooling|0.0272717|0.115612|68|
-|cryptonets_max_pooling (Non-Vectorized)|0.0273095|0.115423|68|
-|cryptonets_max_pooling mixed|0.0265526|0.115612|68|
-|db_cross_join_trivial|0.0327311|0.218976|55|
-|db_cross_join_trivial (Non-Vectorized)|0.033167|0.218914|55|
-|db_cross_join_trivial mixed|0.0363313|0.218976|55|
-|db_variance|0.275314|4.35979|1738|
-|db_variance (Non-Vectorized)|0.274806|4.10358|1675|
-|db_variance mixed|0.273523|4.35979|1738|
-|inner_product|0.182605|16.1209|117|
-|inner_product (Non-Vectorized)|0.0288085|0.114841|102|
-|inner_product mixed|0.17865|16.1209|117|
-|longest_102|0.0316849|0.114854|248|
-|longest_102 (Non-Vectorized)|0.031183|0.114702|212|
-|longest_102 mixed|0.0336823|0.116574|282|
-|longest_odd_10|0.032354|0.114651|266|
-|longest_odd_10 (Non-Vectorized)|0.0298729|0.114644|178|
-|longest_odd_10 mixed|0.0324456|0.114713|266|
-|max_dist_between_syms|0.0287571|0.114383|168|
-|max_dist_between_syms (Non-Vectorized)|0.0303003|0.114383|168|
-|max_dist_between_syms mixed|0.0291823|0.114383|168|
-|max_sum_between_syms|0.0302508|0.114383|168|
-|max_sum_between_syms (Non-Vectorized)|0.0298789|0.114383|168|
-|max_sum_between_syms mixed|0.0291138|0.114383|168|
-|minimal_points|0.0264151|0.11459|48|
-|minimal_points (Non-Vectorized)|0.0261453|0.114231|48|
-|minimal_points mixed|0.0299315|0.116984|150|
-|mnist_relu|0.0323602|0.219939|51|
-|mnist_relu (Non-Vectorized)|0.0354799|0.219939|51|
-|mnist_relu mixed|0.0345079|0.219939|51|
-|psi|0.0266936|0.114242|52|
-|psi (Non-Vectorized)|0.0263665|0.114204|52|
-|psi mixed|0.0256663|0.114242|52|
+|biometric A|0.0321381|1.57851|84|
+|biometric B|0.0352147|0.293357|480|
+|biometric X|0.013192|0.09864|103|
+|biometric Y|0.0295983|0.161896|346|
+|biometric mixed|0.0299104|0.147091|353|
+|biometric_fast A|0.032182|1.57851|84|
+|biometric_fast B|0.0344057|0.26976|498|
+|biometric_fast X|0.0129129|0.09864|103|
+|biometric_fast Y|0.0291651|0.161896|346|
+|biometric_fast mixed|0.0303777|0.150374|353|
+|chapterfour_figure_12 A|0.0187915|0.761113|37|
+|chapterfour_figure_12 B|0.00495922|0.006839|29|
+|chapterfour_figure_12 X|0.0103024|0.024039|50|
+|chapterfour_figure_12 Y|0.026792|0.091391|292|
+|chapterfour_figure_12 mixed|0.00479761|0.006839|29|
+|convex_hull A|0.116848|9.09347|73|
+|convex_hull B|0.0254071|0.105986|308|
+|convex_hull X|0.0167061|0.171892|68|
+|convex_hull Y|0.0302762|0.2002|300|
+|convex_hull mixed|0.0260676|0.105986|308|
+|count_102 A|0.0910325|6.06026|115|
+|count_102 B|0.00931762|0.025203|169|
+|count_102 X|0.0199363|0.209846|119|
+|count_102 Y|0.0295647|0.223728|344|
+|count_102 mixed|0.0109082|0.025203|169|
+|count_10s A|0.0648021|4.24543|92|
+|count_10s B|0.00835264|0.018679|143|
+|count_10s X|0.016717|0.14659|96|
+|count_10s Y|0.0293503|0.181018|326|
+|count_10s mixed|0.00841595|0.018679|143|
+|count_123 A|0.0653253|4.26408|94|
+|count_123 B|0.00837538|0.018681|145|
+|count_123 X|0.0170247|0.168318|98|
+|count_123 Y|0.0288009|0.202746|328|
+|count_123 mixed|0.00874174|0.018681|145|
+|cryptonets_max_pooling A|0.265425|22.7094|160|
+|cryptonets_max_pooling B|0.00967568|0.060008|63|
+|cryptonets_max_pooling X|0.0278059|0.374572|114|
+|cryptonets_max_pooling Y|0.0324229|0.330936|326|
+|cryptonets_max_pooling mixed|0.00951407|0.060008|63|
+|db_cross_join_trivial A|0.705712|62.6905|362|
+|db_cross_join_trivial B|0.0125402|0.172801|39|
+|db_cross_join_trivial X|0.0901859|1.63491|209|
+|db_cross_join_trivial Y|0.0519032|1.41745|299|
+|db_cross_join_trivial mixed|0.0142498|0.172801|39|
+|db_variance A|0.236353|24.941|445|
+|db_variance X|0.0351741|0.395394|480|
+|db_variance Y|0.146756|0.94451|2799|
+|db_variance mixed|0.146645|0.94451|2799|
+|inner_product A|0.00456604|0.015063|15|
+|inner_product B|0.0105226|0.04377|111|
+|inner_product X|0.00482579|0.015063|15|
+|inner_product Y|0.00469122|0.015063|15|
+|inner_product mixed|0.00457053|0.015063|15|
+|longest_102 A|0.137029|9.90415|322|
+|longest_102 B|0.011309|0.032745|235|
+|longest_102 X|0.0295867|0.327296|328|
+|longest_102 Y|0.0434453|0.353983|643|
+|longest_102 mixed|0.0114961|0.032745|235|
+|longest_odd_10 A|0.111501|7.89736|258|
+|longest_odd_10 B|0.0126249|0.031516|253|
+|longest_odd_10 X|0.025389|0.23908|271|
+|longest_odd_10 Y|0.0433778|0.280169|591|
+|longest_odd_10 mixed|0.0123794|0.031516|253|
+|max_dist_between_syms A|0.0716834|4.63443|191|
+|max_dist_between_syms B|0.00924951|0.022928|155|
+|max_dist_between_syms X|0.0181214|0.102112|211|
+|max_dist_between_syms Y|0.0403321|0.172005|541|
+|max_dist_between_syms mixed|0.00913802|0.022928|155|
+|max_sum_between_syms A|0.0717773|4.63443|191|
+|max_sum_between_syms B|0.00949027|0.022928|155|
+|max_sum_between_syms X|0.0194909|0.102112|211|
+|max_sum_between_syms Y|0.0382679|0.172005|541|
+|max_sum_between_syms mixed|0.00956101|0.022928|155|
+|minimal_points A|0.0892064|6.82956|66|
+|minimal_points B|0.0082294|0.022449|43|
+|minimal_points X|0.0147342|0.137658|61|
+|minimal_points Y|0.029322|0.176272|298|
+|minimal_points mixed|0.00841327|0.022449|43|
+|mnist_relu A|0.847709|78.0689|351|
+|mnist_relu B|0.0121602|0.173764|35|
+|mnist_relu X|0.0662093|1.18464|148|
+|mnist_relu Y|0.0463195|1.08836|295|
+|mnist_relu mixed|0.0121954|0.173764|35|
+|psi A|0.0990843|7.05821|82|
+|psi B|0.00887727|0.022238|47|
+|psi X|0.0200126|0.220396|77|
+|psi Y|0.0285413|0.226086|302|
+|psi mixed|0.00915915|0.022238|47|
 
 ## Compiler stages with different benchmarks
 ### `biometric`
@@ -637,8 +218,10 @@ def biometric(
 
 
 C = [1, 2, 3, 4]
+D = 4
 S = [4, 5, 2, 10, 2, 120, 4, 10, 99, 88, 77, 66, 55, 44, 33, 22]
-print(biometric(C, 4, S, 4))
+N = 4
+print(biometric(C, D, S, N))
 
 ```
 #### Restricted AST
@@ -878,34 +461,35 @@ def biometric(C!0: shared[list[int; ?]], D!0: plaintext[int], S!0: shared[list[i
     return !2!1
 ```
 #### MOTION mixed configuration
-```Total cost:	29277.51
-Input vars:	{C!0: {'A'}, S!0: {'A'}}
-Constants:	{10000: {'Y'}, 0: {'A', 'Y'}}
+```Total cost:	0.20493
+Input vars:	{C!0: ['A'], S!0: ['A']}
+Constants:	{10000: ['Y'], 0: ['A', 'Y']}
 Plaintext vars:	{}
-min_sum!1 = 10000: _ -> {'Y'} for 0.00 * 1 = 0.00
-min_index!1 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
-sum!2 = 0: _ -> {'A'} for 0.00 * 1 = 0.00
-!6!0{N!0, D!0}[] = lift(S!0[((i!1 * D!0) + j!1)], (i!1:N!0, j!1:D!0)): _ -> {'A'} for 0.00 * 1 = 0.00
-!7!0{N!0, D!0}[] = lift(C!0[j!1], (i!1:N!0, j!1:D!0)): _ -> {'A'} for 0.00 * 1 = 0.00
-!13!0{N!0}[] = lift(i!1, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!3!0{N!0}[] = lift(min_sum!1, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!4!0{N!0}[] = lift(min_index!1, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!5!0{N!0, D!0}[] = lift(sum!2, (i!1:N!0, j!1:D!0)): _ -> {'A'} for 0.00 * 1 = 0.00
-d!3{N!0, D!0}[] = (!6!0{N!0, D!0}[] - !7!0{N!0, D!0}[]): A -> {} for 1163.85 * 1 = 1163.85
-p!3{N!0, D!0}[] = (d!3{N!0, D!0}[] * d!3{N!0, D!0}[]): A -> {} for 3515.59 * 1 = 3515.59
-	sum!3{N!0}[!12!0] = Φ(!5!0{N!0}[!12!0], sum!4{N!0}[(!12!0 - 1)]): A -> {} for 0.00 * 4 = 0.00
-	sum!4{N!0}[!12!0] = (sum!3{N!0}[!12!0] + p!3{N!0}[!12!0]): A -> {} for 1088.57 * 4 = 4354.26
-!8!0{N!0}[] = drop_dim(sum!4{N!0, D!0}[]): _ -> {'A', 'Y'} for 2528.10 * 1 = 2528.10 (A->Y)
-	min_sum!2{}[!14!0] = Φ(!3!0{}[!14!0], min_sum!4{}[(!14!0 - 1)]): Y -> {} for 0.00 * 4 = 0.00
-	!1!2{}[!14!0] = (!8!0{}[!14!0] < min_sum!2{}[!14!0]): Y -> {} for 1479.81 * 4 = 5919.24
-	min_sum!4{}[!14!0] = MUX(!1!2{}[!14!0], !8!0{}[!14!0], min_sum!2{}[!14!0]): Y -> {} for 1474.56 * 4 = 5898.23
-	min_index!2{}[!15!0] = Φ(!4!0{}[!15!0], min_index!4{}[(!15!0 - 1)]): Y -> {} for 0.00 * 4 = 0.00
-	min_index!4{}[!15!0] = MUX(!1!2{}[!15!0], !13!0{}[!15!0], min_index!2{}[!15!0]): Y -> {} for 1474.56 * 4 = 5898.23
-!10!0 = drop_dim(min_sum!4{N!0}[]): _ -> {'Y'} for 0.00 * 1 = 0.00
-!11!0 = drop_dim(min_index!4{N!0}[]): _ -> {'Y'} for 0.00 * 1 = 0.00
+Flags:		{}
+min_sum!1 = 10000: _ -> ['Y'] for 0.00000 * 1 = 0.00
+min_index!1 = 0: _ -> ['Y'] for 0.00000 * 1 = 0.00
+sum!2 = 0: _ -> ['A'] for 0.00000 * 1 = 0.00
+!6!0{N!0, D!0}[] = lift(S!0[((i!1 * D!0) + j!1)], (i!1:N!0, j!1:D!0)): _ -> ['A'] for 0.00000 * 1 = 0.00
+!7!0{N!0, D!0}[] = lift(C!0[j!1], (i!1:N!0, j!1:D!0)): _ -> ['A'] for 0.00000 * 1 = 0.00
+!13!0{N!0}[] = lift(i!1, (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!3!0{N!0}[] = lift(min_sum!1, (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!4!0{N!0}[] = lift(min_index!1, (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!5!0{N!0, D!0}[] = lift(sum!2, (i!1:N!0, j!1:D!0)): _ -> ['A'] for 0.00000 * 1 = 0.00
+d!3{N!0, D!0}[] = (!6!0{N!0, D!0}[] - !7!0{N!0, D!0}[]): A -> {} for 0.00028 * 1 = 0.00
+p!3{N!0, D!0}[] = (d!3{N!0, D!0}[] * d!3{N!0, D!0}[]): A -> {} for 0.00716 * 1 = 0.01
+	sum!3{N!0}[!12!0] = Φ(!5!0{N!0}[!12!0], sum!4{N!0}[(!12!0 - 1)]): A -> {} for 0.00000 * 4 = 0.00
+	sum!4{N!0}[!12!0] = (sum!3{N!0}[!12!0] + p!3{N!0}[!12!0]): A -> {} for 0.00000 * 4 = 0.00
+!8!0{N!0}[] = drop_dim(sum!4{N!0, D!0}[]): _ -> ['A', 'Y'] for 0.03052 * 1 = 0.03 (A->Y)
+	min_sum!2{}[!14!0] = Φ(!3!0{}[!14!0], min_sum!4{}[(!14!0 - 1)]): Y -> {} for 0.00000 * 4 = 0.00
+	!1!2{}[!14!0] = (!8!0{}[!14!0] < min_sum!2{}[!14!0]): Y -> {} for 0.02979 * 4 = 0.12
+	min_sum!4{}[!14!0] = MUX(!1!2{}[!14!0], !8!0{}[!14!0], min_sum!2{}[!14!0]): Y -> {} for 0.00597 * 4 = 0.02
+	min_index!2{}[!15!0] = Φ(!4!0{}[!15!0], min_index!4{}[(!15!0 - 1)]): Y -> {} for 0.00000 * 4 = 0.00
+	min_index!4{}[!15!0] = MUX(!1!2{}[!15!0], !13!0{}[!15!0], min_index!2{}[!15!0]): Y -> {} for 0.00597 * 4 = 0.02
+!10!0 = drop_dim(min_sum!4{N!0}[]): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!11!0 = drop_dim(min_index!4{N!0}[]): _ -> ['Y'] for 0.00000 * 1 = 0.00
 !2!1 = (!10!0, !11!0)
 return !2!1
-Output vars:	{!11!0: {'Y'}, !10!0: {'Y'}}
+Output vars:	{!11!0: ['Y'], !10!0: ['Y']}
 
 ```
 #### MOTION code
@@ -1085,6 +669,8 @@ std::tuple<encrypto::motion::SecureUnsignedInteger, encrypto::motion::SecureUnsi
     encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_0_Y = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(std::uint32_t(0)), 0);
     encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_10000 = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(std::uint32_t(10000)), 0);
 
+    // Input Protocol Convertions
+
     // Plaintext parameter assignments
 
     // Function body
@@ -1160,34 +746,35 @@ std::tuple<encrypto::motion::SecureUnsignedInteger, encrypto::motion::SecureUnsi
 }
 ```
 #### MP-SPDZ mixed configuration
-```Total cost:	31448.83
-Input vars:	{C!0: {'A'}, S!0: {'A'}}
-Constants:	{10000: {'B'}, 0: {'A', 'B'}}
+```Total cost:	0.00111
+Input vars:	{C!0: ['A'], S!0: ['A']}
+Constants:	{10000: ['B'], 0: ['A', 'B']}
 Plaintext vars:	{}
-min_sum!1 = 10000: _ -> {'B'} for 0.00 * 1 = 0.00
-min_index!1 = 0: _ -> {'B'} for 0.00 * 1 = 0.00
-sum!2 = 0: _ -> {'A'} for 0.00 * 1 = 0.00
-!6!0{N!0, D!0}[] = lift(S!0[((i!1 * D!0) + j!1)], (i!1:N!0, j!1:D!0)): _ -> {'A'} for 0.00 * 1 = 0.00
-!7!0{N!0, D!0}[] = lift(C!0[j!1], (i!1:N!0, j!1:D!0)): _ -> {'A'} for 0.00 * 1 = 0.00
-!13!0{N!0}[] = lift(i!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!3!0{N!0}[] = lift(min_sum!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!4!0{N!0}[] = lift(min_index!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!5!0{N!0, D!0}[] = lift(sum!2, (i!1:N!0, j!1:D!0)): _ -> {'A'} for 0.00 * 1 = 0.00
-d!3{N!0, D!0}[] = (!6!0{N!0, D!0}[] - !7!0{N!0, D!0}[]): A -> {} for 1163.85 * 1 = 1163.85
-p!3{N!0, D!0}[] = (d!3{N!0, D!0}[] * d!3{N!0, D!0}[]): A -> {} for 3515.59 * 1 = 3515.59
-	sum!3{N!0}[!12!0] = Φ(!5!0{N!0}[!12!0], sum!4{N!0}[(!12!0 - 1)]): A -> {} for 0.00 * 4 = 0.00
-	sum!4{N!0}[!12!0] = (sum!3{N!0}[!12!0] + p!3{N!0}[!12!0]): A -> {} for 1088.57 * 4 = 4354.26
-!8!0{N!0}[] = drop_dim(sum!4{N!0, D!0}[]): _ -> {'A', 'B'} for 2626.56 * 1 = 2626.56 (A->B)
-	min_sum!2{}[!14!0] = Φ(!3!0{}[!14!0], min_sum!4{}[(!14!0 - 1)]): B -> {} for 0.00 * 4 = 0.00
-	!1!2{}[!14!0] = (!8!0{}[!14!0] < min_sum!2{}[!14!0]): B -> {} for 2136.03 * 4 = 8544.12
-	min_sum!4{}[!14!0] = MUX(!1!2{}[!14!0], !8!0{}[!14!0], min_sum!2{}[!14!0]): B -> {} for 1405.56 * 4 = 5622.22
-	min_index!2{}[!15!0] = Φ(!4!0{}[!15!0], min_index!4{}[(!15!0 - 1)]): B -> {} for 0.00 * 4 = 0.00
-	min_index!4{}[!15!0] = MUX(!1!2{}[!15!0], !13!0{}[!15!0], min_index!2{}[!15!0]): B -> {} for 1405.56 * 4 = 5622.22
-!10!0 = drop_dim(min_sum!4{N!0}[]): _ -> {'B'} for 0.00 * 1 = 0.00
-!11!0 = drop_dim(min_index!4{N!0}[]): _ -> {'B'} for 0.00 * 1 = 0.00
+Flags:		{X}
+min_sum!1 = 10000: _ -> ['B'] for 0.00000 * 1 = 0.00
+min_index!1 = 0: _ -> ['B'] for 0.00000 * 1 = 0.00
+sum!2 = 0: _ -> ['A'] for 0.00000 * 1 = 0.00
+!6!0{N!0, D!0}[] = lift(S!0[((i!1 * D!0) + j!1)], (i!1:N!0, j!1:D!0)): _ -> ['A'] for 0.00000 * 1 = 0.00
+!7!0{N!0, D!0}[] = lift(C!0[j!1], (i!1:N!0, j!1:D!0)): _ -> ['A'] for 0.00000 * 1 = 0.00
+!13!0{N!0}[] = lift(i!1, (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!3!0{N!0}[] = lift(min_sum!1, (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!4!0{N!0}[] = lift(min_index!1, (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!5!0{N!0, D!0}[] = lift(sum!2, (i!1:N!0, j!1:D!0)): _ -> ['A'] for 0.00000 * 1 = 0.00
+d!3{N!0, D!0}[] = (!6!0{N!0, D!0}[] - !7!0{N!0, D!0}[]): A -> {} for 0.00000 * 1 = 0.00
+p!3{N!0, D!0}[] = (d!3{N!0, D!0}[] * d!3{N!0, D!0}[]): A -> {} for 0.00073 * 1 = 0.00
+	sum!3{N!0}[!12!0] = Φ(!5!0{N!0}[!12!0], sum!4{N!0}[(!12!0 - 1)]): A -> {} for 0.00000 * 4 = 0.00
+	sum!4{N!0}[!12!0] = (sum!3{N!0}[!12!0] + p!3{N!0}[!12!0]): A -> {} for 0.00000 * 4 = 0.00
+!8!0{N!0}[] = drop_dim(sum!4{N!0, D!0}[]): _ -> ['A', 'B'] for 0.00025 * 1 = 0.00 (A->B)
+	min_sum!2{}[!14!0] = Φ(!3!0{}[!14!0], min_sum!4{}[(!14!0 - 1)]): B -> {} for 0.00000 * 4 = 0.00
+	!1!2{}[!14!0] = (!8!0{}[!14!0] < min_sum!2{}[!14!0]): B -> {} for 0.00003 * 4 = 0.00
+	min_sum!4{}[!14!0] = MUX(!1!2{}[!14!0], !8!0{}[!14!0], min_sum!2{}[!14!0]): B -> {} for 0.00000 * 4 = 0.00
+	min_index!2{}[!15!0] = Φ(!4!0{}[!15!0], min_index!4{}[(!15!0 - 1)]): B -> {} for 0.00000 * 4 = 0.00
+	min_index!4{}[!15!0] = MUX(!1!2{}[!15!0], !13!0{}[!15!0], min_index!2{}[!15!0]): B -> {} for 0.00000 * 4 = 0.00
+!10!0 = drop_dim(min_sum!4{N!0}[]): _ -> ['B'] for 0.00000 * 1 = 0.00
+!11!0 = drop_dim(min_index!4{N!0}[]): _ -> ['B'] for 0.00000 * 1 = 0.00
 !2!1 = (!10!0, !11!0)
 return !2!1
-Output vars:	{!11!0: {'B'}, !10!0: {'B'}}
+Output vars:	{!11!0: ['B'], !10!0: ['B']}
 
 ```
 #### MP-SPDZ code
@@ -1258,10 +845,13 @@ def biometric(C_0, D_0, S_0, N_0):
 ```
 #### MP-SPDZ mixed code
 ```py
+program.options.binary = 32
+program.use_dabit = True
 def biometric(C_0, D_0, S_0, N_0):
     # Convertion functions
     siv32 = sbitintvec.get_type(32)
     sb32 = sbits.get_type(32)
+    
     
     # Shared array declarations
     _1_2 = [None] * (N_0)
@@ -1280,6 +870,8 @@ def biometric(C_0, D_0, S_0, N_0):
     p_3 = [None] * (N_0 * D_0)
     sum_3 = [None] * (N_0 * D_0)
     sum_4 = [None] * (N_0 * D_0)
+    # Shared array convertion declarations
+    _8_0_B = [None] * (N_0)
     # Function body
     min_sum_1 = siv32(10000)
     min_index_1 = siv32(0)
@@ -1302,9 +894,9 @@ def biometric(C_0, D_0, S_0, N_0):
     # Loop exit ϕ values
     _v.vectorized_assign(sum_3, [N_0, D_0], [None, _12_0], _v.vectorized_access(sum_4, [N_0, D_0], [None, (_12_0 - 1)]))
     _v.vectorized_assign(_8_0, [N_0], [None], _v.drop_dim(sum_4, [N_0, D_0]))
-    _8_0_B = [None] * (N_0)
-    for _random_iter in range(0,N_0):
-      _8_0_B[_random_iter] = siv32(_8_0[_random_iter])
+    for _random_iter in range(0,len(_8_0)):
+      _8_0_B[_random_iter] = _v.convertion_check(_8_0[_random_iter])
+    _8_0_B = siv32(_8_0_B)
     for _14_0 in range(0, N_0):
         # Set ϕ value
         if _14_0 == 0:
@@ -1338,7 +930,6 @@ from UTIL import shared
 def biometric_fast(
     D: int,
     N: int,
-    C: shared[list[int]],
     C_sqr_sum: shared[int],
     two_C: shared[list[int]],
     S: shared[list[int]],
@@ -1391,19 +982,16 @@ D = 4
 N = 4
 C = [1, 2, 3, 4]
 S = [4, 5, 2, 10, 2, 120, 4, 10, 99, 88, 77, 66, 55, 44, 33, 22]
-S_sqr_sum = [0] * N
 two_C = [2 * C[i] for i in range(D)]
 C_sqr_sum = sum(val * val for val in C)
 S_sqr_sum = [sum(S[i * D + j] * S[i * D + j] for j in range(D)) for i in range(N)]
-
 differences = [0] * D
-
-print(biometric_fast(D, N, C, C_sqr_sum, two_C, S, S_sqr_sum, differences))
+print(biometric_fast(D, N, C_sqr_sum, two_C, S, S_sqr_sum, differences))
 
 ```
 #### Restricted AST
 ```python
-def biometric_fast(D: plaintext[int], N: plaintext[int], C: shared[list[int; ?]], C_sqr_sum: shared[int], two_C: shared[list[int; ?]], S: shared[list[int; ?]], S_sqr_sum: shared[list[int; ?]], differences: shared[list[int; ?]]) -> tuple[shared[int], shared[int]]:
+def biometric_fast(D: plaintext[int], N: plaintext[int], C_sqr_sum: shared[int], two_C: shared[list[int; ?]], S: shared[list[int; ?]], S_sqr_sum: shared[list[int; ?]], differences: shared[list[int; ?]]) -> tuple[shared[int], shared[int]]:
     min_index = 0
     for i: plaintext[int] in range(0, N):
         a_sqr_plus_b_sqr = (S_sqr_sum[i] + C_sqr_sum)
@@ -1431,7 +1019,7 @@ def biometric_fast(D: plaintext[int], N: plaintext[int], C: shared[list[int; ?]]
 ![](images/biometric_fast_dead_code_elim.png)
 #### Linear code with loops
 ```python
-def biometric_fast(D!0: plaintext[int], N!0: plaintext[int], C!0: shared[list[int; ?]], C_sqr_sum!0: shared[int], two_C!0: shared[list[int; ?]], S!0: shared[list[int; ?]], S_sqr_sum!0: shared[list[int; ?]], differences!0: shared[list[int; ?]]) -> tuple[shared[int], shared[int]]:
+def biometric_fast(D!0: plaintext[int], N!0: plaintext[int], C_sqr_sum!0: shared[int], two_C!0: shared[list[int; ?]], S!0: shared[list[int; ?]], S_sqr_sum!0: shared[list[int; ?]], differences!0: shared[list[int; ?]]) -> tuple[shared[int], shared[int]]:
     min_index!1 = 0
     for i!1 in range(0, N!0):
         min_index!2 = Φ(min_index!1, min_index!3)
@@ -1466,7 +1054,6 @@ def biometric_fast(D!0: plaintext[int], N!0: plaintext[int], C!0: shared[list[in
 | - | - |
 | `D!0` | `plaintext[int]` |
 | `N!0` | `plaintext[int]` |
-| `C!0` | `shared[list[int; ?]]` |
 | `C_sqr_sum!0` | `shared[int]` |
 | `two_C!0` | `shared[list[int; ?]]` |
 | `S!0` | `shared[list[int; ?]]` |
@@ -1497,7 +1084,7 @@ def biometric_fast(D!0: plaintext[int], N!0: plaintext[int], C!0: shared[list[in
 | `min_index!1` | `plaintext[int]` |
 #### Basic Vectorization Phase 1
 ```python
-def biometric_fast(D!0: plaintext[int], N!0: plaintext[int], C!0: shared[list[int; ?]], C_sqr_sum!0: shared[int], two_C!0: shared[list[int; ?]], S!0: shared[list[int; ?]], S_sqr_sum!0: shared[list[int; ?]], differences!0: shared[list[int; ?]]) -> tuple[shared[int], shared[int]]:
+def biometric_fast(D!0: plaintext[int], N!0: plaintext[int], C_sqr_sum!0: shared[int], two_C!0: shared[list[int; ?]], S!0: shared[list[int; ?]], S_sqr_sum!0: shared[list[int; ?]], differences!0: shared[list[int; ?]]) -> tuple[shared[int], shared[int]]:
     min_index!1 = 0
     !3!0{N!0}[] = lift(min_index!1, (i!1:N!0))
     !4!0{N!0}[] = lift(differences!0, (i!1:N!0))
@@ -1538,7 +1125,7 @@ def biometric_fast(D!0: plaintext[int], N!0: plaintext[int], C!0: shared[list[in
 ![](images/biometric_fast_bv_phase_1_dep_graph.png)
 #### Basic Vectorization Phase 2
 ```python
-def biometric_fast(D!0: plaintext[int], N!0: plaintext[int], C!0: shared[list[int; ?]], C_sqr_sum!0: shared[int], two_C!0: shared[list[int; ?]], S!0: shared[list[int; ?]], S_sqr_sum!0: shared[list[int; ?]], differences!0: shared[list[int; ?]]) -> tuple[shared[int], shared[int]]:
+def biometric_fast(D!0: plaintext[int], N!0: plaintext[int], C_sqr_sum!0: shared[int], two_C!0: shared[list[int; ?]], S!0: shared[list[int; ?]], S_sqr_sum!0: shared[list[int; ?]], differences!0: shared[list[int; ?]]) -> tuple[shared[int], shared[int]]:
     min_index!1 = 0
     !4!0{N!0}[] = lift(differences!0, (i!1:N!0))
     !5!0{N!0}[] = lift(S_sqr_sum!0[i!1], (i!1:N!0))
@@ -1582,7 +1169,6 @@ def biometric_fast(D!0: plaintext[int], N!0: plaintext[int], C!0: shared[list[in
 | - | - |
 | `D!0` | `plaintext[int]` |
 | `N!0` | `plaintext[int]` |
-| `C!0` | `shared[list[int; ?]]` |
 | `C_sqr_sum!0` | `shared[int]` |
 | `two_C!0` | `shared[list[int; ?]]` |
 | `S!0` | `shared[list[int; ?]]` |
@@ -1624,7 +1210,7 @@ def biometric_fast(D!0: plaintext[int], N!0: plaintext[int], C!0: shared[list[in
 | `min_index!1` | `plaintext[int]` |
 #### Copy propagation
 ```python
-def biometric_fast(D!0: plaintext[int], N!0: plaintext[int], C!0: shared[list[int; ?]], C_sqr_sum!0: shared[int], two_C!0: shared[list[int; ?]], S!0: shared[list[int; ?]], S_sqr_sum!0: shared[list[int; ?]], differences!0: shared[list[int; ?]]) -> tuple[shared[int], shared[int]]:
+def biometric_fast(D!0: plaintext[int], N!0: plaintext[int], C_sqr_sum!0: shared[int], two_C!0: shared[list[int; ?]], S!0: shared[list[int; ?]], S_sqr_sum!0: shared[list[int; ?]], differences!0: shared[list[int; ?]]) -> tuple[shared[int], shared[int]]:
     min_index!1 = 0
     !4!0{N!0}[] = lift(differences!0, (i!1:N!0))
     !5!0{N!0}[] = lift(S_sqr_sum!0[i!1], (i!1:N!0))
@@ -1662,7 +1248,7 @@ def biometric_fast(D!0: plaintext[int], N!0: plaintext[int], C!0: shared[list[in
 ```
 #### Common subexpression elimination
 ```python
-def biometric_fast(D!0: plaintext[int], N!0: plaintext[int], C!0: shared[list[int; ?]], C_sqr_sum!0: shared[int], two_C!0: shared[list[int; ?]], S!0: shared[list[int; ?]], S_sqr_sum!0: shared[list[int; ?]], differences!0: shared[list[int; ?]]) -> tuple[shared[int], shared[int]]:
+def biometric_fast(D!0: plaintext[int], N!0: plaintext[int], C_sqr_sum!0: shared[int], two_C!0: shared[list[int; ?]], S!0: shared[list[int; ?]], S_sqr_sum!0: shared[list[int; ?]], differences!0: shared[list[int; ?]]) -> tuple[shared[int], shared[int]]:
     min_index!1 = 0
     !4!0{N!0}[] = lift(differences!0, (i!1:N!0))
     !5!0{N!0}[] = lift(S_sqr_sum!0[i!1], (i!1:N!0))
@@ -1699,41 +1285,42 @@ def biometric_fast(D!0: plaintext[int], N!0: plaintext[int], C!0: shared[list[in
     return !2!1
 ```
 #### MOTION mixed configuration
-```Total cost:	30295.91
-Input vars:	{two_C!0: {'A'}, S!0: {'A'}, C_sqr_sum!0: {'A'}, S_sqr_sum!0: {'A'}, differences!0: {'A'}}
-Constants:	{0: {'A', 'Y'}, 99999: {'Y'}}
+```Total cost:	0.20481
+Input vars:	{two_C!0: ['A'], S!0: ['A'], C_sqr_sum!0: ['A'], S_sqr_sum!0: ['A'], differences!0: ['A']}
+Constants:	{0: ['A', 'Y'], 99999: ['Y']}
 Plaintext vars:	{}
-min_index!1 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
-!4!0{N!0}[] = lift(differences!0, (i!1:N!0)): _ -> {'A'} for 0.00 * 1 = 0.00
-!5!0{N!0}[] = lift(S_sqr_sum!0[i!1], (i!1:N!0)): _ -> {'A'} for 0.00 * 1 = 0.00
-!6!0{N!0}[] = lift(C_sqr_sum!0, (i!1:N!0)): _ -> {'A'} for 0.00 * 1 = 0.00
-two_a_b!2 = 0: _ -> {'A'} for 0.00 * 1 = 0.00
-!8!0{N!0, D!0}[] = lift(S!0[((i!1 * D!0) + j!1)], (i!1:N!0, j!1:D!0)): _ -> {'A'} for 0.00 * 1 = 0.00
-!9!0{N!0, D!0}[] = lift(two_C!0[j!1], (i!1:N!0, j!1:D!0)): _ -> {'A'} for 0.00 * 1 = 0.00
-min_index!3 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
-min_diff!1 = 99999: _ -> {'Y'} for 0.00 * 1 = 0.00
-!16!0{N!0}[] = lift(i!2, (i!2:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!3!0{N!0}[] = lift(min_index!1, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-a_sqr_plus_b_sqr!2{N!0}[] = (!5!0{N!0}[] + !6!0{N!0}[]): A -> {} for 1088.57 * 1 = 1088.57
-!7!0{N!0, D!0}[] = lift(two_a_b!2, (i!1:N!0, j!1:D!0)): _ -> {'A'} for 0.00 * 1 = 0.00
-tmp!3{N!0, D!0}[] = (!8!0{N!0, D!0}[] * !9!0{N!0, D!0}[]): A -> {} for 3515.59 * 1 = 3515.59
-!11!0{N!0}[] = lift(min_diff!1, (i!2:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-	min_index!2{}[!15!0] = Φ(!3!0{}[!15!0], min_index!3): Y -> {} for 0.00 * 4 = 0.00
-	two_a_b!3{N!0}[!14!0] = Φ(!7!0{N!0}[!14!0], two_a_b!4{N!0}[(!14!0 - 1)]): A -> {} for 0.00 * 4 = 0.00
-	two_a_b!4{N!0}[!14!0] = (two_a_b!3{N!0}[!14!0] + tmp!3{N!0}[!14!0]): A -> {} for 1088.57 * 4 = 4354.26
-!10!0{N!0}[] = drop_dim(two_a_b!4{N!0, D!0}[]): _ -> {'A'} for 0.00 * 1 = 0.00
-this_diff!2{N!0}[] = (a_sqr_plus_b_sqr!2{N!0}[] - !10!0{N!0}[]): A -> {} for 1093.69 * 1 = 1093.69
-differences!2{N!0}[] = VectorizedUpdate(!4!0{N!0}[], [I!1], this_diff!2{N!0}[]): A -> {'Y'} for 2528.10 * 1 = 2528.10 (A->Y)
-	min_diff!2{}[!17!0] = Φ(!11!0{}[!17!0], min_diff!4{}[(!17!0 - 1)]): Y -> {} for 0.00 * 4 = 0.00
-	!1!2{}[!17!0] = (differences!2{}[!17!0] < min_diff!2{}[!17!0]): Y -> {} for 1479.81 * 4 = 5919.24
-	min_diff!4{}[!17!0] = MUX(!1!2{}[!17!0], differences!2{}[!17!0], min_diff!2{}[!17!0]): Y -> {} for 1474.56 * 4 = 5898.23
-	min_index!4{}[!18!0] = Φ(min_index!2{}[!18!0], min_index!6{}[(!18!0 - 1)]): Y -> {} for 0.00 * 4 = 0.00
-	min_index!6{}[!18!0] = MUX(!1!2{}[!18!0], !16!0{}[!18!0], min_index!4{}[!18!0]): Y -> {} for 1474.56 * 4 = 5898.23
-!12!0 = drop_dim(min_diff!4{N!0}[]): _ -> {'Y'} for 0.00 * 1 = 0.00
-!13!0 = drop_dim(min_index!6{N!0}[]): _ -> {'Y'} for 0.00 * 1 = 0.00
+Flags:		{}
+min_index!1 = 0: _ -> ['Y'] for 0.00000 * 1 = 0.00
+!4!0{N!0}[] = lift(differences!0, (i!1:N!0)): _ -> ['A'] for 0.00000 * 1 = 0.00
+!5!0{N!0}[] = lift(S_sqr_sum!0[i!1], (i!1:N!0)): _ -> ['A'] for 0.00000 * 1 = 0.00
+!6!0{N!0}[] = lift(C_sqr_sum!0, (i!1:N!0)): _ -> ['A'] for 0.00000 * 1 = 0.00
+two_a_b!2 = 0: _ -> ['A'] for 0.00000 * 1 = 0.00
+!8!0{N!0, D!0}[] = lift(S!0[((i!1 * D!0) + j!1)], (i!1:N!0, j!1:D!0)): _ -> ['A'] for 0.00000 * 1 = 0.00
+!9!0{N!0, D!0}[] = lift(two_C!0[j!1], (i!1:N!0, j!1:D!0)): _ -> ['A'] for 0.00000 * 1 = 0.00
+min_index!3 = 0: _ -> ['Y'] for 0.00000 * 1 = 0.00
+min_diff!1 = 99999: _ -> ['Y'] for 0.00000 * 1 = 0.00
+!16!0{N!0}[] = lift(i!2, (i!2:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!3!0{N!0}[] = lift(min_index!1, (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+a_sqr_plus_b_sqr!2{N!0}[] = (!5!0{N!0}[] + !6!0{N!0}[]): A -> {} for 0.00000 * 1 = 0.00
+!7!0{N!0, D!0}[] = lift(two_a_b!2, (i!1:N!0, j!1:D!0)): _ -> ['A'] for 0.00000 * 1 = 0.00
+tmp!3{N!0, D!0}[] = (!8!0{N!0, D!0}[] * !9!0{N!0, D!0}[]): A -> {} for 0.00716 * 1 = 0.01
+!11!0{N!0}[] = lift(min_diff!1, (i!2:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+	min_index!2{}[!15!0] = Φ(!3!0{}[!15!0], min_index!3): Y -> {} for 0.00000 * 4 = 0.00
+	two_a_b!3{N!0}[!14!0] = Φ(!7!0{N!0}[!14!0], two_a_b!4{N!0}[(!14!0 - 1)]): A -> {} for 0.00000 * 4 = 0.00
+	two_a_b!4{N!0}[!14!0] = (two_a_b!3{N!0}[!14!0] + tmp!3{N!0}[!14!0]): A -> {} for 0.00000 * 4 = 0.00
+!10!0{N!0}[] = drop_dim(two_a_b!4{N!0, D!0}[]): _ -> ['A'] for 0.00000 * 1 = 0.00
+this_diff!2{N!0}[] = (a_sqr_plus_b_sqr!2{N!0}[] - !10!0{N!0}[]): A -> {} for 0.00016 * 1 = 0.00
+differences!2{N!0}[] = VectorizedUpdate(!4!0{N!0}[], [I!1], this_diff!2{N!0}[]): A -> ['Y'] for 0.03052 * 1 = 0.03 (A->Y)
+	min_diff!2{}[!17!0] = Φ(!11!0{}[!17!0], min_diff!4{}[(!17!0 - 1)]): Y -> {} for 0.00000 * 4 = 0.00
+	!1!2{}[!17!0] = (differences!2{}[!17!0] < min_diff!2{}[!17!0]): Y -> {} for 0.02979 * 4 = 0.12
+	min_diff!4{}[!17!0] = MUX(!1!2{}[!17!0], differences!2{}[!17!0], min_diff!2{}[!17!0]): Y -> {} for 0.00597 * 4 = 0.02
+	min_index!4{}[!18!0] = Φ(min_index!2{}[!18!0], min_index!6{}[(!18!0 - 1)]): Y -> {} for 0.00000 * 4 = 0.00
+	min_index!6{}[!18!0] = MUX(!1!2{}[!18!0], !16!0{}[!18!0], min_index!4{}[!18!0]): Y -> {} for 0.00597 * 4 = 0.02
+!12!0 = drop_dim(min_diff!4{N!0}[]): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!13!0 = drop_dim(min_index!6{N!0}[]): _ -> ['Y'] for 0.00000 * 1 = 0.00
 !2!1 = (!12!0, !13!0)
 return !2!1
-Output vars:	{!13!0: {'Y'}, !12!0: {'Y'}}
+Output vars:	{!13!0: ['Y'], !12!0: ['Y']}
 
 ```
 #### MOTION code
@@ -1743,7 +1330,6 @@ std::tuple<encrypto::motion::SecureUnsignedInteger, encrypto::motion::SecureUnsi
     encrypto::motion::PartyPointer &party,
     std::uint32_t _MPC_PLAINTEXT_D_0,
     std::uint32_t _MPC_PLAINTEXT_N_0,
-    std::vector<encrypto::motion::SecureUnsignedInteger> C_0,
     encrypto::motion::SecureUnsignedInteger C_sqr_sum_0,
     std::vector<encrypto::motion::SecureUnsignedInteger> two_C_0,
     std::vector<encrypto::motion::SecureUnsignedInteger> S_0,
@@ -1903,7 +1489,6 @@ std::tuple<encrypto::motion::SecureUnsignedInteger, encrypto::motion::SecureUnsi
     encrypto::motion::PartyPointer &party,
     std::uint32_t _MPC_PLAINTEXT_D_0,
     std::uint32_t _MPC_PLAINTEXT_N_0,
-    std::vector<encrypto::motion::SecureUnsignedInteger> C_0,
     encrypto::motion::SecureUnsignedInteger C_sqr_sum_0,
     std::vector<encrypto::motion::SecureUnsignedInteger> two_C_0,
     std::vector<encrypto::motion::SecureUnsignedInteger> S_0,
@@ -1962,6 +1547,8 @@ std::tuple<encrypto::motion::SecureUnsignedInteger, encrypto::motion::SecureUnsi
     encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_0 = party->In<encrypto::motion::MpcProtocol::kArithmeticGmw>(std::uint32_t(0), 0);
     encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_0_Y = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(std::uint32_t(0)), 0);
     encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_99999 = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(std::uint32_t(99999)), 0);
+
+    // Input Protocol Convertions
 
     // Plaintext parameter assignments
 
@@ -2060,46 +1647,47 @@ std::tuple<encrypto::motion::SecureUnsignedInteger, encrypto::motion::SecureUnsi
 }
 ```
 #### MP-SPDZ mixed configuration
-```Total cost:	32467.23
-Input vars:	{two_C!0: {'A'}, S!0: {'A'}, C_sqr_sum!0: {'A'}, S_sqr_sum!0: {'A'}, differences!0: {'A'}}
-Constants:	{0: {'A', 'B'}, 99999: {'B'}}
+```Total cost:	0.00111
+Input vars:	{two_C!0: ['A'], S!0: ['A'], C_sqr_sum!0: ['A'], S_sqr_sum!0: ['A'], differences!0: ['A']}
+Constants:	{0: ['A', 'B'], 99999: ['B']}
 Plaintext vars:	{}
-min_index!1 = 0: _ -> {'B'} for 0.00 * 1 = 0.00
-!4!0{N!0}[] = lift(differences!0, (i!1:N!0)): _ -> {'A'} for 0.00 * 1 = 0.00
-!5!0{N!0}[] = lift(S_sqr_sum!0[i!1], (i!1:N!0)): _ -> {'A'} for 0.00 * 1 = 0.00
-!6!0{N!0}[] = lift(C_sqr_sum!0, (i!1:N!0)): _ -> {'A'} for 0.00 * 1 = 0.00
-two_a_b!2 = 0: _ -> {'A'} for 0.00 * 1 = 0.00
-!8!0{N!0, D!0}[] = lift(S!0[((i!1 * D!0) + j!1)], (i!1:N!0, j!1:D!0)): _ -> {'A'} for 0.00 * 1 = 0.00
-!9!0{N!0, D!0}[] = lift(two_C!0[j!1], (i!1:N!0, j!1:D!0)): _ -> {'A'} for 0.00 * 1 = 0.00
-min_index!3 = 0: _ -> {'B'} for 0.00 * 1 = 0.00
-min_diff!1 = 99999: _ -> {'B'} for 0.00 * 1 = 0.00
-!16!0{N!0}[] = lift(i!2, (i!2:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!3!0{N!0}[] = lift(min_index!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-a_sqr_plus_b_sqr!2{N!0}[] = (!5!0{N!0}[] + !6!0{N!0}[]): A -> {} for 1088.57 * 1 = 1088.57
-!7!0{N!0, D!0}[] = lift(two_a_b!2, (i!1:N!0, j!1:D!0)): _ -> {'A'} for 0.00 * 1 = 0.00
-tmp!3{N!0, D!0}[] = (!8!0{N!0, D!0}[] * !9!0{N!0, D!0}[]): A -> {} for 3515.59 * 1 = 3515.59
-!11!0{N!0}[] = lift(min_diff!1, (i!2:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-	min_index!2{}[!15!0] = Φ(!3!0{}[!15!0], min_index!3): B -> {} for 0.00 * 4 = 0.00
-	two_a_b!3{N!0}[!14!0] = Φ(!7!0{N!0}[!14!0], two_a_b!4{N!0}[(!14!0 - 1)]): A -> {} for 0.00 * 4 = 0.00
-	two_a_b!4{N!0}[!14!0] = (two_a_b!3{N!0}[!14!0] + tmp!3{N!0}[!14!0]): A -> {} for 1088.57 * 4 = 4354.26
-!10!0{N!0}[] = drop_dim(two_a_b!4{N!0, D!0}[]): _ -> {'A'} for 0.00 * 1 = 0.00
-this_diff!2{N!0}[] = (a_sqr_plus_b_sqr!2{N!0}[] - !10!0{N!0}[]): A -> {} for 1093.69 * 1 = 1093.69
-differences!2{N!0}[] = VectorizedUpdate(!4!0{N!0}[], [I!1], this_diff!2{N!0}[]): A -> {'B'} for 2626.56 * 1 = 2626.56 (A->B)
-	min_diff!2{}[!17!0] = Φ(!11!0{}[!17!0], min_diff!4{}[(!17!0 - 1)]): B -> {} for 0.00 * 4 = 0.00
-	!1!2{}[!17!0] = (differences!2{}[!17!0] < min_diff!2{}[!17!0]): B -> {} for 2136.03 * 4 = 8544.12
-	min_diff!4{}[!17!0] = MUX(!1!2{}[!17!0], differences!2{}[!17!0], min_diff!2{}[!17!0]): B -> {} for 1405.56 * 4 = 5622.22
-	min_index!4{}[!18!0] = Φ(min_index!2{}[!18!0], min_index!6{}[(!18!0 - 1)]): B -> {} for 0.00 * 4 = 0.00
-	min_index!6{}[!18!0] = MUX(!1!2{}[!18!0], !16!0{}[!18!0], min_index!4{}[!18!0]): B -> {} for 1405.56 * 4 = 5622.22
-!12!0 = drop_dim(min_diff!4{N!0}[]): _ -> {'B'} for 0.00 * 1 = 0.00
-!13!0 = drop_dim(min_index!6{N!0}[]): _ -> {'B'} for 0.00 * 1 = 0.00
+Flags:		{X}
+min_index!1 = 0: _ -> ['B'] for 0.00000 * 1 = 0.00
+!4!0{N!0}[] = lift(differences!0, (i!1:N!0)): _ -> ['A'] for 0.00000 * 1 = 0.00
+!5!0{N!0}[] = lift(S_sqr_sum!0[i!1], (i!1:N!0)): _ -> ['A'] for 0.00000 * 1 = 0.00
+!6!0{N!0}[] = lift(C_sqr_sum!0, (i!1:N!0)): _ -> ['A'] for 0.00000 * 1 = 0.00
+two_a_b!2 = 0: _ -> ['A'] for 0.00000 * 1 = 0.00
+!8!0{N!0, D!0}[] = lift(S!0[((i!1 * D!0) + j!1)], (i!1:N!0, j!1:D!0)): _ -> ['A'] for 0.00000 * 1 = 0.00
+!9!0{N!0, D!0}[] = lift(two_C!0[j!1], (i!1:N!0, j!1:D!0)): _ -> ['A'] for 0.00000 * 1 = 0.00
+min_index!3 = 0: _ -> ['B'] for 0.00000 * 1 = 0.00
+min_diff!1 = 99999: _ -> ['B'] for 0.00000 * 1 = 0.00
+!16!0{N!0}[] = lift(i!2, (i!2:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!3!0{N!0}[] = lift(min_index!1, (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+a_sqr_plus_b_sqr!2{N!0}[] = (!5!0{N!0}[] + !6!0{N!0}[]): A -> {} for 0.00000 * 1 = 0.00
+!7!0{N!0, D!0}[] = lift(two_a_b!2, (i!1:N!0, j!1:D!0)): _ -> ['A'] for 0.00000 * 1 = 0.00
+tmp!3{N!0, D!0}[] = (!8!0{N!0, D!0}[] * !9!0{N!0, D!0}[]): A -> {} for 0.00073 * 1 = 0.00
+!11!0{N!0}[] = lift(min_diff!1, (i!2:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+	min_index!2{}[!15!0] = Φ(!3!0{}[!15!0], min_index!3): B -> {} for 0.00000 * 4 = 0.00
+	two_a_b!3{N!0}[!14!0] = Φ(!7!0{N!0}[!14!0], two_a_b!4{N!0}[(!14!0 - 1)]): A -> {} for 0.00000 * 4 = 0.00
+	two_a_b!4{N!0}[!14!0] = (two_a_b!3{N!0}[!14!0] + tmp!3{N!0}[!14!0]): A -> {} for 0.00000 * 4 = 0.00
+!10!0{N!0}[] = drop_dim(two_a_b!4{N!0, D!0}[]): _ -> ['A'] for 0.00000 * 1 = 0.00
+this_diff!2{N!0}[] = (a_sqr_plus_b_sqr!2{N!0}[] - !10!0{N!0}[]): A -> {} for 0.00000 * 1 = 0.00
+differences!2{N!0}[] = VectorizedUpdate(!4!0{N!0}[], [I!1], this_diff!2{N!0}[]): A -> ['B'] for 0.00025 * 1 = 0.00 (A->B)
+	min_diff!2{}[!17!0] = Φ(!11!0{}[!17!0], min_diff!4{}[(!17!0 - 1)]): B -> {} for 0.00000 * 4 = 0.00
+	!1!2{}[!17!0] = (differences!2{}[!17!0] < min_diff!2{}[!17!0]): B -> {} for 0.00003 * 4 = 0.00
+	min_diff!4{}[!17!0] = MUX(!1!2{}[!17!0], differences!2{}[!17!0], min_diff!2{}[!17!0]): B -> {} for 0.00000 * 4 = 0.00
+	min_index!4{}[!18!0] = Φ(min_index!2{}[!18!0], min_index!6{}[(!18!0 - 1)]): B -> {} for 0.00000 * 4 = 0.00
+	min_index!6{}[!18!0] = MUX(!1!2{}[!18!0], !16!0{}[!18!0], min_index!4{}[!18!0]): B -> {} for 0.00000 * 4 = 0.00
+!12!0 = drop_dim(min_diff!4{N!0}[]): _ -> ['B'] for 0.00000 * 1 = 0.00
+!13!0 = drop_dim(min_index!6{N!0}[]): _ -> ['B'] for 0.00000 * 1 = 0.00
 !2!1 = (!12!0, !13!0)
 return !2!1
-Output vars:	{!13!0: {'B'}, !12!0: {'B'}}
+Output vars:	{!13!0: ['B'], !12!0: ['B']}
 
 ```
 #### MP-SPDZ code
 ```py
-def biometric_fast(D_0, N_0, C_0, C_sqr_sum_0, two_C_0, S_0, S_sqr_sum_0, differences_0):
+def biometric_fast(D_0, N_0, C_sqr_sum_0, two_C_0, S_0, S_sqr_sum_0, differences_0):
     # Shared array declarations
     _1_2 = [None] * (N_0)
     _10_0 = [None] * (N_0)
@@ -2185,10 +1773,13 @@ def biometric_fast(D_0, N_0, C_0, C_sqr_sum_0, two_C_0, S_0, S_sqr_sum_0, differ
 ```
 #### MP-SPDZ mixed code
 ```py
-def biometric_fast(D_0, N_0, C_0, C_sqr_sum_0, two_C_0, S_0, S_sqr_sum_0, differences_0):
+program.options.binary = 32
+program.use_dabit = True
+def biometric_fast(D_0, N_0, C_sqr_sum_0, two_C_0, S_0, S_sqr_sum_0, differences_0):
     # Convertion functions
     siv32 = sbitintvec.get_type(32)
     sb32 = sbits.get_type(32)
+    
     
     # Shared array declarations
     _1_2 = [None] * (N_0)
@@ -2213,6 +1804,8 @@ def biometric_fast(D_0, N_0, C_0, C_sqr_sum_0, two_C_0, S_0, S_sqr_sum_0, differ
     tmp_3 = [None] * (N_0 * D_0)
     two_a_b_3 = [None] * (N_0 * D_0)
     two_a_b_4 = [None] * (N_0 * D_0)
+    # Shared array convertion declarations
+    differences_2_B = [None] * (N_0)
     # Function body
     min_index_1 = siv32(0)
     _4_0 = _v.lift(lambda indices: differences_0, [N_0])
@@ -2248,10 +1841,14 @@ def biometric_fast(D_0, N_0, C_0, C_sqr_sum_0, two_C_0, S_0, S_sqr_sum_0, differ
     _v.vectorized_assign(two_a_b_3, [N_0, D_0], [None, _14_0], _v.vectorized_access(two_a_b_4, [N_0, D_0], [None, (_14_0 - 1)]))
     _v.vectorized_assign(_10_0, [N_0], [None], _v.drop_dim(two_a_b_4, [N_0, D_0]))
     _v.vectorized_assign(this_diff_2, [N_0], [None], (_v.vectorized_access_simd(a_sqr_plus_b_sqr_2, [N_0], [None]) - _v.vectorized_access_simd(_10_0, [N_0], [None])))
-    _v.vectorized_assign(_4_0, [N_0], [None], _v.vectorized_access(this_diff_2, [N_0], [None])); _v.vectorized_assign(differences_2, [N_0], [None], _v.vectorized_access(_4_0, [N_0], [None]));
+    _v.vectorized_assign(_4_0, [N_0], [None], _v.vectorized_access(this_diff_2, [N_0], [None])); _v.vectorized_assign(differences_2, [N_0], [None], _v.vectorized_access(_4_0, [N_0], [None]))
+    for _random_iter in range(0,len(differences_2)):
+      differences_2_B[_random_iter] = _v.convertion_check(differences_2[_random_iter])
+    differences_2_B = siv32(differences_2_B);
     differences_2_B = [None] * (N_0)
-    for _random_iter in range(0,N_0):
-      differences_2_B[_random_iter] = siv32(differences_2[_random_iter])
+    for _random_iter in range(0,len(differences_2)):
+      differences_2_B[_random_iter] = _v.convertion_check(differences_2[_random_iter])
+    differences_2_B = siv32(differences_2_B)
     for _17_0 in range(0, N_0):
         # Set ϕ value
         if _17_0 == 0:
@@ -2291,8 +1888,9 @@ def chapterfour_figure_12(x: shared[int], y: shared[int]) -> shared[int]:
             z = 0
     return z
 
-
-print(chapterfour_figure_12(1, 1))
+x = 1
+y = 1
+print(chapterfour_figure_12(x, y))
 
 ```
 #### Restricted AST
@@ -2407,19 +2005,20 @@ def chapterfour_figure_12(x!0: shared[int], y!0: shared[int]) -> shared[int]:
     return z!5
 ```
 #### MOTION mixed configuration
-```Total cost:	5875.88
-Input vars:	{y!0: {'Y'}, x!0: {'Y'}}
-Constants:	{0: {'Y'}, 1: {'Y'}}
+```Total cost:	0.06378
+Input vars:	{y!0: ['A'], x!0: ['A']}
+Constants:	{0: ['A', 'Y'], 1: ['Y']}
 Plaintext vars:	{}
-z!1 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
-!1!1 = (x!0 > 0): Y -> {} for 1463.38 * 1 = 1463.38
-!2!1 = (y!0 > 0): Y -> {} for 1463.38 * 1 = 1463.38
-z!3 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
-z!2 = 1: _ -> {'Y'} for 0.00 * 1 = 0.00
-z!4 = MUX(!2!1, z!2, z!3): Y -> {} for 1474.56 * 1 = 1474.56
-z!5 = MUX(!1!1, z!4, z!1): Y -> {} for 1474.56 * 1 = 1474.56
+Flags:		{}
+z!1 = 0: _ -> ['Y'] for 0.00000 * 1 = 0.00
+!1!1 = (x!0 > 0): A -> ['Y'] for 0.02592 * 1 = 0.03 (A->Y)
+!2!1 = (y!0 > 0): A -> ['Y'] for 0.02592 * 1 = 0.03 (A->Y)
+z!3 = 0: _ -> ['Y'] for 0.00000 * 1 = 0.00
+z!2 = 1: _ -> ['Y'] for 0.00000 * 1 = 0.00
+z!4 = MUX(!2!1, z!2, z!3): Y -> {} for 0.00597 * 1 = 0.01
+z!5 = MUX(!1!1, z!4, z!1): Y -> {} for 0.00597 * 1 = 0.01
 return z!5
-Output vars:	{z!5: {'Y'}}
+Output vars:	{z!5: ['Y']}
 
 ```
 #### MOTION code
@@ -2488,40 +2087,48 @@ encrypto::motion::SecureUnsignedInteger chapterfour_figure_12(
     std::uint32_t _MPC_PLAINTEXT_z_3;
 
     // Constant initializations
-    encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_0 = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(std::uint32_t(0)), 0);
+    encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_0 = party->In<encrypto::motion::MpcProtocol::kArithmeticGmw>(std::uint32_t(0), 0);
+    encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_0_Y = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(std::uint32_t(0)), 0);
     encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_1 = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(std::uint32_t(1)), 0);
+
+    // Input Protocol Convertions
 
     // Plaintext parameter assignments
 
     // Function body
-    z_1 = _MPC_CONSTANT_0;
+    z_1 = _MPC_CONSTANT_0_Y;
     _MPC_PLAINTEXT_z_1 = std::uint32_t(0);
     _1_1 = (x_0 > _MPC_CONSTANT_0);
+    encrypto::motion::ShareWrapper _1_1_Y;
+    _1_1_Y = _1_1.Convert<encrypto::motion::MpcProtocol::kBmr>();
     _2_1 = (y_0 > _MPC_CONSTANT_0);
-    z_3 = _MPC_CONSTANT_0;
+    encrypto::motion::ShareWrapper _2_1_Y;
+    _2_1_Y = _2_1.Convert<encrypto::motion::MpcProtocol::kBmr>();
+    z_3 = _MPC_CONSTANT_0_Y;
     _MPC_PLAINTEXT_z_3 = std::uint32_t(0);
     z_2 = _MPC_CONSTANT_1;
     _MPC_PLAINTEXT_z_2 = std::uint32_t(1);
-    z_4 = _2_1.Mux(z_2.Get(), z_3.Get());
-    z_5 = _1_1.Mux(z_4.Get(), z_1.Get());
+    z_4 = _2_1_Y.Mux(z_2.Get(), z_3.Get());
+    z_5 = _1_1_Y.Mux(z_4.Get(), z_1.Get());
     return z_5;
 
 }
 ```
 #### MP-SPDZ mixed configuration
-```Total cost:	6863.48
-Input vars:	{y!0: {'B'}, x!0: {'B'}}
-Constants:	{0: {'B'}, 1: {'B'}}
+```Total cost:	0.00002
+Input vars:	{y!0: ['B'], x!0: ['B']}
+Constants:	{0: ['B'], 1: ['B']}
 Plaintext vars:	{}
-z!1 = 0: _ -> {'B'} for 0.00 * 1 = 0.00
-!1!1 = (x!0 > 0): B -> {} for 2026.18 * 1 = 2026.18
-!2!1 = (y!0 > 0): B -> {} for 2026.18 * 1 = 2026.18
-z!3 = 0: _ -> {'B'} for 0.00 * 1 = 0.00
-z!2 = 1: _ -> {'B'} for 0.00 * 1 = 0.00
-z!4 = MUX(!2!1, z!2, z!3): B -> {} for 1405.56 * 1 = 1405.56
-z!5 = MUX(!1!1, z!4, z!1): B -> {} for 1405.56 * 1 = 1405.56
+Flags:		{X}
+z!1 = 0: _ -> ['B'] for 0.00000 * 1 = 0.00
+!1!1 = (x!0 > 0): B -> {} for 0.00001 * 1 = 0.00
+!2!1 = (y!0 > 0): B -> {} for 0.00001 * 1 = 0.00
+z!3 = 0: _ -> ['B'] for 0.00000 * 1 = 0.00
+z!2 = 1: _ -> ['B'] for 0.00000 * 1 = 0.00
+z!4 = MUX(!2!1, z!2, z!3): B -> {} for 0.00000 * 1 = 0.00
+z!5 = MUX(!1!1, z!4, z!1): B -> {} for 0.00000 * 1 = 0.00
 return z!5
-Output vars:	{z!5: {'B'}}
+Output vars:	{z!5: ['B']}
 
 ```
 #### MP-SPDZ code
@@ -2541,13 +2148,18 @@ def chapterfour_figure_12(x_0, y_0):
 ```
 #### MP-SPDZ mixed code
 ```py
+program.options.binary = 32
+program.use_dabit = True
 def chapterfour_figure_12(x_0, y_0):
     # Convertion functions
     siv32 = sbitintvec.get_type(32)
     sb32 = sbits.get_type(32)
     
+    
     # Shared array declarations
 
+    # Shared array convertion declarations
+    
     # Function body
     z_1 = siv32(0)
     _1_1 = (x_0 > siv32(0))
@@ -2597,9 +2209,10 @@ def convex_hull(
 
 X_coords = [1, 2, 3]
 Y_coords = [4, 5, 6]
+N = 3
 result_X = [0 for i in range(len(X_coords))]
 result_Y = [0 for i in range(len(Y_coords))]
-print(convex_hull(X_coords, Y_coords, 3, result_X, result_Y))
+print(convex_hull(X_coords, Y_coords, N, result_X, result_Y))
 
 ```
 #### Restricted AST
@@ -2907,39 +2520,40 @@ def convex_hull(X_coords!0: shared[list[int; ?]], Y_coords!0: shared[list[int; ?
     return !10!1
 ```
 #### MOTION mixed configuration
-```Total cost:	23070.87
-Input vars:	{Y_coords!0: {'Y'}, X_coords!0: {'Y'}}
-Constants:	{True: {'Y'}, False: {'Y'}, 0: {'Y'}}
-Plaintext vars:	{result_X!0: {'Y'}, result_Y!0: {'Y'}}
-!11!0{N!0}[] = lift(result_X!0, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!12!0{N!0}[] = lift(result_Y!0, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!13!0{N!0}[] = lift(X_coords!0[i!1], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!14!0{N!0}[] = lift(Y_coords!0[i!1], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-is_hull!2 = True: _ -> {'Y'} for 0.00 * 1 = 0.00
-!16!0{N!0, N!0}[] = lift(X_coords!0[j!1], (i!1:N!0, j!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!17!0{N!0, N!0}[] = lift(Y_coords!0[j!1], (i!1:N!0, j!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-is_hull!4 = False: _ -> {'Y'} for 0.00 * 1 = 0.00
-!15!0{N!0, N!0}[] = lift(is_hull!2, (i!1:N!0, j!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!1!2{N!0}[] = (!13!0{N!0}[] <= 0): Y -> {} for 1837.85 * 1 = 1837.85
-!18!0{N!0, N!0}[] = lift(!13!0{N!0}[], (i!1:N!0, j!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!2!2{N!0}[] = (!14!0{N!0}[] >= 0): Y -> {} for 1907.19 * 1 = 1907.19
-!19!0{N!0, N!0}[] = lift(!14!0{N!0}[], (i!1:N!0, j!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!6!3{N!0, N!0}[] = (!18!0{N!0, N!0}[] <= !16!0{N!0, N!0}[]): Y -> {} for 1992.54 * 1 = 1992.54
-!3!2{N!0}[] = (!1!2{N!0}[] and !2!2{N!0}[]): Y -> {} for 1840.17 * 1 = 1840.17
-!7!3{N!0, N!0}[] = (!19!0{N!0, N!0}[] >= !17!0{N!0, N!0}[]): Y -> {} for 2200.26 * 1 = 2200.26
-!8!3{N!0, N!0}[] = (!6!3{N!0, N!0}[] or !7!3{N!0, N!0}[]): Y -> {} for 2080.21 * 1 = 2080.21
-!9!3{N!0, N!0}[] = not !8!3{N!0, N!0}[]: Y -> {} for 0.00 * 1 = 0.00
-	is_hull!3{N!0}[!21!0] = Φ(!15!0{N!0}[!21!0], is_hull!5{N!0}[(!21!0 - 1)]): Y -> {} for 0.00 * 3 = 0.00
-	is_hull!5{N!0}[!21!0] = MUX(!9!3{N!0}[!21!0], is_hull!4, is_hull!3{N!0}[!21!0]): Y -> {} for 1868.77 * 3 = 5606.32
-!20!0{N!0}[] = drop_dim(is_hull!5{N!0, N!0}[]): _ -> {'Y'} for 0.00 * 1 = 0.00
-is_hull!6{N!0}[] = MUX(!3!2{N!0}[], !20!0{N!0}[], is_hull!2): Y -> {} for 1868.77 * 1 = 1868.77
-val_X!4{N!0}[] = MUX(is_hull!6{N!0}[], !13!0{N!0}[], !11!0{N!0}[]): Y -> {} for 1868.77 * 1 = 1868.77
-val_Y!4{N!0}[] = MUX(is_hull!6{N!0}[], !14!0{N!0}[], !12!0{N!0}[]): Y -> {} for 1868.77 * 1 = 1868.77
-result_X!2{N!0}[] = VectorizedUpdate(!11!0{N!0}[], [I!1], val_X!4{N!0}[]): Y -> {} for 0.00 * 1 = 0.00
-result_Y!2{N!0}[] = VectorizedUpdate(!12!0{N!0}[], [I!1], val_Y!4{N!0}[]): Y -> {} for 0.00 * 1 = 0.00
+```Total cost:	0.26523
+Input vars:	{Y_coords!0: ['Y'], X_coords!0: ['Y']}
+Constants:	{True: ['Y'], False: ['Y'], 0: ['Y']}
+Plaintext vars:	{result_X!0: ['Y'], result_Y!0: ['Y']}
+Flags:		{}
+!11!0{N!0}[] = lift(result_X!0, (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!12!0{N!0}[] = lift(result_Y!0, (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!13!0{N!0}[] = lift(X_coords!0[i!1], (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!14!0{N!0}[] = lift(Y_coords!0[i!1], (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+is_hull!2 = True: _ -> ['Y'] for 0.00000 * 1 = 0.00
+!16!0{N!0, N!0}[] = lift(X_coords!0[j!1], (i!1:N!0, j!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!17!0{N!0, N!0}[] = lift(Y_coords!0[j!1], (i!1:N!0, j!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+is_hull!4 = False: _ -> ['Y'] for 0.00000 * 1 = 0.00
+!15!0{N!0, N!0}[] = lift(is_hull!2, (i!1:N!0, j!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!1!2{N!0}[] = (!13!0{N!0}[] <= 0): Y -> {} for 0.05967 * 1 = 0.06
+!18!0{N!0, N!0}[] = lift(!13!0{N!0}[], (i!1:N!0, j!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!2!2{N!0}[] = (!14!0{N!0}[] >= 0): Y -> {} for 0.05451 * 1 = 0.05
+!19!0{N!0, N!0}[] = lift(!14!0{N!0}[], (i!1:N!0, j!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!6!3{N!0, N!0}[] = (!18!0{N!0, N!0}[] <= !16!0{N!0, N!0}[]): Y -> {} for 0.05927 * 1 = 0.06
+!3!2{N!0}[] = (!1!2{N!0}[] and !2!2{N!0}[]): Y -> {} for 0.00109 * 1 = 0.00
+!7!3{N!0, N!0}[] = (!19!0{N!0, N!0}[] >= !17!0{N!0, N!0}[]): Y -> {} for 0.05279 * 1 = 0.05
+!8!3{N!0, N!0}[] = (!6!3{N!0, N!0}[] or !7!3{N!0, N!0}[]): Y -> {} for 0.00245 * 1 = 0.00
+!9!3{N!0, N!0}[] = not !8!3{N!0, N!0}[]: Y -> {} for 0.00000 * 1 = 0.00
+	is_hull!3{N!0}[!21!0] = Φ(!15!0{N!0}[!21!0], is_hull!5{N!0}[(!21!0 - 1)]): Y -> {} for 0.00000 * 3 = 0.00
+	is_hull!5{N!0}[!21!0] = MUX(!9!3{N!0}[!21!0], is_hull!4, is_hull!3{N!0}[!21!0]): Y -> {} for 0.00591 * 3 = 0.02
+!20!0{N!0}[] = drop_dim(is_hull!5{N!0, N!0}[]): _ -> ['Y'] for 0.00000 * 1 = 0.00
+is_hull!6{N!0}[] = MUX(!3!2{N!0}[], !20!0{N!0}[], is_hull!2): Y -> {} for 0.00591 * 1 = 0.01
+val_X!4{N!0}[] = MUX(is_hull!6{N!0}[], !13!0{N!0}[], !11!0{N!0}[]): Y -> {} for 0.00591 * 1 = 0.01
+val_Y!4{N!0}[] = MUX(is_hull!6{N!0}[], !14!0{N!0}[], !12!0{N!0}[]): Y -> {} for 0.00591 * 1 = 0.01
+result_X!2{N!0}[] = VectorizedUpdate(!11!0{N!0}[], [I!1], val_X!4{N!0}[]): Y -> {} for 0.00000 * 1 = 0.00
+result_Y!2{N!0}[] = VectorizedUpdate(!12!0{N!0}[], [I!1], val_Y!4{N!0}[]): Y -> {} for 0.00000 * 1 = 0.00
 !10!1 = (result_X!2, result_Y!2)
 return !10!1
-Output vars:	{result_Y!2: {'Y'}, result_X!2: {'Y'}}
+Output vars:	{result_Y!2: ['Y'], result_X!2: ['Y']}
 
 ```
 #### MOTION code
@@ -3105,6 +2719,8 @@ std::tuple<std::vector<encrypto::motion::SecureUnsignedInteger>, std::vector<enc
     encrypto::motion::ShareWrapper _MPC_CONSTANT_false = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::BitVector(1, false), 0);
     encrypto::motion::ShareWrapper _MPC_CONSTANT_true = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::BitVector(1, true), 0);
 
+    // Input Protocol Convertions
+
     // Plaintext parameter assignments
     result_X_0.clear();
     std::transform(_MPC_PLAINTEXT_result_X_0.begin(), _MPC_PLAINTEXT_result_X_0.end(), std::back_inserter(result_X_0), [&](const auto &val) { return party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(val), 0); });
@@ -3159,39 +2775,40 @@ std::tuple<std::vector<encrypto::motion::SecureUnsignedInteger>, std::vector<enc
 }
 ```
 #### MP-SPDZ mixed configuration
-```Total cost:	24793.87
-Input vars:	{Y_coords!0: {'B'}, X_coords!0: {'B'}}
-Constants:	{True: {'B'}, False: {'B'}, 0: {'B'}}
-Plaintext vars:	{result_X!0: {'B'}, result_Y!0: {'B'}}
-!11!0{N!0}[] = lift(result_X!0, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!12!0{N!0}[] = lift(result_Y!0, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!13!0{N!0}[] = lift(X_coords!0[i!1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!14!0{N!0}[] = lift(Y_coords!0[i!1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-is_hull!2 = True: _ -> {'B'} for 0.00 * 1 = 0.00
-!16!0{N!0, N!0}[] = lift(X_coords!0[j!1], (i!1:N!0, j!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!17!0{N!0, N!0}[] = lift(Y_coords!0[j!1], (i!1:N!0, j!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-is_hull!4 = False: _ -> {'B'} for 0.00 * 1 = 0.00
-!15!0{N!0, N!0}[] = lift(is_hull!2, (i!1:N!0, j!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!1!2{N!0}[] = (!13!0{N!0}[] <= 0): B -> {} for 2438.77 * 1 = 2438.77
-!18!0{N!0, N!0}[] = lift(!13!0{N!0}[], (i!1:N!0, j!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!2!2{N!0}[] = (!14!0{N!0}[] >= 0): B -> {} for 2735.29 * 1 = 2735.29
-!19!0{N!0, N!0}[] = lift(!14!0{N!0}[], (i!1:N!0, j!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!6!3{N!0, N!0}[] = (!18!0{N!0, N!0}[] <= !16!0{N!0, N!0}[]): B -> {} for 2721.39 * 1 = 2721.39
-!3!2{N!0}[] = (!1!2{N!0}[] and !2!2{N!0}[]): B -> {} for 1678.69 * 1 = 1678.69
-!7!3{N!0, N!0}[] = (!19!0{N!0, N!0}[] >= !17!0{N!0, N!0}[]): B -> {} for 3052.64 * 1 = 3052.64
-!8!3{N!0, N!0}[] = (!6!3{N!0, N!0}[] or !7!3{N!0, N!0}[]): B -> {} for 1830.30 * 1 = 1830.30
-!9!3{N!0, N!0}[] = not !8!3{N!0, N!0}[]: B -> {} for 0.00 * 1 = 0.00
-	is_hull!3{N!0}[!21!0] = Φ(!15!0{N!0}[!21!0], is_hull!5{N!0}[(!21!0 - 1)]): B -> {} for 0.00 * 3 = 0.00
-	is_hull!5{N!0}[!21!0] = MUX(!9!3{N!0}[!21!0], is_hull!4, is_hull!3{N!0}[!21!0]): B -> {} for 1722.80 * 3 = 5168.39
-!20!0{N!0}[] = drop_dim(is_hull!5{N!0, N!0}[]): _ -> {'B'} for 0.00 * 1 = 0.00
-is_hull!6{N!0}[] = MUX(!3!2{N!0}[], !20!0{N!0}[], is_hull!2): B -> {} for 1722.80 * 1 = 1722.80
-val_X!4{N!0}[] = MUX(is_hull!6{N!0}[], !13!0{N!0}[], !11!0{N!0}[]): B -> {} for 1722.80 * 1 = 1722.80
-val_Y!4{N!0}[] = MUX(is_hull!6{N!0}[], !14!0{N!0}[], !12!0{N!0}[]): B -> {} for 1722.80 * 1 = 1722.80
-result_X!2{N!0}[] = VectorizedUpdate(!11!0{N!0}[], [I!1], val_X!4{N!0}[]): B -> {} for 0.00 * 1 = 0.00
-result_Y!2{N!0}[] = VectorizedUpdate(!12!0{N!0}[], [I!1], val_Y!4{N!0}[]): B -> {} for 0.00 * 1 = 0.00
+```Total cost:	0.00038
+Input vars:	{Y_coords!0: ['B'], X_coords!0: ['B']}
+Constants:	{True: ['B'], False: ['B'], 0: ['B']}
+Plaintext vars:	{result_X!0: ['B'], result_Y!0: ['B']}
+Flags:		{X}
+!11!0{N!0}[] = lift(result_X!0, (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!12!0{N!0}[] = lift(result_Y!0, (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!13!0{N!0}[] = lift(X_coords!0[i!1], (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!14!0{N!0}[] = lift(Y_coords!0[i!1], (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+is_hull!2 = True: _ -> ['B'] for 0.00000 * 1 = 0.00
+!16!0{N!0, N!0}[] = lift(X_coords!0[j!1], (i!1:N!0, j!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!17!0{N!0, N!0}[] = lift(Y_coords!0[j!1], (i!1:N!0, j!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+is_hull!4 = False: _ -> ['B'] for 0.00000 * 1 = 0.00
+!15!0{N!0, N!0}[] = lift(is_hull!2, (i!1:N!0, j!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!1!2{N!0}[] = (!13!0{N!0}[] <= 0): B -> {} for 0.00006 * 1 = 0.00
+!18!0{N!0, N!0}[] = lift(!13!0{N!0}[], (i!1:N!0, j!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!2!2{N!0}[] = (!14!0{N!0}[] >= 0): B -> {} for 0.00005 * 1 = 0.00
+!19!0{N!0, N!0}[] = lift(!14!0{N!0}[], (i!1:N!0, j!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!6!3{N!0, N!0}[] = (!18!0{N!0, N!0}[] <= !16!0{N!0, N!0}[]): B -> {} for 0.00011 * 1 = 0.00
+!3!2{N!0}[] = (!1!2{N!0}[] and !2!2{N!0}[]): B -> {} for 0.00001 * 1 = 0.00
+!7!3{N!0, N!0}[] = (!19!0{N!0, N!0}[] >= !17!0{N!0, N!0}[]): B -> {} for 0.00013 * 1 = 0.00
+!8!3{N!0, N!0}[] = (!6!3{N!0, N!0}[] or !7!3{N!0, N!0}[]): B -> {} for 0.00001 * 1 = 0.00
+!9!3{N!0, N!0}[] = not !8!3{N!0, N!0}[]: B -> {} for 0.00000 * 1 = 0.00
+	is_hull!3{N!0}[!21!0] = Φ(!15!0{N!0}[!21!0], is_hull!5{N!0}[(!21!0 - 1)]): B -> {} for 0.00000 * 3 = 0.00
+	is_hull!5{N!0}[!21!0] = MUX(!9!3{N!0}[!21!0], is_hull!4, is_hull!3{N!0}[!21!0]): B -> {} for 0.00000 * 3 = 0.00
+!20!0{N!0}[] = drop_dim(is_hull!5{N!0, N!0}[]): _ -> ['B'] for 0.00000 * 1 = 0.00
+is_hull!6{N!0}[] = MUX(!3!2{N!0}[], !20!0{N!0}[], is_hull!2): B -> {} for 0.00000 * 1 = 0.00
+val_X!4{N!0}[] = MUX(is_hull!6{N!0}[], !13!0{N!0}[], !11!0{N!0}[]): B -> {} for 0.00000 * 1 = 0.00
+val_Y!4{N!0}[] = MUX(is_hull!6{N!0}[], !14!0{N!0}[], !12!0{N!0}[]): B -> {} for 0.00000 * 1 = 0.00
+result_X!2{N!0}[] = VectorizedUpdate(!11!0{N!0}[], [I!1], val_X!4{N!0}[]): B -> {} for 0.00000 * 1 = 0.00
+result_Y!2{N!0}[] = VectorizedUpdate(!12!0{N!0}[], [I!1], val_Y!4{N!0}[]): B -> {} for 0.00000 * 1 = 0.00
 !10!1 = (result_X!2, result_Y!2)
 return !10!1
-Output vars:	{result_Y!2: {'B'}, result_X!2: {'B'}}
+Output vars:	{result_Y!2: ['B'], result_X!2: ['B']}
 
 ```
 #### MP-SPDZ code
@@ -3261,15 +2878,18 @@ def convex_hull(X_coords_0, Y_coords_0, N_0, result_X_0, result_Y_0):
 ```
 #### MP-SPDZ mixed code
 ```py
+program.options.binary = 32
+program.use_dabit = True
 def convex_hull(X_coords_0, Y_coords_0, N_0, result_X_0, result_Y_0):
     # Convertion functions
     siv32 = sbitintvec.get_type(32)
     sb32 = sbits.get_type(32)
-    for _random_iter in range(0,len(result_X_0)):
-     result_X_0[_random_iter] = siv32(result_X_0[_random_iter])
-    for _random_iter in range(0,len(result_Y_0)):
-     result_Y_0[_random_iter] = siv32(result_Y_0[_random_iter])
+    result_X_0 = [elem for elem in sint(result_X_0)]
 
+    result_Y_0 = [elem for elem in sint(result_Y_0)]
+
+
+    
     # Shared array declarations
     _1_2 = [None] * (N_0)
     _11_0 = [None] * (N_0)
@@ -3295,15 +2915,17 @@ def convex_hull(X_coords_0, Y_coords_0, N_0, result_X_0, result_Y_0):
     result_Y_2 = [None] * (N_0)
     val_X_4 = [None] * (N_0)
     val_Y_4 = [None] * (N_0)
+    # Shared array convertion declarations
+    
     # Function body
     _11_0 = _v.lift(lambda indices: result_X_0, [N_0])
     _12_0 = _v.lift(lambda indices: result_Y_0, [N_0])
     _13_0 = _v.lift(lambda indices: (X_coords_0[indices[0]]), [N_0])
     _14_0 = _v.lift(lambda indices: (Y_coords_0[indices[0]]), [N_0])
-    is_hull_2 = siv32(_v.sbool(True))
+    is_hull_2 = sbit(1)
     _16_0 = _v.lift(lambda indices: (X_coords_0[indices[1]]), [N_0, N_0])
     _17_0 = _v.lift(lambda indices: (Y_coords_0[indices[1]]), [N_0, N_0])
-    is_hull_4 = siv32(_v.sbool(False))
+    is_hull_4 = sbit(0)
     _15_0 = _v.lift(lambda indices: is_hull_2, [N_0, N_0])
     _v.vectorized_assign(_1_2, [N_0], [None], (_v.vectorized_access_simd(_13_0, [N_0], [None]) <= siv32(0)))
     _18_0 = _v.lift(lambda indices: _v.vectorized_access(_13_0, [N_0], [None]), [N_0, N_0])
@@ -3355,8 +2977,10 @@ def count_102(Seq: shared[list[int]], N: int, Syms: shared[list[int]]) -> shared
     return c
 
 
-seq = [1, 0, 2, 1, 0, 0, 2, 1, 2, 2]
-print(count_102(seq, 10, [1, 0, 2]))
+Seq = [1, 0, 2, 1, 0, 0, 2, 1, 2, 2]
+N = 10
+Syms = [1, 0, 2]
+print(count_102(Seq, N, Syms))
 
 ```
 #### Restricted AST
@@ -3562,31 +3186,32 @@ def count_102(Seq!0: shared[list[int; ?]], N!0: plaintext[int], Syms!0: shared[l
     return !15!0
 ```
 #### MOTION mixed configuration
-```Total cost:	66276.73
-Input vars:	{Syms!0: {'Y'}, Seq!0: {'Y'}}
-Constants:	{False: {'Y'}, 0: {'Y'}, 1: {'Y'}}
+```Total cost:	0.39447
+Input vars:	{Syms!0: ['Y'], Seq!0: ['Y']}
+Constants:	{False: ['Y'], 0: ['Y'], 1: ['Y']}
 Plaintext vars:	{}
-s0!1 = False: _ -> {'Y'} for 0.00 * 1 = 0.00
-c!1 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
-!9!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!10!0{N!0}[] = lift(Syms!0[2], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!12!0{N!0}[] = lift(Syms!0[1], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!14!0{N!0}[] = lift(Syms!0[0], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!7!0{N!0}[] = lift(s0!1, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!8!0{N!0}[] = lift(c!1, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!1!2{N!0}[] = (!9!0{N!0}[] == !10!0{N!0}[]): Y -> {} for 1877.86 * 1 = 1877.86
-!3!2{N!0}[] = (!9!0{N!0}[] == !12!0{N!0}[]): Y -> {} for 1877.86 * 1 = 1877.86
-!5!2{N!0}[] = (!9!0{N!0}[] == !14!0{N!0}[]): Y -> {} for 1877.86 * 1 = 1877.86
-	s0!2{}[!16!0] = Φ(!7!0{}[!16!0], s0!3{}[(!16!0 - 1)]): Y -> {} for 0.00 * 10 = 0.00
-	!6!2{}[!16!0] = (s0!2{}[!16!0] and !5!2{}[!16!0]): Y -> {} for 1462.48 * 10 = 14624.76
-	s0!3{}[!16!0] = (!3!2{}[!16!0] or !6!2{}[!16!0]): Y -> {} for 1463.25 * 10 = 14632.47
-!2!2{N!0}[] = (s0!2{N!0}[] and !1!2{N!0}[]): Y -> {} for 1876.83 * 1 = 1876.83
-	c!2{}[!17!0] = Φ(!8!0{}[!17!0], c!4{}[(!17!0 - 1)]): Y -> {} for 0.00 * 10 = 0.00
-	c!3{}[!17!0] = (c!2{}[!17!0] + 1): Y -> {} for 1476.35 * 10 = 14763.50
-	c!4{}[!17!0] = MUX(!2!2{}[!17!0], c!3{}[!17!0], c!2{}[!17!0]): Y -> {} for 1474.56 * 10 = 14745.59
-!15!0 = drop_dim(c!4{N!0}[]): _ -> {'Y'} for 0.00 * 1 = 0.00
+Flags:		{}
+s0!1 = False: _ -> ['Y'] for 0.00000 * 1 = 0.00
+c!1 = 0: _ -> ['Y'] for 0.00000 * 1 = 0.00
+!9!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!10!0{N!0}[] = lift(Syms!0[2], (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!12!0{N!0}[] = lift(Syms!0[1], (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!14!0{N!0}[] = lift(Syms!0[0], (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!7!0{N!0}[] = lift(s0!1, (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!8!0{N!0}[] = lift(c!1, (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!1!2{N!0}[] = (!9!0{N!0}[] == !10!0{N!0}[]): Y -> {} for 0.01475 * 1 = 0.01
+!3!2{N!0}[] = (!9!0{N!0}[] == !12!0{N!0}[]): Y -> {} for 0.01475 * 1 = 0.01
+!5!2{N!0}[] = (!9!0{N!0}[] == !14!0{N!0}[]): Y -> {} for 0.01475 * 1 = 0.01
+	s0!2{}[!16!0] = Φ(!7!0{}[!16!0], s0!3{}[(!16!0 - 1)]): Y -> {} for 0.00000 * 10 = 0.00
+	!6!2{}[!16!0] = (s0!2{}[!16!0] and !5!2{}[!16!0]): Y -> {} for 0.00245 * 10 = 0.02
+	s0!3{}[!16!0] = (!3!2{}[!16!0] or !6!2{}[!16!0]): Y -> {} for 0.00282 * 10 = 0.03
+!2!2{N!0}[] = (s0!2{N!0}[] and !1!2{N!0}[]): Y -> {} for 0.00269 * 1 = 0.00
+	c!2{}[!17!0] = Φ(!8!0{}[!17!0], c!4{}[(!17!0 - 1)]): Y -> {} for 0.00000 * 10 = 0.00
+	c!3{}[!17!0] = (c!2{}[!17!0] + 1): Y -> {} for 0.02351 * 10 = 0.24
+	c!4{}[!17!0] = MUX(!2!2{}[!17!0], c!3{}[!17!0], c!2{}[!17!0]): Y -> {} for 0.00597 * 10 = 0.06
+!15!0 = drop_dim(c!4{N!0}[]): _ -> ['Y'] for 0.00000 * 1 = 0.00
 return !15!0
-Output vars:	{!15!0: {'Y'}}
+Output vars:	{!15!0: ['Y']}
 
 ```
 #### MOTION code
@@ -3731,6 +3356,8 @@ encrypto::motion::SecureUnsignedInteger count_102(
     encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_1 = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(std::uint32_t(1)), 0);
     encrypto::motion::ShareWrapper _MPC_CONSTANT_false = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::BitVector(1, false), 0);
 
+    // Input Protocol Convertions
+
     // Plaintext parameter assignments
 
     // Function body
@@ -3786,31 +3413,32 @@ encrypto::motion::SecureUnsignedInteger count_102(
 }
 ```
 #### MP-SPDZ mixed configuration
-```Total cost:	70553.40
-Input vars:	{Syms!0: {'B'}, Seq!0: {'B'}}
-Constants:	{False: {'B'}, 0: {'B'}, 1: {'B'}}
+```Total cost:	0.00026
+Input vars:	{Syms!0: ['B'], Seq!0: ['B']}
+Constants:	{False: ['B'], 0: ['B'], 1: ['B']}
 Plaintext vars:	{}
-s0!1 = False: _ -> {'B'} for 0.00 * 1 = 0.00
-c!1 = 0: _ -> {'B'} for 0.00 * 1 = 0.00
-!9!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!10!0{N!0}[] = lift(Syms!0[2], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!12!0{N!0}[] = lift(Syms!0[1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!14!0{N!0}[] = lift(Syms!0[0], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!7!0{N!0}[] = lift(s0!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!8!0{N!0}[] = lift(c!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!1!2{N!0}[] = (!9!0{N!0}[] == !10!0{N!0}[]): B -> {} for 2149.74 * 1 = 2149.74
-!3!2{N!0}[] = (!9!0{N!0}[] == !12!0{N!0}[]): B -> {} for 2149.74 * 1 = 2149.74
-!5!2{N!0}[] = (!9!0{N!0}[] == !14!0{N!0}[]): B -> {} for 2149.74 * 1 = 2149.74
-	s0!2{}[!16!0] = Φ(!7!0{}[!16!0], s0!3{}[(!16!0 - 1)]): B -> {} for 0.00 * 10 = 0.00
-	!6!2{}[!16!0] = (s0!2{}[!16!0] and !5!2{}[!16!0]): B -> {} for 1372.38 * 10 = 13723.83
-	s0!3{}[!16!0] = (!3!2{}[!16!0] or !6!2{}[!16!0]): B -> {} for 1381.97 * 10 = 13819.69
-!2!2{N!0}[] = (s0!2{N!0}[] and !1!2{N!0}[]): B -> {} for 1669.87 * 1 = 1669.87
-	c!2{}[!17!0] = Φ(!8!0{}[!17!0], c!4{}[(!17!0 - 1)]): B -> {} for 0.00 * 10 = 0.00
-	c!3{}[!17!0] = (c!2{}[!17!0] + 1): B -> {} for 2083.52 * 10 = 20835.23
-	c!4{}[!17!0] = MUX(!2!2{}[!17!0], c!3{}[!17!0], c!2{}[!17!0]): B -> {} for 1405.56 * 10 = 14055.56
-!15!0 = drop_dim(c!4{N!0}[]): _ -> {'B'} for 0.00 * 1 = 0.00
+Flags:		{X}
+s0!1 = False: _ -> ['B'] for 0.00000 * 1 = 0.00
+c!1 = 0: _ -> ['B'] for 0.00000 * 1 = 0.00
+!9!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!10!0{N!0}[] = lift(Syms!0[2], (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!12!0{N!0}[] = lift(Syms!0[1], (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!14!0{N!0}[] = lift(Syms!0[0], (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!7!0{N!0}[] = lift(s0!1, (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!8!0{N!0}[] = lift(c!1, (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!1!2{N!0}[] = (!9!0{N!0}[] == !10!0{N!0}[]): B -> {} for 0.00006 * 1 = 0.00
+!3!2{N!0}[] = (!9!0{N!0}[] == !12!0{N!0}[]): B -> {} for 0.00006 * 1 = 0.00
+!5!2{N!0}[] = (!9!0{N!0}[] == !14!0{N!0}[]): B -> {} for 0.00006 * 1 = 0.00
+	s0!2{}[!16!0] = Φ(!7!0{}[!16!0], s0!3{}[(!16!0 - 1)]): B -> {} for 0.00000 * 10 = 0.00
+	!6!2{}[!16!0] = (s0!2{}[!16!0] and !5!2{}[!16!0]): B -> {} for 0.00000 * 10 = 0.00
+	s0!3{}[!16!0] = (!3!2{}[!16!0] or !6!2{}[!16!0]): B -> {} for 0.00000 * 10 = 0.00
+!2!2{N!0}[] = (s0!2{N!0}[] and !1!2{N!0}[]): B -> {} for 0.00000 * 1 = 0.00
+	c!2{}[!17!0] = Φ(!8!0{}[!17!0], c!4{}[(!17!0 - 1)]): B -> {} for 0.00000 * 10 = 0.00
+	c!3{}[!17!0] = (c!2{}[!17!0] + 1): B -> {} for 0.00001 * 10 = 0.00
+	c!4{}[!17!0] = MUX(!2!2{}[!17!0], c!3{}[!17!0], c!2{}[!17!0]): B -> {} for 0.00000 * 10 = 0.00
+!15!0 = drop_dim(c!4{N!0}[]): _ -> ['B'] for 0.00000 * 1 = 0.00
 return !15!0
-Output vars:	{!15!0: {'B'}}
+Output vars:	{!15!0: ['B']}
 
 ```
 #### MP-SPDZ code
@@ -3871,10 +3499,13 @@ def count_102(Seq_0, N_0, Syms_0):
 ```
 #### MP-SPDZ mixed code
 ```py
+program.options.binary = 32
+program.use_dabit = True
 def count_102(Seq_0, N_0, Syms_0):
     # Convertion functions
     siv32 = sbitintvec.get_type(32)
     sb32 = sbits.get_type(32)
+    
     
     # Shared array declarations
     _1_2 = [None] * (N_0)
@@ -3893,8 +3524,10 @@ def count_102(Seq_0, N_0, Syms_0):
     c_4 = [None] * (N_0)
     s0_2 = [None] * (N_0)
     s0_3 = [None] * (N_0)
+    # Shared array convertion declarations
+    
     # Function body
-    s0_1 = siv32(_v.sbool(False))
+    s0_1 = sbit(0)
     c_1 = siv32(0)
     _9_0 = _v.lift(lambda indices: (Seq_0[indices[0]]), [N_0])
     _10_0 = _v.lift(lambda indices: (Syms_0[2]), [N_0])
@@ -3954,8 +3587,10 @@ def count_10s(Seq: shared[list[int]], N: int, Syms: shared[list[int]]) -> shared
     return scount
 
 
-seq = [1, 0, 0, 1, 1, 0, 2]
-print(count_10s(seq, 7, [0, 1]))
+Seq = [1, 0, 0, 1, 1, 0, 2]
+N = 7
+Syms = [0, 1]
+print(count_10s(Seq, N, Syms))
 
 ```
 #### Restricted AST
@@ -4185,33 +3820,34 @@ def count_10s(Seq!0: shared[list[int; ?]], N!0: plaintext[int], Syms!0: shared[l
     return !14!0
 ```
 #### MOTION mixed configuration
-```Total cost:	48799.61
-Input vars:	{Syms!0: {'Y'}, Seq!0: {'Y'}}
-Constants:	{False: {'Y'}, 0: {'Y'}, 1: {'Y'}}
+```Total cost:	0.28921
+Input vars:	{Syms!0: ['Y'], Seq!0: ['Y']}
+Constants:	{False: ['Y'], 0: ['Y'], 1: ['Y']}
 Plaintext vars:	{}
-s0!1 = False: _ -> {'Y'} for 0.00 * 1 = 0.00
-s1!1 = False: _ -> {'Y'} for 0.00 * 1 = 0.00
-scount!1 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
-!8!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!9!0{N!0}[] = lift(Syms!0[0], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!13!0{N!0}[] = lift(Syms!0[1], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!5!0{N!0}[] = lift(s0!1, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!6!0{N!0}[] = lift(s1!1, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!7!0{N!0}[] = lift(scount!1, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!1!2{N!0}[] = (!8!0{N!0}[] != !9!0{N!0}[]): Y -> {} for 1892.27 * 1 = 1892.27
-!3!2{N!0}[] = (!8!0{N!0}[] == !9!0{N!0}[]): Y -> {} for 1936.09 * 1 = 1936.09
-s0!3{N!0}[] = (!8!0{N!0}[] == !13!0{N!0}[]): Y -> {} for 1936.09 * 1 = 1936.09
-	s0!2{}[!15!0] = Φ(!5!0{}[!15!0], s0!3{}[(!15!0 - 1)]): Y -> {} for 0.00 * 7 = 0.00
-	s1!2{}[!16!0] = Φ(!6!0{}[!16!0], s1!3{}[(!16!0 - 1)]): Y -> {} for 0.00 * 7 = 0.00
-	!4!2{}[!16!0] = (s0!2{}[!16!0] or s1!2{}[!16!0]): Y -> {} for 1463.25 * 7 = 10242.73
-	s1!3{}[!16!0] = (!3!2{}[!16!0] and !4!2{}[!16!0]): Y -> {} for 1462.48 * 7 = 10237.34
-!2!2{N!0}[] = (s1!2{N!0}[] and !1!2{N!0}[]): Y -> {} for 1898.75 * 1 = 1898.75
-	scount!2{}[!17!0] = Φ(!7!0{}[!17!0], scount!4{}[(!17!0 - 1)]): Y -> {} for 0.00 * 7 = 0.00
-	scount!3{}[!17!0] = (scount!2{}[!17!0] + 1): Y -> {} for 1476.35 * 7 = 10334.45
-	scount!4{}[!17!0] = MUX(!2!2{}[!17!0], scount!3{}[!17!0], scount!2{}[!17!0]): Y -> {} for 1474.56 * 7 = 10321.91
-!14!0 = drop_dim(scount!4{N!0}[]): _ -> {'Y'} for 0.00 * 1 = 0.00
+Flags:		{}
+s0!1 = False: _ -> ['Y'] for 0.00000 * 1 = 0.00
+s1!1 = False: _ -> ['Y'] for 0.00000 * 1 = 0.00
+scount!1 = 0: _ -> ['Y'] for 0.00000 * 1 = 0.00
+!8!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!9!0{N!0}[] = lift(Syms!0[0], (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!13!0{N!0}[] = lift(Syms!0[1], (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!5!0{N!0}[] = lift(s0!1, (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!6!0{N!0}[] = lift(s1!1, (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!7!0{N!0}[] = lift(scount!1, (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!1!2{N!0}[] = (!8!0{N!0}[] != !9!0{N!0}[]): Y -> {} for 0.01447 * 1 = 0.01
+!3!2{N!0}[] = (!8!0{N!0}[] == !9!0{N!0}[]): Y -> {} for 0.01489 * 1 = 0.01
+s0!3{N!0}[] = (!8!0{N!0}[] == !13!0{N!0}[]): Y -> {} for 0.01489 * 1 = 0.01
+	s0!2{}[!15!0] = Φ(!5!0{}[!15!0], s0!3{}[(!15!0 - 1)]): Y -> {} for 0.00000 * 7 = 0.00
+	s1!2{}[!16!0] = Φ(!6!0{}[!16!0], s1!3{}[(!16!0 - 1)]): Y -> {} for 0.00000 * 7 = 0.00
+	!4!2{}[!16!0] = (s0!2{}[!16!0] or s1!2{}[!16!0]): Y -> {} for 0.00282 * 7 = 0.02
+	s1!3{}[!16!0] = (!3!2{}[!16!0] and !4!2{}[!16!0]): Y -> {} for 0.00245 * 7 = 0.02
+!2!2{N!0}[] = (s1!2{N!0}[] and !1!2{N!0}[]): Y -> {} for 0.00168 * 1 = 0.00
+	scount!2{}[!17!0] = Φ(!7!0{}[!17!0], scount!4{}[(!17!0 - 1)]): Y -> {} for 0.00000 * 7 = 0.00
+	scount!3{}[!17!0] = (scount!2{}[!17!0] + 1): Y -> {} for 0.02351 * 7 = 0.16
+	scount!4{}[!17!0] = MUX(!2!2{}[!17!0], scount!3{}[!17!0], scount!2{}[!17!0]): Y -> {} for 0.00597 * 7 = 0.04
+!14!0 = drop_dim(scount!4{N!0}[]): _ -> ['Y'] for 0.00000 * 1 = 0.00
 return !14!0
-Output vars:	{!14!0: {'Y'}}
+Output vars:	{!14!0: ['Y']}
 
 ```
 #### MOTION code
@@ -4383,6 +4019,8 @@ encrypto::motion::SecureUnsignedInteger count_10s(
     encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_1 = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(std::uint32_t(1)), 0);
     encrypto::motion::ShareWrapper _MPC_CONSTANT_false = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::BitVector(1, false), 0);
 
+    // Input Protocol Convertions
+
     // Plaintext parameter assignments
 
     // Function body
@@ -4455,33 +4093,34 @@ encrypto::motion::SecureUnsignedInteger count_10s(
 }
 ```
 #### MP-SPDZ mixed configuration
-```Total cost:	52233.55
-Input vars:	{Syms!0: {'B'}, Seq!0: {'B'}}
-Constants:	{False: {'B'}, 0: {'B'}, 1: {'B'}}
+```Total cost:	0.00017
+Input vars:	{Syms!0: ['B'], Seq!0: ['B']}
+Constants:	{False: ['B'], 0: ['B'], 1: ['B']}
 Plaintext vars:	{}
-s0!1 = False: _ -> {'B'} for 0.00 * 1 = 0.00
-s1!1 = False: _ -> {'B'} for 0.00 * 1 = 0.00
-scount!1 = 0: _ -> {'B'} for 0.00 * 1 = 0.00
-!8!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!9!0{N!0}[] = lift(Syms!0[0], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!13!0{N!0}[] = lift(Syms!0[1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!5!0{N!0}[] = lift(s0!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!6!0{N!0}[] = lift(s1!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!7!0{N!0}[] = lift(scount!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!1!2{N!0}[] = (!8!0{N!0}[] != !9!0{N!0}[]): B -> {} for 2273.08 * 1 = 2273.08
-!3!2{N!0}[] = (!8!0{N!0}[] == !9!0{N!0}[]): B -> {} for 2264.92 * 1 = 2264.92
-s0!3{N!0}[] = (!8!0{N!0}[] == !13!0{N!0}[]): B -> {} for 2264.92 * 1 = 2264.92
-	s0!2{}[!15!0] = Φ(!5!0{}[!15!0], s0!3{}[(!15!0 - 1)]): B -> {} for 0.00 * 7 = 0.00
-	s1!2{}[!16!0] = Φ(!6!0{}[!16!0], s1!3{}[(!16!0 - 1)]): B -> {} for 0.00 * 7 = 0.00
-	!4!2{}[!16!0] = (s0!2{}[!16!0] or s1!2{}[!16!0]): B -> {} for 1381.97 * 7 = 9673.78
-	s1!3{}[!16!0] = (!3!2{}[!16!0] and !4!2{}[!16!0]): B -> {} for 1372.38 * 7 = 9606.68
-!2!2{N!0}[] = (s1!2{N!0}[] and !1!2{N!0}[]): B -> {} for 1726.62 * 1 = 1726.62
-	scount!2{}[!17!0] = Φ(!7!0{}[!17!0], scount!4{}[(!17!0 - 1)]): B -> {} for 0.00 * 7 = 0.00
-	scount!3{}[!17!0] = (scount!2{}[!17!0] + 1): B -> {} for 2083.52 * 7 = 14584.66
-	scount!4{}[!17!0] = MUX(!2!2{}[!17!0], scount!3{}[!17!0], scount!2{}[!17!0]): B -> {} for 1405.56 * 7 = 9838.89
-!14!0 = drop_dim(scount!4{N!0}[]): _ -> {'B'} for 0.00 * 1 = 0.00
+Flags:		{X}
+s0!1 = False: _ -> ['B'] for 0.00000 * 1 = 0.00
+s1!1 = False: _ -> ['B'] for 0.00000 * 1 = 0.00
+scount!1 = 0: _ -> ['B'] for 0.00000 * 1 = 0.00
+!8!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!9!0{N!0}[] = lift(Syms!0[0], (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!13!0{N!0}[] = lift(Syms!0[1], (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!5!0{N!0}[] = lift(s0!1, (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!6!0{N!0}[] = lift(s1!1, (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!7!0{N!0}[] = lift(scount!1, (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!1!2{N!0}[] = (!8!0{N!0}[] != !9!0{N!0}[]): B -> {} for 0.00005 * 1 = 0.00
+!3!2{N!0}[] = (!8!0{N!0}[] == !9!0{N!0}[]): B -> {} for 0.00003 * 1 = 0.00
+s0!3{N!0}[] = (!8!0{N!0}[] == !13!0{N!0}[]): B -> {} for 0.00003 * 1 = 0.00
+	s0!2{}[!15!0] = Φ(!5!0{}[!15!0], s0!3{}[(!15!0 - 1)]): B -> {} for 0.00000 * 7 = 0.00
+	s1!2{}[!16!0] = Φ(!6!0{}[!16!0], s1!3{}[(!16!0 - 1)]): B -> {} for 0.00000 * 7 = 0.00
+	!4!2{}[!16!0] = (s0!2{}[!16!0] or s1!2{}[!16!0]): B -> {} for 0.00000 * 7 = 0.00
+	s1!3{}[!16!0] = (!3!2{}[!16!0] and !4!2{}[!16!0]): B -> {} for 0.00000 * 7 = 0.00
+!2!2{N!0}[] = (s1!2{N!0}[] and !1!2{N!0}[]): B -> {} for 0.00000 * 1 = 0.00
+	scount!2{}[!17!0] = Φ(!7!0{}[!17!0], scount!4{}[(!17!0 - 1)]): B -> {} for 0.00000 * 7 = 0.00
+	scount!3{}[!17!0] = (scount!2{}[!17!0] + 1): B -> {} for 0.00001 * 7 = 0.00
+	scount!4{}[!17!0] = MUX(!2!2{}[!17!0], scount!3{}[!17!0], scount!2{}[!17!0]): B -> {} for 0.00000 * 7 = 0.00
+!14!0 = drop_dim(scount!4{N!0}[]): _ -> ['B'] for 0.00000 * 1 = 0.00
 return !14!0
-Output vars:	{!14!0: {'B'}}
+Output vars:	{!14!0: ['B']}
 
 ```
 #### MP-SPDZ code
@@ -4552,10 +4191,13 @@ def count_10s(Seq_0, N_0, Syms_0):
 ```
 #### MP-SPDZ mixed code
 ```py
+program.options.binary = 32
+program.use_dabit = True
 def count_10s(Seq_0, N_0, Syms_0):
     # Convertion functions
     siv32 = sbitintvec.get_type(32)
     sb32 = sbits.get_type(32)
+    
     
     # Shared array declarations
     _1_2 = [None] * (N_0)
@@ -4575,9 +4217,11 @@ def count_10s(Seq_0, N_0, Syms_0):
     scount_2 = [None] * (N_0)
     scount_3 = [None] * (N_0)
     scount_4 = [None] * (N_0)
+    # Shared array convertion declarations
+    
     # Function body
-    s0_1 = siv32(_v.sbool(False))
-    s1_1 = siv32(_v.sbool(False))
+    s0_1 = sbit(0)
+    s1_1 = sbit(0)
     scount_1 = siv32(0)
     _8_0 = _v.lift(lambda indices: (Seq_0[indices[0]]), [N_0])
     _9_0 = _v.lift(lambda indices: (Syms_0[0]), [N_0])
@@ -4646,8 +4290,10 @@ def count_123(Seq: shared[list[int]], N: int, Syms: shared[list[int]]) -> shared
     return c
 
 
-seq = [1, 2, 3, 1, 3, 3, 4]
-print(count_123(seq, 7, [1, 2, 3]))
+Seq = [1, 2, 3, 1, 3, 3, 4]
+N = 7
+Syms = [1, 2, 3]
+print(count_123(Seq, N, Syms))
 
 ```
 #### Restricted AST
@@ -4886,35 +4532,36 @@ def count_123(Seq!0: shared[list[int; ?]], N!0: plaintext[int], Syms!0: shared[l
     return !15!0
 ```
 #### MOTION mixed configuration
-```Total cost:	50853.23
-Input vars:	{Syms!0: {'Y'}, Seq!0: {'Y'}}
-Constants:	{False: {'Y'}, 0: {'Y'}, 1: {'Y'}}
+```Total cost:	0.29184
+Input vars:	{Syms!0: ['Y'], Seq!0: ['Y']}
+Constants:	{False: ['Y'], 0: ['Y'], 1: ['Y']}
 Plaintext vars:	{}
-s1!1 = False: _ -> {'Y'} for 0.00 * 1 = 0.00
-s2!1 = False: _ -> {'Y'} for 0.00 * 1 = 0.00
-c!1 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
-!9!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!10!0{N!0}[] = lift(Syms!0[2], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!12!0{N!0}[] = lift(Syms!0[1], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!14!0{N!0}[] = lift(Syms!0[0], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!6!0{N!0}[] = lift(s1!1, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!7!0{N!0}[] = lift(s2!1, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!8!0{N!0}[] = lift(c!1, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!1!2{N!0}[] = (!9!0{N!0}[] == !10!0{N!0}[]): Y -> {} for 1936.09 * 1 = 1936.09
-!4!2{N!0}[] = (!9!0{N!0}[] == !12!0{N!0}[]): Y -> {} for 1936.09 * 1 = 1936.09
-s1!3{N!0}[] = (!9!0{N!0}[] == !14!0{N!0}[]): Y -> {} for 1936.09 * 1 = 1936.09
-	s1!2{}[!16!0] = Φ(!6!0{}[!16!0], s1!3{}[(!16!0 - 1)]): Y -> {} for 0.00 * 7 = 0.00
-	s2!2{}[!17!0] = Φ(!7!0{}[!17!0], s2!3{}[(!17!0 - 1)]): Y -> {} for 0.00 * 7 = 0.00
-	!5!2{}[!17!0] = (s1!2{}[!17!0] or s2!2{}[!17!0]): Y -> {} for 1463.25 * 7 = 10242.73
-	s2!3{}[!17!0] = (!4!2{}[!17!0] and !5!2{}[!17!0]): Y -> {} for 1462.48 * 7 = 10237.34
-!2!2{N!0}[] = (s2!2{N!0}[] or s1!2{N!0}[]): Y -> {} for 2009.81 * 1 = 2009.81
-!3!2{N!0}[] = (!1!2{N!0}[] and !2!2{N!0}[]): Y -> {} for 1898.75 * 1 = 1898.75
-	c!2{}[!18!0] = Φ(!8!0{}[!18!0], c!4{}[(!18!0 - 1)]): Y -> {} for 0.00 * 7 = 0.00
-	c!3{}[!18!0] = (c!2{}[!18!0] + 1): Y -> {} for 1476.35 * 7 = 10334.45
-	c!4{}[!18!0] = MUX(!3!2{}[!18!0], c!3{}[!18!0], c!2{}[!18!0]): Y -> {} for 1474.56 * 7 = 10321.91
-!15!0 = drop_dim(c!4{N!0}[]): _ -> {'Y'} for 0.00 * 1 = 0.00
+Flags:		{}
+s1!1 = False: _ -> ['Y'] for 0.00000 * 1 = 0.00
+s2!1 = False: _ -> ['Y'] for 0.00000 * 1 = 0.00
+c!1 = 0: _ -> ['Y'] for 0.00000 * 1 = 0.00
+!9!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!10!0{N!0}[] = lift(Syms!0[2], (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!12!0{N!0}[] = lift(Syms!0[1], (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!14!0{N!0}[] = lift(Syms!0[0], (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!6!0{N!0}[] = lift(s1!1, (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!7!0{N!0}[] = lift(s2!1, (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!8!0{N!0}[] = lift(c!1, (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!1!2{N!0}[] = (!9!0{N!0}[] == !10!0{N!0}[]): Y -> {} for 0.01489 * 1 = 0.01
+!4!2{N!0}[] = (!9!0{N!0}[] == !12!0{N!0}[]): Y -> {} for 0.01489 * 1 = 0.01
+s1!3{N!0}[] = (!9!0{N!0}[] == !14!0{N!0}[]): Y -> {} for 0.01489 * 1 = 0.01
+	s1!2{}[!16!0] = Φ(!6!0{}[!16!0], s1!3{}[(!16!0 - 1)]): Y -> {} for 0.00000 * 7 = 0.00
+	s2!2{}[!17!0] = Φ(!7!0{}[!17!0], s2!3{}[(!17!0 - 1)]): Y -> {} for 0.00000 * 7 = 0.00
+	!5!2{}[!17!0] = (s1!2{}[!17!0] or s2!2{}[!17!0]): Y -> {} for 0.00282 * 7 = 0.02
+	s2!3{}[!17!0] = (!4!2{}[!17!0] and !5!2{}[!17!0]): Y -> {} for 0.00245 * 7 = 0.02
+!2!2{N!0}[] = (s2!2{N!0}[] or s1!2{N!0}[]): Y -> {} for 0.00221 * 1 = 0.00
+!3!2{N!0}[] = (!1!2{N!0}[] and !2!2{N!0}[]): Y -> {} for 0.00168 * 1 = 0.00
+	c!2{}[!18!0] = Φ(!8!0{}[!18!0], c!4{}[(!18!0 - 1)]): Y -> {} for 0.00000 * 7 = 0.00
+	c!3{}[!18!0] = (c!2{}[!18!0] + 1): Y -> {} for 0.02351 * 7 = 0.16
+	c!4{}[!18!0] = MUX(!3!2{}[!18!0], c!3{}[!18!0], c!2{}[!18!0]): Y -> {} for 0.00597 * 7 = 0.04
+!15!0 = drop_dim(c!4{N!0}[]): _ -> ['Y'] for 0.00000 * 1 = 0.00
 return !15!0
-Output vars:	{!15!0: {'Y'}}
+Output vars:	{!15!0: ['Y']}
 
 ```
 #### MOTION code
@@ -5092,6 +4739,8 @@ encrypto::motion::SecureUnsignedInteger count_123(
     encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_1 = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(std::uint32_t(1)), 0);
     encrypto::motion::ShareWrapper _MPC_CONSTANT_false = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::BitVector(1, false), 0);
 
+    // Input Protocol Convertions
+
     // Plaintext parameter assignments
 
     // Function body
@@ -5166,35 +4815,36 @@ encrypto::motion::SecureUnsignedInteger count_123(
 }
 ```
 #### MP-SPDZ mixed configuration
-```Total cost:	54027.36
-Input vars:	{Syms!0: {'B'}, Seq!0: {'B'}}
-Constants:	{False: {'B'}, 0: {'B'}, 1: {'B'}}
+```Total cost:	0.00016
+Input vars:	{Syms!0: ['B'], Seq!0: ['B']}
+Constants:	{False: ['B'], 0: ['B'], 1: ['B']}
 Plaintext vars:	{}
-s1!1 = False: _ -> {'B'} for 0.00 * 1 = 0.00
-s2!1 = False: _ -> {'B'} for 0.00 * 1 = 0.00
-c!1 = 0: _ -> {'B'} for 0.00 * 1 = 0.00
-!9!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!10!0{N!0}[] = lift(Syms!0[2], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!12!0{N!0}[] = lift(Syms!0[1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!14!0{N!0}[] = lift(Syms!0[0], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!6!0{N!0}[] = lift(s1!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!7!0{N!0}[] = lift(s2!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!8!0{N!0}[] = lift(c!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!1!2{N!0}[] = (!9!0{N!0}[] == !10!0{N!0}[]): B -> {} for 2264.92 * 1 = 2264.92
-!4!2{N!0}[] = (!9!0{N!0}[] == !12!0{N!0}[]): B -> {} for 2264.92 * 1 = 2264.92
-s1!3{N!0}[] = (!9!0{N!0}[] == !14!0{N!0}[]): B -> {} for 2264.92 * 1 = 2264.92
-	s1!2{}[!16!0] = Φ(!6!0{}[!16!0], s1!3{}[(!16!0 - 1)]): B -> {} for 0.00 * 7 = 0.00
-	s2!2{}[!17!0] = Φ(!7!0{}[!17!0], s2!3{}[(!17!0 - 1)]): B -> {} for 0.00 * 7 = 0.00
-	!5!2{}[!17!0] = (s1!2{}[!17!0] or s2!2{}[!17!0]): B -> {} for 1381.97 * 7 = 9673.78
-	s2!3{}[!17!0] = (!4!2{}[!17!0] and !5!2{}[!17!0]): B -> {} for 1372.38 * 7 = 9606.68
-!2!2{N!0}[] = (s2!2{N!0}[] or s1!2{N!0}[]): B -> {} for 1801.97 * 1 = 1801.97
-!3!2{N!0}[] = (!1!2{N!0}[] and !2!2{N!0}[]): B -> {} for 1726.62 * 1 = 1726.62
-	c!2{}[!18!0] = Φ(!8!0{}[!18!0], c!4{}[(!18!0 - 1)]): B -> {} for 0.00 * 7 = 0.00
-	c!3{}[!18!0] = (c!2{}[!18!0] + 1): B -> {} for 2083.52 * 7 = 14584.66
-	c!4{}[!18!0] = MUX(!3!2{}[!18!0], c!3{}[!18!0], c!2{}[!18!0]): B -> {} for 1405.56 * 7 = 9838.89
-!15!0 = drop_dim(c!4{N!0}[]): _ -> {'B'} for 0.00 * 1 = 0.00
+Flags:		{X}
+s1!1 = False: _ -> ['B'] for 0.00000 * 1 = 0.00
+s2!1 = False: _ -> ['B'] for 0.00000 * 1 = 0.00
+c!1 = 0: _ -> ['B'] for 0.00000 * 1 = 0.00
+!9!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!10!0{N!0}[] = lift(Syms!0[2], (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!12!0{N!0}[] = lift(Syms!0[1], (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!14!0{N!0}[] = lift(Syms!0[0], (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!6!0{N!0}[] = lift(s1!1, (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!7!0{N!0}[] = lift(s2!1, (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!8!0{N!0}[] = lift(c!1, (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!1!2{N!0}[] = (!9!0{N!0}[] == !10!0{N!0}[]): B -> {} for 0.00003 * 1 = 0.00
+!4!2{N!0}[] = (!9!0{N!0}[] == !12!0{N!0}[]): B -> {} for 0.00003 * 1 = 0.00
+s1!3{N!0}[] = (!9!0{N!0}[] == !14!0{N!0}[]): B -> {} for 0.00003 * 1 = 0.00
+	s1!2{}[!16!0] = Φ(!6!0{}[!16!0], s1!3{}[(!16!0 - 1)]): B -> {} for 0.00000 * 7 = 0.00
+	s2!2{}[!17!0] = Φ(!7!0{}[!17!0], s2!3{}[(!17!0 - 1)]): B -> {} for 0.00000 * 7 = 0.00
+	!5!2{}[!17!0] = (s1!2{}[!17!0] or s2!2{}[!17!0]): B -> {} for 0.00000 * 7 = 0.00
+	s2!3{}[!17!0] = (!4!2{}[!17!0] and !5!2{}[!17!0]): B -> {} for 0.00000 * 7 = 0.00
+!2!2{N!0}[] = (s2!2{N!0}[] or s1!2{N!0}[]): B -> {} for 0.00001 * 1 = 0.00
+!3!2{N!0}[] = (!1!2{N!0}[] and !2!2{N!0}[]): B -> {} for 0.00000 * 1 = 0.00
+	c!2{}[!18!0] = Φ(!8!0{}[!18!0], c!4{}[(!18!0 - 1)]): B -> {} for 0.00000 * 7 = 0.00
+	c!3{}[!18!0] = (c!2{}[!18!0] + 1): B -> {} for 0.00001 * 7 = 0.00
+	c!4{}[!18!0] = MUX(!3!2{}[!18!0], c!3{}[!18!0], c!2{}[!18!0]): B -> {} for 0.00000 * 7 = 0.00
+!15!0 = drop_dim(c!4{N!0}[]): _ -> ['B'] for 0.00000 * 1 = 0.00
 return !15!0
-Output vars:	{!15!0: {'B'}}
+Output vars:	{!15!0: ['B']}
 
 ```
 #### MP-SPDZ code
@@ -5269,10 +4919,13 @@ def count_123(Seq_0, N_0, Syms_0):
 ```
 #### MP-SPDZ mixed code
 ```py
+program.options.binary = 32
+program.use_dabit = True
 def count_123(Seq_0, N_0, Syms_0):
     # Convertion functions
     siv32 = sbitintvec.get_type(32)
     sb32 = sbits.get_type(32)
+    
     
     # Shared array declarations
     _1_2 = [None] * (N_0)
@@ -5294,9 +4947,11 @@ def count_123(Seq_0, N_0, Syms_0):
     s1_3 = [None] * (N_0)
     s2_2 = [None] * (N_0)
     s2_3 = [None] * (N_0)
+    # Shared array convertion declarations
+    
     # Function body
-    s1_1 = siv32(_v.sbool(False))
-    s2_1 = siv32(_v.sbool(False))
+    s1_1 = sbit(0)
+    s2_1 = sbit(0)
     c_1 = siv32(0)
     _9_0 = _v.lift(lambda indices: (Seq_0[indices[0]]), [N_0])
     _10_0 = _v.lift(lambda indices: (Syms_0[2]), [N_0])
@@ -5395,9 +5050,9 @@ def cryptonets_max_pooling(
 
 
 cols = 10
-cols_res = cols // 2
+cols_res = 5
 rows = 8
-rows_res = rows // 2
+rows_res = 4
 vals = [i + 2 for i in range(rows * cols)]
 output_size = int(cols * rows / 4)
 OUTPUT_res = [0] * output_size
@@ -5602,25 +5257,26 @@ def cryptonets_max_pooling(vals!0: shared[list[int; ?]], cols!0: plaintext[int],
     return OUTPUT_res!3
 ```
 #### MOTION mixed configuration
-```Total cost:	16667.21
-Input vars:	{vals!0: {'Y'}}
+```Total cost:	0.18588
+Input vars:	{vals!0: ['Y']}
 Constants:	{}
-Plaintext vars:	{OUTPUT_res!0: {'Y'}}
-!4!0{ROWS_RES!0, COLS_RES!0}[] = lift(OUTPUT_res!0, (_:rows_res!0, _:cols_res!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!6!0{ROWS_RES!0, COLS_RES!0}[] = lift(vals!0[(((i!1 * 2) * cols!0) + (j!1 * 2))], (i!1:rows_res!0, j!1:cols_res!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!7!0{ROWS_RES!0, COLS_RES!0}[] = lift(vals!0[((((i!1 * 2) * cols!0) + (j!1 * 2)) + 1)], (i!1:rows_res!0, j!1:cols_res!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!9!0{ROWS_RES!0, COLS_RES!0}[] = lift(vals!0[((((i!1 * 2) + 1) * cols!0) + (j!1 * 2))], (i!1:rows_res!0, j!1:cols_res!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!11!0{ROWS_RES!0, COLS_RES!0}[] = lift(vals!0[(((((i!1 * 2) + 1) * cols!0) + (j!1 * 2)) + 1)], (i!1:rows_res!0, j!1:cols_res!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!5!0{ROWS_RES!0, COLS_RES!0}[] = lift(!4!0{ROWS_RES!0, COLS_RES!0}[], (i!1:rows_res!0, j!1:cols_res!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!1!3{ROWS_RES!0, COLS_RES!0}[] = (!7!0{ROWS_RES!0, COLS_RES!0}[] > !6!0{ROWS_RES!0, COLS_RES!0}[]): Y -> {} for 2733.55 * 1 = 2733.55
-max!5{ROWS_RES!0, COLS_RES!0}[] = MUX(!1!3{ROWS_RES!0, COLS_RES!0}[], !7!0{ROWS_RES!0, COLS_RES!0}[], !6!0{ROWS_RES!0, COLS_RES!0}[]): Y -> {} for 2822.19 * 1 = 2822.19
-!2!3{ROWS_RES!0, COLS_RES!0}[] = (!9!0{ROWS_RES!0, COLS_RES!0}[] > max!5{ROWS_RES!0, COLS_RES!0}[]): Y -> {} for 2733.55 * 1 = 2733.55
-max!7{ROWS_RES!0, COLS_RES!0}[] = MUX(!2!3{ROWS_RES!0, COLS_RES!0}[], !9!0{ROWS_RES!0, COLS_RES!0}[], max!5{ROWS_RES!0, COLS_RES!0}[]): Y -> {} for 2822.19 * 1 = 2822.19
-!3!3{ROWS_RES!0, COLS_RES!0}[] = (!11!0{ROWS_RES!0, COLS_RES!0}[] > max!7{ROWS_RES!0, COLS_RES!0}[]): Y -> {} for 2733.55 * 1 = 2733.55
-max!9{ROWS_RES!0, COLS_RES!0}[] = MUX(!3!3{ROWS_RES!0, COLS_RES!0}[], !11!0{ROWS_RES!0, COLS_RES!0}[], max!7{ROWS_RES!0, COLS_RES!0}[]): Y -> {} for 2822.19 * 1 = 2822.19
-OUTPUT_res!3{ROWS_RES!0, COLS_RES!0}[] = VectorizedUpdate(!5!0{ROWS_RES!0, COLS_RES!0}[], [I!1, J!1], max!9{ROWS_RES!0, COLS_RES!0}[]): Y -> {} for 0.00 * 1 = 0.00
+Plaintext vars:	{OUTPUT_res!0: ['Y']}
+Flags:		{}
+!4!0{ROWS_RES!0, COLS_RES!0}[] = lift(OUTPUT_res!0, (_:rows_res!0, _:cols_res!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!6!0{ROWS_RES!0, COLS_RES!0}[] = lift(vals!0[(((i!1 * 2) * cols!0) + (j!1 * 2))], (i!1:rows_res!0, j!1:cols_res!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!7!0{ROWS_RES!0, COLS_RES!0}[] = lift(vals!0[((((i!1 * 2) * cols!0) + (j!1 * 2)) + 1)], (i!1:rows_res!0, j!1:cols_res!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!9!0{ROWS_RES!0, COLS_RES!0}[] = lift(vals!0[((((i!1 * 2) + 1) * cols!0) + (j!1 * 2))], (i!1:rows_res!0, j!1:cols_res!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!11!0{ROWS_RES!0, COLS_RES!0}[] = lift(vals!0[(((((i!1 * 2) + 1) * cols!0) + (j!1 * 2)) + 1)], (i!1:rows_res!0, j!1:cols_res!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!5!0{ROWS_RES!0, COLS_RES!0}[] = lift(!4!0{ROWS_RES!0, COLS_RES!0}[], (i!1:rows_res!0, j!1:cols_res!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!1!3{ROWS_RES!0, COLS_RES!0}[] = (!7!0{ROWS_RES!0, COLS_RES!0}[] > !6!0{ROWS_RES!0, COLS_RES!0}[]): Y -> {} for 0.04702 * 1 = 0.05
+max!5{ROWS_RES!0, COLS_RES!0}[] = MUX(!1!3{ROWS_RES!0, COLS_RES!0}[], !7!0{ROWS_RES!0, COLS_RES!0}[], !6!0{ROWS_RES!0, COLS_RES!0}[]): Y -> {} for 0.01494 * 1 = 0.01
+!2!3{ROWS_RES!0, COLS_RES!0}[] = (!9!0{ROWS_RES!0, COLS_RES!0}[] > max!5{ROWS_RES!0, COLS_RES!0}[]): Y -> {} for 0.04702 * 1 = 0.05
+max!7{ROWS_RES!0, COLS_RES!0}[] = MUX(!2!3{ROWS_RES!0, COLS_RES!0}[], !9!0{ROWS_RES!0, COLS_RES!0}[], max!5{ROWS_RES!0, COLS_RES!0}[]): Y -> {} for 0.01494 * 1 = 0.01
+!3!3{ROWS_RES!0, COLS_RES!0}[] = (!11!0{ROWS_RES!0, COLS_RES!0}[] > max!7{ROWS_RES!0, COLS_RES!0}[]): Y -> {} for 0.04702 * 1 = 0.05
+max!9{ROWS_RES!0, COLS_RES!0}[] = MUX(!3!3{ROWS_RES!0, COLS_RES!0}[], !11!0{ROWS_RES!0, COLS_RES!0}[], max!7{ROWS_RES!0, COLS_RES!0}[]): Y -> {} for 0.01494 * 1 = 0.01
+OUTPUT_res!3{ROWS_RES!0, COLS_RES!0}[] = VectorizedUpdate(!5!0{ROWS_RES!0, COLS_RES!0}[], [I!1, J!1], max!9{ROWS_RES!0, COLS_RES!0}[]): Y -> {} for 0.00000 * 1 = 0.00
 return OUTPUT_res!3
-Output vars:	{OUTPUT_res!3: {'Y'}}
+Output vars:	{OUTPUT_res!3: ['Y']}
 
 ```
 #### MOTION code
@@ -5723,6 +5379,8 @@ std::vector<encrypto::motion::SecureUnsignedInteger> cryptonets_max_pooling(
 
     // Constant initializations
 
+    // Input Protocol Convertions
+
     // Plaintext parameter assignments
     OUTPUT_res_0.clear();
     std::transform(_MPC_PLAINTEXT_OUTPUT_res_0.begin(), _MPC_PLAINTEXT_OUTPUT_res_0.end(), std::back_inserter(OUTPUT_res_0), [&](const auto &val) { return party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(val), 0); });
@@ -5746,25 +5404,26 @@ std::vector<encrypto::motion::SecureUnsignedInteger> cryptonets_max_pooling(
 }
 ```
 #### MP-SPDZ mixed configuration
-```Total cost:	17603.80
-Input vars:	{vals!0: {'B'}}
+```Total cost:	0.00074
+Input vars:	{vals!0: ['B']}
 Constants:	{}
-Plaintext vars:	{OUTPUT_res!0: {'B'}}
-!4!0{ROWS_RES!0, COLS_RES!0}[] = lift(OUTPUT_res!0, (_:rows_res!0, _:cols_res!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!6!0{ROWS_RES!0, COLS_RES!0}[] = lift(vals!0[(((i!1 * 2) * cols!0) + (j!1 * 2))], (i!1:rows_res!0, j!1:cols_res!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!7!0{ROWS_RES!0, COLS_RES!0}[] = lift(vals!0[((((i!1 * 2) * cols!0) + (j!1 * 2)) + 1)], (i!1:rows_res!0, j!1:cols_res!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!9!0{ROWS_RES!0, COLS_RES!0}[] = lift(vals!0[((((i!1 * 2) + 1) * cols!0) + (j!1 * 2))], (i!1:rows_res!0, j!1:cols_res!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!11!0{ROWS_RES!0, COLS_RES!0}[] = lift(vals!0[(((((i!1 * 2) + 1) * cols!0) + (j!1 * 2)) + 1)], (i!1:rows_res!0, j!1:cols_res!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!5!0{ROWS_RES!0, COLS_RES!0}[] = lift(!4!0{ROWS_RES!0, COLS_RES!0}[], (i!1:rows_res!0, j!1:cols_res!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!1!3{ROWS_RES!0, COLS_RES!0}[] = (!7!0{ROWS_RES!0, COLS_RES!0}[] > !6!0{ROWS_RES!0, COLS_RES!0}[]): B -> {} for 3770.40 * 1 = 3770.40
-max!5{ROWS_RES!0, COLS_RES!0}[] = MUX(!1!3{ROWS_RES!0, COLS_RES!0}[], !7!0{ROWS_RES!0, COLS_RES!0}[], !6!0{ROWS_RES!0, COLS_RES!0}[]): B -> {} for 2097.54 * 1 = 2097.54
-!2!3{ROWS_RES!0, COLS_RES!0}[] = (!9!0{ROWS_RES!0, COLS_RES!0}[] > max!5{ROWS_RES!0, COLS_RES!0}[]): B -> {} for 3770.40 * 1 = 3770.40
-max!7{ROWS_RES!0, COLS_RES!0}[] = MUX(!2!3{ROWS_RES!0, COLS_RES!0}[], !9!0{ROWS_RES!0, COLS_RES!0}[], max!5{ROWS_RES!0, COLS_RES!0}[]): B -> {} for 2097.54 * 1 = 2097.54
-!3!3{ROWS_RES!0, COLS_RES!0}[] = (!11!0{ROWS_RES!0, COLS_RES!0}[] > max!7{ROWS_RES!0, COLS_RES!0}[]): B -> {} for 3770.40 * 1 = 3770.40
-max!9{ROWS_RES!0, COLS_RES!0}[] = MUX(!3!3{ROWS_RES!0, COLS_RES!0}[], !11!0{ROWS_RES!0, COLS_RES!0}[], max!7{ROWS_RES!0, COLS_RES!0}[]): B -> {} for 2097.54 * 1 = 2097.54
-OUTPUT_res!3{ROWS_RES!0, COLS_RES!0}[] = VectorizedUpdate(!5!0{ROWS_RES!0, COLS_RES!0}[], [I!1, J!1], max!9{ROWS_RES!0, COLS_RES!0}[]): B -> {} for 0.00 * 1 = 0.00
+Plaintext vars:	{OUTPUT_res!0: ['B']}
+Flags:		{X}
+!4!0{ROWS_RES!0, COLS_RES!0}[] = lift(OUTPUT_res!0, (_:rows_res!0, _:cols_res!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!6!0{ROWS_RES!0, COLS_RES!0}[] = lift(vals!0[(((i!1 * 2) * cols!0) + (j!1 * 2))], (i!1:rows_res!0, j!1:cols_res!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!7!0{ROWS_RES!0, COLS_RES!0}[] = lift(vals!0[((((i!1 * 2) * cols!0) + (j!1 * 2)) + 1)], (i!1:rows_res!0, j!1:cols_res!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!9!0{ROWS_RES!0, COLS_RES!0}[] = lift(vals!0[((((i!1 * 2) + 1) * cols!0) + (j!1 * 2))], (i!1:rows_res!0, j!1:cols_res!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!11!0{ROWS_RES!0, COLS_RES!0}[] = lift(vals!0[(((((i!1 * 2) + 1) * cols!0) + (j!1 * 2)) + 1)], (i!1:rows_res!0, j!1:cols_res!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!5!0{ROWS_RES!0, COLS_RES!0}[] = lift(!4!0{ROWS_RES!0, COLS_RES!0}[], (i!1:rows_res!0, j!1:cols_res!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!1!3{ROWS_RES!0, COLS_RES!0}[] = (!7!0{ROWS_RES!0, COLS_RES!0}[] > !6!0{ROWS_RES!0, COLS_RES!0}[]): B -> {} for 0.00025 * 1 = 0.00
+max!5{ROWS_RES!0, COLS_RES!0}[] = MUX(!1!3{ROWS_RES!0, COLS_RES!0}[], !7!0{ROWS_RES!0, COLS_RES!0}[], !6!0{ROWS_RES!0, COLS_RES!0}[]): B -> {} for 0.00000 * 1 = 0.00
+!2!3{ROWS_RES!0, COLS_RES!0}[] = (!9!0{ROWS_RES!0, COLS_RES!0}[] > max!5{ROWS_RES!0, COLS_RES!0}[]): B -> {} for 0.00025 * 1 = 0.00
+max!7{ROWS_RES!0, COLS_RES!0}[] = MUX(!2!3{ROWS_RES!0, COLS_RES!0}[], !9!0{ROWS_RES!0, COLS_RES!0}[], max!5{ROWS_RES!0, COLS_RES!0}[]): B -> {} for 0.00000 * 1 = 0.00
+!3!3{ROWS_RES!0, COLS_RES!0}[] = (!11!0{ROWS_RES!0, COLS_RES!0}[] > max!7{ROWS_RES!0, COLS_RES!0}[]): B -> {} for 0.00025 * 1 = 0.00
+max!9{ROWS_RES!0, COLS_RES!0}[] = MUX(!3!3{ROWS_RES!0, COLS_RES!0}[], !11!0{ROWS_RES!0, COLS_RES!0}[], max!7{ROWS_RES!0, COLS_RES!0}[]): B -> {} for 0.00000 * 1 = 0.00
+OUTPUT_res!3{ROWS_RES!0, COLS_RES!0}[] = VectorizedUpdate(!5!0{ROWS_RES!0, COLS_RES!0}[], [I!1, J!1], max!9{ROWS_RES!0, COLS_RES!0}[]): B -> {} for 0.00000 * 1 = 0.00
 return OUTPUT_res!3
-Output vars:	{OUTPUT_res!3: {'B'}}
+Output vars:	{OUTPUT_res!3: ['B']}
 
 ```
 #### MP-SPDZ code
@@ -5802,13 +5461,16 @@ def cryptonets_max_pooling(vals_0, cols_0, rows_0, cols_res_0, rows_res_0, OUTPU
 ```
 #### MP-SPDZ mixed code
 ```py
+program.options.binary = 32
+program.use_dabit = True
 def cryptonets_max_pooling(vals_0, cols_0, rows_0, cols_res_0, rows_res_0, OUTPUT_res_0):
     # Convertion functions
     siv32 = sbitintvec.get_type(32)
     sb32 = sbits.get_type(32)
-    for _random_iter in range(0,len(OUTPUT_res_0)):
-     OUTPUT_res_0[_random_iter] = siv32(OUTPUT_res_0[_random_iter])
+    OUTPUT_res_0 = [elem for elem in sint(OUTPUT_res_0)]
 
+
+    
     # Shared array declarations
     _1_3 = [None] * (rows_res_0 * cols_res_0)
     _11_0 = [None] * (rows_res_0 * cols_res_0)
@@ -5823,6 +5485,8 @@ def cryptonets_max_pooling(vals_0, cols_0, rows_0, cols_res_0, rows_res_0, OUTPU
     max_5 = [None] * (rows_res_0 * cols_res_0)
     max_7 = [None] * (rows_res_0 * cols_res_0)
     max_9 = [None] * (rows_res_0 * cols_res_0)
+    # Shared array convertion declarations
+    
     # Function body
     _4_0 = _v.lift(lambda indices: OUTPUT_res_0, [rows_res_0, cols_res_0])
     _6_0 = _v.lift(lambda indices: (vals_0[(((indices[0] * 2) * cols_0) + (indices[1] * 2))]), [rows_res_0, cols_res_0])
@@ -6122,29 +5786,30 @@ def db_cross_join_trivial(A!0: shared[list[int; ?]], Len_A!0: plaintext[int], B!
     return res!4
 ```
 #### MOTION mixed configuration
-```Total cost:	17564.45
-Input vars:	{B!0: {'B'}, A!0: {'B'}, res!0: {'B'}}
-Constants:	{0: {'B'}, 1: {'B'}, 2: {'B'}}
+```Total cost:	0.19820
+Input vars:	{B!0: ['Y'], A!0: ['Y'], res!0: ['Y']}
+Constants:	{0: ['Y'], 1: ['Y'], 2: ['Y']}
 Plaintext vars:	{}
-!5!0{LEN_A!0, LEN_B!0, 3}[] = lift(res!0, (_:Len_A!0, _:Len_B!0, _:3)): _ -> {'B'} for 0.00 * 1 = 0.00
-!8!0{LEN_A!0, LEN_B!0, 3}[] = lift(A!0[(i!1 * 2)], (i!1:Len_A!0, j!1:Len_B!0, k!1:3)): _ -> {'B'} for 0.00 * 1 = 0.00
-!9!0{LEN_A!0, LEN_B!0, 3}[] = lift(B!0[(j!1 * 2)], (i!1:Len_A!0, j!1:Len_B!0, k!1:3)): _ -> {'B'} for 0.00 * 1 = 0.00
-!11!0{LEN_A!0, LEN_B!0, 3}[] = lift(A!0[((i!1 * 2) + 1)], (i!1:Len_A!0, j!1:Len_B!0, k!1:3)): _ -> {'B'} for 0.00 * 1 = 0.00
-!12!0{LEN_A!0, LEN_B!0, 3}[] = lift(B!0[((j!1 * 2) + 1)], (i!1:Len_A!0, j!1:Len_B!0, k!1:3)): _ -> {'B'} for 0.00 * 1 = 0.00
-v!4 = 0: _ -> {'B'} for 0.00 * 1 = 0.00
-!13!0{LEN_A!0, LEN_B!0, 3}[] = lift((k!1 == 0), (i!1:Len_A!0, j!1:Len_B!0, k!1:3)): _ -> {'B'} for 0.00 * 1 = 0.00
-!14!0{LEN_A!0, LEN_B!0, 3}[] = lift((k!1 == 1), (i!1:Len_A!0, j!1:Len_B!0, k!1:3)): _ -> {'B'} for 0.00 * 1 = 0.00
-!15!0{LEN_A!0, LEN_B!0, 3}[] = lift((k!1 == 2), (i!1:Len_A!0, j!1:Len_B!0, k!1:3)): _ -> {'B'} for 0.00 * 1 = 0.00
-!6!0{LEN_A!0, LEN_B!0, 3}[] = lift(!5!0{LEN_A!0, LEN_B!0, 3}[], (i!1:Len_A!0, _:Len_A!0, _:Len_B!0, _:3)): _ -> {'B'} for 0.00 * 1 = 0.00
-!1!4{LEN_A!0, LEN_B!0, 3}[] = (!8!0{LEN_A!0, LEN_B!0, 3}[] == !9!0{LEN_A!0, LEN_B!0, 3}[]): B -> {} for 4627.10 * 1 = 4627.10
-!7!0{LEN_A!0, LEN_B!0, 3}[] = lift(!6!0{LEN_A!0, LEN_B!0, 3}[], (i!1:Len_A!0, j!1:Len_B!0, k!1:3)): _ -> {'B'} for 0.00 * 1 = 0.00
-v!6{LEN_A!0, LEN_B!0, 3}[] = MUX(!13!0{LEN_A!0, LEN_B!0, 3}[], !8!0{LEN_A!0, LEN_B!0, 3}[], v!4): B -> {} for 3234.34 * 1 = 3234.34
-v!8{LEN_A!0, LEN_B!0, 3}[] = MUX(!14!0{LEN_A!0, LEN_B!0, 3}[], !11!0{LEN_A!0, LEN_B!0, 3}[], v!6{LEN_A!0, LEN_B!0, 3}[]): B -> {} for 3234.34 * 1 = 3234.34
-v!10{LEN_A!0, LEN_B!0, 3}[] = MUX(!15!0{LEN_A!0, LEN_B!0, 3}[], !12!0{LEN_A!0, LEN_B!0, 3}[], v!8{LEN_A!0, LEN_B!0, 3}[]): B -> {} for 3234.34 * 1 = 3234.34
-v!11{LEN_A!0, LEN_B!0, 3}[] = MUX(!1!4{LEN_A!0, LEN_B!0, 3}[], v!10{LEN_A!0, LEN_B!0, 3}[], v!4): B -> {} for 3234.34 * 1 = 3234.34
-res!4{LEN_A!0, LEN_B!0, 3}[] = VectorizedUpdate(!7!0{LEN_A!0, LEN_B!0, 3}[], [I!1, J!1, K!1], v!11{LEN_A!0, LEN_B!0, 3}[]): B -> {} for 0.00 * 1 = 0.00
+Flags:		{}
+!5!0{LEN_A!0, LEN_B!0, 3}[] = lift(res!0, (_:Len_A!0, _:Len_B!0, _:3)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!8!0{LEN_A!0, LEN_B!0, 3}[] = lift(A!0[(i!1 * 2)], (i!1:Len_A!0, j!1:Len_B!0, k!1:3)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!9!0{LEN_A!0, LEN_B!0, 3}[] = lift(B!0[(j!1 * 2)], (i!1:Len_A!0, j!1:Len_B!0, k!1:3)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!11!0{LEN_A!0, LEN_B!0, 3}[] = lift(A!0[((i!1 * 2) + 1)], (i!1:Len_A!0, j!1:Len_B!0, k!1:3)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!12!0{LEN_A!0, LEN_B!0, 3}[] = lift(B!0[((j!1 * 2) + 1)], (i!1:Len_A!0, j!1:Len_B!0, k!1:3)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+v!4 = 0: _ -> ['Y'] for 0.00000 * 1 = 0.00
+!13!0{LEN_A!0, LEN_B!0, 3}[] = lift((k!1 == 0), (i!1:Len_A!0, j!1:Len_B!0, k!1:3)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!14!0{LEN_A!0, LEN_B!0, 3}[] = lift((k!1 == 1), (i!1:Len_A!0, j!1:Len_B!0, k!1:3)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!15!0{LEN_A!0, LEN_B!0, 3}[] = lift((k!1 == 2), (i!1:Len_A!0, j!1:Len_B!0, k!1:3)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!6!0{LEN_A!0, LEN_B!0, 3}[] = lift(!5!0{LEN_A!0, LEN_B!0, 3}[], (i!1:Len_A!0, _:Len_A!0, _:Len_B!0, _:3)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!1!4{LEN_A!0, LEN_B!0, 3}[] = (!8!0{LEN_A!0, LEN_B!0, 3}[] == !9!0{LEN_A!0, LEN_B!0, 3}[]): Y -> {} for 0.04002 * 1 = 0.04
+!7!0{LEN_A!0, LEN_B!0, 3}[] = lift(!6!0{LEN_A!0, LEN_B!0, 3}[], (i!1:Len_A!0, j!1:Len_B!0, k!1:3)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+v!6{LEN_A!0, LEN_B!0, 3}[] = MUX(!13!0{LEN_A!0, LEN_B!0, 3}[], !8!0{LEN_A!0, LEN_B!0, 3}[], v!4): Y -> {} for 0.03955 * 1 = 0.04
+v!8{LEN_A!0, LEN_B!0, 3}[] = MUX(!14!0{LEN_A!0, LEN_B!0, 3}[], !11!0{LEN_A!0, LEN_B!0, 3}[], v!6{LEN_A!0, LEN_B!0, 3}[]): Y -> {} for 0.03955 * 1 = 0.04
+v!10{LEN_A!0, LEN_B!0, 3}[] = MUX(!15!0{LEN_A!0, LEN_B!0, 3}[], !12!0{LEN_A!0, LEN_B!0, 3}[], v!8{LEN_A!0, LEN_B!0, 3}[]): Y -> {} for 0.03955 * 1 = 0.04
+v!11{LEN_A!0, LEN_B!0, 3}[] = MUX(!1!4{LEN_A!0, LEN_B!0, 3}[], v!10{LEN_A!0, LEN_B!0, 3}[], v!4): Y -> {} for 0.03955 * 1 = 0.04
+res!4{LEN_A!0, LEN_B!0, 3}[] = VectorizedUpdate(!7!0{LEN_A!0, LEN_B!0, 3}[], [I!1, J!1, K!1], v!11{LEN_A!0, LEN_B!0, 3}[]): Y -> {} for 0.00000 * 1 = 0.00
 return res!4
-Output vars:	{res!4: {'B'}}
+Output vars:	{res!4: ['Y']}
 
 ```
 #### MOTION code
@@ -6250,9 +5915,11 @@ std::vector<encrypto::motion::SecureUnsignedInteger> db_cross_join_trivial(
     std::uint32_t _MPC_PLAINTEXT_v_4;
 
     // Constant initializations
-    encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_0 = party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::ToInput(std::uint32_t(0)), 0);
-    encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_1 = party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::ToInput(std::uint32_t(1)), 0);
-    encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_2 = party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::ToInput(std::uint32_t(2)), 0);
+    encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_0 = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(std::uint32_t(0)), 0);
+    encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_1 = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(std::uint32_t(1)), 0);
+    encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_2 = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(std::uint32_t(2)), 0);
+
+    // Input Protocol Convertions
 
     // Plaintext parameter assignments
 
@@ -6264,9 +5931,9 @@ std::vector<encrypto::motion::SecureUnsignedInteger> db_cross_join_trivial(
     vectorized_assign(_12_0, {_MPC_PLAINTEXT_Len_A_0, _MPC_PLAINTEXT_Len_B_0, std::uint32_t(3)}, {true, true, true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return B_0[((indices[1] * std::uint32_t(2)) + std::uint32_t(1))];}), {_MPC_PLAINTEXT_Len_A_0, _MPC_PLAINTEXT_Len_B_0, std::uint32_t(3)}));
     v_4 = _MPC_CONSTANT_0;
     _MPC_PLAINTEXT_v_4 = std::uint32_t(0);
-    vectorized_assign(_13_0, {_MPC_PLAINTEXT_Len_A_0, _MPC_PLAINTEXT_Len_B_0, std::uint32_t(3)}, {true, true, true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return (to_share_wrapper(encrypto::motion::SecureUnsignedInteger(party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::ToInput(indices[2]), 0))) == to_share_wrapper(_MPC_CONSTANT_0));}), {_MPC_PLAINTEXT_Len_A_0, _MPC_PLAINTEXT_Len_B_0, std::uint32_t(3)}));
-    vectorized_assign(_14_0, {_MPC_PLAINTEXT_Len_A_0, _MPC_PLAINTEXT_Len_B_0, std::uint32_t(3)}, {true, true, true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return (to_share_wrapper(encrypto::motion::SecureUnsignedInteger(party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::ToInput(indices[2]), 0))) == to_share_wrapper(_MPC_CONSTANT_1));}), {_MPC_PLAINTEXT_Len_A_0, _MPC_PLAINTEXT_Len_B_0, std::uint32_t(3)}));
-    vectorized_assign(_15_0, {_MPC_PLAINTEXT_Len_A_0, _MPC_PLAINTEXT_Len_B_0, std::uint32_t(3)}, {true, true, true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return (to_share_wrapper(encrypto::motion::SecureUnsignedInteger(party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::ToInput(indices[2]), 0))) == to_share_wrapper(_MPC_CONSTANT_2));}), {_MPC_PLAINTEXT_Len_A_0, _MPC_PLAINTEXT_Len_B_0, std::uint32_t(3)}));
+    vectorized_assign(_13_0, {_MPC_PLAINTEXT_Len_A_0, _MPC_PLAINTEXT_Len_B_0, std::uint32_t(3)}, {true, true, true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return (to_share_wrapper(encrypto::motion::SecureUnsignedInteger(party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(indices[2]), 0))) == to_share_wrapper(_MPC_CONSTANT_0));}), {_MPC_PLAINTEXT_Len_A_0, _MPC_PLAINTEXT_Len_B_0, std::uint32_t(3)}));
+    vectorized_assign(_14_0, {_MPC_PLAINTEXT_Len_A_0, _MPC_PLAINTEXT_Len_B_0, std::uint32_t(3)}, {true, true, true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return (to_share_wrapper(encrypto::motion::SecureUnsignedInteger(party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(indices[2]), 0))) == to_share_wrapper(_MPC_CONSTANT_1));}), {_MPC_PLAINTEXT_Len_A_0, _MPC_PLAINTEXT_Len_B_0, std::uint32_t(3)}));
+    vectorized_assign(_15_0, {_MPC_PLAINTEXT_Len_A_0, _MPC_PLAINTEXT_Len_B_0, std::uint32_t(3)}, {true, true, true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return (to_share_wrapper(encrypto::motion::SecureUnsignedInteger(party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(indices[2]), 0))) == to_share_wrapper(_MPC_CONSTANT_2));}), {_MPC_PLAINTEXT_Len_A_0, _MPC_PLAINTEXT_Len_B_0, std::uint32_t(3)}));
     vectorized_assign(_6_0, {_MPC_PLAINTEXT_Len_A_0, _MPC_PLAINTEXT_Len_B_0, std::uint32_t(3)}, {true, true, true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return vectorized_access(_5_0, {_MPC_PLAINTEXT_Len_A_0, _MPC_PLAINTEXT_Len_B_0, std::uint32_t(3)}, {true, true, true}, {}).Unsimdify();}), {_MPC_PLAINTEXT_Len_A_0, _MPC_PLAINTEXT_Len_A_0, _MPC_PLAINTEXT_Len_B_0, std::uint32_t(3)}));
     vectorized_assign(_1_4, {_MPC_PLAINTEXT_Len_A_0, _MPC_PLAINTEXT_Len_B_0, std::uint32_t(3)}, {true, true, true}, {}, (to_share_wrapper(vectorized_access(_8_0, {_MPC_PLAINTEXT_Len_A_0, _MPC_PLAINTEXT_Len_B_0, std::uint32_t(3)}, {true, true, true}, {})) == to_share_wrapper(vectorized_access(_9_0, {_MPC_PLAINTEXT_Len_A_0, _MPC_PLAINTEXT_Len_B_0, std::uint32_t(3)}, {true, true, true}, {}))));
     vectorized_assign(_7_0, {_MPC_PLAINTEXT_Len_A_0, _MPC_PLAINTEXT_Len_B_0, std::uint32_t(3)}, {true, true, true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return vectorized_access(_6_0, {_MPC_PLAINTEXT_Len_A_0, _MPC_PLAINTEXT_Len_B_0, std::uint32_t(3)}, {true, true, true}, {}).Unsimdify();}), {_MPC_PLAINTEXT_Len_A_0, _MPC_PLAINTEXT_Len_B_0, std::uint32_t(3)}));
@@ -6280,29 +5947,30 @@ std::vector<encrypto::motion::SecureUnsignedInteger> db_cross_join_trivial(
 }
 ```
 #### MP-SPDZ mixed configuration
-```Total cost:	17564.45
-Input vars:	{B!0: {'B'}, A!0: {'B'}, res!0: {'B'}}
-Constants:	{0: {'B'}, 1: {'B'}, 2: {'B'}}
+```Total cost:	0.00044
+Input vars:	{B!0: ['B'], A!0: ['B'], res!0: ['B']}
+Constants:	{0: ['B'], 1: ['B'], 2: ['B']}
 Plaintext vars:	{}
-!5!0{LEN_A!0, LEN_B!0, 3}[] = lift(res!0, (_:Len_A!0, _:Len_B!0, _:3)): _ -> {'B'} for 0.00 * 1 = 0.00
-!8!0{LEN_A!0, LEN_B!0, 3}[] = lift(A!0[(i!1 * 2)], (i!1:Len_A!0, j!1:Len_B!0, k!1:3)): _ -> {'B'} for 0.00 * 1 = 0.00
-!9!0{LEN_A!0, LEN_B!0, 3}[] = lift(B!0[(j!1 * 2)], (i!1:Len_A!0, j!1:Len_B!0, k!1:3)): _ -> {'B'} for 0.00 * 1 = 0.00
-!11!0{LEN_A!0, LEN_B!0, 3}[] = lift(A!0[((i!1 * 2) + 1)], (i!1:Len_A!0, j!1:Len_B!0, k!1:3)): _ -> {'B'} for 0.00 * 1 = 0.00
-!12!0{LEN_A!0, LEN_B!0, 3}[] = lift(B!0[((j!1 * 2) + 1)], (i!1:Len_A!0, j!1:Len_B!0, k!1:3)): _ -> {'B'} for 0.00 * 1 = 0.00
-v!4 = 0: _ -> {'B'} for 0.00 * 1 = 0.00
-!13!0{LEN_A!0, LEN_B!0, 3}[] = lift((k!1 == 0), (i!1:Len_A!0, j!1:Len_B!0, k!1:3)): _ -> {'B'} for 0.00 * 1 = 0.00
-!14!0{LEN_A!0, LEN_B!0, 3}[] = lift((k!1 == 1), (i!1:Len_A!0, j!1:Len_B!0, k!1:3)): _ -> {'B'} for 0.00 * 1 = 0.00
-!15!0{LEN_A!0, LEN_B!0, 3}[] = lift((k!1 == 2), (i!1:Len_A!0, j!1:Len_B!0, k!1:3)): _ -> {'B'} for 0.00 * 1 = 0.00
-!6!0{LEN_A!0, LEN_B!0, 3}[] = lift(!5!0{LEN_A!0, LEN_B!0, 3}[], (i!1:Len_A!0, _:Len_A!0, _:Len_B!0, _:3)): _ -> {'B'} for 0.00 * 1 = 0.00
-!1!4{LEN_A!0, LEN_B!0, 3}[] = (!8!0{LEN_A!0, LEN_B!0, 3}[] == !9!0{LEN_A!0, LEN_B!0, 3}[]): B -> {} for 4627.10 * 1 = 4627.10
-!7!0{LEN_A!0, LEN_B!0, 3}[] = lift(!6!0{LEN_A!0, LEN_B!0, 3}[], (i!1:Len_A!0, j!1:Len_B!0, k!1:3)): _ -> {'B'} for 0.00 * 1 = 0.00
-v!6{LEN_A!0, LEN_B!0, 3}[] = MUX(!13!0{LEN_A!0, LEN_B!0, 3}[], !8!0{LEN_A!0, LEN_B!0, 3}[], v!4): B -> {} for 3234.34 * 1 = 3234.34
-v!8{LEN_A!0, LEN_B!0, 3}[] = MUX(!14!0{LEN_A!0, LEN_B!0, 3}[], !11!0{LEN_A!0, LEN_B!0, 3}[], v!6{LEN_A!0, LEN_B!0, 3}[]): B -> {} for 3234.34 * 1 = 3234.34
-v!10{LEN_A!0, LEN_B!0, 3}[] = MUX(!15!0{LEN_A!0, LEN_B!0, 3}[], !12!0{LEN_A!0, LEN_B!0, 3}[], v!8{LEN_A!0, LEN_B!0, 3}[]): B -> {} for 3234.34 * 1 = 3234.34
-v!11{LEN_A!0, LEN_B!0, 3}[] = MUX(!1!4{LEN_A!0, LEN_B!0, 3}[], v!10{LEN_A!0, LEN_B!0, 3}[], v!4): B -> {} for 3234.34 * 1 = 3234.34
-res!4{LEN_A!0, LEN_B!0, 3}[] = VectorizedUpdate(!7!0{LEN_A!0, LEN_B!0, 3}[], [I!1, J!1, K!1], v!11{LEN_A!0, LEN_B!0, 3}[]): B -> {} for 0.00 * 1 = 0.00
+Flags:		{X}
+!5!0{LEN_A!0, LEN_B!0, 3}[] = lift(res!0, (_:Len_A!0, _:Len_B!0, _:3)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!8!0{LEN_A!0, LEN_B!0, 3}[] = lift(A!0[(i!1 * 2)], (i!1:Len_A!0, j!1:Len_B!0, k!1:3)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!9!0{LEN_A!0, LEN_B!0, 3}[] = lift(B!0[(j!1 * 2)], (i!1:Len_A!0, j!1:Len_B!0, k!1:3)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!11!0{LEN_A!0, LEN_B!0, 3}[] = lift(A!0[((i!1 * 2) + 1)], (i!1:Len_A!0, j!1:Len_B!0, k!1:3)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!12!0{LEN_A!0, LEN_B!0, 3}[] = lift(B!0[((j!1 * 2) + 1)], (i!1:Len_A!0, j!1:Len_B!0, k!1:3)): _ -> ['B'] for 0.00000 * 1 = 0.00
+v!4 = 0: _ -> ['B'] for 0.00000 * 1 = 0.00
+!13!0{LEN_A!0, LEN_B!0, 3}[] = lift((k!1 == 0), (i!1:Len_A!0, j!1:Len_B!0, k!1:3)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!14!0{LEN_A!0, LEN_B!0, 3}[] = lift((k!1 == 1), (i!1:Len_A!0, j!1:Len_B!0, k!1:3)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!15!0{LEN_A!0, LEN_B!0, 3}[] = lift((k!1 == 2), (i!1:Len_A!0, j!1:Len_B!0, k!1:3)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!6!0{LEN_A!0, LEN_B!0, 3}[] = lift(!5!0{LEN_A!0, LEN_B!0, 3}[], (i!1:Len_A!0, _:Len_A!0, _:Len_B!0, _:3)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!1!4{LEN_A!0, LEN_B!0, 3}[] = (!8!0{LEN_A!0, LEN_B!0, 3}[] == !9!0{LEN_A!0, LEN_B!0, 3}[]): B -> {} for 0.00043 * 1 = 0.00
+!7!0{LEN_A!0, LEN_B!0, 3}[] = lift(!6!0{LEN_A!0, LEN_B!0, 3}[], (i!1:Len_A!0, j!1:Len_B!0, k!1:3)): _ -> ['B'] for 0.00000 * 1 = 0.00
+v!6{LEN_A!0, LEN_B!0, 3}[] = MUX(!13!0{LEN_A!0, LEN_B!0, 3}[], !8!0{LEN_A!0, LEN_B!0, 3}[], v!4): B -> {} for 0.00000 * 1 = 0.00
+v!8{LEN_A!0, LEN_B!0, 3}[] = MUX(!14!0{LEN_A!0, LEN_B!0, 3}[], !11!0{LEN_A!0, LEN_B!0, 3}[], v!6{LEN_A!0, LEN_B!0, 3}[]): B -> {} for 0.00000 * 1 = 0.00
+v!10{LEN_A!0, LEN_B!0, 3}[] = MUX(!15!0{LEN_A!0, LEN_B!0, 3}[], !12!0{LEN_A!0, LEN_B!0, 3}[], v!8{LEN_A!0, LEN_B!0, 3}[]): B -> {} for 0.00000 * 1 = 0.00
+v!11{LEN_A!0, LEN_B!0, 3}[] = MUX(!1!4{LEN_A!0, LEN_B!0, 3}[], v!10{LEN_A!0, LEN_B!0, 3}[], v!4): B -> {} for 0.00000 * 1 = 0.00
+res!4{LEN_A!0, LEN_B!0, 3}[] = VectorizedUpdate(!7!0{LEN_A!0, LEN_B!0, 3}[], [I!1, J!1, K!1], v!11{LEN_A!0, LEN_B!0, 3}[]): B -> {} for 0.00000 * 1 = 0.00
 return res!4
-Output vars:	{res!4: {'B'}}
+Output vars:	{res!4: ['B']}
 
 ```
 #### MP-SPDZ code
@@ -6347,10 +6015,13 @@ def db_cross_join_trivial(A_0, Len_A_0, B_0, Len_B_0, res_0):
 ```
 #### MP-SPDZ mixed code
 ```py
+program.options.binary = 32
+program.use_dabit = True
 def db_cross_join_trivial(A_0, Len_A_0, B_0, Len_B_0, res_0):
     # Convertion functions
     siv32 = sbitintvec.get_type(32)
     sb32 = sbits.get_type(32)
+    
     
     # Shared array declarations
     _1_4 = [None] * (Len_A_0 * Len_B_0 * 3)
@@ -6369,6 +6040,8 @@ def db_cross_join_trivial(A_0, Len_A_0, B_0, Len_B_0, res_0):
     v_11 = [None] * (Len_A_0 * Len_B_0 * 3)
     v_6 = [None] * (Len_A_0 * Len_B_0 * 3)
     v_8 = [None] * (Len_A_0 * Len_B_0 * 3)
+    # Shared array convertion declarations
+    
     # Function body
     _5_0 = _v.lift(lambda indices: res_0, [Len_A_0, Len_B_0, 3])
     _8_0 = _v.lift(lambda indices: (A_0[(indices[0] * 2)]), [Len_A_0, Len_B_0, 3])
@@ -6376,9 +6049,9 @@ def db_cross_join_trivial(A_0, Len_A_0, B_0, Len_B_0, res_0):
     _11_0 = _v.lift(lambda indices: (A_0[((indices[0] * 2) + 1)]), [Len_A_0, Len_B_0, 3])
     _12_0 = _v.lift(lambda indices: (B_0[((indices[1] * 2) + 1)]), [Len_A_0, Len_B_0, 3])
     v_4 = siv32(0)
-    _13_0 = _v.lift(lambda indices: (indices[2] == sint(0)), [Len_A_0, Len_B_0, 3])
-    _14_0 = _v.lift(lambda indices: (indices[2] == sint(1)), [Len_A_0, Len_B_0, 3])
-    _15_0 = _v.lift(lambda indices: (indices[2] == sint(2)), [Len_A_0, Len_B_0, 3])
+    _13_0 = _v.lift(lambda indices: (indices[2] == siv32(0)), [Len_A_0, Len_B_0, 3])
+    _14_0 = _v.lift(lambda indices: (indices[2] == siv32(1)), [Len_A_0, Len_B_0, 3])
+    _15_0 = _v.lift(lambda indices: (indices[2] == siv32(2)), [Len_A_0, Len_B_0, 3])
     _6_0 = _v.lift(lambda indices: _v.vectorized_access(_5_0, [Len_A_0, Len_B_0, 3], [None, None, None]), [Len_A_0, Len_A_0, Len_B_0, 3])
     _v.vectorized_assign(_1_4, [Len_A_0, Len_B_0, 3], [None, None, None], (_v.vectorized_access_simd(_8_0, [Len_A_0, Len_B_0, 3], [None, None, None]) == _v.vectorized_access_simd(_9_0, [Len_A_0, Len_B_0, 3], [None, None, None])))
     _7_0 = _v.lift(lambda indices: _v.vectorized_access(_6_0, [Len_A_0, Len_B_0, 3], [None, None, None]), [Len_A_0, Len_B_0, 3])
@@ -6398,10 +6071,6 @@ from UTIL import shared
 # Array V is a same-size result array, contains variance
 # A = [0,2,1,0,3,4,2,3]
 # V = [0,0,0,0,0,0,0,0]
-
-A = [0, 2, 1, 0, 3, 4, 2, 3]
-V = [0, 0, 0, 0, 0, 0, 0, 0]
-len = 8
 # requires: len(A) == len(V) == len
 # V is an array of 0s
 def db_variance(A: shared[list[int]], V: shared[list[int]], len: int) -> shared[int]:
@@ -6633,31 +6302,32 @@ def db_variance(A!0: shared[list[int; ?]], V!0: shared[list[int; ?]], len!0: pla
     return variance!1
 ```
 #### MOTION mixed configuration
-```Total cost:	29790.97
-Input vars:	{A!0: {'A'}, V!0: {'A'}}
-Constants:	{0: {'A'}}
-Plaintext vars:	{len!0: {'Y'}}
-sum!1 = 0: _ -> {'A'} for 0.00 * 1 = 0.00
-!3!0{LEN!0}[] = lift(A!0[i!1], (i!1:len!0)): _ -> {'A'} for 0.00 * 1 = 0.00
-!5!0{LEN!0}[] = lift(V!0, (i!2:len!0)): _ -> {'A'} for 0.00 * 1 = 0.00
-!6!0{LEN!0}[] = lift(A!0[i!2], (i!2:len!0)): _ -> {'A'} for 0.00 * 1 = 0.00
-res!1 = 0: _ -> {'A'} for 0.00 * 1 = 0.00
-!2!0{LEN!0}[] = lift(sum!1, (i!1:len!0)): _ -> {'A'} for 0.00 * 1 = 0.00
-!8!0{LEN!0}[] = lift(res!1, (i!3:len!0)): _ -> {'A'} for 0.00 * 1 = 0.00
-	sum!2{}[!10!0] = Φ(!2!0{}[!10!0], sum!3{}[(!10!0 - 1)]): A -> {} for 0.00 * 8 = 0.00
-	sum!3{}[!10!0] = (sum!2{}[!10!0] + !3!0{}[!10!0]): A -> {} for 908.96 * 8 = 7271.64
-!4!0 = drop_dim(sum!3{LEN!0}[]): _ -> {'A', 'Y'} for 1690.43 * 1 = 1690.43 (A->Y)
-exp!1 = (!4!0 / len!0): Y -> {'A'} for 4780.02 * 1 = 4780.02 (Y->A)
-!7!0{LEN!0}[] = lift(exp!1, (i!2:len!0)): _ -> {'A', 'Y'} for 0.00 * 1 = 0.00
-dist!2{LEN!0}[] = (!6!0{LEN!0}[] - !7!0{LEN!0}[]): A -> {} for 1065.18 * 1 = 1065.18
-!1!2{LEN!0}[] = (dist!2{LEN!0}[] * dist!2{LEN!0}[]): A -> {} for 3209.34 * 1 = 3209.34
-V!2{LEN!0}[] = VectorizedUpdate(!5!0{LEN!0}[], [I!2], !1!2{LEN!0}[]): A -> {} for 0.00 * 1 = 0.00
-	res!2{}[!11!0] = Φ(!8!0{}[!11!0], res!3{}[(!11!0 - 1)]): A -> {} for 0.00 * 8 = 0.00
-	res!3{}[!11!0] = (res!2{}[!11!0] + V!2{}[!11!0]): A -> {} for 908.96 * 8 = 7271.64
-!9!0 = drop_dim(res!3{LEN!0}[]): _ -> {'A', 'Y'} for 1690.43 * 1 = 1690.43 (A->Y)
-variance!1 = (!9!0 / len!0): Y -> {} for 2812.29 * 1 = 2812.29
+```Total cost:	1.59191
+Input vars:	{A!0: ['A'], V!0: ['A']}
+Constants:	{0: ['A']}
+Plaintext vars:	{len!0: ['Y']}
+Flags:		{}
+sum!1 = 0: _ -> ['A'] for 0.00000 * 1 = 0.00
+!3!0{LEN!0}[] = lift(A!0[i!1], (i!1:len!0)): _ -> ['A'] for 0.00000 * 1 = 0.00
+!5!0{LEN!0}[] = lift(V!0, (i!2:len!0)): _ -> ['A'] for 0.00000 * 1 = 0.00
+!6!0{LEN!0}[] = lift(A!0[i!2], (i!2:len!0)): _ -> ['A'] for 0.00000 * 1 = 0.00
+res!1 = 0: _ -> ['A'] for 0.00000 * 1 = 0.00
+!2!0{LEN!0}[] = lift(sum!1, (i!1:len!0)): _ -> ['A'] for 0.00000 * 1 = 0.00
+!8!0{LEN!0}[] = lift(res!1, (i!3:len!0)): _ -> ['A'] for 0.00000 * 1 = 0.00
+	sum!2{}[!10!0] = Φ(!2!0{}[!10!0], sum!3{}[(!10!0 - 1)]): A -> {} for 0.00000 * 8 = 0.00
+	sum!3{}[!10!0] = (sum!2{}[!10!0] + !3!0{}[!10!0]): A -> {} for 0.00000 * 8 = 0.00
+!4!0 = drop_dim(sum!3{LEN!0}[]): _ -> ['A', 'Y'] for 0.02316 * 1 = 0.02 (A->Y)
+exp!1 = (!4!0 / len!0): Y -> ['A'] for 0.77225 * 1 = 0.77 (Y->A)
+!7!0{LEN!0}[] = lift(exp!1, (i!2:len!0)): _ -> ['A', 'Y'] for 0.00000 * 1 = 0.00
+dist!2{LEN!0}[] = (!6!0{LEN!0}[] - !7!0{LEN!0}[]): A -> {} for 0.00012 * 1 = 0.00
+!1!2{LEN!0}[] = (dist!2{LEN!0}[] * dist!2{LEN!0}[]): A -> {} for 0.00983 * 1 = 0.01
+V!2{LEN!0}[] = VectorizedUpdate(!5!0{LEN!0}[], [I!2], !1!2{LEN!0}[]): A -> {} for 0.00000 * 1 = 0.00
+	res!2{}[!11!0] = Φ(!8!0{}[!11!0], res!3{}[(!11!0 - 1)]): A -> {} for 0.00000 * 8 = 0.00
+	res!3{}[!11!0] = (res!2{}[!11!0] + V!2{}[!11!0]): A -> {} for 0.00000 * 8 = 0.00
+!9!0 = drop_dim(res!3{LEN!0}[]): _ -> ['A', 'Y'] for 0.02316 * 1 = 0.02 (A->Y)
+variance!1 = (!9!0 / len!0): Y -> {} for 0.76340 * 1 = 0.76
 return variance!1
-Output vars:	{variance!1: {'Y'}}
+Output vars:	{variance!1: ['Y']}
 
 ```
 #### MOTION code
@@ -6798,6 +6468,8 @@ encrypto::motion::SecureUnsignedInteger db_variance(
     // Constant initializations
     encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_0 = party->In<encrypto::motion::MpcProtocol::kArithmeticGmw>(std::uint32_t(0), 0);
 
+    // Input Protocol Convertions
+
     // Plaintext parameter assignments
     len_0 = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(_MPC_PLAINTEXT_len_0), 0);
 
@@ -6830,8 +6502,11 @@ encrypto::motion::SecureUnsignedInteger db_variance(
     encrypto::motion::SecureUnsignedInteger _4_0_Y;
     _4_0_Y = _4_0.Get().Convert<encrypto::motion::MpcProtocol::kBmr>();
 
-    exp_1 = (_4_0_Y / len_0).Get().Convert<encrypto::motion::MpcProtocol::kArithmeticGmw>();
-    vectorized_assign(_7_0, {_MPC_PLAINTEXT_len_0}, {true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return exp_1;}), {_MPC_PLAINTEXT_len_0}));
+    exp_1 = (_4_0_Y / len_0);
+    encrypto::motion::SecureUnsignedInteger exp_1_A;
+    exp_1_A = exp_1.Get().Convert<encrypto::motion::MpcProtocol::kArithmeticGmw>();
+    vectorized_assign(_7_0, {_MPC_PLAINTEXT_len_0}, {true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return exp_1_A;}), {_MPC_PLAINTEXT_len_0}));std::vector<encrypto::motion::SecureUnsignedInteger> _7_0_Y((_MPC_PLAINTEXT_len_0));
+    vectorized_assign(_7_0_Y, {_MPC_PLAINTEXT_len_0}, {true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return exp_1;}), {_MPC_PLAINTEXT_len_0}));
     vectorized_assign(dist_2, {_MPC_PLAINTEXT_len_0}, {true}, {}, (vectorized_access(_6_0, {_MPC_PLAINTEXT_len_0}, {true}, {}) - vectorized_access(_7_0, {_MPC_PLAINTEXT_len_0}, {true}, {})));
     vectorized_assign(_1_2, {_MPC_PLAINTEXT_len_0}, {true}, {}, (vectorized_access(dist_2, {_MPC_PLAINTEXT_len_0}, {true}, {}) * vectorized_access(dist_2, {_MPC_PLAINTEXT_len_0}, {true}, {})));
     vectorized_assign(V_2, {_MPC_PLAINTEXT_len_0}, {true}, {}, vectorized_update(_5_0, {_MPC_PLAINTEXT_len_0}, {true}, {}, vectorized_access(_1_2, {_MPC_PLAINTEXT_len_0}, {true}, {})));
@@ -6860,31 +6535,32 @@ encrypto::motion::SecureUnsignedInteger db_variance(
 }
 ```
 #### MP-SPDZ mixed configuration
-```Total cost:	35462.85
-Input vars:	{A!0: {'A'}, V!0: {'A'}}
-Constants:	{0: {'A'}}
-Plaintext vars:	{len!0: {'B'}}
-sum!1 = 0: _ -> {'A'} for 0.00 * 1 = 0.00
-!3!0{LEN!0}[] = lift(A!0[i!1], (i!1:len!0)): _ -> {'A'} for 0.00 * 1 = 0.00
-!5!0{LEN!0}[] = lift(V!0, (i!2:len!0)): _ -> {'A'} for 0.00 * 1 = 0.00
-!6!0{LEN!0}[] = lift(A!0[i!2], (i!2:len!0)): _ -> {'A'} for 0.00 * 1 = 0.00
-res!1 = 0: _ -> {'A'} for 0.00 * 1 = 0.00
-!2!0{LEN!0}[] = lift(sum!1, (i!1:len!0)): _ -> {'A'} for 0.00 * 1 = 0.00
-!8!0{LEN!0}[] = lift(res!1, (i!3:len!0)): _ -> {'A'} for 0.00 * 1 = 0.00
-	sum!2{}[!10!0] = Φ(!2!0{}[!10!0], sum!3{}[(!10!0 - 1)]): A -> {} for 0.00 * 8 = 0.00
-	sum!3{}[!10!0] = (sum!2{}[!10!0] + !3!0{}[!10!0]): A -> {} for 908.96 * 8 = 7271.64
-!4!0 = drop_dim(sum!3{LEN!0}[]): _ -> {'A', 'B'} for 1772.02 * 1 = 1772.02 (A->B)
-exp!1 = (!4!0 / len!0): B -> {'A'} for 7270.01 * 1 = 7270.01 (B->A)
-!7!0{LEN!0}[] = lift(exp!1, (i!2:len!0)): _ -> {'A', 'B'} for 0.00 * 1 = 0.00
-dist!2{LEN!0}[] = (!6!0{LEN!0}[] - !7!0{LEN!0}[]): A -> {} for 1065.18 * 1 = 1065.18
-!1!2{LEN!0}[] = (dist!2{LEN!0}[] * dist!2{LEN!0}[]): A -> {} for 3209.34 * 1 = 3209.34
-V!2{LEN!0}[] = VectorizedUpdate(!5!0{LEN!0}[], [I!2], !1!2{LEN!0}[]): A -> {} for 0.00 * 1 = 0.00
-	res!2{}[!11!0] = Φ(!8!0{}[!11!0], res!3{}[(!11!0 - 1)]): A -> {} for 0.00 * 8 = 0.00
-	res!3{}[!11!0] = (res!2{}[!11!0] + V!2{}[!11!0]): A -> {} for 908.96 * 8 = 7271.64
-!9!0 = drop_dim(res!3{LEN!0}[]): _ -> {'A', 'B'} for 1772.02 * 1 = 1772.02 (A->B)
-variance!1 = (!9!0 / len!0): B -> {} for 5831.00 * 1 = 5831.00
+```Total cost:	0.00209
+Input vars:	{A!0: ['A'], V!0: ['A']}
+Constants:	{0: ['A']}
+Plaintext vars:	{len!0: ['A']}
+Flags:		{Y}
+sum!1 = 0: _ -> ['A'] for 0.00000 * 1 = 0.00
+!3!0{LEN!0}[] = lift(A!0[i!1], (i!1:len!0)): _ -> ['A'] for 0.00000 * 1 = 0.00
+!5!0{LEN!0}[] = lift(V!0, (i!2:len!0)): _ -> ['A'] for 0.00000 * 1 = 0.00
+!6!0{LEN!0}[] = lift(A!0[i!2], (i!2:len!0)): _ -> ['A'] for 0.00000 * 1 = 0.00
+res!1 = 0: _ -> ['A'] for 0.00000 * 1 = 0.00
+!2!0{LEN!0}[] = lift(sum!1, (i!1:len!0)): _ -> ['A'] for 0.00000 * 1 = 0.00
+!8!0{LEN!0}[] = lift(res!1, (i!3:len!0)): _ -> ['A'] for 0.00000 * 1 = 0.00
+	sum!2{}[!10!0] = Φ(!2!0{}[!10!0], sum!3{}[(!10!0 - 1)]): A -> {} for 0.00000 * 8 = 0.00
+	sum!3{}[!10!0] = (sum!2{}[!10!0] + !3!0{}[!10!0]): A -> {} for 0.00000 * 8 = 0.00
+!4!0 = drop_dim(sum!3{LEN!0}[]): _ -> ['A'] for 0.00000 * 1 = 0.00
+exp!1 = (!4!0 / len!0): A -> {} for 0.00086 * 1 = 0.00
+!7!0{LEN!0}[] = lift(exp!1, (i!2:len!0)): _ -> ['A'] for 0.00000 * 1 = 0.00
+dist!2{LEN!0}[] = (!6!0{LEN!0}[] - !7!0{LEN!0}[]): A -> {} for 0.00000 * 1 = 0.00
+!1!2{LEN!0}[] = (dist!2{LEN!0}[] * dist!2{LEN!0}[]): A -> {} for 0.00038 * 1 = 0.00
+V!2{LEN!0}[] = VectorizedUpdate(!5!0{LEN!0}[], [I!2], !1!2{LEN!0}[]): A -> {} for 0.00000 * 1 = 0.00
+	res!2{}[!11!0] = Φ(!8!0{}[!11!0], res!3{}[(!11!0 - 1)]): A -> {} for 0.00000 * 8 = 0.00
+	res!3{}[!11!0] = (res!2{}[!11!0] + V!2{}[!11!0]): A -> {} for 0.00000 * 8 = 0.00
+!9!0 = drop_dim(res!3{LEN!0}[]): _ -> ['A'] for 0.00000 * 1 = 0.00
+variance!1 = (!9!0 / len!0): A -> {} for 0.00086 * 1 = 0.00
 return variance!1
-Output vars:	{variance!1: {'B'}}
+Output vars:	{variance!1: ['A']}
 
 ```
 #### MP-SPDZ code
@@ -6942,13 +6618,14 @@ def db_variance(A_0, V_0, len_0):
 ```
 #### MP-SPDZ mixed code
 ```py
+program.options.binary = 32
+program.use_edabit(True)
 def db_variance(A_0, V_0, len_0):
     # Convertion functions
     siv32 = sbitintvec.get_type(32)
     sb32 = sbits.get_type(32)
-    len_0_B = siv32(len_0)
-
-
+    
+    
     # Shared array declarations
     _1_2 = [None] * (len_0)
     _2_0 = [None] * (len_0)
@@ -6963,6 +6640,8 @@ def db_variance(A_0, V_0, len_0):
     res_3 = [None] * (len_0)
     sum_2 = [None] * (len_0)
     sum_3 = [None] * (len_0)
+    # Shared array convertion declarations
+    
     # Function body
     sum_1 = sint(0)
     _3_0 = _v.lift(lambda indices: (A_0[indices[0]]), [len_0])
@@ -6981,9 +6660,8 @@ def db_variance(A_0, V_0, len_0):
     # Loop exit ϕ values
     _v.vectorized_assign(sum_2, [len_0], [_10_0], _v.vectorized_access(sum_3, [len_0], [(_10_0 - 1)]))
     _4_0 = _v.drop_dim(sum_3, [len_0])
-    _4_0_B = siv32(_4_0)
-    exp_1 = sint(_v.div(_4_0, len_0)); exp_1_B  = siv32(exp_1)
-    _7_0 = _v.lift(lambda indices: exp_1, [len_0]);_7_0_B = _v.lift(lambda indices: exp_1_B, [len_0])
+    exp_1 = _v.div(_4_0, len_0)
+    _7_0 = _v.lift(lambda indices: exp_1, [len_0])
     _v.vectorized_assign(dist_2, [len_0], [None], (_v.vectorized_access_simd(_6_0, [len_0], [None]) - _v.vectorized_access_simd(_7_0, [len_0], [None])))
     _v.vectorized_assign(_1_2, [len_0], [None], (_v.vectorized_access_simd(dist_2, [len_0], [None]) * _v.vectorized_access_simd(dist_2, [len_0], [None])))
     _v.vectorized_assign(_5_0, [len_0], [None], _v.vectorized_access(_1_2, [len_0], [None])); _v.vectorized_assign(V_2, [len_0], [None], _v.vectorized_access(_5_0, [len_0], [None]))
@@ -6997,454 +6675,8 @@ def db_variance(A_0, V_0, len_0):
     # Loop exit ϕ values
     _v.vectorized_assign(res_2, [len_0], [_11_0], _v.vectorized_access(res_3, [len_0], [(_11_0 - 1)]))
     _9_0 = _v.drop_dim(res_3, [len_0])
-    _9_0_B = siv32(_9_0)
-    variance_1 = _v.div(_9_0_B, len_0_B)
+    variance_1 = _v.div(_9_0, len_0)
     return variance_1
-```
-### `histogram`
-#### Input
-```python
-from UTIL import shared
-
-# Array A contains a list of integers i in [1,num_bins]
-# Array B is a same-size array, contains number of collected ratings for that bin
-# E.g., below we have collected 10 1-star ratings, 1 3-star rating, etc., then 2 more 1-star rating etc.
-# A = [0,2,1,0,3,4,2,3]
-# B = [10,1,5,2,15,0,10,1000]
-# We need to sum up num ratings in each bin to compute a histogram
-# 1: 12 0-star ratings
-# 2: 5 1-star
-# 3: 11 2-star
-# 4: 1015 3-star
-# 5: 0 4-star
-
-# This is very similar to the crosstabs app in MOTION
-# But we were first to suggest this as a benchmark :).
-# requires: len(A) == len(B) = N
-def histogram(
-    A: shared[list[int]], B: shared[list[int]], N: int, num_bins: int, result: list[int] 
-) -> shared[list[int]]:
-    for i in range(num_bins):
-        for j in range(N):
-            if A[j] == i:
-                val = result[i] + B[j]
-            else:
-                val = result[i]
-            result[i] = val
-    return result
-
-
-A = [0, 2, 1, 0, 3, 4, 2, 3]
-B = [10, 1, 5, 2, 15, 0, 10, 1000]
-N = 8  # len(A)
-#R = [12, 5, 11, 1015, 0]
-R = [0, 0, 0, 0, 0]
-print(histogram(A, B, N, 5, R))
-
-```
-#### Restricted AST
-```python
-def histogram(A: shared[list[int; ?]], B: shared[list[int; ?]], N: plaintext[int], num_bins: plaintext[int], result: plaintext[list[int; ?]]) -> shared[list[int; ?]]:
-    for i: plaintext[int] in range(0, num_bins):
-        for j: plaintext[int] in range(0, N):
-            if (A[j] == i):
-                val = (result[i] + B[j])
-            else:
-                val = result[i]
-            result[i] = val
-    return result
-```
-#### Three-address code CFG
-![](images/histogram_tac_cfg.png)
-#### SSA
-![](images/histogram_ssa.png)
-#### SSA ϕ→MUX
-![](images/histogram_ssa_mux.png)
-#### Dead code elimination
-![](images/histogram_dead_code_elim.png)
-#### Linear code with loops
-```python
-def histogram(A!0: shared[list[int; ?]], B!0: shared[list[int; ?]], N!0: plaintext[int], num_bins!0: plaintext[int], result!0: plaintext[list[int; ?]]) -> shared[list[int; ?]]:
-    for i!1 in range(0, num_bins!0):
-        result!1 = Φ(result!0, result!2)
-        for j!1 in range(0, N!0):
-            result!2 = Φ(result!1, result!3)
-            !1!3 = (A!0[j!1] == i!1)
-            val!4 = result!2[i!1]
-            val!3 = (result!2[i!1] + B!0[j!1])
-            val!5 = MUX(!1!3, val!3, val!4)
-            result!3 = Update(result!2, i!1, val!5)
-    return result!1
-```
-#### Dependency graph
-![](images/histogram_dep_graph.png)
-#### Removal of infeasible edges
-![](images/histogram_remove_infeasible_edges.png)
-#### Type Environment Before Vectorization
-| Variable | Type |
-| - | - |
-| `A!0` | `shared[list[int; ?]]` |
-| `B!0` | `shared[list[int; ?]]` |
-| `N!0` | `plaintext[int]` |
-| `num_bins!0` | `plaintext[int]` |
-| `result!0` | `plaintext[list[int; ?]]` |
-| `i!1` | `plaintext[int]` |
-| `j!1` | `plaintext[int]` |
-| `result!3` | `shared[list[int; (num_bins!0)]]` |
-| `result!2` | `shared[list[int; (num_bins!0)]]` |
-| `val!3` | `shared[int]` |
-| `val!5` | `shared[int]` |
-| `val!4` | `shared[int]` |
-| `result!1` | `shared[list[int; (num_bins!0)]]` |
-| `!1!3` | `shared[bool]` |
-#### Basic Vectorization Phase 1
-```python
-def histogram(A!0: shared[list[int; ?]], B!0: shared[list[int; ?]], N!0: plaintext[int], num_bins!0: plaintext[int], result!0: plaintext[list[int; ?]]) -> shared[list[int; ?]]:
-    !2!0{NUM_BINS!0}[] = lift(result!0, (i!1:num_bins!0))
-    for i!1 in range(0, num_bins!0):
-        result!1{NUM_BINS!0}[] = Φ(!2!0{NUM_BINS!0}[], !3!0{NUM_BINS!0}[]) (targetless)
-        !4!0{NUM_BINS!0, N!0}[] = lift(result!1{NUM_BINS!0}[], (i!1:num_bins!0, j!1:N!0))
-        !5!0{NUM_BINS!0, N!0}[] = lift(A!0[j!1], (i!1:num_bins!0, j!1:N!0))
-        !6!0{NUM_BINS!0, N!0}[] = lift(i!1, (i!1:num_bins!0, j!1:N!0))
-        !7!0{NUM_BINS!0, N!0}[] = lift(B!0[j!1], (i!1:num_bins!0, j!1:N!0))
-        for j!1 in range(0, N!0):
-            result!2{NUM_BINS!0, N!0}[] = Φ(!4!0{NUM_BINS!0, N!0}[], result!3{NUM_BINS!0, N!0}[])
-            !1!3{NUM_BINS!0, N!0}[] = (!5!0{NUM_BINS!0, N!0}[] == !6!0{NUM_BINS!0, N!0}[])
-            val!4{NUM_BINS!0, N!0}[] = result!2{NUM_BINS!0, N!0}[]
-            val!3{NUM_BINS!0, N!0}[] = (result!2{NUM_BINS!0, N!0}[] + !7!0{NUM_BINS!0, N!0}[])
-            val!5{NUM_BINS!0, N!0}[] = MUX(!1!3{NUM_BINS!0, N!0}[], val!3{NUM_BINS!0, N!0}[], val!4{NUM_BINS!0, N!0}[])
-            result!3{NUM_BINS!0, N!0}[] = VectorizedUpdate(result!2{NUM_BINS!0, N!0}[], [I!1, J!1], val!5{NUM_BINS!0, N!0}[])
-        !3!0{NUM_BINS!0}[] = drop_dim(result!3{NUM_BINS!0, N!0}[])
-    return result!1
-```
-#### Basic Vectorization Phase 1 (dependence graph)
-![](images/histogram_bv_phase_1_dep_graph.png)
-#### Basic Vectorization Phase 2
-```python
-def histogram(A!0: shared[list[int; ?]], B!0: shared[list[int; ?]], N!0: plaintext[int], num_bins!0: plaintext[int], result!0: plaintext[list[int; ?]]) -> shared[list[int; ?]]:
-    !2!0{NUM_BINS!0}[] = lift(result!0, (i!1:num_bins!0))
-    !5!0{NUM_BINS!0, N!0}[] = lift(A!0[j!1], (i!1:num_bins!0, j!1:N!0))
-    !6!0{NUM_BINS!0, N!0}[] = lift(i!1, (i!1:num_bins!0, j!1:N!0))
-    !7!0{NUM_BINS!0, N!0}[] = lift(B!0[j!1], (i!1:num_bins!0, j!1:N!0))
-    !4!0{NUM_BINS!0, N!0}[] = lift(!2!0{NUM_BINS!0}[], (i!1:num_bins!0, j!1:N!0))
-    !1!3{NUM_BINS!0, N!0}[] = (!5!0{NUM_BINS!0, N!0}[] == !6!0{NUM_BINS!0, N!0}[])
-    for !8!0 in range(0, N!0): (monolithic)
-        result!2{NUM_BINS!0}[!8!0] = Φ(!4!0{NUM_BINS!0}[!8!0], result!3{NUM_BINS!0}[(!8!0 - 1)])
-        val!4{NUM_BINS!0}[!8!0] = result!2{NUM_BINS!0}[!8!0]
-        val!3{NUM_BINS!0}[!8!0] = (result!2{NUM_BINS!0}[!8!0] + !7!0{NUM_BINS!0}[!8!0])
-        val!5{NUM_BINS!0}[!8!0] = MUX(!1!3{NUM_BINS!0}[!8!0], val!3{NUM_BINS!0}[!8!0], val!4{NUM_BINS!0}[!8!0])
-        result!3{NUM_BINS!0}[!8!0] = VectorizedUpdate(result!2{NUM_BINS!0}[!8!0], [I!1, !8!0], val!5{NUM_BINS!0}[!8!0])
-    !3!0{NUM_BINS!0}[] = drop_dim(result!3{NUM_BINS!0, N!0}[])
-    return !3!0
-```
-#### Basic Vectorization Phase 2 (dependence graph)
-![](images/histogram_bv_phase_2_dep_graph.png)
-#### Type Environment After Vectorization
-| Variable | Type |
-| - | - |
-| `A!0` | `shared[list[int; ?]]` |
-| `B!0` | `shared[list[int; ?]]` |
-| `N!0` | `plaintext[int]` |
-| `num_bins!0` | `plaintext[int]` |
-| `result!0` | `plaintext[list[int; ?]]` |
-| `!8!0` | `plaintext[int]` |
-| `!3!0` | `shared[list[int; (num_bins!0)]]` |
-| `result!3` | `shared[list[list[int; (num_bins!0)]; (N!0)]]` |
-| `result!2` | `shared[list[list[int; (num_bins!0)]; (N!0)]]` |
-| `val!3` | `shared[list[list[int; (num_bins!0)]; (N!0)]]` |
-| `val!5` | `shared[list[list[int; (num_bins!0)]; (N!0)]]` |
-| `val!4` | `shared[list[list[int; (num_bins!0)]; (N!0)]]` |
-| `!1!3` | `shared[list[list[bool; (num_bins!0)]; (N!0)]]` |
-| `!4!0` | `shared[list[list[int; (num_bins!0)]; (N!0)]]` |
-| `!7!0` | `shared[list[list[int; (num_bins!0)]; (N!0)]]` |
-| `!6!0` | `shared[list[list[int; (num_bins!0)]; (N!0)]]` |
-| `!5!0` | `shared[list[list[int; (num_bins!0)]; (N!0)]]` |
-| `!2!0` | `shared[list[int; (num_bins!0)]]` |
-#### Copy propagation
-```python
-def histogram(A!0: shared[list[int; ?]], B!0: shared[list[int; ?]], N!0: plaintext[int], num_bins!0: plaintext[int], result!0: plaintext[list[int; ?]]) -> shared[list[int; ?]]:
-    !2!0{NUM_BINS!0}[] = lift(result!0, (i!1:num_bins!0))
-    !5!0{NUM_BINS!0, N!0}[] = lift(A!0[j!1], (i!1:num_bins!0, j!1:N!0))
-    !6!0{NUM_BINS!0, N!0}[] = lift(i!1, (i!1:num_bins!0, j!1:N!0))
-    !7!0{NUM_BINS!0, N!0}[] = lift(B!0[j!1], (i!1:num_bins!0, j!1:N!0))
-    !4!0{NUM_BINS!0, N!0}[] = lift(!2!0{NUM_BINS!0}[], (i!1:num_bins!0, j!1:N!0))
-    !1!3{NUM_BINS!0, N!0}[] = (!5!0{NUM_BINS!0, N!0}[] == !6!0{NUM_BINS!0, N!0}[])
-    for !8!0 in range(0, N!0): (monolithic)
-        result!2{NUM_BINS!0}[!8!0] = Φ(!4!0{NUM_BINS!0}[!8!0], result!3{NUM_BINS!0}[(!8!0 - 1)])
-        val!3{NUM_BINS!0}[!8!0] = (result!2{NUM_BINS!0}[!8!0] + !7!0{NUM_BINS!0}[!8!0])
-        val!5{NUM_BINS!0}[!8!0] = MUX(!1!3{NUM_BINS!0}[!8!0], val!3{NUM_BINS!0}[!8!0], result!2{NUM_BINS!0}[!8!0])
-        result!3{NUM_BINS!0}[!8!0] = VectorizedUpdate(result!2{NUM_BINS!0}[!8!0], [I!1, !8!0], val!5{NUM_BINS!0}[!8!0])
-    !3!0{NUM_BINS!0}[] = drop_dim(result!3{NUM_BINS!0, N!0}[])
-    return !3!0
-```
-#### Common subexpression elimination
-```python
-def histogram(A!0: shared[list[int; ?]], B!0: shared[list[int; ?]], N!0: plaintext[int], num_bins!0: plaintext[int], result!0: plaintext[list[int; ?]]) -> shared[list[int; ?]]:
-    !2!0{NUM_BINS!0}[] = lift(result!0, (i!1:num_bins!0))
-    !5!0{NUM_BINS!0, N!0}[] = lift(A!0[j!1], (i!1:num_bins!0, j!1:N!0))
-    !6!0{NUM_BINS!0, N!0}[] = lift(i!1, (i!1:num_bins!0, j!1:N!0))
-    !7!0{NUM_BINS!0, N!0}[] = lift(B!0[j!1], (i!1:num_bins!0, j!1:N!0))
-    !4!0{NUM_BINS!0, N!0}[] = lift(!2!0{NUM_BINS!0}[], (i!1:num_bins!0, j!1:N!0))
-    !1!3{NUM_BINS!0, N!0}[] = (!5!0{NUM_BINS!0, N!0}[] == !6!0{NUM_BINS!0, N!0}[])
-    for !8!0 in range(0, N!0): (monolithic)
-        result!2{NUM_BINS!0}[!8!0] = Φ(!4!0{NUM_BINS!0}[!8!0], result!3{NUM_BINS!0}[(!8!0 - 1)])
-        val!3{NUM_BINS!0}[!8!0] = (result!2{NUM_BINS!0}[!8!0] + !7!0{NUM_BINS!0}[!8!0])
-        val!5{NUM_BINS!0}[!8!0] = MUX(!1!3{NUM_BINS!0}[!8!0], val!3{NUM_BINS!0}[!8!0], result!2{NUM_BINS!0}[!8!0])
-        result!3{NUM_BINS!0}[!8!0] = VectorizedUpdate(result!2{NUM_BINS!0}[!8!0], [I!1, !8!0], val!5{NUM_BINS!0}[!8!0])
-    !3!0{NUM_BINS!0}[] = drop_dim(result!3{NUM_BINS!0, N!0}[])
-    return !3!0
-```
-#### MOTION mixed configuration
-```Total cost:	31503.42
-Input vars:	{B!0: {'Y'}, A!0: {'Y'}}
-Constants:	{}
-Plaintext vars:	{result!0: {'Y'}}
-!2!0{NUM_BINS!0}[] = lift(result!0, (i!1:num_bins!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!5!0{NUM_BINS!0, N!0}[] = lift(A!0[j!1], (i!1:num_bins!0, j!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!6!0{NUM_BINS!0, N!0}[] = lift(i!1, (i!1:num_bins!0, j!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!7!0{NUM_BINS!0, N!0}[] = lift(B!0[j!1], (i!1:num_bins!0, j!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!4!0{NUM_BINS!0, N!0}[] = lift(!2!0{NUM_BINS!0}[], (i!1:num_bins!0, j!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!1!3{NUM_BINS!0, N!0}[] = (!5!0{NUM_BINS!0, N!0}[] == !6!0{NUM_BINS!0, N!0}[]): Y -> {} for 3403.38 * 1 = 3403.38
-	result!2{NUM_BINS!0}[!8!0] = Φ(!4!0{NUM_BINS!0}[!8!0], result!3{NUM_BINS!0}[(!8!0 - 1)]): Y -> {} for 0.00 * 8 = 0.00
-	val!3{NUM_BINS!0}[!8!0] = (result!2{NUM_BINS!0}[!8!0] + !7!0{NUM_BINS!0}[!8!0]): Y -> {} for 1785.63 * 8 = 14285.04
-	val!5{NUM_BINS!0}[!8!0] = MUX(!1!3{NUM_BINS!0}[!8!0], val!3{NUM_BINS!0}[!8!0], result!2{NUM_BINS!0}[!8!0]): Y -> {} for 1726.87 * 8 = 13815.00
-	result!3{NUM_BINS!0}[!8!0] = VectorizedUpdate(result!2{NUM_BINS!0}[!8!0], [I!1, !8!0], val!5{NUM_BINS!0}[!8!0]): Y -> {} for 0.00 * 8 = 0.00
-!3!0{NUM_BINS!0}[] = drop_dim(result!3{NUM_BINS!0, N!0}[]): _ -> {'Y'} for 0.00 * 1 = 0.00
-return !3!0
-Output vars:	{!3!0: {'Y'}}
-
-```
-#### MOTION code
-```cpp
-template <encrypto::motion::MpcProtocol Protocol>
-std::vector<encrypto::motion::SecureUnsignedInteger> histogram(
-    encrypto::motion::PartyPointer &party,
-    std::vector<encrypto::motion::SecureUnsignedInteger> A_0,
-    std::vector<encrypto::motion::SecureUnsignedInteger> B_0,
-    std::uint32_t _MPC_PLAINTEXT_N_0,
-    std::uint32_t _MPC_PLAINTEXT_num_bins_0,
-    std::vector<std::uint32_t> _MPC_PLAINTEXT_result_0
-) {
-    // Shared variable declarations
-    std::vector<encrypto::motion::ShareWrapper> _1_3((_MPC_PLAINTEXT_num_bins_0) * (_MPC_PLAINTEXT_N_0));
-    std::vector<encrypto::motion::SecureUnsignedInteger> _2_0((_MPC_PLAINTEXT_num_bins_0));
-    std::vector<encrypto::motion::SecureUnsignedInteger> _3_0((_MPC_PLAINTEXT_num_bins_0));
-    std::vector<encrypto::motion::SecureUnsignedInteger> _4_0((_MPC_PLAINTEXT_num_bins_0) * (_MPC_PLAINTEXT_N_0));
-    std::vector<encrypto::motion::SecureUnsignedInteger> _5_0((_MPC_PLAINTEXT_num_bins_0) * (_MPC_PLAINTEXT_N_0));
-    std::vector<encrypto::motion::SecureUnsignedInteger> _6_0((_MPC_PLAINTEXT_num_bins_0) * (_MPC_PLAINTEXT_N_0));
-    std::vector<encrypto::motion::SecureUnsignedInteger> _7_0((_MPC_PLAINTEXT_num_bins_0) * (_MPC_PLAINTEXT_N_0));
-    encrypto::motion::SecureUnsignedInteger _8_0;
-    encrypto::motion::SecureUnsignedInteger N_0;
-    encrypto::motion::SecureUnsignedInteger num_bins_0;
-    std::vector<encrypto::motion::SecureUnsignedInteger> result_0;
-    std::vector<encrypto::motion::SecureUnsignedInteger> result_2((_MPC_PLAINTEXT_num_bins_0) * (_MPC_PLAINTEXT_N_0));
-    std::vector<encrypto::motion::SecureUnsignedInteger> result_3((_MPC_PLAINTEXT_num_bins_0) * (_MPC_PLAINTEXT_N_0));
-    std::vector<encrypto::motion::SecureUnsignedInteger> val_3((_MPC_PLAINTEXT_num_bins_0) * (_MPC_PLAINTEXT_N_0));
-    std::vector<encrypto::motion::SecureUnsignedInteger> val_5((_MPC_PLAINTEXT_num_bins_0) * (_MPC_PLAINTEXT_N_0));
-
-    // Plaintext variable declarations
-    std::uint32_t _MPC_PLAINTEXT__8_0;
-
-    // Constant initializations
-
-
-    // Plaintext parameter assignments
-    N_0 = party->In<Protocol>(encrypto::motion::ToInput(_MPC_PLAINTEXT_N_0), 0);
-    num_bins_0 = party->In<Protocol>(encrypto::motion::ToInput(_MPC_PLAINTEXT_num_bins_0), 0);
-    result_0.clear();
-    std::transform(_MPC_PLAINTEXT_result_0.begin(), _MPC_PLAINTEXT_result_0.end(), std::back_inserter(result_0), [&](const auto &val) { return party->In<Protocol>(encrypto::motion::ToInput(val), 0); });
-
-    // Function body
-    vectorized_assign(_2_0, {_MPC_PLAINTEXT_num_bins_0}, {true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return result_0;}), {_MPC_PLAINTEXT_num_bins_0}));
-    vectorized_assign(_5_0, {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}, {true, true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return A_0[indices[1]];}), {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}));
-    vectorized_assign(_6_0, {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}, {true, true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return encrypto::motion::SecureUnsignedInteger(party->In<Protocol>(encrypto::motion::ToInput(indices[0]), 0));}), {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}));
-    vectorized_assign(_7_0, {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}, {true, true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return B_0[indices[1]];}), {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}));
-    vectorized_assign(_4_0, {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}, {true, true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return vectorized_access(_2_0, {_MPC_PLAINTEXT_num_bins_0}, {true}, {}).Unsimdify();}), {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}));
-    vectorized_assign(_1_3, {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}, {true, true}, {}, (to_share_wrapper(vectorized_access(_5_0, {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}, {true, true}, {})) == to_share_wrapper(vectorized_access(_6_0, {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}, {true, true}, {}))));
-
-    // Initialize loop counter
-    _MPC_PLAINTEXT__8_0 = std::uint32_t(0);
-    // Initialize phi values
-    vectorized_assign(result_2, {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}, {true, false}, {_MPC_PLAINTEXT__8_0}, vectorized_access(_4_0, {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}, {true, false}, {_MPC_PLAINTEXT__8_0}));
-    for (; _MPC_PLAINTEXT__8_0 < _MPC_PLAINTEXT_N_0; _MPC_PLAINTEXT__8_0++) {
-        // Update phi values
-        if (_MPC_PLAINTEXT__8_0 != std::uint32_t(0)) {
-            vectorized_assign(result_2, {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}, {true, false}, {_MPC_PLAINTEXT__8_0}, vectorized_access(result_3, {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}, {true, false}, {(_MPC_PLAINTEXT__8_0 - std::uint32_t(1))}));
-        }
-
-        vectorized_assign(val_3, {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}, {true, false}, {_MPC_PLAINTEXT__8_0}, (vectorized_access(result_2, {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}, {true, false}, {_MPC_PLAINTEXT__8_0}) + vectorized_access(_7_0, {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}, {true, false}, {_MPC_PLAINTEXT__8_0})));
-        vectorized_assign(val_5, {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}, {true, false}, {_MPC_PLAINTEXT__8_0}, vectorized_access(_1_3, {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}, {true, false}, {_MPC_PLAINTEXT__8_0}).Mux(vectorized_access(val_3, {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}, {true, false}, {_MPC_PLAINTEXT__8_0}).Get(), vectorized_access(result_2, {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}, {true, false}, {_MPC_PLAINTEXT__8_0}).Get()));
-        vectorized_assign(result_3, {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}, {true, false}, {_MPC_PLAINTEXT__8_0}, vectorized_update(vectorized_access(result_2, {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}, {true, false}, {_MPC_PLAINTEXT__8_0}), {_MPC_PLAINTEXT_num_bins_0}, {true}, {}, vectorized_access(val_5, {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}, {true, false}, {_MPC_PLAINTEXT__8_0})));
-
-    }
-
-    vectorized_assign(_3_0, {_MPC_PLAINTEXT_num_bins_0}, {true}, {}, drop_dim(vectorized_access(result_3, {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}, {true, true}, {}).Unsimdify(), {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}));
-    return _3_0;
-
-}
-```
-#### MOTION mixed code
-```cpp
-std::vector<encrypto::motion::SecureUnsignedInteger> histogram(
-    encrypto::motion::PartyPointer &party,
-    std::vector<encrypto::motion::SecureUnsignedInteger> A_0,
-    std::vector<encrypto::motion::SecureUnsignedInteger> B_0,
-    std::uint32_t _MPC_PLAINTEXT_N_0,
-    std::uint32_t _MPC_PLAINTEXT_num_bins_0,
-    std::vector<std::uint32_t> _MPC_PLAINTEXT_result_0
-) {
-    // Shared variable declarations
-    std::vector<encrypto::motion::ShareWrapper> _1_3((_MPC_PLAINTEXT_num_bins_0) * (_MPC_PLAINTEXT_N_0));
-    std::vector<encrypto::motion::SecureUnsignedInteger> _2_0((_MPC_PLAINTEXT_num_bins_0));
-    std::vector<encrypto::motion::SecureUnsignedInteger> _3_0((_MPC_PLAINTEXT_num_bins_0));
-    std::vector<encrypto::motion::SecureUnsignedInteger> _4_0((_MPC_PLAINTEXT_num_bins_0) * (_MPC_PLAINTEXT_N_0));
-    std::vector<encrypto::motion::SecureUnsignedInteger> _5_0((_MPC_PLAINTEXT_num_bins_0) * (_MPC_PLAINTEXT_N_0));
-    std::vector<encrypto::motion::SecureUnsignedInteger> _6_0((_MPC_PLAINTEXT_num_bins_0) * (_MPC_PLAINTEXT_N_0));
-    std::vector<encrypto::motion::SecureUnsignedInteger> _7_0((_MPC_PLAINTEXT_num_bins_0) * (_MPC_PLAINTEXT_N_0));
-    encrypto::motion::SecureUnsignedInteger _8_0;
-    encrypto::motion::SecureUnsignedInteger N_0;
-    encrypto::motion::SecureUnsignedInteger num_bins_0;
-    std::vector<encrypto::motion::SecureUnsignedInteger> result_0;
-    std::vector<encrypto::motion::SecureUnsignedInteger> result_2((_MPC_PLAINTEXT_num_bins_0) * (_MPC_PLAINTEXT_N_0));
-    std::vector<encrypto::motion::SecureUnsignedInteger> result_3((_MPC_PLAINTEXT_num_bins_0) * (_MPC_PLAINTEXT_N_0));
-    std::vector<encrypto::motion::SecureUnsignedInteger> val_3((_MPC_PLAINTEXT_num_bins_0) * (_MPC_PLAINTEXT_N_0));
-    std::vector<encrypto::motion::SecureUnsignedInteger> val_5((_MPC_PLAINTEXT_num_bins_0) * (_MPC_PLAINTEXT_N_0));
-
-    // Plaintext variable declarations
-    std::uint32_t _MPC_PLAINTEXT__8_0;
-
-    // Constant initializations
-
-    // Plaintext parameter assignments
-    result_0.clear();
-    std::transform(_MPC_PLAINTEXT_result_0.begin(), _MPC_PLAINTEXT_result_0.end(), std::back_inserter(result_0), [&](const auto &val) { return party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(val), 0); });
-
-    // Function body
-    vectorized_assign(_2_0, {_MPC_PLAINTEXT_num_bins_0}, {true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return result_0;}), {_MPC_PLAINTEXT_num_bins_0}));
-    vectorized_assign(_5_0, {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}, {true, true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return A_0[indices[1]];}), {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}));
-    vectorized_assign(_6_0, {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}, {true, true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return encrypto::motion::SecureUnsignedInteger(party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(indices[0]), 0));}), {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}));
-    vectorized_assign(_7_0, {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}, {true, true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return B_0[indices[1]];}), {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}));
-    vectorized_assign(_4_0, {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}, {true, true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return vectorized_access(_2_0, {_MPC_PLAINTEXT_num_bins_0}, {true}, {}).Unsimdify();}), {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}));
-    vectorized_assign(_1_3, {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}, {true, true}, {}, (to_share_wrapper(vectorized_access(_5_0, {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}, {true, true}, {})) == to_share_wrapper(vectorized_access(_6_0, {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}, {true, true}, {}))));
-
-    // Initialize loop counter
-    _MPC_PLAINTEXT__8_0 = std::uint32_t(0);
-    // Initialize phi values
-    vectorized_assign(result_2, {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}, {true, false}, {_MPC_PLAINTEXT__8_0}, vectorized_access(_4_0, {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}, {true, false}, {_MPC_PLAINTEXT__8_0}));
-    for (; _MPC_PLAINTEXT__8_0 < _MPC_PLAINTEXT_N_0; _MPC_PLAINTEXT__8_0++) {
-        // Update phi values
-        if (_MPC_PLAINTEXT__8_0 != std::uint32_t(0)) {
-            vectorized_assign(result_2, {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}, {true, false}, {_MPC_PLAINTEXT__8_0}, vectorized_access(result_3, {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}, {true, false}, {(_MPC_PLAINTEXT__8_0 - std::uint32_t(1))}));
-        }
-
-        vectorized_assign(val_3, {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}, {true, false}, {_MPC_PLAINTEXT__8_0}, (vectorized_access(result_2, {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}, {true, false}, {_MPC_PLAINTEXT__8_0}) + vectorized_access(_7_0, {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}, {true, false}, {_MPC_PLAINTEXT__8_0})));
-        vectorized_assign(val_5, {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}, {true, false}, {_MPC_PLAINTEXT__8_0}, vectorized_access(_1_3, {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}, {true, false}, {_MPC_PLAINTEXT__8_0}).Mux(vectorized_access(val_3, {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}, {true, false}, {_MPC_PLAINTEXT__8_0}).Get(), vectorized_access(result_2, {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}, {true, false}, {_MPC_PLAINTEXT__8_0}).Get()));
-        vectorized_assign(result_3, {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}, {true, false}, {_MPC_PLAINTEXT__8_0}, vectorized_update(vectorized_access(result_2, {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}, {true, false}, {_MPC_PLAINTEXT__8_0}), {_MPC_PLAINTEXT_num_bins_0}, {true}, {}, vectorized_access(val_5, {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}, {true, false}, {_MPC_PLAINTEXT__8_0})));
-
-    }
-
-    vectorized_assign(_3_0, {_MPC_PLAINTEXT_num_bins_0}, {true}, {}, drop_dim(vectorized_access(result_3, {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}, {true, true}, {}).Unsimdify(), {_MPC_PLAINTEXT_num_bins_0, _MPC_PLAINTEXT_N_0}));
-    return _3_0;
-
-}
-```
-#### MP-SPDZ mixed configuration
-```Total cost:	36422.82
-Input vars:	{B!0: {'B'}, A!0: {'B'}}
-Constants:	{}
-Plaintext vars:	{result!0: {'B'}}
-!2!0{NUM_BINS!0}[] = lift(result!0, (i!1:num_bins!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!5!0{NUM_BINS!0, N!0}[] = lift(A!0[j!1], (i!1:num_bins!0, j!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!6!0{NUM_BINS!0, N!0}[] = lift(i!1, (i!1:num_bins!0, j!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!7!0{NUM_BINS!0, N!0}[] = lift(B!0[j!1], (i!1:num_bins!0, j!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!4!0{NUM_BINS!0, N!0}[] = lift(!2!0{NUM_BINS!0}[], (i!1:num_bins!0, j!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!1!3{NUM_BINS!0, N!0}[] = (!5!0{NUM_BINS!0, N!0}[] == !6!0{NUM_BINS!0, N!0}[]): B -> {} for 3465.38 * 1 = 3465.38
-	result!2{NUM_BINS!0}[!8!0] = Φ(!4!0{NUM_BINS!0}[!8!0], result!3{NUM_BINS!0}[(!8!0 - 1)]): B -> {} for 0.00 * 8 = 0.00
-	val!3{NUM_BINS!0}[!8!0] = (result!2{NUM_BINS!0}[!8!0] + !7!0{NUM_BINS!0}[!8!0]): B -> {} for 2653.54 * 8 = 21228.32
-	val!5{NUM_BINS!0}[!8!0] = MUX(!1!3{NUM_BINS!0}[!8!0], val!3{NUM_BINS!0}[!8!0], result!2{NUM_BINS!0}[!8!0]): B -> {} for 1466.14 * 8 = 11729.12
-	result!3{NUM_BINS!0}[!8!0] = VectorizedUpdate(result!2{NUM_BINS!0}[!8!0], [I!1, !8!0], val!5{NUM_BINS!0}[!8!0]): B -> {} for 0.00 * 8 = 0.00
-!3!0{NUM_BINS!0}[] = drop_dim(result!3{NUM_BINS!0, N!0}[]): _ -> {'B'} for 0.00 * 1 = 0.00
-return !3!0
-Output vars:	{!3!0: {'B'}}
-
-```
-#### MP-SPDZ code
-```py
-def histogram(A_0, B_0, N_0, num_bins_0, result_0):
-    # Shared array declarations
-    _1_3 = [None] * (num_bins_0 * N_0)
-    _2_0 = [None] * (num_bins_0)
-    _3_0 = [None] * (num_bins_0)
-    _4_0 = [None] * (num_bins_0 * N_0)
-    _5_0 = [None] * (num_bins_0 * N_0)
-    _6_0 = [None] * (num_bins_0 * N_0)
-    _7_0 = [None] * (num_bins_0 * N_0)
-    result_2 = [None] * (num_bins_0 * N_0)
-    result_3 = [None] * (num_bins_0 * N_0)
-    val_3 = [None] * (num_bins_0 * N_0)
-    val_5 = [None] * (num_bins_0 * N_0)
-    # Function body
-    _2_0 = _v.lift(lambda indices: result_0, [num_bins_0])
-    _5_0 = _v.lift(lambda indices: (A_0[indices[1]]), [num_bins_0, N_0])
-    _6_0 = _v.lift(lambda indices: indices[0], [num_bins_0, N_0])
-    _7_0 = _v.lift(lambda indices: (B_0[indices[1]]), [num_bins_0, N_0])
-    _4_0 = _v.lift(lambda indices: _v.vectorized_access(_2_0, [num_bins_0], [None]), [num_bins_0, N_0])
-    _v.vectorized_assign(_1_3, [num_bins_0, N_0], [None, None], (_v.vectorized_access_simd(_5_0, [num_bins_0, N_0], [None, None]) == _v.vectorized_access_simd(_6_0, [num_bins_0, N_0], [None, None])))
-    for _8_0 in range(0, N_0):
-        # Set ϕ value
-        if _8_0 == 0:
-            _v.vectorized_assign(result_2, [num_bins_0, N_0], [None, _8_0], _v.vectorized_access(_4_0, [num_bins_0, N_0], [None, _8_0]))
-        else:
-            _v.vectorized_assign(result_2, [num_bins_0, N_0], [None, _8_0], _v.vectorized_access(result_3, [num_bins_0, N_0], [None, (_8_0 - 1)]))
-        _v.vectorized_assign(val_3, [num_bins_0, N_0], [None, _8_0], (_v.vectorized_access_simd(result_2, [num_bins_0, N_0], [None, _8_0]) + _v.vectorized_access_simd(_7_0, [num_bins_0, N_0], [None, _8_0])))
-        _v.iterative_mux(val_5,_1_3,val_3,result_2,[num_bins_0, N_0],[None, _8_0])
-        _v.vectorized_assign((TODO: fix this case), [num_bins_0, N_0], [None, _8_0], _v.vectorized_access(val_5, [num_bins_0, N_0], [None, _8_0])); _v.vectorized_assign(result_3, [num_bins_0, N_0], [None, _8_0], _v.vectorized_access((TODO: fix this case), [num_bins_0, N_0], [None, _8_0]))
-    # Loop exit ϕ values
-    _v.vectorized_assign(result_2, [num_bins_0, N_0], [None, _8_0], _v.vectorized_access(result_3, [num_bins_0, N_0], [None, (_8_0 - 1)]))
-    _v.vectorized_assign(_3_0, [num_bins_0], [None], _v.drop_dim(result_3, [num_bins_0, N_0]))
-    return _3_0
-```
-#### MP-SPDZ mixed code
-```py
-def histogram(A_0, B_0, N_0, num_bins_0, result_0):
-    # Convertion functions
-    siv32 = sbitintvec.get_type(32)
-    sb32 = sbits.get_type(32)
-    for _random_iter in range(0,len(result_0)):
-     result_0[_random_iter] = siv32(result_0[_random_iter])
-
-    # Shared array declarations
-    _1_3 = [None] * (num_bins_0 * N_0)
-    _2_0 = [None] * (num_bins_0)
-    _3_0 = [None] * (num_bins_0)
-    _4_0 = [None] * (num_bins_0 * N_0)
-    _5_0 = [None] * (num_bins_0 * N_0)
-    _6_0 = [None] * (num_bins_0 * N_0)
-    _7_0 = [None] * (num_bins_0 * N_0)
-    result_2 = [None] * (num_bins_0 * N_0)
-    result_3 = [None] * (num_bins_0 * N_0)
-    val_3 = [None] * (num_bins_0 * N_0)
-    val_5 = [None] * (num_bins_0 * N_0)
-    # Function body
-    _2_0 = _v.lift(lambda indices: result_0, [num_bins_0])
-    _5_0 = _v.lift(lambda indices: (A_0[indices[1]]), [num_bins_0, N_0])
-    _6_0 = _v.lift(lambda indices: indices[0], [num_bins_0, N_0])
-    _7_0 = _v.lift(lambda indices: (B_0[indices[1]]), [num_bins_0, N_0])
-    _4_0 = _v.lift(lambda indices: _v.vectorized_access(_2_0, [num_bins_0], [None]), [num_bins_0, N_0])
-    _v.vectorized_assign(_1_3, [num_bins_0, N_0], [None, None], (_v.vectorized_access_simd(_5_0, [num_bins_0, N_0], [None, None]) == _v.vectorized_access_simd(_6_0, [num_bins_0, N_0], [None, None])))
-    for _8_0 in range(0, N_0):
-        # Set ϕ value
-        if _8_0 == 0:
-            _v.vectorized_assign(result_2, [num_bins_0, N_0], [None, _8_0], _v.vectorized_access(_4_0, [num_bins_0, N_0], [None, _8_0]))
-        else:
-            _v.vectorized_assign(result_2, [num_bins_0, N_0], [None, _8_0], _v.vectorized_access(result_3, [num_bins_0, N_0], [None, (_8_0 - 1)]))
-        _v.vectorized_assign(val_3, [num_bins_0, N_0], [None, _8_0], (_v.vectorized_access_simd(result_2, [num_bins_0, N_0], [None, _8_0]) + _v.vectorized_access_simd(_7_0, [num_bins_0, N_0], [None, _8_0])))
-        _v.iterative_mux(val_5,_1_3,val_3,result_2,[num_bins_0, N_0],[None, _8_0])
-        _v.vectorized_assign((TODO: fix this case), [num_bins_0, N_0], [None, _8_0], _v.vectorized_access(val_5, [num_bins_0, N_0], [None, _8_0])); _v.vectorized_assign(result_3, [num_bins_0, N_0], [None, _8_0], _v.vectorized_access((TODO: fix this case), [num_bins_0, N_0], [None, _8_0]))
-    # Loop exit ϕ values
-    _v.vectorized_assign(result_2, [num_bins_0, N_0], [None, _8_0], _v.vectorized_access(result_3, [num_bins_0, N_0], [None, (_8_0 - 1)]))
-    _v.vectorized_assign(_3_0, [num_bins_0], [None], _v.drop_dim(result_3, [num_bins_0, N_0]))
-    return _3_0
 ```
 ### `inner_product`
 #### Input
@@ -7462,7 +6694,8 @@ def inner_product(A: shared[list[int]], B: shared[list[int]], N: int) -> shared[
 
 A = [1, 2, 3]
 B = [4, 5, 6]
-print(inner_product(A, B, 3))
+N = 3
+print(inner_product(A, B, N))
 
 ```
 #### Restricted AST
@@ -7583,20 +6816,21 @@ def inner_product(A!0: shared[list[int; ?]], B!0: shared[list[int; ?]], N!0: pla
     return !4!0
 ```
 #### MOTION mixed configuration
-```Total cost:	6124.64
-Input vars:	{B!0: {'A'}, A!0: {'A'}}
-Constants:	{0: {'A'}}
+```Total cost:	0.00779
+Input vars:	{B!0: ['A'], A!0: ['A']}
+Constants:	{0: ['A']}
 Plaintext vars:	{}
-sum!1 = 0: _ -> {'A'} for 0.00 * 1 = 0.00
-!2!0{N!0}[] = lift(A!0[i!1], (i!1:N!0)): _ -> {'A'} for 0.00 * 1 = 0.00
-!3!0{N!0}[] = lift(B!0[i!1], (i!1:N!0)): _ -> {'A'} for 0.00 * 1 = 0.00
-!1!0{N!0}[] = lift(sum!1, (i!1:N!0)): _ -> {'A'} for 0.00 * 1 = 0.00
-temp!2{N!0}[] = (!2!0{N!0}[] * !3!0{N!0}[]): A -> {} for 3397.78 * 1 = 3397.78
-	sum!2{}[!5!0] = Φ(!1!0{}[!5!0], sum!3{}[(!5!0 - 1)]): A -> {} for 0.00 * 3 = 0.00
-	sum!3{}[!5!0] = (sum!2{}[!5!0] + temp!2{}[!5!0]): A -> {} for 908.96 * 3 = 2726.87
-!4!0 = drop_dim(sum!3{N!0}[]): _ -> {'A'} for 0.00 * 1 = 0.00
+Flags:		{}
+sum!1 = 0: _ -> ['A'] for 0.00000 * 1 = 0.00
+!2!0{N!0}[] = lift(A!0[i!1], (i!1:N!0)): _ -> ['A'] for 0.00000 * 1 = 0.00
+!3!0{N!0}[] = lift(B!0[i!1], (i!1:N!0)): _ -> ['A'] for 0.00000 * 1 = 0.00
+!1!0{N!0}[] = lift(sum!1, (i!1:N!0)): _ -> ['A'] for 0.00000 * 1 = 0.00
+temp!2{N!0}[] = (!2!0{N!0}[] * !3!0{N!0}[]): A -> {} for 0.00779 * 1 = 0.01
+	sum!2{}[!5!0] = Φ(!1!0{}[!5!0], sum!3{}[(!5!0 - 1)]): A -> {} for 0.00000 * 3 = 0.00
+	sum!3{}[!5!0] = (sum!2{}[!5!0] + temp!2{}[!5!0]): A -> {} for 0.00000 * 3 = 0.00
+!4!0 = drop_dim(sum!3{N!0}[]): _ -> ['A'] for 0.00000 * 1 = 0.00
 return !4!0
-Output vars:	{!4!0: {'A'}}
+Output vars:	{!4!0: ['A']}
 
 ```
 #### MOTION code
@@ -7684,6 +6918,8 @@ encrypto::motion::SecureUnsignedInteger inner_product(
     // Constant initializations
     encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_0 = party->In<encrypto::motion::MpcProtocol::kArithmeticGmw>(std::uint32_t(0), 0);
 
+    // Input Protocol Convertions
+
     // Plaintext parameter assignments
 
     // Function body
@@ -7714,20 +6950,21 @@ encrypto::motion::SecureUnsignedInteger inner_product(
 }
 ```
 #### MP-SPDZ mixed configuration
-```Total cost:	6124.64
-Input vars:	{B!0: {'A'}, A!0: {'A'}}
-Constants:	{0: {'A'}}
+```Total cost:	0.00012
+Input vars:	{B!0: ['A'], A!0: ['A']}
+Constants:	{0: ['A']}
 Plaintext vars:	{}
-sum!1 = 0: _ -> {'A'} for 0.00 * 1 = 0.00
-!2!0{N!0}[] = lift(A!0[i!1], (i!1:N!0)): _ -> {'A'} for 0.00 * 1 = 0.00
-!3!0{N!0}[] = lift(B!0[i!1], (i!1:N!0)): _ -> {'A'} for 0.00 * 1 = 0.00
-!1!0{N!0}[] = lift(sum!1, (i!1:N!0)): _ -> {'A'} for 0.00 * 1 = 0.00
-temp!2{N!0}[] = (!2!0{N!0}[] * !3!0{N!0}[]): A -> {} for 3397.78 * 1 = 3397.78
-	sum!2{}[!5!0] = Φ(!1!0{}[!5!0], sum!3{}[(!5!0 - 1)]): A -> {} for 0.00 * 3 = 0.00
-	sum!3{}[!5!0] = (sum!2{}[!5!0] + temp!2{}[!5!0]): A -> {} for 908.96 * 3 = 2726.87
-!4!0 = drop_dim(sum!3{N!0}[]): _ -> {'A'} for 0.00 * 1 = 0.00
+Flags:		{X}
+sum!1 = 0: _ -> ['A'] for 0.00000 * 1 = 0.00
+!2!0{N!0}[] = lift(A!0[i!1], (i!1:N!0)): _ -> ['A'] for 0.00000 * 1 = 0.00
+!3!0{N!0}[] = lift(B!0[i!1], (i!1:N!0)): _ -> ['A'] for 0.00000 * 1 = 0.00
+!1!0{N!0}[] = lift(sum!1, (i!1:N!0)): _ -> ['A'] for 0.00000 * 1 = 0.00
+temp!2{N!0}[] = (!2!0{N!0}[] * !3!0{N!0}[]): A -> {} for 0.00012 * 1 = 0.00
+	sum!2{}[!5!0] = Φ(!1!0{}[!5!0], sum!3{}[(!5!0 - 1)]): A -> {} for 0.00000 * 3 = 0.00
+	sum!3{}[!5!0] = (sum!2{}[!5!0] + temp!2{}[!5!0]): A -> {} for 0.00000 * 3 = 0.00
+!4!0 = drop_dim(sum!3{N!0}[]): _ -> ['A'] for 0.00000 * 1 = 0.00
 return !4!0
-Output vars:	{!4!0: {'A'}}
+Output vars:	{!4!0: ['A']}
 
 ```
 #### MP-SPDZ code
@@ -7760,10 +6997,13 @@ def inner_product(A_0, B_0, N_0):
 ```
 #### MP-SPDZ mixed code
 ```py
+program.options.binary = 32
+program.use_dabit = True
 def inner_product(A_0, B_0, N_0):
     # Convertion functions
     siv32 = sbitintvec.get_type(32)
     sb32 = sbits.get_type(32)
+    
     
     # Shared array declarations
     _1_0 = [None] * (N_0)
@@ -7772,6 +7012,8 @@ def inner_product(A_0, B_0, N_0):
     sum_2 = [None] * (N_0)
     sum_3 = [None] * (N_0)
     temp_2 = [None] * (N_0)
+    # Shared array convertion declarations
+    
     # Function body
     sum_1 = sint(0)
     _2_0 = _v.lift(lambda indices: (A_0[indices[0]]), [N_0])
@@ -7821,8 +7063,10 @@ def longest_102(Seq: shared[list[int]], N: int, Syms: shared[list[int]]) -> shar
     return max_len
 
 
-seq = [1, 0, 2, 1, 0, 0, 2, 1, 2, 2]
-print(longest_102(seq, 10, [1, 0, 2]))
+Seq = [1, 0, 2, 1, 0, 0, 2, 1, 2, 2]
+N = 10
+Syms = [1, 0, 2]
+print(longest_102(Seq, N, Syms))
 
 ```
 #### Restricted AST
@@ -8097,39 +7341,40 @@ def longest_102(Seq!0: shared[list[int; ?]], N!0: plaintext[int], Syms!0: shared
     return !18!0
 ```
 #### MOTION mixed configuration
-```Total cost:	112476.63
-Input vars:	{Syms!0: {'Y'}, Seq!0: {'Y'}}
-Constants:	{False: {'Y'}, 0: {'Y'}, 1: {'Y'}}
+```Total cost:	0.77912
+Input vars:	{Syms!0: ['Y'], Seq!0: ['Y']}
+Constants:	{False: ['Y'], 0: ['Y'], 1: ['Y']}
 Plaintext vars:	{}
-s0!1 = False: _ -> {'Y'} for 0.00 * 1 = 0.00
-max_len!1 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
-length!1 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
-!12!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!13!0{N!0}[] = lift(Syms!0[2], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!15!0{N!0}[] = lift(Syms!0[1], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!17!0{N!0}[] = lift(Syms!0[0], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-length!4 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
-!9!0{N!0}[] = lift(s0!1, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!10!0{N!0}[] = lift(max_len!1, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!11!0{N!0}[] = lift(length!1, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!1!2{N!0}[] = (!12!0{N!0}[] == !13!0{N!0}[]): Y -> {} for 1877.86 * 1 = 1877.86
-!2!2{N!0}[] = (!12!0{N!0}[] == !15!0{N!0}[]): Y -> {} for 1877.86 * 1 = 1877.86
-!4!2{N!0}[] = (!12!0{N!0}[] == !17!0{N!0}[]): Y -> {} for 1877.86 * 1 = 1877.86
-	s0!2{}[!19!0] = Φ(!9!0{}[!19!0], s0!3{}[(!19!0 - 1)]): Y -> {} for 0.00 * 10 = 0.00
-	!5!2{}[!19!0] = (s0!2{}[!19!0] and !4!2{}[!19!0]): Y -> {} for 1462.48 * 10 = 14624.76
-	s0!3{}[!19!0] = (!2!2{}[!19!0] or !5!2{}[!19!0]): Y -> {} for 1463.25 * 10 = 14632.47
-s1!2{N!0}[] = (s0!2{N!0}[] and !1!2{N!0}[]): Y -> {} for 1876.83 * 1 = 1876.83
-!6!2{N!0}[] = (s1!2{N!0}[] or s0!3{N!0}[]): Y -> {} for 2031.45 * 1 = 2031.45
-	length!2{}[!20!0] = Φ(!11!0{}[!20!0], length!5{}[(!20!0 - 1)]): Y -> {} for 0.00 * 10 = 0.00
-	length!3{}[!20!0] = (length!2{}[!20!0] + 1): Y -> {} for 1476.35 * 10 = 14763.50
-	length!5{}[!20!0] = MUX(!6!2{}[!20!0], length!3{}[!20!0], length!4): Y -> {} for 1474.56 * 10 = 14745.59
-	max_len!2{}[!21!0] = Φ(!10!0{}[!21!0], max_len!4{}[(!21!0 - 1)]): Y -> {} for 0.00 * 10 = 0.00
-	!7!2{}[!21!0] = (max_len!2{}[!21!0] < length!5{}[!21!0]): Y -> {} for 1479.81 * 10 = 14798.10
-	!8!2{}[!21!0] = (s1!2{}[!21!0] and !7!2{}[!21!0]): Y -> {} for 1462.48 * 10 = 14624.76
-	max_len!4{}[!21!0] = MUX(!8!2{}[!21!0], length!5{}[!21!0], max_len!2{}[!21!0]): Y -> {} for 1474.56 * 10 = 14745.59
-!18!0 = drop_dim(max_len!4{N!0}[]): _ -> {'Y'} for 0.00 * 1 = 0.00
+Flags:		{}
+s0!1 = False: _ -> ['Y'] for 0.00000 * 1 = 0.00
+max_len!1 = 0: _ -> ['Y'] for 0.00000 * 1 = 0.00
+length!1 = 0: _ -> ['Y'] for 0.00000 * 1 = 0.00
+!12!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!13!0{N!0}[] = lift(Syms!0[2], (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!15!0{N!0}[] = lift(Syms!0[1], (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!17!0{N!0}[] = lift(Syms!0[0], (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+length!4 = 0: _ -> ['Y'] for 0.00000 * 1 = 0.00
+!9!0{N!0}[] = lift(s0!1, (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!10!0{N!0}[] = lift(max_len!1, (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!11!0{N!0}[] = lift(length!1, (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!1!2{N!0}[] = (!12!0{N!0}[] == !13!0{N!0}[]): Y -> {} for 0.01475 * 1 = 0.01
+!2!2{N!0}[] = (!12!0{N!0}[] == !15!0{N!0}[]): Y -> {} for 0.01475 * 1 = 0.01
+!4!2{N!0}[] = (!12!0{N!0}[] == !17!0{N!0}[]): Y -> {} for 0.01475 * 1 = 0.01
+	s0!2{}[!19!0] = Φ(!9!0{}[!19!0], s0!3{}[(!19!0 - 1)]): Y -> {} for 0.00000 * 10 = 0.00
+	!5!2{}[!19!0] = (s0!2{}[!19!0] and !4!2{}[!19!0]): Y -> {} for 0.00245 * 10 = 0.02
+	s0!3{}[!19!0] = (!2!2{}[!19!0] or !5!2{}[!19!0]): Y -> {} for 0.00282 * 10 = 0.03
+s1!2{N!0}[] = (s0!2{N!0}[] and !1!2{N!0}[]): Y -> {} for 0.00269 * 1 = 0.00
+!6!2{N!0}[] = (s1!2{N!0}[] or s0!3{N!0}[]): Y -> {} for 0.00251 * 1 = 0.00
+	length!2{}[!20!0] = Φ(!11!0{}[!20!0], length!5{}[(!20!0 - 1)]): Y -> {} for 0.00000 * 10 = 0.00
+	length!3{}[!20!0] = (length!2{}[!20!0] + 1): Y -> {} for 0.02351 * 10 = 0.24
+	length!5{}[!20!0] = MUX(!6!2{}[!20!0], length!3{}[!20!0], length!4): Y -> {} for 0.00597 * 10 = 0.06
+	max_len!2{}[!21!0] = Φ(!10!0{}[!21!0], max_len!4{}[(!21!0 - 1)]): Y -> {} for 0.00000 * 10 = 0.00
+	!7!2{}[!21!0] = (max_len!2{}[!21!0] < length!5{}[!21!0]): Y -> {} for 0.02979 * 10 = 0.30
+	!8!2{}[!21!0] = (s1!2{}[!21!0] and !7!2{}[!21!0]): Y -> {} for 0.00245 * 10 = 0.02
+	max_len!4{}[!21!0] = MUX(!8!2{}[!21!0], length!5{}[!21!0], max_len!2{}[!21!0]): Y -> {} for 0.00597 * 10 = 0.06
+!18!0 = drop_dim(max_len!4{N!0}[]): _ -> ['Y'] for 0.00000 * 1 = 0.00
 return !18!0
-Output vars:	{!18!0: {'Y'}}
+Output vars:	{!18!0: ['Y']}
 
 ```
 #### MOTION code
@@ -8321,6 +7566,8 @@ encrypto::motion::SecureUnsignedInteger longest_102(
     encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_1 = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(std::uint32_t(1)), 0);
     encrypto::motion::ShareWrapper _MPC_CONSTANT_false = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::BitVector(1, false), 0);
 
+    // Input Protocol Convertions
+
     // Plaintext parameter assignments
 
     // Function body
@@ -8399,39 +7646,40 @@ encrypto::motion::SecureUnsignedInteger longest_102(
 }
 ```
 #### MP-SPDZ mixed configuration
-```Total cost:	121456.48
-Input vars:	{Syms!0: {'B'}, Seq!0: {'B'}}
-Constants:	{False: {'B'}, 0: {'B'}, 1: {'B'}}
+```Total cost:	0.00057
+Input vars:	{Syms!0: ['B'], Seq!0: ['B']}
+Constants:	{False: ['B'], 0: ['B'], 1: ['B']}
 Plaintext vars:	{}
-s0!1 = False: _ -> {'B'} for 0.00 * 1 = 0.00
-max_len!1 = 0: _ -> {'B'} for 0.00 * 1 = 0.00
-length!1 = 0: _ -> {'B'} for 0.00 * 1 = 0.00
-!12!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!13!0{N!0}[] = lift(Syms!0[2], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!15!0{N!0}[] = lift(Syms!0[1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!17!0{N!0}[] = lift(Syms!0[0], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-length!4 = 0: _ -> {'B'} for 0.00 * 1 = 0.00
-!9!0{N!0}[] = lift(s0!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!10!0{N!0}[] = lift(max_len!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!11!0{N!0}[] = lift(length!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!1!2{N!0}[] = (!12!0{N!0}[] == !13!0{N!0}[]): B -> {} for 2149.74 * 1 = 2149.74
-!2!2{N!0}[] = (!12!0{N!0}[] == !15!0{N!0}[]): B -> {} for 2149.74 * 1 = 2149.74
-!4!2{N!0}[] = (!12!0{N!0}[] == !17!0{N!0}[]): B -> {} for 2149.74 * 1 = 2149.74
-	s0!2{}[!19!0] = Φ(!9!0{}[!19!0], s0!3{}[(!19!0 - 1)]): B -> {} for 0.00 * 10 = 0.00
-	!5!2{}[!19!0] = (s0!2{}[!19!0] and !4!2{}[!19!0]): B -> {} for 1372.38 * 10 = 13723.83
-	s0!3{}[!19!0] = (!2!2{}[!19!0] or !5!2{}[!19!0]): B -> {} for 1381.97 * 10 = 13819.69
-s1!2{N!0}[] = (s0!2{N!0}[] and !1!2{N!0}[]): B -> {} for 1669.87 * 1 = 1669.87
-!6!2{N!0}[] = (s1!2{N!0}[] or s0!3{N!0}[]): B -> {} for 1763.39 * 1 = 1763.39
-	length!2{}[!20!0] = Φ(!11!0{}[!20!0], length!5{}[(!20!0 - 1)]): B -> {} for 0.00 * 10 = 0.00
-	length!3{}[!20!0] = (length!2{}[!20!0] + 1): B -> {} for 2083.52 * 10 = 20835.23
-	length!5{}[!20!0] = MUX(!6!2{}[!20!0], length!3{}[!20!0], length!4): B -> {} for 1405.56 * 10 = 14055.56
-	max_len!2{}[!21!0] = Φ(!10!0{}[!21!0], max_len!4{}[(!21!0 - 1)]): B -> {} for 0.00 * 10 = 0.00
-	!7!2{}[!21!0] = (max_len!2{}[!21!0] < length!5{}[!21!0]): B -> {} for 2136.03 * 10 = 21360.30
-	!8!2{}[!21!0] = (s1!2{}[!21!0] and !7!2{}[!21!0]): B -> {} for 1372.38 * 10 = 13723.83
-	max_len!4{}[!21!0] = MUX(!8!2{}[!21!0], length!5{}[!21!0], max_len!2{}[!21!0]): B -> {} for 1405.56 * 10 = 14055.56
-!18!0 = drop_dim(max_len!4{N!0}[]): _ -> {'B'} for 0.00 * 1 = 0.00
+Flags:		{X}
+s0!1 = False: _ -> ['B'] for 0.00000 * 1 = 0.00
+max_len!1 = 0: _ -> ['B'] for 0.00000 * 1 = 0.00
+length!1 = 0: _ -> ['B'] for 0.00000 * 1 = 0.00
+!12!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!13!0{N!0}[] = lift(Syms!0[2], (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!15!0{N!0}[] = lift(Syms!0[1], (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!17!0{N!0}[] = lift(Syms!0[0], (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+length!4 = 0: _ -> ['B'] for 0.00000 * 1 = 0.00
+!9!0{N!0}[] = lift(s0!1, (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!10!0{N!0}[] = lift(max_len!1, (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!11!0{N!0}[] = lift(length!1, (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!1!2{N!0}[] = (!12!0{N!0}[] == !13!0{N!0}[]): B -> {} for 0.00006 * 1 = 0.00
+!2!2{N!0}[] = (!12!0{N!0}[] == !15!0{N!0}[]): B -> {} for 0.00006 * 1 = 0.00
+!4!2{N!0}[] = (!12!0{N!0}[] == !17!0{N!0}[]): B -> {} for 0.00006 * 1 = 0.00
+	s0!2{}[!19!0] = Φ(!9!0{}[!19!0], s0!3{}[(!19!0 - 1)]): B -> {} for 0.00000 * 10 = 0.00
+	!5!2{}[!19!0] = (s0!2{}[!19!0] and !4!2{}[!19!0]): B -> {} for 0.00000 * 10 = 0.00
+	s0!3{}[!19!0] = (!2!2{}[!19!0] or !5!2{}[!19!0]): B -> {} for 0.00000 * 10 = 0.00
+s1!2{N!0}[] = (s0!2{N!0}[] and !1!2{N!0}[]): B -> {} for 0.00000 * 1 = 0.00
+!6!2{N!0}[] = (s1!2{N!0}[] or s0!3{N!0}[]): B -> {} for 0.00001 * 1 = 0.00
+	length!2{}[!20!0] = Φ(!11!0{}[!20!0], length!5{}[(!20!0 - 1)]): B -> {} for 0.00000 * 10 = 0.00
+	length!3{}[!20!0] = (length!2{}[!20!0] + 1): B -> {} for 0.00001 * 10 = 0.00
+	length!5{}[!20!0] = MUX(!6!2{}[!20!0], length!3{}[!20!0], length!4): B -> {} for 0.00000 * 10 = 0.00
+	max_len!2{}[!21!0] = Φ(!10!0{}[!21!0], max_len!4{}[(!21!0 - 1)]): B -> {} for 0.00000 * 10 = 0.00
+	!7!2{}[!21!0] = (max_len!2{}[!21!0] < length!5{}[!21!0]): B -> {} for 0.00003 * 10 = 0.00
+	!8!2{}[!21!0] = (s1!2{}[!21!0] and !7!2{}[!21!0]): B -> {} for 0.00000 * 10 = 0.00
+	max_len!4{}[!21!0] = MUX(!8!2{}[!21!0], length!5{}[!21!0], max_len!2{}[!21!0]): B -> {} for 0.00000 * 10 = 0.00
+!18!0 = drop_dim(max_len!4{N!0}[]): _ -> ['B'] for 0.00000 * 1 = 0.00
 return !18!0
-Output vars:	{!18!0: {'B'}}
+Output vars:	{!18!0: ['B']}
 
 ```
 #### MP-SPDZ code
@@ -8513,10 +7761,13 @@ def longest_102(Seq_0, N_0, Syms_0):
 ```
 #### MP-SPDZ mixed code
 ```py
+program.options.binary = 32
+program.use_dabit = True
 def longest_102(Seq_0, N_0, Syms_0):
     # Convertion functions
     siv32 = sbitintvec.get_type(32)
     sb32 = sbits.get_type(32)
+    
     
     # Shared array declarations
     _1_2 = [None] * (N_0)
@@ -8541,8 +7792,10 @@ def longest_102(Seq_0, N_0, Syms_0):
     s0_2 = [None] * (N_0)
     s0_3 = [None] * (N_0)
     s1_2 = [None] * (N_0)
+    # Shared array convertion declarations
+    
     # Function body
-    s0_1 = siv32(_v.sbool(False))
+    s0_1 = sbit(0)
     max_len_1 = siv32(0)
     length_1 = siv32(0)
     _12_0 = _v.lift(lambda indices: (Seq_0[indices[0]]), [N_0])
@@ -8626,8 +7879,10 @@ def longest_odd_10(
 
     return max_length
 
-
-print(longest_odd_10([0, 1, 0, 1, 0, 1, 0, 1], 8, [0, 1]))
+Seq = [0, 1, 0, 1, 0, 1, 0, 1]
+N = 8
+Syms = [0, 1]
+print(longest_odd_10(Seq, N, Syms))
 
 ```
 #### Restricted AST
@@ -8894,38 +8149,39 @@ def longest_odd_10(Seq!0: shared[list[int; ?]], N!0: plaintext[int], Syms!0: sha
     return !15!0
 ```
 #### MOTION mixed configuration
-```Total cost:	80428.98
-Input vars:	{Syms!0: {'Y'}, Seq!0: {'Y'}}
-Constants:	{0: {'Y'}, False: {'Y'}, 1: {'Y'}}
+```Total cost:	0.65870
+Input vars:	{Syms!0: ['Y'], Seq!0: ['Y']}
+Constants:	{0: ['Y'], False: ['Y'], 1: ['Y']}
 Plaintext vars:	{}
-current_length!1 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
-max_length!1 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
-s2!1 = False: _ -> {'Y'} for 0.00 * 1 = 0.00
-!11!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!12!0{N!0}[] = lift(Syms!0[1], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!14!0{N!0}[] = lift(Syms!0[0], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-current_length!4 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
-!8!0{N!0}[] = lift(current_length!1, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!9!0{N!0}[] = lift(max_length!1, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!10!0{N!0}[] = lift(s2!1, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!1!2{N!0}[] = (!11!0{N!0}[] == !12!0{N!0}[]): Y -> {} for 1975.88 * 1 = 1975.88
-s2!3{N!0}[] = (!11!0{N!0}[] == !14!0{N!0}[]): Y -> {} for 1975.88 * 1 = 1975.88
-	s2!2{}[!16!0] = Φ(!10!0{}[!16!0], s2!3{}[(!16!0 - 1)]): Y -> {} for 0.00 * 8 = 0.00
-s1!2{N!0}[] = (s2!2{N!0}[] and !1!2{N!0}[]): Y -> {} for 1947.15 * 1 = 1947.15
-!2!2{N!0}[] = not s2!2{N!0}[]: Y -> {} for 0.00 * 1 = 0.00
-	current_length!2{}[!17!0] = Φ(!8!0{}[!17!0], current_length!6{}[(!17!0 - 1)]): Y -> {} for 0.00 * 8 = 0.00
-	current_length!5{}[!17!0] = MUX(!2!2{}[!17!0], current_length!4, current_length!2{}[!17!0]): Y -> {} for 1474.56 * 8 = 11796.47
-	current_length!3{}[!17!0] = (current_length!2{}[!17!0] + 1): Y -> {} for 1476.35 * 8 = 11810.80
-	current_length!6{}[!17!0] = MUX(s1!2{}[!17!0], current_length!3{}[!17!0], current_length!5{}[!17!0]): Y -> {} for 1474.56 * 8 = 11796.47
-!4!2{N!0}[] = (current_length!6{N!0}[] & 1): Y -> {} for 1947.15 * 1 = 1947.15
-!5!2{N!0}[] = (!4!2{N!0}[] == 1): Y -> {} for 1975.88 * 1 = 1975.88
-	max_length!2{}[!18!0] = Φ(!9!0{}[!18!0], max_length!4{}[(!18!0 - 1)]): Y -> {} for 0.00 * 8 = 0.00
-	!6!2{}[!18!0] = (current_length!6{}[!18!0] > max_length!2{}[!18!0]): Y -> {} for 1463.38 * 8 = 11707.04
-	!7!2{}[!18!0] = (!5!2{}[!18!0] and !6!2{}[!18!0]): Y -> {} for 1462.48 * 8 = 11699.81
-	max_length!4{}[!18!0] = MUX(!7!2{}[!18!0], current_length!6{}[!18!0], max_length!2{}[!18!0]): Y -> {} for 1474.56 * 8 = 11796.47
-!15!0 = drop_dim(max_length!4{N!0}[]): _ -> {'Y'} for 0.00 * 1 = 0.00
+Flags:		{}
+current_length!1 = 0: _ -> ['Y'] for 0.00000 * 1 = 0.00
+max_length!1 = 0: _ -> ['Y'] for 0.00000 * 1 = 0.00
+s2!1 = False: _ -> ['Y'] for 0.00000 * 1 = 0.00
+!11!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!12!0{N!0}[] = lift(Syms!0[1], (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!14!0{N!0}[] = lift(Syms!0[0], (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+current_length!4 = 0: _ -> ['Y'] for 0.00000 * 1 = 0.00
+!8!0{N!0}[] = lift(current_length!1, (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!9!0{N!0}[] = lift(max_length!1, (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!10!0{N!0}[] = lift(s2!1, (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!1!2{N!0}[] = (!11!0{N!0}[] == !12!0{N!0}[]): Y -> {} for 0.01528 * 1 = 0.02
+s2!3{N!0}[] = (!11!0{N!0}[] == !14!0{N!0}[]): Y -> {} for 0.01528 * 1 = 0.02
+	s2!2{}[!16!0] = Φ(!10!0{}[!16!0], s2!3{}[(!16!0 - 1)]): Y -> {} for 0.00000 * 8 = 0.00
+s1!2{N!0}[] = (s2!2{N!0}[] and !1!2{N!0}[]): Y -> {} for 0.00200 * 1 = 0.00
+!2!2{N!0}[] = not s2!2{N!0}[]: Y -> {} for 0.00000 * 1 = 0.00
+	current_length!2{}[!17!0] = Φ(!8!0{}[!17!0], current_length!6{}[(!17!0 - 1)]): Y -> {} for 0.00000 * 8 = 0.00
+	current_length!5{}[!17!0] = MUX(!2!2{}[!17!0], current_length!4, current_length!2{}[!17!0]): Y -> {} for 0.00597 * 8 = 0.05
+	current_length!3{}[!17!0] = (current_length!2{}[!17!0] + 1): Y -> {} for 0.02351 * 8 = 0.19
+	current_length!6{}[!17!0] = MUX(s1!2{}[!17!0], current_length!3{}[!17!0], current_length!5{}[!17!0]): Y -> {} for 0.00597 * 8 = 0.05
+!4!2{N!0}[] = (current_length!6{N!0}[] & 1): Y -> {} for 0.01024 * 1 = 0.01
+!5!2{N!0}[] = (!4!2{N!0}[] == 1): Y -> {} for 0.01528 * 1 = 0.02
+	max_length!2{}[!18!0] = Φ(!9!0{}[!18!0], max_length!4{}[(!18!0 - 1)]): Y -> {} for 0.00000 * 8 = 0.00
+	!6!2{}[!18!0] = (current_length!6{}[!18!0] > max_length!2{}[!18!0]): Y -> {} for 0.03120 * 8 = 0.25
+	!7!2{}[!18!0] = (!5!2{}[!18!0] and !6!2{}[!18!0]): Y -> {} for 0.00245 * 8 = 0.02
+	max_length!4{}[!18!0] = MUX(!7!2{}[!18!0], current_length!6{}[!18!0], max_length!2{}[!18!0]): Y -> {} for 0.00597 * 8 = 0.05
+!15!0 = drop_dim(max_length!4{N!0}[]): _ -> ['Y'] for 0.00000 * 1 = 0.00
 return !15!0
-Output vars:	{!15!0: {'Y'}}
+Output vars:	{!15!0: ['Y']}
 
 ```
 #### MOTION code
@@ -9115,6 +8371,8 @@ encrypto::motion::SecureUnsignedInteger longest_odd_10(
     encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_1 = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(std::uint32_t(1)), 0);
     encrypto::motion::ShareWrapper _MPC_CONSTANT_false = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::BitVector(1, false), 0);
 
+    // Input Protocol Convertions
+
     // Plaintext parameter assignments
 
     // Function body
@@ -9193,38 +8451,39 @@ encrypto::motion::SecureUnsignedInteger longest_odd_10(
 }
 ```
 #### MP-SPDZ mixed configuration
-```Total cost:	88008.43
-Input vars:	{Syms!0: {'B'}, Seq!0: {'B'}}
-Constants:	{0: {'B'}, False: {'B'}, 1: {'B'}}
+```Total cost:	0.00033
+Input vars:	{Syms!0: ['B'], Seq!0: ['B']}
+Constants:	{0: ['B'], False: ['B'], 1: ['B']}
 Plaintext vars:	{}
-current_length!1 = 0: _ -> {'B'} for 0.00 * 1 = 0.00
-max_length!1 = 0: _ -> {'B'} for 0.00 * 1 = 0.00
-s2!1 = False: _ -> {'B'} for 0.00 * 1 = 0.00
-!11!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!12!0{N!0}[] = lift(Syms!0[1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!14!0{N!0}[] = lift(Syms!0[0], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-current_length!4 = 0: _ -> {'B'} for 0.00 * 1 = 0.00
-!8!0{N!0}[] = lift(current_length!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!9!0{N!0}[] = lift(max_length!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!10!0{N!0}[] = lift(s2!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!1!2{N!0}[] = (!11!0{N!0}[] == !12!0{N!0}[]): B -> {} for 2298.92 * 1 = 2298.92
-s2!3{N!0}[] = (!11!0{N!0}[] == !14!0{N!0}[]): B -> {} for 2298.92 * 1 = 2298.92
-	s2!2{}[!16!0] = Φ(!10!0{}[!16!0], s2!3{}[(!16!0 - 1)]): B -> {} for 0.00 * 8 = 0.00
-s1!2{N!0}[] = (s2!2{N!0}[] and !1!2{N!0}[]): B -> {} for 1760.82 * 1 = 1760.82
-!2!2{N!0}[] = not s2!2{N!0}[]: B -> {} for 0.00 * 1 = 0.00
-	current_length!2{}[!17!0] = Φ(!8!0{}[!17!0], current_length!6{}[(!17!0 - 1)]): B -> {} for 0.00 * 8 = 0.00
-	current_length!5{}[!17!0] = MUX(!2!2{}[!17!0], current_length!4, current_length!2{}[!17!0]): B -> {} for 1405.56 * 8 = 11244.44
-	current_length!3{}[!17!0] = (current_length!2{}[!17!0] + 1): B -> {} for 2083.52 * 8 = 16668.18
-	current_length!6{}[!17!0] = MUX(s1!2{}[!17!0], current_length!3{}[!17!0], current_length!5{}[!17!0]): B -> {} for 1405.56 * 8 = 11244.44
-!4!2{N!0}[] = (current_length!6{N!0}[] & 1): B -> {} for 1760.82 * 1 = 1760.82
-!5!2{N!0}[] = (!4!2{N!0}[] == 1): B -> {} for 2298.92 * 1 = 2298.92
-	max_length!2{}[!18!0] = Φ(!9!0{}[!18!0], max_length!4{}[(!18!0 - 1)]): B -> {} for 0.00 * 8 = 0.00
-	!6!2{}[!18!0] = (current_length!6{}[!18!0] > max_length!2{}[!18!0]): B -> {} for 2026.18 * 8 = 16209.46
-	!7!2{}[!18!0] = (!5!2{}[!18!0] and !6!2{}[!18!0]): B -> {} for 1372.38 * 8 = 10979.07
-	max_length!4{}[!18!0] = MUX(!7!2{}[!18!0], current_length!6{}[!18!0], max_length!2{}[!18!0]): B -> {} for 1405.56 * 8 = 11244.44
-!15!0 = drop_dim(max_length!4{N!0}[]): _ -> {'B'} for 0.00 * 1 = 0.00
+Flags:		{X}
+current_length!1 = 0: _ -> ['B'] for 0.00000 * 1 = 0.00
+max_length!1 = 0: _ -> ['B'] for 0.00000 * 1 = 0.00
+s2!1 = False: _ -> ['B'] for 0.00000 * 1 = 0.00
+!11!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!12!0{N!0}[] = lift(Syms!0[1], (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!14!0{N!0}[] = lift(Syms!0[0], (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+current_length!4 = 0: _ -> ['B'] for 0.00000 * 1 = 0.00
+!8!0{N!0}[] = lift(current_length!1, (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!9!0{N!0}[] = lift(max_length!1, (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!10!0{N!0}[] = lift(s2!1, (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!1!2{N!0}[] = (!11!0{N!0}[] == !12!0{N!0}[]): B -> {} for 0.00003 * 1 = 0.00
+s2!3{N!0}[] = (!11!0{N!0}[] == !14!0{N!0}[]): B -> {} for 0.00003 * 1 = 0.00
+	s2!2{}[!16!0] = Φ(!10!0{}[!16!0], s2!3{}[(!16!0 - 1)]): B -> {} for 0.00000 * 8 = 0.00
+s1!2{N!0}[] = (s2!2{N!0}[] and !1!2{N!0}[]): B -> {} for 0.00000 * 1 = 0.00
+!2!2{N!0}[] = not s2!2{N!0}[]: B -> {} for 0.00000 * 1 = 0.00
+	current_length!2{}[!17!0] = Φ(!8!0{}[!17!0], current_length!6{}[(!17!0 - 1)]): B -> {} for 0.00000 * 8 = 0.00
+	current_length!5{}[!17!0] = MUX(!2!2{}[!17!0], current_length!4, current_length!2{}[!17!0]): B -> {} for 0.00000 * 8 = 0.00
+	current_length!3{}[!17!0] = (current_length!2{}[!17!0] + 1): B -> {} for 0.00001 * 8 = 0.00
+	current_length!6{}[!17!0] = MUX(s1!2{}[!17!0], current_length!3{}[!17!0], current_length!5{}[!17!0]): B -> {} for 0.00000 * 8 = 0.00
+!4!2{N!0}[] = (current_length!6{N!0}[] & 1): B -> {} for 0.00005 * 1 = 0.00
+!5!2{N!0}[] = (!4!2{N!0}[] == 1): B -> {} for 0.00003 * 1 = 0.00
+	max_length!2{}[!18!0] = Φ(!9!0{}[!18!0], max_length!4{}[(!18!0 - 1)]): B -> {} for 0.00000 * 8 = 0.00
+	!6!2{}[!18!0] = (current_length!6{}[!18!0] > max_length!2{}[!18!0]): B -> {} for 0.00001 * 8 = 0.00
+	!7!2{}[!18!0] = (!5!2{}[!18!0] and !6!2{}[!18!0]): B -> {} for 0.00000 * 8 = 0.00
+	max_length!4{}[!18!0] = MUX(!7!2{}[!18!0], current_length!6{}[!18!0], max_length!2{}[!18!0]): B -> {} for 0.00000 * 8 = 0.00
+!15!0 = drop_dim(max_length!4{N!0}[]): _ -> ['B'] for 0.00000 * 1 = 0.00
 return !15!0
-Output vars:	{!15!0: {'B'}}
+Output vars:	{!15!0: ['B']}
 
 ```
 #### MP-SPDZ code
@@ -9304,10 +8563,13 @@ def longest_odd_10(Seq_0, N_0, Syms_0):
 ```
 #### MP-SPDZ mixed code
 ```py
+program.options.binary = 32
+program.use_dabit = True
 def longest_odd_10(Seq_0, N_0, Syms_0):
     # Convertion functions
     siv32 = sbitintvec.get_type(32)
     sb32 = sbits.get_type(32)
+    
     
     # Shared array declarations
     _1_2 = [None] * (N_0)
@@ -9331,10 +8593,12 @@ def longest_odd_10(Seq_0, N_0, Syms_0):
     s1_2 = [None] * (N_0)
     s2_2 = [None] * (N_0)
     s2_3 = [None] * (N_0)
+    # Shared array convertion declarations
+    
     # Function body
     current_length_1 = siv32(0)
     max_length_1 = siv32(0)
-    s2_1 = siv32(_v.sbool(False))
+    s2_1 = sbit(0)
     _11_0 = _v.lift(lambda indices: (Seq_0[indices[0]]), [N_0])
     _12_0 = _v.lift(lambda indices: (Syms_0[1]), [N_0])
     _14_0 = _v.lift(lambda indices: (Syms_0[0]), [N_0])
@@ -9403,8 +8667,10 @@ def max_dist_between_syms(
     return max_dist
 
 
-seq = [1, 2, 1, 1, 2, 3, 4, 1]
-print(max_dist_between_syms(seq, 8, 1))
+Seq = [1, 2, 1, 1, 2, 3, 4, 1]
+N = 8
+Sym = 1
+print(max_dist_between_syms(Seq, N, Sym))
 
 ```
 #### Restricted AST
@@ -9593,28 +8859,29 @@ def max_dist_between_syms(Seq!0: shared[list[int; ?]], N!0: plaintext[int], Sym!
     return !8!0
 ```
 #### MOTION mixed configuration
-```Total cost:	49086.65
-Input vars:	{Sym!0: {'Y'}, Seq!0: {'Y'}}
-Constants:	{0: {'Y'}, 1: {'Y'}}
+```Total cost:	0.54854
+Input vars:	{Sym!0: ['Y'], Seq!0: ['Y']}
+Constants:	{0: ['Y'], 1: ['Y']}
 Plaintext vars:	{}
-max_dist!1 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
-current_dist!1 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
-!6!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!7!0{N!0}[] = lift(Sym!0, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-current_dist!4 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
-!4!0{N!0}[] = lift(max_dist!1, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!5!0{N!0}[] = lift(current_dist!1, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!1!2{N!0}[] = (!6!0{N!0}[] == !7!0{N!0}[]): Y -> {} for 1975.88 * 1 = 1975.88
-!2!2{N!0}[] = not !1!2{N!0}[]: Y -> {} for 0.00 * 1 = 0.00
-	current_dist!2{}[!9!0] = Φ(!5!0{}[!9!0], current_dist!5{}[(!9!0 - 1)]): Y -> {} for 0.00 * 8 = 0.00
-	current_dist!3{}[!9!0] = (current_dist!2{}[!9!0] + 1): Y -> {} for 1476.35 * 8 = 11810.80
-	current_dist!5{}[!9!0] = MUX(!2!2{}[!9!0], current_dist!3{}[!9!0], current_dist!4): Y -> {} for 1474.56 * 8 = 11796.47
-	max_dist!2{}[!10!0] = Φ(!4!0{}[!10!0], max_dist!4{}[(!10!0 - 1)]): Y -> {} for 0.00 * 8 = 0.00
-	!3!2{}[!10!0] = (current_dist!5{}[!10!0] > max_dist!2{}[!10!0]): Y -> {} for 1463.38 * 8 = 11707.04
-	max_dist!4{}[!10!0] = MUX(!3!2{}[!10!0], current_dist!5{}[!10!0], max_dist!2{}[!10!0]): Y -> {} for 1474.56 * 8 = 11796.47
-!8!0 = drop_dim(max_dist!4{N!0}[]): _ -> {'Y'} for 0.00 * 1 = 0.00
+Flags:		{}
+max_dist!1 = 0: _ -> ['Y'] for 0.00000 * 1 = 0.00
+current_dist!1 = 0: _ -> ['Y'] for 0.00000 * 1 = 0.00
+!6!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!7!0{N!0}[] = lift(Sym!0, (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+current_dist!4 = 0: _ -> ['Y'] for 0.00000 * 1 = 0.00
+!4!0{N!0}[] = lift(max_dist!1, (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!5!0{N!0}[] = lift(current_dist!1, (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!1!2{N!0}[] = (!6!0{N!0}[] == !7!0{N!0}[]): Y -> {} for 0.01528 * 1 = 0.02
+!2!2{N!0}[] = not !1!2{N!0}[]: Y -> {} for 0.00000 * 1 = 0.00
+	current_dist!2{}[!9!0] = Φ(!5!0{}[!9!0], current_dist!5{}[(!9!0 - 1)]): Y -> {} for 0.00000 * 8 = 0.00
+	current_dist!3{}[!9!0] = (current_dist!2{}[!9!0] + 1): Y -> {} for 0.02351 * 8 = 0.19
+	current_dist!5{}[!9!0] = MUX(!2!2{}[!9!0], current_dist!3{}[!9!0], current_dist!4): Y -> {} for 0.00597 * 8 = 0.05
+	max_dist!2{}[!10!0] = Φ(!4!0{}[!10!0], max_dist!4{}[(!10!0 - 1)]): Y -> {} for 0.00000 * 8 = 0.00
+	!3!2{}[!10!0] = (current_dist!5{}[!10!0] > max_dist!2{}[!10!0]): Y -> {} for 0.03120 * 8 = 0.25
+	max_dist!4{}[!10!0] = MUX(!3!2{}[!10!0], current_dist!5{}[!10!0], max_dist!2{}[!10!0]): Y -> {} for 0.00597 * 8 = 0.05
+!8!0 = drop_dim(max_dist!4{N!0}[]): _ -> ['Y'] for 0.00000 * 1 = 0.00
 return !8!0
-Output vars:	{!8!0: {'Y'}}
+Output vars:	{!8!0: ['Y']}
 
 ```
 #### MOTION code
@@ -9751,6 +9018,8 @@ encrypto::motion::SecureUnsignedInteger max_dist_between_syms(
     encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_0 = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(std::uint32_t(0)), 0);
     encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_1 = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(std::uint32_t(1)), 0);
 
+    // Input Protocol Convertions
+
     // Plaintext parameter assignments
 
     // Function body
@@ -9804,28 +9073,29 @@ encrypto::motion::SecureUnsignedInteger max_dist_between_syms(
 }
 ```
 #### MP-SPDZ mixed configuration
-```Total cost:	57665.45
-Input vars:	{Sym!0: {'B'}, Seq!0: {'B'}}
-Constants:	{0: {'B'}, 1: {'B'}}
+```Total cost:	0.00020
+Input vars:	{Sym!0: ['B'], Seq!0: ['B']}
+Constants:	{0: ['B'], 1: ['B']}
 Plaintext vars:	{}
-max_dist!1 = 0: _ -> {'B'} for 0.00 * 1 = 0.00
-current_dist!1 = 0: _ -> {'B'} for 0.00 * 1 = 0.00
-!6!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!7!0{N!0}[] = lift(Sym!0, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-current_dist!4 = 0: _ -> {'B'} for 0.00 * 1 = 0.00
-!4!0{N!0}[] = lift(max_dist!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!5!0{N!0}[] = lift(current_dist!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!1!2{N!0}[] = (!6!0{N!0}[] == !7!0{N!0}[]): B -> {} for 2298.92 * 1 = 2298.92
-!2!2{N!0}[] = not !1!2{N!0}[]: B -> {} for 0.00 * 1 = 0.00
-	current_dist!2{}[!9!0] = Φ(!5!0{}[!9!0], current_dist!5{}[(!9!0 - 1)]): B -> {} for 0.00 * 8 = 0.00
-	current_dist!3{}[!9!0] = (current_dist!2{}[!9!0] + 1): B -> {} for 2083.52 * 8 = 16668.18
-	current_dist!5{}[!9!0] = MUX(!2!2{}[!9!0], current_dist!3{}[!9!0], current_dist!4): B -> {} for 1405.56 * 8 = 11244.44
-	max_dist!2{}[!10!0] = Φ(!4!0{}[!10!0], max_dist!4{}[(!10!0 - 1)]): B -> {} for 0.00 * 8 = 0.00
-	!3!2{}[!10!0] = (current_dist!5{}[!10!0] > max_dist!2{}[!10!0]): B -> {} for 2026.18 * 8 = 16209.46
-	max_dist!4{}[!10!0] = MUX(!3!2{}[!10!0], current_dist!5{}[!10!0], max_dist!2{}[!10!0]): B -> {} for 1405.56 * 8 = 11244.44
-!8!0 = drop_dim(max_dist!4{N!0}[]): _ -> {'B'} for 0.00 * 1 = 0.00
+Flags:		{X}
+max_dist!1 = 0: _ -> ['B'] for 0.00000 * 1 = 0.00
+current_dist!1 = 0: _ -> ['B'] for 0.00000 * 1 = 0.00
+!6!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!7!0{N!0}[] = lift(Sym!0, (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+current_dist!4 = 0: _ -> ['B'] for 0.00000 * 1 = 0.00
+!4!0{N!0}[] = lift(max_dist!1, (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!5!0{N!0}[] = lift(current_dist!1, (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!1!2{N!0}[] = (!6!0{N!0}[] == !7!0{N!0}[]): B -> {} for 0.00003 * 1 = 0.00
+!2!2{N!0}[] = not !1!2{N!0}[]: B -> {} for 0.00000 * 1 = 0.00
+	current_dist!2{}[!9!0] = Φ(!5!0{}[!9!0], current_dist!5{}[(!9!0 - 1)]): B -> {} for 0.00000 * 8 = 0.00
+	current_dist!3{}[!9!0] = (current_dist!2{}[!9!0] + 1): B -> {} for 0.00001 * 8 = 0.00
+	current_dist!5{}[!9!0] = MUX(!2!2{}[!9!0], current_dist!3{}[!9!0], current_dist!4): B -> {} for 0.00000 * 8 = 0.00
+	max_dist!2{}[!10!0] = Φ(!4!0{}[!10!0], max_dist!4{}[(!10!0 - 1)]): B -> {} for 0.00000 * 8 = 0.00
+	!3!2{}[!10!0] = (current_dist!5{}[!10!0] > max_dist!2{}[!10!0]): B -> {} for 0.00001 * 8 = 0.00
+	max_dist!4{}[!10!0] = MUX(!3!2{}[!10!0], current_dist!5{}[!10!0], max_dist!2{}[!10!0]): B -> {} for 0.00000 * 8 = 0.00
+!8!0 = drop_dim(max_dist!4{N!0}[]): _ -> ['B'] for 0.00000 * 1 = 0.00
 return !8!0
-Output vars:	{!8!0: {'B'}}
+Output vars:	{!8!0: ['B']}
 
 ```
 #### MP-SPDZ code
@@ -9879,10 +9149,13 @@ def max_dist_between_syms(Seq_0, N_0, Sym_0):
 ```
 #### MP-SPDZ mixed code
 ```py
+program.options.binary = 32
+program.use_dabit = True
 def max_dist_between_syms(Seq_0, N_0, Sym_0):
     # Convertion functions
     siv32 = sbitintvec.get_type(32)
     sb32 = sbits.get_type(32)
+    
     
     # Shared array declarations
     _1_2 = [None] * (N_0)
@@ -9897,6 +9170,8 @@ def max_dist_between_syms(Seq_0, N_0, Sym_0):
     current_dist_5 = [None] * (N_0)
     max_dist_2 = [None] * (N_0)
     max_dist_4 = [None] * (N_0)
+    # Shared array convertion declarations
+    
     # Function body
     max_dist_1 = siv32(0)
     current_dist_1 = siv32(0)
@@ -9952,8 +9227,10 @@ def max_sum_between_syms(
     return max_sum
 
 
-seq = [1, 2, 1, 1, 2, 3, 4, 1]
-print(max_sum_between_syms(seq, 8, 1))
+Seq = [1, 2, 1, 1, 2, 3, 4, 1]
+N = 8
+Sym = 1
+print(max_sum_between_syms(Seq, N, Sym))
 
 ```
 #### Restricted AST
@@ -10146,28 +9423,29 @@ def max_sum_between_syms(Seq!0: shared[list[int; ?]], N!0: plaintext[int], Sym!0
     return !9!0
 ```
 #### MOTION mixed configuration
-```Total cost:	49086.65
-Input vars:	{Sym!0: {'Y'}, Seq!0: {'Y'}}
-Constants:	{0: {'Y'}}
+```Total cost:	0.54854
+Input vars:	{Sym!0: ['Y'], Seq!0: ['Y']}
+Constants:	{0: ['Y']}
 Plaintext vars:	{}
-max_sum!1 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
-current_sum!1 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
-!6!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!7!0{N!0}[] = lift(Sym!0, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-current_sum!4 = 0: _ -> {'Y'} for 0.00 * 1 = 0.00
-!4!0{N!0}[] = lift(max_sum!1, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!5!0{N!0}[] = lift(current_sum!1, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!1!2{N!0}[] = (!6!0{N!0}[] == !7!0{N!0}[]): Y -> {} for 1975.88 * 1 = 1975.88
-!2!2{N!0}[] = not !1!2{N!0}[]: Y -> {} for 0.00 * 1 = 0.00
-	current_sum!2{}[!10!0] = Φ(!5!0{}[!10!0], current_sum!5{}[(!10!0 - 1)]): Y -> {} for 0.00 * 8 = 0.00
-	current_sum!3{}[!10!0] = (current_sum!2{}[!10!0] + !6!0{}[!10!0]): Y -> {} for 1476.35 * 8 = 11810.80
-	current_sum!5{}[!10!0] = MUX(!2!2{}[!10!0], current_sum!3{}[!10!0], current_sum!4): Y -> {} for 1474.56 * 8 = 11796.47
-	max_sum!2{}[!11!0] = Φ(!4!0{}[!11!0], max_sum!4{}[(!11!0 - 1)]): Y -> {} for 0.00 * 8 = 0.00
-	!3!2{}[!11!0] = (current_sum!5{}[!11!0] > max_sum!2{}[!11!0]): Y -> {} for 1463.38 * 8 = 11707.04
-	max_sum!4{}[!11!0] = MUX(!3!2{}[!11!0], current_sum!5{}[!11!0], max_sum!2{}[!11!0]): Y -> {} for 1474.56 * 8 = 11796.47
-!9!0 = drop_dim(max_sum!4{N!0}[]): _ -> {'Y'} for 0.00 * 1 = 0.00
+Flags:		{}
+max_sum!1 = 0: _ -> ['Y'] for 0.00000 * 1 = 0.00
+current_sum!1 = 0: _ -> ['Y'] for 0.00000 * 1 = 0.00
+!6!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!7!0{N!0}[] = lift(Sym!0, (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+current_sum!4 = 0: _ -> ['Y'] for 0.00000 * 1 = 0.00
+!4!0{N!0}[] = lift(max_sum!1, (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!5!0{N!0}[] = lift(current_sum!1, (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!1!2{N!0}[] = (!6!0{N!0}[] == !7!0{N!0}[]): Y -> {} for 0.01528 * 1 = 0.02
+!2!2{N!0}[] = not !1!2{N!0}[]: Y -> {} for 0.00000 * 1 = 0.00
+	current_sum!2{}[!10!0] = Φ(!5!0{}[!10!0], current_sum!5{}[(!10!0 - 1)]): Y -> {} for 0.00000 * 8 = 0.00
+	current_sum!3{}[!10!0] = (current_sum!2{}[!10!0] + !6!0{}[!10!0]): Y -> {} for 0.02351 * 8 = 0.19
+	current_sum!5{}[!10!0] = MUX(!2!2{}[!10!0], current_sum!3{}[!10!0], current_sum!4): Y -> {} for 0.00597 * 8 = 0.05
+	max_sum!2{}[!11!0] = Φ(!4!0{}[!11!0], max_sum!4{}[(!11!0 - 1)]): Y -> {} for 0.00000 * 8 = 0.00
+	!3!2{}[!11!0] = (current_sum!5{}[!11!0] > max_sum!2{}[!11!0]): Y -> {} for 0.03120 * 8 = 0.25
+	max_sum!4{}[!11!0] = MUX(!3!2{}[!11!0], current_sum!5{}[!11!0], max_sum!2{}[!11!0]): Y -> {} for 0.00597 * 8 = 0.05
+!9!0 = drop_dim(max_sum!4{N!0}[]): _ -> ['Y'] for 0.00000 * 1 = 0.00
 return !9!0
-Output vars:	{!9!0: {'Y'}}
+Output vars:	{!9!0: ['Y']}
 
 ```
 #### MOTION code
@@ -10302,6 +9580,8 @@ encrypto::motion::SecureUnsignedInteger max_sum_between_syms(
     // Constant initializations
     encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_0 = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(std::uint32_t(0)), 0);
 
+    // Input Protocol Convertions
+
     // Plaintext parameter assignments
 
     // Function body
@@ -10355,28 +9635,29 @@ encrypto::motion::SecureUnsignedInteger max_sum_between_syms(
 }
 ```
 #### MP-SPDZ mixed configuration
-```Total cost:	57665.45
-Input vars:	{Sym!0: {'B'}, Seq!0: {'B'}}
-Constants:	{0: {'B'}}
+```Total cost:	0.00020
+Input vars:	{Sym!0: ['B'], Seq!0: ['B']}
+Constants:	{0: ['B']}
 Plaintext vars:	{}
-max_sum!1 = 0: _ -> {'B'} for 0.00 * 1 = 0.00
-current_sum!1 = 0: _ -> {'B'} for 0.00 * 1 = 0.00
-!6!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!7!0{N!0}[] = lift(Sym!0, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-current_sum!4 = 0: _ -> {'B'} for 0.00 * 1 = 0.00
-!4!0{N!0}[] = lift(max_sum!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!5!0{N!0}[] = lift(current_sum!1, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!1!2{N!0}[] = (!6!0{N!0}[] == !7!0{N!0}[]): B -> {} for 2298.92 * 1 = 2298.92
-!2!2{N!0}[] = not !1!2{N!0}[]: B -> {} for 0.00 * 1 = 0.00
-	current_sum!2{}[!10!0] = Φ(!5!0{}[!10!0], current_sum!5{}[(!10!0 - 1)]): B -> {} for 0.00 * 8 = 0.00
-	current_sum!3{}[!10!0] = (current_sum!2{}[!10!0] + !6!0{}[!10!0]): B -> {} for 2083.52 * 8 = 16668.18
-	current_sum!5{}[!10!0] = MUX(!2!2{}[!10!0], current_sum!3{}[!10!0], current_sum!4): B -> {} for 1405.56 * 8 = 11244.44
-	max_sum!2{}[!11!0] = Φ(!4!0{}[!11!0], max_sum!4{}[(!11!0 - 1)]): B -> {} for 0.00 * 8 = 0.00
-	!3!2{}[!11!0] = (current_sum!5{}[!11!0] > max_sum!2{}[!11!0]): B -> {} for 2026.18 * 8 = 16209.46
-	max_sum!4{}[!11!0] = MUX(!3!2{}[!11!0], current_sum!5{}[!11!0], max_sum!2{}[!11!0]): B -> {} for 1405.56 * 8 = 11244.44
-!9!0 = drop_dim(max_sum!4{N!0}[]): _ -> {'B'} for 0.00 * 1 = 0.00
+Flags:		{X}
+max_sum!1 = 0: _ -> ['B'] for 0.00000 * 1 = 0.00
+current_sum!1 = 0: _ -> ['B'] for 0.00000 * 1 = 0.00
+!6!0{N!0}[] = lift(Seq!0[i!1], (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!7!0{N!0}[] = lift(Sym!0, (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+current_sum!4 = 0: _ -> ['B'] for 0.00000 * 1 = 0.00
+!4!0{N!0}[] = lift(max_sum!1, (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!5!0{N!0}[] = lift(current_sum!1, (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!1!2{N!0}[] = (!6!0{N!0}[] == !7!0{N!0}[]): B -> {} for 0.00003 * 1 = 0.00
+!2!2{N!0}[] = not !1!2{N!0}[]: B -> {} for 0.00000 * 1 = 0.00
+	current_sum!2{}[!10!0] = Φ(!5!0{}[!10!0], current_sum!5{}[(!10!0 - 1)]): B -> {} for 0.00000 * 8 = 0.00
+	current_sum!3{}[!10!0] = (current_sum!2{}[!10!0] + !6!0{}[!10!0]): B -> {} for 0.00001 * 8 = 0.00
+	current_sum!5{}[!10!0] = MUX(!2!2{}[!10!0], current_sum!3{}[!10!0], current_sum!4): B -> {} for 0.00000 * 8 = 0.00
+	max_sum!2{}[!11!0] = Φ(!4!0{}[!11!0], max_sum!4{}[(!11!0 - 1)]): B -> {} for 0.00000 * 8 = 0.00
+	!3!2{}[!11!0] = (current_sum!5{}[!11!0] > max_sum!2{}[!11!0]): B -> {} for 0.00001 * 8 = 0.00
+	max_sum!4{}[!11!0] = MUX(!3!2{}[!11!0], current_sum!5{}[!11!0], max_sum!2{}[!11!0]): B -> {} for 0.00000 * 8 = 0.00
+!9!0 = drop_dim(max_sum!4{N!0}[]): _ -> ['B'] for 0.00000 * 1 = 0.00
 return !9!0
-Output vars:	{!9!0: {'B'}}
+Output vars:	{!9!0: ['B']}
 
 ```
 #### MP-SPDZ code
@@ -10430,10 +9711,13 @@ def max_sum_between_syms(Seq_0, N_0, Sym_0):
 ```
 #### MP-SPDZ mixed code
 ```py
+program.options.binary = 32
+program.use_dabit = True
 def max_sum_between_syms(Seq_0, N_0, Sym_0):
     # Convertion functions
     siv32 = sbitintvec.get_type(32)
     sb32 = sbits.get_type(32)
+    
     
     # Shared array declarations
     _1_2 = [None] * (N_0)
@@ -10448,6 +9732,8 @@ def max_sum_between_syms(Seq_0, N_0, Sym_0):
     current_sum_5 = [None] * (N_0)
     max_sum_2 = [None] * (N_0)
     max_sum_4 = [None] * (N_0)
+    # Shared array convertion declarations
+    
     # Function body
     max_sum_1 = siv32(0)
     current_sum_1 = siv32(0)
@@ -10513,7 +9799,8 @@ X_coords = [1, 2, 3]
 Y_coords = [4, 5, 6]
 result_X = [0 for i in range(len(X_coords))]
 result_Y = [0 for i in range(len(Y_coords))]
-print(minimal_points(X_coords, Y_coords, 3, result_X, result_Y))
+N = 3
+print(minimal_points(X_coords, Y_coords, N, result_X, result_Y))
 
 ```
 #### Restricted AST
@@ -10762,34 +10049,35 @@ def minimal_points(X_coords!0: shared[list[int; ?]], Y_coords!0: shared[list[int
     return !7!1
 ```
 #### MOTION mixed configuration
-```Total cost:	15551.57
-Input vars:	{Y_coords!0: {'Y'}, X_coords!0: {'Y'}, result_Y!0: {'Y'}, result_X!0: {'Y'}}
-Constants:	{False: {'Y'}}
+```Total cost:	0.09735
+Input vars:	{Y_coords!0: ['A', 'Y'], X_coords!0: ['A', 'Y'], result_Y!0: ['Y'], result_X!0: ['Y']}
+Constants:	{False: ['Y']}
 Plaintext vars:	{}
-!8!0{N!0}[] = lift(result_X!0, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!9!0{N!0}[] = lift(result_Y!0, (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!16!0{N!0}[] = lift(X_coords!0[i!1], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!17!0{N!0}[] = lift(Y_coords!0[i!1], (i!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-bx!2 = False: _ -> {'Y'} for 0.00 * 1 = 0.00
-!11!0{N!0, N!0}[] = lift(X_coords!0[j!1], (i!1:N!0, j!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!12!0{N!0, N!0}[] = lift(X_coords!0[i!1], (i!1:N!0, j!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!13!0{N!0, N!0}[] = lift(Y_coords!0[j!1], (i!1:N!0, j!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!14!0{N!0, N!0}[] = lift(Y_coords!0[i!1], (i!1:N!0, j!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!10!0{N!0, N!0}[] = lift(bx!2, (i!1:N!0, j!1:N!0)): _ -> {'Y'} for 0.00 * 1 = 0.00
-!3!3{N!0, N!0}[] = (!11!0{N!0, N!0}[] < !12!0{N!0, N!0}[]): Y -> {} for 2179.95 * 1 = 2179.95
-!4!3{N!0, N!0}[] = (!13!0{N!0, N!0}[] < !14!0{N!0, N!0}[]): Y -> {} for 2179.95 * 1 = 2179.95
-!5!3{N!0, N!0}[] = (!3!3{N!0, N!0}[] and !4!3{N!0, N!0}[]): Y -> {} for 1939.85 * 1 = 1939.85
-	bx!3{N!0}[!18!0] = Φ(!10!0{N!0}[!18!0], bx!4{N!0}[(!18!0 - 1)]): Y -> {} for 0.00 * 3 = 0.00
-	bx!4{N!0}[!18!0] = (bx!3{N!0}[!18!0] or !5!3{N!0}[!18!0]): Y -> {} for 1838.09 * 3 = 5514.27
-!15!0{N!0}[] = drop_dim(bx!4{N!0, N!0}[]): _ -> {'Y'} for 0.00 * 1 = 0.00
-!6!2{N!0}[] = not !15!0{N!0}[]: Y -> {} for 0.00 * 1 = 0.00
-val_X!4{N!0}[] = MUX(!6!2{N!0}[], !16!0{N!0}[], !8!0{N!0}[]): Y -> {} for 1868.77 * 1 = 1868.77
-val_Y!4{N!0}[] = MUX(!6!2{N!0}[], !17!0{N!0}[], !9!0{N!0}[]): Y -> {} for 1868.77 * 1 = 1868.77
-result_X!2{N!0}[] = VectorizedUpdate(!8!0{N!0}[], [I!1], val_X!4{N!0}[]): Y -> {} for 0.00 * 1 = 0.00
-result_Y!2{N!0}[] = VectorizedUpdate(!9!0{N!0}[], [I!1], val_Y!4{N!0}[]): Y -> {} for 0.00 * 1 = 0.00
+Flags:		{}
+!8!0{N!0}[] = lift(result_X!0, (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!9!0{N!0}[] = lift(result_Y!0, (i!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!16!0{N!0}[] = lift(X_coords!0[i!1], (i!1:N!0)): _ -> ['A', 'Y'] for 0.00000 * 1 = 0.00
+!17!0{N!0}[] = lift(Y_coords!0[i!1], (i!1:N!0)): _ -> ['A', 'Y'] for 0.00000 * 1 = 0.00
+bx!2 = False: _ -> ['Y'] for 0.00000 * 1 = 0.00
+!11!0{N!0, N!0}[] = lift(X_coords!0[j!1], (i!1:N!0, j!1:N!0)): _ -> ['A'] for 0.00000 * 1 = 0.00
+!12!0{N!0, N!0}[] = lift(X_coords!0[i!1], (i!1:N!0, j!1:N!0)): _ -> ['A'] for 0.00000 * 1 = 0.00
+!13!0{N!0, N!0}[] = lift(Y_coords!0[j!1], (i!1:N!0, j!1:N!0)): _ -> ['A'] for 0.00000 * 1 = 0.00
+!14!0{N!0, N!0}[] = lift(Y_coords!0[i!1], (i!1:N!0, j!1:N!0)): _ -> ['A'] for 0.00000 * 1 = 0.00
+!10!0{N!0, N!0}[] = lift(bx!2, (i!1:N!0, j!1:N!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!3!3{N!0, N!0}[] = (!11!0{N!0, N!0}[] < !12!0{N!0, N!0}[]): A -> ['Y'] for 0.03844 * 1 = 0.04 (A->Y)
+!4!3{N!0, N!0}[] = (!13!0{N!0, N!0}[] < !14!0{N!0, N!0}[]): A -> ['Y'] for 0.03844 * 1 = 0.04 (A->Y)
+!5!3{N!0, N!0}[] = (!3!3{N!0, N!0}[] and !4!3{N!0, N!0}[]): Y -> {} for 0.00233 * 1 = 0.00
+	bx!3{N!0}[!18!0] = Φ(!10!0{N!0}[!18!0], bx!4{N!0}[(!18!0 - 1)]): Y -> {} for 0.00000 * 3 = 0.00
+	bx!4{N!0}[!18!0] = (bx!3{N!0}[!18!0] or !5!3{N!0}[!18!0]): Y -> {} for 0.00211 * 3 = 0.01
+!15!0{N!0}[] = drop_dim(bx!4{N!0, N!0}[]): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!6!2{N!0}[] = not !15!0{N!0}[]: Y -> {} for 0.00000 * 1 = 0.00
+val_X!4{N!0}[] = MUX(!6!2{N!0}[], !16!0{N!0}[], !8!0{N!0}[]): Y -> {} for 0.00591 * 1 = 0.01
+val_Y!4{N!0}[] = MUX(!6!2{N!0}[], !17!0{N!0}[], !9!0{N!0}[]): Y -> {} for 0.00591 * 1 = 0.01
+result_X!2{N!0}[] = VectorizedUpdate(!8!0{N!0}[], [I!1], val_X!4{N!0}[]): Y -> {} for 0.00000 * 1 = 0.00
+result_Y!2{N!0}[] = VectorizedUpdate(!9!0{N!0}[], [I!1], val_Y!4{N!0}[]): Y -> {} for 0.00000 * 1 = 0.00
 !7!1 = (result_X!2, result_Y!2)
 return !7!1
-Output vars:	{result_Y!2: {'Y'}, result_X!2: {'Y'}}
+Output vars:	{result_Y!2: ['Y'], result_X!2: ['Y']}
 
 ```
 #### MOTION code
@@ -10925,13 +10213,21 @@ std::tuple<std::vector<encrypto::motion::SecureUnsignedInteger>, std::vector<enc
     // Constant initializations
     encrypto::motion::ShareWrapper _MPC_CONSTANT_false = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::BitVector(1, false), 0);
 
+    // Input Protocol Convertions
+    std::vector<encrypto::motion::SecureUnsignedInteger> Y_coords_0_Y(Y_coords_0.size());
+    vectorized_assign(Y_coords_0_Y, {Y_coords_0.size()}, {true}, {}, (vectorized_access(Y_coords_0, {Y_coords_0.size()}, {true}, {}).Get().Convert<encrypto::motion::MpcProtocol::kBmr>()));
+    std::vector<encrypto::motion::SecureUnsignedInteger> X_coords_0_Y(X_coords_0.size());
+    vectorized_assign(X_coords_0_Y, {X_coords_0.size()}, {true}, {}, (vectorized_access(X_coords_0, {X_coords_0.size()}, {true}, {}).Get().Convert<encrypto::motion::MpcProtocol::kBmr>()));
+
     // Plaintext parameter assignments
 
     // Function body
     vectorized_assign(_8_0, {_MPC_PLAINTEXT_N_0}, {true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return result_X_0;}), {_MPC_PLAINTEXT_N_0}));
     vectorized_assign(_9_0, {_MPC_PLAINTEXT_N_0}, {true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return result_Y_0;}), {_MPC_PLAINTEXT_N_0}));
-    vectorized_assign(_16_0, {_MPC_PLAINTEXT_N_0}, {true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return X_coords_0[indices[0]];}), {_MPC_PLAINTEXT_N_0}));
-    vectorized_assign(_17_0, {_MPC_PLAINTEXT_N_0}, {true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return Y_coords_0[indices[0]];}), {_MPC_PLAINTEXT_N_0}));
+    vectorized_assign(_16_0, {_MPC_PLAINTEXT_N_0}, {true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return X_coords_0[indices[0]];}), {_MPC_PLAINTEXT_N_0}));std::vector<encrypto::motion::SecureUnsignedInteger> _16_0_Y((_MPC_PLAINTEXT_N_0));
+    vectorized_assign(_16_0_Y, {_MPC_PLAINTEXT_N_0}, {true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return X_coords_0_Y[indices[0]];}), {_MPC_PLAINTEXT_N_0}));
+    vectorized_assign(_17_0, {_MPC_PLAINTEXT_N_0}, {true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return Y_coords_0[indices[0]];}), {_MPC_PLAINTEXT_N_0}));std::vector<encrypto::motion::SecureUnsignedInteger> _17_0_Y((_MPC_PLAINTEXT_N_0));
+    vectorized_assign(_17_0_Y, {_MPC_PLAINTEXT_N_0}, {true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return Y_coords_0_Y[indices[0]];}), {_MPC_PLAINTEXT_N_0}));
     bx_2 = _MPC_CONSTANT_false;
     _MPC_PLAINTEXT_bx_2 = false;
     vectorized_assign(_11_0, {_MPC_PLAINTEXT_N_0, _MPC_PLAINTEXT_N_0}, {true, true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return X_coords_0[indices[1]];}), {_MPC_PLAINTEXT_N_0, _MPC_PLAINTEXT_N_0}));
@@ -10940,8 +10236,14 @@ std::tuple<std::vector<encrypto::motion::SecureUnsignedInteger>, std::vector<enc
     vectorized_assign(_14_0, {_MPC_PLAINTEXT_N_0, _MPC_PLAINTEXT_N_0}, {true, true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return Y_coords_0[indices[0]];}), {_MPC_PLAINTEXT_N_0, _MPC_PLAINTEXT_N_0}));
     vectorized_assign(_10_0, {_MPC_PLAINTEXT_N_0, _MPC_PLAINTEXT_N_0}, {true, true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return bx_2;}), {_MPC_PLAINTEXT_N_0, _MPC_PLAINTEXT_N_0}));
     vectorized_assign(_3_3, {_MPC_PLAINTEXT_N_0, _MPC_PLAINTEXT_N_0}, {true, true}, {}, (vectorized_access(_12_0, {_MPC_PLAINTEXT_N_0, _MPC_PLAINTEXT_N_0}, {true, true}, {}) > vectorized_access(_11_0, {_MPC_PLAINTEXT_N_0, _MPC_PLAINTEXT_N_0}, {true, true}, {})));
+    std::vector<encrypto::motion::ShareWrapper> _3_3_Y((_MPC_PLAINTEXT_N_0) * (_MPC_PLAINTEXT_N_0));
+    vectorized_assign(_3_3_Y, {_MPC_PLAINTEXT_N_0, _MPC_PLAINTEXT_N_0}, {true, true}, {}, (vectorized_access(_3_3, {_MPC_PLAINTEXT_N_0, _MPC_PLAINTEXT_N_0}, {true, true}, {}).Convert<encrypto::motion::MpcProtocol::kBmr>()));
+
     vectorized_assign(_4_3, {_MPC_PLAINTEXT_N_0, _MPC_PLAINTEXT_N_0}, {true, true}, {}, (vectorized_access(_14_0, {_MPC_PLAINTEXT_N_0, _MPC_PLAINTEXT_N_0}, {true, true}, {}) > vectorized_access(_13_0, {_MPC_PLAINTEXT_N_0, _MPC_PLAINTEXT_N_0}, {true, true}, {})));
-    vectorized_assign(_5_3, {_MPC_PLAINTEXT_N_0, _MPC_PLAINTEXT_N_0}, {true, true}, {}, (to_share_wrapper(vectorized_access(_3_3, {_MPC_PLAINTEXT_N_0, _MPC_PLAINTEXT_N_0}, {true, true}, {})) & to_share_wrapper(vectorized_access(_4_3, {_MPC_PLAINTEXT_N_0, _MPC_PLAINTEXT_N_0}, {true, true}, {}))));
+    std::vector<encrypto::motion::ShareWrapper> _4_3_Y((_MPC_PLAINTEXT_N_0) * (_MPC_PLAINTEXT_N_0));
+    vectorized_assign(_4_3_Y, {_MPC_PLAINTEXT_N_0, _MPC_PLAINTEXT_N_0}, {true, true}, {}, (vectorized_access(_4_3, {_MPC_PLAINTEXT_N_0, _MPC_PLAINTEXT_N_0}, {true, true}, {}).Convert<encrypto::motion::MpcProtocol::kBmr>()));
+
+    vectorized_assign(_5_3, {_MPC_PLAINTEXT_N_0, _MPC_PLAINTEXT_N_0}, {true, true}, {}, (to_share_wrapper(vectorized_access(_3_3_Y, {_MPC_PLAINTEXT_N_0, _MPC_PLAINTEXT_N_0}, {true, true}, {})) & to_share_wrapper(vectorized_access(_4_3_Y, {_MPC_PLAINTEXT_N_0, _MPC_PLAINTEXT_N_0}, {true, true}, {}))));
 
     // Initialize loop counter
     _MPC_PLAINTEXT__18_0 = std::uint32_t(0);
@@ -10959,8 +10261,8 @@ std::tuple<std::vector<encrypto::motion::SecureUnsignedInteger>, std::vector<enc
 
     vectorized_assign(_15_0, {_MPC_PLAINTEXT_N_0}, {true}, {}, drop_dim(vectorized_access(bx_4, {_MPC_PLAINTEXT_N_0, _MPC_PLAINTEXT_N_0}, {true, true}, {}).Unsimdify(), {_MPC_PLAINTEXT_N_0, _MPC_PLAINTEXT_N_0}));
     vectorized_assign(_6_2, {_MPC_PLAINTEXT_N_0}, {true}, {}, (~vectorized_access(_15_0, {_MPC_PLAINTEXT_N_0}, {true}, {})));
-    vectorized_assign(val_X_4, {_MPC_PLAINTEXT_N_0}, {true}, {}, vectorized_access(_6_2, {_MPC_PLAINTEXT_N_0}, {true}, {}).Mux(vectorized_access(_16_0, {_MPC_PLAINTEXT_N_0}, {true}, {}).Get(), vectorized_access(_8_0, {_MPC_PLAINTEXT_N_0}, {true}, {}).Get()));
-    vectorized_assign(val_Y_4, {_MPC_PLAINTEXT_N_0}, {true}, {}, vectorized_access(_6_2, {_MPC_PLAINTEXT_N_0}, {true}, {}).Mux(vectorized_access(_17_0, {_MPC_PLAINTEXT_N_0}, {true}, {}).Get(), vectorized_access(_9_0, {_MPC_PLAINTEXT_N_0}, {true}, {}).Get()));
+    vectorized_assign(val_X_4, {_MPC_PLAINTEXT_N_0}, {true}, {}, vectorized_access(_6_2, {_MPC_PLAINTEXT_N_0}, {true}, {}).Mux(vectorized_access(_16_0_Y, {_MPC_PLAINTEXT_N_0}, {true}, {}).Get(), vectorized_access(_8_0, {_MPC_PLAINTEXT_N_0}, {true}, {}).Get()));
+    vectorized_assign(val_Y_4, {_MPC_PLAINTEXT_N_0}, {true}, {}, vectorized_access(_6_2, {_MPC_PLAINTEXT_N_0}, {true}, {}).Mux(vectorized_access(_17_0_Y, {_MPC_PLAINTEXT_N_0}, {true}, {}).Get(), vectorized_access(_9_0, {_MPC_PLAINTEXT_N_0}, {true}, {}).Get()));
     vectorized_assign(result_X_2, {_MPC_PLAINTEXT_N_0}, {true}, {}, vectorized_update(_8_0, {_MPC_PLAINTEXT_N_0}, {true}, {}, vectorized_access(val_X_4, {_MPC_PLAINTEXT_N_0}, {true}, {})));
     vectorized_assign(result_Y_2, {_MPC_PLAINTEXT_N_0}, {true}, {}, vectorized_update(_9_0, {_MPC_PLAINTEXT_N_0}, {true}, {}, vectorized_access(val_Y_4, {_MPC_PLAINTEXT_N_0}, {true}, {})));
     _7_1 = std::make_tuple(result_X_2, result_Y_2);
@@ -10969,34 +10271,35 @@ std::tuple<std::vector<encrypto::motion::SecureUnsignedInteger>, std::vector<enc
 }
 ```
 #### MP-SPDZ mixed configuration
-```Total cost:	16703.41
-Input vars:	{Y_coords!0: {'B'}, X_coords!0: {'B'}, result_Y!0: {'B'}, result_X!0: {'B'}}
-Constants:	{False: {'B'}}
+```Total cost:	0.00024
+Input vars:	{Y_coords!0: ['B'], X_coords!0: ['B'], result_Y!0: ['B'], result_X!0: ['B']}
+Constants:	{False: ['B']}
 Plaintext vars:	{}
-!8!0{N!0}[] = lift(result_X!0, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!9!0{N!0}[] = lift(result_Y!0, (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!16!0{N!0}[] = lift(X_coords!0[i!1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!17!0{N!0}[] = lift(Y_coords!0[i!1], (i!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-bx!2 = False: _ -> {'B'} for 0.00 * 1 = 0.00
-!11!0{N!0, N!0}[] = lift(X_coords!0[j!1], (i!1:N!0, j!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!12!0{N!0, N!0}[] = lift(X_coords!0[i!1], (i!1:N!0, j!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!13!0{N!0, N!0}[] = lift(Y_coords!0[j!1], (i!1:N!0, j!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!14!0{N!0, N!0}[] = lift(Y_coords!0[i!1], (i!1:N!0, j!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!10!0{N!0, N!0}[] = lift(bx!2, (i!1:N!0, j!1:N!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!3!3{N!0, N!0}[] = (!11!0{N!0, N!0}[] < !12!0{N!0, N!0}[]): B -> {} for 3114.89 * 1 = 3114.89
-!4!3{N!0, N!0}[] = (!13!0{N!0, N!0}[] < !14!0{N!0, N!0}[]): B -> {} for 3114.89 * 1 = 3114.89
-!5!3{N!0, N!0}[] = (!3!3{N!0, N!0}[] and !4!3{N!0, N!0}[]): B -> {} for 1741.90 * 1 = 1741.90
-	bx!3{N!0}[!18!0] = Φ(!10!0{N!0}[!18!0], bx!4{N!0}[(!18!0 - 1)]): B -> {} for 0.00 * 3 = 0.00
-	bx!4{N!0}[!18!0] = (bx!3{N!0}[!18!0] or !5!3{N!0}[!18!0]): B -> {} for 1762.04 * 3 = 5286.13
-!15!0{N!0}[] = drop_dim(bx!4{N!0, N!0}[]): _ -> {'B'} for 0.00 * 1 = 0.00
-!6!2{N!0}[] = not !15!0{N!0}[]: B -> {} for 0.00 * 1 = 0.00
-val_X!4{N!0}[] = MUX(!6!2{N!0}[], !16!0{N!0}[], !8!0{N!0}[]): B -> {} for 1722.80 * 1 = 1722.80
-val_Y!4{N!0}[] = MUX(!6!2{N!0}[], !17!0{N!0}[], !9!0{N!0}[]): B -> {} for 1722.80 * 1 = 1722.80
-result_X!2{N!0}[] = VectorizedUpdate(!8!0{N!0}[], [I!1], val_X!4{N!0}[]): B -> {} for 0.00 * 1 = 0.00
-result_Y!2{N!0}[] = VectorizedUpdate(!9!0{N!0}[], [I!1], val_Y!4{N!0}[]): B -> {} for 0.00 * 1 = 0.00
+Flags:		{X}
+!8!0{N!0}[] = lift(result_X!0, (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!9!0{N!0}[] = lift(result_Y!0, (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!16!0{N!0}[] = lift(X_coords!0[i!1], (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!17!0{N!0}[] = lift(Y_coords!0[i!1], (i!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+bx!2 = False: _ -> ['B'] for 0.00000 * 1 = 0.00
+!11!0{N!0, N!0}[] = lift(X_coords!0[j!1], (i!1:N!0, j!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!12!0{N!0, N!0}[] = lift(X_coords!0[i!1], (i!1:N!0, j!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!13!0{N!0, N!0}[] = lift(Y_coords!0[j!1], (i!1:N!0, j!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!14!0{N!0, N!0}[] = lift(Y_coords!0[i!1], (i!1:N!0, j!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!10!0{N!0, N!0}[] = lift(bx!2, (i!1:N!0, j!1:N!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!3!3{N!0, N!0}[] = (!11!0{N!0, N!0}[] < !12!0{N!0, N!0}[]): B -> {} for 0.00010 * 1 = 0.00
+!4!3{N!0, N!0}[] = (!13!0{N!0, N!0}[] < !14!0{N!0, N!0}[]): B -> {} for 0.00010 * 1 = 0.00
+!5!3{N!0, N!0}[] = (!3!3{N!0, N!0}[] and !4!3{N!0, N!0}[]): B -> {} for 0.00000 * 1 = 0.00
+	bx!3{N!0}[!18!0] = Φ(!10!0{N!0}[!18!0], bx!4{N!0}[(!18!0 - 1)]): B -> {} for 0.00000 * 3 = 0.00
+	bx!4{N!0}[!18!0] = (bx!3{N!0}[!18!0] or !5!3{N!0}[!18!0]): B -> {} for 0.00001 * 3 = 0.00
+!15!0{N!0}[] = drop_dim(bx!4{N!0, N!0}[]): _ -> ['B'] for 0.00000 * 1 = 0.00
+!6!2{N!0}[] = not !15!0{N!0}[]: B -> {} for 0.00000 * 1 = 0.00
+val_X!4{N!0}[] = MUX(!6!2{N!0}[], !16!0{N!0}[], !8!0{N!0}[]): B -> {} for 0.00000 * 1 = 0.00
+val_Y!4{N!0}[] = MUX(!6!2{N!0}[], !17!0{N!0}[], !9!0{N!0}[]): B -> {} for 0.00000 * 1 = 0.00
+result_X!2{N!0}[] = VectorizedUpdate(!8!0{N!0}[], [I!1], val_X!4{N!0}[]): B -> {} for 0.00000 * 1 = 0.00
+result_Y!2{N!0}[] = VectorizedUpdate(!9!0{N!0}[], [I!1], val_Y!4{N!0}[]): B -> {} for 0.00000 * 1 = 0.00
 !7!1 = (result_X!2, result_Y!2)
 return !7!1
-Output vars:	{result_Y!2: {'B'}, result_X!2: {'B'}}
+Output vars:	{result_Y!2: ['B'], result_X!2: ['B']}
 
 ```
 #### MP-SPDZ code
@@ -11057,10 +10360,13 @@ def minimal_points(X_coords_0, Y_coords_0, N_0, result_X_0, result_Y_0):
 ```
 #### MP-SPDZ mixed code
 ```py
+program.options.binary = 32
+program.use_dabit = True
 def minimal_points(X_coords_0, Y_coords_0, N_0, result_X_0, result_Y_0):
     # Convertion functions
     siv32 = sbitintvec.get_type(32)
     sb32 = sbits.get_type(32)
+    
     
     # Shared array declarations
     _10_0 = [None] * (N_0 * N_0)
@@ -11083,12 +10389,14 @@ def minimal_points(X_coords_0, Y_coords_0, N_0, result_X_0, result_Y_0):
     result_Y_2 = [None] * (N_0)
     val_X_4 = [None] * (N_0)
     val_Y_4 = [None] * (N_0)
+    # Shared array convertion declarations
+    
     # Function body
     _8_0 = _v.lift(lambda indices: result_X_0, [N_0])
     _9_0 = _v.lift(lambda indices: result_Y_0, [N_0])
     _16_0 = _v.lift(lambda indices: (X_coords_0[indices[0]]), [N_0])
     _17_0 = _v.lift(lambda indices: (Y_coords_0[indices[0]]), [N_0])
-    bx_2 = siv32(_v.sbool(False))
+    bx_2 = sbit(0)
     _11_0 = _v.lift(lambda indices: (X_coords_0[indices[1]]), [N_0, N_0])
     _12_0 = _v.lift(lambda indices: (X_coords_0[indices[0]]), [N_0, N_0])
     _13_0 = _v.lift(lambda indices: (Y_coords_0[indices[1]]), [N_0, N_0])
@@ -11279,19 +10587,20 @@ def mnist_relu(input!0: shared[list[int; ?]], OUTPUT_res!0: plaintext[list[int; 
     return OUTPUT_res!3
 ```
 #### MOTION mixed configuration
-```Total cost:	21723.37
-Input vars:	{input!0: {'B'}}
-Constants:	{1: {'B'}}
-Plaintext vars:	{OUTPUT_res!0: {'B'}}
-!2!0{LEN_OUTER!0, LEN_INNER!0}[] = lift(OUTPUT_res!0, (_:len_outer!0, _:len_inner!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!4!0{LEN_OUTER!0, LEN_INNER!0}[] = lift(input!0[((i!1 * len_inner!0) + j!1)], (i!1:len_outer!0, j!1:len_inner!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-val!3 = 1: _ -> {'B'} for 0.00 * 1 = 0.00
-!3!0{LEN_OUTER!0, LEN_INNER!0}[] = lift(!2!0{LEN_OUTER!0, LEN_INNER!0}[], (i!1:len_outer!0, j!1:len_inner!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!1!3{LEN_OUTER!0, LEN_INNER!0}[] = (!4!0{LEN_OUTER!0, LEN_INNER!0}[] > val!3): B -> {} for 15674.91 * 1 = 15674.91
-val!5{LEN_OUTER!0, LEN_INNER!0}[] = MUX(!1!3{LEN_OUTER!0, LEN_INNER!0}[], !4!0{LEN_OUTER!0, LEN_INNER!0}[], val!3): B -> {} for 6048.45 * 1 = 6048.45
-OUTPUT_res!3{LEN_OUTER!0, LEN_INNER!0}[] = VectorizedUpdate(!3!0{LEN_OUTER!0, LEN_INNER!0}[], [I!1, J!1], val!5{LEN_OUTER!0, LEN_INNER!0}[]): B -> {} for 0.00 * 1 = 0.00
+```Total cost:	0.12173
+Input vars:	{input!0: ['B', 'Y']}
+Constants:	{1: ['B', 'Y']}
+Plaintext vars:	{OUTPUT_res!0: ['B']}
+Flags:		{}
+!2!0{LEN_OUTER!0, LEN_INNER!0}[] = lift(OUTPUT_res!0, (_:len_outer!0, _:len_inner!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!4!0{LEN_OUTER!0, LEN_INNER!0}[] = lift(input!0[((i!1 * len_inner!0) + j!1)], (i!1:len_outer!0, j!1:len_inner!0)): _ -> ['B', 'Y'] for 0.00000 * 1 = 0.00
+val!3 = 1: _ -> ['B', 'Y'] for 0.00000 * 1 = 0.00
+!3!0{LEN_OUTER!0, LEN_INNER!0}[] = lift(!2!0{LEN_OUTER!0, LEN_INNER!0}[], (i!1:len_outer!0, j!1:len_inner!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!1!3{LEN_OUTER!0, LEN_INNER!0}[] = (!4!0{LEN_OUTER!0, LEN_INNER!0}[] > val!3): Y -> ['B'] for 0.11647 * 1 = 0.12 (Y->B)
+val!5{LEN_OUTER!0, LEN_INNER!0}[] = MUX(!1!3{LEN_OUTER!0, LEN_INNER!0}[], !4!0{LEN_OUTER!0, LEN_INNER!0}[], val!3): B -> {} for 0.00527 * 1 = 0.01
+OUTPUT_res!3{LEN_OUTER!0, LEN_INNER!0}[] = VectorizedUpdate(!3!0{LEN_OUTER!0, LEN_INNER!0}[], [I!1, J!1], val!5{LEN_OUTER!0, LEN_INNER!0}[]): B -> {} for 0.00000 * 1 = 0.00
 return OUTPUT_res!3
-Output vars:	{OUTPUT_res!3: {'B'}}
+Output vars:	{OUTPUT_res!3: ['B']}
 
 ```
 #### MOTION code
@@ -11367,6 +10676,11 @@ std::vector<encrypto::motion::SecureUnsignedInteger> mnist_relu(
 
     // Constant initializations
     encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_1 = party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::ToInput(std::uint32_t(1)), 0);
+    encrypto::motion::SecureUnsignedInteger _MPC_CONSTANT_1_Y = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::ToInput(std::uint32_t(1)), 0);
+
+    // Input Protocol Convertions
+    std::vector<encrypto::motion::SecureUnsignedInteger> input_0_Y(input_0.size());
+    vectorized_assign(input_0_Y, {input_0.size()}, {true}, {}, (vectorized_access(input_0, {input_0.size()}, {true}, {}).Get().Convert<encrypto::motion::MpcProtocol::kBmr>()));
 
     // Plaintext parameter assignments
     OUTPUT_res_0.clear();
@@ -11374,31 +10688,38 @@ std::vector<encrypto::motion::SecureUnsignedInteger> mnist_relu(
 
     // Function body
     vectorized_assign(_2_0, {_MPC_PLAINTEXT_len_outer_0, _MPC_PLAINTEXT_len_inner_0}, {true, true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return OUTPUT_res_0;}), {_MPC_PLAINTEXT_len_outer_0, _MPC_PLAINTEXT_len_inner_0}));
-    vectorized_assign(_4_0, {_MPC_PLAINTEXT_len_outer_0, _MPC_PLAINTEXT_len_inner_0}, {true, true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return input_0[((indices[0] * _MPC_PLAINTEXT_len_inner_0) + indices[1])];}), {_MPC_PLAINTEXT_len_outer_0, _MPC_PLAINTEXT_len_inner_0}));
+    vectorized_assign(_4_0, {_MPC_PLAINTEXT_len_outer_0, _MPC_PLAINTEXT_len_inner_0}, {true, true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return input_0[((indices[0] * _MPC_PLAINTEXT_len_inner_0) + indices[1])];}), {_MPC_PLAINTEXT_len_outer_0, _MPC_PLAINTEXT_len_inner_0}));std::vector<encrypto::motion::SecureUnsignedInteger> _4_0_Y((_MPC_PLAINTEXT_len_outer_0) * (_MPC_PLAINTEXT_len_inner_0));
+    vectorized_assign(_4_0_Y, {_MPC_PLAINTEXT_len_outer_0, _MPC_PLAINTEXT_len_inner_0}, {true, true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return input_0_Y[((indices[0] * _MPC_PLAINTEXT_len_inner_0) + indices[1])];}), {_MPC_PLAINTEXT_len_outer_0, _MPC_PLAINTEXT_len_inner_0}));
     val_3 = _MPC_CONSTANT_1;
+    encrypto::motion::SecureUnsignedInteger val_3_Y;
+    val_3_Y = _MPC_CONSTANT_1_Y;
     _MPC_PLAINTEXT_val_3 = std::uint32_t(1);
     vectorized_assign(_3_0, {_MPC_PLAINTEXT_len_outer_0, _MPC_PLAINTEXT_len_inner_0}, {true, true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return vectorized_access(_2_0, {_MPC_PLAINTEXT_len_outer_0, _MPC_PLAINTEXT_len_inner_0}, {true, true}, {}).Unsimdify();}), {_MPC_PLAINTEXT_len_outer_0, _MPC_PLAINTEXT_len_inner_0}));
-    vectorized_assign(_1_3, {_MPC_PLAINTEXT_len_outer_0, _MPC_PLAINTEXT_len_inner_0}, {true, true}, {}, (vectorized_access(_4_0, {_MPC_PLAINTEXT_len_outer_0, _MPC_PLAINTEXT_len_inner_0}, {true, true}, {}) > decltype(val_3)::Simdify(lift(std::function([&](const std::vector<std::uint32_t> &indices){return val_3;}), {_MPC_PLAINTEXT_len_outer_0, _MPC_PLAINTEXT_len_inner_0}))));
-    vectorized_assign(val_5, {_MPC_PLAINTEXT_len_outer_0, _MPC_PLAINTEXT_len_inner_0}, {true, true}, {}, vectorized_access(_1_3, {_MPC_PLAINTEXT_len_outer_0, _MPC_PLAINTEXT_len_inner_0}, {true, true}, {}).Mux(vectorized_access(_4_0, {_MPC_PLAINTEXT_len_outer_0, _MPC_PLAINTEXT_len_inner_0}, {true, true}, {}).Get(), decltype(val_3)::Simdify(lift(std::function([&](const std::vector<std::uint32_t> &indices){return val_3;}), {_MPC_PLAINTEXT_len_outer_0, _MPC_PLAINTEXT_len_inner_0})).Get()));
+    vectorized_assign(_1_3, {_MPC_PLAINTEXT_len_outer_0, _MPC_PLAINTEXT_len_inner_0}, {true, true}, {}, (vectorized_access(_4_0_Y, {_MPC_PLAINTEXT_len_outer_0, _MPC_PLAINTEXT_len_inner_0}, {true, true}, {}) > decltype(val_3_Y)::Simdify(lift(std::function([&](const std::vector<std::uint32_t> &indices){return val_3_Y;}), {_MPC_PLAINTEXT_len_outer_0, _MPC_PLAINTEXT_len_inner_0}))));
+    std::vector<encrypto::motion::ShareWrapper> _1_3_B((_MPC_PLAINTEXT_len_outer_0) * (_MPC_PLAINTEXT_len_inner_0));
+    vectorized_assign(_1_3_B, {_MPC_PLAINTEXT_len_outer_0, _MPC_PLAINTEXT_len_inner_0}, {true, true}, {}, (vectorized_access(_1_3, {_MPC_PLAINTEXT_len_outer_0, _MPC_PLAINTEXT_len_inner_0}, {true, true}, {}).Convert<encrypto::motion::MpcProtocol::kBooleanGmw>()));
+
+    vectorized_assign(val_5, {_MPC_PLAINTEXT_len_outer_0, _MPC_PLAINTEXT_len_inner_0}, {true, true}, {}, vectorized_access(_1_3_B, {_MPC_PLAINTEXT_len_outer_0, _MPC_PLAINTEXT_len_inner_0}, {true, true}, {}).Mux(vectorized_access(_4_0, {_MPC_PLAINTEXT_len_outer_0, _MPC_PLAINTEXT_len_inner_0}, {true, true}, {}).Get(), decltype(val_3)::Simdify(lift(std::function([&](const std::vector<std::uint32_t> &indices){return val_3;}), {_MPC_PLAINTEXT_len_outer_0, _MPC_PLAINTEXT_len_inner_0})).Get()));
     vectorized_assign(OUTPUT_res_3, {_MPC_PLAINTEXT_len_outer_0, _MPC_PLAINTEXT_len_inner_0}, {true, true}, {}, vectorized_update(_3_0, {_MPC_PLAINTEXT_len_outer_0, _MPC_PLAINTEXT_len_inner_0}, {true, true}, {}, vectorized_access(val_5, {_MPC_PLAINTEXT_len_outer_0, _MPC_PLAINTEXT_len_inner_0}, {true, true}, {})));
     return OUTPUT_res_3;
 
 }
 ```
 #### MP-SPDZ mixed configuration
-```Total cost:	21723.37
-Input vars:	{input!0: {'B'}}
-Constants:	{1: {'B'}}
-Plaintext vars:	{OUTPUT_res!0: {'B'}}
-!2!0{LEN_OUTER!0, LEN_INNER!0}[] = lift(OUTPUT_res!0, (_:len_outer!0, _:len_inner!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!4!0{LEN_OUTER!0, LEN_INNER!0}[] = lift(input!0[((i!1 * len_inner!0) + j!1)], (i!1:len_outer!0, j!1:len_inner!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-val!3 = 1: _ -> {'B'} for 0.00 * 1 = 0.00
-!3!0{LEN_OUTER!0, LEN_INNER!0}[] = lift(!2!0{LEN_OUTER!0, LEN_INNER!0}[], (i!1:len_outer!0, j!1:len_inner!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!1!3{LEN_OUTER!0, LEN_INNER!0}[] = (!4!0{LEN_OUTER!0, LEN_INNER!0}[] > val!3): B -> {} for 15674.91 * 1 = 15674.91
-val!5{LEN_OUTER!0, LEN_INNER!0}[] = MUX(!1!3{LEN_OUTER!0, LEN_INNER!0}[], !4!0{LEN_OUTER!0, LEN_INNER!0}[], val!3): B -> {} for 6048.45 * 1 = 6048.45
-OUTPUT_res!3{LEN_OUTER!0, LEN_INNER!0}[] = VectorizedUpdate(!3!0{LEN_OUTER!0, LEN_INNER!0}[], [I!1, J!1], val!5{LEN_OUTER!0, LEN_INNER!0}[]): B -> {} for 0.00 * 1 = 0.00
+```Total cost:	0.00179
+Input vars:	{input!0: ['B']}
+Constants:	{1: ['B']}
+Plaintext vars:	{OUTPUT_res!0: ['B']}
+Flags:		{X}
+!2!0{LEN_OUTER!0, LEN_INNER!0}[] = lift(OUTPUT_res!0, (_:len_outer!0, _:len_inner!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!4!0{LEN_OUTER!0, LEN_INNER!0}[] = lift(input!0[((i!1 * len_inner!0) + j!1)], (i!1:len_outer!0, j!1:len_inner!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+val!3 = 1: _ -> ['B'] for 0.00000 * 1 = 0.00
+!3!0{LEN_OUTER!0, LEN_INNER!0}[] = lift(!2!0{LEN_OUTER!0, LEN_INNER!0}[], (i!1:len_outer!0, j!1:len_inner!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!1!3{LEN_OUTER!0, LEN_INNER!0}[] = (!4!0{LEN_OUTER!0, LEN_INNER!0}[] > val!3): B -> {} for 0.00179 * 1 = 0.00
+val!5{LEN_OUTER!0, LEN_INNER!0}[] = MUX(!1!3{LEN_OUTER!0, LEN_INNER!0}[], !4!0{LEN_OUTER!0, LEN_INNER!0}[], val!3): B -> {} for 0.00000 * 1 = 0.00
+OUTPUT_res!3{LEN_OUTER!0, LEN_INNER!0}[] = VectorizedUpdate(!3!0{LEN_OUTER!0, LEN_INNER!0}[], [I!1, J!1], val!5{LEN_OUTER!0, LEN_INNER!0}[]): B -> {} for 0.00000 * 1 = 0.00
 return OUTPUT_res!3
-Output vars:	{OUTPUT_res!3: {'B'}}
+Output vars:	{OUTPUT_res!3: ['B']}
 
 ```
 #### MP-SPDZ code
@@ -11423,13 +10744,16 @@ def mnist_relu(input_0, OUTPUT_res_0, len_outer_0, len_inner_0):
 ```
 #### MP-SPDZ mixed code
 ```py
+program.options.binary = 32
+program.use_dabit = True
 def mnist_relu(input_0, OUTPUT_res_0, len_outer_0, len_inner_0):
     # Convertion functions
     siv32 = sbitintvec.get_type(32)
     sb32 = sbits.get_type(32)
-    for _random_iter in range(0,len(OUTPUT_res_0)):
-     OUTPUT_res_0[_random_iter] = siv32(OUTPUT_res_0[_random_iter])
+    OUTPUT_res_0 = [elem for elem in sint(OUTPUT_res_0)]
 
+
+    
     # Shared array declarations
     _1_3 = [None] * (len_outer_0 * len_inner_0)
     _2_0 = [None] * (len_outer_0 * len_inner_0)
@@ -11437,6 +10761,8 @@ def mnist_relu(input_0, OUTPUT_res_0, len_outer_0, len_inner_0):
     _4_0 = [None] * (len_outer_0 * len_inner_0)
     OUTPUT_res_3 = [None] * (len_outer_0 * len_inner_0)
     val_5 = [None] * (len_outer_0 * len_inner_0)
+    # Shared array convertion declarations
+    
     # Function body
     _2_0 = _v.lift(lambda indices: OUTPUT_res_0, [len_outer_0, len_inner_0])
     _4_0 = _v.lift(lambda indices: (input_0[((indices[0] * len_inner_0) + indices[1])]), [len_outer_0, len_inner_0])
@@ -11454,16 +10780,16 @@ from UTIL import shared
 
 # returns a list[int] which is the intersection of privite sets of integers A and B
 # requires: no repetition of elements in either A or B
-# requires: len(A) = SA, len(B) = SB
+# requires: len(A) = D, len(B) = R
 # requires: result is an array of 0's len(result) >= min(len(A),len(B))
 def psi(
-    A: shared[list[int]], SA: int, B: shared[list[int]], SB: int, result: shared[list[int]]
+    A: shared[list[int]], D: int, B: shared[list[int]], R: int, result: shared[list[int]]
 ) -> shared[list[int]]:
     #dummy: int = 0
     #result: list[int] = []
-    for i in range(0, SA):
+    for i in range(0, D):
         flag: bool = False
-        for j in range(0, SB):
+        for j in range(0, R):
             if A[i] == B[j]:
                 flag = True
         val: int = result[i]
@@ -11477,15 +10803,17 @@ def psi(
 A = [4, 2, 3, 1, 10]
 B = [2, 10, 3, 4, 5, 6, 7]
 result = [0 for i in range(len(A))]
-print(psi(A, 5, B, 7, result))
+D = 5
+R = 7
+print(psi(A, D, B, R, result))
 
 ```
 #### Restricted AST
 ```python
-def psi(A: shared[list[int; ?]], SA: plaintext[int], B: shared[list[int; ?]], SB: plaintext[int], result: shared[list[int; ?]]) -> shared[list[int; ?]]:
-    for i: plaintext[int] in range(0, SA):
+def psi(A: shared[list[int; ?]], D: plaintext[int], B: shared[list[int; ?]], R: plaintext[int], result: shared[list[int; ?]]) -> shared[list[int; ?]]:
+    for i: plaintext[int] in range(0, D):
         flag = False
-        for j: plaintext[int] in range(0, SB):
+        for j: plaintext[int] in range(0, R):
             if (A[i] == B[j]):
                 flag = True
         val = result[i]
@@ -11504,11 +10832,11 @@ def psi(A: shared[list[int; ?]], SA: plaintext[int], B: shared[list[int; ?]], SB
 ![](images/psi_dead_code_elim.png)
 #### Linear code with loops
 ```python
-def psi(A!0: shared[list[int; ?]], SA!0: plaintext[int], B!0: shared[list[int; ?]], SB!0: plaintext[int], result!0: shared[list[int; ?]]) -> shared[list[int; ?]]:
-    for i!1 in range(0, SA!0):
+def psi(A!0: shared[list[int; ?]], D!0: plaintext[int], B!0: shared[list[int; ?]], R!0: plaintext[int], result!0: shared[list[int; ?]]) -> shared[list[int; ?]]:
+    for i!1 in range(0, D!0):
         result!1 = Φ(result!0, result!2)
         flag!2 = False
-        for j!1 in range(0, SB!0):
+        for j!1 in range(0, R!0):
             flag!3 = Φ(flag!2, flag!5)
             !1!3 = (A!0[i!1] == B!0[j!1])
             flag!4 = True
@@ -11527,14 +10855,14 @@ def psi(A!0: shared[list[int; ?]], SA!0: plaintext[int], B!0: shared[list[int; ?
 | Variable | Type |
 | - | - |
 | `A!0` | `shared[list[int; ?]]` |
-| `SA!0` | `plaintext[int]` |
+| `D!0` | `plaintext[int]` |
 | `B!0` | `shared[list[int; ?]]` |
-| `SB!0` | `plaintext[int]` |
+| `R!0` | `plaintext[int]` |
 | `result!0` | `shared[list[int; ?]]` |
 | `i!1` | `plaintext[int]` |
 | `j!1` | `plaintext[int]` |
-| `result!2` | `shared[list[int; (SA!0)]]` |
-| `result!1` | `shared[list[int; (SA!0)]]` |
+| `result!2` | `shared[list[int; (D!0)]]` |
+| `result!1` | `shared[list[int; (D!0)]]` |
 | `val!2` | `shared[int]` |
 | `val!4` | `shared[int]` |
 | `val!3` | `shared[int]` |
@@ -11545,48 +10873,48 @@ def psi(A!0: shared[list[int; ?]], SA!0: plaintext[int], B!0: shared[list[int; ?
 | `flag!2` | `plaintext[bool]` |
 #### Basic Vectorization Phase 1
 ```python
-def psi(A!0: shared[list[int; ?]], SA!0: plaintext[int], B!0: shared[list[int; ?]], SB!0: plaintext[int], result!0: shared[list[int; ?]]) -> shared[list[int; ?]]:
-    !2!0{SA!0}[] = lift(result!0, (i!1:SA!0))
-    !6!0{SA!0}[] = lift(A!0[i!1], (i!1:SA!0))
-    for i!1 in range(0, SA!0):
-        result!1{SA!0}[] = Φ(!2!0{SA!0}[], result!2{SA!0}[]) (targetless)
+def psi(A!0: shared[list[int; ?]], D!0: plaintext[int], B!0: shared[list[int; ?]], R!0: plaintext[int], result!0: shared[list[int; ?]]) -> shared[list[int; ?]]:
+    !2!0{D!0}[] = lift(result!0, (i!1:D!0))
+    !6!0{D!0}[] = lift(A!0[i!1], (i!1:D!0))
+    for i!1 in range(0, D!0):
+        result!1{D!0}[] = Φ(!2!0{D!0}[], result!2{D!0}[]) (targetless)
         flag!2 = False
-        !3!0{SA!0, SB!0}[] = lift(flag!2, (i!1:SA!0, j!1:SB!0))
-        !4!0{SA!0, SB!0}[] = lift(A!0[i!1], (i!1:SA!0, j!1:SB!0))
-        !5!0{SA!0, SB!0}[] = lift(B!0[j!1], (i!1:SA!0, j!1:SB!0))
-        for j!1 in range(0, SB!0):
-            flag!3{SA!0, SB!0}[] = Φ(!3!0{SA!0, SB!0}[], flag!5{SA!0, SB!0}[])
-            !1!3{SA!0, SB!0}[] = (!4!0{SA!0, SB!0}[] == !5!0{SA!0, SB!0}[])
+        !3!0{D!0, R!0}[] = lift(flag!2, (i!1:D!0, j!1:R!0))
+        !4!0{D!0, R!0}[] = lift(A!0[i!1], (i!1:D!0, j!1:R!0))
+        !5!0{D!0, R!0}[] = lift(B!0[j!1], (i!1:D!0, j!1:R!0))
+        for j!1 in range(0, R!0):
+            flag!3{D!0, R!0}[] = Φ(!3!0{D!0, R!0}[], flag!5{D!0, R!0}[])
+            !1!3{D!0, R!0}[] = (!4!0{D!0, R!0}[] == !5!0{D!0, R!0}[])
             flag!4 = True
-            flag!5{SA!0, SB!0}[] = MUX(!1!3{SA!0, SB!0}[], flag!4, flag!3{SA!0, SB!0}[])
-        val!2{SA!0}[] = result!1{SA!0}[]
-        val!3{SA!0}[] = !6!0{SA!0}[]
-        !7!0{SA!0}[] = drop_dim(flag!5{SA!0, SB!0}[])
-        val!4{SA!0}[] = MUX(!7!0{SA!0}[], val!3{SA!0}[], val!2{SA!0}[])
-        result!2{SA!0}[] = VectorizedUpdate(result!1{SA!0}[], [I!1], val!4{SA!0}[])
+            flag!5{D!0, R!0}[] = MUX(!1!3{D!0, R!0}[], flag!4, flag!3{D!0, R!0}[])
+        val!2{D!0}[] = result!1{D!0}[]
+        val!3{D!0}[] = !6!0{D!0}[]
+        !7!0{D!0}[] = drop_dim(flag!5{D!0, R!0}[])
+        val!4{D!0}[] = MUX(!7!0{D!0}[], val!3{D!0}[], val!2{D!0}[])
+        result!2{D!0}[] = VectorizedUpdate(result!1{D!0}[], [I!1], val!4{D!0}[])
     return result!1
 ```
 #### Basic Vectorization Phase 1 (dependence graph)
 ![](images/psi_bv_phase_1_dep_graph.png)
 #### Basic Vectorization Phase 2
 ```python
-def psi(A!0: shared[list[int; ?]], SA!0: plaintext[int], B!0: shared[list[int; ?]], SB!0: plaintext[int], result!0: shared[list[int; ?]]) -> shared[list[int; ?]]:
-    !2!0{SA!0}[] = lift(result!0, (i!1:SA!0))
-    !6!0{SA!0}[] = lift(A!0[i!1], (i!1:SA!0))
+def psi(A!0: shared[list[int; ?]], D!0: plaintext[int], B!0: shared[list[int; ?]], R!0: plaintext[int], result!0: shared[list[int; ?]]) -> shared[list[int; ?]]:
+    !2!0{D!0}[] = lift(result!0, (i!1:D!0))
+    !6!0{D!0}[] = lift(A!0[i!1], (i!1:D!0))
     flag!2 = False
-    !4!0{SA!0, SB!0}[] = lift(A!0[i!1], (i!1:SA!0, j!1:SB!0))
-    !5!0{SA!0, SB!0}[] = lift(B!0[j!1], (i!1:SA!0, j!1:SB!0))
+    !4!0{D!0, R!0}[] = lift(A!0[i!1], (i!1:D!0, j!1:R!0))
+    !5!0{D!0, R!0}[] = lift(B!0[j!1], (i!1:D!0, j!1:R!0))
     flag!4 = True
-    val!2{SA!0}[] = !2!0{SA!0}[]
-    val!3{SA!0}[] = !6!0{SA!0}[]
-    !3!0{SA!0, SB!0}[] = lift(flag!2, (i!1:SA!0, j!1:SB!0))
-    !1!3{SA!0, SB!0}[] = (!4!0{SA!0, SB!0}[] == !5!0{SA!0, SB!0}[])
-    for !8!0 in range(0, SB!0): (monolithic)
-        flag!3{SA!0}[!8!0] = Φ(!3!0{SA!0}[!8!0], flag!5{SA!0}[(!8!0 - 1)])
-        flag!5{SA!0}[!8!0] = MUX(!1!3{SA!0}[!8!0], flag!4, flag!3{SA!0}[!8!0])
-    !7!0{SA!0}[] = drop_dim(flag!5{SA!0, SB!0}[])
-    val!4{SA!0}[] = MUX(!7!0{SA!0}[], val!3{SA!0}[], val!2{SA!0}[])
-    result!2{SA!0}[] = VectorizedUpdate(!2!0{SA!0}[], [I!1], val!4{SA!0}[])
+    val!2{D!0}[] = !2!0{D!0}[]
+    val!3{D!0}[] = !6!0{D!0}[]
+    !3!0{D!0, R!0}[] = lift(flag!2, (i!1:D!0, j!1:R!0))
+    !1!3{D!0, R!0}[] = (!4!0{D!0, R!0}[] == !5!0{D!0, R!0}[])
+    for !8!0 in range(0, R!0): (monolithic)
+        flag!3{D!0}[!8!0] = Φ(!3!0{D!0}[!8!0], flag!5{D!0}[(!8!0 - 1)])
+        flag!5{D!0}[!8!0] = MUX(!1!3{D!0}[!8!0], flag!4, flag!3{D!0}[!8!0])
+    !7!0{D!0}[] = drop_dim(flag!5{D!0, R!0}[])
+    val!4{D!0}[] = MUX(!7!0{D!0}[], val!3{D!0}[], val!2{D!0}[])
+    result!2{D!0}[] = VectorizedUpdate(!2!0{D!0}[], [I!1], val!4{D!0}[])
     return result!2
 ```
 #### Basic Vectorization Phase 2 (dependence graph)
@@ -11595,84 +10923,85 @@ def psi(A!0: shared[list[int; ?]], SA!0: plaintext[int], B!0: shared[list[int; ?
 | Variable | Type |
 | - | - |
 | `A!0` | `shared[list[int; ?]]` |
-| `SA!0` | `plaintext[int]` |
+| `D!0` | `plaintext[int]` |
 | `B!0` | `shared[list[int; ?]]` |
-| `SB!0` | `plaintext[int]` |
+| `R!0` | `plaintext[int]` |
 | `result!0` | `shared[list[int; ?]]` |
 | `!8!0` | `plaintext[int]` |
-| `result!2` | `shared[list[int; (SA!0)]]` |
-| `val!4` | `shared[list[int; (SA!0)]]` |
-| `!7!0` | `shared[list[bool; (SA!0)]]` |
-| `flag!5` | `shared[list[list[bool; (SA!0)]; (SB!0)]]` |
-| `flag!3` | `shared[list[list[bool; (SA!0)]; (SB!0)]]` |
-| `!1!3` | `shared[list[list[bool; (SA!0)]; (SB!0)]]` |
-| `!3!0` | `shared[list[list[bool; (SA!0)]; (SB!0)]]` |
-| `val!3` | `shared[list[int; (SA!0)]]` |
-| `val!2` | `shared[list[int; (SA!0)]]` |
+| `result!2` | `shared[list[int; (D!0)]]` |
+| `val!4` | `shared[list[int; (D!0)]]` |
+| `!7!0` | `shared[list[bool; (D!0)]]` |
+| `flag!5` | `shared[list[list[bool; (D!0)]; (R!0)]]` |
+| `flag!3` | `shared[list[list[bool; (D!0)]; (R!0)]]` |
+| `!1!3` | `shared[list[list[bool; (D!0)]; (R!0)]]` |
+| `!3!0` | `shared[list[list[bool; (D!0)]; (R!0)]]` |
+| `val!3` | `shared[list[int; (D!0)]]` |
+| `val!2` | `shared[list[int; (D!0)]]` |
 | `flag!4` | `plaintext[bool]` |
-| `!5!0` | `shared[list[list[int; (SA!0)]; (SB!0)]]` |
-| `!4!0` | `shared[list[list[int; (SA!0)]; (SB!0)]]` |
+| `!5!0` | `shared[list[list[int; (D!0)]; (R!0)]]` |
+| `!4!0` | `shared[list[list[int; (D!0)]; (R!0)]]` |
 | `flag!2` | `plaintext[bool]` |
-| `!6!0` | `shared[list[int; (SA!0)]]` |
-| `!2!0` | `shared[list[int; (SA!0)]]` |
+| `!6!0` | `shared[list[int; (D!0)]]` |
+| `!2!0` | `shared[list[int; (D!0)]]` |
 #### Copy propagation
 ```python
-def psi(A!0: shared[list[int; ?]], SA!0: plaintext[int], B!0: shared[list[int; ?]], SB!0: plaintext[int], result!0: shared[list[int; ?]]) -> shared[list[int; ?]]:
-    !2!0{SA!0}[] = lift(result!0, (i!1:SA!0))
-    !6!0{SA!0}[] = lift(A!0[i!1], (i!1:SA!0))
+def psi(A!0: shared[list[int; ?]], D!0: plaintext[int], B!0: shared[list[int; ?]], R!0: plaintext[int], result!0: shared[list[int; ?]]) -> shared[list[int; ?]]:
+    !2!0{D!0}[] = lift(result!0, (i!1:D!0))
+    !6!0{D!0}[] = lift(A!0[i!1], (i!1:D!0))
     flag!2 = False
-    !4!0{SA!0, SB!0}[] = lift(A!0[i!1], (i!1:SA!0, j!1:SB!0))
-    !5!0{SA!0, SB!0}[] = lift(B!0[j!1], (i!1:SA!0, j!1:SB!0))
+    !4!0{D!0, R!0}[] = lift(A!0[i!1], (i!1:D!0, j!1:R!0))
+    !5!0{D!0, R!0}[] = lift(B!0[j!1], (i!1:D!0, j!1:R!0))
     flag!4 = True
-    !3!0{SA!0, SB!0}[] = lift(flag!2, (i!1:SA!0, j!1:SB!0))
-    !1!3{SA!0, SB!0}[] = (!4!0{SA!0, SB!0}[] == !5!0{SA!0, SB!0}[])
-    for !8!0 in range(0, SB!0): (monolithic)
-        flag!3{SA!0}[!8!0] = Φ(!3!0{SA!0}[!8!0], flag!5{SA!0}[(!8!0 - 1)])
-        flag!5{SA!0}[!8!0] = MUX(!1!3{SA!0}[!8!0], flag!4, flag!3{SA!0}[!8!0])
-    !7!0{SA!0}[] = drop_dim(flag!5{SA!0, SB!0}[])
-    val!4{SA!0}[] = MUX(!7!0{SA!0}[], !6!0{SA!0}[], !2!0{SA!0}[])
-    result!2{SA!0}[] = VectorizedUpdate(!2!0{SA!0}[], [I!1], val!4{SA!0}[])
+    !3!0{D!0, R!0}[] = lift(flag!2, (i!1:D!0, j!1:R!0))
+    !1!3{D!0, R!0}[] = (!4!0{D!0, R!0}[] == !5!0{D!0, R!0}[])
+    for !8!0 in range(0, R!0): (monolithic)
+        flag!3{D!0}[!8!0] = Φ(!3!0{D!0}[!8!0], flag!5{D!0}[(!8!0 - 1)])
+        flag!5{D!0}[!8!0] = MUX(!1!3{D!0}[!8!0], flag!4, flag!3{D!0}[!8!0])
+    !7!0{D!0}[] = drop_dim(flag!5{D!0, R!0}[])
+    val!4{D!0}[] = MUX(!7!0{D!0}[], !6!0{D!0}[], !2!0{D!0}[])
+    result!2{D!0}[] = VectorizedUpdate(!2!0{D!0}[], [I!1], val!4{D!0}[])
     return result!2
 ```
 #### Common subexpression elimination
 ```python
-def psi(A!0: shared[list[int; ?]], SA!0: plaintext[int], B!0: shared[list[int; ?]], SB!0: plaintext[int], result!0: shared[list[int; ?]]) -> shared[list[int; ?]]:
-    !2!0{SA!0}[] = lift(result!0, (i!1:SA!0))
-    !6!0{SA!0}[] = lift(A!0[i!1], (i!1:SA!0))
+def psi(A!0: shared[list[int; ?]], D!0: plaintext[int], B!0: shared[list[int; ?]], R!0: plaintext[int], result!0: shared[list[int; ?]]) -> shared[list[int; ?]]:
+    !2!0{D!0}[] = lift(result!0, (i!1:D!0))
+    !6!0{D!0}[] = lift(A!0[i!1], (i!1:D!0))
     flag!2 = False
-    !4!0{SA!0, SB!0}[] = lift(A!0[i!1], (i!1:SA!0, j!1:SB!0))
-    !5!0{SA!0, SB!0}[] = lift(B!0[j!1], (i!1:SA!0, j!1:SB!0))
+    !4!0{D!0, R!0}[] = lift(A!0[i!1], (i!1:D!0, j!1:R!0))
+    !5!0{D!0, R!0}[] = lift(B!0[j!1], (i!1:D!0, j!1:R!0))
     flag!4 = True
-    !3!0{SA!0, SB!0}[] = lift(flag!2, (i!1:SA!0, j!1:SB!0))
-    !1!3{SA!0, SB!0}[] = (!4!0{SA!0, SB!0}[] == !5!0{SA!0, SB!0}[])
-    for !8!0 in range(0, SB!0): (monolithic)
-        flag!3{SA!0}[!8!0] = Φ(!3!0{SA!0}[!8!0], flag!5{SA!0}[(!8!0 - 1)])
-        flag!5{SA!0}[!8!0] = MUX(!1!3{SA!0}[!8!0], flag!4, flag!3{SA!0}[!8!0])
-    !7!0{SA!0}[] = drop_dim(flag!5{SA!0, SB!0}[])
-    val!4{SA!0}[] = MUX(!7!0{SA!0}[], !6!0{SA!0}[], !2!0{SA!0}[])
-    result!2{SA!0}[] = VectorizedUpdate(!2!0{SA!0}[], [I!1], val!4{SA!0}[])
+    !3!0{D!0, R!0}[] = lift(flag!2, (i!1:D!0, j!1:R!0))
+    !1!3{D!0, R!0}[] = (!4!0{D!0, R!0}[] == !5!0{D!0, R!0}[])
+    for !8!0 in range(0, R!0): (monolithic)
+        flag!3{D!0}[!8!0] = Φ(!3!0{D!0}[!8!0], flag!5{D!0}[(!8!0 - 1)])
+        flag!5{D!0}[!8!0] = MUX(!1!3{D!0}[!8!0], flag!4, flag!3{D!0}[!8!0])
+    !7!0{D!0}[] = drop_dim(flag!5{D!0, R!0}[])
+    val!4{D!0}[] = MUX(!7!0{D!0}[], !6!0{D!0}[], !2!0{D!0}[])
+    result!2{D!0}[] = VectorizedUpdate(!2!0{D!0}[], [I!1], val!4{D!0}[])
     return result!2
 ```
 #### MOTION mixed configuration
-```Total cost:	15027.82
-Input vars:	{B!0: {'B'}, A!0: {'B'}, result!0: {'B'}}
-Constants:	{False: {'B'}, True: {'B'}}
+```Total cost:	0.08021
+Input vars:	{B!0: ['Y'], A!0: ['Y'], result!0: ['Y']}
+Constants:	{False: ['Y'], True: ['Y']}
 Plaintext vars:	{}
-!2!0{SA!0}[] = lift(result!0, (i!1:SA!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!6!0{SA!0}[] = lift(A!0[i!1], (i!1:SA!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-flag!2 = False: _ -> {'B'} for 0.00 * 1 = 0.00
-!4!0{SA!0, SB!0}[] = lift(A!0[i!1], (i!1:SA!0, j!1:SB!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!5!0{SA!0, SB!0}[] = lift(B!0[j!1], (i!1:SA!0, j!1:SB!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-flag!4 = True: _ -> {'B'} for 0.00 * 1 = 0.00
-!3!0{SA!0, SB!0}[] = lift(flag!2, (i!1:SA!0, j!1:SB!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!1!3{SA!0, SB!0}[] = (!4!0{SA!0, SB!0}[] == !5!0{SA!0, SB!0}[]): B -> {} for 3298.70 * 1 = 3298.70
-	flag!3{SA!0}[!8!0] = Φ(!3!0{SA!0}[!8!0], flag!5{SA!0}[(!8!0 - 1)]): B -> {} for 0.00 * 7 = 0.00
-	flag!5{SA!0}[!8!0] = MUX(!1!3{SA!0}[!8!0], flag!4, flag!3{SA!0}[!8!0]): B -> {} for 1466.14 * 7 = 10262.98
-!7!0{SA!0}[] = drop_dim(flag!5{SA!0, SB!0}[]): _ -> {'B'} for 0.00 * 1 = 0.00
-val!4{SA!0}[] = MUX(!7!0{SA!0}[], !6!0{SA!0}[], !2!0{SA!0}[]): B -> {} for 1466.14 * 1 = 1466.14
-result!2{SA!0}[] = VectorizedUpdate(!2!0{SA!0}[], [I!1], val!4{SA!0}[]): B -> {} for 0.00 * 1 = 0.00
+Flags:		{}
+!2!0{D!0}[] = lift(result!0, (i!1:D!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!6!0{D!0}[] = lift(A!0[i!1], (i!1:D!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+flag!2 = False: _ -> ['Y'] for 0.00000 * 1 = 0.00
+!4!0{D!0, R!0}[] = lift(A!0[i!1], (i!1:D!0, j!1:R!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!5!0{D!0, R!0}[] = lift(B!0[j!1], (i!1:D!0, j!1:R!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+flag!4 = True: _ -> ['Y'] for 0.00000 * 1 = 0.00
+!3!0{D!0, R!0}[] = lift(flag!2, (i!1:D!0, j!1:R!0)): _ -> ['Y'] for 0.00000 * 1 = 0.00
+!1!3{D!0, R!0}[] = (!4!0{D!0, R!0}[] == !5!0{D!0, R!0}[]): Y -> {} for 0.02453 * 1 = 0.02
+	flag!3{D!0}[!8!0] = Φ(!3!0{D!0}[!8!0], flag!5{D!0}[(!8!0 - 1)]): Y -> {} for 0.00000 * 7 = 0.00
+	flag!5{D!0}[!8!0] = MUX(!1!3{D!0}[!8!0], flag!4, flag!3{D!0}[!8!0]): Y -> {} for 0.00696 * 7 = 0.05
+!7!0{D!0}[] = drop_dim(flag!5{D!0, R!0}[]): _ -> ['Y'] for 0.00000 * 1 = 0.00
+val!4{D!0}[] = MUX(!7!0{D!0}[], !6!0{D!0}[], !2!0{D!0}[]): Y -> {} for 0.00696 * 1 = 0.01
+result!2{D!0}[] = VectorizedUpdate(!2!0{D!0}[], [I!1], val!4{D!0}[]): Y -> {} for 0.00000 * 1 = 0.00
 return result!2
-Output vars:	{result!2: {'B'}}
+Output vars:	{result!2: ['Y']}
 
 ```
 #### MOTION code
@@ -11681,28 +11010,28 @@ template <encrypto::motion::MpcProtocol Protocol>
 std::vector<encrypto::motion::SecureUnsignedInteger> psi(
     encrypto::motion::PartyPointer &party,
     std::vector<encrypto::motion::SecureUnsignedInteger> A_0,
-    std::uint32_t _MPC_PLAINTEXT_SA_0,
+    std::uint32_t _MPC_PLAINTEXT_D_0,
     std::vector<encrypto::motion::SecureUnsignedInteger> B_0,
-    std::uint32_t _MPC_PLAINTEXT_SB_0,
+    std::uint32_t _MPC_PLAINTEXT_R_0,
     std::vector<encrypto::motion::SecureUnsignedInteger> result_0
 ) {
     // Shared variable declarations
-    std::vector<encrypto::motion::ShareWrapper> _1_3((_MPC_PLAINTEXT_SA_0) * (_MPC_PLAINTEXT_SB_0));
-    std::vector<encrypto::motion::SecureUnsignedInteger> _2_0((_MPC_PLAINTEXT_SA_0));
-    std::vector<encrypto::motion::ShareWrapper> _3_0((_MPC_PLAINTEXT_SA_0) * (_MPC_PLAINTEXT_SB_0));
-    std::vector<encrypto::motion::SecureUnsignedInteger> _4_0((_MPC_PLAINTEXT_SA_0) * (_MPC_PLAINTEXT_SB_0));
-    std::vector<encrypto::motion::SecureUnsignedInteger> _5_0((_MPC_PLAINTEXT_SA_0) * (_MPC_PLAINTEXT_SB_0));
-    std::vector<encrypto::motion::SecureUnsignedInteger> _6_0((_MPC_PLAINTEXT_SA_0));
-    std::vector<encrypto::motion::ShareWrapper> _7_0((_MPC_PLAINTEXT_SA_0));
+    std::vector<encrypto::motion::ShareWrapper> _1_3((_MPC_PLAINTEXT_D_0) * (_MPC_PLAINTEXT_R_0));
+    std::vector<encrypto::motion::SecureUnsignedInteger> _2_0((_MPC_PLAINTEXT_D_0));
+    std::vector<encrypto::motion::ShareWrapper> _3_0((_MPC_PLAINTEXT_D_0) * (_MPC_PLAINTEXT_R_0));
+    std::vector<encrypto::motion::SecureUnsignedInteger> _4_0((_MPC_PLAINTEXT_D_0) * (_MPC_PLAINTEXT_R_0));
+    std::vector<encrypto::motion::SecureUnsignedInteger> _5_0((_MPC_PLAINTEXT_D_0) * (_MPC_PLAINTEXT_R_0));
+    std::vector<encrypto::motion::SecureUnsignedInteger> _6_0((_MPC_PLAINTEXT_D_0));
+    std::vector<encrypto::motion::ShareWrapper> _7_0((_MPC_PLAINTEXT_D_0));
     encrypto::motion::SecureUnsignedInteger _8_0;
-    encrypto::motion::SecureUnsignedInteger SA_0;
-    encrypto::motion::SecureUnsignedInteger SB_0;
+    encrypto::motion::SecureUnsignedInteger D_0;
+    encrypto::motion::SecureUnsignedInteger R_0;
     encrypto::motion::ShareWrapper flag_2;
-    std::vector<encrypto::motion::ShareWrapper> flag_3((_MPC_PLAINTEXT_SA_0) * (_MPC_PLAINTEXT_SB_0));
+    std::vector<encrypto::motion::ShareWrapper> flag_3((_MPC_PLAINTEXT_D_0) * (_MPC_PLAINTEXT_R_0));
     encrypto::motion::ShareWrapper flag_4;
-    std::vector<encrypto::motion::ShareWrapper> flag_5((_MPC_PLAINTEXT_SA_0) * (_MPC_PLAINTEXT_SB_0));
-    std::vector<encrypto::motion::SecureUnsignedInteger> result_2((_MPC_PLAINTEXT_SA_0));
-    std::vector<encrypto::motion::SecureUnsignedInteger> val_4((_MPC_PLAINTEXT_SA_0));
+    std::vector<encrypto::motion::ShareWrapper> flag_5((_MPC_PLAINTEXT_D_0) * (_MPC_PLAINTEXT_R_0));
+    std::vector<encrypto::motion::SecureUnsignedInteger> result_2((_MPC_PLAINTEXT_D_0));
+    std::vector<encrypto::motion::SecureUnsignedInteger> val_4((_MPC_PLAINTEXT_D_0));
 
     // Plaintext variable declarations
     std::uint32_t _MPC_PLAINTEXT__8_0;
@@ -11714,38 +11043,38 @@ std::vector<encrypto::motion::SecureUnsignedInteger> psi(
     encrypto::motion::ShareWrapper _MPC_CONSTANT_true = party->In<Protocol>(encrypto::motion::BitVector(1, true), 0);
 
     // Plaintext parameter assignments
-    SA_0 = party->In<Protocol>(encrypto::motion::ToInput(_MPC_PLAINTEXT_SA_0), 0);
-    SB_0 = party->In<Protocol>(encrypto::motion::ToInput(_MPC_PLAINTEXT_SB_0), 0);
+    D_0 = party->In<Protocol>(encrypto::motion::ToInput(_MPC_PLAINTEXT_D_0), 0);
+    R_0 = party->In<Protocol>(encrypto::motion::ToInput(_MPC_PLAINTEXT_R_0), 0);
 
     // Function body
-    vectorized_assign(_2_0, {_MPC_PLAINTEXT_SA_0}, {true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return result_0;}), {_MPC_PLAINTEXT_SA_0}));
-    vectorized_assign(_6_0, {_MPC_PLAINTEXT_SA_0}, {true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return A_0[indices[0]];}), {_MPC_PLAINTEXT_SA_0}));
+    vectorized_assign(_2_0, {_MPC_PLAINTEXT_D_0}, {true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return result_0;}), {_MPC_PLAINTEXT_D_0}));
+    vectorized_assign(_6_0, {_MPC_PLAINTEXT_D_0}, {true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return A_0[indices[0]];}), {_MPC_PLAINTEXT_D_0}));
     flag_2 = _MPC_CONSTANT_false;
     _MPC_PLAINTEXT_flag_2 = false;
-    vectorized_assign(_4_0, {_MPC_PLAINTEXT_SA_0, _MPC_PLAINTEXT_SB_0}, {true, true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return A_0[indices[0]];}), {_MPC_PLAINTEXT_SA_0, _MPC_PLAINTEXT_SB_0}));
-    vectorized_assign(_5_0, {_MPC_PLAINTEXT_SA_0, _MPC_PLAINTEXT_SB_0}, {true, true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return B_0[indices[1]];}), {_MPC_PLAINTEXT_SA_0, _MPC_PLAINTEXT_SB_0}));
+    vectorized_assign(_4_0, {_MPC_PLAINTEXT_D_0, _MPC_PLAINTEXT_R_0}, {true, true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return A_0[indices[0]];}), {_MPC_PLAINTEXT_D_0, _MPC_PLAINTEXT_R_0}));
+    vectorized_assign(_5_0, {_MPC_PLAINTEXT_D_0, _MPC_PLAINTEXT_R_0}, {true, true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return B_0[indices[1]];}), {_MPC_PLAINTEXT_D_0, _MPC_PLAINTEXT_R_0}));
     flag_4 = _MPC_CONSTANT_true;
     _MPC_PLAINTEXT_flag_4 = true;
-    vectorized_assign(_3_0, {_MPC_PLAINTEXT_SA_0, _MPC_PLAINTEXT_SB_0}, {true, true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return flag_2;}), {_MPC_PLAINTEXT_SA_0, _MPC_PLAINTEXT_SB_0}));
-    vectorized_assign(_1_3, {_MPC_PLAINTEXT_SA_0, _MPC_PLAINTEXT_SB_0}, {true, true}, {}, (to_share_wrapper(vectorized_access(_4_0, {_MPC_PLAINTEXT_SA_0, _MPC_PLAINTEXT_SB_0}, {true, true}, {})) == to_share_wrapper(vectorized_access(_5_0, {_MPC_PLAINTEXT_SA_0, _MPC_PLAINTEXT_SB_0}, {true, true}, {}))));
+    vectorized_assign(_3_0, {_MPC_PLAINTEXT_D_0, _MPC_PLAINTEXT_R_0}, {true, true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return flag_2;}), {_MPC_PLAINTEXT_D_0, _MPC_PLAINTEXT_R_0}));
+    vectorized_assign(_1_3, {_MPC_PLAINTEXT_D_0, _MPC_PLAINTEXT_R_0}, {true, true}, {}, (to_share_wrapper(vectorized_access(_4_0, {_MPC_PLAINTEXT_D_0, _MPC_PLAINTEXT_R_0}, {true, true}, {})) == to_share_wrapper(vectorized_access(_5_0, {_MPC_PLAINTEXT_D_0, _MPC_PLAINTEXT_R_0}, {true, true}, {}))));
 
     // Initialize loop counter
     _MPC_PLAINTEXT__8_0 = std::uint32_t(0);
     // Initialize phi values
-    vectorized_assign(flag_3, {_MPC_PLAINTEXT_SA_0, _MPC_PLAINTEXT_SB_0}, {true, false}, {_MPC_PLAINTEXT__8_0}, vectorized_access(_3_0, {_MPC_PLAINTEXT_SA_0, _MPC_PLAINTEXT_SB_0}, {true, false}, {_MPC_PLAINTEXT__8_0}));
-    for (; _MPC_PLAINTEXT__8_0 < _MPC_PLAINTEXT_SB_0; _MPC_PLAINTEXT__8_0++) {
+    vectorized_assign(flag_3, {_MPC_PLAINTEXT_D_0, _MPC_PLAINTEXT_R_0}, {true, false}, {_MPC_PLAINTEXT__8_0}, vectorized_access(_3_0, {_MPC_PLAINTEXT_D_0, _MPC_PLAINTEXT_R_0}, {true, false}, {_MPC_PLAINTEXT__8_0}));
+    for (; _MPC_PLAINTEXT__8_0 < _MPC_PLAINTEXT_R_0; _MPC_PLAINTEXT__8_0++) {
         // Update phi values
         if (_MPC_PLAINTEXT__8_0 != std::uint32_t(0)) {
-            vectorized_assign(flag_3, {_MPC_PLAINTEXT_SA_0, _MPC_PLAINTEXT_SB_0}, {true, false}, {_MPC_PLAINTEXT__8_0}, vectorized_access(flag_5, {_MPC_PLAINTEXT_SA_0, _MPC_PLAINTEXT_SB_0}, {true, false}, {(_MPC_PLAINTEXT__8_0 - std::uint32_t(1))}));
+            vectorized_assign(flag_3, {_MPC_PLAINTEXT_D_0, _MPC_PLAINTEXT_R_0}, {true, false}, {_MPC_PLAINTEXT__8_0}, vectorized_access(flag_5, {_MPC_PLAINTEXT_D_0, _MPC_PLAINTEXT_R_0}, {true, false}, {(_MPC_PLAINTEXT__8_0 - std::uint32_t(1))}));
         }
 
-        vectorized_assign(flag_5, {_MPC_PLAINTEXT_SA_0, _MPC_PLAINTEXT_SB_0}, {true, false}, {_MPC_PLAINTEXT__8_0}, vectorized_access(_1_3, {_MPC_PLAINTEXT_SA_0, _MPC_PLAINTEXT_SB_0}, {true, false}, {_MPC_PLAINTEXT__8_0}).Mux(decltype(flag_4)::Simdify(lift(std::function([&](const std::vector<std::uint32_t> &indices){return flag_4;}), {_MPC_PLAINTEXT_SA_0})).Get(), vectorized_access(flag_3, {_MPC_PLAINTEXT_SA_0, _MPC_PLAINTEXT_SB_0}, {true, false}, {_MPC_PLAINTEXT__8_0}).Get()));
+        vectorized_assign(flag_5, {_MPC_PLAINTEXT_D_0, _MPC_PLAINTEXT_R_0}, {true, false}, {_MPC_PLAINTEXT__8_0}, vectorized_access(_1_3, {_MPC_PLAINTEXT_D_0, _MPC_PLAINTEXT_R_0}, {true, false}, {_MPC_PLAINTEXT__8_0}).Mux(decltype(flag_4)::Simdify(lift(std::function([&](const std::vector<std::uint32_t> &indices){return flag_4;}), {_MPC_PLAINTEXT_D_0})).Get(), vectorized_access(flag_3, {_MPC_PLAINTEXT_D_0, _MPC_PLAINTEXT_R_0}, {true, false}, {_MPC_PLAINTEXT__8_0}).Get()));
 
     }
 
-    vectorized_assign(_7_0, {_MPC_PLAINTEXT_SA_0}, {true}, {}, drop_dim(vectorized_access(flag_5, {_MPC_PLAINTEXT_SA_0, _MPC_PLAINTEXT_SB_0}, {true, true}, {}).Unsimdify(), {_MPC_PLAINTEXT_SA_0, _MPC_PLAINTEXT_SB_0}));
-    vectorized_assign(val_4, {_MPC_PLAINTEXT_SA_0}, {true}, {}, vectorized_access(_7_0, {_MPC_PLAINTEXT_SA_0}, {true}, {}).Mux(vectorized_access(_6_0, {_MPC_PLAINTEXT_SA_0}, {true}, {}).Get(), vectorized_access(_2_0, {_MPC_PLAINTEXT_SA_0}, {true}, {}).Get()));
-    vectorized_assign(result_2, {_MPC_PLAINTEXT_SA_0}, {true}, {}, vectorized_update(_2_0, {_MPC_PLAINTEXT_SA_0}, {true}, {}, vectorized_access(val_4, {_MPC_PLAINTEXT_SA_0}, {true}, {})));
+    vectorized_assign(_7_0, {_MPC_PLAINTEXT_D_0}, {true}, {}, drop_dim(vectorized_access(flag_5, {_MPC_PLAINTEXT_D_0, _MPC_PLAINTEXT_R_0}, {true, true}, {}).Unsimdify(), {_MPC_PLAINTEXT_D_0, _MPC_PLAINTEXT_R_0}));
+    vectorized_assign(val_4, {_MPC_PLAINTEXT_D_0}, {true}, {}, vectorized_access(_7_0, {_MPC_PLAINTEXT_D_0}, {true}, {}).Mux(vectorized_access(_6_0, {_MPC_PLAINTEXT_D_0}, {true}, {}).Get(), vectorized_access(_2_0, {_MPC_PLAINTEXT_D_0}, {true}, {}).Get()));
+    vectorized_assign(result_2, {_MPC_PLAINTEXT_D_0}, {true}, {}, vectorized_update(_2_0, {_MPC_PLAINTEXT_D_0}, {true}, {}, vectorized_access(val_4, {_MPC_PLAINTEXT_D_0}, {true}, {})));
     return result_2;
 
 }
@@ -11755,28 +11084,28 @@ std::vector<encrypto::motion::SecureUnsignedInteger> psi(
 std::vector<encrypto::motion::SecureUnsignedInteger> psi(
     encrypto::motion::PartyPointer &party,
     std::vector<encrypto::motion::SecureUnsignedInteger> A_0,
-    std::uint32_t _MPC_PLAINTEXT_SA_0,
+    std::uint32_t _MPC_PLAINTEXT_D_0,
     std::vector<encrypto::motion::SecureUnsignedInteger> B_0,
-    std::uint32_t _MPC_PLAINTEXT_SB_0,
+    std::uint32_t _MPC_PLAINTEXT_R_0,
     std::vector<encrypto::motion::SecureUnsignedInteger> result_0
 ) {
     // Shared variable declarations
-    std::vector<encrypto::motion::ShareWrapper> _1_3((_MPC_PLAINTEXT_SA_0) * (_MPC_PLAINTEXT_SB_0));
-    std::vector<encrypto::motion::SecureUnsignedInteger> _2_0((_MPC_PLAINTEXT_SA_0));
-    std::vector<encrypto::motion::ShareWrapper> _3_0((_MPC_PLAINTEXT_SA_0) * (_MPC_PLAINTEXT_SB_0));
-    std::vector<encrypto::motion::SecureUnsignedInteger> _4_0((_MPC_PLAINTEXT_SA_0) * (_MPC_PLAINTEXT_SB_0));
-    std::vector<encrypto::motion::SecureUnsignedInteger> _5_0((_MPC_PLAINTEXT_SA_0) * (_MPC_PLAINTEXT_SB_0));
-    std::vector<encrypto::motion::SecureUnsignedInteger> _6_0((_MPC_PLAINTEXT_SA_0));
-    std::vector<encrypto::motion::ShareWrapper> _7_0((_MPC_PLAINTEXT_SA_0));
+    std::vector<encrypto::motion::ShareWrapper> _1_3((_MPC_PLAINTEXT_D_0) * (_MPC_PLAINTEXT_R_0));
+    std::vector<encrypto::motion::SecureUnsignedInteger> _2_0((_MPC_PLAINTEXT_D_0));
+    std::vector<encrypto::motion::ShareWrapper> _3_0((_MPC_PLAINTEXT_D_0) * (_MPC_PLAINTEXT_R_0));
+    std::vector<encrypto::motion::SecureUnsignedInteger> _4_0((_MPC_PLAINTEXT_D_0) * (_MPC_PLAINTEXT_R_0));
+    std::vector<encrypto::motion::SecureUnsignedInteger> _5_0((_MPC_PLAINTEXT_D_0) * (_MPC_PLAINTEXT_R_0));
+    std::vector<encrypto::motion::SecureUnsignedInteger> _6_0((_MPC_PLAINTEXT_D_0));
+    std::vector<encrypto::motion::ShareWrapper> _7_0((_MPC_PLAINTEXT_D_0));
     encrypto::motion::SecureUnsignedInteger _8_0;
-    encrypto::motion::SecureUnsignedInteger SA_0;
-    encrypto::motion::SecureUnsignedInteger SB_0;
+    encrypto::motion::SecureUnsignedInteger D_0;
+    encrypto::motion::SecureUnsignedInteger R_0;
     encrypto::motion::ShareWrapper flag_2;
-    std::vector<encrypto::motion::ShareWrapper> flag_3((_MPC_PLAINTEXT_SA_0) * (_MPC_PLAINTEXT_SB_0));
+    std::vector<encrypto::motion::ShareWrapper> flag_3((_MPC_PLAINTEXT_D_0) * (_MPC_PLAINTEXT_R_0));
     encrypto::motion::ShareWrapper flag_4;
-    std::vector<encrypto::motion::ShareWrapper> flag_5((_MPC_PLAINTEXT_SA_0) * (_MPC_PLAINTEXT_SB_0));
-    std::vector<encrypto::motion::SecureUnsignedInteger> result_2((_MPC_PLAINTEXT_SA_0));
-    std::vector<encrypto::motion::SecureUnsignedInteger> val_4((_MPC_PLAINTEXT_SA_0));
+    std::vector<encrypto::motion::ShareWrapper> flag_5((_MPC_PLAINTEXT_D_0) * (_MPC_PLAINTEXT_R_0));
+    std::vector<encrypto::motion::SecureUnsignedInteger> result_2((_MPC_PLAINTEXT_D_0));
+    std::vector<encrypto::motion::SecureUnsignedInteger> val_4((_MPC_PLAINTEXT_D_0));
 
     // Plaintext variable declarations
     std::uint32_t _MPC_PLAINTEXT__8_0;
@@ -11784,143 +11113,151 @@ std::vector<encrypto::motion::SecureUnsignedInteger> psi(
     bool _MPC_PLAINTEXT_flag_4;
 
     // Constant initializations
-    encrypto::motion::ShareWrapper _MPC_CONSTANT_false = party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::BitVector(1, false), 0);
-    encrypto::motion::ShareWrapper _MPC_CONSTANT_true = party->In<encrypto::motion::MpcProtocol::kBooleanGmw>(encrypto::motion::BitVector(1, true), 0);
+    encrypto::motion::ShareWrapper _MPC_CONSTANT_false = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::BitVector(1, false), 0);
+    encrypto::motion::ShareWrapper _MPC_CONSTANT_true = party->In<encrypto::motion::MpcProtocol::kBmr>(encrypto::motion::BitVector(1, true), 0);
+
+    // Input Protocol Convertions
 
     // Plaintext parameter assignments
 
     // Function body
-    vectorized_assign(_2_0, {_MPC_PLAINTEXT_SA_0}, {true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return result_0;}), {_MPC_PLAINTEXT_SA_0}));
-    vectorized_assign(_6_0, {_MPC_PLAINTEXT_SA_0}, {true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return A_0[indices[0]];}), {_MPC_PLAINTEXT_SA_0}));
+    vectorized_assign(_2_0, {_MPC_PLAINTEXT_D_0}, {true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return result_0;}), {_MPC_PLAINTEXT_D_0}));
+    vectorized_assign(_6_0, {_MPC_PLAINTEXT_D_0}, {true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return A_0[indices[0]];}), {_MPC_PLAINTEXT_D_0}));
     flag_2 = _MPC_CONSTANT_false;
     _MPC_PLAINTEXT_flag_2 = false;
-    vectorized_assign(_4_0, {_MPC_PLAINTEXT_SA_0, _MPC_PLAINTEXT_SB_0}, {true, true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return A_0[indices[0]];}), {_MPC_PLAINTEXT_SA_0, _MPC_PLAINTEXT_SB_0}));
-    vectorized_assign(_5_0, {_MPC_PLAINTEXT_SA_0, _MPC_PLAINTEXT_SB_0}, {true, true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return B_0[indices[1]];}), {_MPC_PLAINTEXT_SA_0, _MPC_PLAINTEXT_SB_0}));
+    vectorized_assign(_4_0, {_MPC_PLAINTEXT_D_0, _MPC_PLAINTEXT_R_0}, {true, true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return A_0[indices[0]];}), {_MPC_PLAINTEXT_D_0, _MPC_PLAINTEXT_R_0}));
+    vectorized_assign(_5_0, {_MPC_PLAINTEXT_D_0, _MPC_PLAINTEXT_R_0}, {true, true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return B_0[indices[1]];}), {_MPC_PLAINTEXT_D_0, _MPC_PLAINTEXT_R_0}));
     flag_4 = _MPC_CONSTANT_true;
     _MPC_PLAINTEXT_flag_4 = true;
-    vectorized_assign(_3_0, {_MPC_PLAINTEXT_SA_0, _MPC_PLAINTEXT_SB_0}, {true, true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return flag_2;}), {_MPC_PLAINTEXT_SA_0, _MPC_PLAINTEXT_SB_0}));
-    vectorized_assign(_1_3, {_MPC_PLAINTEXT_SA_0, _MPC_PLAINTEXT_SB_0}, {true, true}, {}, (to_share_wrapper(vectorized_access(_4_0, {_MPC_PLAINTEXT_SA_0, _MPC_PLAINTEXT_SB_0}, {true, true}, {})) == to_share_wrapper(vectorized_access(_5_0, {_MPC_PLAINTEXT_SA_0, _MPC_PLAINTEXT_SB_0}, {true, true}, {}))));
+    vectorized_assign(_3_0, {_MPC_PLAINTEXT_D_0, _MPC_PLAINTEXT_R_0}, {true, true}, {}, lift(std::function([&](const std::vector<std::uint32_t> &indices){return flag_2;}), {_MPC_PLAINTEXT_D_0, _MPC_PLAINTEXT_R_0}));
+    vectorized_assign(_1_3, {_MPC_PLAINTEXT_D_0, _MPC_PLAINTEXT_R_0}, {true, true}, {}, (to_share_wrapper(vectorized_access(_4_0, {_MPC_PLAINTEXT_D_0, _MPC_PLAINTEXT_R_0}, {true, true}, {})) == to_share_wrapper(vectorized_access(_5_0, {_MPC_PLAINTEXT_D_0, _MPC_PLAINTEXT_R_0}, {true, true}, {}))));
 
     // Initialize loop counter
     _MPC_PLAINTEXT__8_0 = std::uint32_t(0);
     // Initialize phi values
-    vectorized_assign(flag_3, {_MPC_PLAINTEXT_SA_0, _MPC_PLAINTEXT_SB_0}, {true, false}, {_MPC_PLAINTEXT__8_0}, vectorized_access(_3_0, {_MPC_PLAINTEXT_SA_0, _MPC_PLAINTEXT_SB_0}, {true, false}, {_MPC_PLAINTEXT__8_0}));
-    for (; _MPC_PLAINTEXT__8_0 < _MPC_PLAINTEXT_SB_0; _MPC_PLAINTEXT__8_0++) {
+    vectorized_assign(flag_3, {_MPC_PLAINTEXT_D_0, _MPC_PLAINTEXT_R_0}, {true, false}, {_MPC_PLAINTEXT__8_0}, vectorized_access(_3_0, {_MPC_PLAINTEXT_D_0, _MPC_PLAINTEXT_R_0}, {true, false}, {_MPC_PLAINTEXT__8_0}));
+    for (; _MPC_PLAINTEXT__8_0 < _MPC_PLAINTEXT_R_0; _MPC_PLAINTEXT__8_0++) {
         // Update phi values
         if (_MPC_PLAINTEXT__8_0 != std::uint32_t(0)) {
-            vectorized_assign(flag_3, {_MPC_PLAINTEXT_SA_0, _MPC_PLAINTEXT_SB_0}, {true, false}, {_MPC_PLAINTEXT__8_0}, vectorized_access(flag_5, {_MPC_PLAINTEXT_SA_0, _MPC_PLAINTEXT_SB_0}, {true, false}, {(_MPC_PLAINTEXT__8_0 - std::uint32_t(1))}));
+            vectorized_assign(flag_3, {_MPC_PLAINTEXT_D_0, _MPC_PLAINTEXT_R_0}, {true, false}, {_MPC_PLAINTEXT__8_0}, vectorized_access(flag_5, {_MPC_PLAINTEXT_D_0, _MPC_PLAINTEXT_R_0}, {true, false}, {(_MPC_PLAINTEXT__8_0 - std::uint32_t(1))}));
         }
 
-        vectorized_assign(flag_5, {_MPC_PLAINTEXT_SA_0, _MPC_PLAINTEXT_SB_0}, {true, false}, {_MPC_PLAINTEXT__8_0}, vectorized_access(_1_3, {_MPC_PLAINTEXT_SA_0, _MPC_PLAINTEXT_SB_0}, {true, false}, {_MPC_PLAINTEXT__8_0}).Mux(decltype(flag_4)::Simdify(lift(std::function([&](const std::vector<std::uint32_t> &indices){return flag_4;}), {_MPC_PLAINTEXT_SA_0})).Get(), vectorized_access(flag_3, {_MPC_PLAINTEXT_SA_0, _MPC_PLAINTEXT_SB_0}, {true, false}, {_MPC_PLAINTEXT__8_0}).Get()));
+        vectorized_assign(flag_5, {_MPC_PLAINTEXT_D_0, _MPC_PLAINTEXT_R_0}, {true, false}, {_MPC_PLAINTEXT__8_0}, vectorized_access(_1_3, {_MPC_PLAINTEXT_D_0, _MPC_PLAINTEXT_R_0}, {true, false}, {_MPC_PLAINTEXT__8_0}).Mux(decltype(flag_4)::Simdify(lift(std::function([&](const std::vector<std::uint32_t> &indices){return flag_4;}), {_MPC_PLAINTEXT_D_0})).Get(), vectorized_access(flag_3, {_MPC_PLAINTEXT_D_0, _MPC_PLAINTEXT_R_0}, {true, false}, {_MPC_PLAINTEXT__8_0}).Get()));
 
     }
 
-    vectorized_assign(_7_0, {_MPC_PLAINTEXT_SA_0}, {true}, {}, drop_dim(vectorized_access(flag_5, {_MPC_PLAINTEXT_SA_0, _MPC_PLAINTEXT_SB_0}, {true, true}, {}).Unsimdify(), {_MPC_PLAINTEXT_SA_0, _MPC_PLAINTEXT_SB_0}));
-    vectorized_assign(val_4, {_MPC_PLAINTEXT_SA_0}, {true}, {}, vectorized_access(_7_0, {_MPC_PLAINTEXT_SA_0}, {true}, {}).Mux(vectorized_access(_6_0, {_MPC_PLAINTEXT_SA_0}, {true}, {}).Get(), vectorized_access(_2_0, {_MPC_PLAINTEXT_SA_0}, {true}, {}).Get()));
-    vectorized_assign(result_2, {_MPC_PLAINTEXT_SA_0}, {true}, {}, vectorized_update(_2_0, {_MPC_PLAINTEXT_SA_0}, {true}, {}, vectorized_access(val_4, {_MPC_PLAINTEXT_SA_0}, {true}, {})));
+    vectorized_assign(_7_0, {_MPC_PLAINTEXT_D_0}, {true}, {}, drop_dim(vectorized_access(flag_5, {_MPC_PLAINTEXT_D_0, _MPC_PLAINTEXT_R_0}, {true, true}, {}).Unsimdify(), {_MPC_PLAINTEXT_D_0, _MPC_PLAINTEXT_R_0}));
+    vectorized_assign(val_4, {_MPC_PLAINTEXT_D_0}, {true}, {}, vectorized_access(_7_0, {_MPC_PLAINTEXT_D_0}, {true}, {}).Mux(vectorized_access(_6_0, {_MPC_PLAINTEXT_D_0}, {true}, {}).Get(), vectorized_access(_2_0, {_MPC_PLAINTEXT_D_0}, {true}, {}).Get()));
+    vectorized_assign(result_2, {_MPC_PLAINTEXT_D_0}, {true}, {}, vectorized_update(_2_0, {_MPC_PLAINTEXT_D_0}, {true}, {}, vectorized_access(val_4, {_MPC_PLAINTEXT_D_0}, {true}, {})));
     return result_2;
 
 }
 ```
 #### MP-SPDZ mixed configuration
-```Total cost:	15027.82
-Input vars:	{B!0: {'B'}, A!0: {'B'}, result!0: {'B'}}
-Constants:	{False: {'B'}, True: {'B'}}
+```Total cost:	0.00021
+Input vars:	{B!0: ['B'], A!0: ['B'], result!0: ['B']}
+Constants:	{False: ['B'], True: ['B']}
 Plaintext vars:	{}
-!2!0{SA!0}[] = lift(result!0, (i!1:SA!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!6!0{SA!0}[] = lift(A!0[i!1], (i!1:SA!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-flag!2 = False: _ -> {'B'} for 0.00 * 1 = 0.00
-!4!0{SA!0, SB!0}[] = lift(A!0[i!1], (i!1:SA!0, j!1:SB!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!5!0{SA!0, SB!0}[] = lift(B!0[j!1], (i!1:SA!0, j!1:SB!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-flag!4 = True: _ -> {'B'} for 0.00 * 1 = 0.00
-!3!0{SA!0, SB!0}[] = lift(flag!2, (i!1:SA!0, j!1:SB!0)): _ -> {'B'} for 0.00 * 1 = 0.00
-!1!3{SA!0, SB!0}[] = (!4!0{SA!0, SB!0}[] == !5!0{SA!0, SB!0}[]): B -> {} for 3298.70 * 1 = 3298.70
-	flag!3{SA!0}[!8!0] = Φ(!3!0{SA!0}[!8!0], flag!5{SA!0}[(!8!0 - 1)]): B -> {} for 0.00 * 7 = 0.00
-	flag!5{SA!0}[!8!0] = MUX(!1!3{SA!0}[!8!0], flag!4, flag!3{SA!0}[!8!0]): B -> {} for 1466.14 * 7 = 10262.98
-!7!0{SA!0}[] = drop_dim(flag!5{SA!0, SB!0}[]): _ -> {'B'} for 0.00 * 1 = 0.00
-val!4{SA!0}[] = MUX(!7!0{SA!0}[], !6!0{SA!0}[], !2!0{SA!0}[]): B -> {} for 1466.14 * 1 = 1466.14
-result!2{SA!0}[] = VectorizedUpdate(!2!0{SA!0}[], [I!1], val!4{SA!0}[]): B -> {} for 0.00 * 1 = 0.00
+Flags:		{X}
+!2!0{D!0}[] = lift(result!0, (i!1:D!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!6!0{D!0}[] = lift(A!0[i!1], (i!1:D!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+flag!2 = False: _ -> ['B'] for 0.00000 * 1 = 0.00
+!4!0{D!0, R!0}[] = lift(A!0[i!1], (i!1:D!0, j!1:R!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!5!0{D!0, R!0}[] = lift(B!0[j!1], (i!1:D!0, j!1:R!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+flag!4 = True: _ -> ['B'] for 0.00000 * 1 = 0.00
+!3!0{D!0, R!0}[] = lift(flag!2, (i!1:D!0, j!1:R!0)): _ -> ['B'] for 0.00000 * 1 = 0.00
+!1!3{D!0, R!0}[] = (!4!0{D!0, R!0}[] == !5!0{D!0, R!0}[]): B -> {} for 0.00020 * 1 = 0.00
+	flag!3{D!0}[!8!0] = Φ(!3!0{D!0}[!8!0], flag!5{D!0}[(!8!0 - 1)]): B -> {} for 0.00000 * 7 = 0.00
+	flag!5{D!0}[!8!0] = MUX(!1!3{D!0}[!8!0], flag!4, flag!3{D!0}[!8!0]): B -> {} for 0.00000 * 7 = 0.00
+!7!0{D!0}[] = drop_dim(flag!5{D!0, R!0}[]): _ -> ['B'] for 0.00000 * 1 = 0.00
+val!4{D!0}[] = MUX(!7!0{D!0}[], !6!0{D!0}[], !2!0{D!0}[]): B -> {} for 0.00000 * 1 = 0.00
+result!2{D!0}[] = VectorizedUpdate(!2!0{D!0}[], [I!1], val!4{D!0}[]): B -> {} for 0.00000 * 1 = 0.00
 return result!2
-Output vars:	{result!2: {'B'}}
+Output vars:	{result!2: ['B']}
 
 ```
 #### MP-SPDZ code
 ```py
-def psi(A_0, SA_0, B_0, SB_0, result_0):
+def psi(A_0, D_0, B_0, R_0, result_0):
     # Shared array declarations
-    _1_3 = [None] * (SA_0 * SB_0)
-    _2_0 = [None] * (SA_0)
-    _3_0 = [None] * (SA_0 * SB_0)
-    _4_0 = [None] * (SA_0 * SB_0)
-    _5_0 = [None] * (SA_0 * SB_0)
-    _6_0 = [None] * (SA_0)
-    _7_0 = [None] * (SA_0)
-    flag_3 = [None] * (SA_0 * SB_0)
-    flag_5 = [None] * (SA_0 * SB_0)
-    result_2 = [None] * (SA_0)
-    val_4 = [None] * (SA_0)
+    _1_3 = [None] * (D_0 * R_0)
+    _2_0 = [None] * (D_0)
+    _3_0 = [None] * (D_0 * R_0)
+    _4_0 = [None] * (D_0 * R_0)
+    _5_0 = [None] * (D_0 * R_0)
+    _6_0 = [None] * (D_0)
+    _7_0 = [None] * (D_0)
+    flag_3 = [None] * (D_0 * R_0)
+    flag_5 = [None] * (D_0 * R_0)
+    result_2 = [None] * (D_0)
+    val_4 = [None] * (D_0)
     # Function body
-    _2_0 = _v.lift(lambda indices: result_0, [SA_0])
-    _6_0 = _v.lift(lambda indices: (A_0[indices[0]]), [SA_0])
+    _2_0 = _v.lift(lambda indices: result_0, [D_0])
+    _6_0 = _v.lift(lambda indices: (A_0[indices[0]]), [D_0])
     flag_2 = _v.sbool(False)
-    _4_0 = _v.lift(lambda indices: (A_0[indices[0]]), [SA_0, SB_0])
-    _5_0 = _v.lift(lambda indices: (B_0[indices[1]]), [SA_0, SB_0])
+    _4_0 = _v.lift(lambda indices: (A_0[indices[0]]), [D_0, R_0])
+    _5_0 = _v.lift(lambda indices: (B_0[indices[1]]), [D_0, R_0])
     flag_4 = _v.sbool(True)
-    _3_0 = _v.lift(lambda indices: flag_2, [SA_0, SB_0])
-    _v.vectorized_assign(_1_3, [SA_0, SB_0], [None, None], (_v.vectorized_access_simd(_4_0, [SA_0, SB_0], [None, None]) == _v.vectorized_access_simd(_5_0, [SA_0, SB_0], [None, None])))
-    for _8_0 in range(0, SB_0):
+    _3_0 = _v.lift(lambda indices: flag_2, [D_0, R_0])
+    _v.vectorized_assign(_1_3, [D_0, R_0], [None, None], (_v.vectorized_access_simd(_4_0, [D_0, R_0], [None, None]) == _v.vectorized_access_simd(_5_0, [D_0, R_0], [None, None])))
+    for _8_0 in range(0, R_0):
         # Set ϕ value
         if _8_0 == 0:
-            _v.vectorized_assign(flag_3, [SA_0, SB_0], [None, _8_0], _v.vectorized_access(_3_0, [SA_0, SB_0], [None, _8_0]))
+            _v.vectorized_assign(flag_3, [D_0, R_0], [None, _8_0], _v.vectorized_access(_3_0, [D_0, R_0], [None, _8_0]))
         else:
-            _v.vectorized_assign(flag_3, [SA_0, SB_0], [None, _8_0], _v.vectorized_access(flag_5, [SA_0, SB_0], [None, (_8_0 - 1)]))
-        _v.iterative_mux(flag_5,_1_3,flag_4,flag_3,[SA_0, SB_0],[None, _8_0])
+            _v.vectorized_assign(flag_3, [D_0, R_0], [None, _8_0], _v.vectorized_access(flag_5, [D_0, R_0], [None, (_8_0 - 1)]))
+        _v.iterative_mux(flag_5,_1_3,flag_4,flag_3,[D_0, R_0],[None, _8_0])
     # Loop exit ϕ values
-    _v.vectorized_assign(flag_3, [SA_0, SB_0], [None, _8_0], _v.vectorized_access(flag_5, [SA_0, SB_0], [None, (_8_0 - 1)]))
-    _v.vectorized_assign(_7_0, [SA_0], [None], _v.drop_dim(flag_5, [SA_0, SB_0]))
-    _v.iterative_mux(val_4,_7_0,_6_0,_2_0,[SA_0],[None])
-    _v.vectorized_assign(_2_0, [SA_0], [None], _v.vectorized_access(val_4, [SA_0], [None])); _v.vectorized_assign(result_2, [SA_0], [None], _v.vectorized_access(_2_0, [SA_0], [None]))
+    _v.vectorized_assign(flag_3, [D_0, R_0], [None, _8_0], _v.vectorized_access(flag_5, [D_0, R_0], [None, (_8_0 - 1)]))
+    _v.vectorized_assign(_7_0, [D_0], [None], _v.drop_dim(flag_5, [D_0, R_0]))
+    _v.iterative_mux(val_4,_7_0,_6_0,_2_0,[D_0],[None])
+    _v.vectorized_assign(_2_0, [D_0], [None], _v.vectorized_access(val_4, [D_0], [None])); _v.vectorized_assign(result_2, [D_0], [None], _v.vectorized_access(_2_0, [D_0], [None]))
     return result_2
 ```
 #### MP-SPDZ mixed code
 ```py
-def psi(A_0, SA_0, B_0, SB_0, result_0):
+program.options.binary = 32
+program.use_dabit = True
+def psi(A_0, D_0, B_0, R_0, result_0):
     # Convertion functions
     siv32 = sbitintvec.get_type(32)
     sb32 = sbits.get_type(32)
     
+    
     # Shared array declarations
-    _1_3 = [None] * (SA_0 * SB_0)
-    _2_0 = [None] * (SA_0)
-    _3_0 = [None] * (SA_0 * SB_0)
-    _4_0 = [None] * (SA_0 * SB_0)
-    _5_0 = [None] * (SA_0 * SB_0)
-    _6_0 = [None] * (SA_0)
-    _7_0 = [None] * (SA_0)
-    flag_3 = [None] * (SA_0 * SB_0)
-    flag_5 = [None] * (SA_0 * SB_0)
-    result_2 = [None] * (SA_0)
-    val_4 = [None] * (SA_0)
+    _1_3 = [None] * (D_0 * R_0)
+    _2_0 = [None] * (D_0)
+    _3_0 = [None] * (D_0 * R_0)
+    _4_0 = [None] * (D_0 * R_0)
+    _5_0 = [None] * (D_0 * R_0)
+    _6_0 = [None] * (D_0)
+    _7_0 = [None] * (D_0)
+    flag_3 = [None] * (D_0 * R_0)
+    flag_5 = [None] * (D_0 * R_0)
+    result_2 = [None] * (D_0)
+    val_4 = [None] * (D_0)
+    # Shared array convertion declarations
+    
     # Function body
-    _2_0 = _v.lift(lambda indices: result_0, [SA_0])
-    _6_0 = _v.lift(lambda indices: (A_0[indices[0]]), [SA_0])
-    flag_2 = siv32(_v.sbool(False))
-    _4_0 = _v.lift(lambda indices: (A_0[indices[0]]), [SA_0, SB_0])
-    _5_0 = _v.lift(lambda indices: (B_0[indices[1]]), [SA_0, SB_0])
-    flag_4 = siv32(_v.sbool(True))
-    _3_0 = _v.lift(lambda indices: flag_2, [SA_0, SB_0])
-    _v.vectorized_assign(_1_3, [SA_0, SB_0], [None, None], (_v.vectorized_access_simd(_4_0, [SA_0, SB_0], [None, None]) == _v.vectorized_access_simd(_5_0, [SA_0, SB_0], [None, None])))
-    for _8_0 in range(0, SB_0):
+    _2_0 = _v.lift(lambda indices: result_0, [D_0])
+    _6_0 = _v.lift(lambda indices: (A_0[indices[0]]), [D_0])
+    flag_2 = sbit(0)
+    _4_0 = _v.lift(lambda indices: (A_0[indices[0]]), [D_0, R_0])
+    _5_0 = _v.lift(lambda indices: (B_0[indices[1]]), [D_0, R_0])
+    flag_4 = sbit(1)
+    _3_0 = _v.lift(lambda indices: flag_2, [D_0, R_0])
+    _v.vectorized_assign(_1_3, [D_0, R_0], [None, None], (_v.vectorized_access_simd(_4_0, [D_0, R_0], [None, None]) == _v.vectorized_access_simd(_5_0, [D_0, R_0], [None, None])))
+    for _8_0 in range(0, R_0):
         # Set ϕ value
         if _8_0 == 0:
-            _v.vectorized_assign(flag_3, [SA_0, SB_0], [None, _8_0], _v.vectorized_access(_3_0, [SA_0, SB_0], [None, _8_0]))
+            _v.vectorized_assign(flag_3, [D_0, R_0], [None, _8_0], _v.vectorized_access(_3_0, [D_0, R_0], [None, _8_0]))
         else:
-            _v.vectorized_assign(flag_3, [SA_0, SB_0], [None, _8_0], _v.vectorized_access(flag_5, [SA_0, SB_0], [None, (_8_0 - 1)]))
-        _v.iterative_mux(flag_5,_1_3,flag_4,flag_3,[SA_0, SB_0],[None, _8_0])
+            _v.vectorized_assign(flag_3, [D_0, R_0], [None, _8_0], _v.vectorized_access(flag_5, [D_0, R_0], [None, (_8_0 - 1)]))
+        _v.iterative_mux(flag_5,_1_3,flag_4,flag_3,[D_0, R_0],[None, _8_0])
     # Loop exit ϕ values
-    _v.vectorized_assign(flag_3, [SA_0, SB_0], [None, _8_0], _v.vectorized_access(flag_5, [SA_0, SB_0], [None, (_8_0 - 1)]))
-    _v.vectorized_assign(_7_0, [SA_0], [None], _v.drop_dim(flag_5, [SA_0, SB_0]))
-    _v.iterative_mux(val_4,_7_0,_6_0,_2_0,[SA_0],[None])
-    _v.vectorized_assign(_2_0, [SA_0], [None], _v.vectorized_access(val_4, [SA_0], [None])); _v.vectorized_assign(result_2, [SA_0], [None], _v.vectorized_access(_2_0, [SA_0], [None]))
+    _v.vectorized_assign(flag_3, [D_0, R_0], [None, _8_0], _v.vectorized_access(flag_5, [D_0, R_0], [None, (_8_0 - 1)]))
+    _v.vectorized_assign(_7_0, [D_0], [None], _v.drop_dim(flag_5, [D_0, R_0]))
+    _v.iterative_mux(val_4,_7_0,_6_0,_2_0,[D_0],[None])
+    _v.vectorized_assign(_2_0, [D_0], [None], _v.vectorized_access(val_4, [D_0], [None])); _v.vectorized_assign(result_2, [D_0], [None], _v.vectorized_access(_2_0, [D_0], [None]))
     return result_2
 ```
