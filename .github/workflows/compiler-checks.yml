@@ -99,5 +99,11 @@ jobs:
 
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+
+          sudo cd backend_submodules
+          sudo bash ./change_registy_boost.sh 
+          sudo cd ..
+
+
       - name: Build results page
         run: ./compiler/make_results_markdown.py results
