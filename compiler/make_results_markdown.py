@@ -165,7 +165,6 @@ def build_motion_benchmark_tables(circuits_path: str) -> str:
     table += f"\n### mixed\n"
     table += "| Benchmark | Total # Gates | # SIMD gates | # Non-SIMD gates | # messages sent (party 0) | Sent size (party 0) | # messages received (party 0) | Received Size (party 0) | Runtime | Circuit Generation Time |\n"
     table += "| - | - | - | - | - | - | - | - | - | - |\n"
-
     for test_case_dir in sorted(
             os.scandir(STAGES_DIR), key=lambda entry: entry.name
         ):
@@ -178,37 +177,10 @@ def build_motion_benchmark_tables(circuits_path: str) -> str:
             try:
                 vectorized =True
                 # identify input protocol
-
-                mixed_input_path = test_case_dir.path+"/mixed_input_motion.txt" 
-                protocols = {
-                    "A":"ArithmeticGmw",
-                    "B":"BooleanGmw",
-                    "Y":"Bmr"
-                }
-                if os.path.exists(mixed_input_path):
-                    
-                    with open(mixed_input_path, 'r') as file:
-                        content = json.loads(file.read())
-                        initial_value = None
-                        for key, value in content.items():
-                            implemented = True
-                            if len(value) > 1:
-                                implemented = False
-                                break
-                            if initial_value == None:
-                                initial_value = value[0]
-                            elif initial_value != value[0]:
-                                
-                                implemented = False
-                                break
-                else:
-                    raise FileNotFoundError("mixed_input doesnt exist , please generate with --mixing")
-                if implemented == False:
-                    raise NotImplementedError("Unsupported mixed input")
-    
-                protocol = protocols[initial_value]
+                
+                protocol = None
                 maybe_data = motion_run_benchmark(
-                    test_case_dir.name, test_case_dir.path, protocol, True,mixed=True
+                    test_case_dir.name, test_case_dir.path, protocol, True,mixed=True,costType="time"
                 )
                 assert maybe_data is not None
                 data, _ = maybe_data
@@ -233,7 +205,7 @@ def build_motion_benchmark_tables(circuits_path: str) -> str:
             table += str(data.timing_stats.communication.recv_size) + " MiB |"
             table += str(data.timing_stats.gates_online.mean) + " ms |"
             table += str(data.circuit_stats.circuit_gen_time) + " ms |\n"
-
+            
     return table
 
 
