@@ -61,11 +61,14 @@ jobs:
 
             MP-SPDZ)
               sudo apt-get -y install automake build-essential clang cmake git libboost-dev libboost-thread-dev libntl-dev libsodium-dev libssl-dev libtool m4 texinfo yasm
+              sudo apt-get install -y libboost-dev libboost-program-options-dev libboost-filesystem-dev libboost-iostreams-dev libboost-thread-dev
+          
               ;;
           esac
 
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+          sudo bash -c "cd ../backend_submodules && ./change_registy_boost.sh"
       - name: Build example applications
         working-directory: compiler
         run: ./run_tests.py --test-backend ${{ matrix.mpc-backend }}
