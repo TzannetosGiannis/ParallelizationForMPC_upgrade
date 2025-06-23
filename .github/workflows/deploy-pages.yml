@@ -36,7 +36,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-          sudo bash -c "cd backend_submodules && ./change_registy_boost.sh"
+          sudo bash -c "cd ../backend_submodules && ./change_registy_boost.sh"
 
       - name: Build results markdown
         run: ./compiler/make_results_markdown.py static
