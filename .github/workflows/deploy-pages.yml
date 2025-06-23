@@ -36,10 +36,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-          sudo cd backend_submodules
-          sudo ./change_registy_boost.sh 
-          sudo cd ..
-          
+          sudo bash -c "cd backend_submodules && ./change_registy_boost.sh"
+
       - name: Build results markdown
         run: ./compiler/make_results_markdown.py static
       - name: Push to GitHub Pages
