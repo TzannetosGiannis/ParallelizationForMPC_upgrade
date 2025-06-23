@@ -94,7 +94,8 @@ jobs:
 
           # Install MP-SPDZ dependencies
           sudo apt-get -y install automake build-essential clang cmake git libboost-dev libboost-thread-dev libntl-dev libsodium-dev libssl-dev libtool m4 texinfo yasm
-
+          sudo apt-get install -y libboost-dev libboost-program-options-dev libboost-filesystem-dev libboost-iostreams-dev libboost-thread-dev
+          
           sudo apt-get -y install graphviz
 
           python -m pip install --upgrade pip
