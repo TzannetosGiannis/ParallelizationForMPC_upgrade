@@ -25,7 +25,7 @@ def biometric_fast(
     :param list[int] S: the database of features, it has N * D elements i.e. N features and each feature vector has D elements,
      this comes from server (Bob)
     :param list[int] S_sqr_sum: has N elements, each element is sum of squares of corresponding feature elements e.g. say
-     S={{1, 2, 3, 4}, {5, 6, 7, 8}}, then S_sqr_sum={1*1 + 2*2 + 3*3 + 4*4, 5*5 + 6*6 + 7*7 + 8*8} = {30, 174}
+     S=[[1, 2, 3, 4], [5, 6, 7, 8]], then S_sqr_sum={1*1 + 2*2 + 3*3 + 4*4, 5*5 + 6*6 + 7*7 + 8*8} = {30, 174}
 
     """
 
