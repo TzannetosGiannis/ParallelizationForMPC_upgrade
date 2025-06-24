@@ -17,176 +17,176 @@
 ### Arithmetic protocol compilation
 | Benchmark | Compile time (seconds) | # int triples | # int opens | # VM rounds |
 | - | - | - | - | - |
-|biometric|0.357|504|6|38|
-|biometric (Non-Vectorized)|0.178|504|6|38|
-|biometric_fast|0.184|504|6|38|
-|biometric_fast (Non-Vectorized)|0.176|504|6|38|
-|chapterfour_figure_12|0.169|242|3|11|
-|chapterfour_figure_12 (Non-Vectorized)|0.171|242|3|11|
-|convex_hull|0.185|2910|30|15|
-|convex_hull (Non-Vectorized)|0.188|2910|30|15|
-|count_102|0.183|1930|31|38|
-|count_102 (Non-Vectorized)|0.179|1930|31|29|
-|count_10s|0.182|1351|22|29|
-|count_10s (Non-Vectorized)|0.175|1351|22|23|
-|count_123|0.181|1358|22|30|
-|count_123 (Non-Vectorized)|0.179|1358|22|24|
-|cryptonets_max_pooling|0.208|7260|80|28|
-|cryptonets_max_pooling (Non-Vectorized)|0.207|7260|80|28|
-|db_cross_join_trivial|0.362|19389|378|13|
-|db_cross_join_trivial (Non-Vectorized)|0.342|19200|375|13|
-|db_variance|1.932|4002|29|190|
-|db_variance (Non-Vectorized)|1.922|4002|29|190|
-|inner_product|0.085|3|1|2|
-|inner_product (Non-Vectorized)|0.081|3|1|2|
-|longest_102|0.278|3160|41|140|
-|longest_102 (Non-Vectorized)|0.275|3160|41|113|
-|longest_odd_10|0.32|2520|33|114|
-|longest_odd_10 (Non-Vectorized)|0.32|2520|33|156|
-|max_dist_between_syms|0.263|1480|17|89|
-|max_dist_between_syms (Non-Vectorized)|0.257|1480|17|82|
-|max_sum_between_syms|0.272|1480|17|89|
-|max_sum_between_syms (Non-Vectorized)|0.259|1480|17|82|
-|minimal_points|0.182|2184|24|14|
-|minimal_points (Non-Vectorized)|0.179|2184|24|14|
-|mnist_relu|0.3|24200|400|10|
-|mnist_relu (Non-Vectorized)|0.32|24200|400|10|
-|psi|0.186|2245|40|17|
-|psi (Non-Vectorized)|0.181|2245|40|17|
+|biometric|0.344|504|6|38|
+|biometric (Non-Vectorized)|0.17|504|6|38|
+|biometric_fast|0.18|504|6|38|
+|biometric_fast (Non-Vectorized)|0.173|504|6|38|
+|chapterfour_figure_12|0.166|242|3|11|
+|chapterfour_figure_12 (Non-Vectorized)|0.163|242|3|11|
+|convex_hull|0.179|2910|30|15|
+|convex_hull (Non-Vectorized)|0.179|2910|30|15|
+|count_102|0.177|1930|31|38|
+|count_102 (Non-Vectorized)|0.175|1930|31|29|
+|count_10s|0.17|1351|22|29|
+|count_10s (Non-Vectorized)|0.167|1351|22|23|
+|count_123|0.171|1358|22|30|
+|count_123 (Non-Vectorized)|0.172|1358|22|24|
+|cryptonets_max_pooling|0.203|7260|80|28|
+|cryptonets_max_pooling (Non-Vectorized)|0.196|7260|80|28|
+|db_cross_join_trivial|0.346|19389|378|13|
+|db_cross_join_trivial (Non-Vectorized)|0.327|19200|375|13|
+|db_variance|1.745|4002|29|190|
+|db_variance (Non-Vectorized)|1.725|4002|29|190|
+|inner_product|0.079|3|1|2|
+|inner_product (Non-Vectorized)|0.074|3|1|2|
+|longest_102|0.272|3160|41|140|
+|longest_102 (Non-Vectorized)|0.271|3160|41|113|
+|longest_odd_10|0.309|2520|33|114|
+|longest_odd_10 (Non-Vectorized)|0.311|2520|33|156|
+|max_dist_between_syms|0.259|1480|17|89|
+|max_dist_between_syms (Non-Vectorized)|0.259|1480|17|82|
+|max_sum_between_syms|0.253|1480|17|89|
+|max_sum_between_syms (Non-Vectorized)|0.252|1480|17|82|
+|minimal_points|0.181|2184|24|14|
+|minimal_points (Non-Vectorized)|0.172|2184|24|14|
+|mnist_relu|0.286|24200|400|10|
+|mnist_relu (Non-Vectorized)|0.301|24200|400|10|
+|psi|0.183|2245|40|17|
+|psi (Non-Vectorized)|0.178|2245|40|17|
 ### Binary protocol compilation (32 bit default)
 | Benchmark | Compile time (seconds) | # bit triples | # VM rounds |
 | - | - | - | - |
-|biometric|0.87|24824|91|
-|biometric_fast|0.981|21956|100|
-|chapterfour_figure_12|0.135|190|9|
-|convex_hull|0.666|2916|23|
-|count_102|0.58|2270|79|
-|count_10s|0.438|1589|66|
-|count_123|0.449|1596|67|
-|cryptonets_max_pooling|0.18|5700|22|
-|db_cross_join_trivial|1.859|18993|10|
-|inner_product|0.486|3669|28|
-|longest_102|0.94|3240|112|
-|longest_odd_10|0.881|3080|121|
-|max_dist_between_syms|0.751|2056|72|
-|max_sum_between_syms|0.734|2056|72|
-|minimal_points|0.13|1344|12|
-|mnist_relu|0.52|19000|8|
-|psi|0.115|1280|14|
+|biometric|0.826|24824|91|
+|biometric_fast|0.91|21956|100|
+|chapterfour_figure_12|0.129|190|9|
+|convex_hull|0.622|2916|23|
+|count_102|0.555|2270|79|
+|count_10s|0.428|1589|66|
+|count_123|0.413|1596|67|
+|cryptonets_max_pooling|0.167|5700|22|
+|db_cross_join_trivial|1.705|18993|10|
+|inner_product|0.436|3669|28|
+|longest_102|0.861|3240|112|
+|longest_odd_10|0.807|3080|121|
+|max_dist_between_syms|0.695|2056|72|
+|max_sum_between_syms|0.667|2056|72|
+|minimal_points|0.123|1344|12|
+|mnist_relu|0.486|19000|8|
+|psi|0.109|1280|14|
 ### Mixed protocols compilation
 | Benchmark | Compile time (seconds) | # int triples | # int opens | # bit triples | # VM rounds |
 | - | - | - | - | - | - |
-|biometric mixed|0.535|16|8|1300|41|
-|biometric_fast mixed|0.732|16|12|1696|41|
-|chapterfour_figure_12 mixed|0.137|0|0|190|9|
-|convex_hull mixed|0.684|0|12|2916|23|
-|count_102 mixed|0.568|0|0|2270|79|
-|count_10s mixed|0.426|0|0|1589|66|
-|count_123 mixed|0.435|0|0|1596|67|
-|cryptonets_max_pooling mixed|0.173|0|0|5700|22|
-|db_cross_join_trivial mixed|1.759|0|0|18993|10|
-|db_variance mixed|0.953|38|29|4106|6|
-|inner_product mixed|0.083|3|1|0|2|
-|longest_102 mixed|0.931|0|0|3240|112|
-|longest_odd_10 mixed|0.846|0|0|3080|121|
-|max_dist_between_syms mixed|0.723|0|0|2056|72|
-|max_sum_between_syms mixed|0.686|0|0|2056|72|
-|minimal_points mixed|0.127|0|0|1344|12|
-|mnist_relu mixed|0.504|0|0|19000|8|
-|psi mixed|0.108|0|0|1280|14|
+|biometric mixed|0.518|16|8|1300|41|
+|biometric_fast mixed|0.686|16|12|1696|41|
+|chapterfour_figure_12 mixed|0.132|0|0|190|9|
+|convex_hull mixed|0.636|0|12|2916|23|
+|count_102 mixed|0.549|0|0|2270|79|
+|count_10s mixed|0.414|0|0|1589|66|
+|count_123 mixed|0.426|0|0|1596|67|
+|cryptonets_max_pooling mixed|0.169|0|0|5700|22|
+|db_cross_join_trivial mixed|1.687|0|0|18993|10|
+|db_variance mixed|0.898|38|29|4106|6|
+|inner_product mixed|0.082|3|1|0|2|
+|longest_102 mixed|0.858|0|0|3240|112|
+|longest_odd_10 mixed|0.806|0|0|3080|121|
+|max_dist_between_syms mixed|0.693|0|0|2056|72|
+|max_sum_between_syms mixed|0.665|0|0|2056|72|
+|minimal_points mixed|0.126|0|0|1344|12|
+|mnist_relu mixed|0.491|0|0|19000|8|
+|psi mixed|0.105|0|0|1280|14|
 
 ### Semi protocol
 | Benchmark | Time (seconds) | Data sent (MB) | Communication rounds |
 | - | - | - | - |
-|biometric A|0.032999|1.57851|84|
-|biometric B|0.0356239|0.293357|480|
-|biometric X|0.0134047|0.09864|103|
-|biometric Y|0.0292329|0.161896|346|
-|biometric mixed|0.0304855|0.147091|353|
-|biometric_fast A|0.0319675|1.57851|84|
-|biometric_fast B|0.0351997|0.26976|498|
-|biometric_fast X|0.012915|0.09864|103|
-|biometric_fast Y|0.0292667|0.161896|346|
-|biometric_fast mixed|0.0305207|0.150374|353|
-|chapterfour_figure_12 A|0.0187432|0.761113|37|
-|chapterfour_figure_12 B|0.00476576|0.006839|29|
-|chapterfour_figure_12 X|0.0105062|0.024039|50|
-|chapterfour_figure_12 Y|0.0268475|0.091391|292|
-|chapterfour_figure_12 mixed|0.00514383|0.006839|29|
-|convex_hull A|0.119294|9.09347|73|
-|convex_hull B|0.0267419|0.105986|308|
-|convex_hull X|0.0165742|0.171892|68|
-|convex_hull Y|0.0288285|0.2002|300|
-|convex_hull mixed|0.0269306|0.105986|308|
-|count_102 A|0.0911284|6.06026|115|
-|count_102 B|0.00965617|0.025203|169|
-|count_102 X|0.0204597|0.209846|119|
-|count_102 Y|0.0320509|0.223728|344|
-|count_102 mixed|0.00956561|0.025203|169|
-|count_10s A|0.0650548|4.24543|92|
-|count_10s B|0.00818721|0.018679|143|
-|count_10s X|0.0170048|0.14659|96|
-|count_10s Y|0.0292804|0.181018|326|
-|count_10s mixed|0.00854761|0.018679|143|
-|count_123 A|0.0654513|4.26408|94|
-|count_123 B|0.00855002|0.018681|145|
-|count_123 X|0.0176683|0.168318|98|
-|count_123 Y|0.0293413|0.202746|328|
-|count_123 mixed|0.00906793|0.018681|145|
-|cryptonets_max_pooling A|0.264229|22.7094|160|
-|cryptonets_max_pooling B|0.0093531|0.060008|63|
-|cryptonets_max_pooling X|0.0272581|0.374572|114|
-|cryptonets_max_pooling Y|0.0315616|0.330936|326|
-|cryptonets_max_pooling mixed|0.00983413|0.060008|63|
-|db_cross_join_trivial A|0.704195|62.6905|362|
-|db_cross_join_trivial B|0.0125566|0.172801|39|
-|db_cross_join_trivial X|0.0891554|1.63491|209|
-|db_cross_join_trivial Y|0.0506052|1.41745|299|
-|db_cross_join_trivial mixed|0.0131447|0.172801|39|
-|db_variance A|0.234622|24.941|445|
-|db_variance X|0.0355521|0.395394|480|
-|db_variance Y|0.149235|0.94451|2799|
-|db_variance mixed|0.148962|0.94451|2799|
-|inner_product A|0.00456524|0.015063|15|
-|inner_product B|0.0105513|0.04377|111|
-|inner_product X|0.0044946|0.015063|15|
-|inner_product Y|0.0044956|0.015063|15|
-|inner_product mixed|0.00452213|0.015063|15|
-|longest_102 A|0.134407|9.90415|322|
-|longest_102 B|0.0113387|0.032745|235|
-|longest_102 X|0.0299059|0.327296|328|
-|longest_102 Y|0.0440834|0.353983|643|
-|longest_102 mixed|0.0117976|0.032745|235|
-|longest_odd_10 A|0.11119|7.89736|258|
-|longest_odd_10 B|0.0123309|0.031516|253|
-|longest_odd_10 X|0.0250168|0.23908|271|
-|longest_odd_10 Y|0.0407378|0.280169|591|
-|longest_odd_10 mixed|0.0132234|0.031516|253|
-|max_dist_between_syms A|0.0717565|4.63443|191|
-|max_dist_between_syms B|0.00987336|0.022928|155|
-|max_dist_between_syms X|0.0180322|0.102112|211|
-|max_dist_between_syms Y|0.0382244|0.172005|541|
-|max_dist_between_syms mixed|0.0102405|0.022928|155|
-|max_sum_between_syms A|0.0717254|4.63443|191|
-|max_sum_between_syms B|0.00907211|0.022928|155|
-|max_sum_between_syms X|0.0182629|0.102112|211|
-|max_sum_between_syms Y|0.0379459|0.172005|541|
-|max_sum_between_syms mixed|0.00880705|0.022928|155|
-|minimal_points A|0.0890123|6.82956|66|
-|minimal_points B|0.00783428|0.022449|43|
-|minimal_points X|0.0143749|0.137658|61|
-|minimal_points Y|0.0283603|0.176272|298|
-|minimal_points mixed|0.00847677|0.022449|43|
-|mnist_relu A|0.832969|78.0689|351|
-|mnist_relu B|0.0131068|0.173764|35|
-|mnist_relu X|0.0983743|1.18464|148|
-|mnist_relu Y|0.0460337|1.08836|295|
-|mnist_relu mixed|0.0121863|0.173764|35|
-|psi A|0.0953325|7.05821|82|
-|psi B|0.00851649|0.022238|47|
-|psi X|0.0195743|0.220396|77|
-|psi Y|0.0292804|0.226086|302|
-|psi mixed|0.00835618|0.022238|47|
+|biometric A|0.0316904|1.57851|84|
+|biometric B|0.0354687|0.293357|480|
+|biometric X|0.0135882|0.09864|103|
+|biometric Y|0.030165|0.161896|346|
+|biometric mixed|0.0306592|0.147091|353|
+|biometric_fast A|0.0315466|1.57851|84|
+|biometric_fast B|0.0343191|0.26976|498|
+|biometric_fast X|0.0131341|0.09864|103|
+|biometric_fast Y|0.0295778|0.161896|346|
+|biometric_fast mixed|0.0311371|0.150374|353|
+|chapterfour_figure_12 A|0.0189758|0.761113|37|
+|chapterfour_figure_12 B|0.00501245|0.006839|29|
+|chapterfour_figure_12 X|0.0101839|0.024039|50|
+|chapterfour_figure_12 Y|0.0277773|0.091391|292|
+|chapterfour_figure_12 mixed|0.00504486|0.006839|29|
+|convex_hull A|0.115684|9.09347|73|
+|convex_hull B|0.0261366|0.105986|308|
+|convex_hull X|0.0166804|0.171892|68|
+|convex_hull Y|0.0301706|0.2002|300|
+|convex_hull mixed|0.0261592|0.105986|308|
+|count_102 A|0.087664|6.06026|115|
+|count_102 B|0.00910672|0.025203|169|
+|count_102 X|0.0200672|0.209846|119|
+|count_102 Y|0.0299646|0.223728|344|
+|count_102 mixed|0.009316|0.025203|169|
+|count_10s A|0.0649555|4.24543|92|
+|count_10s B|0.00871179|0.018679|143|
+|count_10s X|0.0167793|0.14659|96|
+|count_10s Y|0.0286579|0.181018|326|
+|count_10s mixed|0.00875409|0.018679|143|
+|count_123 A|0.0640623|4.26408|94|
+|count_123 B|0.00857671|0.018681|145|
+|count_123 X|0.0168147|0.168318|98|
+|count_123 Y|0.0283965|0.202746|328|
+|count_123 mixed|0.00886189|0.018681|145|
+|cryptonets_max_pooling A|0.26162|22.7094|160|
+|cryptonets_max_pooling B|0.00935774|0.060008|63|
+|cryptonets_max_pooling X|0.0276224|0.374572|114|
+|cryptonets_max_pooling Y|0.0333413|0.330936|326|
+|cryptonets_max_pooling mixed|0.00960026|0.060008|63|
+|db_cross_join_trivial A|0.705987|62.6905|362|
+|db_cross_join_trivial B|0.0131504|0.172801|39|
+|db_cross_join_trivial X|0.0912329|1.63491|209|
+|db_cross_join_trivial Y|0.0492527|1.41745|299|
+|db_cross_join_trivial mixed|0.0135126|0.172801|39|
+|db_variance A|0.234147|24.941|445|
+|db_variance X|0.0353485|0.395394|480|
+|db_variance Y|0.14661|0.94451|2799|
+|db_variance mixed|0.147601|0.94451|2799|
+|inner_product A|0.00447585|0.015063|15|
+|inner_product B|0.0115324|0.04377|111|
+|inner_product X|0.00460832|0.015063|15|
+|inner_product Y|0.00468982|0.015063|15|
+|inner_product mixed|0.00445524|0.015063|15|
+|longest_102 A|0.133616|9.90415|322|
+|longest_102 B|0.0114887|0.032745|235|
+|longest_102 X|0.0302715|0.327296|328|
+|longest_102 Y|0.0437407|0.353983|643|
+|longest_102 mixed|0.0114244|0.032745|235|
+|longest_odd_10 A|0.110552|7.89736|258|
+|longest_odd_10 B|0.0117571|0.031516|253|
+|longest_odd_10 X|0.024763|0.23908|271|
+|longest_odd_10 Y|0.0399487|0.280169|591|
+|longest_odd_10 mixed|0.0121478|0.031516|253|
+|max_dist_between_syms A|0.0708673|4.63443|191|
+|max_dist_between_syms B|0.00904618|0.022928|155|
+|max_dist_between_syms X|0.0186166|0.102112|211|
+|max_dist_between_syms Y|0.0388129|0.172005|541|
+|max_dist_between_syms mixed|0.00881419|0.022928|155|
+|max_sum_between_syms A|0.0697507|4.63443|191|
+|max_sum_between_syms B|0.00888997|0.022928|155|
+|max_sum_between_syms X|0.0181333|0.102112|211|
+|max_sum_between_syms Y|0.0371862|0.172005|541|
+|max_sum_between_syms mixed|0.00882777|0.022928|155|
+|minimal_points A|0.0874416|6.82956|66|
+|minimal_points B|0.00796189|0.022449|43|
+|minimal_points X|0.0142542|0.137658|61|
+|minimal_points Y|0.0280356|0.176272|298|
+|minimal_points mixed|0.00932715|0.022449|43|
+|mnist_relu A|0.832154|78.0689|351|
+|mnist_relu B|0.0122389|0.173764|35|
+|mnist_relu X|0.0653688|1.18464|148|
+|mnist_relu Y|0.0497788|1.08836|295|
+|mnist_relu mixed|0.0135207|0.173764|35|
+|psi A|0.0953187|7.05821|82|
+|psi B|0.00867456|0.022238|47|
+|psi X|0.0193772|0.220396|77|
+|psi Y|0.0287196|0.226086|302|
+|psi mixed|0.00838873|0.022238|47|
 
 ## Compiler stages with different benchmarks
 ### `biometric`
@@ -951,7 +951,7 @@ def biometric_fast(
     :param list[int] S: the database of features, it has N * D elements i.e. N features and each feature vector has D elements,
      this comes from server (Bob)
     :param list[int] S_sqr_sum: has N elements, each element is sum of squares of corresponding feature elements e.g. say
-     S={{1, 2, 3, 4}, {5, 6, 7, 8}}, then S_sqr_sum={1*1 + 2*2 + 3*3 + 4*4, 5*5 + 6*6 + 7*7 + 8*8} = {30, 174}
+     S=[[1, 2, 3, 4], [5, 6, 7, 8]], then S_sqr_sum={1*1 + 2*2 + 3*3 + 4*4, 5*5 + 6*6 + 7*7 + 8*8} = {30, 174}
 
     """
 
