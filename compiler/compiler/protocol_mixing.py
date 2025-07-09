@@ -81,7 +81,7 @@ import json
 from os.path import dirname, exists
 
 Protocol = str # Union['A', 'B', 'Y']
-protocols = set()
+protocols: set[Protocol] = set()
 protocolsMotion = [{'A', 'B', 'Y'}]
 protocolsSPDZ = [{'A', 'B'}, {'X', 'B'}, {'Y', 'B'}]
 # protocolsSPDZ = [{'A'}, {'B'}, {'X'}, {'Y'}]
@@ -127,7 +127,7 @@ class Config:
     lockedVarsIdx: dict[Var, int]
     lockedVarsSets: list[set[Var]]
 
-    def __init__(self, flag: str=None) -> None:
+    def __init__(self, flag: Optional[str]=None) -> None:
         self.inputs = dict()
         self.outputs = dict()
         self.assignments = []
@@ -175,6 +175,7 @@ def sortConv(conv: list[tuple[Protocol, Protocol]]) -> list[tuple[Protocol, Prot
             else:
                 if c[0] in headProtocols and c[0] < minConv[0] or (c[0] == minConv[0] and c[1] < minConv[1]):
                     minConv = c
+        assert not minConv is None
         toRet.append(minConv)
         remainingConvs.remove(minConv)
         headProtocols.add(minConv[1])
@@ -194,7 +195,7 @@ class OrderedConfig:
     plaintexts: dict[Var, list[Protocol]]
     flags: list[str]
     lockedVarsIdx: dict[Var, int]
-    lockedVarsSets: list[list[Var]]
+    lockedVarsSets: list[set[Var]]
 
     def __init__(self, copyConfig: Config) -> None:
         self.inputs = dict()
@@ -1297,7 +1298,7 @@ def mix(body: list[Statement], dep_graph: DepGraph, trackedVars: set[Var], freeC
 
 
 # return the number of i/o protocols in the given config and the number of conversions
-def getInterfaceSize(c: Config) -> (int, int):
+def getInterfaceSize(c: Config) -> tuple[int, int]:
     i = 0
     for _, v in c.inputs.items():
         i += len(v)
@@ -1314,7 +1315,7 @@ def getInterfaceSize(c: Config) -> (int, int):
 
 
 # run the mixer
-def mix_protocols(filename: str, type_env: TypeEnv, body: list[Statement], dep_graph: DepGraph, backend: Backend, costType: str, spdzProtocol: str = 'semi', protocolSets: list[set[str]] = None, python_text: str = None ) -> OrderedConfig:
+def mix_protocols(filename: str, type_env: TypeEnv, body: list[Statement], dep_graph: DepGraph, backend: Any, costType: str, spdzProtocol: str = 'semi', protocolSets: list[set[str]] = [], python_text: str = '' ) -> OrderedConfig:
     global protocols, runningSpdz
     # protocolSets = [{'A', 'B', 'Y'}]
     # protocolSets = [{'Y'}]
@@ -1342,6 +1343,7 @@ def mix_protocols(filename: str, type_env: TypeEnv, body: list[Statement], dep_g
     minCost, minInterface, minConversions = (float("inf"), float("inf"), float("inf"))
     if len(mixed) == 0:
         raise Exception("No valid mix found")
+    best: Config
     for c in mixed:
         populateConstantsAndPlaintexts(c, {var for var, t in type_env.items() if
                                               t.visibility and t.visibility.value == 'plaintext'})
