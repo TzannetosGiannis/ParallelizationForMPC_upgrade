@@ -56,22 +56,21 @@ timestamp = datetime.datetime.strftime(datetime.datetime.now(), '%Y_%m_%d_%H_%M_
 # opToCostSymbol = {'+': 'zi_add'}
 
 # Accept them all in this section
-# '+': 'zi_add' ALL (Brandon accepts F)
-# '==': 'zi_eq' NOT ARITHMETIC (Brandon accepts F)
-# '>': 'zi_gt'  ALL (Brandon accepts and is happy F)
-# '>=': 'zi_ge' NOT ARITHMETIC (Brandon accepts F)
-# '<': 'zi_lt'  ALL (Brandon accepts and is happy F) # maybe use it ???
-# '<=': 'zi_le' NOT ARITHMETIC (Brandon accepts F)
-# '*': 'zi_mul' ALL (Brandon accepts F)
-# '-': 'zi_sub' ALL (Brandon accepts F)
-# '!=':'zi_ne'  NOT ARITHMETIC (Brandon accepts F)
-# '^': 'zi_xor' NOT ARITHMETIC (Brandon accepts F)
-# '&': 'zi_&' NOT ARITHMETIC (Brandon accepts F)
-# '|': 'zi_|' NOT ARITHMETIC (Brandon accepts F)
-# 'not': 'zi_not' NOT ARITHMETIC (Brandon accepts F)
+# '+': 'zi_add' ALL 
+# '==': 'zi_eq' NOT ARITHMETIC 
+# '>': 'zi_gt'  ALL 
+# '>=': 'zi_ge' NOT ARITHMETIC 
+# '<': 'zi_lt'  ALL  # maybe use it ???
+# '<=': 'zi_le' NOT ARITHMETIC 
+# '*': 'zi_mul' ALL 
+# '-': 'zi_sub' ALL 
+# '!=':'zi_ne'  NOT ARITHMETIC 
+# '^': 'zi_xor' NOT ARITHMETIC 
+# '&': 'zi_&' NOT ARITHMETIC 
+# '|': 'zi_|' NOT ARITHMETIC 
+# 'not': 'zi_not' NOT ARITHMETIC 
 
-# '/': 'zi_div' NOT ARITHMETIC (Brandon accepts ) ==> still need to print results
-
+# '/': 'zi_div' NOT ARITHMETIC
 #  '%': 'zi_rem' NOT USED AND NOT IMPLEMENTED IN MOTION ?? (NEED TO CHECK) 
 # '<<': 'zi_shl' NOT USED AND NOT IMPLEMENTED IN MOTION ?? (NEED TO CHECK) 
 # '>>': 'zi_shr' NOT USED AND NOT IMPLEMENTED IN MOTION ?? (NEED TO CHECK) 

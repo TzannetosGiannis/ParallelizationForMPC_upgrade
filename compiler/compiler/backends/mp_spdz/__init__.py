@@ -152,7 +152,7 @@ def render_vectorized_assign(lhs: VectorizedAccess, rhs: UpdatelessAssignRHS) ->
     lhs = normalize_vectorized_access(lhs)
     array = render_var(lhs.array, dict())
     value = render_assign_rhs(rhs, dict())
-    # TODO: Ana added these two lines.
+
     if isinstance(rhs, LiftExpr): 
         return f"{array} = {value}"
     shape = render_array_shape(lhs.dim_sizes)
@@ -838,7 +838,6 @@ def render_mixed_function(func: Function, type_env: TypeEnv, ran_vectorization: 
     shared_array_decls = indent(render_shared_array_decls(type_env), "    ")
     func_body = indent(render_mixed_statements(func.body, None,convertion_dict,stmt_details_dict), "    ")
     
-    # [TODO] Brandon we need to identify when this flag is needed , now i let this here as tech debt
     # We have validated that no cost is increased by this
     mix_activation = "program.options.binary = 32\n"
     # retrieve the programm flags for X or Y from mixer

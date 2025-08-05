@@ -23,14 +23,14 @@ sudo DEBIAN_FRONTEND=noninteractive apt install -y build-essential make git cmak
 sudo DEBIAN_FRONTEND=noninteractive apt install -y automake build-essential clang cmake git libboost-dev libboost-thread-dev libntl-dev libsodium-dev libssl-dev libtool m4 texinfo yasm
 
 
-git config --global user.name = "Muhammad Ishaq"
-git config --global user.email = "ishaq@ishaq.pk"
+git config --global user.name = "Anonymous Researcher"
+git config --global user.email = "anonymous_researcher_gh@proton.me"
 
 #sudo tc qdisc add dev lo root tbf rate 10gbit burst 250mbit latency 500us
 #sudo tc qdisc add dev lo root tbf rate 500mbit burst 2.5mbit latency 1000ms
 
 cd /mydata
-sudo chown -R ishaq .
+sudo chown -R anon .
 
 git clone --recursive https://github.com/milana2/ParallelizationForMPC.git
 cd ParallelizationForMPC/compiler

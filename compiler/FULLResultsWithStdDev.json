@@ -1,0 +1,2316 @@
+{
+    "MOTION": {
+        "biometric": {
+            "D = 4, N = 1024": {
+                "ArithmeticGmw": "ERROR: No valid mix found",
+                "Bmr": {
+                    "StdDevTime": 0.8549019373894059,
+                    "commRounds": 443384.0,
+                    "dataSent": 1038.6370000000002,
+                    "mixType": "['Y']",
+                    "time": 105.77719280000001
+                },
+                "BooleanGmw": {
+                    "StdDevTime": 1.3452699808038562,
+                    "commRounds": 190586.0,
+                    "dataSent": 103.457,
+                    "mixType": "['B']",
+                    "time": 200.4244073
+                },
+                "mixed": {
+                    "StdDevTime": 0.7341867249428384,
+                    "commRounds": 429610.0,
+                    "dataSent": 55.149,
+                    "mixType": "['A', 'Y']",
+                    "time": 48.2741941
+                }
+            },
+            "D = 4, N = 512": {
+                "ArithmeticGmw": "ERROR: No valid mix found",
+                "Bmr": {
+                    "StdDevTime": 1.4340907835027357,
+                    "commRounds": 224760.0,
+                    "dataSent": 519.4759999999999,
+                    "mixType": "['Y']",
+                    "time": 54.44749610000001
+                },
+                "BooleanGmw": {
+                    "StdDevTime": 1.1111458031588002,
+                    "commRounds": 97402.0,
+                    "dataSent": 51.837,
+                    "mixType": "['B']",
+                    "time": 100.6563993
+                },
+                "mixed": {
+                    "StdDevTime": 0.175286416989481,
+                    "commRounds": 215082.0,
+                    "dataSent": 27.592999999999996,
+                    "mixType": "['A', 'Y']",
+                    "time": 24.2352987
+                }
+            }
+        },
+        "chapterfour_figure_12": {
+            "x=69, y=14": {
+                "ArithmeticGmw": "ERROR: No valid mix found",
+                "Bmr": {
+                    "StdDevTime": 0.02500486569070108,
+                    "commRounds": 972.0,
+                    "dataSent": 0.08699999999999998,
+                    "mixType": "['Y']",
+                    "time": 0.40054069999999997
+                },
+                "BooleanGmw": {
+                    "StdDevTime": 0.030802118703264544,
+                    "commRounds": 751.0,
+                    "dataSent": 0.047999999999999994,
+                    "mixType": "['B']",
+                    "time": 0.5311927
+                },
+                "mixed": {
+                    "StdDevTime": 0.02680909517104224,
+                    "commRounds": 1176.0,
+                    "dataSent": 0.09799999999999999,
+                    "mixType": "['A', 'Y']",
+                    "time": 0.8396579000000001
+                }
+            }
+        },
+        "convex_hull": {
+            "N = 128": {
+                "ArithmeticGmw": "ERROR: No valid mix found",
+                "Bmr": {
+                    "StdDevTime": 0.9301099948978566,
+                    "commRounds": 3480.0,
+                    "dataSent": 494.899,
+                    "mixType": "['Y']",
+                    "time": 30.8567771
+                },
+                "BooleanGmw": {
+                    "StdDevTime": 0.1895488511682676,
+                    "commRounds": 1880.0,
+                    "dataSent": 63.5,
+                    "mixType": "['B']",
+                    "time": 15.7764857
+                },
+                "mixed": {
+                    "StdDevTime": 0.10885472167637042,
+                    "commRounds": 2041.0,
+                    "dataSent": 66.90700000000001,
+                    "mixType": "['B', 'Y']",
+                    "time": 16.042728399999998
+                }
+            },
+            "N = 256": {
+                "ArithmeticGmw": "ERROR: No valid mix found",
+                "Bmr": {
+                    "StdDevTime": 3.9068171706613946,
+                    "commRounds": 5016.0,
+                    "dataSent": 1967.232,
+                    "mixType": "['Y']",
+                    "time": 124.1641781
+                },
+                "BooleanGmw": {
+                    "StdDevTime": 3.147227898226439,
+                    "commRounds": 2392.0,
+                    "dataSent": 252.728,
+                    "mixType": "['B']",
+                    "time": 64.17771869999999
+                },
+                "mixed": {
+                    "StdDevTime": 3.073757623790108,
+                    "commRounds": 2553.0,
+                    "dataSent": 259.53400000000005,
+                    "mixType": "['B', 'Y']",
+                    "time": 61.6396093
+                }
+            },
+            "N = 32": {
+                "ArithmeticGmw": "ERROR: No valid mix found",
+                "Bmr": {
+                    "StdDevTime": 0.03098548540542825,
+                    "commRounds": 2328.0,
+                    "dataSent": 32.156,
+                    "mixType": "['Y']",
+                    "time": 2.4145273000000005
+                },
+                "BooleanGmw": {
+                    "StdDevTime": 0.6161494375266766,
+                    "commRounds": 1496.0,
+                    "dataSent": 4.134999999999999,
+                    "mixType": "['B']",
+                    "time": 2.5714874
+                },
+                "mixed": {
+                    "StdDevTime": 0.07182527677941794,
+                    "commRounds": 2081.0,
+                    "dataSent": 5.762999999999999,
+                    "mixType": "['B', 'Y']",
+                    "time": 1.5890106000000002
+                }
+            },
+            "N = 64": {
+                "ArithmeticGmw": "ERROR: No valid mix found",
+                "Bmr": {
+                    "StdDevTime": 0.11598204598471286,
+                    "commRounds": 2712.0,
+                    "dataSent": 125.309,
+                    "mixType": "['Y']",
+                    "time": 7.8184309999999995
+                },
+                "BooleanGmw": {
+                    "StdDevTime": 1.4024607738270045,
+                    "commRounds": 1624.0,
+                    "dataSent": 16.062000000000005,
+                    "mixType": "['B']",
+                    "time": 5.585846399999999
+                },
+                "mixed": {
+                    "StdDevTime": 0.062913110142561,
+                    "commRounds": 2369.0,
+                    "dataSent": 19.765999999999995,
+                    "mixType": "['B', 'Y']",
+                    "time": 4.480995699999999
+                }
+            }
+        },
+        "count_102": {
+            "N = 1024": {
+                "ArithmeticGmw": "ERROR: No valid mix found",
+                "Bmr": {
+                    "StdDevTime": 0.1836356716311929,
+                    "commRounds": 302948.0,
+                    "dataSent": 52.856999999999985,
+                    "mixType": "['Y']",
+                    "time": 36.7378724
+                },
+                "BooleanGmw": {
+                    "StdDevTime": 41.97794027539423,
+                    "commRounds": 332355.0,
+                    "dataSent": 20.574999999999996,
+                    "mixType": "['B']",
+                    "time": 118.80220320000001
+                },
+                "mixed": {
+                    "StdDevTime": 0.5112816732679661,
+                    "commRounds": 303691.0,
+                    "dataSent": 31.880999999999993,
+                    "mixType": "['B', 'Y']",
+                    "time": 36.267346100000005
+                }
+            },
+            "N = 4096": {
+                "ArithmeticGmw": "ERROR: No valid mix found",
+                "Bmr": {
+                    "StdDevTime": 6.13329537425241,
+                    "commRounds": 1209188.0,
+                    "dataSent": 211.267,
+                    "mixType": "['Y']",
+                    "time": 154.0719923
+                },
+                "BooleanGmw": {
+                    "StdDevTime": 160.8745798891185,
+                    "commRounds": 1327683.0,
+                    "dataSent": 82.19000000000001,
+                    "mixType": "['B']",
+                    "time": 435.6868316
+                },
+                "mixed": {
+                    "StdDevTime": 6.584103188462102,
+                    "commRounds": 1213003.0,
+                    "dataSent": 127.41,
+                    "mixType": "['B', 'Y']",
+                    "time": 158.30316499999998
+                }
+            }
+        },
+        "count_10s": {
+            "N = 1024": {
+                "ArithmeticGmw": "ERROR: No valid mix found",
+                "Bmr": {
+                    "StdDevTime": 1.4997174408189562,
+                    "commRounds": 302946.0,
+                    "dataSent": 52.85600000000001,
+                    "mixType": "['Y']",
+                    "time": 37.3695698
+                },
+                "BooleanGmw": {
+                    "StdDevTime": 41.95137952595464,
+                    "commRounds": 332355.0,
+                    "dataSent": 20.574999999999996,
+                    "mixType": "['B']",
+                    "time": 118.45230319999999
+                },
+                "mixed": {
+                    "StdDevTime": 1.4859311874677823,
+                    "commRounds": 305737.0,
+                    "dataSent": 31.981999999999992,
+                    "mixType": "['B', 'Y']",
+                    "time": 36.81972370000001
+                }
+            },
+            "N = 4096": {
+                "ArithmeticGmw": "ERROR: No valid mix found",
+                "Bmr": {
+                    "StdDevTime": 7.5018026891256175,
+                    "commRounds": 1209186.0,
+                    "dataSent": 211.267,
+                    "mixType": "['Y']",
+                    "time": 155.3601385
+                },
+                "BooleanGmw": {
+                    "StdDevTime": 165.7913163377355,
+                    "commRounds": 1327683.0,
+                    "dataSent": 82.19000000000001,
+                    "mixType": "['B']",
+                    "time": 470.39028389999993
+                },
+                "mixed": {
+                    "StdDevTime": 7.37916412617531,
+                    "commRounds": 1221193.0,
+                    "dataSent": 127.816,
+                    "mixType": "['B', 'Y']",
+                    "time": 152.21214760000004
+                }
+            }
+        },
+        "count_123": {
+            "N = 1024": {
+                "ArithmeticGmw": "ERROR: No valid mix found",
+                "Bmr": {
+                    "StdDevTime": 0.25717655904852615,
+                    "commRounds": 302953.0,
+                    "dataSent": 53.092,
+                    "mixType": "['Y']",
+                    "time": 36.7558246
+                },
+                "BooleanGmw": {
+                    "StdDevTime": 37.30806703862227,
+                    "commRounds": 332357.0,
+                    "dataSent": 20.591000000000005,
+                    "mixType": "['B']",
+                    "time": 133.2152627
+                },
+                "mixed": {
+                    "StdDevTime": 0.4384049300413488,
+                    "commRounds": 305739.0,
+                    "dataSent": 31.999000000000002,
+                    "mixType": "['B', 'Y']",
+                    "time": 36.474736199999995
+                }
+            },
+            "N = 4096": {
+                "ArithmeticGmw": "ERROR: No valid mix found",
+                "Bmr": {
+                    "StdDevTime": 5.3516687786065384,
+                    "commRounds": 1209193.0,
+                    "dataSent": 212.20699999999994,
+                    "mixType": "['Y']",
+                    "time": 159.72065920000003
+                },
+                "BooleanGmw": {
+                    "StdDevTime": 164.40485205008906,
+                    "commRounds": 1327685.0,
+                    "dataSent": 82.254,
+                    "mixType": "['B']",
+                    "time": 440.07878769999996
+                },
+                "mixed": {
+                    "StdDevTime": 7.860403813942847,
+                    "commRounds": 1221195.0,
+                    "dataSent": 127.881,
+                    "mixType": "['B', 'Y']",
+                    "time": 153.29314630000002
+                }
+            }
+        },
+        "cryptonets_max_pooling": {
+            "rows = 16, cols = 16": {
+                "ArithmeticGmw": "ERROR: No valid mix found",
+                "Bmr": {
+                    "StdDevTime": 0.0053956913588529,
+                    "commRounds": 1639.0,
+                    "dataSent": 3.0650000000000004,
+                    "mixType": "['Y']",
+                    "time": 0.6479176
+                },
+                "BooleanGmw": {
+                    "StdDevTime": 0.06057005826842172,
+                    "commRounds": 994.0,
+                    "dataSent": 0.33,
+                    "mixType": "['B']",
+                    "time": 0.8247324
+                },
+                "mixed": {
+                    "StdDevTime": 0.0354583802653195,
+                    "commRounds": 1639.0,
+                    "dataSent": 3.0650000000000004,
+                    "mixType": "['Y']",
+                    "time": 0.6762265999999999
+                }
+            }
+        },
+        "db_cross_join_trivial": {
+            "32, 32": {
+                "ArithmeticGmw": "ERROR: No valid mix found",
+                "Bmr": {
+                    "StdDevTime": 3.8660337553232784,
+                    "commRounds": 1445094.0,
+                    "dataSent": 255.214,
+                    "mixType": "['Y']",
+                    "time": 107.56137330000001
+                },
+                "BooleanGmw": {
+                    "StdDevTime": 0.2891309458899898,
+                    "commRounds": 574924.0,
+                    "dataSent": 34.68099999999999,
+                    "mixType": "['B']",
+                    "time": 49.4610114
+                },
+                "mixed": {
+                    "StdDevTime": 0.34259098126262727,
+                    "commRounds": 574924.0,
+                    "dataSent": 34.68099999999999,
+                    "mixType": "['B']",
+                    "time": 49.489136099999996
+                }
+            },
+            "64, 64": {
+                "ArithmeticGmw": "ERROR: No valid mix found",
+                "Bmr": {
+                    "StdDevTime": 8.178319060798396,
+                    "commRounds": 5776806.0,
+                    "dataSent": 1020.527,
+                    "mixType": "['Y']",
+                    "time": 449.60805409999995
+                },
+                "BooleanGmw": {
+                    "StdDevTime": 1.677478624340413,
+                    "commRounds": 2298316.0,
+                    "dataSent": 138.63100000000003,
+                    "mixType": "['B']",
+                    "time": 191.80332629999998
+                },
+                "mixed": {
+                    "StdDevTime": 2.0313180691974257,
+                    "commRounds": 2298316.0,
+                    "dataSent": 138.63100000000003,
+                    "mixType": "['B']",
+                    "time": 191.75581219999998
+                }
+            }
+        },
+        "db_variance": {
+            "len = 1024": {
+                "ArithmeticGmw": "ERROR: No valid mix found",
+                "Bmr": {
+                    "StdDevTime": 2.2055347534021785,
+                    "commRounds": 338703.0,
+                    "dataSent": 273.542,
+                    "mixType": "['Y']",
+                    "time": 70.3544897
+                },
+                "BooleanGmw": {
+                    "StdDevTime": 2.990621854475739,
+                    "commRounds": 659821.0,
+                    "dataSent": 58.396,
+                    "mixType": "['B']",
+                    "time": 97.0667959
+                },
+                "mixed": {
+                    "StdDevTime": 0.04007458687048431,
+                    "commRounds": 13394.0,
+                    "dataSent": 1.9220000000000002,
+                    "mixType": "['A', 'Y']",
+                    "time": 2.1953576000000004
+                }
+            },
+            "len = 2048": {
+                "ArithmeticGmw": "ERROR: No valid mix found",
+                "Bmr": {
+                    "StdDevTime": 6.418563387662064,
+                    "commRounds": 659215.0,
+                    "dataSent": 545.5919999999999,
+                    "mixType": "['Y']",
+                    "time": 140.0409864
+                },
+                "BooleanGmw": {
+                    "StdDevTime": 2.7870688707916123,
+                    "commRounds": 1311085.0,
+                    "dataSent": 116.316,
+                    "mixType": "['B']",
+                    "time": 156.4217267
+                },
+                "mixed": {
+                    "StdDevTime": 0.04180827756031097,
+                    "commRounds": 13394.0,
+                    "dataSent": 2.558,
+                    "mixType": "['A', 'Y']",
+                    "time": 2.4825428
+                }
+            },
+            "len = 512": {
+                "ArithmeticGmw": "ERROR: No valid mix found",
+                "Bmr": {
+                    "StdDevTime": 1.194366334324773,
+                    "commRounds": 178447.0,
+                    "dataSent": 137.51600000000002,
+                    "mixType": "['Y']",
+                    "time": 36.71280900000001
+                },
+                "BooleanGmw": {
+                    "StdDevTime": 3.1087586351249006,
+                    "commRounds": 334189.0,
+                    "dataSent": 29.436,
+                    "mixType": "['B']",
+                    "time": 65.81132039999999
+                },
+                "mixed": {
+                    "StdDevTime": 0.01006925938736307,
+                    "commRounds": 13394.0,
+                    "dataSent": 1.6030000000000002,
+                    "mixType": "['A', 'Y']",
+                    "time": 2.0503043
+                }
+            }
+        },
+        "inner_product": {
+            "N = 4096": {
+                "ArithmeticGmw": {
+                    "StdDevTime": 0.014829968778119523,
+                    "commRounds": 393.0,
+                    "dataSent": 2.5739999999999994,
+                    "mixType": "['A']",
+                    "time": 1.2989882000000001
+                },
+                "Bmr": {
+                    "StdDevTime": 2.344577485475689,
+                    "commRounds": 652523.0,
+                    "dataSent": 998.792,
+                    "mixType": "['Y']",
+                    "time": 165.36837789999998
+                },
+                "BooleanGmw": {
+                    "StdDevTime": 0.5750402466702669,
+                    "commRounds": 1305155.0,
+                    "dataSent": 146.883,
+                    "mixType": "['B']",
+                    "time": 130.927931
+                },
+                "mixed": {
+                    "StdDevTime": 0.013826605212054033,
+                    "commRounds": 393.0,
+                    "dataSent": 2.5739999999999994,
+                    "mixType": "['A']",
+                    "time": 1.2973339
+                }
+            },
+            "N = 512": {
+                "ArithmeticGmw": {
+                    "StdDevTime": 0.004211705337508792,
+                    "commRounds": 393.0,
+                    "dataSent": 0.34600000000000003,
+                    "mixType": "['A']",
+                    "time": 0.3947805
+                },
+                "Bmr": {
+                    "StdDevTime": 1.0807073346153249,
+                    "commRounds": 86251.0,
+                    "dataSent": 125.08899999999997,
+                    "mixType": "['Y']",
+                    "time": 22.869871800000002
+                },
+                "BooleanGmw": {
+                    "StdDevTime": 0.18343794006805172,
+                    "commRounds": 165443.0,
+                    "dataSent": 18.480999999999998,
+                    "mixType": "['B']",
+                    "time": 16.9682387
+                },
+                "mixed": {
+                    "StdDevTime": 0.00480391132724159,
+                    "commRounds": 393.0,
+                    "dataSent": 0.34600000000000003,
+                    "mixType": "['A']",
+                    "time": 0.3972666000000001
+                }
+            }
+        },
+        "longest_102": {
+            "N = 1024": {
+                "ArithmeticGmw": "ERROR: No valid mix found",
+                "Bmr": {
+                    "StdDevTime": 3.992090376101147,
+                    "commRounds": 604009.0,
+                    "dataSent": 83.25599999999999,
+                    "mixType": "['Y']",
+                    "time": 81.44412
+                },
+                "BooleanGmw": {
+                    "StdDevTime": 38.67383010268462,
+                    "commRounds": 518725.0,
+                    "dataSent": 31.276999999999994,
+                    "mixType": "['B']",
+                    "time": 170.8204181
+                },
+                "mixed": {
+                    "StdDevTime": 4.236504101592373,
+                    "commRounds": 604751.0,
+                    "dataSent": 62.077,
+                    "mixType": "['B', 'Y']",
+                    "time": 75.53334000000001
+                }
+            },
+            "N = 4096": {
+                "ArithmeticGmw": "ERROR: No valid mix found",
+                "Bmr": {
+                    "StdDevTime": 1.8955832789274762,
+                    "commRounds": 2413417.0,
+                    "dataSent": 332.864,
+                    "mixType": "['Y']",
+                    "time": 335.76383539999995
+                },
+                "BooleanGmw": {
+                    "StdDevTime": 148.99032934122272,
+                    "commRounds": 2073157.0,
+                    "dataSent": 124.999,
+                    "mixType": "['B']",
+                    "time": 542.0679254
+                },
+                "mixed": {
+                    "StdDevTime": 8.067989952646258,
+                    "commRounds": 2417231.0,
+                    "dataSent": 248.19400000000002,
+                    "mixType": "['B', 'Y']",
+                    "time": 329.40163670000004
+                }
+            }
+        },
+        "longest_odd_10": {
+            "N = 2048": {
+                "ArithmeticGmw": "ERROR: No valid mix found",
+                "Bmr": {
+                    "StdDevTime": 4.969725682187444,
+                    "commRounds": 1450979.0,
+                    "dataSent": 207.18199999999996,
+                    "mixType": "['Y']",
+                    "time": 183.1547403
+                },
+                "BooleanGmw": {
+                    "StdDevTime": 1.7706005745935538,
+                    "commRounds": 1032773.0,
+                    "dataSent": 63.28099999999999,
+                    "mixType": "['B']",
+                    "time": 574.5461394
+                },
+                "mixed": {
+                    "StdDevTime": 5.097714924034604,
+                    "commRounds": 1456715.0,
+                    "dataSent": 152.404,
+                    "mixType": "['B', 'Y']",
+                    "time": 180.63211950000002
+                }
+            }
+        },
+        "max_dist_between_syms": {
+            "N = 1024": {
+                "ArithmeticGmw": "ERROR: No valid mix found",
+                "Bmr": {
+                    "StdDevTime": 4.024529940489291,
+                    "commRounds": 588324.0,
+                    "dataSent": 66.735,
+                    "mixType": "['Y']",
+                    "time": 79.38541080000002
+                },
+                "BooleanGmw": {
+                    "StdDevTime": 0.5584426619154708,
+                    "commRounds": 512453.0,
+                    "dataSent": 29.887,
+                    "mixType": "['B']",
+                    "time": 92.21603259999999
+                },
+                "mixed": {
+                    "StdDevTime": 2.7174059560186437,
+                    "commRounds": 587209.0,
+                    "dataSent": 59.40999999999998,
+                    "mixType": "['B', 'Y']",
+                    "time": 71.924678
+                }
+            },
+            "N = 2048": {
+                "ArithmeticGmw": "ERROR: No valid mix found",
+                "Bmr": {
+                    "StdDevTime": 7.780356584961765,
+                    "commRounds": 1176100.0,
+                    "dataSent": 133.434,
+                    "mixType": "['Y']",
+                    "time": 158.3724791
+                },
+                "BooleanGmw": {
+                    "StdDevTime": 1.1899142957536106,
+                    "commRounds": 1024453.0,
+                    "dataSent": 59.744000000000014,
+                    "mixType": "['B']",
+                    "time": 183.9121623
+                },
+                "mixed": {
+                    "StdDevTime": 5.443674257979492,
+                    "commRounds": 1173961.0,
+                    "dataSent": 118.78900000000002,
+                    "mixType": "['B', 'Y']",
+                    "time": 159.4818214
+                }
+            }
+        },
+        "max_sum_between_syms": {
+            "N = 1024": {
+                "ArithmeticGmw": "ERROR: No valid mix found",
+                "Bmr": {
+                    "StdDevTime": 3.644646343324495,
+                    "commRounds": 588323.0,
+                    "dataSent": 66.735,
+                    "mixType": "['Y']",
+                    "time": 74.4816543
+                },
+                "BooleanGmw": {
+                    "StdDevTime": 0.9122879739915415,
+                    "commRounds": 512453.0,
+                    "dataSent": 29.887,
+                    "mixType": "['B']",
+                    "time": 91.792961
+                },
+                "mixed": {
+                    "StdDevTime": 4.125887877264515,
+                    "commRounds": 587210.0,
+                    "dataSent": 59.913,
+                    "mixType": "['B', 'Y']",
+                    "time": 74.5783589
+                }
+            },
+            "N = 2048": {
+                "ArithmeticGmw": "ERROR: No valid mix found",
+                "Bmr": {
+                    "StdDevTime": 6.525973998028985,
+                    "commRounds": 1176099.0,
+                    "dataSent": 133.433,
+                    "mixType": "['Y']",
+                    "time": 160.5167054
+                },
+                "BooleanGmw": {
+                    "StdDevTime": 0.8934112373477534,
+                    "commRounds": 1024453.0,
+                    "dataSent": 59.744000000000014,
+                    "mixType": "['B']",
+                    "time": 182.57127540000002
+                },
+                "mixed": {
+                    "StdDevTime": 6.203739628174793,
+                    "commRounds": 1173962.0,
+                    "dataSent": 119.79600000000002,
+                    "mixType": "['B', 'Y']",
+                    "time": 158.7331271
+                }
+            }
+        },
+        "minimal_points": {
+            "N = 128": {
+                "ArithmeticGmw": "ERROR: No valid mix found",
+                "Bmr": {
+                    "StdDevTime": 0.10130982547334692,
+                    "commRounds": 2636.0,
+                    "dataSent": 250.413,
+                    "mixType": "['Y']",
+                    "time": 15.5733014
+                },
+                "BooleanGmw": {
+                    "StdDevTime": 0.10490422396853273,
+                    "commRounds": 1264.0,
+                    "dataSent": 46.48199999999999,
+                    "mixType": "['B']",
+                    "time": 11.398625599999999
+                },
+                "mixed": {
+                    "StdDevTime": 0.14191831999442453,
+                    "commRounds": 1264.0,
+                    "dataSent": 46.48199999999999,
+                    "mixType": "['B']",
+                    "time": 11.468999599999998
+                }
+            },
+            "N = 256": {
+                "ArithmeticGmw": "ERROR: No valid mix found",
+                "Bmr": {
+                    "StdDevTime": 0.712469921108599,
+                    "commRounds": 4300.0,
+                    "dataSent": 997.059,
+                    "mixType": "['Y']",
+                    "time": 60.2239739
+                },
+                "BooleanGmw": {
+                    "StdDevTime": 5.796301400208374,
+                    "commRounds": 1776.0,
+                    "dataSent": 185.731,
+                    "mixType": "['B']",
+                    "time": 49.1217262
+                },
+                "mixed": {
+                    "StdDevTime": 3.0276801369698028,
+                    "commRounds": 1776.0,
+                    "dataSent": 185.731,
+                    "mixType": "['B']",
+                    "time": 45.1080661
+                }
+            },
+            "N = 32": {
+                "ArithmeticGmw": "ERROR: No valid mix found",
+                "Bmr": {
+                    "StdDevTime": 0.025094895241064525,
+                    "commRounds": 1388.0,
+                    "dataSent": 16.116999999999997,
+                    "mixType": "['Y']",
+                    "time": 1.3659838
+                },
+                "BooleanGmw": {
+                    "StdDevTime": 0.4577685538523152,
+                    "commRounds": 880.0,
+                    "dataSent": 2.953,
+                    "mixType": "['B']",
+                    "time": 2.3871386
+                },
+                "mixed": {
+                    "StdDevTime": 0.05189986840098923,
+                    "commRounds": 1333.0,
+                    "dataSent": 3.7410000000000005,
+                    "mixType": "['B', 'Y']",
+                    "time": 1.1912136
+                }
+            },
+            "N = 64": {
+                "ArithmeticGmw": "ERROR: No valid mix found",
+                "Bmr": {
+                    "StdDevTime": 0.07666703224887492,
+                    "commRounds": 1804.0,
+                    "dataSent": 63.19799999999999,
+                    "mixType": "['Y']",
+                    "time": 4.3032375
+                },
+                "BooleanGmw": {
+                    "StdDevTime": 1.2992167498958789,
+                    "commRounds": 1008.0,
+                    "dataSent": 11.662000000000003,
+                    "mixType": "['B']",
+                    "time": 3.9691743
+                },
+                "mixed": {
+                    "StdDevTime": 0.039609004556539894,
+                    "commRounds": 1653.0,
+                    "dataSent": 13.694999999999997,
+                    "mixType": "['B', 'Y']",
+                    "time": 3.3309918000000005
+                }
+            }
+        },
+        "mnist_relu": {
+            "16, 2048": {
+                "ArithmeticGmw": "ERROR: No valid mix found",
+                "Bmr": {
+                    "StdDevTime": 0.8855579297051316,
+                    "commRounds": 98982.0,
+                    "dataSent": 518.1670000000001,
+                    "mixType": "['Y']",
+                    "time": 54.8770346
+                },
+                "BooleanGmw": {
+                    "StdDevTime": 0.39055383113133024,
+                    "commRounds": 33338.0,
+                    "dataSent": 48.18099999999999,
+                    "mixType": "['B']",
+                    "time": 24.913049199999996
+                },
+                "mixed": {
+                    "StdDevTime": 0.17756529550126046,
+                    "commRounds": 33338.0,
+                    "dataSent": 48.18099999999999,
+                    "mixType": "['B']",
+                    "time": 24.796952500000003
+                }
+            },
+            "16, 512": {
+                "ArithmeticGmw": "ERROR: No valid mix found",
+                "Bmr": {
+                    "StdDevTime": 0.19512224589072372,
+                    "commRounds": 25254.0,
+                    "dataSent": 129.57300000000004,
+                    "mixType": "['Y']",
+                    "time": 14.082968399999999
+                },
+                "BooleanGmw": {
+                    "StdDevTime": 0.05530052049167359,
+                    "commRounds": 8762.0,
+                    "dataSent": 12.072000000000001,
+                    "mixType": "['B']",
+                    "time": 6.264715499999999
+                },
+                "mixed": {
+                    "StdDevTime": 0.05674561755025648,
+                    "commRounds": 8762.0,
+                    "dataSent": 12.072000000000001,
+                    "mixType": "['B']",
+                    "time": 6.234764799999999
+                }
+            }
+        },
+        "psi": {
+            "SA = 1024, SB = 1024": {
+                "ArithmeticGmw": "ERROR: No valid mix found",
+                "Bmr": {
+                    "StdDevTime": 7.1045306869736145,
+                    "commRounds": 10914.0,
+                    "dataSent": 7709.569000000001,
+                    "mixType": "['Y']",
+                    "time": 520.2656898
+                },
+                "BooleanGmw": {
+                    "StdDevTime": 19.8192372704567,
+                    "commRounds": 3526.0,
+                    "dataSent": 527.9520000000001,
+                    "mixType": "['B']",
+                    "time": 164.72981439999998
+                },
+                "mixed": {
+                    "StdDevTime": 20.980547743608756,
+                    "commRounds": 3526.0,
+                    "dataSent": 527.9520000000001,
+                    "mixType": "['B']",
+                    "time": 168.5097877
+                }
+            },
+            "SA = 128, SB = 128": {
+                "ArithmeticGmw": "ERROR: No valid mix found",
+                "Bmr": {
+                    "StdDevTime": 0.1262551775708625,
+                    "commRounds": 1954.0,
+                    "dataSent": 121.545,
+                    "mixType": "['Y']",
+                    "time": 8.2260335
+                },
+                "BooleanGmw": {
+                    "StdDevTime": 0.04890657534156329,
+                    "commRounds": 838.0,
+                    "dataSent": 8.298,
+                    "mixType": "['B']",
+                    "time": 2.7019416
+                },
+                "mixed": {
+                    "StdDevTime": 0.06121291322784761,
+                    "commRounds": 838.0,
+                    "dataSent": 8.298,
+                    "mixType": "['B']",
+                    "time": 2.7369224
+                }
+            }
+        }
+    },
+    "MP-SPDZ": {
+        "biometric": {
+            "D = 4, N = 1024": {
+                "A": {
+                    "StdDevTime": 0.07061861400509081,
+                    "commRounds": 17826.0,
+                    "dataSent": 406.66399999999993,
+                    "mixType": "['A']",
+                    "time": 4.774104
+                },
+                "B": {
+                    "StdDevTime": 0.036882109063880786,
+                    "commRounds": 17259.0,
+                    "dataSent": 38.6583,
+                    "mixType": "['B']",
+                    "time": 1.4997310000000001
+                },
+                "X": {
+                    "StdDevTime": 0.030233277691973814,
+                    "commRounds": 19034.0,
+                    "dataSent": 22.1232,
+                    "mixType": "['X']",
+                    "time": 1.53162
+                },
+                "Y": {
+                    "StdDevTime": 0.0607072154607671,
+                    "commRounds": 18758.0,
+                    "dataSent": 21.205199999999998,
+                    "mixType": "['Y']",
+                    "time": 1.255231
+                },
+                "mixed": {
+                    "StdDevTime": 0.06315257341518235,
+                    "commRounds": 14932.0,
+                    "dataSent": 17.5669,
+                    "mixType": "['B', 'X']",
+                    "time": 1.1191011999999998
+                }
+            },
+            "D = 4, N = 512": {
+                "A": {
+                    "StdDevTime": 0.040359474339986184,
+                    "commRounds": 8919.0,
+                    "dataSent": 203.34099999999998,
+                    "mixType": "['A']",
+                    "time": 2.437119
+                },
+                "B": {
+                    "StdDevTime": 0.01987542023102908,
+                    "commRounds": 8830.0,
+                    "dataSent": 19.348800000000004,
+                    "mixType": "['B']",
+                    "time": 0.7688501999999999
+                },
+                "X": {
+                    "StdDevTime": 0.023941416436794198,
+                    "commRounds": 9525.0,
+                    "dataSent": 11.063500000000001,
+                    "mixType": "['X']",
+                    "time": 0.7909980000000001
+                },
+                "Y": {
+                    "StdDevTime": 0.0444283009858581,
+                    "commRounds": 9509.0,
+                    "dataSent": 10.6241,
+                    "mixType": "['Y']",
+                    "time": 0.6588701000000001
+                },
+                "mixed": {
+                    "StdDevTime": 0.03496750726617498,
+                    "commRounds": 7489.0,
+                    "dataSent": 8.79025,
+                    "mixType": "['B', 'X']",
+                    "time": 0.5619943000000001
+                }
+            }
+        },
+        "biometric_fast": {
+            "D = 4, N = 128": {
+                "A": {
+                    "StdDevTime": 0.015348384465148118,
+                    "commRounds": 2244.0,
+                    "dataSent": 53.1601,
+                    "mixType": "['A']",
+                    "time": 0.6604141000000001
+                },
+                "B": {
+                    "StdDevTime": 0.014186566979012223,
+                    "commRounds": 2522.0,
+                    "dataSent": 4.18882,
+                    "mixType": "['B']",
+                    "time": 0.22253249999999997
+                },
+                "X": {
+                    "StdDevTime": 0.008617680941529454,
+                    "commRounds": 2397.0,
+                    "dataSent": 2.7867500000000005,
+                    "mixType": "['X']",
+                    "time": 0.20827169999999998
+                },
+                "Y": {
+                    "StdDevTime": 0.008357658844437238,
+                    "commRounds": 2576.0,
+                    "dataSent": 2.70018,
+                    "mixType": "['Y']",
+                    "time": 0.1928588
+                },
+                "mixed": {
+                    "StdDevTime": 0.012261468039757717,
+                    "commRounds": 2085.0,
+                    "dataSent": 2.4605199999999994,
+                    "mixType": "['B', 'Y']",
+                    "time": 0.1788629
+                }
+            }
+        },
+        "chapterfour_figure_12": {
+            "x=69, y=14": {
+                "A": {
+                    "StdDevTime": 0.0009928238290855033,
+                    "commRounds": 34.0,
+                    "dataSent": 0.7728539999999999,
+                    "mixType": "['A']",
+                    "time": 0.01828192
+                },
+                "B": {
+                    "StdDevTime": 0.0005493952893946216,
+                    "commRounds": 28.0,
+                    "dataSent": 0.010942999999999998,
+                    "mixType": "['B']",
+                    "time": 0.006163969
+                },
+                "X": {
+                    "StdDevTime": 0.0014852309186803242,
+                    "commRounds": 45.0,
+                    "dataSent": 0.03988400000000001,
+                    "mixType": "['X']",
+                    "time": 0.011433035999999999
+                },
+                "Y": {
+                    "StdDevTime": 0.003810708319932136,
+                    "commRounds": 285.0,
+                    "dataSent": 0.12512900000000002,
+                    "mixType": "['Y']",
+                    "time": 0.031247520000000008
+                },
+                "mixed": {
+                    "StdDevTime": 0.0006729600324684966,
+                    "commRounds": 28.0,
+                    "dataSent": 0.010942999999999998,
+                    "mixType": "['B']",
+                    "time": 0.0056136599999999995
+                }
+            }
+        },
+        "convex_hull": {
+            "N = 128": {
+                "A": {
+                    "StdDevTime": 0.538091488503579,
+                    "commRounds": 45194.0,
+                    "dataSent": 12507.199999999999,
+                    "mixType": "['A']",
+                    "time": 118.81649999999999
+                },
+                "B": {
+                    "StdDevTime": 0.015023640771796963,
+                    "commRounds": 787.0,
+                    "dataSent": 19.072200000000002,
+                    "mixType": "['B']",
+                    "time": 0.3268594
+                },
+                "X": {
+                    "StdDevTime": 0.1024038706739153,
+                    "commRounds": 18051.0,
+                    "dataSent": 201.569,
+                    "mixType": "['X']",
+                    "time": 7.256619000000001
+                },
+                "Y": {
+                    "StdDevTime": 0.044882408680907565,
+                    "commRounds": 9110.0,
+                    "dataSent": 172.37200000000004,
+                    "mixType": "['Y']",
+                    "time": 2.4589009999999996
+                },
+                "mixed": {
+                    "StdDevTime": 0.011983185679943376,
+                    "commRounds": 787.0,
+                    "dataSent": 19.072200000000002,
+                    "mixType": "['B']",
+                    "time": 0.3223846
+                }
+            },
+            "N = 256": {
+                "A": {
+                    "StdDevTime": 1.7456482348972842,
+                    "commRounds": 179462.0,
+                    "dataSent": 49825.299999999996,
+                    "mixType": "['A']",
+                    "time": 471.38919999999996
+                },
+                "B": {
+                    "StdDevTime": 0.037644588527569266,
+                    "commRounds": 1743.0,
+                    "dataSent": 74.11109999999998,
+                    "mixType": "['B']",
+                    "time": 1.0304033
+                },
+                "X": {
+                    "StdDevTime": 0.38136987610455,
+                    "commRounds": 71305.0,
+                    "dataSent": 795.4489999999998,
+                    "mixType": "['X']",
+                    "time": 28.687460000000005
+                },
+                "Y": {
+                    "StdDevTime": 0.09353758166640794,
+                    "commRounds": 35066.0,
+                    "dataSent": 676.7250000000001,
+                    "mixType": "['Y']",
+                    "time": 9.478846
+                },
+                "mixed": {
+                    "StdDevTime": 0.031470706512723864,
+                    "commRounds": 1743.0,
+                    "dataSent": 74.11109999999998,
+                    "mixType": "['B']",
+                    "time": 1.0276846999999998
+                }
+            },
+            "N = 32": {
+                "A": {
+                    "StdDevTime": 0.05592355965065179,
+                    "commRounds": 2965.0,
+                    "dataSent": 801.0510000000002,
+                    "mixType": "['A']",
+                    "time": 7.6509160000000005
+                },
+                "B": {
+                    "StdDevTime": 0.005672507263318399,
+                    "commRounds": 378.0,
+                    "dataSent": 1.4489199999999998,
+                    "mixType": "['B']",
+                    "time": 0.06527385999999999
+                },
+                "X": {
+                    "StdDevTime": 0.0202742776798583,
+                    "commRounds": 1236.0,
+                    "dataSent": 12.916300000000003,
+                    "mixType": "['X']",
+                    "time": 0.49163960000000007
+                },
+                "Y": {
+                    "StdDevTime": 0.011330441892971343,
+                    "commRounds": 885.0,
+                    "dataSent": 11.903400000000001,
+                    "mixType": "['Y']",
+                    "time": 0.2286431
+                },
+                "mixed": {
+                    "StdDevTime": 0.007185118164651157,
+                    "commRounds": 378.0,
+                    "dataSent": 1.4489199999999998,
+                    "mixType": "['B']",
+                    "time": 0.0690909
+                }
+            },
+            "N = 64": {
+                "A": {
+                    "StdDevTime": 0.19925368779523248,
+                    "commRounds": 11471.0,
+                    "dataSent": 3151.0600000000004,
+                    "mixType": "['A']",
+                    "time": 29.960470000000004
+                },
+                "B": {
+                    "StdDevTime": 0.008124558430462546,
+                    "commRounds": 484.0,
+                    "dataSent": 5.078789999999999,
+                    "mixType": "['B']",
+                    "time": 0.1259061
+                },
+                "X": {
+                    "StdDevTime": 0.0433792130979805,
+                    "commRounds": 4641.0,
+                    "dataSent": 50.6497,
+                    "mixType": "['X']",
+                    "time": 1.876201
+                },
+                "Y": {
+                    "StdDevTime": 0.0161135261221745,
+                    "commRounds": 2557.0,
+                    "dataSent": 43.9511,
+                    "mixType": "['Y']",
+                    "time": 0.6838131
+                },
+                "mixed": {
+                    "StdDevTime": 0.012093128055222108,
+                    "commRounds": 484.0,
+                    "dataSent": 5.078789999999999,
+                    "mixType": "['B']",
+                    "time": 0.12830219999999998
+                }
+            }
+        },
+        "count_102": {
+            "N = 1024": {
+                "A": {
+                    "StdDevTime": 0.07028042228103072,
+                    "commRounds": 9106.0,
+                    "dataSent": 622.169,
+                    "mixType": "['A']",
+                    "time": 6.417378000000001
+                },
+                "B": {
+                    "StdDevTime": 0.021748816987597275,
+                    "commRounds": 8301.0,
+                    "dataSent": 1.98833,
+                    "mixType": "['B']",
+                    "time": 0.4731308
+                },
+                "X": {
+                    "StdDevTime": 0.02649838282405175,
+                    "commRounds": 7802.0,
+                    "dataSent": 20.1371,
+                    "mixType": "['X']",
+                    "time": 0.9737488999999998
+                },
+                "Y": {
+                    "StdDevTime": 0.024407392471134624,
+                    "commRounds": 6970.0,
+                    "dataSent": 17.391799999999996,
+                    "mixType": "['Y']",
+                    "time": 0.5207226
+                },
+                "mixed": {
+                    "StdDevTime": 0.04485415409847787,
+                    "commRounds": 8301.0,
+                    "dataSent": 1.98833,
+                    "mixType": "['B']",
+                    "time": 0.47545410000000005
+                }
+            },
+            "N = 4096": {
+                "A": {
+                    "StdDevTime": 0.13053771102635475,
+                    "commRounds": 36369.0,
+                    "dataSent": 2485.5999999999995,
+                    "mixType": "['A']",
+                    "time": 25.380399999999998
+                },
+                "B": {
+                    "StdDevTime": 0.10614275257406885,
+                    "commRounds": 32954.0,
+                    "dataSent": 8.188819999999998,
+                    "mixType": "['B']",
+                    "time": 1.789896
+                },
+                "X": {
+                    "StdDevTime": 0.08208077887057362,
+                    "commRounds": 31106.0,
+                    "dataSent": 82.80240000000002,
+                    "mixType": "['X']",
+                    "time": 3.76809
+                },
+                "Y": {
+                    "StdDevTime": 0.051741269369817364,
+                    "commRounds": 27749.0,
+                    "dataSent": 71.78229999999999,
+                    "mixType": "['Y']",
+                    "time": 1.9567679999999998
+                },
+                "mixed": {
+                    "StdDevTime": 0.14763341562464774,
+                    "commRounds": 32954.0,
+                    "dataSent": 8.188819999999998,
+                    "mixType": "['B']",
+                    "time": 1.859019
+                }
+            }
+        },
+        "count_10s": {
+            "N = 1024": {
+                "A": {
+                    "StdDevTime": 0.06724551140410792,
+                    "commRounds": 9106.0,
+                    "dataSent": 622.169,
+                    "mixType": "['A']",
+                    "time": 6.443116000000001
+                },
+                "B": {
+                    "StdDevTime": 0.04663054837550165,
+                    "commRounds": 8299.0,
+                    "dataSent": 1.98833,
+                    "mixType": "['B']",
+                    "time": 0.46373800000000004
+                },
+                "X": {
+                    "StdDevTime": 0.03129542761490887,
+                    "commRounds": 7802.0,
+                    "dataSent": 20.1371,
+                    "mixType": "['X']",
+                    "time": 0.9674340000000001
+                },
+                "Y": {
+                    "StdDevTime": 0.01858375555263252,
+                    "commRounds": 6970.0,
+                    "dataSent": 17.391799999999996,
+                    "mixType": "['Y']",
+                    "time": 0.5146404
+                },
+                "mixed": {
+                    "StdDevTime": 0.023234626015711985,
+                    "commRounds": 8299.0,
+                    "dataSent": 1.98833,
+                    "mixType": "['B']",
+                    "time": 0.44236810000000004
+                }
+            },
+            "N = 4096": {
+                "A": {
+                    "StdDevTime": 0.10059528617186796,
+                    "commRounds": 36369.0,
+                    "dataSent": 2485.5999999999995,
+                    "mixType": "['A']",
+                    "time": 25.46048
+                },
+                "B": {
+                    "StdDevTime": 0.08696096363311531,
+                    "commRounds": 32952.0,
+                    "dataSent": 8.188819999999998,
+                    "mixType": "['B']",
+                    "time": 1.7600379999999998
+                },
+                "X": {
+                    "StdDevTime": 0.050801226126935155,
+                    "commRounds": 31106.0,
+                    "dataSent": 82.80240000000002,
+                    "mixType": "['X']",
+                    "time": 3.7146320000000004
+                },
+                "Y": {
+                    "StdDevTime": 0.05032052389433161,
+                    "commRounds": 27749.0,
+                    "dataSent": 71.78229999999999,
+                    "mixType": "['Y']",
+                    "time": 1.9977850000000004
+                },
+                "mixed": {
+                    "StdDevTime": 0.10212040544866637,
+                    "commRounds": 32952.0,
+                    "dataSent": 8.188819999999998,
+                    "mixType": "['B']",
+                    "time": 1.7383210000000002
+                }
+            }
+        },
+        "count_123": {
+            "N = 1024": {
+                "A": {
+                    "StdDevTime": 0.052823994964409884,
+                    "commRounds": 9115.0,
+                    "dataSent": 625.2839999999999,
+                    "mixType": "['A']",
+                    "time": 6.470765999999999
+                },
+                "B": {
+                    "StdDevTime": 0.030784606758086096,
+                    "commRounds": 8301.0,
+                    "dataSent": 1.9969100000000002,
+                    "mixType": "['B']",
+                    "time": 0.44815949999999993
+                },
+                "X": {
+                    "StdDevTime": 0.022234112631045123,
+                    "commRounds": 7811.0,
+                    "dataSent": 23.3254,
+                    "mixType": "['X']",
+                    "time": 0.9822029000000001
+                },
+                "Y": {
+                    "StdDevTime": 0.02279513977671555,
+                    "commRounds": 6979.0,
+                    "dataSent": 20.580100000000005,
+                    "mixType": "['Y']",
+                    "time": 0.5293914
+                },
+                "mixed": {
+                    "StdDevTime": 0.04065990134518283,
+                    "commRounds": 8301.0,
+                    "dataSent": 1.9969100000000002,
+                    "mixType": "['B']",
+                    "time": 0.45641500000000007
+                }
+            },
+            "N = 4096": {
+                "A": {
+                    "StdDevTime": 0.15032032996238423,
+                    "commRounds": 36399.0,
+                    "dataSent": 2498.0499999999997,
+                    "mixType": "['A']",
+                    "time": 25.62518
+                },
+                "B": {
+                    "StdDevTime": 0.12266277714123378,
+                    "commRounds": 32954.0,
+                    "dataSent": 8.189840000000002,
+                    "mixType": "['B']",
+                    "time": 1.8084820000000001
+                },
+                "X": {
+                    "StdDevTime": 0.07102899301693637,
+                    "commRounds": 31136.0,
+                    "dataSent": 95.26070000000001,
+                    "mixType": "['X']",
+                    "time": 3.869111
+                },
+                "Y": {
+                    "StdDevTime": 0.04664232477053436,
+                    "commRounds": 27779.0,
+                    "dataSent": 84.24059999999999,
+                    "mixType": "['Y']",
+                    "time": 2.0846899999999997
+                },
+                "mixed": {
+                    "StdDevTime": 0.05423764375413077,
+                    "commRounds": 32954.0,
+                    "dataSent": 8.189840000000002,
+                    "mixType": "['B']",
+                    "time": 1.7351300000000003
+                }
+            }
+        },
+        "cryptonets_max_pooling": {
+            "rows = 16, cols = 16": {
+                "A": {
+                    "StdDevTime": 0.011071150263635659,
+                    "commRounds": 320.0,
+                    "dataSent": 75.0698,
+                    "mixType": "['A']",
+                    "time": 0.7582237999999999
+                },
+                "B": {
+                    "StdDevTime": 0.0009320728501571109,
+                    "commRounds": 60.0,
+                    "dataSent": 0.17343,
+                    "mixType": "['B']",
+                    "time": 0.0128545
+                },
+                "X": {
+                    "StdDevTime": 0.006125600682218846,
+                    "commRounds": 174.0,
+                    "dataSent": 1.17159,
+                    "mixType": "['X']",
+                    "time": 0.0578906
+                },
+                "Y": {
+                    "StdDevTime": 0.003892443639360756,
+                    "commRounds": 324.0,
+                    "dataSent": 1.0362100000000003,
+                    "mixType": "['Y']",
+                    "time": 0.048684080000000005
+                },
+                "mixed": {
+                    "StdDevTime": 0.0019145223473232163,
+                    "commRounds": 60.0,
+                    "dataSent": 0.17343,
+                    "mixType": "['B']",
+                    "time": 0.01355714
+                }
+            }
+        },
+        "db_cross_join_trivial": {
+            "32, 32": {
+                "A": {
+                    "StdDevTime": 0.09521837060147535,
+                    "commRounds": 11780.0,
+                    "dataSent": 2473.2099999999996,
+                    "mixType": "['A']",
+                    "time": 24.42597
+                },
+                "B": {
+                    "StdDevTime": 0.002583014907041769,
+                    "commRounds": 71.0,
+                    "dataSent": 3.505119999999999,
+                    "mixType": "['B']",
+                    "time": 0.1172007
+                },
+                "X": {
+                    "StdDevTime": 0.05218605537880783,
+                    "commRounds": 6517.0,
+                    "dataSent": 70.4113,
+                    "mixType": "['X']",
+                    "time": 2.648072
+                },
+                "Y": {
+                    "StdDevTime": 0.022272825035230724,
+                    "commRounds": 3400.0,
+                    "dataSent": 60.3389,
+                    "mixType": "['Y']",
+                    "time": 0.9173634999999999
+                },
+                "mixed": {
+                    "StdDevTime": 0.0032657905643197634,
+                    "commRounds": 71.0,
+                    "dataSent": 3.505119999999999,
+                    "mixType": "['B']",
+                    "time": 0.1185553
+                }
+            },
+            "64, 64": {
+                "A": {
+                    "StdDevTime": 0.3444389857434846,
+                    "commRounds": 47013.0,
+                    "dataSent": 9886.61,
+                    "mixType": "['A']",
+                    "time": 97.07661
+                },
+                "B": {
+                    "StdDevTime": 0.006178626229996438,
+                    "commRounds": 197.0,
+                    "dataSent": 13.9909,
+                    "mixType": "['B']",
+                    "time": 0.4230541
+                },
+                "X": {
+                    "StdDevTime": 0.10441159131054341,
+                    "commRounds": 25928.0,
+                    "dataSent": 273.8380000000001,
+                    "mixType": "['X']",
+                    "time": 10.420559999999998
+                },
+                "Y": {
+                    "StdDevTime": 0.03205329162504219,
+                    "commRounds": 12731.0,
+                    "dataSent": 230.70499999999998,
+                    "mixType": "['Y']",
+                    "time": 3.2674639999999995
+                },
+                "mixed": {
+                    "StdDevTime": 0.0073820271396141555,
+                    "commRounds": 197.0,
+                    "dataSent": 13.9909,
+                    "mixType": "['B']",
+                    "time": 0.4250128999999999
+                }
+            }
+        },
+        "db_variance": {
+            "len = 1024": {
+                "A": {
+                    "StdDevTime": 0.0067724553922488195,
+                    "commRounds": 441.0,
+                    "dataSent": 31.237100000000005,
+                    "mixType": "['A']",
+                    "time": 0.2961144
+                },
+                "B": "ERROR: No valid mix found",
+                "X": {
+                    "StdDevTime": 0.00457281439487762,
+                    "commRounds": 482.0,
+                    "dataSent": 6.6725200000000005,
+                    "mixType": "['X']",
+                    "time": 0.11831989999999999
+                },
+                "Y": {
+                    "StdDevTime": 0.008331154280170306,
+                    "commRounds": 2775.0,
+                    "dataSent": 7.340529999999999,
+                    "mixType": "['Y']",
+                    "time": 0.2739076
+                },
+                "mixed": {
+                    "StdDevTime": 0.015685113638096475,
+                    "commRounds": 2775.0,
+                    "dataSent": 7.340529999999999,
+                    "mixType": "['Y']",
+                    "time": 0.27431040000000007
+                }
+            },
+            "len = 2048": {
+                "A": {
+                    "StdDevTime": 0.0045087374019785196,
+                    "commRounds": 448.0,
+                    "dataSent": 37.60289999999999,
+                    "mixType": "['A']",
+                    "time": 0.34174380000000004
+                },
+                "B": "ERROR: No valid mix found",
+                "X": {
+                    "StdDevTime": 0.007510356266516261,
+                    "commRounds": 489.0,
+                    "dataSent": 13.0286,
+                    "mixType": "['X']",
+                    "time": 0.1726395
+                },
+                "Y": {
+                    "StdDevTime": 0.009104298369451645,
+                    "commRounds": 2782.0,
+                    "dataSent": 13.6966,
+                    "mixType": "['Y']",
+                    "time": 0.318476
+                },
+                "mixed": {
+                    "StdDevTime": 0.012172992700646793,
+                    "commRounds": 2782.0,
+                    "dataSent": 13.6966,
+                    "mixType": "['Y']",
+                    "time": 0.3251141
+                }
+            },
+            "len = 4096": {
+                "A": {
+                    "StdDevTime": 0.007100598002985386,
+                    "commRounds": 462.0,
+                    "dataSent": 50.26839999999999,
+                    "mixType": "['A']",
+                    "time": 0.43471399999999993
+                },
+                "B": "ERROR: No valid mix found",
+                "X": {
+                    "StdDevTime": 0.007047343307232872,
+                    "commRounds": 503.0,
+                    "dataSent": 25.7494,
+                    "mixType": "['X']",
+                    "time": 0.26860090000000003
+                },
+                "Y": {
+                    "StdDevTime": 0.006844172149354517,
+                    "commRounds": 2796.0,
+                    "dataSent": 26.417399999999994,
+                    "mixType": "['Y']",
+                    "time": 0.4175757
+                },
+                "mixed": {
+                    "StdDevTime": 0.0217107568889249,
+                    "commRounds": 2796.0,
+                    "dataSent": 26.417399999999994,
+                    "mixType": "['Y']",
+                    "time": 0.4207129
+                }
+            },
+            "len = 512": {
+                "A": {
+                    "StdDevTime": 0.008063132778889362,
+                    "commRounds": 434.0,
+                    "dataSent": 28.0601,
+                    "mixType": "['A']",
+                    "time": 0.27548169999999994
+                },
+                "B": "ERROR: No valid mix found",
+                "X": {
+                    "StdDevTime": 0.003875718649863532,
+                    "commRounds": 475.0,
+                    "dataSent": 3.49343,
+                    "mixType": "['X']",
+                    "time": 0.08785841
+                },
+                "Y": {
+                    "StdDevTime": 0.010042854017160655,
+                    "commRounds": 2768.0,
+                    "dataSent": 4.161450000000001,
+                    "mixType": "['Y']",
+                    "time": 0.2419117
+                },
+                "mixed": {
+                    "StdDevTime": 0.014761921832877995,
+                    "commRounds": 2768.0,
+                    "dataSent": 4.161450000000001,
+                    "mixType": "['Y']",
+                    "time": 0.23393000000000003
+                }
+            }
+        },
+        "inner_product": {
+            "N = 4096": {
+                "A": {
+                    "StdDevTime": 0.0020278146759504425,
+                    "commRounds": 42.0,
+                    "dataSent": 12.775400000000001,
+                    "mixType": "['A']",
+                    "time": 0.1415218
+                },
+                "B": {
+                    "StdDevTime": 0.02264519310162754,
+                    "commRounds": 8634.0,
+                    "dataSent": 26.223400000000005,
+                    "mixType": "['B']",
+                    "time": 0.7828033
+                },
+                "X": {
+                    "StdDevTime": 0.0035091294020027234,
+                    "commRounds": 42.0,
+                    "dataSent": 12.775400000000001,
+                    "mixType": "['X']",
+                    "time": 0.14350279999999999
+                },
+                "Y": {
+                    "StdDevTime": 0.004640870703865816,
+                    "commRounds": 42.0,
+                    "dataSent": 12.775400000000001,
+                    "mixType": "['Y']",
+                    "time": 0.1434429
+                },
+                "mixed": {
+                    "StdDevTime": 0.0027015178252234396,
+                    "commRounds": 42.0,
+                    "dataSent": 12.775400000000001,
+                    "mixType": "['Y']",
+                    "time": 0.14068779999999997
+                }
+            },
+            "N = 512": {
+                "A": {
+                    "StdDevTime": 0.0010595928623768661,
+                    "commRounds": 14.0,
+                    "dataSent": 1.5991,
+                    "mixType": "['A']",
+                    "time": 0.028871
+                },
+                "B": {
+                    "StdDevTime": 0.008816940966684537,
+                    "commRounds": 1187.0,
+                    "dataSent": 3.4154100000000005,
+                    "mixType": "['B']",
+                    "time": 0.12751130000000002
+                },
+                "X": {
+                    "StdDevTime": 0.000960671676276552,
+                    "commRounds": 14.0,
+                    "dataSent": 1.5991,
+                    "mixType": "['X']",
+                    "time": 0.028778479999999995
+                },
+                "Y": {
+                    "StdDevTime": 0.0008424985367346345,
+                    "commRounds": 14.0,
+                    "dataSent": 1.5991,
+                    "mixType": "['Y']",
+                    "time": 0.02878214
+                },
+                "mixed": {
+                    "StdDevTime": 0.0008441151106928484,
+                    "commRounds": 14.0,
+                    "dataSent": 1.5991,
+                    "mixType": "['Y']",
+                    "time": 0.02884217
+                }
+            }
+        },
+        "longest_102": {
+            "N = 1024": {
+                "A": {
+                    "StdDevTime": 0.05972254264513516,
+                    "commRounds": 28949.0,
+                    "dataSent": 1016.4100000000001,
+                    "mixType": "['A']",
+                    "time": 11.18977
+                },
+                "B": {
+                    "StdDevTime": 0.07498937188695474,
+                    "commRounds": 20549.0,
+                    "dataSent": 2.8413499999999994,
+                    "mixType": "['B']",
+                    "time": 1.1405119999999997
+                },
+                "X": {
+                    "StdDevTime": 0.04869353144925926,
+                    "commRounds": 28844.0,
+                    "dataSent": 32.6551,
+                    "mixType": "['X']",
+                    "time": 2.4799649999999995
+                },
+                "Y": {
+                    "StdDevTime": 0.05088558051157512,
+                    "commRounds": 27729.0,
+                    "dataSent": 28.9852,
+                    "mixType": "['Y']",
+                    "time": 1.7614260000000002
+                },
+                "mixed": {
+                    "StdDevTime": 0.07785682510865699,
+                    "commRounds": 20549.0,
+                    "dataSent": 2.8413499999999994,
+                    "mixType": "['B']",
+                    "time": 1.168532
+                }
+            },
+            "N = 4096": {
+                "A": {
+                    "StdDevTime": 0.2612266083307732,
+                    "commRounds": 115729.0,
+                    "dataSent": 4062.55,
+                    "mixType": "['A']",
+                    "time": 44.22950999999999
+                },
+                "B": {
+                    "StdDevTime": 0.2162646164216421,
+                    "commRounds": 82094.0,
+                    "dataSent": 11.4731,
+                    "mixType": "['B']",
+                    "time": 4.592472
+                },
+                "X": {
+                    "StdDevTime": 0.09422054508439243,
+                    "commRounds": 115283.0,
+                    "dataSent": 131.72299999999998,
+                    "mixType": "['X']",
+                    "time": 9.757352000000001
+                },
+                "Y": {
+                    "StdDevTime": 0.08673095235266375,
+                    "commRounds": 110794.0,
+                    "dataSent": 116.99199999999999,
+                    "mixType": "['Y']",
+                    "time": 6.813922
+                },
+                "mixed": {
+                    "StdDevTime": 0.19087944436476134,
+                    "commRounds": 82094.0,
+                    "dataSent": 11.4731,
+                    "mixType": "['B']",
+                    "time": 4.482957000000001
+                }
+            }
+        },
+        "longest_odd_10": {
+            "N = 2048": {
+                "A": "ERROR: No valid mix found",
+                "B": {
+                    "StdDevTime": 0.08131489814296025,
+                    "commRounds": 41136.0,
+                    "dataSent": 7.09131,
+                    "mixType": "['B']",
+                    "time": 2.2889
+                },
+                "X": "ERROR: No valid mix found",
+                "Y": "ERROR: No valid mix found",
+                "mixed": {
+                    "StdDevTime": 0.0857009895858852,
+                    "commRounds": 41136.0,
+                    "dataSent": 7.09131,
+                    "mixType": "['B']",
+                    "time": 2.295758
+                }
+            }
+        },
+        "max_dist_between_syms": {
+            "N = 1024": {
+                "A": {
+                    "StdDevTime": 0.053469591395483816,
+                    "commRounds": 20825.0,
+                    "dataSent": 595.388,
+                    "mixType": "['A']",
+                    "time": 6.7425939999999995
+                },
+                "B": {
+                    "StdDevTime": 0.05696529094808523,
+                    "commRounds": 14406.0,
+                    "dataSent": 2.2537999999999996,
+                    "mixType": "['B']",
+                    "time": 0.808014
+                },
+                "X": {
+                    "StdDevTime": 0.05690833608532232,
+                    "commRounds": 21599.0,
+                    "dataSent": 11.817499999999999,
+                    "mixType": "['X']",
+                    "time": 1.702232
+                },
+                "Y": {
+                    "StdDevTime": 0.04668278273625087,
+                    "commRounds": 21044.0,
+                    "dataSent": 9.983270000000001,
+                    "mixType": "['Y']",
+                    "time": 1.2465240000000002
+                },
+                "mixed": {
+                    "StdDevTime": 0.05183857400517496,
+                    "commRounds": 14406.0,
+                    "dataSent": 2.2537999999999996,
+                    "mixType": "['B']",
+                    "time": 0.8429031
+                }
+            },
+            "N = 2048": {
+                "A": {
+                    "StdDevTime": 0.12861488444188696,
+                    "commRounds": 41625.0,
+                    "dataSent": 1187.6900000000003,
+                    "mixType": "['A']",
+                    "time": 13.42035
+                },
+                "B": {
+                    "StdDevTime": 0.06504024084365004,
+                    "commRounds": 28770.0,
+                    "dataSent": 4.50078,
+                    "mixType": "['B']",
+                    "time": 1.555321
+                },
+                "X": {
+                    "StdDevTime": 0.04016103006647116,
+                    "commRounds": 43169.0,
+                    "dataSent": 23.631300000000003,
+                    "mixType": "['X']",
+                    "time": 3.3894219999999997
+                },
+                "Y": {
+                    "StdDevTime": 0.08516784163638297,
+                    "commRounds": 42051.0,
+                    "dataSent": 19.952,
+                    "mixType": "['Y']",
+                    "time": 2.4833010000000004
+                },
+                "mixed": {
+                    "StdDevTime": 0.06800570958382833,
+                    "commRounds": 28770.0,
+                    "dataSent": 4.50078,
+                    "mixType": "['B']",
+                    "time": 1.5383419999999999
+                }
+            }
+        },
+        "max_sum_between_syms": {
+            "N = 1024": {
+                "A": {
+                    "StdDevTime": 0.056177979395845117,
+                    "commRounds": 20825.0,
+                    "dataSent": 595.388,
+                    "mixType": "['A']",
+                    "time": 6.793899000000001
+                },
+                "B": {
+                    "StdDevTime": 0.0443611764384129,
+                    "commRounds": 14406.0,
+                    "dataSent": 2.2537999999999996,
+                    "mixType": "['B']",
+                    "time": 0.7893789999999999
+                },
+                "X": {
+                    "StdDevTime": 0.06202197936215834,
+                    "commRounds": 21599.0,
+                    "dataSent": 11.817499999999999,
+                    "mixType": "['X']",
+                    "time": 1.6876160000000002
+                },
+                "Y": {
+                    "StdDevTime": 0.047002605257581216,
+                    "commRounds": 21044.0,
+                    "dataSent": 9.983270000000001,
+                    "mixType": "['Y']",
+                    "time": 1.2870669999999997
+                },
+                "mixed": {
+                    "StdDevTime": 0.05676372084491996,
+                    "commRounds": 14406.0,
+                    "dataSent": 2.2537999999999996,
+                    "mixType": "['B']",
+                    "time": 0.8078861999999999
+                }
+            },
+            "N = 2048": {
+                "A": {
+                    "StdDevTime": 0.10606651168017157,
+                    "commRounds": 41625.0,
+                    "dataSent": 1187.6900000000003,
+                    "mixType": "['A']",
+                    "time": 13.441790000000001
+                },
+                "B": {
+                    "StdDevTime": 0.06602929689917954,
+                    "commRounds": 28770.0,
+                    "dataSent": 4.50078,
+                    "mixType": "['B']",
+                    "time": 1.6084709999999998
+                },
+                "X": {
+                    "StdDevTime": 0.07045627157322466,
+                    "commRounds": 43169.0,
+                    "dataSent": 23.631300000000003,
+                    "mixType": "['X']",
+                    "time": 3.412296
+                },
+                "Y": {
+                    "StdDevTime": 0.06523869814764857,
+                    "commRounds": 42051.0,
+                    "dataSent": 19.952,
+                    "mixType": "['Y']",
+                    "time": 2.478168
+                },
+                "mixed": {
+                    "StdDevTime": 0.056535621947582756,
+                    "commRounds": 28770.0,
+                    "dataSent": 4.50078,
+                    "mixType": "['B']",
+                    "time": 1.583989
+                }
+            }
+        },
+        "minimal_points": {
+            "N = 128": {
+                "A": {
+                    "StdDevTime": 0.5598993570276722,
+                    "commRounds": 44840.0,
+                    "dataSent": 12410.100000000002,
+                    "mixType": "['A']",
+                    "time": 117.56209999999999
+                },
+                "B": {
+                    "StdDevTime": 0.013438207581742438,
+                    "commRounds": 514.0,
+                    "dataSent": 18.0239,
+                    "mixType": "['B']",
+                    "time": 0.26418669999999994
+                },
+                "X": {
+                    "StdDevTime": 0.08769957833992122,
+                    "commRounds": 17914.0,
+                    "dataSent": 201.06400000000002,
+                    "mixType": "['X']",
+                    "time": 7.2112169999999995
+                },
+                "Y": {
+                    "StdDevTime": 0.05366739070422562,
+                    "commRounds": 8861.0,
+                    "dataSent": 171.37799999999996,
+                    "mixType": "['Y']",
+                    "time": 2.4221649999999997
+                },
+                "mixed": {
+                    "StdDevTime": 0.012187027658949495,
+                    "commRounds": 514.0,
+                    "dataSent": 18.0239,
+                    "mixType": "['B']",
+                    "time": 0.26577020000000007
+                }
+            },
+            "N = 256": {
+                "A": {
+                    "StdDevTime": 1.6823167983468466,
+                    "commRounds": 178761.0,
+                    "dataSent": 49631.299999999996,
+                    "mixType": "['A']",
+                    "time": 469.97970000000004
+                },
+                "B": {
+                    "StdDevTime": 0.028417863427956734,
+                    "commRounds": 1463.0,
+                    "dataSent": 72.05380000000001,
+                    "mixType": "['B']",
+                    "time": 0.9580503
+                },
+                "X": {
+                    "StdDevTime": 0.3656822369216202,
+                    "commRounds": 71024.0,
+                    "dataSent": 790.8459999999999,
+                    "mixType": "['X']",
+                    "time": 28.396140000000003
+                },
+                "Y": {
+                    "StdDevTime": 0.0887596218389873,
+                    "commRounds": 34803.0,
+                    "dataSent": 672.099,
+                    "mixType": "['Y']",
+                    "time": 9.377701000000002
+                },
+                "mixed": {
+                    "StdDevTime": 0.03012388896938773,
+                    "commRounds": 1463.0,
+                    "dataSent": 72.05380000000001,
+                    "mixType": "['B']",
+                    "time": 0.9662976000000001
+                }
+            },
+            "N = 32": {
+                "A": {
+                    "StdDevTime": 0.058582124244516726,
+                    "commRounds": 2872.0,
+                    "dataSent": 776.022,
+                    "mixType": "['A']",
+                    "time": 7.401757000000001
+                },
+                "B": {
+                    "StdDevTime": 0.003439820370440875,
+                    "commRounds": 112.0,
+                    "dataSent": 1.15569,
+                    "mixType": "['B']",
+                    "time": 0.03382178999999999
+                },
+                "X": {
+                    "StdDevTime": 0.025854132621304482,
+                    "commRounds": 1199.0,
+                    "dataSent": 12.5206,
+                    "mixType": "['X']",
+                    "time": 0.493562
+                },
+                "Y": {
+                    "StdDevTime": 0.005665451933429497,
+                    "commRounds": 641.0,
+                    "dataSent": 10.676999999999998,
+                    "mixType": "['Y']",
+                    "time": 0.1894117
+                },
+                "mixed": {
+                    "StdDevTime": 0.002751510061420819,
+                    "commRounds": 112.0,
+                    "dataSent": 1.15569,
+                    "mixType": "['B']",
+                    "time": 0.03245117
+                }
+            },
+            "N = 64": {
+                "A": {
+                    "StdDevTime": 0.1645635029403543,
+                    "commRounds": 11294.0,
+                    "dataSent": 3104.0800000000004,
+                    "mixType": "['A']",
+                    "time": 29.560750000000002
+                },
+                "B": {
+                    "StdDevTime": 0.0055441829780771106,
+                    "commRounds": 218.0,
+                    "dataSent": 4.528489999999999,
+                    "mixType": "['B']",
+                    "time": 0.08463484
+                },
+                "X": {
+                    "StdDevTime": 0.040009388398224745,
+                    "commRounds": 4569.0,
+                    "dataSent": 50.0014,
+                    "mixType": "['X']",
+                    "time": 1.8488099999999998
+                },
+                "Y": {
+                    "StdDevTime": 0.01650234316119987,
+                    "commRounds": 2308.0,
+                    "dataSent": 42.57979999999999,
+                    "mixType": "['Y']",
+                    "time": 0.6566727
+                },
+                "mixed": {
+                    "StdDevTime": 0.004976527512040902,
+                    "commRounds": 218.0,
+                    "dataSent": 4.528489999999999,
+                    "mixType": "['B']",
+                    "time": 0.08977127
+                }
+            }
+        },
+        "mnist_relu": {
+            "16, 2048": {
+                "A": {
+                    "StdDevTime": 0.6224932208466197,
+                    "commRounds": 44575.0,
+                    "dataSent": 12407.600000000002,
+                    "mixType": "['A']",
+                    "time": 117.08130000000001
+                },
+                "B": {
+                    "StdDevTime": 0.012250567719089592,
+                    "commRounds": 256.0,
+                    "dataSent": 18.795999999999996,
+                    "mixType": "['B']",
+                    "time": 0.35398739999999995
+                },
+                "X": {
+                    "StdDevTime": 0.0937239417865039,
+                    "commRounds": 17649.0,
+                    "dataSent": 198.49499999999998,
+                    "mixType": "['X']",
+                    "time": 7.254096
+                },
+                "Y": {
+                    "StdDevTime": 0.022540994742912258,
+                    "commRounds": 8596.0,
+                    "dataSent": 168.808,
+                    "mixType": "['Y']",
+                    "time": 2.4546959999999998
+                },
+                "mixed": {
+                    "StdDevTime": 0.01585426541376167,
+                    "commRounds": 256.0,
+                    "dataSent": 18.795999999999996,
+                    "mixType": "['B']",
+                    "time": 0.35527230000000004
+                }
+            },
+            "16, 512": {
+                "A": {
+                    "StdDevTime": 0.17969975959917164,
+                    "commRounds": 11164.0,
+                    "dataSent": 3104.2099999999996,
+                    "mixType": "['A']",
+                    "time": 29.461179999999995
+                },
+                "B": {
+                    "StdDevTime": 0.007698397353345694,
+                    "commRounds": 88.0,
+                    "dataSent": 5.10373,
+                    "mixType": "['B']",
+                    "time": 0.11289730000000002
+                },
+                "X": {
+                    "StdDevTime": 0.03556104330584245,
+                    "commRounds": 4439.0,
+                    "dataSent": 49.73930000000001,
+                    "mixType": "['X']",
+                    "time": 1.8351930000000003
+                },
+                "Y": {
+                    "StdDevTime": 0.012432163432403878,
+                    "commRounds": 2178.0,
+                    "dataSent": 42.31759999999999,
+                    "mixType": "['Y']",
+                    "time": 0.6630663
+                },
+                "mixed": {
+                    "StdDevTime": 0.0045248237578937815,
+                    "commRounds": 88.0,
+                    "dataSent": 5.10373,
+                    "mixType": "['B']",
+                    "time": 0.11368439999999999
+                }
+            }
+        },
+        "psi": {
+            "SA = 1024, SB = 1024": {
+                "A": {
+                    "StdDevTime": 6.29594822087987,
+                    "commRounds": 1004318.0,
+                    "dataSent": 210895.0,
+                    "mixType": "['A']",
+                    "time": 2069.4939999999997
+                },
+                "B": {
+                    "StdDevTime": 0.0894254562414975,
+                    "commRounds": 5746.0,
+                    "dataSent": 286.57200000000006,
+                    "mixType": "['B']",
+                    "time": 3.9035239999999995
+                },
+                "X": {
+                    "StdDevTime": 1.0162596125006624,
+                    "commRounds": 554253.0,
+                    "dataSent": 5779.449999999999,
+                    "mixType": "['X']",
+                    "time": 215.993
+                },
+                "Y": {
+                    "StdDevTime": 0.5650021795533182,
+                    "commRounds": 267536.0,
+                    "dataSent": 4839.0599999999995,
+                    "mixType": "['Y']",
+                    "time": 67.30488999999999
+                },
+                "mixed": {
+                    "StdDevTime": 0.08741843910754755,
+                    "commRounds": 5746.0,
+                    "dataSent": 286.57200000000006,
+                    "mixType": "['B']",
+                    "time": 3.8509119999999997
+                }
+            },
+            "SA = 128, SB = 128": {
+                "A": {
+                    "StdDevTime": 0.1090778987696402,
+                    "commRounds": 15939.0,
+                    "dataSent": 3296.5,
+                    "mixType": "['A']",
+                    "time": 32.64569999999999
+                },
+                "B": {
+                    "StdDevTime": 0.007893923117664625,
+                    "commRounds": 342.0,
+                    "dataSent": 4.528489999999999,
+                    "mixType": "['B']",
+                    "time": 0.09640232000000001
+                },
+                "X": {
+                    "StdDevTime": 0.13951809391258188,
+                    "commRounds": 8918.0,
+                    "dataSent": 92.59439999999998,
+                    "mixType": "['X']",
+                    "time": 3.5957010000000005
+                },
+                "Y": {
+                    "StdDevTime": 0.028479951983807882,
+                    "commRounds": 4441.0,
+                    "dataSent": 77.9009,
+                    "mixType": "['Y']",
+                    "time": 1.154115
+                },
+                "mixed": {
+                    "StdDevTime": 0.007296533947080628,
+                    "commRounds": 342.0,
+                    "dataSent": 4.528489999999999,
+                    "mixType": "['B']",
+                    "time": 0.09538680999999999
+                }
+            }
+        }
+    }
+}
