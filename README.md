@@ -36,3 +36,4 @@
 - `compiler/main.py` - Script for running the compiler and seeing text output for all the stages
 - `compiler/run_tests.py` - Script for running the tests
 - `compiler/make_results_markdown.py` - Script for generating the results page at https://github.com/AnonymousResearcherGh/mp_opa/blob/gh-pages/README.md
+- `compiler/paper_benchmarks.py` - Script for executing lan mpc experiments for MOTION and MP-SPDZ in a 2PC setup (server-client)
