@@ -813,10 +813,10 @@ def run_client_role_spdz(address, resultsDict, resultsDetailedDict):
                             pSet.add('Y')
                         else:
                             assert False
-                    spdzDict[test_case_dir.name][argStr][pName]['mixType'] = str(sorted(list(pSet)))
-
+            
                 if pName in spdzDict[test_case_dir.name][argStr].keys() and spdzDict[test_case_dir.name][argStr][pName] != dict():
                     continue
+                spdzDict[test_case_dir.name][argStr][pName]['mixType'] = str(sorted(list(pSet)))
                 try:
                     curList = []
                     vectorized = True
@@ -956,10 +956,10 @@ def run_client_role_motion(address, resultsDict, resultsDetailedDict):
                         pSet |= set(ps)
                     assert '_' not in pSet
                     assert cfg.flags == []
-                    motionDict[test_case_dir.name][argStr][pName]['mixType'] = str(sorted(list(pSet)))
-
+                   
                 if pName in motionDict[test_case_dir.name][argStr].keys() and motionDict[test_case_dir.name][argStr][pName] != dict():
                     continue
+                motionDict[test_case_dir.name][argStr][pName]['mixType'] = str(sorted(list(pSet)))
 
                 try:
                     curList = []
