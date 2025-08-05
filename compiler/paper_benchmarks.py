@@ -777,16 +777,20 @@ def run_client_role_spdz(address, resultsDict, resultsDetailedDict):
                     argsList = parse_list(args.args)
                     if not args is None:
                         input_py = motion_replace_definitions(input_py, argsList)
-                    cfg = compiler.compile(
-                        filename=f"{test_case_dir.name}.py",
-                        text=input_py,
-                        backend=Backend.MP_SPDZ,
-                        quiet=True,
-                        run_vectorization=True,
-                        protocolSets=[{protocol}] if protocol else None,
-                        mixing=True,
-                        costType='time',
-                        mixOnly=True)
+                    try:
+                        cfg = compiler.compile(
+                            filename=f"{test_case_dir.name}.py",
+                            text=input_py,
+                            backend=Backend.MP_SPDZ,
+                            quiet=True,
+                            run_vectorization=True,
+                            protocolSets=[{protocol}] if protocol else None,
+                            mixing=True,
+                            costType='time',
+                            mixOnly=True)
+                    except Exception as e:
+                        spdzDict[test_case_dir.name][argStr][pName] = f'ERROR: {e}'
+                        continue
                     pSet = set()
                     for _, ps in cfg.inputs.items():
                         pSet |= set(ps)
@@ -864,7 +868,7 @@ def run_client_role_spdz(address, resultsDict, resultsDetailedDict):
 
                         curList.append(p1)
                     spdzDict[test_case_dir.name][argStr][pName] = getSummaryStats(curList, 'MP-SPDZ')
-                    resultsDetailedDict[test_case_dir.name][argStr][pName] = getIndividualStats(curList, 'MP-SPDZ')
+                    spdzDetailedDict[test_case_dir.name][argStr][pName] = getIndividualStats(curList, 'MP-SPDZ')
                     saveToJSON(resultsDict, resultsDetailedDict)
                 except Exception as e:
                     spdzDict[test_case_dir.name][argStr][pName] = f'ERROR: {e}'
@@ -923,16 +927,20 @@ def run_client_role_motion(address, resultsDict, resultsDetailedDict):
                     argsList = parse_list(args.args)
                     if not args is None:
                         input_py = motion_replace_definitions(input_py, argsList)
-                    cfg = compiler.compile(
-                        filename=f"{test_case_dir.name}.py",
-                        text=input_py,
-                        backend=Backend.MOTION,
-                        quiet=True,
-                        run_vectorization=True,
-                        protocol=protocol,
-                        mixing=True,
-                        costType='time',
-                        mixOnly=True)
+                    try:
+                        cfg = compiler.compile(
+                            filename=f"{test_case_dir.name}.py",
+                            text=input_py,
+                            backend=Backend.MOTION,
+                            quiet=True,
+                            run_vectorization=True,
+                            protocol=protocol,
+                            mixing=True,
+                            costType='time',
+                            mixOnly=True)
+                    except Exception as e:
+                        motionDict[test_case_dir.name][argStr][pName] = f'ERROR: {e}'
+                        continue
                     pSet = set()
                     for _, ps in cfg.inputs.items():
                         pSet |= set(ps)
