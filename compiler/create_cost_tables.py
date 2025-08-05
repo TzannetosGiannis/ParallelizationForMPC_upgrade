@@ -146,7 +146,7 @@ def genCodeConv(backend,protocol,iters,vecSize):
             shutil.copy2(source_item, destination_item)
 
         # Generate the build directory
-        app_path = f"/opt/ParallelizationForMPC_upgrade/compiler/test_MOTION_{iters}"
+        app_path = f"/opt/mp_opa/compiler/test_MOTION_{iters}"
     
         with open(f'{app_path}/main.cpp','r') as f:
             main_code = f.read()
@@ -215,7 +215,7 @@ def genCodeConv(backend,protocol,iters,vecSize):
         )
 
         # Compile on clients end
-        client_path = f"/opt/ParallelizationForMPC_upgrade/compiler/{client_mixed_directory}"
+        client_path = f"/opt/mp_opa/compiler/{client_mixed_directory}"
         command1 = f"cmake -S {client_path} -B {path.join(client_path,'build')}"
         command2 = f"cmake --build {path.join(client_path,'build')} -j8"
         sendCmd(f"execute sudo {command1}")
@@ -294,7 +294,7 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
         # Construct the proper template
 
         # Generate the build directory
-        app_path = f"/opt/ParallelizationForMPC_upgrade/compiler/test_MOTION_{iters}"
+        app_path = f"/opt/mp_opa/compiler/test_MOTION_{iters}"
     
         with open(f'{app_path}/main.cpp','r') as f:
             main_code = f.read()
@@ -478,7 +478,7 @@ def genCode(backend, protocol, operator, symbol, iters, conv, vecSize):
         )
 
         # Compile on clients end
-        client_path = f"/opt/ParallelizationForMPC_upgrade/compiler/{client_directory}"
+        client_path = f"/opt/mp_opa/compiler/{client_directory}"
         command1 = f"cmake -S {client_path} -B {path.join(client_path,'build')}"
         command2 = f"cmake --build {path.join(client_path,'build')} -j8"
         sendCmd(f"execute sudo {command1}")
@@ -585,8 +585,8 @@ def runTrial(codeName,backend,protocol):
     if str(backend) == 'MOTION':
         nameComponents = codeName.split("_")
         iters = nameComponents[len(nameComponents)-1]
-        app_path = f"/opt/ParallelizationForMPC_upgrade/compiler/test_MOTION_{iters}/build/template_code"
-        client_path = f"/opt/ParallelizationForMPC_upgrade/compiler/{codeName}/build/template_code"
+        app_path = f"/opt/mp_opa/compiler/test_MOTION_{iters}/build/template_code"
+        client_path = f"/opt/mp_opa/compiler/{codeName}/build/template_code"
         p = subprocess.Popen(["sudo",app_path,"--my-id","0", "--parties", f"0,{server_address},23000",f"1,{conn_address},23001"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,)
         sendCmd(f'execute sudo {client_path} --my-id 1 --parties 0,{server_address},23000 1,{conn_address},23001')
 

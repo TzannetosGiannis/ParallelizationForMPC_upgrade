@@ -1,6 +1,6 @@
 # MPC Compiler
 
-## [Generated results page](https://github.com/milana2/ParallelizationForMPC/blob/gh-pages/README.md)
+## [Generated results page](https://github.com/AnonymousResearcherGh/mp_opa/blob/gh-pages/README.md)
 
 ## Setup instructions (Ubuntu)
 
@@ -20,11 +20,11 @@
    sudo apt-get install automake build-essential clang cmake git libboost-dev libboost-thread-dev libgmp-dev libntl-dev libsodium-dev libssl-dev libtool python3
 2. Clone the repo (the `--recursive` is required for the backend submodules)
    ```sh
-   git clone --recursive https://github.com/milana2/ParallelizationForMPC.git
+   git clone --recursive https://github.com/AnonymousResearcherGh/mp_opa.git
    ```
 3. Go to the `compiler` directory
    ```sh
-   cd ParallelizationForMPC/compiler
+   cd mp_opa/compiler
    ```
 4. Install Python dependencies
    ```sh
@@ -35,4 +35,4 @@
 
 - `compiler/main.py` - Script for running the compiler and seeing text output for all the stages
 - `compiler/run_tests.py` - Script for running the tests
-- `compiler/make_results_markdown.py` - Script for generating the results page at https://github.com/milana2/ParallelizationForMPC/blob/gh-pages/README.md
+- `compiler/make_results_markdown.py` - Script for generating the results page at https://github.com/AnonymousResearcherGh/mp_opa/blob/gh-pages/README.md

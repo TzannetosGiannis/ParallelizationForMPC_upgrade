@@ -3,7 +3,7 @@ cmake_policy(SET CMP0075 NEW)
 project(TEMPLATE_CODE CXX)
 set(CMAKE_BUILD_TYPE Debug)
 
-add_subdirectory(/opt/ParallelizationForMPC_upgrade/backend_submodules/MOTION /opt/ParallelizationForMPC_upgrade/backend_submodules/MOTION/build)
+add_subdirectory(/opt/mp_opa/backend_submodules/MOTION /opt/mp_opa/backend_submodules/MOTION/build)
 
 add_executable(template_code main.cpp collect_stats.cpp)
 

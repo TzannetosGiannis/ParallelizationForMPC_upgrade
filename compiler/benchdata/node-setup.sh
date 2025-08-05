@@ -32,7 +32,7 @@ git config --global user.email = "anonymous_researcher_gh@proton.me"
 cd /mydata
 sudo chown -R anon .
 
-git clone --recursive https://github.com/milana2/ParallelizationForMPC.git
-cd ParallelizationForMPC/compiler
+git clone --recursive https://github.com/AnonymousResearcherGh/mp_opa.git
+cd mp_opa/compiler
 python3.10 -m pip install -r requirements.txt
 #git checkout -b 3-party-benchmarks --track origin/3-party-benchmarks
