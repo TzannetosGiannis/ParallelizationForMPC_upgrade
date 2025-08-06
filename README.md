@@ -38,17 +38,19 @@
 - `compiler/make_results_markdown.py` - Script for generating the results page at https://github.com/AnonymousResearcherGh/mp_opa/blob/gh-pages/README.md
 - `compiler/paper_benchmarks.py` - Script for executing lan mpc experiments for MOTION and MP-SPDZ in a 2PC setup (server-client)
 
-## Installing all dependencies and running paper benchmarks
+## Running paper benchmarks
 ```sh
+
    cd mp_opa/backend_submodules/
    bash change_registy_boost.sh # update one discontinued dependency on MOTION
    cd ../
    python run_tests.py --mixing --test-backend MOTION --costType time # install MOTION compiler and validate results
    python run_tests.py --mixing --test-backend MP-SPDZ --costType time # install  MP-SPDZ compiler and validate results
  
-   # Run from terminal 1 (server)
-   python paper_benchmarks.py -r s -b MOTION # or MP-SPDZ
+   # DOES NOT RUN ON LOCALHOST!!
+   # Run from server
+   python paper_benchmarks.py -r s -a {SERVER_IP} -b MOTION # or MP-SPDZ
  
-   # Run from terminal 2 (client)
-   python paper_benchmarks.py -r c -b MOTION # or MP-SPDZ
+   # Run from client
+   python paper_benchmarks.py -r c -a {SERVER_IP} -b MOTION # or MP-SPDZ
    ```

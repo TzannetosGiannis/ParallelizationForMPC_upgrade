@@ -751,7 +751,7 @@ def run_client_role_spdz(address, resultsDict, resultsDetailedDict):
 
         if test_case_dir.name not in spdzDict.keys():
             spdzDict[test_case_dir.name] = dict()
-            resultsDetailedDict[test_case_dir.name] = dict()
+            spdzDetailedDict[test_case_dir.name] = dict()
 
         all_args, _ = get_inputs(test_case_dir.name)
         if len(all_args) == 0:
@@ -763,7 +763,7 @@ def run_client_role_spdz(address, resultsDict, resultsDetailedDict):
             argStr = str(args.label).replace(':', ' =')
             if argStr not in spdzDict[test_case_dir.name].keys():
                 spdzDict[test_case_dir.name][argStr] = dict()
-                resultsDetailedDict[test_case_dir.name][argStr] = dict()
+                spdzDetailedDict[test_case_dir.name][argStr] = dict()
 
             log.info("\n{} - arguments: {}".format(test_case_dir.name, args.args));
             for protocol in [None, 'A', 'B', 'X', 'Y']:
@@ -816,7 +816,7 @@ def run_client_role_spdz(address, resultsDict, resultsDetailedDict):
             
                 if pName in spdzDict[test_case_dir.name][argStr].keys() and spdzDict[test_case_dir.name][argStr][pName] != dict():
                     continue
-                spdzDict[test_case_dir.name][argStr][pName]['mixType'] = str(sorted(list(pSet)))
+
                 try:
                     curList = []
                     vectorized = True
@@ -869,6 +869,7 @@ def run_client_role_spdz(address, resultsDict, resultsDetailedDict):
                         curList.append(p1)
                     spdzDict[test_case_dir.name][argStr][pName] = getSummaryStats(curList, 'MP-SPDZ')
                     spdzDetailedDict[test_case_dir.name][argStr][pName] = getIndividualStats(curList, 'MP-SPDZ')
+                    spdzDict[test_case_dir.name][argStr][pName]['mixType'] = str(sorted(list(pSet)))
                     saveToJSON(resultsDict, resultsDetailedDict)
                 except Exception as e:
                     spdzDict[test_case_dir.name][argStr][pName] = f'ERROR: {e}'
@@ -959,7 +960,7 @@ def run_client_role_motion(address, resultsDict, resultsDetailedDict):
                    
                 if pName in motionDict[test_case_dir.name][argStr].keys() and motionDict[test_case_dir.name][argStr][pName] != dict():
                     continue
-                motionDict[test_case_dir.name][argStr][pName]['mixType'] = str(sorted(list(pSet)))
+                
 
                 try:
                     curList = []
@@ -1013,9 +1014,9 @@ def run_client_role_motion(address, resultsDict, resultsDetailedDict):
                         assert p0.output.strip() == p1.output.strip(), (p0.output.strip(), p1.output.strip())
 
                         curList.append(p1)
-
                     motionDict[test_case_dir.name][argStr][pName] = getSummaryStats(curList, 'MOTION')
                     motionDetailedDict[test_case_dir.name][argStr][pName] = getIndividualStats(curList, 'MOTION')
+                    motionDict[test_case_dir.name][argStr][pName]['mixType'] = str(sorted(list(pSet)))
                     saveToJSON(resultsDict, resultsDetailedDict)
                 except Exception as e:
                     motionDict[test_case_dir.name][argStr][pName] = f'ERROR: {e}'
