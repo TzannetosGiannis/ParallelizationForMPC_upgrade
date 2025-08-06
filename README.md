@@ -44,9 +44,8 @@
    cd mp_opa/backend_submodules/
    bash change_registy_boost.sh # update one discontinued dependency on MOTION
    cd ../
-   python run_tests.py --mixing --test-backend MOTION --costType time # install MOTION compiler and validate results
-   python run_tests.py --mixing --test-backend MP-SPDZ --costType time # install  MP-SPDZ compiler and validate results
- 
+    python compiler/make_results_markdown.py static # runs the gh-pages code and stores result locally in folder static
+    
    # DOES NOT RUN ON LOCALHOST!!
    # Run from server
    python paper_benchmarks.py -r s -a {SERVER_IP} -b MOTION # or MP-SPDZ
