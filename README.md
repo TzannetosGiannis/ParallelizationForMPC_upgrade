@@ -44,8 +44,8 @@
    cd mp_opa/backend_submodules/
    bash change_registy_boost.sh # update one discontinued dependency on MOTION
    cd ../
-    python compiler/make_results_markdown.py static # runs the gh-pages code and stores result locally in folder static
-    
+   python compiler/make_results_markdown.py static # runs the gh-pages code and stores result locally in folder static
+
    # DOES NOT RUN ON LOCALHOST!!
    # Run from server
    python paper_benchmarks.py -r s -a {SERVER_IP} -b MOTION # or MP-SPDZ
