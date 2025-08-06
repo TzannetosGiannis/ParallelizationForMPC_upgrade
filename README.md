@@ -36,3 +36,18 @@
 - `compiler/main.py` - Script for running the compiler and seeing text output for all the stages
 - `compiler/run_tests.py` - Script for running the tests
 - `compiler/make_results_markdown.py` - Script for generating the results page at https://github.com/milana2/ParallelizationForMPC/blob/gh-pages/README.md
+
+## Running paper benchmarks
+```sh
+   cd ParallelizationForMPC/backend_submodules/
+   bash change_registy_boost.sh # update one discontinued dependency on MOTION
+   cd ../
+   python compiler/make_results_markdown.py static # runs the gh-pages code and stores result locally in folder static
+   
+   # DOES NOT RUN ON LOCALHOST!!
+   # Run from server
+   python paper_benchmarks.py -r s -a {SERVER_IP} -b MOTION # or MP-SPDZ
+ 
+   # Run from client
+   python paper_benchmarks.py -r c -a {SERVER_IP} -b MOTION # or MP-SPDZ
+   ```
