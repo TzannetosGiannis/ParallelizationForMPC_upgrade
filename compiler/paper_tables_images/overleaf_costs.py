@@ -9,7 +9,7 @@ def format_metric(value):
     else:
         return 'N/A'
 
-with open('FULL_cost_table.json', 'r') as f:
+with open('../FULL_cost_table.json', 'r') as f:
     contents = json.loads(f.read())
 
 

@@ -1,9 +1,9 @@
 import json
 import ast
-with open('FULLResults.json', 'r') as f:
+with open('../FULLResults.json', 'r') as f:
     contents = json.loads(f.read())
 
-with open('mixerOutputs.json', 'r') as f:
+with open('../mixerOutputs.json', 'r') as f:
     contents2 = json.loads(f.read())
 
 def format_mix_type_subscript(s):
